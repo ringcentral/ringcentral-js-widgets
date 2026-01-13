@@ -39,6 +39,7 @@ const config = {
       crypto: require.resolve('crypto-browserify'),
       stream: require.resolve('stream-browserify'),
       events: require.resolve('events'),
+      querystring: require.resolve('querystring-es3'),
     },
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
   },
@@ -72,6 +73,13 @@ const config = {
         exclude: /node_modules/,
       },
       {
+        loader: '@ringcentral-integration/locale-loader',
+        options: {
+          supportedLocales: [],
+          chunk: true,
+        },
+      },
+      {
         test: /\.md$/,
         use: 'raw-loader',
       },
@@ -101,23 +109,19 @@ const config = {
       },
       {
         test: /\.woff|\.woff2|.eot|\.ttf/,
-        // use:
-        //   'url-loader?limit=15000&publicPath=./&name=fonts/[name]_[hash].[ext]',
-        use: {
-          loader: 'url-loader',
-          options: {
-            limit: 15000,
-            name: 'fonts/[name]_[hash].[ext]',
-            // TODO: it should be upgrade css-loader and update config
-            esModule: false,
-          },
+        resourceQuery: { not: [/url|raw/] },
+        type: 'asset/resource',
+        generator: {
+          filename: 'fonts/[name]_[hash][ext]',
         },
       },
       {
-        test: /\.png|\.jpg|\.gif|\.svg/,
-        exclude:
-          /@ringcentral-integration(\/|\\)widgets(\/|\\)assets(\/|\\)images(\/|\\).+\.svg/,
-        use: 'url-loader?limit=20000&publicPath=./&name=images/[name]_[hash].[ext]',
+        test: /\.png|\.jpg|\.gif|fonts(\/|\\).*\.svg/,
+        resourceQuery: { not: [/url|raw/] },
+        type: 'asset/resource',
+        generator: {
+          filename: `images/[name]_[hash][ext]`,
+        },
       },
       {
         test: /\.sass|\.scss/,
@@ -126,30 +130,37 @@ const config = {
           {
             loader: 'css-loader',
             options: {
-              localIdentName: '[folder]_[local]',
-              modules: true,
+              modules: {
+                localIdentName: '[folder]_[local]',
+              },
             },
           },
           {
             loader: 'postcss-loader',
             options: {
-              plugins() {
-                return [autoprefixer];
+              postcssOptions: {
+                plugins: () => [autoprefixer],
               },
             },
           },
           {
             loader: 'sass-loader',
             options: {
-              outputStyle: 'expanded',
-              includePaths: ['src', 'node_modules'],
+              sassOptions: {
+                outputStyle: 'expanded',
+                includePaths: ['src', 'node_modules'],
+              },
             },
           },
         ],
       },
       {
-        test: /\.ogg$/,
-        use: 'file-loader?publicPath=./&name=audio/[name]_[hash].[ext]',
+        test: /\.ogg$|\.wav$|\.mp3$/,
+        resourceQuery: { not: [/url|raw/] },
+        type: 'asset/resource',
+        generator: {
+          filename: 'audio/[name]_[hash][ext]',
+        },
       },
     ],
   },

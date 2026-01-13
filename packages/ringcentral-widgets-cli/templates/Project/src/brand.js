@@ -10,7 +10,7 @@ export default createBrandConfig({
   callWithJupiter: {
     link: 'https://app.ringcentral.com/',
     protocol: 'rcapp://',
-    name: 'RingCentral App',
+    name: 'RingCentral app',
   },
   callWithSoftphone: {
     protocol: 'rcmobile://',
