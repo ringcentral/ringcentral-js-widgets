@@ -1,5 +1,5 @@
 {
-  "extends": "../../ringcentral-js-widgets/tsconfig.json",
+  "extends": "../tsconfig.json",
   "include": ["./**/*.ts", "./**/*.tsx", "./typings/**/*.d.ts"],
   "compilerOptions": {
     "baseUrl": ".",
