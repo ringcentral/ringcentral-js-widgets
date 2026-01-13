@@ -25,8 +25,6 @@
     "locale-loader:start-release": "babel-node scripts/startRelease.js @ringcentral-integration/locale-loader locale-loader-release",
     "phone-number:prepare-release": "babel-node scripts/prepareRelease.js @ringcentral-integration/phone-number phone-number-release",
     "phone-number:start-release": "babel-node scripts/startRelease.js @ringcentral-integration/phone-number phone-number-release",
-    "glip-widgets:prepare-release": "babel-node scripts/prepareRelease.js @ringcentral-integration/glip-widgets glip-widgets-release",
-    "glip-widgets:start-release": "babel-node scripts/startRelease.js @ringcentral-integration/glip-widgets glip-widgets-release",
     "core:prepare-release": "babel-node scripts/prepareRelease.js @ringcentral-integration/core core-release",
     "core:start-release": "babel-node scripts/startRelease.js @ringcentral-integration/core core-release",
     "engage-voice-widgets:prepare-release": "babel-node scripts/prepareRelease.js @ringcentral-integration/engage-voice-widgets engage-voice-widgets-release",

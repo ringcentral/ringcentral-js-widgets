@@ -201,11 +201,4 @@ jobs:
           BRANCH: engage-voice-widgets-release
           FOLDER: release/engage-voice-widgets
           CLEAN: true
-      - run: yarn workspace @ringcentral-integration/glip-widgets release
-      - name: Glip Widgets Branch Release
-        uses: JamesIves/github-pages-deploy-action@3.7.1
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: glip-widgets-release
-          FOLDER: release/glip-widgets
-          CLEAN: true
+
