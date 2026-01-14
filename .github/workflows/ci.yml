@@ -90,7 +90,7 @@ jobs:
           path-to-lcov: ./packages/ringcentral-widgets/coverage/lcov.info
           flag-name: widgets
           parallel: true
-      - run: yarn workspace ringcentral-widgets-test test --ci --coverage --updateSnapshot
+      - run: yarn workspace ringcentral-widgets-test test --ci --coverage --updateSnapshot --maxWorkers=2 --workerIdleMemoryLimit=512MB
         env:
           NODE_OPTIONS: --max-old-space-size=4096
       - name: Widgets Integration Coveralls
