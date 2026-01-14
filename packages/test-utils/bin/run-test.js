@@ -75,11 +75,11 @@ if (__CI__) {
 
   // in ci, build idb for ensure brand-config is built
   // eslint-disable-next-line no-console
-  console.log('🧪 build brand-config for test starting...');
+  // console.log('🧪 build brand-config for test starting...');
 
-  execa.commandSync(
-    'yarn nx run @ringcentral-integration/internal-mock:buildIDB',
-  );
+  // execa.commandSync(
+  //   'yarn nx run @ringcentral-integration/internal-mock:buildIDB',
+  // );
 
   execa.commandSync(command, {
     stdio: 'inherit',

@@ -1,4 +1,3 @@
-import { ArrowDropDown as ArrowDropDownIcon } from '@material-ui/icons';
 import {
   RcButton,
   RcCheckbox,
@@ -7,6 +6,7 @@ import {
   RcPopover,
   RcTextField,
 } from '@ringcentral/juno';
+import { ArrowDown2 as ArrowDropDownIcon } from '@ringcentral/juno-icon';
 import type { FunctionComponent } from 'react';
 import React, { useRef, useState, useMemo, useCallback } from 'react';
 
@@ -80,14 +80,14 @@ export const MultiSelectField: FunctionComponent<MultiSelectFieldProps> = ({
 
   const displayValue = useMemo(() => {
     return filteredValues.length > 0
-    ? filteredValues
-        .map((value) => {
-          const option = options.find((o) => o.value === value);
-          return option?.label || value;
-        })
-        .join(', ')
-    : '';
-}, [options, filteredValues]);
+      ? filteredValues
+          .map((value) => {
+            const option = options.find((o) => o.value === value);
+            return option?.label || value;
+          })
+          .join(', ')
+      : '';
+  }, [options, filteredValues]);
 
   return (
     <div ref={fieldRef}>
@@ -101,11 +101,7 @@ export const MultiSelectField: FunctionComponent<MultiSelectFieldProps> = ({
         fullWidth
         InputProps={{
           readOnly: true,
-          endAdornment: (
-            <RcIcon size="small">
-              <ArrowDropDownIcon />
-            </RcIcon>
-          ),
+          endAdornment: <RcIcon size="small" symbol={ArrowDropDownIcon} />,
         }}
         {...rest}
       />

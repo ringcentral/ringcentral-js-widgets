@@ -30,7 +30,7 @@ import {
   common,
 } from '@ringcentral-integration/test-utils';
 
-import { ClickToCallPermissionBasic } from '../../../../../../../../ringcentral-js-widgets/ringcentral-integration/test/spec-lib/permissionsHelper.test';
+import { ClickToCallPermissionBasic } from '../../../../../../../ringcentral-integration/test/spec-lib/permissionsHelper.test';
 
 @autorun(test)
 @it

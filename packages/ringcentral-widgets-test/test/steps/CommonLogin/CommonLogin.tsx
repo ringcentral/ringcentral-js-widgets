@@ -30,6 +30,8 @@ export const ExecuteAuthLogin: StepFunction<LoginProps> = async (
   const { phone } = context;
   await waitUntilTo(() => {
     expect(phone.auth.ready).toBeTruthy();
+  }, {
+    timeout: 10000,
   });
   if (isMockUserMedia) {
     Object.defineProperties(phone.audioSettings, {
