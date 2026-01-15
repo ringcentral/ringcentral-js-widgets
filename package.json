@@ -34,6 +34,11 @@
   "devDependencies": {
     "@ringcentral-integration/babel-settings": "*",
     "@testing-library/jest-dom": "^6.9.1",
+    "@types/fs-extra": "^11.0.4",
+    "@types/glob": "^8.1.0",
+    "@types/inquirer": "^6.5.0",
+    "@types/node": "^20.11.0",
+    "@types/through2": "^2.0.41",
     "commitizen": "^4.3.1",
     "core-js": "^3.9.1",
     "cz-conventional-changelog": "^2.1.0",
