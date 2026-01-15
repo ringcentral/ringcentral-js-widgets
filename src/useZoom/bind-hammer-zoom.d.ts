@@ -14,10 +14,11 @@ type BindHammerZoomOptions = {
     max?: number;
     getTarget: () => HTMLElement;
     getContainer: () => HTMLElement;
-    onScale: (scale: number) => void;
-    onDragChange: (state: boolean) => void;
+    onScale?: (scale: number) => void;
+    onDragChange?: (state: boolean) => void;
 };
 export declare const bindHammerZoom: ({ hammer, min, max, getTarget, getContainer, onScale, onDragChange, }: BindHammerZoomOptions) => {
+    scale: number;
     reset: () => void;
     zoomCenter: () => void;
     toggle: () => void;

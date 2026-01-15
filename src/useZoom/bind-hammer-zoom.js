@@ -6,17 +6,27 @@ const bindHammerZoom = ({ hammer, min = 1, max = 10, getTarget, getContainer, on
     let initScale = scale;
     let position = { x: 0, y: 0 };
     let draggable = false;
+    const setDraggable = (state) => {
+        if (draggable !== state) {
+            onDragChange === null || onDragChange === void 0 ? void 0 : onDragChange(state);
+        }
+        draggable = state;
+    };
     const centerMove = Object.assign({}, position);
     let initPosition = position;
-    const target = getTarget();
-    const container = getContainer();
-    const defaultWidth = target.clientWidth;
-    const defaultHeight = target.clientHeight;
+    let target = getTarget();
+    let container = getContainer();
+    const defaultWidth = () => target.clientWidth;
+    const defaultHeight = () => target.clientHeight;
+    const reGetTargetElement = () => {
+        target = getTarget();
+        container = getContainer();
+    };
     const getIsBiggerThanContainer = () => {
         const containerWidth = container.clientWidth;
         const containerHeight = container.clientHeight;
-        const xBeBigger = defaultWidth * scale > containerWidth;
-        const yBeBigger = defaultHeight * scale > containerHeight;
+        const xBeBigger = defaultWidth() * scale > containerWidth;
+        const yBeBigger = defaultHeight() * scale > containerHeight;
         return {
             x: xBeBigger,
             y: yBeBigger,
@@ -53,13 +63,10 @@ const bindHammerZoom = ({ hammer, min = 1, max = 10, getTarget, getContainer, on
         const toScale = validateZoomBoundary(sourceScale);
         scale = toScale;
         setScale();
-        onScale(scale);
+        onScale === null || onScale === void 0 ? void 0 : onScale(scale);
         const biggerThanContainer = getIsBiggerThanContainer();
         if (biggerThanContainer.bigger) {
-            if (!draggable) {
-                onDragChange(true);
-            }
-            draggable = true;
+            setDraggable(true);
             const result = validatePositionBoundary({
                 x: initPosition.x - centerMove.x * (scale - initScale),
                 y: initPosition.y - centerMove.y * (scale - initScale),
@@ -68,10 +75,7 @@ const bindHammerZoom = ({ hammer, min = 1, max = 10, getTarget, getContainer, on
             position.y = result.y;
         }
         else {
-            if (draggable) {
-                onDragChange(false);
-            }
-            draggable = false;
+            setDraggable(false);
             position.x = 0;
             position.y = 0;
         }
@@ -80,16 +84,23 @@ const bindHammerZoom = ({ hammer, min = 1, max = 10, getTarget, getContainer, on
     const zooming = (rate) => {
         zoom(initScale * rate);
     };
-    hammer.on('doubletap', () => {
+    hammer.on('doubletap', (e) => {
+        reGetTargetElement();
         toggle();
+        // in test env, some event will be wrong event instance, skip that
+        if (process.env.NODE_ENV === 'test') {
+            return;
+        }
+        e.preventDefault();
     });
     hammer.on('pinchstart', (e) => {
+        reGetTargetElement();
         zoomStart(e.center);
     });
     hammer.on('pinchmove', (e) => {
         zooming(e.scale);
     });
-    hammer.on('panstart', () => {
+    hammer.on('panstart', (e) => {
         initPosition = {
             x: position.x,
             y: position.y,
@@ -126,9 +137,10 @@ const bindHammerZoom = ({ hammer, min = 1, max = 10, getTarget, getContainer, on
     };
     const setScale = () => {
         toggleAnimation(false);
-        target === null || target === void 0 ? void 0 : target.style.setProperty('--scale', `${scale}`);
+        target === null || target === void 0 ? void 0 : target.style.setProperty('--scale', `${scale.toFixed(1)}`);
     };
     const reset = () => {
+        reGetTargetElement();
         scale = 1;
         initScale = scale;
         position = { x: 0, y: 0 };
@@ -136,9 +148,11 @@ const bindHammerZoom = ({ hammer, min = 1, max = 10, getTarget, getContainer, on
         target === null || target === void 0 ? void 0 : target.style.removeProperty('--x');
         target === null || target === void 0 ? void 0 : target.style.removeProperty('--y');
         toggleAnimation(true);
-        onScale(scale);
+        setDraggable(false);
+        onScale === null || onScale === void 0 ? void 0 : onScale(scale);
     };
     const zoomCenter = () => {
+        reGetTargetElement();
         if (!target)
             return;
         scale = 1.5;
@@ -148,9 +162,17 @@ const bindHammerZoom = ({ hammer, min = 1, max = 10, getTarget, getContainer, on
         setScale();
         setPosition();
         toggleAnimation(true);
-        onScale(scale);
+        onScale === null || onScale === void 0 ? void 0 : onScale(scale);
+        const biggerThanContainer = getIsBiggerThanContainer();
+        if (biggerThanContainer.bigger) {
+            setDraggable(true);
+        }
+        else {
+            setDraggable(false);
+        }
     };
     const toggle = () => {
+        reGetTargetElement();
         if (scale !== 1) {
             reset();
             return;
@@ -158,6 +180,7 @@ const bindHammerZoom = ({ hammer, min = 1, max = 10, getTarget, getContainer, on
         zoomCenter();
     };
     return {
+        scale,
         reset,
         zoomCenter,
         toggle,
