@@ -1,8 +1,9 @@
+/* eslint-disable */
 export default {
-  flipHeader: "Anruf umlegen zu...",
-  flip: "Umlegen",
-  complete: "Umlegen abschließen"
-};
+  flipHeader: 'Anruf umlegen zu...',
+  flip: 'Umlegen',
+  complete: 'Umlegen abschließen',
+} as const;
 
 // @key: @#@"flipHeader"@#@ @source: @#@"Flip Call to..."@#@
 // @key: @#@"flip"@#@ @source: @#@"Flip"@#@

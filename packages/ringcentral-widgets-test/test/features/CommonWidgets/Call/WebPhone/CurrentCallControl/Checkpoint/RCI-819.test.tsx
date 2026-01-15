@@ -19,6 +19,7 @@ import {
   Then,
   title,
   When,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import {
@@ -33,6 +34,7 @@ import { CommonLogin } from '../../../../../../steps/CommonLogin';
 import { CheckRouterNavigation } from '../../../../../../steps/Navigate';
 
 @autorun(test.skip)
+@common
 @it
 @p0
 @title('Current call control_hangup')

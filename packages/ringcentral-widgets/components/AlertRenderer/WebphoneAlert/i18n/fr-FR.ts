@@ -1,28 +1,49 @@
+/* eslint-disable */
 import webphoneErrors from '@ringcentral-integration/commons/modules/Webphone/webphoneErrors';
 import webphoneMessages from '@ringcentral-integration/commons/modules/Webphone/webphoneMessages';
 export default {
-  [webphoneErrors.connectFailed]: "Désolé, les fonctionnalités du téléphone ne sont pas disponibles actuellement. Veuillez réessayer plus tard. ",
-  [webphoneErrors.connected]: "Téléphone Web enregistré.",
-  [webphoneErrors.browserNotSupported]: "Désolé, passer des appels à l’aide de ce navigateur n’est pas pris en charge.",
-  [webphoneErrors.webphoneCountOverLimit]: "Il est possible d’enregistrer jusqu’à 5 appels.",
-  [webphoneErrors.checkDLError]: "Impossible de passer un appel sortant. Contactez {brandName} pour de l’aide si cette erreur persiste.",
-  [webphoneErrors.noOutboundCallWithoutDL]: "Votre extension n’est actuellement pas autorisée à passer des appels sortants via un navigateur, veuillez contacter votre représentant de compte pour une mise à niveau.",
-  [webphoneErrors.provisionUpdate]: "Désolé, une erreur s’est produite de notre côté. Nous allons automatiquement essayer de vous reconnecter sous peu.",
-  [webphoneErrors.serverConnecting]: "Désolé, nous rencontrons un problème de connexion au serveur téléphonique.",
-  [webphoneErrors.toVoiceMailError]: "Impossible de joindre la messagerie vocale à cause d’une erreur interne",
-  [webphoneErrors.muteError]: "Le son de l’appel ne peut pas être désactivé pour le moment.",
-  [webphoneErrors.holdError]: "L’appel ne peut pas être mis en attente pour le moment.",
-  [webphoneErrors.flipError]: "Renvoi de l’appel impossible. Veuillez réessayer ultérieurement.",
-  [webphoneErrors.recordError]: "Vous ne pouvez pas enregistrer l’appel pour le moment. Code d’erreur : {errorCode}",
-  [webphoneErrors.pauseRecordError]: "Désolé, nous n’avons pas pu arrêter l’enregistrement de l’appel. Réessayez plus tard.",
-  [webphoneErrors.recordDisabled]: "Désolé, votre compte ne comprend pas la fonction permettant d’enregistrer un appel. Veuillez contacter votre administrateur de compte.",
-  [webphoneErrors.transferError]: "Impossible de transférer l’appel. Veuillez réessayer ultérieurement.",
-  [webphoneMessages.parked]: "Votre appel est parqué à l’emplacement suivant : {parkedNumber}",
-  failWithStatusCode: "Désolé, nous avons rencontré une erreur : {errorCode}. Si le problème persiste, veuillez le signaler à l’assistance de {brandName}.",
-  registeringWithStatusCode: "Désolé, une erreur s’est produite. Nous essayons de vous reconnecter. Si le problème persiste, veuillez le signaler à l’assistance de {brandName}. Code d’erreur : {errorCode}.",
-  failWithoutStatusCode: "Désolé, une erreur s’est produite de notre côté. Si le problème persiste, veuillez le signaler à l’assistance de {brandName}.",
-  registeringWithoutStatusCode: "Désolé, une erreur s’est produite. Nous essayons de vous reconnecter. Si le problème persiste, veuillez le signaler à l’assistance de {brandName}."
-};
+  [webphoneErrors.connectFailed]:
+    'Désolé, les fonctionnalités du téléphone ne sont pas disponibles actuellement. Veuillez réessayer plus tard. ',
+  [webphoneErrors.connected]: 'Téléphone Web enregistré.',
+  [webphoneErrors.browserNotSupported]:
+    'Désolé, passer des appels à l’aide de ce navigateur n’est pas pris en charge.',
+  [webphoneErrors.webphoneCountOverLimit]:
+    'Il est possible d’enregistrer jusqu’à 5 appels.',
+  [webphoneErrors.checkDLError]:
+    'Impossible de passer un appel sortant. Contactez {brandName} pour de l’aide si cette erreur persiste.',
+  [webphoneErrors.noOutboundCallWithoutDL]:
+    'Votre extension n’est actuellement pas autorisée à passer des appels sortants via un navigateur, veuillez contacter votre représentant de compte pour une mise à niveau.',
+  [webphoneErrors.provisionUpdate]:
+    'Désolé, une erreur s’est produite de notre côté. Nous allons automatiquement essayer de vous reconnecter sous peu.',
+  [webphoneErrors.serverConnecting]:
+    'Désolé, nous rencontrons un problème de connexion au serveur téléphonique.',
+  [webphoneErrors.toVoiceMailError]:
+    'Impossible de joindre la messagerie vocale à cause d’une erreur interne',
+  [webphoneErrors.muteError]:
+    'Le son de l’appel ne peut pas être désactivé pour le moment.',
+  [webphoneErrors.holdError]:
+    'L’appel ne peut pas être mis en attente pour le moment.',
+  [webphoneErrors.flipError]:
+    'Renvoi de l’appel impossible. Veuillez réessayer ultérieurement.',
+  [webphoneErrors.recordError]:
+    'Vous ne pouvez pas enregistrer l’appel pour le moment. Code d’erreur : {errorCode}',
+  [webphoneErrors.pauseRecordError]:
+    'Nous n’avons pas pu arrêter l’enregistrement de l’appel. Réessayez plus tard.',
+  [webphoneErrors.recordDisabled]:
+    'Désolé, votre compte ne comprend pas la fonction permettant d’enregistrer un appel. Veuillez contacter votre administrateur de compte.',
+  [webphoneErrors.transferError]:
+    'Impossible de transférer l’appel. Veuillez réessayer ultérieurement.',
+  [webphoneMessages.parked]:
+    'Votre appel est parqué à l’emplacement suivant : {parkedNumber}',
+  failWithStatusCode:
+    'Désolé, nous avons rencontré une erreur : {errorCode}. Si le problème persiste, veuillez le signaler à l’assistance de {brandName}.',
+  registeringWithStatusCode:
+    'Désolé, une erreur s’est produite. Nous essayons de vous reconnecter. Si le problème persiste, veuillez le signaler à l’assistance de {brandName}. Code d’erreur : {errorCode}.',
+  failWithoutStatusCode:
+    'Désolé, une erreur s’est produite de notre côté. Si le problème persiste, veuillez le signaler à l’assistance de {brandName}.',
+  registeringWithoutStatusCode:
+    'Désolé, une erreur s’est produite. Nous essayons de vous reconnecter. Si le problème persiste, veuillez le signaler à l’assistance de {brandName}.',
+} as const;
 
 // @key: @#@"[webphoneErrors.connectFailed]"@#@ @source: @#@"Sorry, phone features are currently unavailable. Please retry later. "@#@
 // @key: @#@"[webphoneErrors.connected]"@#@ @source: @#@"Web phone registered."@#@

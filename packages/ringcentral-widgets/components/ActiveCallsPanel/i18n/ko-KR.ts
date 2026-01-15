@@ -1,14 +1,15 @@
+/* eslint-disable */
 export default {
-  noActiveCalls: "활성 통화 없음",
-  currentCall: "현재 통화",
-  ringCall: "연결 중인 통화",
-  onHoldCall: "대기 중인 통화",
-  otherDeviceCall: "다른 디바이스에서 진행 중인 통화",
-  confirmation: "확인",
-  confirmMergeToConference: "전화 회의에 추가하시겠습니까?",
-  mergeToConference: "병합",
-  conferenceCall: "전화 회의"
-};
+  noActiveCalls: '활성 통화 없음',
+  currentCall: '현재 통화',
+  ringCall: '연결 중인 통화',
+  onHoldCall: '대기 중인 통화',
+  otherDeviceCall: '다른 디바이스에서 진행 중인 통화',
+  confirmation: '확인',
+  confirmMergeToConference: '전화 회의에 추가하시겠습니까?',
+  mergeToConference: '병합',
+  conferenceCall: '전화 회의',
+} as const;
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
 // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@

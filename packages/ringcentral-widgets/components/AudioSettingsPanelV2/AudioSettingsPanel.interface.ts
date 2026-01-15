@@ -13,7 +13,7 @@ export interface AudioSettingsPanelProps {
   availableOutputDevices: OmitFunctions<MediaDeviceInfo>[];
   availableRingtoneDevices: OmitFunctions<MediaDeviceInfo>[];
   checkUserMedia: () => Promise<void>;
-  showAlert: () => void;
+  checkAudioAvailable: () => Promise<void>;
   className?: string | null;
   inputDeviceDisabled?: boolean;
   ringtoneSelectDisabled?: boolean;

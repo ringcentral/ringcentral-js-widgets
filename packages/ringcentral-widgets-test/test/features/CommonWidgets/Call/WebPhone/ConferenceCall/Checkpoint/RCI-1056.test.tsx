@@ -19,6 +19,7 @@ import {
   title,
   When,
   And,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import {
@@ -48,6 +49,7 @@ import {
 } from '../../../../../../steps/Settings';
 
 @autorun(test.skip)
+@common
 @it
 @p1
 @title('Current conference call control_mute/muted')

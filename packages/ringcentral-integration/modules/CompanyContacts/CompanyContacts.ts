@@ -93,6 +93,10 @@ export class CompanyContacts extends DataFetcherV2Consumer<
         false,
     });
     this._deps.dataFetcherV2.register(this._source);
+
+    this._deps.subscription.register(this, {
+      filters: [subscriptionFilters.companyContacts],
+    });
   }
 
   protected async fetchContacts(params: any) {
@@ -118,12 +122,13 @@ export class CompanyContacts extends DataFetcherV2Consumer<
   }
 
   // company directory events is missing in official swagger spec
-  protected _handleSubscription(message: any) {
+  protected _handleSubscription(message?: any) {
     if (
       this.ready &&
       (this._source.disableCache || (this._deps.tabManager?.active ?? true)) &&
-      contactsRegExp.test(message?.event) &&
-      message?.body?.contacts
+      message?.event &&
+      contactsRegExp.test(message.event) &&
+      message.body?.contacts
     ) {
       let data = this.data ?? [];
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -145,7 +150,6 @@ export class CompanyContacts extends DataFetcherV2Consumer<
       this._deps.dataFetcherV2.updateData(this._source, [], Date.now());
       this.setCompanyContactsData(data);
     }
-    this._deps.subscription.subscribe([subscriptionFilters.companyContacts]);
     this._stopWatching = watch(
       this,
       () => this._deps.subscription.message,

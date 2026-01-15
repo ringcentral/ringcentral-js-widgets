@@ -6,7 +6,9 @@ describe('loggerV2', () => {
   let MockConsoleIntegration: jest.Mock;
 
   beforeEach(() => {
-    MockUseLogger = jest.fn();
+    MockUseLogger = jest.fn().mockImplementation(() => ({
+      tag: jest.fn(),
+    }));
     MockConsoleTransport = jest.fn();
     MockStorageTransport = jest.fn();
     MockScriptErrorIntegration = jest.fn();
@@ -40,7 +42,7 @@ describe('loggerV2', () => {
 
     expect(name).toEqual(expect.stringContaining('worker-'));
     expect(enabled).toBe(true);
-    expect(transports).toEqual([
+    const mockTransport = [
       new MockConsoleTransport({
         enabled: true,
         storage: new MemoryStorage({
@@ -50,7 +52,9 @@ describe('loggerV2', () => {
       new SharedWorkerTransport({
         enabled: true,
       }),
-    ]);
+    ];
+    transports[1].transport.id = mockTransport[1].transport.id;
+    expect(JSON.stringify(transports)).toEqual(JSON.stringify(mockTransport));
     expect(integrations).toEqual([
       new MockScriptErrorIntegration({
         enabled: true,
@@ -71,7 +75,7 @@ describe('loggerV2', () => {
     const { name, transports, integrations, enabled } =
       MockUseLogger.mock.calls[0][0];
 
-    expect(name).toBe('root');
+    expect(/^root-/.test(name)).toBe(true);
     expect(enabled).toBe(false);
     expect(transports).toEqual([
       new MockConsoleTransport({

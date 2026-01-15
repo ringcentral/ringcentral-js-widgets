@@ -10,6 +10,7 @@
  */
 import {
   autorun,
+  common,
   it,
   p2,
   Scenario,
@@ -26,6 +27,7 @@ import { CommonLogin } from '../../../../../../steps/CommonLogin';
 import { CheckRCVPageDisplay } from '../../../../../../steps/Meeting';
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('Schedule on behalf - delegates')

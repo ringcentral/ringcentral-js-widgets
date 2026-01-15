@@ -113,6 +113,19 @@ export class GenericMeeting<T extends Deps = Deps> extends RcModuleV2<T> {
   }
 
   @proxify
+  async updatePersonalMeetingSettings(pmiMeeting: ScheduleModel) {
+    if (this.isRCM) {
+      // rcm doesn't support update personal meeting settings
+      return;
+    }
+    if (this.isRCV) {
+      this._deps.rcVideo.updatePersonalMeetingSettings(
+        pmiMeeting as RcVMeetingModel,
+      );
+    }
+  }
+
+  @proxify
   async schedule(
     meeting?: ScheduleModel,
     config?: { isAlertSuccess?: boolean },
@@ -371,6 +384,16 @@ export class GenericMeeting<T extends Deps = Deps> extends RcModuleV2<T> {
   get personalMeetingId(): string {
     // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
     return (this.personalMeeting as Partial<RcVideoAPI>)?.shortId;
+  }
+
+  get personalMeetingName(): string {
+    // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to type 'string'
+    return (this.personalMeeting as Partial<RcVideoAPI>)?.personalMeetingName;
+  }
+
+  get personalMeetingLink(): string {
+    // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to type 'string'
+    return (this.personalMeeting as Partial<RcVideoAPI>)?.joinUri;
   }
 
   get personalMeetingSettings() {

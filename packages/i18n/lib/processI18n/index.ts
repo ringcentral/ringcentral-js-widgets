@@ -1,7 +1,7 @@
 import { DEFAULT_LOCALE, PSEUDO_LOCALE } from '../../constants';
 import I18n from '../../i18n';
 import { getLanguageFromLocale } from '../getLanguageFromLocale';
-import toPseudoString from '../toPseudoString';
+import { toPseudoStringWithPadding } from '../toPseudoString';
 
 import { I18nFlag, I18nStrings, LocaleCode } from './type';
 
@@ -37,7 +37,7 @@ export function processI18n<T>(
   if (input && typeof input === 'object') {
     if ((input as unknown as I18nStrings)[I18nFlag]) {
       if (locale === PSEUDO_LOCALE) {
-        return toPseudoString({
+        return toPseudoStringWithPadding({
           str:
             (input as unknown as I18nStrings).translations[defaultLocale] ??
             parentKey,

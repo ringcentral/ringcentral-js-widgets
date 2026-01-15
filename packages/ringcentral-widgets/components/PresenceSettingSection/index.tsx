@@ -17,8 +17,9 @@ import React, { useState } from 'react';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import { getPresenceStatusName } from '../../lib/getPresenceStatusName';
 import IconLine from '../IconLine';
+import { LinkLine } from '../LinkLine';
 import { usePresenceItems } from '../PresenceDropdown/usePresenceItems';
-import Switch from '../Switch';
+import { SwitchLineItem } from '../SettingsPanel/SwitchLineItem';
 
 import i18n from './i18n';
 import styles from './styles.scss';
@@ -52,6 +53,9 @@ type PresenceSettingSectionProps = {
   setInvisible: (...args: any[]) => any;
   toggleAcceptCallQueueCalls: (...args: any[]) => any;
   showPresenceSettings: boolean;
+  enableAcceptQueueCallsControl?: boolean;
+  showCallQueueManagement?: boolean;
+  onCallQueueManagementClick?: () => void;
 };
 
 export const PresenceSettingSection: FunctionComponent<
@@ -67,6 +71,8 @@ export const PresenceSettingSection: FunctionComponent<
   setBusy,
   setDoNotDisturb,
   setInvisible,
+  enableAcceptQueueCallsControl = true,
+  onCallQueueManagementClick,
 }) => {
   const [showSelects, setShowSelects] = useState(showPresenceSettings);
 
@@ -83,19 +89,39 @@ export const PresenceSettingSection: FunctionComponent<
     showSelects ? styles.showDropdown : null,
   );
   const acceptQueueCalls = isCallQueueMember ? (
-    <IconLine
+    <SwitchLineItem
       dataSign="acceptQueueSwitch"
-      icon={
-        <Switch
-          disable={dndStatusProp === dndStatus.doNotAcceptAnyCalls}
-          checked={dndStatusProp === dndStatus.takeAllCalls}
-          onChange={onCallQueueChange}
-        />
+      tooltip={
+        !enableAcceptQueueCallsControl
+          ? i18n.getString('callQueueDisabledReason', currentLocale)
+          : undefined
       }
-    >
-      {i18n.getString('acceptQueueCalls', currentLocale)}
-    </IconLine>
+      customTitle={i18n.getString('acceptQueueCalls', currentLocale)}
+      show
+      checked={dndStatusProp === dndStatus.takeAllCalls}
+      onChange={onCallQueueChange}
+      disabled={
+        dndStatusProp === dndStatus.doNotAcceptAnyCalls ||
+        !enableAcceptQueueCallsControl
+      }
+    />
   ) : null;
+
+  const showCallQueueManagement =
+    enableAcceptQueueCallsControl &&
+    onCallQueueManagementClick &&
+    dndStatusProp !== dndStatus.doNotAcceptAnyCalls &&
+    dndStatusProp !== dndStatus.doNotAcceptDepartmentCalls;
+
+  const callQueueManagement = showCallQueueManagement ? (
+    <LinkLine
+      dataSign="callQueueManagementSwitch"
+      onClick={onCallQueueManagementClick}
+    >
+      {i18n.getString('callQueueManagement', currentLocale)}
+    </LinkLine>
+  ) : null;
+
   const currentStatus = getPresenceStatusName(
     userStatus as any,
     dndStatusProp as any,
@@ -125,7 +151,6 @@ export const PresenceSettingSection: FunctionComponent<
       }
     },
   });
-
   return (
     <section className={sectionClass}>
       <IconLine
@@ -151,6 +176,7 @@ export const PresenceSettingSection: FunctionComponent<
         {presenceElements}
       </StyledList>
       {acceptQueueCalls}
+      {callQueueManagement}
     </section>
   );
 };

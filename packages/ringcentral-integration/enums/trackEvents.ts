@@ -97,8 +97,7 @@ export const trackEvents = ObjectMap.fromObject({
   completeWarmTransfer:
     'Transfer: Click complete transfer/Warm transfer call log page',
   clickConversationHyperlink: 'Click hyperlink/SMS conversation',
-  clickReplyWithMessage: 'Call: Click Reply on Call Control',
-  executionReplyWithMessage: 'Attempt to reply message on inbound call',
+  executionReplyWithMessage: 'Reply incoming call with message.',
   clickToCallInContactDetails: 'Click To Dial (Contact Details)',
   clickToSMSInContactDetails: 'Click To SMS (Contact Details)',
   phoneConferenceCallMerge: 'Int_phone_conferenceCall_merge',
@@ -127,4 +126,15 @@ export const trackEvents = ObjectMap.fromObject({
   viewLogFromCallHistory: 'Int_Phone_callHistory_viewLog',
   uploadRingtone: 'Int_Audio_uploadRingtone',
   deleteRingtone: 'Int_Audio_deleteRingtone',
+  smsSaveLogManually: 'Int_SMS_saveLogManually',
+  smsSaveLogAutomatically: 'Int_SMS_saveLogAutomatically',
+  clickOnIntegrationConsole:
+    'Int_ActSync_Settings_ClientAutoCallLog_IntegrationConsole',
+  clickOnTryEnhancedCallLogLink: 'Int_ActSync_Settings_ClientAutoCallLog_Try',
+  clickAdminSetupNowOnPromotionalScreen:
+    'Int_ActSync_PromotionalScreen_Admin_SetupNow',
+  clickAdminLearnMoreOnPromotionalScreen:
+    'Int_ActSync_PromotionalScreen_Admin_LearnMore',
+  clickUserLearnMoreOnPromotionalScreen:
+    'Int_ActSync_PromotionalScreen_User_LearnMore',
 } as const);

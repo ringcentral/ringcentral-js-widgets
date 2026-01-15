@@ -1,0 +1,39 @@
+{
+  "uri": "https://api-rcapps-labs_domain/restapi/v1.0/account/1029673004/call-queues?page=1&perPage=max",
+  "records": [
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/account/1029673004/extension/11570443004",
+      "id": "11570443004",
+      "extensionNumber": "10086",
+      "name": "SMS queue"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/account/1029673004/extension/11890538004",
+      "id": "11890538004",
+      "extensionNumber": "10087",
+      "name": "Declan queue"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/account/1029673004/extension/11890570004",
+      "id": "11890570004",
+      "extensionNumber": "10088",
+      "name": "Klay queue"
+    }
+  ],
+  "paging": {
+    "page": 1,
+    "totalPages": 1,
+    "perPage": 1000,
+    "totalElements": 3,
+    "pageStart": 0,
+    "pageEnd": 2
+  },
+  "navigation": {
+    "firstPage": {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/account/1029673004/call-queues?page=1&perPage=max"
+    },
+    "lastPage": {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/account/1029673004/call-queues?page=1&perPage=max"
+    }
+  }
+}

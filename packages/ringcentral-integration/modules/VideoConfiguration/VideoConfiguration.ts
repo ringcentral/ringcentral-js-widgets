@@ -61,6 +61,10 @@ export class VideoConfiguration extends DataFetcherV2Consumer<
       fn: this.fetchData,
       threshold: this._fetchDelay,
     });
+
+    this._deps.subscription.register(this, {
+      filters: [subscriptionFilters.extensionInfo],
+    });
   }
 
   protected get _fetchDelay() {
@@ -70,7 +74,7 @@ export class VideoConfiguration extends DataFetcherV2Consumer<
     );
   }
 
-  protected async _handleSubscription(message: ExtensionInfoEvent) {
+  protected async _handleSubscription(message?: ExtensionInfoEvent) {
     if (
       this.ready &&
       message?.body?.hints?.includes(subscriptionHints.videoConfiguration) &&
@@ -85,10 +89,9 @@ export class VideoConfiguration extends DataFetcherV2Consumer<
   }
 
   override onInit() {
-    this._deps.subscription.subscribe([subscriptionFilters.extensionInfo]);
     this._stopWatching = watch(
       this,
-      () => this._deps.subscription.message,
+      () => this._deps.subscription.message as ExtensionInfoEvent | undefined,
       (message) => this._handleSubscription(message),
     );
   }

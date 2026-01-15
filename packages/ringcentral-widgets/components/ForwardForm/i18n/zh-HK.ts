@@ -1,8 +1,9 @@
+/* eslint-disable */
 export default {
-  forward: "轉接",
-  cancel: "取消",
-  customNumber: "自訂號碼"
-};
+  forward: '轉接',
+  cancel: '取消',
+  customNumber: '自訂號碼',
+} as const;
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
 // @key: @#@"cancel"@#@ @source: @#@"Cancel"@#@

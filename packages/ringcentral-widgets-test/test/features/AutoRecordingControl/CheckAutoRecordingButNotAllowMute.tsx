@@ -119,7 +119,7 @@ export const checkAutoRecordingButNotAllowMute = ({
                 return <MakeOutboundCall />;
               },
               (_: any, { rcMock }: Context) => {
-                rcMock.stopRecord(403);
+                rcMock.stopRecording(403);
               },
               ClickMoreButton,
             ]}

@@ -1,4 +1,6 @@
 import { TEST_TYPE } from '@ringcentral-integration/commons/modules/VolumeInspector';
+import { isFirefox } from '@ringcentral-integration/commons/modules/Webphone/webphoneHelper';
+import { isSafari } from '@ringcentral-integration/utils';
 import { RcSwitch, RcTypography } from '@ringcentral/juno';
 import clsx from 'clsx';
 import React, { useEffect } from 'react';
@@ -43,7 +45,7 @@ export const AudioSettingsPanel: FC<AudioSettingsPanelProps> = ({
   ringtoneDeviceId,
   handleTestMicroClick,
   handleTestSpeakerClick,
-  showAlert,
+  checkAudioAvailable,
   volumeTestData,
   fullRingtoneList,
   selectedRingtoneId,
@@ -54,8 +56,10 @@ export const AudioSettingsPanel: FC<AudioSettingsPanelProps> = ({
   removeCustomRingtone,
 }) => {
   useEffect(() => {
-    showAlert();
+    checkAudioAvailable();
   }, []);
+
+  const enableTestVolumeAndSource = !(isSafari() || isFirefox());
 
   return (
     <div className={clsx(styles.root, className)}>
@@ -65,7 +69,11 @@ export const AudioSettingsPanel: FC<AudioSettingsPanelProps> = ({
         <PageHeaderRemain />
       </PageHeader>
       <div className={styles.content}>
-        <Section label={t('input')} dataSign="inputDeviceSection">
+        <Section
+          show={enableTestVolumeAndSource}
+          label={t('input')}
+          dataSign="inputDeviceSection"
+        >
           <AudioDeviceSelect
             dataSign="microphoneDeviceSelect"
             label={t('microphone')}
@@ -91,9 +99,11 @@ export const AudioSettingsPanel: FC<AudioSettingsPanelProps> = ({
               formControlLabelProps={{
                 labelPlacement: 'start',
                 style: {
+                  alignItems: 'start',
                   marginLeft: 0,
                 },
               }}
+              data-sign="autoAdjustMicLevel"
               disabled={!hasUserMedia}
               className={styles.switch}
               label={
@@ -111,26 +121,30 @@ export const AudioSettingsPanel: FC<AudioSettingsPanelProps> = ({
           )}
         </Section>
         <Section label={t('output')} dataSign="outputDeviceSection">
-          <AudioDeviceSelect
-            dataSign="speakerDeviceSelect"
-            availableDevices={availableOutputDevices}
-            isDisabled={outputDeviceDisabled}
-            deviceId={outputDeviceId}
-            onChange={(deviceId) => {
-              onSave({
-                outputDeviceId: deviceId,
-              });
-            }}
-            label={t('speakerSource')}
-          />
-          <VolumeTester
-            {...volumeTestData}
-            audioType={TEST_TYPE.speaker}
-            disabled={outputDeviceDisabled}
-            handleButtonClick={() => {
-              handleTestSpeakerClick(volumeTestData.testState);
-            }}
-          />
+          {enableTestVolumeAndSource && (
+            <AudioDeviceSelect
+              dataSign="speakerDeviceSelect"
+              availableDevices={availableOutputDevices}
+              isDisabled={outputDeviceDisabled}
+              deviceId={outputDeviceId}
+              onChange={(deviceId) => {
+                onSave({
+                  outputDeviceId: deviceId,
+                });
+              }}
+              label={t('speakerSource')}
+            />
+          )}
+          {enableTestVolumeAndSource && (
+            <VolumeTester
+              {...volumeTestData}
+              audioType={TEST_TYPE.speaker}
+              disabled={outputDeviceDisabled}
+              handleButtonClick={() => {
+                handleTestSpeakerClick(volumeTestData.testState);
+              }}
+            />
+          )}
           <VolumeSlider
             volume={callVolume}
             dataSign="speakerVolume"
@@ -141,18 +155,20 @@ export const AudioSettingsPanel: FC<AudioSettingsPanelProps> = ({
               });
             }}
           />
-          <AudioDeviceSelect
-            dataSign="ringtoneDeviceSelect"
-            isDisabled={ringtoneSelectDisabled}
-            availableDevices={availableRingtoneDevices}
-            deviceId={ringtoneDeviceId}
-            onChange={(deviceId) => {
-              onSave({
-                ringtoneDeviceId: deviceId,
-              });
-            }}
-            label={t('ringtoneSource')}
-          />
+          {enableTestVolumeAndSource && (
+            <AudioDeviceSelect
+              dataSign="ringtoneDeviceSelect"
+              isDisabled={ringtoneSelectDisabled}
+              availableDevices={availableRingtoneDevices}
+              deviceId={ringtoneDeviceId}
+              onChange={(deviceId) => {
+                onSave({
+                  ringtoneDeviceId: deviceId,
+                });
+              }}
+              label={t('ringtoneSource')}
+            />
+          )}
           <RingtoneSelection
             label={t('ringtones')}
             ringtoneDeviceId={ringtoneDeviceId}

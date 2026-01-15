@@ -595,7 +595,6 @@ export class CallMonitor extends RcModuleV2<Deps> {
         return (
           callItem.webphoneSession &&
           callItem.telephonySession &&
-          // @ts-expect-error TS(2345): Argument of type '{ status: string; id: string; di... Remove this comment to see the full error message
           isProceeding(callItem.telephonySession)
         );
       }
@@ -611,7 +610,6 @@ export class CallMonitor extends RcModuleV2<Deps> {
           // @ts-expect-error TS(2769): No overload matches this call.
           callItem.webphoneSession &&
           callItem.telephonySession &&
-          // @ts-expect-error TS(2345): Argument of type '{ status: string; id: string; di... Remove this comment to see the full error message
           isHolding(callItem.telephonySession),
         this.calls,
       );
@@ -632,9 +630,7 @@ export class CallMonitor extends RcModuleV2<Deps> {
         return (
           callItem.webphoneSession &&
           callItem.telephonySession &&
-          // @ts-expect-error TS(2345): Argument of type '{ status: string; id: string; di... Remove this comment to see the full error message
           !isProceeding(callItem.telephonySession) &&
-          // @ts-expect-error TS(2345): Argument of type '{ status: string; id: string; di... Remove this comment to see the full error message
           !isHolding(callItem.telephonySession)
         );
       }

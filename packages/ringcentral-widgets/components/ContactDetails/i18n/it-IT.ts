@@ -1,7 +1,7 @@
+/* eslint-disable */
 import { phoneTypes } from '@ringcentral-integration/commons/enums/phoneTypes';
 import { presenceStatus } from '@ringcentral-integration/commons/enums/presenceStatus.enum';
 import { dndStatus } from '@ringcentral-integration/commons/modules/Presence';
-
 export default {
   [phoneTypes.extension]: 'Int.',
   [phoneTypes.direct]: 'Diretto',
@@ -22,7 +22,7 @@ export default {
   notActivated: 'Inattivo',
   jobTitle: 'Ruolo',
   site: 'Sede',
-};
+} as const;
 
 // @key: @#@"[phoneTypes.extension]"@#@ @source: @#@"Ext."@#@
 // @key: @#@"[phoneTypes.direct]"@#@ @source: @#@"Direct"@#@
@@ -41,6 +41,5 @@ export default {
 // @key: @#@"[presenceStatus.busy]"@#@ @source: @#@"Busy"@#@
 // @key: @#@"[dndStatus.doNotAcceptAnyCalls]"@#@ @source: @#@"Do not Disturb"@#@
 // @key: @#@"notActivated"@#@ @source: @#@"Inactive"@#@
-// @key: @#@"company"@#@ @source: @#@"Company"@#@
 // @key: @#@"jobTitle"@#@ @source: @#@"Title"@#@
 // @key: @#@"site"@#@ @source: @#@"Site"@#@

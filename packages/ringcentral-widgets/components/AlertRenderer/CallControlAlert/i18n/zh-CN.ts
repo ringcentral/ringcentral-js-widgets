@@ -1,9 +1,10 @@
-import { callControlAlerts, callControlError } from '@ringcentral-integration/commons/modules/ActiveCallControl';
-const {
-  callsMerged,
-  somethingWentWrong,
-  tooManyParticipants
-} = callControlAlerts;
+/* eslint-disable */
+import {
+  callControlAlerts,
+  callControlError,
+} from '@ringcentral-integration/commons/modules/ActiveCallControl';
+const { callsMerged, somethingWentWrong, tooManyParticipants } =
+  callControlAlerts;
 const {
   holdConflictError,
   unHoldConflictError,
@@ -12,21 +13,25 @@ const {
   generalError,
   forwardSuccess,
   transferCompleted,
-  replyCompleted
+  replyCompleted,
 } = callControlError;
 export default {
-  [callsMerged]: "通话已合并",
-  [somethingWentWrong]: "发生错误。请重试。",
-  [tooManyParticipants]: "已达到参与者人数上限。",
-  [muteConflictError]: "此通话在另一台设备上已静音。请取消静音该通话，然后再通过此应用进行操作。",
-  [unHoldConflictError]: "此通话已经在其他设备上被搁置。请取消搁置该通话，然后再通过此应用进行操作。",
-  [unMuteConflictError]: "此通话已经在其他设备上被取消静音。请静音该通话，然后再通过此应用进行操作。",
-  [holdConflictError]: "此通话已经在其他设备上被取消搁置。请搁置该通话，然后再通过此应用进行操作。",
-  [generalError]: "意外的服务器错误。请稍后重试。",
-  [forwardSuccess]: "呼叫已转接",
-  [transferCompleted]: "呼叫已转接",
-  [replyCompleted]: "已发送语音消息。"
-};
+  [callsMerged]: '通话已合并',
+  [somethingWentWrong]: '发生错误。请重试。',
+  [tooManyParticipants]: '已达到参与者人数上限。',
+  [muteConflictError]:
+    '此通话在另一台设备上已静音。请取消通话静音，然后再通过此应用进行控制。',
+  [unHoldConflictError]:
+    '此通话已经在其他设备上暂候。请取消暂候通话，然后再通过此应用进行控制。',
+  [unMuteConflictError]:
+    '此通话已经在其他设备上取消静音。请将通话静音，然后再通过此应用进行控制。',
+  [holdConflictError]:
+    '此通话已经在其他设备上取消暂候。请暂候通话，然后再通过此应用进行控制。',
+  [generalError]: '意外的服务器错误。请稍后重试。',
+  [forwardSuccess]: '呼叫已转接',
+  [transferCompleted]: '呼叫已转接',
+  [replyCompleted]: '已发送语音消息。',
+} as const;
 
 // @key: @#@"callsMerged"@#@ @source: @#@"Calls merged"@#@
 // @key: @#@"somethingWentWrong"@#@ @source: @#@"Something went wrong. Please try again."@#@

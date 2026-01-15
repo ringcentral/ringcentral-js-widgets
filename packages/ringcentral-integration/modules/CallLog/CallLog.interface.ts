@@ -7,8 +7,8 @@ import type { Auth } from '../Auth';
 import type { ExtensionInfo } from '../ExtensionInfo';
 import type { ExtensionPhoneNumber } from '../ExtensionPhoneNumber';
 import type { Storage } from '../Storage';
-import type { Subscription } from '../Subscription';
 import type { TabManager } from '../TabManager';
+import type { WebSocketSubscription as Subscription } from '../WebSocketSubscription';
 
 export interface CallLogOptions {
   /**

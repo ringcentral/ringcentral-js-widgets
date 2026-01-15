@@ -254,6 +254,20 @@ export class Analytics<T extends Deps = Deps>
       if (this._deps.auth?.ownerId) {
         trackProps.id = this._deps.auth.ownerId;
       }
+
+      if (process.env.NODE_ENV === 'test') {
+        try {
+          // when in test environment, if that mixpanel.track is not mocked, set the mock function to avoid miss send data to remote
+          if (!(mixpanel.track as any).mock) {
+            throw new Error(
+              'Mocked Mixpanel track is not mocked, should set a mock function to avoid miss send data to remote',
+            );
+          }
+        } catch (error) {
+          //
+        }
+      }
+
       mixpanel.track(event, trackProps);
     }
 

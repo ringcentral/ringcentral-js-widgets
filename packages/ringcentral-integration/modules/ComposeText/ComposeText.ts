@@ -245,6 +245,14 @@ export class ComposeText<T extends Deps = Deps> extends RcModuleV2<T> {
     return false;
   }
 
+  _alertDanger(message: string) {
+    this._deps.alert.danger({
+      message,
+      allowDuplicates: false,
+      ttl: 5000,
+    });
+  }
+
   async _validatePhoneNumber(phoneNumber: string) {
     if (await this._validateIsOnlyPager(phoneNumber)) {
       return null;
@@ -411,19 +419,34 @@ export class ComposeText<T extends Deps = Deps> extends RcModuleV2<T> {
     this._setMessageText(text);
   }
 
-  @proxify
-  async addAttachment(attachment: Attachment) {
-    if (this.attachments.length >= 10) {
-      this._alertWarning(messageSenderMessages.attachmentCountLimitation);
-      return;
+  checkAttachmentOverLimit(attachments: Attachment[]) {
+    if (this.attachments.length + attachments.length > 10) {
+      this._alertDanger(messageSenderMessages.attachmentCountLimitation);
+      return false;
     }
-    const size = this.attachments.reduce((prev, curr) => {
+    const size = [...attachments, ...this.attachments].reduce((prev, curr) => {
       return prev + curr.size;
     }, 0);
-    if (size + attachment.size > ATTACHMENT_SIZE_LIMITATION) {
-      this._alertWarning(messageSenderMessages.attachmentSizeLimitation);
+    if (size > ATTACHMENT_SIZE_LIMITATION) {
+      this._alertDanger(messageSenderMessages.attachmentSizeLimitation);
+      return false;
+    }
+    return true;
+  }
+
+  @proxify
+  async addAttachments(attachments: Attachment[]) {
+    const isValid = this.checkAttachmentOverLimit(attachments);
+    if (!isValid) {
       return;
     }
+    for (const attachment of attachments) {
+      this.addAttachment(attachment);
+    }
+  }
+
+  @proxify
+  async addAttachment(attachment: Attachment) {
     this._addAttachment(attachment);
   }
 

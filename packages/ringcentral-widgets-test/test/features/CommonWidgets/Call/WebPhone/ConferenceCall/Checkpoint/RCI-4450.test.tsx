@@ -26,8 +26,9 @@ import {
   Then,
   title,
   When,
+  waitForRenderReady,
+  common,
 } from '@ringcentral-integration/test-utils';
-import { waitForRenderReady } from '@ringcentral-integration/test-utils';
 
 import {
   ClickCallItemByLabel,
@@ -59,6 +60,7 @@ import {
 import { NavigateToDialer } from '../../../../../../steps/Navigate';
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('Another call when there is a conference call ongoing')

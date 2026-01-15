@@ -1,5 +1,5 @@
 import { whenStateOrTimerChange } from '@ringcentral-integration/core/test';
-import { screen } from '@testing-library/react';
+import { screen, within } from '@testing-library/react';
 
 import type { StepFunction } from '../../lib/step';
 
@@ -18,24 +18,36 @@ export const CheckModalValue: StepFunction<{
     const modal = screen.getByRole('dialog');
     expect(modal).toBeVisible();
 
-    expect(
-      modal.querySelector('[data-test-automation-id="DialogTitle"]'),
-    ).toHaveTextContent(title);
+    expect(modal).toHaveTextContent(title);
+    const buttons = within(modal).getAllByRole('button');
+    const buttonTexts = buttons.map((button) => button.textContent);
 
     if (confirmButtonText) {
-      expect(
-        modal.querySelector('[data-test-automation-id="DialogOKButton"]'),
-      ).toHaveTextContent(confirmButtonText);
+      try {
+        expect(
+          buttonTexts.some((text) => text?.includes(confirmButtonText)),
+        ).toBeTruthy();
+      } catch (error) {
+        throw new Error(
+          `[confirmButtonText] "${buttonTexts.join(
+            ', ',
+          )}" does not include "${confirmButtonText}"`,
+        );
+      }
     }
     if (cancelButtonText) {
-      expect(
-        modal.querySelector('[data-test-automation-id="DialogCancelButton"]'),
-      ).toHaveTextContent(cancelButtonText);
+      try {
+        expect(modal).toHaveTextContent(cancelButtonText);
+      } catch (error) {
+        throw new Error(
+          `[cancelButtonText] "${buttonTexts.join(
+            ', ',
+          )}" does not include "${cancelButtonText}"`,
+        );
+      }
     }
     if (childrenContent) {
-      expect(
-        modal.querySelector('[data-test-automation-id="DialogContent"]'),
-      ).toHaveTextContent(childrenContent);
+      expect(modal).toHaveTextContent(childrenContent);
     }
   });
 };

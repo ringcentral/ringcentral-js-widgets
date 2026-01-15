@@ -1,8 +1,9 @@
+/* eslint-disable */
 export default {
-  logged: "Protokolliert",
-  unlogged: "Unbearbeitet",
-  faxNotSupported: "Faxprotokollierung wird nicht unterstützt."
-};
+  logged: 'Protokolliert',
+  unlogged: 'Unbearbeitet',
+  faxNotSupported: 'Faxprotokollierung wird nicht unterstützt.',
+} as const;
 
 // @key: @#@"logged"@#@ @source: @#@"Logged"@#@
 // @key: @#@"unlogged"@#@ @source: @#@"Unworked"@#@

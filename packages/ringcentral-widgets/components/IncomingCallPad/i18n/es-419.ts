@@ -1,12 +1,13 @@
+/* eslint-disable */
 export default {
-  forward: "Reenviar",
-  reply: "Responder",
-  ignore: "Ignorar",
-  toVoicemail: "Enviar al buzón de voz",
-  answer: "Responder",
-  answerAndEnd: "Resp. y finalizar",
-  answerAndHold: "Resp. y poner en espera"
-};
+  forward: 'Reenviar',
+  reply: 'Responder',
+  ignore: 'Ignorar',
+  toVoicemail: 'Enviar al buzón de voz',
+  answer: 'Responder',
+  answerAndEnd: 'Resp. y finalizar',
+  answerAndHold: 'Resp. y poner en espera',
+} as const;
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
 // @key: @#@"reply"@#@ @source: @#@"Reply"@#@

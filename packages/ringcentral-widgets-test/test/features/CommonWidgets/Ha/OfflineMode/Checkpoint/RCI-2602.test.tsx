@@ -63,7 +63,7 @@ export class RCI2602 extends Step {
           action={(_: unknown, context: Context) => [
             () => {
               const { connectivityMonitor } = context.phone;
-              // spy on request GET https://pubsub.pubnub.com/time/0
+              // spy on request GET https://apps.ringcentral.com/integration/ping
               checkConnectionFuncSpy = jest
                 .spyOn(connectivityMonitor, '_checkConnectionFunc')
                 .mockImplementation(() => {
@@ -78,7 +78,7 @@ export class RCI2602 extends Step {
           desc="The badge 'Offline' prompt
 										Alert message: 'Sorry, something went wrong, check your network connection and try again. '
 										All buttons are disabled
-										Can capture the request 'https://pubsub.pubnub.com/time/0'every 5 seconds in the background network
+										Can capture the request 'https://apps.ringcentral.com/integration/ping'every 5 seconds in the background network
 										Note(/s): This request may be not necessarily accurate 5s request because of network etc."
           action={() => [
             <CheckConnectivityBadge exists={true} textContent={'Offline'} />,

@@ -43,7 +43,9 @@ export class CleanOnReset extends Step {
               client: {} as any,
               extensionFeatures: {} as any,
               connectivityMonitor: {} as any,
-              subscription: {} as any,
+              subscription: {
+                register() {},
+              } as any,
               dataFetcherV2: {
                 register() {},
               } as any,

@@ -1,23 +1,25 @@
+/* eslint-disable */
 export default {
-  logging: "Connessione...",
-  logCall: "Registra chiamata",
-  editLog: "Modifica registro",
-  select: "Seleziona un record corrispondente",
-  OnHold: "In attesa",
-  Ringing: "Chiamata in arrivo",
-  CallConnected: "Chiamata connessa",
-  unknownUser: "Utente sconosciuto",
-  unknownNumber: "Numero anonimo",
-  unavailable: "Non disponibile",
-  viewDetails: "Visualizza dettagli",
-  addEntity: "Crea nuovo",
-  addLog: "Registro",
-  text: "SMS",
-  call: "Chiamata",
-  missedCall: "Persa",
-  inboundCall: "In entrata",
-  outboundCall: "In uscita"
-};
+  logging: 'Connessione...',
+  logCall: 'Registra chiamata',
+  editLog: 'Modifica registro',
+  select: 'Seleziona un record corrispondente',
+  OnHold: 'In attesa',
+  Ringing: 'Chiamata in arrivo',
+  CallConnected: 'Chiamata connessa',
+  unknownUser: 'Utente sconosciuto',
+  unknownNumber: 'Numero anonimo',
+  unavailable: 'Non disponibile',
+  viewDetails: 'Visualizza dettagli',
+  addEntity: 'Crea nuovo',
+  addLog: 'Registro',
+  text: 'SMS',
+  call: 'Chiamata',
+  missedCall: 'Persa',
+  inboundCall: 'In entrata',
+  outboundCall: 'In uscita',
+  answeredBy: 'Risposta fornita da',
+} as const;
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
@@ -37,3 +39,4 @@ export default {
 // @key: @#@"missedCall"@#@ @source: @#@"Missed"@#@
 // @key: @#@"inboundCall"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"outboundCall"@#@ @source: @#@"Outbound"@#@
+// @key: @#@"answeredBy"@#@ @source: @#@"Answered by"@#@

@@ -73,3 +73,21 @@
   position: relative;
   top: 3px;
 }
+
+.tooltipIcon2 {
+  position: relative;
+  vertical-align: text-top;
+  left: 2px;
+}
+
+.selectSection {
+  margin-top: 10px;
+}
+
+.buttonIcon {
+  line-height: 0;
+}
+
+.subTitle {
+  @include secondary-font;
+}

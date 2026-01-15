@@ -14,19 +14,14 @@ import { t } from '../i18n';
 import styles from '../styles.scss';
 
 export const SelectDevice = ({ children, label, ...props }: RcSelectProps) => (
-  <RcSelect
-    className={styles.select}
-    variant="box"
-    fullWidth
-    label={
-      <RcTypography variant="body2" color="neutral.f06">
-        {label}
-      </RcTypography>
-    }
-    {...props}
-  >
-    {children}
-  </RcSelect>
+  <div className={styles.selectContainer}>
+    <RcTypography variant="body2" color="neutral.f06">
+      {label}
+    </RcTypography>
+    <RcSelect variant="box" fullWidth {...props}>
+      {children}
+    </RcSelect>
+  </div>
 );
 
 export const getFallbackLabel = (device: OmitFunctions<MediaDeviceInfo>) => {

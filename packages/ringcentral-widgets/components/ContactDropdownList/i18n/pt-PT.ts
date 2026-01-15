@@ -1,5 +1,6 @@
+/* eslint-disable */
 export default {
-  doNotCall: "Não ligar"
-};
+  doNotCall: 'Não ligar',
+} as const;
 
 // @key: @#@"doNotCall"@#@ @source: @#@"Do Not Call"@#@

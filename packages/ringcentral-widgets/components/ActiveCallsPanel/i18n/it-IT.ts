@@ -1,14 +1,15 @@
+/* eslint-disable */
 export default {
-  noActiveCalls: "Nessuna chiamata attiva",
-  currentCall: "Chiamata corrente",
-  ringCall: "Chiamata in arrivo",
-  onHoldCall: "Chiamata in attesa",
-  otherDeviceCall: "Chiamate in corso sugli altri dispositivi",
-  confirmation: "Conferma",
-  confirmMergeToConference: "Aggiungere alla conferenza telefonica?",
-  mergeToConference: "Unisci",
-  conferenceCall: "Conferenza telefonica"
-};
+  noActiveCalls: 'Nessuna chiamata attiva',
+  currentCall: 'Chiamata corrente',
+  ringCall: 'Chiamata in arrivo',
+  onHoldCall: 'Chiamata in attesa',
+  otherDeviceCall: 'Chiamate in corso sugli altri dispositivi',
+  confirmation: 'Conferma',
+  confirmMergeToConference: 'Aggiungere alla conferenza telefonica?',
+  mergeToConference: 'Unisci',
+  conferenceCall: 'Conferenza telefonica',
+} as const;
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
 // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@

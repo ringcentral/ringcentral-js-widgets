@@ -1,8 +1,9 @@
+/* eslint-disable */
 export default {
-  download: "Herunterladen",
-  play: "Abspielen",
-  pause: "Anhalten"
-};
+  download: 'Herunterladen',
+  play: 'Wiedergeben',
+  pause: 'Anhalten',
+} as const;
 
 // @key: @#@"download"@#@ @source: @#@"Download"@#@
 // @key: @#@"play"@#@ @source: @#@"Play"@#@

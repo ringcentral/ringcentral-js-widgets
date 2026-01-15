@@ -18,6 +18,7 @@ import {
   Then,
   title,
   When,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import {
@@ -37,6 +38,7 @@ import {
 } from '../../../../../steps/Mock';
 
 @autorun(test.skip)
+@common
 @it
 @p1
 @title('Multiple calls incoming_End current call')

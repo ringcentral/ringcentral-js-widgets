@@ -12,7 +12,7 @@ describe('bindHammerZoom', () => {
       on: jest.fn(),
     };
     mockGetTarget = jest.fn(() => document.createElement('div'));
-    mockGetContainer = jest.fn();
+    mockGetContainer = jest.fn(() => document.createElement('div'));
     mockOnScale = jest.fn();
     mockOnDragChange = jest.fn();
   });

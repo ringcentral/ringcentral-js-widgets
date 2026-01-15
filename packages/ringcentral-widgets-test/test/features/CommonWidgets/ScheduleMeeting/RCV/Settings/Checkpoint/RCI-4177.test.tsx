@@ -69,7 +69,7 @@ export class RCI4177 extends Step {
           action={
             <CheckPostMeetingParams
               isMeetingSecret={false}
-              meetingPassword={undefined}
+              meetingPassword=""
             />
           }
         />

@@ -53,3 +53,10 @@ export const getFileContentTypeFromExtension = (extensionName?: string) => {
     ? EXTENSION_TO_CONTENT_TYPE[extensionName.toLowerCase()]
     : undefined;
 };
+
+/**
+ * get file name with extension, and no url params.
+ */
+export function getFilenameWithNoUrlParams(fullPath: string) {
+  return fullPath.substring(fullPath.lastIndexOf('/') + 1).split('?')[0];
+}

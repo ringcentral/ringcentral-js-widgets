@@ -1,28 +1,29 @@
+/* eslint-disable */
 import messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
 export default {
-  addLog: "Lijst",
-  editLog: "Lijst bewerken",
-  viewDetails: "Details weergeven",
-  addEntity: "Nieuwe maken",
-  call: "Bellen",
-  text: "Tekstbericht",
-  conversation: "Gesprek",
-  groupConversation: "Groepsgesprek",
-  voiceMessage: "Spraakbericht",
-  [messageTypes.voiceMail]: "Voicemail",
-  [messageTypes.fax]: "Fax",
-  mark: "Markeren als ongelezen",
-  unmark: "Markeren als gelezen",
-  delete: "Verwijderen",
-  faxSent: "Fax verzonden",
-  faxReceived: "Fax ontvangen",
+  addLog: 'Lijst',
+  editLog: 'Lijst bewerken',
+  viewDetails: 'Details weergeven',
+  addEntity: 'Nieuwe maken',
+  call: 'Bellen',
+  text: 'Tekstbericht',
+  conversation: 'Gesprek',
+  groupConversation: 'Groepsgesprek',
+  voiceMessage: 'Spraakbericht',
+  [messageTypes.voiceMail]: 'Voicemail',
+  [messageTypes.fax]: 'Fax',
+  mark: 'Markeren als ongelezen',
+  unmark: 'Markeren als gelezen',
+  delete: 'Verwijderen',
+  faxSent: 'Fax verzonden',
+  faxReceived: 'Fax ontvangen',
   pages: "pagina's",
-  page: "pagina",
-  preview: "Weergeven",
-  download: "Downloaden",
-  imageAttachment: "Bijlage: {count} afbeelding",
-  fileAttachment: "Bijlage: {count} bestand"
-};
+  page: 'pagina',
+  preview: 'Weergeven',
+  download: 'Downloaden',
+  mmsWithOneAttachment: 'Mms met 1 bijlage',
+  mmsWithAttachments: 'Mms met {count} bijlagen',
+} as const;
 
 // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
@@ -44,5 +45,5 @@ export default {
 // @key: @#@"page"@#@ @source: @#@"page"@#@
 // @key: @#@"preview"@#@ @source: @#@"View"@#@
 // @key: @#@"download"@#@ @source: @#@"Download"@#@
-// @key: @#@"imageAttachment"@#@ @source: @#@"Attachment: {count} image"@#@
-// @key: @#@"fileAttachment"@#@ @source: @#@"Attachment: {count} file"@#@
+// @key: @#@"mmsWithOneAttachment"@#@ @source: @#@"MMS with 1 attachment"@#@
+// @key: @#@"mmsWithAttachments"@#@ @source: @#@"MMS with {count} attachments"@#@

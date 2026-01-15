@@ -1,5 +1,6 @@
+/* eslint-disable */
 export default {
-  title: "History"
-};
+  title: 'History',
+} as const;
 
 // @key: @#@"title"@#@ @source: @#@"History"@#@

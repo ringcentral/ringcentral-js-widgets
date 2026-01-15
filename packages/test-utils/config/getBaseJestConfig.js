@@ -2,7 +2,7 @@ const __CI__ = process.argv.includes('--ci');
 const {
   ignores,
 } = require('@ringcentral-integration/babel-settings/lib/ignores');
-const globals = { __CI__ };
+const globals = { __CI__, EXEC_ROOT_DIR: process.env.EXEC_ROOT_DIR };
 
 function getReporters(reporterPrefix = '', outputRoot = '<rootDir>/') {
   const reporters = [];
@@ -46,6 +46,7 @@ const getBaseJestConfig = ({
   useNextConfig = false,
 } = {}) => {
   return {
+    testMatch: ['**/?(*.)+(spec|test).[jt]s?(x)'],
     testEnvironment: 'jsdom',
     // some package be esm module, need transform
     transformIgnorePatterns: [...ignores],
@@ -57,20 +58,37 @@ const getBaseJestConfig = ({
         : '@ringcentral-integration/babel-settings/lib/jestTransform.js',
     },
     moduleNameMapper: {
+      // SVG
       '\\.svg$': '@ringcentral-integration/test-utils/mock/svgMock.js',
-      // ?url is load as string url, use file mock
-      '\\.*\\?url$': '@ringcentral-integration/test-utils/mock/fileMock.js',
+
+      // File mocks
       '\\.(jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga|ogg)$':
         '@ringcentral-integration/test-utils/mock/fileMock.js',
+
+      // Style mocks
       '\\.(css|less|scss)$':
         '@ringcentral-integration/test-utils/mock/styleMock.js',
-      // https://github.com/axios/axios/issues/5101
-      // Remove this when jest>=29
+
+      // URL mocks
+      '\\.*\\?(url|raw|inline)$':
+        '@ringcentral-integration/test-utils/mock/fileMock.js',
+
+      // Package resolutions
       '^axios$': require.resolve('axios'),
       'serialize-error': require.resolve('serialize-error'),
     },
-    setupFiles: ['@ringcentral-integration/test-utils/scripts/jest.setup.js'],
+    setupFiles: ['@ringcentral-integration/test-utils/scripts/jest.setup.ts'],
     setupFilesAfterEnv: [
+      ...(process.env.TESTING_MCP
+        ? [
+            '@ringcentral-integration/test-utils/scripts/testing-mcp.setupAfterEnv.ts',
+          ]
+        : []),
+      ...(process.env.MOCK_MCP
+        ? [
+            '@ringcentral-integration/test-utils/scripts/mock-mcp.setupAfterEnv.ts',
+          ]
+        : []),
       '@ringcentral-integration/test-utils/scripts/jest.setupAfterEnv.js',
     ],
     // * Copy from nx https://github.com/nrwl/nx/blob/master/packages/jest/preset/jest-preset.ts

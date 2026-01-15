@@ -1,6 +1,6 @@
 import Client from '@ringcentral/sdk/lib/http/Client';
 import type Platform from '@ringcentral/sdk/lib/platform/Platform';
-import * as uuid from 'uuid';
+import { v4 } from 'uuid';
 
 interface Options {
   headers: Record<string, string>;
@@ -17,7 +17,7 @@ export async function batchPutApi({
   query?: Record<string, any>;
   body: any[];
 }) {
-  const boundary = `Boundary_${uuid.v4()}`;
+  const boundary = `Boundary_${v4()}`;
   const options: Options = { headers: {} };
   options.headers[
     Client._contentType
@@ -43,7 +43,7 @@ export async function batchGetApi({
   url: string;
   query?: Record<string, any>;
 }) {
-  const boundary = `Boundary_${uuid.v4()}`;
+  const boundary = `Boundary_${v4()}`;
   const options: Options = { headers: {} };
   options.headers[
     Client._contentType

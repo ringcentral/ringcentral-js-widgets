@@ -32,7 +32,7 @@
     "yargs": "^17.1.1"
   },
   "peerDependencies": {
-    "@ringcentral-integration/i18n": "^2.2.1",
+    "@ringcentral-integration/i18n": "^2.3.1",
     "@ringcentral-integration/utils": "^0.15.0"
   }
 }

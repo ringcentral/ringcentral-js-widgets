@@ -37,6 +37,9 @@ type RegionSettingsState = {
 };
 
 export function formatCountryDisplay(callingCode: string, countryName: string) {
+  if (callingCode.includes('+')) {
+    return `(${callingCode}) ${countryName}`;
+  }
   return `(+${callingCode}) ${countryName}`;
 }
 

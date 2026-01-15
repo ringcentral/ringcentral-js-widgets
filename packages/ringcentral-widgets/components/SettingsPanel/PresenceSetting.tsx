@@ -17,9 +17,12 @@ const PresenceSetting: FunctionComponent<PresenceSettingProps> = ({
   setInvisible,
   toggleAcceptCallQueueCalls,
   openPresenceSettings,
+  enableAcceptQueueCallsControl,
+  onCallQueueManagementClick,
 }) => {
   return showPresenceSettings && dndStatus && userStatus ? (
     <PresenceSettingSection
+      enableAcceptQueueCallsControl={enableAcceptQueueCallsControl}
       currentLocale={currentLocale}
       dndStatus={dndStatus}
       userStatus={userStatus}
@@ -37,6 +40,7 @@ const PresenceSetting: FunctionComponent<PresenceSettingProps> = ({
       toggleAcceptCallQueueCalls={toggleAcceptCallQueueCalls}
       // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
       showPresenceSettings={openPresenceSettings}
+      onCallQueueManagementClick={onCallQueueManagementClick}
     />
   ) : null;
 };

@@ -16,6 +16,9 @@ export interface PresenceSettingProps {
   setDoNotDisturb?: (...args: any[]) => any;
   setInvisible?: (...args: any[]) => any;
   toggleAcceptCallQueueCalls?: (...args: any[]) => any;
+  enableAcceptQueueCallsControl?: boolean;
+  showCallQueueManagement?: boolean;
+  onCallQueueManagementClick?: () => void;
 }
 export interface LinkLineItemProps extends onLinkLineItemClick {
   name?: string;
@@ -27,8 +30,8 @@ export interface LinkLineItemProps extends onLinkLineItemClick {
 }
 export interface LocaleProps {
   supportedLocales?: string[];
-  savedLocale: string;
-  saveLocale(locale: string): void;
+  savedLocale?: string;
+  saveLocale?(locale: string): void;
 }
 
 export interface ReportProps {
@@ -108,6 +111,22 @@ export interface UserGuideProps {
   onUserGuideClick?(): any;
 }
 
+export type OpenEntityFromType = 'newTab' | 'popup';
+export interface OpenEntityFromProps {
+  openEntityFrom?: OpenEntityFromType;
+  showOpenEntityFrom?: boolean;
+  openEntityFromOptions?: { value: OpenEntityFromType; label: string }[];
+  onOpenEntityFromChange?: (value: OpenEntityFromType) => void;
+}
+
+export type CtiPanelSizeType = 'small' | 'medium' | 'large';
+export interface CtiPanelSizeProps {
+  ctiPanelSize?: CtiPanelSizeType;
+  showCtiPanelSize?: boolean;
+  ctiPanelSizeOptions?: { value: CtiPanelSizeType; label: string }[];
+  onCtiPanelSizeChange?: (value: CtiPanelSizeType) => void;
+}
+
 export interface ReportIssueProps {
   showReportIssue?: boolean;
   onReportIssueClick?(): any;
@@ -116,6 +135,16 @@ export interface ReportIssueProps {
 export interface TrackingIssueProps {
   showTrackingIssue?: boolean;
   onTrackingClick?(): any;
+}
+
+export interface SelectToDialProps {
+  currentLocale: string;
+  showSelectToDial?: boolean;
+  smsPermission?: boolean;
+  callPermission?: boolean;
+  selectToDialEnabled?: boolean;
+  selectToDialTitle?: string;
+  onSelectToDialChange?(enableClickToDial: boolean): any;
 }
 
 export interface ClickToDialProps {
@@ -188,10 +217,13 @@ export interface SettingsPanelProps
     LogSMSContentProps,
     LogExtensionCallProps,
     AutoLogSMSProps,
+    SelectToDialProps,
     ClickToDialProps,
     FeedbackProps,
     QuickAccessLinkProps,
     UserGuideProps,
+    OpenEntityFromProps,
+    CtiPanelSizeProps,
     ReportIssueProps,
     TrackingIssueProps,
     PresenceSettingProps,
@@ -201,4 +233,15 @@ export interface SettingsPanelProps
   additional?: ReactNode;
   brandConfig: BrandConfig;
   showRemoveMeetingWarning: boolean;
+}
+
+export interface ButtonLineItemProps {
+  btnText: string;
+  show?: boolean;
+  dataSign?: string;
+  subTitle?: string;
+  currentLocale?: string;
+  customTitle?: string;
+  tooltip?: string;
+  onClick?: () => void;
 }

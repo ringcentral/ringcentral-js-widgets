@@ -19,6 +19,7 @@ import {
   title,
   When,
   And,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import {
@@ -38,6 +39,7 @@ import {
 } from '../../../../../../../steps/Mock';
 
 @autorun(test)
+@common
 @it
 @p1
 @title('Second Incoming Call_Answer and Hold - ${direction}')

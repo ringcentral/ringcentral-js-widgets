@@ -1,16 +1,17 @@
+/* eslint-disable */
 import { phoneTypes } from '@ringcentral-integration/commons/enums/phoneTypes';
 export default {
-  [phoneTypes.business]: "Zakelijke telefoon",
-  [phoneTypes.extension]: "Extensienummer",
-  [phoneTypes.home]: "Privénummer",
-  [phoneTypes.mobile]: "Mobiele telefoon",
-  [phoneTypes.phone]: "Telefoon",
-  [phoneTypes.unknown]: "Onbekend telefoontype",
-  [phoneTypes.company]: "Bedrijfsnummer",
-  [phoneTypes.direct]: "Direct nummer",
-  [phoneTypes.contact]: "Telefoon contactpersoon",
-  [phoneTypes.fax]: "Fax",
-  [phoneTypes.other]: "Overig"
+  [phoneTypes.business]: 'Zakelijke telefoon',
+  [phoneTypes.extension]: 'Extensienummer',
+  [phoneTypes.home]: 'Privénummer',
+  [phoneTypes.mobile]: 'Mobiele telefoon',
+  [phoneTypes.phone]: 'Telefoon',
+  [phoneTypes.unknown]: 'Onbekend telefoontype',
+  [phoneTypes.company]: 'Bedrijfsnummer',
+  [phoneTypes.direct]: 'Direct nummer',
+  [phoneTypes.contact]: 'Telefoon contactpersoon',
+  [phoneTypes.fax]: 'Fax',
+  [phoneTypes.other]: 'Overig',
 };
 
 // @key: @#@"[phoneTypes.business]"@#@ @source: @#@"Business Phone"@#@

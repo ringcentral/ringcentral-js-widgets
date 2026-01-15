@@ -1,13 +1,14 @@
+/* eslint-disable */
 export default {
-  noActiveCalls: "Aucun appel actif",
-  noCalls: "Aucun résultat trouvé.",
-  currentCall: "Appel en cours",
-  ringCall: "Appel entrant",
-  onHoldCall: "Appel en attente",
-  historyCalls: "Appels passés",
-  otherDeviceCall: "Appels en cours sur mes autres appareils",
-  searchPlaceholder: "Recherche…"
-};
+  noActiveCalls: 'Aucun appel actif',
+  noCalls: 'Aucun résultat trouvé.',
+  currentCall: 'Appel en cours',
+  ringCall: 'Appel entrant',
+  onHoldCall: 'Appel en attente',
+  historyCalls: 'Appels passés',
+  otherDeviceCall: 'Appels en cours sur mes autres appareils',
+  searchPlaceholder: 'Recherche…',
+} as const;
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
 // @key: @#@"noCalls"@#@ @source: @#@"No results found."@#@

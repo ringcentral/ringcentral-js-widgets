@@ -27,6 +27,7 @@
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   autorun,
+  common,
   examples,
   Given,
   it,
@@ -57,6 +58,7 @@ interface IFax3678Props {
   CustomCreateMock: StepFunction<any>;
 }
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('Fax action buttons for user not publish number')

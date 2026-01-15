@@ -1,11 +1,17 @@
+/* eslint-disable */
 import { conferenceCallErrors } from '@ringcentral-integration/commons/modules/ConferenceCall';
 export default {
-  [conferenceCallErrors.bringInFailed]: "Het samenvoegen van de oproepen is mislukt vanwege onverwachte fouten. Probeer het later opnieuw.",
-  [conferenceCallErrors.makeConferenceFailed]: "Het samenvoegen van de oproepen is mislukt vanwege onverwachte fouten. Probeer het later opnieuw.",
-  [conferenceCallErrors.terminateConferenceFailed]: "Het ophangen van de conference is mislukt vanwege onverwachte fouten. Probeer het later opnieuw.",
-  [conferenceCallErrors.removeFromConferenceFailed]: "Het verwijderen van de deelnemer is mislukt vanwege onverwachte fouten. Probeer het later opnieuw.",
-  [conferenceCallErrors.callIsRecording]: "Oproepopname bezig. Stop met opnemen en probeer het opnieuw."
-};
+  [conferenceCallErrors.bringInFailed]:
+    'Het samenvoegen van de oproepen is mislukt vanwege onverwachte fouten. Probeer het later opnieuw.',
+  [conferenceCallErrors.makeConferenceFailed]:
+    'Het samenvoegen van de oproepen is mislukt vanwege onverwachte fouten. Probeer het later opnieuw.',
+  [conferenceCallErrors.terminateConferenceFailed]:
+    'Het ophangen van de conference is mislukt vanwege onverwachte fouten. Probeer het later opnieuw.',
+  [conferenceCallErrors.removeFromConferenceFailed]:
+    'Het verwijderen van de deelnemer is mislukt vanwege onverwachte fouten. Probeer het later opnieuw.',
+  [conferenceCallErrors.callIsRecording]:
+    'Oproepopname bezig. Stop met opnemen en probeer het opnieuw.',
+} as const;
 
 // @key: @#@"[conferenceCallErrors.bringInFailed]"@#@ @source: @#@"Failed to merge the calls due to unexpected errors. Please try again later."@#@
 // @key: @#@"[conferenceCallErrors.makeConferenceFailed]"@#@ @source: @#@"Failed to merge the calls due to unexpected errors. Please try again later."@#@

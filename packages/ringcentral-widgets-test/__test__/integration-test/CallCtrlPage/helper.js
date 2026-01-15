@@ -10,6 +10,7 @@ import {
   mockGeneratePresenceUpdateApi,
   mockPresencePubnub,
 } from '../../support/callHelper';
+
 import deviceBody from './data/device.json';
 import getConferenceCallBody from './data/getConferenceCall';
 
@@ -76,10 +77,9 @@ export async function mockConferenceCallEnv(
     sessions: phone.webphone.sessions,
   });
   mock.activeCalls(activeCallsBody);
-  await phone.subscription.subscribe(
-    ['/restapi/v1.0/account/~/extension/~/presence'],
-    10,
-  );
+  await phone.subscription.subscribe([
+    '/restapi/v1.0/account/~/extension/~/presence',
+  ]);
   await sleep(100);
   await mockPresencePubnub(activeCallsBody);
   /* mock redux data */

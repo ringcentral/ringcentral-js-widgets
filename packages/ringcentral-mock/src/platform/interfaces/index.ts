@@ -430,6 +430,7 @@ export { GetPresenceExtensionInfo } from './GetPresenceExtensionInfo';
 export { GetPresenceInfo } from './GetPresenceInfo';
 export { GetRingOutStatusResponse } from './GetRingOutStatusResponse';
 export { GetSMSMessageInfoResponse } from './GetSMSMessageInfoResponse';
+export { GetMMSMessageInfoResponse } from './GetMMSMessageInfoResponse';
 export { GetServiceInfoResponse } from './GetServiceInfoResponse';
 export { GetStateInfoResponse } from './GetStateInfoResponse';
 export { GetStateListResponse } from './GetStateListResponse';

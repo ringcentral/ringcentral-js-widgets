@@ -10,6 +10,7 @@
  */
 import {
   autorun,
+  common,
   examples,
   it,
   p2,
@@ -27,6 +28,7 @@ import { NavigateTo } from '../../../../../../steps/Router';
 import { SetAreaCode } from '../../../../../../steps/Settings';
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('Input area code on region page')

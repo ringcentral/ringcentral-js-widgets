@@ -1,8 +1,9 @@
+/* eslint-disable */
 export default {
-  contactDetails: "Detalles de contacto",
-  loadingContact: "Cargando contacto...",
-  contactNotFound: "Contacto no encontrado."
-};
+  contactDetails: 'Detalles de contacto',
+  loadingContact: 'Cargando contacto...',
+  contactNotFound: 'Contacto no encontrado.',
+} as const;
 
 // @key: @#@"contactDetails"@#@ @source: @#@"Contact Details"@#@
 // @key: @#@"loadingContact"@#@ @source: @#@"Loading contact..."@#@

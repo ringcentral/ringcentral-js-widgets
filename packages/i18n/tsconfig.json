@@ -1,6 +1,6 @@
 {
   "extends": "../tsconfig.json",
-  "include": ["./**/*.ts", "./**/*.tsx", "./typings/**/*.d.ts"],
+  "include": ["./index.ts", "./i18n.ts", "./constants.ts", "./lib/**/*.ts"],
   "exclude": ["./**/*.test.ts"],
   "compilerOptions": {
     "outDir": "../../build/i18n",

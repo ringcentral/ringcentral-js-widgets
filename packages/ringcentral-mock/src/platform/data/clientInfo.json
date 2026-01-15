@@ -1,17 +1,24 @@
 {
   "uri": "https://api-rcapps-labs_domain/restapi/v1.0/client-info",
-  "client": {},
+  "client": {
+    "detected": true,
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 12_2_1) AppleWebKit/537.36 (KHTML, like Gecko) Teams/1.6.00.34263 Chrome/102.0.5005.197 Electron/19.1.8 Safari/537.36",
+    "appId": "xxxxx",
+    "appName": "RingCentral",
+    "appVersion": "5.0",
+    "locale": "en-US"
+  },
   "provisioning": {
     "interopClientIds": {
-      "serviceWeb": "xxx",
-      "expressSetup": "xxx",
-      "qosReports": "xxx",
-      "analyticsPortal": "xxx",
-      "carPlay": "xxx",
-      "rcVideo": "xxx",
-      "rcMeetings": "xxx",
-      "chc": "xxx",
-      "ringSense": "xxx"
+      "serviceWeb": "xxxxxx",
+      "expressSetup": "mmmmmmm",
+      "qosReports": "nnnn",
+      "analyticsPortal": "xxxx",
+      "carPlay": "nnnnn",
+      "rcVideo": "nnnnn",
+      "rcMeetings": "mmmm",
+      "chc": "mmmm",
+      "ringSense": "xxxx"
     },
     "webUris": {
       "expressSetupMobile": "https://service-xmrupxmn-us-secure.intlabs_domain/rc-setup/mobile/?appUrlScheme={appUrlScheme}&code={authCode}&hash=",
@@ -77,7 +84,7 @@
     },
     "assetService": {
       "baseUri": "https://brand-assets-labs_domain",
-      "assetId": "f7cade80b7cc92b991cf4d2806d6bd78"
+      "assetId": "f7cade80b7cc92b991cf4d28"
     }
   }
 }

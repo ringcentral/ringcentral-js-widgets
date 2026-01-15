@@ -13,7 +13,7 @@ import type { FunctionComponent } from 'react';
 import React from 'react';
 
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
-import DurationCounter from '../DurationCounter';
+import { DurationCounter } from '../DurationCounter';
 import { RecordingIndicator } from '../RecordingIndicator';
 
 import { CallIcon } from './CallIcon';
@@ -54,7 +54,7 @@ interface ILogInfo {
   call?: Call;
   logName?: string;
   subContactNameDisplay?: string;
-  entityDetailLink?: string;
+  entityDetailLinkId?: string;
 }
 
 type LogBasicInfoProps = {
@@ -69,6 +69,7 @@ type LogBasicInfoProps = {
   className?: string;
   showRecordingIndicator?: boolean;
   openEntityDetailLinkTrack?: (...args: any[]) => any;
+  openEntityDetailLink: (entityDetailLinkId: string) => any;
   onSwitchWarmTransferSession?: () => any;
   disabledSwitchButton: boolean;
   toggleConference: (open: boolean) => any;
@@ -80,17 +81,17 @@ type CallInfoProps = Omit<LogBasicInfoProps, 'currentLog'> & {
 };
 
 const SubCallInfoSection: FunctionComponent<CallInfoProps> = ({
-  displayCallLog: { call, logName, subContactNameDisplay, entityDetailLink },
+  displayCallLog: { call, logName, subContactNameDisplay, entityDetailLinkId },
   disabledSwitchButton,
   currentLocale,
   disableLinks,
   isWide,
   showRecordingIndicator,
+  openEntityDetailLink,
   openEntityDetailLinkTrack,
   onSwitchWarmTransferSession,
 }) => {
   if (!call) return null;
-  // @ts-expect-error TS(2339): Property 'offset' does not exist on type 'Call'.
   const { startTime, offset, duration, telephonyStatus, isRecording } = call;
 
   function getDurationElm() {
@@ -101,7 +102,6 @@ const SubCallInfoSection: FunctionComponent<CallInfoProps> = ({
         // i18n.getString('unavailable', currentLocale)
         'unavailable'
       ) : (
-        // @ts-expect-error TS(2322): Type 'number | undefined' is not assignable to typ... Remove this comment to see the full error message
         <DurationCounter startTime={startTime} offset={offset} />
       );
     } else {
@@ -140,11 +140,11 @@ const SubCallInfoSection: FunctionComponent<CallInfoProps> = ({
             }`}
             data-sign="subLogName"
           >
-            {entityDetailLink ? (
+            {entityDetailLinkId ? (
               <RcLink
                 variant="inherit"
                 onClick={() => {
-                  window.open(entityDetailLink, '_blank');
+                  openEntityDetailLink?.(entityDetailLinkId);
                   openEntityDetailLinkTrack?.('call log page');
                 }}
               >
@@ -197,7 +197,7 @@ const SubCallInfoSection: FunctionComponent<CallInfoProps> = ({
 };
 
 const ActiveCallInfoSection: FunctionComponent<CallInfoProps> = ({
-  displayCallLog: { call, logName, subContactNameDisplay, entityDetailLink },
+  displayCallLog: { call, logName, subContactNameDisplay, entityDetailLinkId },
   formatPhone,
   currentLocale,
   dataSign,
@@ -207,6 +207,7 @@ const ActiveCallInfoSection: FunctionComponent<CallInfoProps> = ({
   className,
   showRecordingIndicator,
   openEntityDetailLinkTrack,
+  openEntityDetailLink,
   toggleConference,
   conferenceParticipantsIsOpen,
 }) => {
@@ -217,7 +218,6 @@ const ActiveCallInfoSection: FunctionComponent<CallInfoProps> = ({
     to,
     from,
     startTime,
-    // @ts-expect-error TS(2339): Property 'offset' does not exist on type 'Call'.
     offset,
     duration,
     result,
@@ -235,7 +235,6 @@ const ActiveCallInfoSection: FunctionComponent<CallInfoProps> = ({
         // i18n.getString('unavailable', currentLocale)
         'unavailable'
       ) : (
-        // @ts-expect-error TS(2322): Type 'number | undefined' is not assignable to typ... Remove this comment to see the full error message
         <DurationCounter startTime={startTime} offset={offset} />
       );
     } else {
@@ -305,11 +304,11 @@ const ActiveCallInfoSection: FunctionComponent<CallInfoProps> = ({
               }`}
               data-sign="logName"
             >
-              {entityDetailLink ? (
+              {entityDetailLinkId ? (
                 <RcLink
                   variant="inherit"
                   onClick={() => {
-                    window.open(entityDetailLink, '_blank');
+                    openEntityDetailLink?.(entityDetailLinkId);
                     openEntityDetailLinkTrack?.('call log page');
                   }}
                 >

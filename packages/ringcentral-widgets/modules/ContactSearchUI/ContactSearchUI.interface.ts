@@ -52,6 +52,7 @@ export interface IContactSearchItem {
   profileImageUrl?: string;
   doNotCall?: string;
   isDirectlyProceed?: boolean;
+  accountName?: string;
   contact: IContact & { presence?: ContactPresence };
 }
 

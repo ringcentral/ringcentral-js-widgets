@@ -8,6 +8,7 @@ import {
   storage,
   track,
   watch,
+  removeNonISO8859Chars,
 } from '@ringcentral-integration/core';
 import type { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
 import { sleep } from '@ringcentral-integration/utils';
@@ -612,7 +613,7 @@ export class WebphoneBase extends RcModuleV2<Deps> {
     }
     this._webphone = new RingCentralWebphone(provisionData, {
       appKey: this._deps.webphoneOptions.appKey,
-      appName: this._deps.webphoneOptions.appName,
+      appName: removeNonISO8859Chars(this._deps.webphoneOptions.appName),
       appVersion: this._deps.webphoneOptions.appVersion,
       uuid: this._deps.auth.endpointId,
       logLevel: this._deps.webphoneOptions.webphoneLogLevel ?? 1, // error 0, warn 1, log: 2, debug: 3
@@ -920,10 +921,9 @@ export class WebphoneBase extends RcModuleV2<Deps> {
   }
 
   _getConnectTimeoutTtl() {
-    if (this.connectRetryCounts < 7) {
-      return this._reconnectDelays[this.connectRetryCounts];
-    }
-    return this._reconnectDelays[6];
+    return this._reconnectDelays[
+      Math.min(this.connectRetryCounts, this._reconnectDelays.length - 1)
+    ];
   }
 
   async _onConnectError({

@@ -1,24 +1,26 @@
+/* eslint-disable */
 export default {
-  feedbackHeader: "提交反馈",
-  back: "返回",
-  revert: "复原",
-  instruction: "您的反馈对我们很有价值。如果您在使用应用程序时遇到问题、想要申请功能或报告错误，我们非常乐意为您提供帮助。",
-  fillForm: "请填写下表并点击 ",
-  useMailBox: " 或直接使用您的邮箱将您的请求发送至 ",
-  email: "您的电子邮件地址",
-  reply: "（方便我们回复您）",
-  emailPlaceHolder: "ronald.app@ringcentral.com",
-  feedbackTopic: "反馈主题",
-  topicPlaceHolder: "请选择一个选项",
-  bugReport: "错误报告",
-  featureRequest: "功能请求",
-  others: "其他",
-  subject: "主题",
-  subjectPlaceHolder: "告诉我们您需要什么帮助",
-  description: "完整说明",
-  descriptionPlaceHolder: "请尽可能多地提供相关信息",
-  send: "发送您的反馈"
-};
+  feedbackHeader: '提交反馈',
+  back: '返回',
+  revert: '复原',
+  instruction:
+    '您的反馈对我们很有价值。如果您在使用应用程序时遇到问题、想要申请功能或报告错误，我们非常乐意为您提供帮助。',
+  fillForm: '请填写下表并点击 ',
+  useMailBox: ' 或直接使用您的邮箱将您的请求发送至 ',
+  email: '您的电子邮件地址',
+  reply: '（方便我们回复您）',
+  emailPlaceHolder: 'ronald.app@ringcentral.com',
+  feedbackTopic: '反馈主题',
+  topicPlaceHolder: '请选择一个选项',
+  bugReport: '错误报告',
+  featureRequest: '功能请求',
+  others: '其他',
+  subject: '主题',
+  subjectPlaceHolder: '告诉我们您需要什么帮助',
+  description: '完整说明',
+  descriptionPlaceHolder: '请尽可能多地提供相关信息',
+  send: '发送您的反馈',
+} as const;
 
 // @key: @#@"feedbackHeader"@#@ @source: @#@"Submit Feedback"@#@
 // @key: @#@"back"@#@ @source: @#@"Back"@#@

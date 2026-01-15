@@ -27,6 +27,7 @@ import {
   AdvanceTimersByTime,
   UseRealTimers,
   StepProp,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import { CheckLimitedModeBadge } from '../../../../../steps/Badge/actions/CheckLimitedModeBadge';
@@ -42,6 +43,7 @@ import {
 import { NavigateTo } from '../../../../../steps/Router';
 
 @autorun(test)
+@common
 @it
 @p2
 @title('Verify the App will keep the health check when in limited mode')

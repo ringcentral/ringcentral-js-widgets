@@ -21,12 +21,14 @@ import {
   Then,
   title,
   When,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import { Login as CommonLogin } from '../../../../steps/Login';
 import { CheckRCVPageDisplay } from '../../../../steps/Meeting';
 
 @autorun(test.skip)
+@common
 @it
 @p1
 @title("User's event description should be kept when add meeting")

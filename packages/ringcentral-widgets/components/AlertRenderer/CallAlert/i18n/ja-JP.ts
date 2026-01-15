@@ -1,5 +1,5 @@
+/* eslint-disable */
 import { callErrors } from '@ringcentral-integration/commons/modules/Call';
-
 export default {
   [callErrors.emergencyNumber]:
     '緊急通話は利用できません。別の電話を使用して緊急サービスに連絡してください',
@@ -14,7 +14,7 @@ export default {
   [callErrors.networkError]:
     'ネットワークの問題により、接続できません。後でもう一度やり直してください。',
   [callErrors.noInternational]:
-    '国際電話を発信するためのアクセス許可がありません。アップグレードについて{brand}アカウント管理者にお問い合わせください。',
+    '国際電話を発信するためのアクセス許可がありません。アップグレードについては、{brand}のアカウント管理者にお問い合わせください。',
   [callErrors.noRingoutEnable]:
     'お使いの内線は、デスクトップアプリを使用した通話発信が許可されています。\n    他の通話オプションに切り替えたい場合は、\n    アップグレードについてアカウント管理者にお問い合わせください。',
   [callErrors.numberParseError]:
@@ -23,7 +23,7 @@ export default {
   telus911: '緊急ダイヤルはサポートされていません。',
   [callErrors.fromAndToNumberIsSame]:
     'RingOut番号と通話先の番号を同じにはできません。番号を変更してもう一度やり直してください。',
-};
+} as const;
 
 // @key: @#@"[callErrors.emergencyNumber]"@#@ @source: @#@"Emergency calling is not available. Please use another phone to contact emergency services"@#@
 // @key: @#@"[callErrors.noToNumber]"@#@ @source: @#@"Please enter a valid phone number."@#@

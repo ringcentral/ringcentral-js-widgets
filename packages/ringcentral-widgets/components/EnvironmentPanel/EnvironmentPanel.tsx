@@ -24,9 +24,13 @@ export type EnvironmentData = {
   recordingHost: string;
   enabled: boolean;
   allowDataTracking: boolean;
+  mfeDepsInfo?: string;
 };
 
 export type EnvironmentPanelProps = {
+  /**
+   * If true, show the data tracking setting
+   */
   useDataTrackingSetting?: boolean;
   onSetData: (data: EnvironmentData) => void;
   defaultHidden?: boolean;
@@ -41,9 +45,11 @@ export const EnvironmentPanel: FC<EnvironmentPanelProps> = (props) => {
     enabled,
     allowDataTracking,
     server,
+    mfeDepsInfo = '',
   } = props;
 
   const [serverValueRef, setServerValue] = useRefState(server);
+  const [mfeDepsInfoRef, setMfeDepsInfo] = useRefState(mfeDepsInfo);
   const [recordingHostValueRef, setRecordingHostValue] =
     useRefState(recordingHost);
   const [enabledDataTrackingRef, setEnabledDataTracking] =
@@ -56,6 +62,7 @@ export const EnvironmentPanel: FC<EnvironmentPanelProps> = (props) => {
       // when open panel, reset value again
       if (!hidden) {
         setServerValue(server, false);
+        setMfeDepsInfo(mfeDepsInfo, false);
         setRecordingHostValue(recordingHost, false);
         setEnabledValue(enabled, false);
         setEnabledDataTracking(allowDataTracking, false);
@@ -66,6 +73,10 @@ export const EnvironmentPanel: FC<EnvironmentPanelProps> = (props) => {
 
   const onServerChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     setServerValue(e.currentTarget.value);
+  };
+
+  const onMfeDepsInfoChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+    setMfeDepsInfo(e.currentTarget.value);
   };
 
   const onRecordingHostChange: ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -87,6 +98,7 @@ export const EnvironmentPanel: FC<EnvironmentPanelProps> = (props) => {
   const onOk = () => {
     onSetData({
       server: serverValueRef.current,
+      mfeDepsInfo: mfeDepsInfoRef.current,
       recordingHost: recordingHostValueRef.current,
       enabled: enabledValueRef.current,
       allowDataTracking: enabledDataTrackingRef.current,
@@ -97,6 +109,7 @@ export const EnvironmentPanel: FC<EnvironmentPanelProps> = (props) => {
 
   const onCancel = () => {
     setServerValue(server);
+    setMfeDepsInfo(mfeDepsInfo);
     setRecordingHostValue(recordingHost);
     setEnabledValue(enabled);
     setEnabledDataTracking(allowDataTracking);
@@ -111,6 +124,7 @@ export const EnvironmentPanel: FC<EnvironmentPanelProps> = (props) => {
   }, []);
 
   const serverValue = serverValueRef.current;
+  const mfeDepsInfoValue = mfeDepsInfoRef.current;
   const enabledValue = enabledValueRef.current;
   const enabledDataTrackingValue = enabledDataTrackingRef.current;
   const recordingHostValue = recordingHostValueRef.current;
@@ -121,6 +135,7 @@ export const EnvironmentPanel: FC<EnvironmentPanelProps> = (props) => {
 
   const hasChanges = !(
     serverValue === server &&
+    mfeDepsInfoValue === mfeDepsInfo &&
     enabledValue === enabled &&
     recordingHostValue === recordingHost &&
     enabledDataTrackingValue === allowDataTracking
@@ -134,11 +149,7 @@ export const EnvironmentPanel: FC<EnvironmentPanelProps> = (props) => {
         <PageHeaderRemain />
       </PageHeader>
       <Panel className={styles.main}>
-        <SettingGroup
-          dataSign="server"
-          expandable={false}
-          summary="Server setting"
-        >
+        <SettingGroup dataSign="server" summary="Server setting">
           <Line>
             Server
             <TextInput
@@ -167,12 +178,20 @@ export const EnvironmentPanel: FC<EnvironmentPanelProps> = (props) => {
             Enable
           </IconLine>
         </SettingGroup>
+        {mfeDepsInfo ? (
+          <SettingGroup dataSign="mfe" summary="MFE setting">
+            <Line>
+              MFE setting
+              <TextInput
+                dataSign="mfeDepsInfo"
+                value={mfeDepsInfoValue}
+                onChange={onMfeDepsInfoChange}
+              />
+            </Line>
+          </SettingGroup>
+        ) : null}
         {useDataTrackingSetting && (
-          <SettingGroup
-            dataSign="analytics"
-            expandable={false}
-            summary="Analytics setting"
-          >
+          <SettingGroup dataSign="analytics" summary="Analytics setting">
             <IconLine
               icon={
                 <Switch
@@ -185,9 +204,12 @@ export const EnvironmentPanel: FC<EnvironmentPanelProps> = (props) => {
               Enable Data Tracking
             </IconLine>
             <span className={styles.comment}>
-              After clicking save, remember to <b>refresh to take effect</b>(all
-              tabs need to be closed) when you enable that manually, the enable
-              will take <b>two hours</b> enable, will auto close after{' '}
+              After clicking save, remember to{' '}
+              <b>
+                <h2 style={{ display: 'inline' }}>refresh</h2> to take effect
+              </b>
+              (all tabs need to be closed) when you enable that manually, the
+              enable will take <b>two hours</b> enable, will auto close after{' '}
               <b>two hours</b>
             </span>
           </SettingGroup>

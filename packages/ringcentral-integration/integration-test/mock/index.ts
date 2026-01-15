@@ -1,3 +1,4 @@
+import { removeSDKNonISO8859Chars } from '@ringcentral-integration/core';
 import { SOCKET_MOCK_URL } from '@ringcentral-integration/test-utils/lib/socketMockUrl';
 import { SDK } from '@ringcentral/sdk';
 import fetchMock from 'fetch-mock';
@@ -92,7 +93,7 @@ export function createSDK(options = {}) {
     clearCacheOnRefreshError: false,
     ...options,
   };
-  return new SDK(opts);
+  return new SDK(removeSDKNonISO8859Chars(opts));
 }
 
 // give you access to the parameters last passed in to fetch
@@ -239,7 +240,8 @@ export function authentication() {
       expires_in: 3600,
       refresh_token: 'REFRESH_TOKEN',
       refresh_token_expires_in: 60480,
-      scope: 'SMS RCM Foo Boo CallControl TelephonySessions',
+      scope:
+        'EditAccounts ReadMessages Faxes ReadPresence EditCallLog Meetings VoipCalling ReadClientInfo Interoperability VideoInternal WebSocket SubscriptionPubNub SubscriptionWebSocket Contacts SubscriptionGCM EditExtensions TelephonySessions ProblemReportsManagement RingOut SMS InternalMessages EditMessages EditPresence SendUsageInfo',
       expireTime: new Date().getTime() + 3600000,
       owner_id: '23231231"',
       endpoint_id: '3213213131',

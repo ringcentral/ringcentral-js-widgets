@@ -28,6 +28,15 @@ export type Message = Pick<
   voicemailAttachment?: any;
   faxAttachment?: any;
   isLogging?: boolean;
+  /**
+   * type of the message
+   *
+   * message: image, text, etc.
+   * info: some message that want to be shown as info, like thread created, thread resolved, thread deleted, thread assigned
+   *
+   * @default 'message'
+   */
+  messageType?: 'message' | 'info';
 };
 
 export type Messages = Message[];

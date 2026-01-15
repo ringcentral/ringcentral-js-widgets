@@ -1,3 +1,4 @@
+import type UserPhoneNumberInfo from '@rc-ex/core/lib/definitions/UserPhoneNumberInfo';
 import { formatSameSiteExtension } from '@ringcentral-integration/phone-number/lib/format';
 import { reduce } from 'ramda';
 
@@ -343,3 +344,13 @@ export const getFindPhoneNumber =
     }
     return item.phoneNumber === phoneNumber;
   };
+
+export const getExtensionPhoneNumberLabel = (
+  phoneNumber: string,
+  extPhoneNumbers: UserPhoneNumberInfo[],
+) => {
+  const hasMatchedItem = extPhoneNumbers.find(
+    (number) => number.phoneNumber === phoneNumber,
+  );
+  return hasMatchedItem?.label;
+};

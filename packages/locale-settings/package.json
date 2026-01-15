@@ -4,13 +4,5 @@
   "private": true,
   "description": "Default locale settings.",
   "license": "MIT",
-  "main": "index.js",
-  "ci": {
-    "ringcentral-widgets-test": "**"
-  },
-  "nx": {
-    "tags": [
-      "scope:ci-group-1"
-    ]
-  }
+  "main": "index.ts"
 }

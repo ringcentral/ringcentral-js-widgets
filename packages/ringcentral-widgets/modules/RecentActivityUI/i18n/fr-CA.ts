@@ -1,10 +1,11 @@
+/* eslint-disable */
 export default {
-  recentActivities: "Activités récentes",
-  text: "Texto",
-  fax: "Fax",
-  voicemail: "Messagerie vocale",
-  call: "Appeler"
-};
+  recentActivities: 'Activités récentes',
+  text: 'Texto',
+  fax: 'Télécopieur',
+  voicemail: 'Messagerie vocale',
+  call: 'Appeler',
+} as const;
 
 // @key: @#@"recentActivities"@#@ @source: @#@"Recent Activities"@#@
 // @key: @#@"text"@#@ @source: @#@"Text"@#@

@@ -1,4 +1,4 @@
-import * as uuid from 'uuid';
+import { v4 } from 'uuid';
 
 import RcModule from '../RcModule';
 import ensureExist from '../ensureExist';
@@ -23,7 +23,7 @@ export default function getProxyClient(
         ...options,
         actionTypes: baseActionTypes,
       });
-      this._id = uuid.v4();
+      this._id = v4();
       this._target = createTarget({
         ...options,
       });

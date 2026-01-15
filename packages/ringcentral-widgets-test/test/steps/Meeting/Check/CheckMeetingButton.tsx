@@ -6,7 +6,17 @@ export const CheckScheduleButton: StepFunction<{
   isDisabled?: boolean;
   buttonText?: string;
   isRCM?: boolean;
-}> = async ({ isDisabled, buttonText, isRCM }) => {
+  noExist?: boolean;
+}> = async ({ isDisabled, buttonText, isRCM, noExist }) => {
+  if (noExist) {
+    expect(
+      screen.queryByTestId(
+        isRCM ? 'meetingScheduleButton' : 'videoScheduleButton',
+      ),
+    ).not.toBeInTheDocument();
+    return;
+  }
+
   const scheduleButton = screen.getByTestId(
     isRCM ? 'meetingScheduleButton' : 'videoScheduleButton',
   );
@@ -22,8 +32,10 @@ export const CheckScheduleButton: StepFunction<{
   }
 };
 
-export const CheckRemoveButton: StepFunction = async () => {
+export const CheckRemoveButton: StepFunction<{
+  label?: string;
+}> = async ({ label = 'Remove' }) => {
   const removeButton = screen.queryByTestId('removeButton');
   expect(removeButton).toBeInTheDocument();
-  expect(removeButton?.textContent).toBe('Remove');
+  expect(removeButton?.textContent).toBe(label);
 };

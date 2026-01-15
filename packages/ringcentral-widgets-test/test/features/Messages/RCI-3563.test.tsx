@@ -1,6 +1,7 @@
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   autorun,
+  common,
   examples,
   Given,
   it,
@@ -30,6 +31,7 @@ interface IVoicemailProps {
   CustomCreateMock: StepFunction<any>;
 }
 @autorun(test)
+@common
 @it
 @p2
 @title('Verify make call and send SMS from voicemail action button')

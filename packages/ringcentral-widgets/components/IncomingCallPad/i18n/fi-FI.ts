@@ -1,12 +1,13 @@
+/* eslint-disable */
 export default {
-  forward: "Lähetä edelleen",
-  reply: "Vastaa",
-  ignore: "Ohita",
-  toVoicemail: "Vastaajaan",
-  answer: "Vastaa",
-  answerAndEnd: "Vastaa ja lopeta",
-  answerAndHold: "Vastaa ja aseta pitoon"
-};
+  forward: 'Lähetä edelleen',
+  reply: 'Vastaa',
+  ignore: 'Ohita',
+  toVoicemail: 'Vastaajaan',
+  answer: 'Vastaa',
+  answerAndEnd: 'Vastaa ja lopeta',
+  answerAndHold: 'Vastaa ja aseta pitoon',
+} as const;
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
 // @key: @#@"reply"@#@ @source: @#@"Reply"@#@

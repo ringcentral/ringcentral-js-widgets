@@ -6,11 +6,9 @@ import type { RcvCheckboxDataSign } from '../../Meeting/Meeting.interface';
 export const TurnOffToggle: StepFunction<{
   dataSign: RcvCheckboxDataSign | string;
 }> = async ({ dataSign }) => {
-  const checkbox = screen
-    .getByTestId(dataSign)
-    .getElementsByTagName('input')[0];
+  const checkbox = screen.getByTestId(dataSign).querySelector('input')!;
 
   if (checkbox.checked) {
-    screen.getByTestId(dataSign).click();
+    checkbox.click();
   }
 };

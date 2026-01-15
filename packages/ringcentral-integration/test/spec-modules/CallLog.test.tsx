@@ -22,6 +22,12 @@ const getMockModule = () =>
     } as CallLogData,
   });
 
+const createModuleDeps = {
+  subscription: {
+    register() {},
+  },
+};
+
 @autorun(test)
 @title('CallLog Module "resetData" action')
 export class ResetData extends Step {
@@ -31,7 +37,7 @@ export class ResetData extends Step {
         <Given
           desc="Create an CallLog instance with default value"
           action={(_: any, context: any) => {
-            const instance = new CallLog({} as any);
+            const instance = new CallLog(createModuleDeps as any);
             expect(instance.data).toEqual({
               list: [],
               map: {},
@@ -73,7 +79,7 @@ export class ClearToken extends Step {
         <Given
           desc="Create an CallLog instance with default value"
           action={(_: any, context: any) => {
-            const instance = new CallLog({} as any);
+            const instance = new CallLog(createModuleDeps as any);
             expect(instance.data).toEqual({
               list: [],
               map: {},
@@ -119,7 +125,7 @@ export class FilterExpiredCalls extends Step {
         <Given
           desc="Create an CallLog instance with default value"
           action={(_: any, context: any) => {
-            const instance = new CallLog({} as any);
+            const instance = new CallLog(createModuleDeps as any);
             expect(instance.data).toEqual({
               list: [],
               map: {},
@@ -183,7 +189,7 @@ export class SyncSuccess extends Step {
         <Given
           desc="Create an CallLog instance with default value"
           action={(_: any, context: any) => {
-            const instance = new CallLog({} as any);
+            const instance = new CallLog(createModuleDeps as any);
             expect(instance.data).toEqual({
               list: [],
               map: {},

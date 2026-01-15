@@ -1,9 +1,11 @@
 import moduleStatuses from '../../enums/moduleStatuses';
+import { subscriptionFilters } from '../../enums/subscriptionFilters';
 import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
 import ensureExist from '../../lib/ensureExist';
 import { isBlank } from '../../lib/isBlank';
-import proxify from '../../lib/proxy/proxify';
+import { proxify } from '../../lib/proxy/proxify';
+import type { WebSocketSubscription as Subscription } from '../WebSocketSubscription';
 
 import { actionTypes } from './actionTypes';
 import getReducer, { getGlipPostsReadTimeReducer } from './getReducer';
@@ -11,8 +13,6 @@ import { status } from './status';
 
 const glipPostsRegExp = /glip\/posts$/;
 const glipGroupRegExp = /glip\/groups$/;
-
-const subscriptionFilter = '/restapi/v1.0/glip/posts';
 
 const DEFAULT_LOAD_TTL = 30 * 60 * 1000;
 
@@ -32,12 +32,11 @@ export default class GlipPosts extends RcModule {
   _client: any;
   _extensionFeatures: any;
   _fetchPromises: any;
-  _lastMessage: any;
   _loadTtl: any;
   _newPostListeners: any;
   _readTimeStorageKey: any;
   _storage: any;
-  _subscription: any;
+  _subscription: Subscription;
   constructor({
     client,
     auth,
@@ -61,7 +60,6 @@ export default class GlipPosts extends RcModule {
     // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
     this._subscription = ensureExist.call(this, subscription, 'subscription');
     this._fetchPromises = {};
-    this._lastMessage = null;
     this._loadTtl = loadTtl;
 
     this._storage = storage;
@@ -79,9 +77,13 @@ export default class GlipPosts extends RcModule {
     }
   }
 
-  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
-  initialize() {
+  override initialize() {
     this.store.subscribe(() => this._onStateChange());
+
+    this._subscription.register(this, {
+      filters: [subscriptionFilters.glipPosts],
+      handler: (message) => this._handleSubscription(message),
+    });
   }
 
   // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
@@ -94,14 +96,11 @@ export default class GlipPosts extends RcModule {
       this.store.dispatch({
         type: this.actionTypes.initSuccess,
       });
-      this._subscription.subscribe([subscriptionFilter]);
     } else if (this._shouldReset()) {
       this.store.dispatch({
         type: this.actionTypes.resetSuccess,
       });
       this._fetchPromises = {};
-    } else if (this._shouldHandleSubscriptionMessage()) {
-      this._processSubscription();
     }
   }
 
@@ -125,19 +124,7 @@ export default class GlipPosts extends RcModule {
     );
   }
 
-  _shouldHandleSubscriptionMessage() {
-    return !!(
-      this.ready &&
-      this._subscription &&
-      this._subscription.ready &&
-      this._subscription.message &&
-      this._subscription.message !== this._lastMessage
-    );
-  }
-
-  _processSubscription() {
-    const { message } = this._subscription;
-    this._lastMessage = message;
+  _handleSubscription(message: any) {
     if (
       message &&
       (glipPostsRegExp.test(message.event) ||

@@ -30,6 +30,7 @@
 import { Category } from '@ringcentral-integration/commons/interfaces/NumberParserResponse.interface';
 import {
   autorun,
+  common,
   examples,
   Given,
   it,
@@ -51,6 +52,7 @@ import { CommonLogin } from '../../../../steps/CommonLogin';
 import { MockNumberParserV2, MockPermission } from '../../../../steps/Mock';
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('Call emergency when OPC enabled')

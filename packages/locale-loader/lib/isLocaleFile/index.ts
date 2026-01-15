@@ -9,7 +9,7 @@ const fileRegExp = /\.(js|ts)$/i;
  * @returns {Boolean}
  */
 export default function isLocaleFile(filename: string) {
-  if (!fileRegExp.test(filename)) {
+  if (!fileRegExp.test(filename) || filename.includes('rc-XX')) {
     return false;
   }
   const name = filename.replace(fileRegExp, '');

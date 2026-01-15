@@ -1,7 +1,9 @@
 import { sessionStatus } from '@ringcentral-integration/commons/modules/Webphone/sessionStatus';
 import type { InviteOptions } from 'ringcentral-web-phone/lib/userAgent';
 
-import { FakeSession } from './Session';
+import type { RcMock } from '../RcMock';
+
+import { FakeSession, WebphoneHeaders } from './Session';
 
 let webphone: FakeWebphone | null = null;
 
@@ -16,6 +18,10 @@ export class WebphoneSessionMock {
     telephonySessionId: string,
     partyId: string,
     webphoneSessionId: string,
+    private callQueueName?: string,
+    private fromUserName?: string,
+    private toUserName?: string,
+    private rcMock?: RcMock,
   ) {
     this.telephonySessionId = telephonySessionId;
     this.partyId = partyId;
@@ -50,7 +56,29 @@ export class WebphoneSessionMock {
         'P-Rc-Api-Ids': [{ raw: pRcApiIdsRaw }],
         'Call-ID': [{ raw: callIDRaw }],
       },
+    } as {
+      headers: WebphoneHeaders;
+      from: { displayName?: string };
+      to: { displayName?: string };
     };
+
+    if (this.callQueueName) {
+      request.headers['P-Asserted-Identity'] = [
+        { raw: `tel"${this.callQueueName}` },
+      ];
+      request.headers['P-Rc-Api-Call-Info'] = [{ raw: `queue-call` }];
+    }
+    if (this.toUserName) {
+      request.to = {
+        displayName: this.toUserName,
+      };
+    }
+    if (this.fromUserName) {
+      request.from = {
+        displayName: this.fromUserName,
+      };
+    }
+
     return request;
   }
 
@@ -67,7 +95,14 @@ export class WebphoneSessionMock {
   }
 
   terminate() {
+    delete this.webphone?.userAgent.sessions[this.id];
     this.trigger('terminated');
+  }
+
+  ignore() {
+    this.trigger('rejected');
+    this.terminate();
+    this.__rc_callStatus = sessionStatus.finished;
   }
 
   addTrack() {
@@ -98,6 +133,18 @@ export class WebphoneSessionMock {
   unhold() {
     this.trigger('unhold');
     this.__rc_callStatus = sessionStatus.connected;
+  }
+
+  mute() {
+    //
+  }
+
+  unmute() {
+    //
+  }
+
+  accept(acceptOptions: any) {
+    this.rcMock!.answer(this.telephonySessionId);
   }
 }
 
@@ -192,8 +239,18 @@ export class UserAgent {
     }
   }
 
-  invite(phoneNumber: string, inviteOptions: InviteOptions) {
+  invite(
+    phoneNumber: string,
+    inviteOptions: InviteOptions,
+    partyData?: {
+      partyId: string;
+      sessionId: string;
+    },
+  ) {
     const sessionId = `${phoneNumber}-${Math.random().toString().slice(2, 10)}`;
+    if (partyData) {
+      FakeSession.setCurrentPartyData(partyData);
+    }
     const session = new FakeSession(
       {
         id: sessionId,

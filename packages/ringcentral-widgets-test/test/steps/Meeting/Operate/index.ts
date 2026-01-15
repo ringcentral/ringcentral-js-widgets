@@ -1,5 +1,6 @@
 export * from './UpdateMeetingSettings';
 export * from './OperatePasswordField';
+export * from './MarkOnPMIAndEdit';
 export * from './WaitForInitMeeting';
 export * from './OperateRCVPage';
 export * from './OperateRCMPage';

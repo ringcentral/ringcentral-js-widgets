@@ -48,7 +48,7 @@ const ActiveCallButton: React.FC<ActiveCallButtonProps> = (props) => {
   const buttonSize = 383.8;
   return (
     <svg
-      className={className}
+      className={clsx(styles.svg, className)}
       viewBox="0 0 500 600"
       width={props.width}
       height={props.height}

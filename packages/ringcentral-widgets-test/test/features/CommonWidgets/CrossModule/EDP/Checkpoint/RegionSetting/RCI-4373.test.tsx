@@ -10,6 +10,7 @@
  */
 import {
   autorun,
+  common,
   examples,
   Given,
   it,
@@ -29,6 +30,7 @@ import { NavigateTo } from '../../../../../../steps/Router';
 import { SetCountryCode } from '../../../../../../steps/Settings';
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('Open Area code for all country')

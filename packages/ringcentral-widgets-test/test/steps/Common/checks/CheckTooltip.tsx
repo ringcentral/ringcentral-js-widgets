@@ -7,10 +7,10 @@ import userEvent from '@testing-library/user-event';
  * @param param0 element is data sign
  */
 export const CheckTooltip: StepFunction<{
-  element?: string;
+  dataSign?: string;
   tooltip: string;
   browserTooltip?: boolean;
-}> = async ({ element, tooltip, browserTooltip = false }) => {
+}> = async ({ dataSign: element, tooltip, browserTooltip = false }) => {
   if (!browserTooltip) {
     userEvent.hover(screen.getByTestId(element!));
     await waitFor(

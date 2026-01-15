@@ -11,6 +11,7 @@ import {
   Then,
   title,
   When,
+  common,
 } from '../../../../../../lib/step';
 import { MockMessageList, MockMessageSync } from '../../../../../../steps/Mock';
 import { NavigateToMessagesTab } from '../../../../../../steps/Navigate';
@@ -41,12 +42,13 @@ const CheckConversationPageDisplay: StepFunction = () => {
 };
 
 @autorun(test.skip)
+@common
 @p2
 @title('To check message on the conversation detail page')
 export class CheckConversationMessagePage extends Step {
   CustomLogin?: StepFunction<any, any>;
   CustomCreateMock?: StepFunction<any, any>;
-
+  CheckAttachmentAndEmojiButton?: StepFunction = () => {};
   run() {
     return (
       <Scenario
@@ -105,8 +107,13 @@ export class CheckConversationMessagePage extends Step {
                 2.The text that sent before is shown
                 3.The ghost text 'Type message...' appears
                 4.The 'Send' button
+                5.The 'Emoji' button(only sf and google for now)
+                6.The 'Attachment' button(only sf and google for now)
                 Note: Sending time would be updated if the message was sent/received from a different hour."
-          action={CheckConversationPageDisplay}
+          action={[
+            CheckConversationPageDisplay,
+            this.CheckAttachmentAndEmojiButton,
+          ]}
         />
       </Scenario>
     );

@@ -19,6 +19,7 @@ import { Environment } from '@ringcentral-integration/commons/modules/Environmen
 import { ExtensionFeatures } from '@ringcentral-integration/commons/modules/ExtensionFeatures';
 import { ExtensionInfo } from '@ringcentral-integration/commons/modules/ExtensionInfo';
 import { ExtensionPhoneNumber } from '@ringcentral-integration/commons/modules/ExtensionPhoneNumber';
+import { ExtensionNumberAreaCode } from '@ringcentral-integration/commons/modules/ExtensionNumberAreaCode';
 import { GlobalStorage } from '@ringcentral-integration/commons/modules/GlobalStorage';
 import { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiter';
@@ -81,6 +82,7 @@ import { SettingsUI } from '@ringcentral-integration/widgets/modules/SettingsUI'
     { provide: 'AppFeatures', useClass: AppFeatures },
     { provide: 'ExtensionInfo', useClass: ExtensionInfo },
     { provide: 'ExtensionPhoneNumber', useClass: ExtensionPhoneNumber },
+    { provide: 'ExtensionNumberAreaCode', useClass: ExtensionNumberAreaCode },
     { provide: 'DialingPlan', useClass: DialingPlan },
     {
       provide: 'Client',

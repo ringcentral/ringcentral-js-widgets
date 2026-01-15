@@ -1,5 +1,5 @@
+/* eslint-disable */
 import { callErrors } from '@ringcentral-integration/commons/modules/Call';
-
 export default {
   [callErrors.emergencyNumber]:
     '긴급 전화를 사용할 수 없습니다. 응급 서비스에 연락하려면 다른 전화를 사용하세요',
@@ -21,8 +21,8 @@ export default {
   areaCode: '지역 코드',
   telus911: '긴급 전화 걸기는 지원되지 않습니다.',
   [callErrors.fromAndToNumberIsSame]:
-    'RingOut 번호와 대상 번호가 동일할 수 없습니다. 번호를 업데이트한 후 다시 시도해 주세요.',
-};
+    'RingOut 번호와 대상 번호는 달라야 합니다. 번호를 업데이트한 후 다시 시도해 주세요.',
+} as const;
 
 // @key: @#@"[callErrors.emergencyNumber]"@#@ @source: @#@"Emergency calling is not available. Please use another phone to contact emergency services"@#@
 // @key: @#@"[callErrors.noToNumber]"@#@ @source: @#@"Please enter a valid phone number."@#@

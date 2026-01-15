@@ -1,8 +1,9 @@
+/* eslint-disable */
 export default {
-  sureToDeleteVoiceMail: "Haluatko varmasti poistaa tämän vastaajaviestin?",
-  sureToDeleteFax: "Haluatko varmasti poistaa tämän faksin?",
-  doNotAskAgain: "Älä kysy uudelleen"
-};
+  sureToDeleteVoiceMail: 'Haluatko varmasti poistaa tämän vastaajaviestin?',
+  sureToDeleteFax: 'Haluatko varmasti poistaa tämän faksin?',
+  doNotAskAgain: 'Älä kysy uudelleen',
+} as const;
 
 // @key: @#@"sureToDeleteVoiceMail"@#@ @source: @#@"Are you sure you want to delete this voicemail?"@#@
 // @key: @#@"sureToDeleteFax"@#@ @source: @#@"Are you sure you want to delete this fax?"@#@

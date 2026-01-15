@@ -1,0 +1,32 @@
+{
+  "uri" : "https://api-webaqaxmn.intlabs_domain/restapi/v1.0/account/1825570076/extension/1825570076/message-store/1812166076",
+  "id" : 1812166076,
+  "to" : [ {
+    "recipientId" : "3611402076",
+    "phoneNumber" : "+13344220025",
+    "location" : "Linden, AL",
+    "messageStatus" : "Queued"
+  } ],
+  "from" : {
+    "phoneNumber" : "+13092940239",
+    "location" : "Peoria, IL"
+  },
+  "type" : "Fax",
+  "creationTime" : "2024-12-16T01:45:40.000Z",
+  "readStatus" : "Unread",
+  "priority" : "Normal",
+  "attachments" : [ {
+    "id" : 1812166076,
+    "uri" : "https://media-webaqaxmn.intlabs_domain/restapi/v1.0/account/1825570076/extension/1825570076/message-store/1812166076/content/1812166076",
+    "type" : "RenderedDocument",
+    "contentType" : "application/pdf"
+  } ],
+  "direction" : "Outbound",
+  "availability" : "Alive",
+  "messageStatus" : "Queued",
+  "faxResolution" : "High",
+  "faxPageCount" : 0,
+  "lastModifiedTime" : "2024-12-16T01:45:40.879Z",
+  "coverIndex" : 17,
+  "coverPageText" : "test"
+}

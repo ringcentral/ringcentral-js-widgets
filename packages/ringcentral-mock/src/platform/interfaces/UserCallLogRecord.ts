@@ -62,6 +62,10 @@ export interface UserCallLogRecord {
    */
   delegate: CallLogDelegateInfo;
   /**
+   * Call delegation type
+   */
+  delegationType: 'QueueForwarding' | 'Coworker' | 'Unknown';
+  /**
    * Indicates whether the record is deleted. Returned for deleted records, for ISync requests
    */
   deleted: boolean;

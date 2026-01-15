@@ -1,7 +1,13 @@
+/* eslint-disable */
 export default {
-  status: "Status",
-  acceptQueueCalls: "Accept call queue calls"
-};
+  status: 'Status',
+  acceptQueueCalls: 'Accept call queue calls',
+  callQueueDisabledReason:
+    'This setting is managed by your company administrator.',
+  callQueueManagement: 'Manage queues',
+} as const;
 
 // @key: @#@"status"@#@ @source: @#@"Status"@#@
 // @key: @#@"acceptQueueCalls"@#@ @source: @#@"Accept call queue calls"@#@
+// @key: @#@"callQueueDisabledReason"@#@ @source: @#@"This setting is managed by your company administrator."@#@
+// @key: @#@"callQueueManagement"@#@ @source: @#@"Manage queues"@#@

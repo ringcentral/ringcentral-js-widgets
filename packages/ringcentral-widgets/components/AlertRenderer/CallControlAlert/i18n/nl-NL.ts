@@ -1,9 +1,10 @@
-import { callControlAlerts, callControlError } from '@ringcentral-integration/commons/modules/ActiveCallControl';
-const {
-  callsMerged,
-  somethingWentWrong,
-  tooManyParticipants
-} = callControlAlerts;
+/* eslint-disable */
+import {
+  callControlAlerts,
+  callControlError,
+} from '@ringcentral-integration/commons/modules/ActiveCallControl';
+const { callsMerged, somethingWentWrong, tooManyParticipants } =
+  callControlAlerts;
 const {
   holdConflictError,
   unHoldConflictError,
@@ -12,21 +13,25 @@ const {
   generalError,
   forwardSuccess,
   transferCompleted,
-  replyCompleted
+  replyCompleted,
 } = callControlError;
 export default {
-  [callsMerged]: "Oproepen samengevoegd",
-  [somethingWentWrong]: "Er is iets fout gegaan. Probeer het opnieuw.",
-  [tooManyParticipants]: "Maximale aantal deelnemers is bereikt.",
-  [muteConflictError]: "Deze oproep is gedempt op een ander apparaat. Schakel het dempen van de oproep uit voordat u deze app bedient.",
-  [unHoldConflictError]: "Deze oproep staat in de wacht op een ander apparaat. Haal de oproep uit de wacht voordat u deze app bedient.",
-  [unMuteConflictError]: "Dempen van deze oproep is uitgeschakeld op een ander apparaat. Demp de oproep voordat u deze app bedient.",
-  [holdConflictError]: "Deze oproep is uit de wacht gehaald op een ander apparaat. Zet de oproep in de wacht voordat u deze app bedient.",
-  [generalError]: "Onverwachte serverfout. Probeer het later opnieuw.",
-  [forwardSuccess]: "Oproep doorverbonden",
-  [transferCompleted]: "Oproep doorverbonden",
-  [replyCompleted]: "Spraakbericht verzonden."
-};
+  [callsMerged]: 'Oproepen samengevoegd',
+  [somethingWentWrong]: 'Er is een fout opgetreden. Probeer het opnieuw.',
+  [tooManyParticipants]: 'Maximale aantal deelnemers is bereikt.',
+  [muteConflictError]:
+    'Deze oproep is gedempt op een ander apparaat. Schakel het dempen van de oproep uit voordat u deze app bedient.',
+  [unHoldConflictError]:
+    'Deze oproep staat in de wacht op een ander apparaat. Haal de oproep uit de wacht voordat u deze app bedient.',
+  [unMuteConflictError]:
+    'Dempen van deze oproep is uitgeschakeld op een ander apparaat. Demp de oproep voordat u deze app bedient.',
+  [holdConflictError]:
+    'Deze oproep is uit de wacht gehaald op een ander apparaat. Zet de oproep in de wacht voordat u deze app bedient.',
+  [generalError]: 'Onverwachte serverfout. Probeer het later opnieuw.',
+  [forwardSuccess]: 'Oproep doorverbonden',
+  [transferCompleted]: 'Oproep doorverbonden',
+  [replyCompleted]: 'Spraakbericht verzonden.',
+} as const;
 
 // @key: @#@"callsMerged"@#@ @source: @#@"Calls merged"@#@
 // @key: @#@"somethingWentWrong"@#@ @source: @#@"Something went wrong. Please try again."@#@

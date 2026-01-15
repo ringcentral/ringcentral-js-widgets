@@ -1,38 +1,48 @@
+/* eslint-disable */
 export default {
-  inviteMeetingContent: "{accountName} está convidando você para uma reunião do {brandName}.\n\nConecte-se pelo PC, Mac, iOS ou Android: {joinUri}{passwordTpl}\n\n Ou pelo toque do iPhone:\n\t    {mobileDialingNumberTpl}\n\n    Ou pelo telefone:\n\t     Disque:\n\t    {phoneDialingNumberTpl}\n\t     ID da reunião: {meetingId}\n\t     \nNúmeros internacionais disponíveis: {teleconference} ",
-  conferenceLocationField: "Reunião de conferência, número de discagem: {dialInNumber}",
-  scheduleError: "Ocorreu um erro. Tente novamente.",
-  noMeetingPermission: "Você não tem permissões do {brandName} Meetings. Entre em contato com o administrador da sua empresa para continuar.",
-  noConferencePermission: "Você não tem permissões de conferência {brandName}. Entre em contato com o administrador da sua empresa para continuar.",
-  conferenceTitle: "Reunião de conferência de {displayName}",
-  internationalNumber: "Números de discagem internacional:",
-  inviteText_att: "Participe da conferência do {brandName}.\n\nNúmero de discagem: {formattedDialInNumber} \n{additionalNumbersSection} \nAcesso do participante: {participantCode} \n\nPrecisa de um número de discagem internacional? Acesse {dialInNumbersLink} \n\nEsta chamada em conferência é possibilitada pelo {brandName} Conferencing.",
-  inviteText_bt: "Participe da conferência do {brandName}.\n\nNúmero de discagem: {formattedDialInNumber} \n{additionalNumbersSection} \nAcesso do participante: {participantCode} \n\nNúmeros de discagem adicionais {dialInNumbersLink} ",
-  inviteText_rc: "Participe da conferência do {brandName}.\n\nNúmero de discagem: {formattedDialInNumber} \n{additionalNumbersSection} \nAcesso do participante: {participantCode} \n\nPrecisa de um número de discagem internacional? Acesse {dialInNumbersLink} \n\nEsta chamada em conferência é possibilitada pelo {brandName} Conferencing.",
-  inviteText_telus: "Participe da conferência do {brandName}.\n\nNúmero de discagem: {formattedDialInNumber} \n{additionalNumbersSection} \nAcesso do participante: {participantCode} \n\nNúmeros de discagem adicionais {dialInNumbersLink} ",
-  conferenceCall: "Chamada em conferência da {brandName}",
-  videoCall: "Chamada de vídeo do {brandName}",
-  addConferencingDetails: "Adicionando detalhes da conferência",
-  updateConferencingDetails: "Atualizando detalhes da conferência",
+  inviteMeetingContent:
+    '{accountName} está convidando você para uma reunião do {brandName}.\n\nConecte-se pelo PC, Mac, iOS ou Android: {joinUri}{passwordTpl}\n\n Ou pelo toque do iPhone:\n\t    {mobileDialingNumberTpl}\n\n    Ou pelo telefone:\n\t     Disque:\n\t    {phoneDialingNumberTpl}\n\t     ID da reunião: {meetingId}\n\t     \nNúmeros internacionais disponíveis: {teleconference} ',
+  conferenceLocationField:
+    'Reunião de conferência, número de discagem: {dialInNumber}',
+  scheduleError: 'Ocorreu um erro. Tente novamente.',
+  noMeetingPermission:
+    'Você não tem permissões do {brandName} Meetings. Entre em contato com o administrador da sua empresa para continuar.',
+  noConferencePermission:
+    'Você não tem permissões de conferência {brandName}. Entre em contato com o administrador da sua empresa para continuar.',
+  conferenceTitle: 'Reunião de conferência de {displayName}',
+  internationalNumber: 'Números de discagem internacional:',
+  inviteText_att:
+    'Participe da conferência do {brandName}.\n\nNúmero de discagem: {formattedDialInNumber} \n{additionalNumbersSection} \nAcesso do participante: {participantCode} \n\nPrecisa de um número de discagem internacional? Acesse {dialInNumbersLink} \n\nEsta chamada em conferência é possibilitada pelo {brandName} Conferencing.',
+  inviteText_bt:
+    'Participe da conferência do {brandName}.\n\nNúmero de discagem: {formattedDialInNumber} \n{additionalNumbersSection} \nAcesso do participante: {participantCode} \n\nNúmeros de discagem adicionais {dialInNumbersLink} ',
+  inviteText_rc:
+    'Participe da conferência do {brandName}.\n\nNúmero de discagem: {formattedDialInNumber} \n{additionalNumbersSection} \nAcesso do participante: {participantCode} \n\nPrecisa de um número de discagem internacional? Acesse {dialInNumbersLink} \n\nEsta chamada em conferência é possibilitada pelo {brandName} Conferencing.',
+  inviteText_telus:
+    'Participe da conferência do {brandName}.\n\nNúmero de discagem: {formattedDialInNumber} \n{additionalNumbersSection} \nAcesso do participante: {participantCode} \n\nNúmeros de discagem adicionais {dialInNumbersLink} ',
+  conferenceCall: 'Chamada em conferência da {brandName}',
+  videoCall: 'Chamada de vídeo do {brandName}',
+  addConferencingDetails: 'Adicionando detalhes da conferência',
+  updateConferencingDetails: 'Atualizando detalhes da conferência',
   // @ts-expect-error TS(1117): An object literal cannot have multiple properties ... Remove this comment to see the full error message
-  scheduleError: "Ocorreu um erro. Tente novamente.",
-  deleteBtn: "Excluir",
-  settingsBtn: "Configurações",
-  saveAsDefaultAndNotShowAgain: "Salvar como padrão e não mostrar novamente",
-  saveAsDefault: "Salvar como padrão",
-  done: "Concluído",
-  update: "Atualizar",
-  conferenceSettingsTitle: "Configurações de conferência do {brand}",
-  videoSettingsTitle: "Configurações do {brand} Meetings",
-  password: "Senha",
-  failedToRetrieveMeeting: "A conexão de rede foi perdida. Exclua esta reunião e tente novamente mais tarde.",
-  meetingSettingsTitle: "{brand} Meetings - Configurações",
-  recurringMeeting: "Reunião recorrente",
-  meetingOptions: "Opções de reunião",
-  schedule: "Agendar",
+  scheduleError: 'Ocorreu um erro. Tente novamente.',
+  deleteBtn: 'Excluir',
+  settingsBtn: 'Configurações',
+  saveAsDefaultAndNotShowAgain: 'Salvar como padrão e não mostrar novamente',
+  saveAsDefault: 'Salvar como padrão',
+  done: 'Concluído',
+  update: 'Atualizar',
+  conferenceSettingsTitle: 'Configurações de conferência do {brand}',
+  videoSettingsTitle: 'Configurações do {brand} Meetings',
+  password: 'Senha',
+  failedToRetrieveMeeting:
+    'A conexão de rede foi perdida. Exclua esta reunião e tente novamente mais tarde.',
+  meetingSettingsTitle: '{brand} Meetings - Configurações',
+  recurringMeeting: 'Reunião recorrente',
+  meetingOptions: 'Opções de reunião',
+  schedule: 'Agendar',
   // @ts-expect-error TS(1117): An object literal cannot have multiple properties ... Remove this comment to see the full error message
-  settingsBtn: "Configurações"
-};
+  settingsBtn: 'Configurações',
+} as const;
 
 // @key: @#@"inviteMeetingContent"@#@ @source: @#@"{accountName} is inviting you to a {brandName} meeting.\n\nJoin from PC, Mac, iOS or Android: {joinUri}{passwordTpl}\n\n Or iPhone one-tap:\n\t    {mobileDialingNumberTpl}\n\n    Or Telephone:\n\t     Dial:\n\t    {phoneDialingNumberTpl}\n\t     Meeting ID: {meetingId}\n\t     International numbers available: {teleconference} "@#@
 // @key: @#@"conferenceLocationField"@#@ @source: @#@"Conference Meeting, Dial-in Number: {dialInNumber}"@#@

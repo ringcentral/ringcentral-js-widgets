@@ -61,6 +61,7 @@
 import { Category } from '@ringcentral-integration/commons/interfaces/NumberParserResponse.interface';
 import {
   autorun,
+  common,
   examples,
   Given,
   it,
@@ -90,6 +91,7 @@ import {
 } from '../../../../steps/Mock';
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('OCP with site code with OCP ${OCP} and phone number ${phoneNumber} ')

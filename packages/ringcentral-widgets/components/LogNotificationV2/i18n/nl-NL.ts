@@ -1,13 +1,14 @@
+/* eslint-disable */
 export default {
-  Inbound: "Inkomend",
-  Outbound: "Uitgaand",
-  log: "Lijst",
-  save: "Opslaan en nieuw",
-  discard: "Weggooien en nieuw",
-  hangup: "Ophangen",
-  reject: "Naar voicemail",
-  saveDraftAndCreateNewLog: "Concept opslaan en nieuwe oproeplijst maken"
-};
+  Inbound: 'Inkomend',
+  Outbound: 'Uitgaand',
+  log: 'Lijst',
+  save: 'Opslaan en nieuw',
+  discard: 'Weggooien en nieuw',
+  hangup: 'Ophangen',
+  reject: 'Naar voicemail',
+  saveDraftAndCreateNewLog: 'Concept opslaan en nieuwe oproeplijst maken',
+} as const;
 
 // @key: @#@"Inbound"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"Outbound"@#@ @source: @#@"Outbound"@#@

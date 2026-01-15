@@ -1,5 +1,6 @@
+/* eslint-disable */
 export default {
-  close: "Sulje"
-};
+  close: 'Sulje',
+} as const;
 
 // @key: @#@"close"@#@ @source: @#@"Close"@#@

@@ -1,3 +1,4 @@
+/* eslint-disable */
 export default {
   // logging: 'Logging...',
   // logCall: 'Log Call',
@@ -15,9 +16,10 @@ export default {
   // text: 'Text',
   // call: 'Call',
   // addContact: 'Add Contact',
-  missedCall: "不在",
-  inboundCall: "着信",
-  outboundCall: "発信" // from: 'From',
+  missedCall: '不在',
+  inboundCall: '着信',
+  outboundCall: '発信',
+  // from: 'From',
   // to: 'To',
   // hangup: 'Hangup',
   // accept: 'Accept',
@@ -26,8 +28,7 @@ export default {
   // mergeToConference: 'Merge',
   // hold: 'Hold',
   // unhold: 'Unhold',
-
-};
+} as const;
 
 // @key: @#@"missedCall"@#@ @source: @#@"Missed"@#@
 // @key: @#@"inboundCall"@#@ @source: @#@"Inbound"@#@

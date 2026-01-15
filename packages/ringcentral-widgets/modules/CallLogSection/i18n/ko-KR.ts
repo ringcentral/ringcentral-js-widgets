@@ -1,9 +1,10 @@
+/* eslint-disable */
 export default {
-  unknown: "알 수 없음",
-  multipleMatches: "여러 일치 항목",
-  anonymous: "익명",
-  none: "없음"
-};
+  unknown: '알 수 없음',
+  multipleMatches: '여러 일치 항목',
+  anonymous: '익명',
+  none: '없음',
+} as const;
 
 // @key: @#@"unknown"@#@ @source: @#@"Unknown"@#@
 // @key: @#@"multipleMatches"@#@ @source: @#@"Multiple matches"@#@

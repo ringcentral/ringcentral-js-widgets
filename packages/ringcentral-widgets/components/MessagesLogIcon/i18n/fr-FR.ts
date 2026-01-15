@@ -1,5 +1,6 @@
+/* eslint-disable */
 export default {
-  log: "Journal"
-};
+  log: 'Journal',
+} as const;
 
 // @key: @#@"log"@#@ @source: @#@"Log"@#@

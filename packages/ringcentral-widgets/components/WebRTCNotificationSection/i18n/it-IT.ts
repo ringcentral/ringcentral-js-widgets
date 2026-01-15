@@ -1,13 +1,14 @@
+/* eslint-disable */
 export default {
-  forward: "Inoltra",
-  ignore: "Ignora",
-  toVoicemail: "Alla segreteria telefonica",
-  answer: "Rispondi",
-  endAndAnswer: "Termina e rispondi",
-  holdAndAnswer: "Metti in attesa e rispondi",
-  custom: "Personalizzato",
-  more: "Altro"
-};
+  forward: 'Inoltra',
+  ignore: 'Ignora',
+  toVoicemail: 'Alla segreteria telefonica',
+  answer: 'Rispondi',
+  endAndAnswer: 'Chiudi e rispondi',
+  holdAndAnswer: 'Metti in attesa e rispondi',
+  custom: 'Personalizzato',
+  more: 'Altro',
+} as const;
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
 // @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@

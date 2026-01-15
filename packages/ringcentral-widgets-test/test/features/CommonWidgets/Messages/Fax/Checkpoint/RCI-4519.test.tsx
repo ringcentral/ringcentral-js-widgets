@@ -25,6 +25,7 @@ import {
   Then,
   title,
   When,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import { CommonLogin } from '../../../../../steps/CommonLogin';
@@ -36,6 +37,7 @@ import { NavigateToFax } from '../../../../../steps/Navigate/actions/NavigateToF
 const google_message_day_span = 90;
 const google_message_record_count = 400;
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('Check faxes list in 90 days for Google/0365')

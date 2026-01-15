@@ -198,6 +198,7 @@ export class CallControlUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
       conferenceCallParties,
       conferenceCallId,
       lastCallInfo,
+      showCallerIdName,
       callerIdName: showCallerIdName ? this.callerIdName : undefined,
       // TODO: investigate whether it's better to just
       // use isMerging and let the component decide whether to display children

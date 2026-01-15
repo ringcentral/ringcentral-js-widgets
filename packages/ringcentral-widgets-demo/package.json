@@ -24,7 +24,7 @@
     "@ringcentral-integration/phone-number": "*",
     "@ringcentral-integration/utils": "*",
     "@ringcentral-integration/widgets": "*",
-    "@ringcentral/sdk": "^4.7.2",
+    "@ringcentral/sdk": "^5.0.6",
     "@ringcentral/subscriptions": "^4.6.0",
     "autoprefixer": "^10.4.16",
     "copy-webpack-plugin": "^11.0.0",
@@ -52,8 +52,5 @@
     "webpack-merge": "^5.10.0",
     "yargs": "^17.1.1"
   },
-  "peerDependencies": {},
-  "engines": {
-    "node": ">=14"
-  }
+  "peerDependencies": {}
 }

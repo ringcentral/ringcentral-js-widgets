@@ -74,6 +74,7 @@ export interface ConversationContainerProps {
   enableContactFallback?: boolean;
   showGroupNumberName?: boolean;
   supportAttachment?: boolean;
+  supportEmoji?: boolean;
   perPage?: number;
   inputExpandable?: boolean;
   dateTimeFormatter?(options: Partial<FormatDateTimeOptions>): string;
@@ -91,6 +92,7 @@ export interface ConversationPanelProps {
   enableContactFallback: boolean;
   showGroupNumberName: boolean;
   supportAttachment: boolean;
+  supportEmoji?: boolean;
   currentLocale: string;
   conversationId: string;
   sendButtonDisabled: boolean;
@@ -118,7 +120,7 @@ export interface ConversationPanelProps {
   unloadConversation: () => Promise<void>;
   loadConversation: (id: string) => Promise<void>;
   updateMessageText: (text: string) => Promise<boolean>;
-  addAttachment: (attachment: Attachment) => Promise<void>;
+  addAttachments: (attachment: Attachment) => Promise<void>;
   removeAttachment: (attachment: Attachment) => Promise<void>;
   dateTimeFormatter: (options: Partial<FormatDateTimeOptions>) => string;
   formatPhone: (phoneNumber: string) => string;

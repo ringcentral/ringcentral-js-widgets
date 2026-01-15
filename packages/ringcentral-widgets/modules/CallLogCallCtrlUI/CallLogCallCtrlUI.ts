@@ -129,7 +129,6 @@ class CallLogCallCtrlUI extends RcUIModuleV2<Deps> {
         this._deps.routerInteraction.push(
           `/replyWithMessage/${telephonySessionId}/active`,
         );
-        this.replyWithMessageEntranceTrack();
       },
       ignore: this._deps.activeCallControl.ignore.bind(
         this._deps.activeCallControl,
@@ -152,9 +151,6 @@ class CallLogCallCtrlUI extends RcUIModuleV2<Deps> {
       ),
     };
   }
-
-  @track(() => [trackEvents.clickReplyWithMessage, { entry: 'Call log  page' }])
-  replyWithMessageEntranceTrack() {}
 
   @track(trackEvents.completeWarmTransfer)
   completeWarmTransferTrack() {}

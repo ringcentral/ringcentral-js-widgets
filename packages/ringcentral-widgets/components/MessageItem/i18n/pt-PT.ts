@@ -1,28 +1,29 @@
+/* eslint-disable */
 import messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
 export default {
-  addLog: "Registo",
-  editLog: "Editar registo",
-  viewDetails: "Ver detalhes",
-  addEntity: "Criar novo",
-  call: "Ligar",
-  text: "SMS",
-  conversation: "Conversação",
-  groupConversation: "Conversação em grupo",
-  voiceMessage: "Mensagem de voz",
-  [messageTypes.voiceMail]: "Correio de voz",
-  [messageTypes.fax]: "Fax",
-  mark: "Marcar como não lida",
-  unmark: "Marcar como lida",
-  delete: "Eliminar",
-  faxSent: "Fax enviado",
-  faxReceived: "Fax recebido",
-  pages: "páginas",
-  page: "página",
-  preview: "Ver",
-  download: "Transferir",
-  imageAttachment: "Anexo: {count} imagem",
-  fileAttachment: "Anexo: {count} ficheiro"
-};
+  addLog: 'Registo',
+  editLog: 'Editar registo',
+  viewDetails: 'Ver detalhes',
+  addEntity: 'Criar novo',
+  call: 'Ligar',
+  text: 'SMS',
+  conversation: 'Conversação',
+  groupConversation: 'Conversação em grupo',
+  voiceMessage: 'Mensagem de voz',
+  [messageTypes.voiceMail]: 'Correio de voz',
+  [messageTypes.fax]: 'Fax',
+  mark: 'Marcar como não lida',
+  unmark: 'Marcar como lida',
+  delete: 'Eliminar',
+  faxSent: 'Fax enviado',
+  faxReceived: 'Fax recebido',
+  pages: 'páginas',
+  page: 'página',
+  preview: 'Ver',
+  download: 'Transferir',
+  mmsWithOneAttachment: 'MMS com 1 anexo',
+  mmsWithAttachments: 'MMS com {count} anexos',
+} as const;
 
 // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
@@ -44,5 +45,5 @@ export default {
 // @key: @#@"page"@#@ @source: @#@"page"@#@
 // @key: @#@"preview"@#@ @source: @#@"View"@#@
 // @key: @#@"download"@#@ @source: @#@"Download"@#@
-// @key: @#@"imageAttachment"@#@ @source: @#@"Attachment: {count} image"@#@
-// @key: @#@"fileAttachment"@#@ @source: @#@"Attachment: {count} file"@#@
+// @key: @#@"mmsWithOneAttachment"@#@ @source: @#@"MMS with 1 attachment"@#@
+// @key: @#@"mmsWithAttachments"@#@ @source: @#@"MMS with {count} attachments"@#@

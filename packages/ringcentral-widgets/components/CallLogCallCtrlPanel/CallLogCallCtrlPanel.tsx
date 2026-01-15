@@ -1,5 +1,6 @@
 import type { FunctionComponent } from 'react';
 import React from 'react';
+import { noop } from 'rxjs';
 
 import CallLogCallCtrlComponent from '../CallLogCallCtrlComponent';
 
@@ -44,6 +45,7 @@ const CallLogCallCtrlPanel: FunctionComponent<CallLogCallCtrlPanelProps> = (
     showConferenceCall,
     isCurrentCall,
     onMergeCall,
+    isCallQueueCall,
   } = props;
 
   if (!currentSession) {
@@ -100,6 +102,7 @@ const CallLogCallCtrlPanel: FunctionComponent<CallLogCallCtrlPanelProps> = (
       showConferenceCall={showConferenceCall}
       isCurrentCall={isCurrentCall}
       onMergeCall={onMergeCall}
+      isCallQueueCall={isCallQueueCall}
     />
   );
 };

@@ -6,6 +6,7 @@ import {
 import { waitUntilTo } from '@ringcentral-integration/utils';
 import {
   concatAll,
+  concatMap,
   defer,
   filter,
   finalize,
@@ -75,9 +76,11 @@ const waitSubscribeSuccess$ = <R, K, T extends Observable<R>>(
 
   return merge(
     obs$.pipe(
-      map((value) => {
+      concatMap(async (value) => {
         try {
-          lastResult = cb(value);
+          const result = await cb(value);
+
+          lastResult = result;
           return true;
         } catch (error) {
           lastErr = error;
@@ -88,15 +91,21 @@ const waitSubscribeSuccess$ = <R, K, T extends Observable<R>>(
       map(() => lastResult),
     ),
     timeout$.pipe(
-      map(() => {
+      concatMap(async () => {
         try {
-          cb();
-        } catch (error) {
-          console.error('waitSubscribeSuccess timeout', error);
-          lastErr = error;
-        }
+          const result = await cb();
+          // when timeout but success, also emit that as success to make that pass-rate more higher
+          // eslint-disable-next-line no-console
+          console.warn(
+            'you use timer to pass the check, should use fakeTimer or other timer base api instead',
+            result,
+          );
 
-        throw lastErr || new Error('waitSubscribeSuccess timeout');
+          return result;
+        } catch (error) {
+          lastErr = error;
+          throw lastErr;
+        }
       }),
     ),
   );

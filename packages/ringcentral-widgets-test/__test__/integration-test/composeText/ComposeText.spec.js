@@ -20,7 +20,7 @@ beforeEach(async () => {
   await navigationBar.props().goTo('/composeText');
   wrapper.update();
   panel = wrapper.find(ComposeTextPanel).first();
-  sendButton = panel.find('.sendButton').first();
+  sendButton = panel.find('[data-sign="messageButton"]').first();
   textArea = panel.find('.textField').first().find('textarea');
   toNumber = panel.find('.numberInput');
 });
@@ -48,7 +48,7 @@ describe('compose text panel', () => {
     await toNumber.simulate('change');
     panel = wrapper.find(ComposeTextPanel).first();
     toNumber = panel.find('.numberInput');
-    sendButton = panel.find('.sendButton').first();
+    sendButton = panel.find('[data-sign="messageButton"]').first();
     expect(toNumber.props().value).toEqual('Hello world');
     expect(sendButton.props().disabled).toBe(false);
   });

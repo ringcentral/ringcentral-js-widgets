@@ -1,4 +1,4 @@
-import * as uuid from 'uuid';
+import { v4 } from 'uuid';
 
 interface SipInactiveInstanceData {
   id: string;
@@ -42,7 +42,7 @@ export class SipInstanceManager {
       this._removeInstanceData(inactiveInstance.id);
       return inactiveInstance.id;
     }
-    return uuid.v4();
+    return v4();
   }
 
   setInstanceInactive(instanceId: string, endpointId: string): void {

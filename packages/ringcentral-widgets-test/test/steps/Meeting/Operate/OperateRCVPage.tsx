@@ -1,7 +1,8 @@
 import { whenStateChange } from '@ringcentral-integration/core/test';
 import postRcvBridgesBody from '@ringcentral-integration/mock/src/platform/data/postRcvBridges.json';
+import rcvMeetingSettingsV2Body from '@ringcentral-integration/mock/src/platform/data/rcvMeetingSettingsV2.json';
 import { waitForRenderReady } from '@ringcentral-integration/test-utils';
-import { screen, fireEvent, getByText } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import type { Context } from '../../../interfaces';
@@ -35,9 +36,7 @@ export const TurnOnToggle: StepFunction<{
   dataSign: RcvCheckboxDataSign;
 }> = async ({ dataSign }) => {
   await whenStateChange(() => {
-    const checkbox = screen
-      .getByTestId(dataSign)
-      .getElementsByTagName('input')[0];
+    const checkbox = screen.getByTestId(dataSign).querySelector('input')!;
 
     if (!checkbox.checked) {
       screen.getByTestId(dataSign).click();
@@ -49,10 +48,7 @@ export const TurnOffToggle: StepFunction<{
   dataSign: RcvCheckboxDataSign;
 }> = async ({ dataSign }) => {
   await whenStateChange(() => {
-    const checkbox = screen
-      .getByTestId(dataSign)
-      .getElementsByTagName('input')[0];
-
+    const checkbox = screen.getByTestId(dataSign).querySelector('input')!;
     if (checkbox.checked) {
       screen.getByTestId(dataSign).click();
     }
@@ -113,18 +109,36 @@ export const HoverOnComponent: StepFunction<{
   }
 };
 
-export const ClickScheduleButton: StepFunction = async (
-  _,
-  context: Context,
-) => {
+export const ClickScheduleButton: StepFunction<{
+  useV1: boolean;
+  handleResponse?: (
+    mockData: typeof rcvMeetingSettingsV2Body,
+  ) => typeof rcvMeetingSettingsV2Body;
+}> = async ({ useV1, handleResponse = (a) => a }, context: Context) => {
   const { phone, rcMock } = context;
   const { id, name, ...data } = phone.genericMeeting.meeting;
   const meetingName = phone.genericMeeting.meeting.usePersonalMeetingId
     ? phone.genericMeeting.personalMeeting.name
     : name;
-  rcMock.patch('/rcvideo/v1/bridges/:meetingId' as any, 200, {
-    response: { body: { ...postRcvBridgesBody, ...data, name: meetingName } },
-  });
+
+  if (useV1) {
+    rcMock.patch('/rcvideo/v1/bridges/:meetingId' as any, 200, {
+      response: { body: { ...postRcvBridgesBody, ...data, name: meetingName } },
+    });
+  } else {
+    const mockResponse = phone.rcVideo.transformV1MeetingToV2(
+      phone.genericMeeting.meeting,
+    );
+    rcMock.patch('/rcvideo/v2/bridges/:meetingId' as any, 200, {
+      response: {
+        body: handleResponse({
+          ...rcvMeetingSettingsV2Body,
+          ...mockResponse,
+          name: meetingName,
+        }),
+      },
+    });
+  }
 
   jest.useFakeTimers();
   const scheduleButton = screen.getByTestId('videoScheduleButton');
@@ -140,9 +154,11 @@ export const ClickScheduleButtonWithoutTimer: StepFunction = async (
   context: Context,
 ) => {
   const { phone, rcMock } = context;
-  const { id, ...data } = phone.genericMeeting.meeting;
-  rcMock.patch('/rcvideo/v1/bridges/:meetingId' as any, 200, {
-    response: { body: { ...postRcvBridgesBody, ...data } },
+  const mockResponse = phone.rcVideo.transformV1MeetingToV2(
+    phone.genericMeeting.meeting,
+  );
+  rcMock.patch('/rcvideo/v2/bridges/:meetingId' as any, 200, {
+    response: { body: { ...rcvMeetingSettingsV2Body, ...mockResponse } },
   });
 
   const scheduleButton = screen.getByTestId('videoScheduleButton');

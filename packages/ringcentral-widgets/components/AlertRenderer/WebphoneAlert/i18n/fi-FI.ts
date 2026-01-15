@@ -1,28 +1,46 @@
+/* eslint-disable */
 import webphoneErrors from '@ringcentral-integration/commons/modules/Webphone/webphoneErrors';
 import webphoneMessages from '@ringcentral-integration/commons/modules/Webphone/webphoneMessages';
 export default {
-  [webphoneErrors.connectFailed]: "Puhelimen ominaisuudet eivät ole tällä hetkellä käytettävissä. Yritä myöhemmin uudelleen. ",
-  [webphoneErrors.connected]: "Verkkopuhelin rekisteröity.",
-  [webphoneErrors.browserNotSupported]: "Puhelujen soittamista tällä selaimella ei tueta.",
-  [webphoneErrors.webphoneCountOverLimit]: "Voin rekisteröidä enintään 5 verkkopuhelinta.",
-  [webphoneErrors.checkDLError]: "Puhelun soittaminen epäonnistui. Ota yhteyttä tukeen ({brandName}), jos näet tämän virheilmoituksen uudelleen.",
-  [webphoneErrors.noOutboundCallWithoutDL]: "Alanumerostasi ei voi tällä hetkellä soittaa puheluita selaimella. Pyydä päivitystä tilisi järjestelmänvalvojalta.",
-  [webphoneErrors.provisionUpdate]: "Jokin meni vikaan palvelimellamme. Yritämme muodostaa yhteyden automaattisesti hetken kuluttua.",
-  [webphoneErrors.serverConnecting]: "Puhelinpalvelinyhteydessä on ongelmia.",
-  [webphoneErrors.toVoiceMailError]: "Puhelun lähettäminen vastaajaan epäonnistui sisäisen virheen vuoksi",
-  [webphoneErrors.muteError]: "Puhelua ei voi mykistää tällä hetkellä.",
-  [webphoneErrors.holdError]: "Puhelua ei voi asettaa pitoon tällä hetkellä.",
-  [webphoneErrors.flipError]: "Puhelua ei voi kääntää. Yritä myöhemmin uudelleen.",
-  [webphoneErrors.recordError]: "Puhelua ei voi tallentaa tällä hetkellä. Virhekoodi: {errorCode}",
-  [webphoneErrors.pauseRecordError]: "Puhelun tallentamisen lopettaminen epäonnistui. Yritä myöhemmin uudelleen.",
-  [webphoneErrors.recordDisabled]: "Puheluiden tallennus ei ole käytössä tililläsi. Ota yhteyttä tilisi järjestelmänvalvojaan.",
-  [webphoneErrors.transferError]: "Soitonsiirto epäonnistui. Yritä myöhemmin uudelleen.",
-  [webphoneMessages.parked]: "Puhelusi on siirretty säilytykseen tänne: {parkedNumber}",
-  failWithStatusCode: "Tapahtui virhe: {errorCode}. Jos ongelma ei ratkea, ilmoita virheestä palvelun {brandName} tukeen.",
-  registeringWithStatusCode: "Jokin meni vikaan. Yritetään yhdistää uudelleen. Jos ongelma ei ratkea, ilmoita virheestä palvelun {brandName} tukeen. Virhekoodi: {errorCode}.",
-  failWithoutStatusCode: "Jokin meni vikaan palvelimellamme. Jos virhe ei korjaannu, ilmoita virheestä palvelun {brandName} tukeen.",
-  registeringWithoutStatusCode: "Jokin meni vikaan. Yritetään yhdistää uudelleen. Jos ongelma ei ratkea, ilmoita virheestä palvelun {brandName} tukeen."
-};
+  [webphoneErrors.connectFailed]:
+    'Puhelimen ominaisuudet eivät ole tällä hetkellä käytettävissä. Yritä myöhemmin uudelleen. ',
+  [webphoneErrors.connected]: 'Verkkopuhelin rekisteröity.',
+  [webphoneErrors.browserNotSupported]:
+    'Puhelujen soittamista tällä selaimella ei tueta.',
+  [webphoneErrors.webphoneCountOverLimit]:
+    'Voin rekisteröidä enintään 5 verkkopuhelinta.',
+  [webphoneErrors.checkDLError]:
+    'Puhelun soittaminen epäonnistui. Ota yhteyttä tukeen ({brandName}), jos näet tämän virheilmoituksen uudelleen.',
+  [webphoneErrors.noOutboundCallWithoutDL]:
+    'Alanumerostasi ei voi tällä hetkellä soittaa puheluita selaimella. Pyydä päivitystä tilisi järjestelmänvalvojalta.',
+  [webphoneErrors.provisionUpdate]:
+    'Jokin meni vikaan palvelimellamme. Yritämme muodostaa yhteyden automaattisesti hetken kuluttua.',
+  [webphoneErrors.serverConnecting]: 'Puhelinpalvelinyhteydessä on ongelmia.',
+  [webphoneErrors.toVoiceMailError]:
+    'Puhelun lähettäminen vastaajaan epäonnistui sisäisen virheen vuoksi',
+  [webphoneErrors.muteError]: 'Puhelua ei voi mykistää tällä hetkellä.',
+  [webphoneErrors.holdError]: 'Puhelua ei voi asettaa pitoon tällä hetkellä.',
+  [webphoneErrors.flipError]:
+    'Puhelua ei voi kääntää. Yritä myöhemmin uudelleen.',
+  [webphoneErrors.recordError]:
+    'Puhelua ei voi tallentaa tällä hetkellä. Virhekoodi: {errorCode}',
+  [webphoneErrors.pauseRecordError]:
+    'Puhelun tallentamisen lopettaminen epäonnistui. Yritä myöhemmin uudelleen.',
+  [webphoneErrors.recordDisabled]:
+    'Puheluiden tallennus ei ole käytössä tililläsi. Ota yhteyttä tilisi järjestelmänvalvojaan.',
+  [webphoneErrors.transferError]:
+    'Soitonsiirto epäonnistui. Yritä myöhemmin uudelleen.',
+  [webphoneMessages.parked]:
+    'Puhelusi on siirretty säilytykseen tänne: {parkedNumber}',
+  failWithStatusCode:
+    'Tapahtui virhe: {errorCode}. Jos ongelma ei ratkea, ilmoita virheestä palvelun {brandName} tukeen.',
+  registeringWithStatusCode:
+    'Jokin meni vikaan. Yritetään yhdistää uudelleen. Jos ongelma ei ratkea, ilmoita virheestä palvelun {brandName} tukeen. Virhekoodi: {errorCode}.',
+  failWithoutStatusCode:
+    'Jokin meni vikaan palvelimellamme. Jos virhe ei korjaannu, ilmoita virheestä palvelun {brandName} tukeen.',
+  registeringWithoutStatusCode:
+    'Jokin meni vikaan. Yritetään yhdistää uudelleen. Jos ongelma ei ratkea, ilmoita virheestä palvelun {brandName} tukeen.',
+} as const;
 
 // @key: @#@"[webphoneErrors.connectFailed]"@#@ @source: @#@"Sorry, phone features are currently unavailable. Please retry later. "@#@
 // @key: @#@"[webphoneErrors.connected]"@#@ @source: @#@"Web phone registered."@#@

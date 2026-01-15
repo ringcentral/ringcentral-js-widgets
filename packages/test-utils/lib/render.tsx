@@ -57,9 +57,7 @@ export const renderComponent: RenderComponent = (
   } else {
     app = render(<RcThemeProvider>{element}</RcThemeProvider>, options);
   }
-  if (process.env.DEBUG?.split(',').includes('preview')) {
-    preview.debug();
-  }
+  previewProcess();
   return app;
 };
 
@@ -88,8 +86,13 @@ export const rerenderComponent: RerenderComponent = (
   } else {
     app = rerender(<RcThemeProvider>{element}</RcThemeProvider>);
   }
-  if (process.env.DEBUG === 'preview') {
-    preview.debug();
-  }
+  previewProcess();
+
   return app;
 };
+
+function previewProcess() {
+  if (process.env.DEBUG?.split(',').includes('preview')) {
+    preview.debug();
+  }
+}

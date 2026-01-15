@@ -1,5 +1,5 @@
 export default {
-  header: 'Having issues?',
+  header: 'Contact support',
   toggleTitle: '1. Turn on error tracking mode',
   toggleDescription:
     'This will help us locate your issues, but may slightly affect your app performance.',

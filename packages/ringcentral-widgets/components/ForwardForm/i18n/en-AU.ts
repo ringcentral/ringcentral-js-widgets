@@ -1,8 +1,9 @@
+/* eslint-disable */
 export default {
-  forward: "Forward",
-  cancel: "Cancel",
-  customNumber: "Custom number"
-};
+  forward: 'Forward',
+  cancel: 'Cancel',
+  customNumber: 'Custom number',
+} as const;
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
 // @key: @#@"cancel"@#@ @source: @#@"Cancel"@#@

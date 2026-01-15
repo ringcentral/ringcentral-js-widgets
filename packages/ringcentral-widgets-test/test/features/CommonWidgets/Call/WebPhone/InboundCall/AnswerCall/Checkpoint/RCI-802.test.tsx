@@ -17,6 +17,7 @@ import {
   Then,
   title,
   When,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import type { StepFunction } from '../../../../../../../lib/step';
@@ -30,6 +31,7 @@ import { CommonLogin } from '../../../../../../../steps/CommonLogin';
 import { MockCallPresence } from '../../../../../../../steps/Mock';
 
 @autorun(test.skip)
+@common
 @it
 @p0
 @title('Single Incoming Call_ Answer Call')

@@ -29,6 +29,7 @@ import {
   Then,
   title,
   When,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import {
@@ -52,6 +53,7 @@ import { NetworkOff } from '../../../steps/Network';
 import { ClickCallButton, InputToField } from '../../../steps/dialer';
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('Alert when error status for call control button')
@@ -126,6 +128,7 @@ export class CallControlWith409Conflict extends Step {
 }
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('Call control buttons disabled when network off')
@@ -161,6 +164,7 @@ export class CallControlDisabledWhenNetworkOff extends Step {
 }
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('Alert when error status for call control button')

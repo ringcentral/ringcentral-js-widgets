@@ -1,4 +1,6 @@
 /* eslint-disable no-var */
+import type { connect } from 'mock-mcp';
+
 export {};
 
 declare global {
@@ -12,6 +14,7 @@ declare global {
   const debugPreview: () => void;
 
   var app: any;
+  var mockMcpClient: Awaited<ReturnType<typeof connect>>;
   var checkModules: (...args: any[]) => any;
   var traceModules: (...args: any[]) => any;
 
@@ -44,5 +47,7 @@ declare global {
      * make sure all storage be write done be for each test
      */
     autoFlush?: boolean;
+    serverRunner?: any;
+    contentRunner: any;
   };
 }

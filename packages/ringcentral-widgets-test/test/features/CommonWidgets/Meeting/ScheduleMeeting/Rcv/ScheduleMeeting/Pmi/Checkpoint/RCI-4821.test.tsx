@@ -54,7 +54,7 @@ export class RCI4821 extends Step {
             NavigateToMeeting,
             <TurnOnToggle dataSign="usePersonalMeetingId" />,
             <OperateTopic topic="test meeting" />,
-            ClickScheduleButton,
+            <ClickScheduleButton useV1 />,
           ]}
         />
         <Then
@@ -64,9 +64,12 @@ export class RCI4821 extends Step {
         <When desc="Join the meeting, check the meeting title" />
         <Then
           desc="Meeting title should be default PMI meeting title(eg:FirstName LastName's meeting.)"
-          action={() => (
-            <CheckPatchMeetingParams name={`Something1 New1's video meeting`} />
-          )}
+          action={
+            <CheckPatchMeetingParams
+              useV1
+              name="Something1 New1's video meeting"
+            />
+          }
         />
       </Scenario>
     );

@@ -1,14 +1,15 @@
+/* eslint-disable */
 export default {
-  currentCall: "Nykyinen puhelu",
-  viewCalls: "Näytä puhelut",
-  view: "Näytä",
-  incomingCall: "{numberOf} saapuva puhelu",
-  incomingCalls: "{numberOf} saapuvaa puhelua",
-  callOnHold: "{numberOf} puhelu pidossa",
-  callsOnHold: "{numberOf} puhelua pidossa",
-  otherDeviceCall: "{numberOf} puhelu muilla laitteilla",
-  otherDeviceCalls: "{numberOf} puhelua muilla laitteilla"
-};
+  currentCall: 'Nykyinen puhelu',
+  viewCalls: 'Näytä puhelut',
+  view: 'Näytä',
+  incomingCall: '{numberOf} saapuva puhelu',
+  incomingCalls: '{numberOf} saapuvaa puhelua',
+  callOnHold: '{numberOf} puhelu pidossa',
+  callsOnHold: '{numberOf} puhelua pidossa',
+  otherDeviceCall: '{numberOf} puhelu muilla laitteilla',
+  otherDeviceCalls: '{numberOf} puhelua muilla laitteilla',
+} as const;
 
 // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@
 // @key: @#@"viewCalls"@#@ @source: @#@"View Calls"@#@

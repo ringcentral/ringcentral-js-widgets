@@ -30,6 +30,7 @@ import {
   Then,
   title,
   When,
+  common,
 } from '../../../../lib/step';
 import { Login as CommonLogin } from '../../../../steps/Login';
 import {
@@ -40,6 +41,7 @@ import {
 import { NavigateToMessagesTab } from '../../../../steps/Navigate';
 
 @autorun(test.skip)
+@common
 @p2
 @it
 @title('Total message unread count')

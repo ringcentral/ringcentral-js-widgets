@@ -180,7 +180,7 @@ export class CallHistory<T extends Deps = Deps> extends RcModuleV2<T> {
     if (this._deps.activityMatcher) {
       watch(
         this,
-        () => this.sessionIds,
+        () => [this.ready, this.sessionIds],
         () => {
           if (
             this.ready &&
@@ -191,6 +191,9 @@ export class CallHistory<T extends Deps = Deps> extends RcModuleV2<T> {
             // @ts-expect-error TS(2532): Object is possibly 'undefined'.
             this._deps.activityMatcher.triggerMatch();
           }
+        },
+        {
+          multiple: true,
         },
       );
     }

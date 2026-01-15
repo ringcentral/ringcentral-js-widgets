@@ -6,11 +6,11 @@ import {
   watch,
 } from '@ringcentral-integration/core';
 import { DEFAULT_LOCALE } from '@ringcentral-integration/i18n';
+import { processI18n } from '@ringcentral-integration/i18n/lib/processI18n';
 
 import { Module } from '../../lib/di';
-import { processI18n } from '../../lib/processI18n';
 
-import type { BrandThemeMap, Deps } from './Brand.interface';
+import type { Deps } from './Brand.interface';
 import type { BrandConfig } from './BrandConfig.interface';
 import { processAssets } from './processAssets';
 
@@ -45,19 +45,6 @@ export class Brand<
   @action
   setDynamicConfig(config: T) {
     this._dynamicConfig = config;
-  }
-
-  @state
-  themeMap: BrandThemeMap = {
-    default: [],
-    light: [],
-    dark: [],
-    contrast: [],
-  };
-
-  @action
-  setThemeMap(val: BrandThemeMap) {
-    this.themeMap = val;
   }
 
   private bindUpdateDocumentVariables() {
@@ -124,7 +111,7 @@ export class Brand<
       ...brandConfig,
       assets: processAssets(
         brandConfig.assets,
-        this._deps.brandConfigOptions?.assetOrigin || window.location.origin,
+        this._deps.brandConfigOptions?.assetOrigin || location.origin,
       ),
     };
   }

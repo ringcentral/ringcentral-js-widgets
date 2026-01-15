@@ -18,9 +18,11 @@ export interface Entity {
   phoneNumber?: string;
   phoneNumbers?: EntityPhoneNumberItem[];
   profileImageUrl?: string;
+  doNotCall?: boolean;
   jobTitle?: string;
   email?: string;
   hidden?: boolean;
   resourceType?: string;
   isCallQueueNumber?: boolean;
+  extensionNumber?: string;
 }

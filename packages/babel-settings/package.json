@@ -20,6 +20,7 @@
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.10.4",
     "@babel/plugin-proposal-object-rest-spread": "^7.11.0",
     "@babel/plugin-proposal-optional-chaining": "^7.11.0",
+    "@babel/plugin-transform-class-properties": "^7.25.9",
     "@babel/plugin-transform-runtime": "^7.23.2",
     "@babel/plugin-transform-typescript": "^7.24.6",
     "@babel/preset-env": "^7.11.0",
@@ -30,21 +31,22 @@
     "babel-plugin-direct-import": "^1.0.0",
     "babel-plugin-transform-typescript-metadata": "^0.3.2",
     "core-js": "^3.37.1",
-    "typescript": "^5.5.2"
+    "typescript": "^5.8.3"
   },
   "peerDependencies": {
     "@babel/polyfill": "^7.10.4",
     "babel-jest": "^29.7.0"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=20.0.0"
   },
   "ci": {
     "ringcentral-widgets-test": "**"
   },
   "nx": {
     "tags": [
-      "scope:ci-group-1"
+      "scope:ci-group-1",
+      "scope:ci-test"
     ]
   }
 }

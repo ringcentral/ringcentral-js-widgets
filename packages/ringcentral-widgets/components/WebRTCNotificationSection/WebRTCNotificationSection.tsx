@@ -38,6 +38,7 @@ export const WebRTCNotificationSection: FunctionComponent<
   onIgnore,
   endAndAnswer,
   holdAndAnswer,
+  showToVoicemail,
   toVoicemail,
   hasActiveSession,
   answer,
@@ -48,8 +49,9 @@ export const WebRTCNotificationSection: FunctionComponent<
   displayEntity,
   entityType,
   getAvatarUrl,
-  entityDetailLink,
+  entityDetailLinkId,
   openEntityDetailLinkTrack,
+  openEntityDetailLink,
   reply,
   enableReply,
   disableLinks = false,
@@ -102,13 +104,12 @@ export const WebRTCNotificationSection: FunctionComponent<
             title={logName}
             className={styles.contact}
           >
-            {entityDetailLink ? (
+            {entityDetailLinkId ? (
               <RcLink
                 variant="inherit"
                 onClick={() => {
-                  window.open(entityDetailLink, '_blank');
-                  // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
-                  openEntityDetailLinkTrack();
+                  openEntityDetailLink?.(entityDetailLinkId);
+                  openEntityDetailLinkTrack?.();
                 }}
               >
                 {logName}
@@ -185,7 +186,7 @@ export const WebRTCNotificationSection: FunctionComponent<
                   </>
                 )}
               </li>
-              {!isWide && hasActiveSession && (
+              {showToVoicemail && !isWide && hasActiveSession && (
                 <li className={clsx(styles.callButton, styles.voicemail)}>
                   <CircleButton
                     dataSign="toVoiceMail"
@@ -246,7 +247,7 @@ export const WebRTCNotificationSection: FunctionComponent<
                   </span>
                 </li>
               )}
-              {(isWide || !hasActiveSession) && (
+              {(isWide || !hasActiveSession) && showToVoicemail && (
                 <li className={styles.callButton}>
                   <CircleButton
                     dataSign="toVoiceMail"

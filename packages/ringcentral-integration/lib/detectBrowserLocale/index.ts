@@ -1,5 +1,4 @@
-import { DEFAULT_LOCALE } from '@ringcentral-integration/i18n';
-import formatLocale from '@ringcentral-integration/i18n/lib/formatLocale';
+import { DEFAULT_LOCALE, formatLocale } from '@ringcentral-integration/i18n';
 
 /**
  * @function
@@ -9,14 +8,27 @@ import formatLocale from '@ringcentral-integration/i18n/lib/formatLocale';
  *   default is 'en-US'.
  * @return {String}
  */
-export default function detectBrowserLocale(defaultLocale = DEFAULT_LOCALE) {
+export default function detectBrowserLocale(
+  defaultLocale: string = DEFAULT_LOCALE,
+): string {
+  const browserLocale = getBrowserLocale();
+  if (browserLocale) {
+    return formatLocale(browserLocale);
+  }
+
+  return defaultLocale;
+}
+
+/**
+ * get the current browser locale
+ */
+export function getBrowserLocale() {
   if (typeof navigator !== 'undefined') {
     if (navigator.languages && navigator.languages.length) {
-      return formatLocale(navigator.languages[0]);
+      return navigator.languages[0];
     }
     if (navigator.language) {
-      return formatLocale(navigator.language);
+      return navigator.language;
     }
   }
-  return formatLocale(defaultLocale);
 }

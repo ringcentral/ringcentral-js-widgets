@@ -16,6 +16,7 @@ import {
   title,
   When,
   Given,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import type { StepFunction } from '../../../../../lib/step';
@@ -33,6 +34,7 @@ import {
 } from '../../../../../steps/Mock';
 
 @autorun(test.skip)
+@common
 @it
 @p1
 @title('Multiple calls incoming_answer and hold')

@@ -1,11 +1,12 @@
+/* eslint-disable */
 import { connectivityTypes } from '../../../modules/ConnectivityManager';
 export default {
-  [connectivityTypes.webphoneUnavailable]: "Verkkopuhelin ei käytettävissä",
-  [connectivityTypes.offline]: "Offline",
-  [connectivityTypes.voipOnly]: "Vain VoIP",
-  [connectivityTypes.survival]: "Rajoitettu tila",
-  [connectivityTypes.connecting]: "Yhdistetään"
-};
+  [connectivityTypes.webphoneUnavailable]: 'Verkkopuhelin ei käytettävissä',
+  [connectivityTypes.offline]: 'Offline',
+  [connectivityTypes.voipOnly]: 'Vain VoIP',
+  [connectivityTypes.survival]: 'Rajoitettu tila',
+  [connectivityTypes.connecting]: 'Yhdistetään',
+} as const;
 
 // @key: @#@"[connectivityTypes.webphoneUnavailable]"@#@ @source: @#@"Web Phone Unavailable"@#@
 // @key: @#@"[connectivityTypes.offline]"@#@ @source: @#@"Offline"@#@

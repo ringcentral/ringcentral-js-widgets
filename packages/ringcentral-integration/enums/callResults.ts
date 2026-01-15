@@ -43,8 +43,11 @@ export const callResults = ObjectMap.fromObject({
   wrongNumber: 'Wrong Number',
   faxReceipt: 'Fax Receipt',
   suspendedAccount: 'Suspended Account',
+  connected: 'Connected',
   disconnected: 'Disconnected',
   notAllowed: 'Not Allowed',
+  answeredElsewhere: 'Answered Elsewhere',
+  ringingElsewhere: 'Ringing Elsewhere',
 } as const);
 
 export type CallResultsKey = ObjectMapKey<typeof callResults>;

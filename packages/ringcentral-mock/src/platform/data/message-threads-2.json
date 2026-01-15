@@ -1,0 +1,92 @@
+{
+  "records": [
+    {
+      "id": "c48cf28f-38cc-4adb-9ce9-e6ac6a5adb2f",
+      "status": "Open",
+      "availability": "Alive",
+      "ownerParty": {
+        "phoneNumber": "+16506660337"
+      },
+      "guestParty": {
+        "phoneNumber": "+14156190118"
+      },
+      "owner": {
+        "extensionId": "11570443004",
+        "name": "SMS queue",
+        "extensionType": "Department"
+      },
+      "label": "test",
+      "statusReason": "ThreadExpired",
+      "creationTime": "2025-11-20T04:21:54.485Z",
+      "lastModifiedTime": "2025-11-20T06:08:10.647Z"
+    },
+    {
+      "id": "806284b0-fb64-45cd-b848-32e3c83e54f7",
+      "status": "Open",
+      "availability": "Alive",
+      "ownerParty": {
+        "phoneNumber": "+13107390143"
+      },
+      "guestParty": {
+        "phoneNumber": "+12093170386"
+      },
+      "owner": {
+        "extensionId": "11890570004",
+        "name": "Klay queue",
+        "extensionType": "Department"
+      },
+      "label": "\uD83D\uDED1",
+      "statusReason": "Manual",
+      "creationTime": "2025-11-20T04:27:31.222Z",
+      "lastModifiedTime": "2025-11-20T04:34:36.877Z"
+    },
+    {
+      "id": "7c8d2a13-a455-4fc9-8c33-912d137badb4",
+      "status": "Open",
+      "availability": "Alive",
+      "ownerParty": {
+        "phoneNumber": "+13107390143"
+      },
+      "guestParty": {
+        "phoneNumber": "+12093170386"
+      },
+      "owner": {
+        "extensionId": "11890570004",
+        "name": "Klay queue",
+        "extensionType": "Department"
+      },
+      "label": "hiads",
+      "statusReason": "ThreadExpired",
+      "creationTime": "2025-11-20T04:34:46.762Z",
+      "lastModifiedTime": "2025-11-20T06:08:10.647Z"
+    },
+    {
+      "id": "2eb00348-6b7b-427f-bff0-513bb988c0a8",
+      "status": "Open",
+      "availability": "Alive",
+      "ownerParty": {
+        "phoneNumber": "+13107390143"
+      },
+      "guestParty": {
+        "phoneNumber": "+12093170386"
+      },
+      "owner": {
+        "extensionId": "11890570004",
+        "name": "Klay queue",
+        "extensionType": "Department"
+      },
+      "label": "hi",
+      "statusReason": "ThreadExpired",
+      "creationTime": "2025-11-20T11:22:38.154Z",
+      "lastModifiedTime": "2025-11-20T13:08:10.648Z"
+    }
+  ],
+  "paging": {
+    "perPage": 20,
+    "page": 10,
+    "pageStart": 180,
+    "pageEnd": 183,
+    "totalPages": 10,
+    "totalElements": 184
+  }
+}

@@ -1,19 +1,26 @@
+/* eslint-disable */
 import { callingOptions } from '@ringcentral-integration/commons/modules/CallingSettings';
 export default {
-  title: "Soittaminen",
-  [callingOptions.softphone]: "{brand} -työpöytäsovellus",
-  [callingOptions.browser]: "Selain",
-  [callingOptions.jupiter]: "{brand}",
-  makeCallsWith: "Soita puhelut sovelluksella",
-  ringoutHint: "Soita ensin omaan sijaintiini ja yhdistä sitten puhelukumppani",
-  myLocationLabel: "Oma sijainti",
-  press1ToStartCallLabel: "Pyydä minua valitsemaan 1 ennen puhelun yhdistämistä",
-  [`${callingOptions.browser}Tooltip`]: "Valitse tämä vaihtoehto, jos haluat soittaa ja vastaanottaa puheluita tietokoneen mikrofonin ja kaiuttimen avulla.",
-  [`${callingOptions.softphone}Tooltip`]: "Valitse tämä vaihtoehto, jos haluat soittaa ja vastaanottaa puheluita sovelluksella {brand}.",
-  [`${callingOptions.ringout}Tooltip`]: "Valitse tämä vaihtoehto, jos haluat soittaa puheluita valitsemastasi tai antamastasi puhelinnumerosta.",
-  [`${callingOptions.ringout}Tooltip1`]: "Kun soitat puhelun, tämä puhelin soi ensin. Tämän jälkeen soitetaan puhelukumppanillesi.",
-  [`${callingOptions.jupiter}Tooltip`]: "Valitse tämä vaihtoehto, jos haluat soittaa ja vastaanottaa puheluita sovelluksella {brand}."
-};
+  title: 'Puhelut',
+  [callingOptions.softphone]: '{brand} -työpöytäsovellus',
+  [callingOptions.browser]: 'Selain',
+  [callingOptions.jupiter]: '{brand}',
+  makeCallsWith: 'Soita puhelut sovelluksella',
+  ringoutHint: 'Soita ensin omaan sijaintiini ja yhdistä sitten puhelukumppani',
+  myLocationLabel: 'Oma sijainti',
+  press1ToStartCallLabel:
+    'Pyydä minua valitsemaan 1 ennen puhelun yhdistämistä',
+  [`${callingOptions.browser}Tooltip`]:
+    'Valitse tämä vaihtoehto, jos haluat soittaa ja vastaanottaa puheluita tietokoneen mikrofonin ja kaiuttimen avulla.',
+  [`${callingOptions.softphone}Tooltip`]:
+    'Valitse tämä vaihtoehto, jos haluat soittaa ja vastaanottaa puheluita sovelluksella {brand}.',
+  [`${callingOptions.ringout}Tooltip`]:
+    'Valitse tämä vaihtoehto, jos haluat soittaa puheluita valitsemastasi tai antamastasi puhelinnumerosta.',
+  [`${callingOptions.ringout}Tooltip1`]:
+    'Kun soitat puhelun, tämä puhelin soi ensin. Tämän jälkeen soitetaan puhelukumppanillesi.',
+  [`${callingOptions.jupiter}Tooltip`]:
+    'Valitse tämä vaihtoehto, jos haluat soittaa ja vastaanottaa puheluita sovelluksella {brand}.',
+} as const;
 
 // @key: @#@"title"@#@ @source: @#@"Calling"@#@
 // @key: @#@"[callingOptions.softphone]"@#@ @source: @#@"{brand} for Desktop"@#@

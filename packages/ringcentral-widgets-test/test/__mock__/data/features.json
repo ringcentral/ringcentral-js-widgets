@@ -1299,6 +1299,14 @@
         "code": "AccountLimitation",
         "message": "The feature is turned off for the current account"
       }
+    },
+    {
+      "id": "CallQueuePickup",
+      "available": true
+    },
+    {
+      "id": "CallQueueSmsRecipient",
+      "available": true
     }
   ]
 }

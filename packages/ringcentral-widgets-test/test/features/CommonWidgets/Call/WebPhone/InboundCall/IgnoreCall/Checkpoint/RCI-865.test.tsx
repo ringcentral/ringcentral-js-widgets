@@ -17,6 +17,7 @@ import {
   Then,
   title,
   When,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import type { StepFunction } from '../../../../../../../lib/step';
@@ -31,6 +32,7 @@ import { CommonLogin } from '../../../../../../../steps/CommonLogin';
 import { TriggerActiveCallChanged } from '../../../../../../../steps/Mock';
 
 @autorun(test.skip)
+@common
 @it
 @p1
 @title('Second call incoming_Ignore')

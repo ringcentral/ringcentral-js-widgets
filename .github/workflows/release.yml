@@ -4,19 +4,22 @@ on:
   push:
     tags:
       - "**.**.**"
+permissions:
+  id-token: write  # Required for NPM OIDC
+  contents: read  # Required for actions/checkout
 
 jobs:
   utils-npm-release:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           persist-credentials: false
       - name: Setup Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
-          node-version: '20.x'
+          node-version: '24'
           registry-url: 'https://registry.npmjs.org'
       - name: Get the version
         id: get_version
@@ -27,19 +30,17 @@ jobs:
           TRAVIS_TAG: ${{ steps.get_version.outputs.SOURCE_TAG }}
       - run: npm publish
         working-directory: release/utils
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
   i18n-dayjs-npm-release:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           persist-credentials: false
       - name: Setup Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
-          node-version: '20.x'
+          node-version: '24'
           registry-url: 'https://registry.npmjs.org'
       - name: Get the version
         id: get_version
@@ -50,19 +51,17 @@ jobs:
           TRAVIS_TAG: ${{ steps.get_version.outputs.SOURCE_TAG }}
       - run: npm publish
         working-directory: release/i18n-dayjs
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
   react-hooks-npm-release:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           persist-credentials: false
       - name: Setup Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
-          node-version: '20.x'
+          node-version: '24'
           registry-url: 'https://registry.npmjs.org'
       - name: Get the version
         id: get_version
@@ -73,19 +72,17 @@ jobs:
           TRAVIS_TAG: ${{ steps.get_version.outputs.SOURCE_TAG }}
       - run: npm publish
         working-directory: release/react-hooks
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
   core-npm-release:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           persist-credentials: false
       - name: Setup Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
-          node-version: '20.x'
+          node-version: '24'
           registry-url: 'https://registry.npmjs.org'
       - name: Get the version
         id: get_version
@@ -96,19 +93,17 @@ jobs:
           TRAVIS_TAG: ${{ steps.get_version.outputs.SOURCE_TAG }}
       - run: npm publish
         working-directory: release/core
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
   commons-npm-release:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           persist-credentials: false
       - name: Setup Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
-          node-version: '20.x'
+          node-version: '24'
           registry-url: 'https://registry.npmjs.org'
       - name: Get the version
         id: get_version
@@ -119,19 +114,17 @@ jobs:
           TRAVIS_TAG: ${{ steps.get_version.outputs.SOURCE_TAG }}
       - run: npm publish
         working-directory: release/ringcentral-integration
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
   widgets-npm-release:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           persist-credentials: false
       - name: Setup Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
-          node-version: '20.x'
+          node-version: '24'
           registry-url: 'https://registry.npmjs.org'
       - name: Get the version
         id: get_version
@@ -142,19 +135,17 @@ jobs:
           TRAVIS_TAG: ${{ steps.get_version.outputs.SOURCE_TAG }}
       - run: npm publish
         working-directory: release/ringcentral-widgets
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
   engage-voice-widgets-npm-release:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           persist-credentials: false
       - name: Setup Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
-          node-version: '20.x'
+          node-version: '24'
           registry-url: 'https://registry.npmjs.org'
       - name: Get the version
         id: get_version
@@ -165,5 +156,3 @@ jobs:
           TRAVIS_TAG: ${{ steps.get_version.outputs.SOURCE_TAG }}
       - run: npm publish
         working-directory: release/engage-voice-widgets
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

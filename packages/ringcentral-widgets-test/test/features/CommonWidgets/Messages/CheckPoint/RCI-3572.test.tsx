@@ -24,6 +24,7 @@ import {
   title,
   When,
   StepProp,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import { mockMessageListData } from '../../../../__mock__';
@@ -46,6 +47,7 @@ import {
 } from '../../../../steps/Navigate';
 
 @autorun(test)
+@common
 @p2
 @title('Conversation unread count')
 export class ConversationUnread extends Step {

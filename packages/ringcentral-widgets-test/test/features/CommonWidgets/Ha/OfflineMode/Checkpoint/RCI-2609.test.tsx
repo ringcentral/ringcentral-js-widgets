@@ -59,7 +59,7 @@ export class RCI2609 extends Step {
         <When
           desc="Use Charles to catch this request and abort response to simulate that platform is not accessible
 										Note(/s):
-										Request:'https://pubsub.pubnub.com/time/0'
+										Request:'https://apps.ringcentral.com/integration/ping'
 										Catch this request instead of RC API request because this is the logic in the current code now, maybe need to discuss later"
           action={() => [
             <UseFakeTimers />,
@@ -75,7 +75,7 @@ export class RCI2609 extends Step {
           desc="The badge 'Offline' prompt
 										Prompt the alert message: 'Cannot connect to the server. Please retry later.'
 										All buttons are disabled
-										Can capture the request 'https://pubsub.pubnub.com/time/0' in background network"
+										Can capture the request 'https://apps.ringcentral.com/integration/ping' in background network"
           action={() => [
             <CheckConnectivityBadge exists={true} textContent={'Offline'} />,
             <CheckContainsAlertMessage

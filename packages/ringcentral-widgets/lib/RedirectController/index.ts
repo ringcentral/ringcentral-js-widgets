@@ -6,7 +6,7 @@ type RedirectControllerParams = {
 export default class RedirectController {
   constructor({ prefix, appOrigin }: RedirectControllerParams = {}) {
     window.addEventListener('load', () => {
-      const callbackUri = window.location.href;
+      const callbackUri = location.href;
       // RCINT-3477 some devices will have reference to opener, but will throw exception
       // when try to access opener
       try {

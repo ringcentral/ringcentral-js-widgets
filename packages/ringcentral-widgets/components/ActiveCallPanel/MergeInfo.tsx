@@ -15,6 +15,7 @@ type MergeInfoProps = {
   lastCallInfo?: LastCallInfo;
   currentCallTitle?: string;
   currentCallAvatarUrl?: string;
+  showCallerIdName?: boolean;
   formatPhone?: (...args: any[]) => any;
   getAvatarUrl?: (...args: any[]) => any;
   checkLastCallInfoTimeout?: number;
@@ -83,6 +84,7 @@ class MergeInfo extends Component<MergeInfoProps, MergeInfoState> {
       lastCallInfo,
       currentCallTitle,
       currentCallAvatarUrl,
+      showCallerIdName,
       formatPhone,
     } = this.props;
     if (!lastCallInfo) {
@@ -110,7 +112,7 @@ class MergeInfo extends Component<MergeInfoProps, MergeInfoState> {
 
     const calleeName = isContacts
       ? lastCallInfo.name
-      : isUnknown && lastCallInfo.name
+      : showCallerIdName && isUnknown && lastCallInfo.name
       ? lastCallInfo.name
       : // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
         formatPhone(lastCallInfo.phoneNumber);

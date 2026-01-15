@@ -1,38 +1,47 @@
+/* eslint-disable */
 export default {
-  inviteMeetingContent: "{accountName} kutsuu sinut tapaamiseen palvelussa {brandName}.\n\nLiity tietokoneella, Macilla, iOS:llä tai Androidilla: {joinUri}{passwordTpl}\n\n Tai iPhonella yhdellä napautuksella:\n\t    {mobileDialingNumberTpl}\n\n    Tai puhelimella:\n\t     Soita numeroon:\n\t    {phoneDialingNumberTpl}\n\t     Tapaamistunnus: {meetingId}\n\t     Kansainvälisiä numeroita käytettävissä: {teleconference} ",
-  conferenceLocationField: "Neuvottelutapaaminen, soittonumero: {dialInNumber}",
-  scheduleError: "Jokin meni vikaan. Yritä uudelleen.",
-  noMeetingPermission: "Sinulla ei ole {brandName} Meetings -käyttölupaa Jatka ottamalla yhteyttä yrityksen järjestelmänvalvojaan.",
-  noConferencePermission: "Sinulla ei ole {brandName}-neuvottelujen käyttölupaa. Jatka ottamalla yhteyttä yrityksen järjestelmänvalvojaan.",
-  conferenceTitle: "Käyttäjän {displayName} neuvottelutapaaminen",
-  internationalNumber: "Kansainväliset soittonumerot:",
-  inviteText_att: "Liity neuvotteluun palvelussa {brandName}.\n\nSoittonumero: {formattedDialInNumber} \n{additionalNumbersSection} \nOsallistujan käyttöoikeus: {participantCode} \n\nTarvitsetko kansainvälisen soittonumeron? Siirry kohteeseen {dialInNumbersLink} \n\nTämän neuvottelupuhelun tarjoaa {brandName} Conferencing.",
-  inviteText_bt: "Liity neuvotteluun palvelussa {brandName}.\n\nSoittonumero: {formattedDialInNumber} \n{additionalNumbersSection} \nOsallistujan käyttöoikeus: {participantCode} \n\nMuita kansainvälisiä soittonumeroita{dialInNumbersLink} ",
-  inviteText_rc: "Liity neuvotteluun palvelussa {brandName}.\n\nSoittonumero: {formattedDialInNumber} \n{additionalNumbersSection} \nOsallistujan käyttöoikeus: {participantCode} \n\nTarvitsetko kansainvälisen soittonumeron? Siirry kohteeseen {dialInNumbersLink} \n\nTämän neuvottelupuhelun tarjoaa {brandName} Conferencing.",
-  inviteText_telus: "Liity neuvotteluun palvelussa {brandName}.\n\nSoittonumero: {formattedDialInNumber} \n{additionalNumbersSection} \nOsallistujan käyttöoikeus: {participantCode} \n\nMuita kansainvälisiä soittonumeroita{dialInNumbersLink} ",
-  conferenceCall: "{brandName} – neuvottelupuhelu",
-  videoCall: "{brandName} – videopuhelu",
-  addConferencingDetails: "Lisätään neuvottelun tietoja",
-  updateConferencingDetails: "Päivitetään neuvottelun tietoja",
+  inviteMeetingContent:
+    '{accountName} kutsuu sinut tapaamiseen palvelussa {brandName}.\n\nLiity tietokoneella, Macilla, iOS:llä tai Androidilla: {joinUri}{passwordTpl}\n\n Tai iPhonella yhdellä napautuksella:\n\t    {mobileDialingNumberTpl}\n\n    Tai puhelimella:\n\t     Soita numeroon:\n\t    {phoneDialingNumberTpl}\n\t     Tapaamistunnus: {meetingId}\n\t     Kansainvälisiä numeroita käytettävissä: {teleconference} ',
+  conferenceLocationField: 'Neuvottelutapaaminen, soittonumero: {dialInNumber}',
+  scheduleError: 'Jokin meni vikaan. Yritä uudelleen.',
+  noMeetingPermission:
+    'Sinulla ei ole {brandName} Meetings -käyttölupaa Jatka ottamalla yhteyttä yrityksen järjestelmänvalvojaan.',
+  noConferencePermission:
+    'Sinulla ei ole {brandName}-neuvottelujen käyttölupaa. Jatka ottamalla yhteyttä yrityksen järjestelmänvalvojaan.',
+  conferenceTitle: 'Käyttäjän {displayName} neuvottelutapaaminen',
+  internationalNumber: 'Kansainväliset soittonumerot:',
+  inviteText_att:
+    'Liity neuvotteluun palvelussa {brandName}.\n\nSoittonumero: {formattedDialInNumber} \n{additionalNumbersSection} \nOsallistujan käyttöoikeus: {participantCode} \n\nTarvitsetko kansainvälisen soittonumeron? Siirry kohteeseen {dialInNumbersLink} \n\nTämän neuvottelupuhelun tarjoaa {brandName} Conferencing.',
+  inviteText_bt:
+    'Liity neuvotteluun palvelussa {brandName}.\n\nSoittonumero: {formattedDialInNumber} \n{additionalNumbersSection} \nOsallistujan käyttöoikeus: {participantCode} \n\nMuita kansainvälisiä soittonumeroita{dialInNumbersLink} ',
+  inviteText_rc:
+    'Liity neuvotteluun palvelussa {brandName}.\n\nSoittonumero: {formattedDialInNumber} \n{additionalNumbersSection} \nOsallistujan käyttöoikeus: {participantCode} \n\nTarvitsetko kansainvälisen soittonumeron? Siirry kohteeseen {dialInNumbersLink} \n\nTämän neuvottelupuhelun tarjoaa {brandName} Conferencing.',
+  inviteText_telus:
+    'Liity neuvotteluun palvelussa {brandName}.\n\nSoittonumero: {formattedDialInNumber} \n{additionalNumbersSection} \nOsallistujan käyttöoikeus: {participantCode} \n\nMuita kansainvälisiä soittonumeroita{dialInNumbersLink} ',
+  conferenceCall: '{brandName} – neuvottelupuhelu',
+  videoCall: '{brandName} – videopuhelu',
+  addConferencingDetails: 'Lisätään neuvottelun tietoja',
+  updateConferencingDetails: 'Päivitetään neuvottelun tietoja',
   // @ts-expect-error TS(1117): An object literal cannot have multiple properties ... Remove this comment to see the full error message
-  scheduleError: "Jokin meni vikaan. Yritä uudelleen.",
-  deleteBtn: "Poista",
-  settingsBtn: "Asetukset",
-  saveAsDefaultAndNotShowAgain: "Tallenna oletuksena äläkä näytä uudelleen",
-  saveAsDefault: "Tallenna oletukseksi",
-  done: "Valmis",
-  update: "Päivitä",
-  conferenceSettingsTitle: "{brand}-neuvotteluasetukset",
-  videoSettingsTitle: "{brand} Meetings -asetukset",
-  password: "Salasana",
-  failedToRetrieveMeeting: "Verkkoyhteys menetettiin. Poista tapaaminen ja yritä myöhemmin uudelleen.",
-  meetingSettingsTitle: "{brand} Meetings – asetukset",
-  recurringMeeting: "Toistuva tapaaminen",
-  meetingOptions: "Tapaamisasetukset",
-  schedule: "Aikataulu",
+  scheduleError: 'Jokin meni vikaan. Yritä uudelleen.',
+  deleteBtn: 'Poista',
+  settingsBtn: 'Asetukset',
+  saveAsDefaultAndNotShowAgain: 'Tallenna oletuksena äläkä näytä uudelleen',
+  saveAsDefault: 'Tallenna oletukseksi',
+  done: 'Valmis',
+  update: 'Päivitä',
+  conferenceSettingsTitle: '{brand}-neuvotteluasetukset',
+  videoSettingsTitle: '{brand} Meetings -asetukset',
+  password: 'Salasana',
+  failedToRetrieveMeeting:
+    'Verkkoyhteys menetettiin. Poista tapaaminen ja yritä myöhemmin uudelleen.',
+  meetingSettingsTitle: '{brand} Meetings – asetukset',
+  recurringMeeting: 'Toistuva tapaaminen',
+  meetingOptions: 'Tapaamisasetukset',
+  schedule: 'Aikataulu',
   // @ts-expect-error TS(1117): An object literal cannot have multiple properties ... Remove this comment to see the full error message
-  settingsBtn: "Asetukset"
-};
+  settingsBtn: 'Asetukset',
+} as const;
 
 // @key: @#@"inviteMeetingContent"@#@ @source: @#@"{accountName} is inviting you to a {brandName} meeting.\n\nJoin from PC, Mac, iOS or Android: {joinUri}{passwordTpl}\n\n Or iPhone one-tap:\n\t    {mobileDialingNumberTpl}\n\n    Or Telephone:\n\t     Dial:\n\t    {phoneDialingNumberTpl}\n\t     Meeting ID: {meetingId}\n\t     International numbers available: {teleconference} "@#@
 // @key: @#@"conferenceLocationField"@#@ @source: @#@"Conference Meeting, Dial-in Number: {dialInNumber}"@#@

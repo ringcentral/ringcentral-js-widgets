@@ -24,6 +24,7 @@ import {
   title,
   When,
   examples,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import { CheckAlertToBeCallWith } from '../../../../../steps/Alert';
@@ -31,6 +32,7 @@ import { Login as CommonLogin } from '../../../../../steps/Login';
 import { CheckRCVPageDisplay } from '../../../../../steps/Meeting';
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('Add meeting fails when RCV server errors')

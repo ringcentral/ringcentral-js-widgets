@@ -32,6 +32,7 @@ export interface Deps {
 export interface ComposeTextUIComponentProps {
   inputExpandable?: boolean;
   supportAttachment?: boolean;
+  supportEmoji?: boolean;
   formatContactPhone?: (phoneNumber: string) => string;
   phoneTypeRenderer?: (...arg: any[]) => any;
   phoneSourceNameRenderer?: (...arg: any[]) => any;
@@ -39,4 +40,5 @@ export interface ComposeTextUIComponentProps {
   recipientsContactPhoneRenderer?: (...arg: any[]) => any;
   useRecipientsInputV2?: boolean;
   autoFocusToField?: boolean;
+  showCustomPhoneLabel?: boolean;
 }

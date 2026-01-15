@@ -26,7 +26,7 @@ import i18n, { t } from '../ActiveCallItem/i18n';
 import CallIcon from '../CallIcon';
 import CircleButton from '../CircleButton';
 import ContactDisplay from '../ContactDisplay';
-import DurationCounter from '../DurationCounter';
+import { DurationCounter } from '../DurationCounter';
 import MediaObject from '../MediaObject';
 
 import type {
@@ -76,6 +76,7 @@ const WebphoneButtons: FunctionComponent<WebphoneButtonsProps> = ({
   showHoldAnswerBtn,
   showIgnoreBtn,
   isConnecting = false,
+  isCallQueueCall,
 }) => {
   if (!session) {
     return null;
@@ -119,7 +120,8 @@ const WebphoneButtons: FunctionComponent<WebphoneButtonsProps> = ({
         )}
       </span>
     );
-    endBtn = (
+
+    endBtn = !isCallQueueCall && (
       <span
         title={i18n.getString('toVoicemail', currentLocale)}
         className={styles.webphoneButton}
@@ -270,13 +272,13 @@ const WebphoneButtons: FunctionComponent<WebphoneButtonsProps> = ({
   }
 
   return (
-    <div className={styles.webphoneButtons}>
+    <>
       {ignoreBtn}
       {holdBtn}
       {mergeBtn}
       {endBtn}
       {answerBtn}
-    </div>
+    </>
   );
 };
 
@@ -843,6 +845,10 @@ export class ActiveCallItem extends Component<
       ? getWebphoneSessionDisplayName(this.props.call.webphoneSession as any)
       : undefined;
 
+    // @ts-expect-error
+    const callQueueName = webphoneSession?.callQueueName;
+    const isCallQueueCall = !!callQueueName;
+
     return (
       <div data-sign="callItem" className={styles.callItemContainer}>
         <MediaObject
@@ -941,6 +947,7 @@ export class ActiveCallItem extends Component<
                   showIgnoreBtn={showIgnoreBtn}
                   showHoldAnswerBtn={showHoldAnswerBtn}
                   disableLinks={disableLinks}
+                  isCallQueueCall={isCallQueueCall}
                 />
               ) : (
                 <ActiveCallControlButtons

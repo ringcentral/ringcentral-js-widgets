@@ -33,6 +33,7 @@ import {
   And,
   title,
   When,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import { Login as CommonLogin } from '../../../../../../steps/Login';
@@ -45,6 +46,7 @@ import {
 } from '../../../../../../steps/Meeting';
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('PMI waiting room default values')
@@ -52,9 +54,9 @@ export class RCI2743 extends Step {
   Login: StepFunction<any, any>;
   @examples(`
     | waitingRoomOpt              | waitingRoomPMIVal |
-    | 'Everyone'                  | 1                 |
-    | 'Anyone outside my company' | 3                 |
-    | 'Anyone not signed in'      | 2                 |
+    | 'Everyone'                  | 'Everybody'       |
+    | 'Anyone outside my company' | 'OtherAccount'    |
+    | 'Anyone not signed in'      | 'GuestsOnly'      |
   `)
   run() {
     const { Login = CommonLogin } = this;
@@ -75,7 +77,7 @@ export class RCI2743 extends Step {
             <CheckboxIsChecked isChecked dataSign="enableWaitingRoom" />,
             <CheckboxIsLocked
               isLocked={false}
-              dataSign="isWaitingRoomWrapper"
+              dataSign="waitingRoomField"
             />,
             <CheckDropDownStatus
               // all pmi status is default as disabled

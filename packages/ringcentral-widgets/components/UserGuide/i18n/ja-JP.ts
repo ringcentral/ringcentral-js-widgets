@@ -1,9 +1,10 @@
+/* eslint-disable */
 export default {
-  start: "クイックツアーに参加",
-  skip: "スキップ",
-  next: "次へ",
-  finish: "完了"
-};
+  start: 'クイックツアーに参加',
+  skip: 'スキップ',
+  next: '次へ',
+  finish: '完了',
+} as const;
 
 // @key: @#@"start"@#@ @source: @#@"Take a quick tour"@#@
 // @key: @#@"skip"@#@ @source: @#@"Skip"@#@

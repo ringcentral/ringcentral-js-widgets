@@ -17,6 +17,7 @@ import {
   Then,
   title,
   When,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import {
@@ -32,6 +33,7 @@ import { MockMessageSync } from '../../../../../steps/Mock/MockMessage/MockMessa
 import { NavigateToMessagesTab } from '../../../../../steps/Navigate/actions/NavigateToMessages';
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('Messages List')

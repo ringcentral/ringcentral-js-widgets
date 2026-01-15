@@ -1,8 +1,9 @@
+/* eslint-disable */
 export default {
-  sureToDeleteVoiceMail: "このボイスメールを削除しますか？",
-  sureToDeleteFax: "このFAXを削除してもよろしいですか？",
-  doNotAskAgain: "次回から通知しない"
-};
+  sureToDeleteVoiceMail: 'このボイスメールを削除しますか？',
+  sureToDeleteFax: 'このFAXを削除してもよろしいですか？',
+  doNotAskAgain: '次回から通知しない',
+} as const;
 
 // @key: @#@"sureToDeleteVoiceMail"@#@ @source: @#@"Are you sure you want to delete this voicemail?"@#@
 // @key: @#@"sureToDeleteFax"@#@ @source: @#@"Are you sure you want to delete this fax?"@#@

@@ -69,7 +69,22 @@ $hour-minute-space: 12px;
 
 .pmiLabel {
   display: flex;
-  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 100%;
+
+  span.text {
+    flex: 0 0 auto;
+    max-width: 200px;
+  }
+
+  span {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
 
 .normalFontSize {
@@ -92,6 +107,24 @@ label.labelPlacementStartRoot {
 
   .labelText {
     @extend .normalLabel;
+  }
+}
+
+label.labelPlacementTopRoot {
+  margin-bottom: 8px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  > span {
+    width: 100%;
+  }
+
+  .labelText {
+    @extend .normalLabel;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
   }
 }
 

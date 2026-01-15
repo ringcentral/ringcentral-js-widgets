@@ -1,12 +1,13 @@
+/* eslint-disable */
 export default {
-  conferenceCall: "Téléconférence",
-  onHold: "En attente",
-  ongoing: "En cours",
-  unknown: "Inconnu",
-  disconnected: "Déconnecté",
-  loading: "Chargement…",
-  loadingTimeout: "Temps de chargement écoulé."
-};
+  conferenceCall: 'Téléconférence',
+  onHold: 'En attente',
+  ongoing: 'En cours',
+  unknown: 'Inconnu',
+  disconnected: 'Déconnecté',
+  loading: 'Chargement…',
+  loadingTimeout: 'Temps de chargement écoulé.',
+} as const;
 
 // @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@
 // @key: @#@"onHold"@#@ @source: @#@"On Hold"@#@

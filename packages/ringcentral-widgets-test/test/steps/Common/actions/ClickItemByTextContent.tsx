@@ -5,24 +5,28 @@ import type { StepFunction } from '../../../lib/step';
 interface ClickItemByTextContentProps {
   text: string;
   getByRole?: string;
+  containerDataSign?: string;
 }
 
 export const ClickItemByTextContent: StepFunction<
   ClickItemByTextContentProps
-> = async ({ text, getByRole }, { app }) => {
+> = async ({ text, getByRole, containerDataSign }, { app }) => {
+  const container = containerDataSign
+    ? within(screen.getByTestId(containerDataSign))
+    : screen;
   if (getByRole) {
     await waitFor(() => {
-      const ele = screen.getByRole(getByRole);
+      const ele = container.getByRole(getByRole);
       expect(ele).toBeInTheDocument();
       expect(within(ele).getByText(text)).toBeInTheDocument();
     });
 
-    fireEvent.click(within(screen.getByRole(getByRole)).getByText(text));
+    fireEvent.click(within(container.getByRole(getByRole)).getByText(text));
   } else {
     await waitFor(() => {
-      expect(screen.getByText(text)).toBeInTheDocument();
+      expect(container.getByText(text)).toBeInTheDocument();
     });
 
-    fireEvent.click(screen.getByText(text));
+    fireEvent.click(container.getByText(text));
   }
 };

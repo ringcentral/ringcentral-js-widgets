@@ -1,5 +1,5 @@
+/* eslint-disable */
 import { callErrors } from '@ringcentral-integration/commons/modules/Call';
-
 export default {
   [callErrors.emergencyNumber]:
     'As chamadas de emergência não estão disponíveis. Use outro telefone para entrar em contato com os serviços de emergência',
@@ -9,7 +9,7 @@ export default {
   [callErrors.connectFailed]: 'Falha de conexão. Tente novamente mais tarde.',
   [callErrors.internalError]:
     'Não é possível conectar devido a erros internos. Tente novamente mais tarde.',
-  [callErrors.notAnExtension]: 'O ramal não existe.',
+  [callErrors.notAnExtension]: 'O número do ramal não existe.',
   [callErrors.networkError]:
     'Não foi possível conectar devido a problemas de rede. Tente novamente mais tarde.',
   [callErrors.noInternational]:
@@ -22,7 +22,7 @@ export default {
   telus911: 'Não há suporte para a discagem de emergência.',
   [callErrors.fromAndToNumberIsSame]:
     'O número do RingOut e o número de destino não podem ser iguais. Atualize o número e tente novamente.',
-};
+} as const;
 
 // @key: @#@"[callErrors.emergencyNumber]"@#@ @source: @#@"Emergency calling is not available. Please use another phone to contact emergency services"@#@
 // @key: @#@"[callErrors.noToNumber]"@#@ @source: @#@"Please enter a valid phone number."@#@

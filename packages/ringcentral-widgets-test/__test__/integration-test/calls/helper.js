@@ -11,6 +11,7 @@ import {
   mockGeneratePresenceUpdateApi,
   mockGenerateActiveCallsApi,
 } from '../../support/callHelper';
+
 import deviceBody from './data/device.json';
 
 function mockCallProcedure(func) {
@@ -18,10 +19,9 @@ function mockCallProcedure(func) {
     mock.device(deviceBody, false);
     const activeCallsBody = await func.apply(null, [phone, ...args]);
     mock.activeCalls(activeCallsBody);
-    await phone.subscription.subscribe(
-      ['/restapi/v1.0/account/~/extension/~/presence'],
-      10,
-    );
+    await phone.subscription.subscribe([
+      '/restapi/v1.0/account/~/extension/~/presence',
+    ]);
     await waitUntilTo(() => {
       expect(phone.subscription._subscription._pubnub).not.toEqual(null);
     });
@@ -114,10 +114,9 @@ export async function mockActiveCallPanelData(
   mockGenerateActiveCallsApi({
     sessions: phone.webphone.sessions,
   });
-  await phone.subscription.subscribe(
-    ['/restapi/v1.0/account/~/extension/~/presence'],
-    10,
-  );
+  await phone.subscription.subscribe([
+    '/restapi/v1.0/account/~/extension/~/presence',
+  ]);
   await waitUntilTo(() => {
     expect(phone.subscription._subscription._pubnub).not.toEqual(null);
   });

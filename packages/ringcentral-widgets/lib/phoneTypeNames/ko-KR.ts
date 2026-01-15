@@ -1,16 +1,17 @@
+/* eslint-disable */
 import { phoneTypes } from '@ringcentral-integration/commons/enums/phoneTypes';
 export default {
-  [phoneTypes.business]: "비즈니스 전화",
-  [phoneTypes.extension]: "내선 번호",
-  [phoneTypes.home]: "집 전화번호",
-  [phoneTypes.mobile]: "휴대폰",
-  [phoneTypes.phone]: "전화",
-  [phoneTypes.unknown]: "알 수 없는 전화 유형",
-  [phoneTypes.company]: "회사 번호",
-  [phoneTypes.direct]: "직통 번호",
-  [phoneTypes.contact]: "연락처 전화번호",
-  [phoneTypes.fax]: "팩스",
-  [phoneTypes.other]: "기타"
+  [phoneTypes.business]: '비즈니스 전화',
+  [phoneTypes.extension]: '내선 번호',
+  [phoneTypes.home]: '집 전화번호',
+  [phoneTypes.mobile]: '휴대폰',
+  [phoneTypes.phone]: '전화',
+  [phoneTypes.unknown]: '알 수 없는 전화 유형',
+  [phoneTypes.company]: '회사 번호',
+  [phoneTypes.direct]: '직통 번호',
+  [phoneTypes.contact]: '연락처 전화번호',
+  [phoneTypes.fax]: '팩스',
+  [phoneTypes.other]: '기타',
 };
 
 // @key: @#@"[phoneTypes.business]"@#@ @source: @#@"Business Phone"@#@

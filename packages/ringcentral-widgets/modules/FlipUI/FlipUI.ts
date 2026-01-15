@@ -1,3 +1,4 @@
+import { getExtensionPhoneNumberLabel } from '@ringcentral-integration/commons/lib/contactHelper';
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { formatNumber } from '@ringcentral-integration/commons/lib/formatNumber';
 import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
@@ -15,6 +16,7 @@ import type {
     'Locale',
     'Webphone',
     'ForwardingNumber',
+    'ExtensionPhoneNumber',
     'RegionSettings',
     'RouterInteraction',
     'AccountInfo',
@@ -40,6 +42,7 @@ export class FlipUI extends RcUIModuleV2<Deps> {
 
   getUIProps({
     params: { sessionId },
+    showCustomPhoneLabel = false,
   }: FlipUIContainerProps): UIProps<FlipUIPanelProps> {
     this.sessionId = sessionId;
 
@@ -48,7 +51,20 @@ export class FlipUI extends RcUIModuleV2<Deps> {
       // @ts-expect-error TS(2339): Property 'isOnFlip' does not exist on type '"" | N... Remove this comment to see the full error message
       isOnFlip: this.session?.isOnFlip,
       currentLocale: this._deps.locale.currentLocale,
-      flipNumbers: this._deps.forwardingNumber.flipNumbers,
+      flipNumbers: this._deps.forwardingNumber.flipNumbers.map((flipNumber) => {
+        // get phone label from extensionPhoneNumber
+        let customLabel;
+        if (showCustomPhoneLabel) {
+          customLabel = getExtensionPhoneNumberLabel(
+            flipNumber.phoneNumber!,
+            this._deps.extensionPhoneNumber.numbers,
+          );
+        }
+        return {
+          ...flipNumber,
+          label: customLabel || flipNumber.label,
+        };
+      }),
       // @ts-expect-error TS(2322): Type '"" | NormalizedSession | null | undefined' i... Remove this comment to see the full error message
       session: this.session,
     };

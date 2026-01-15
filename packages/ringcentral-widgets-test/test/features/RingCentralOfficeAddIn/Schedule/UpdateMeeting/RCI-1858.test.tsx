@@ -12,6 +12,7 @@ import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   And,
   autorun,
+  common,
   it,
   p2,
   Scenario,
@@ -32,6 +33,7 @@ import {
 } from '../../../../steps/Meeting';
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('RCM - Update meeting - update meeting which has been deleted')
@@ -75,6 +77,7 @@ export class RCI1858_updateMeetingHasBeenDeleted extends Step {
 }
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('RCM - Update meeting - get meeting which has been deleted')

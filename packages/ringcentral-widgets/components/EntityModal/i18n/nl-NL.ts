@@ -1,12 +1,13 @@
+/* eslint-disable */
 export default {
-  account: "Account",
-  contact: "Contactpersoon",
-  lead: "Lead",
-  opportunity: "Kans",
-  case: "Geval",
-  chooseEntity: "Selecteer entiteitstype",
-  create: "Maken"
-};
+  account: 'Account',
+  contact: 'Contactpersoon',
+  lead: 'Lead',
+  opportunity: 'Kans',
+  case: 'Geval',
+  chooseEntity: 'Selecteer entiteitstype',
+  create: 'Maken',
+} as const;
 
 // @key: @#@"account"@#@ @source: @#@"Account"@#@
 // @key: @#@"contact"@#@ @source: @#@"Contact"@#@

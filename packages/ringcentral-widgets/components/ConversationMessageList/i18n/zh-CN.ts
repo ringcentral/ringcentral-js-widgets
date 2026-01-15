@@ -1,7 +1,6 @@
+/* eslint-disable */
 export default {
-  loading: "正在加载…",
-  download: "下载"
-};
+  loading: '正在加载…',
+} as const;
 
 // @key: @#@"loading"@#@ @source: @#@"Loading ..."@#@
-// @key: @#@"download"@#@ @source: @#@"Download"@#@

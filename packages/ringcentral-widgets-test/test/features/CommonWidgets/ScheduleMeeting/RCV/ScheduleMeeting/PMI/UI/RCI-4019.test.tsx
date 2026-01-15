@@ -19,6 +19,7 @@ import {
   Then,
   title,
   When,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import { Login as CommonLogin } from '../../../../../../../steps/Login';
@@ -35,6 +36,7 @@ import {
 import { CheckModalValue } from '../../../../../../../steps/Modal';
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('UI - PMI Change settings button')

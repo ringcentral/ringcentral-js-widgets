@@ -1,13 +1,15 @@
+/* eslint-disable */
 export default {
-  Inbound: "Eingehend",
-  Outbound: "Ausgehend",
-  log: "Protokoll",
-  save: "Speichern und neu",
-  discard: "Verwerfen und neu",
-  hangup: "Auflegen",
-  reject: "An Voicemail",
-  saveDraftAndCreateNewLog: "Entwurf speichern und neues Anrufprotokoll erstellen"
-};
+  Inbound: 'Eingehend',
+  Outbound: 'Ausgehend',
+  log: 'Protokoll',
+  save: 'Speichern und neu',
+  discard: 'Verwerfen und neu',
+  hangup: 'Auflegen',
+  reject: 'An Voicemail',
+  saveDraftAndCreateNewLog:
+    'Entwurf speichern und neues Anrufprotokoll erstellen',
+} as const;
 
 // @key: @#@"Inbound"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"Outbound"@#@ @source: @#@"Outbound"@#@

@@ -1,9 +1,10 @@
-import { callControlAlerts, callControlError } from '@ringcentral-integration/commons/modules/ActiveCallControl';
-const {
-  callsMerged,
-  somethingWentWrong,
-  tooManyParticipants
-} = callControlAlerts;
+/* eslint-disable */
+import {
+  callControlAlerts,
+  callControlError,
+} from '@ringcentral-integration/commons/modules/ActiveCallControl';
+const { callsMerged, somethingWentWrong, tooManyParticipants } =
+  callControlAlerts;
 const {
   holdConflictError,
   unHoldConflictError,
@@ -12,21 +13,25 @@ const {
   generalError,
   forwardSuccess,
   transferCompleted,
-  replyCompleted
+  replyCompleted,
 } = callControlError;
 export default {
-  [callsMerged]: "Puhelut yhdistetty",
-  [somethingWentWrong]: "Jokin meni vikaan. Yritä uudelleen.",
-  [tooManyParticipants]: "Osallistujien enimmäismäärä on täynnä.",
-  [muteConflictError]: "Tämä puhelu on mykistetty toisella laitteella. Poista mykistys ennen kuin hallinnoit puhelua tässä sovelluksessa.",
-  [unHoldConflictError]: "Tämä puhelu on pidossa toisella laitteella. Poista puhelu pidosta ennen kuin hallinnoit sitä tässä sovelluksessa.",
-  [unMuteConflictError]: "Tämän puhelun mykistys on poistettu toisella laitteella. Mykistä puhelu ennen kuin hallinnoit sitä tässä sovelluksessa.",
-  [holdConflictError]: "Tämä puhelu on poistettu pidosta toisella laitteella. Lisää puhelu pitoon ennen kuin hallinnoit sitä tässä sovelluksessa.",
-  [generalError]: "Odottamaton palvelinvirhe. Yritä myöhemmin uudelleen.",
-  [forwardSuccess]: "Soitto siirretty",
-  [transferCompleted]: "Puhelu siirrettiin",
-  [replyCompleted]: "Ääniviesti lähetettiin."
-};
+  [callsMerged]: 'Puhelut yhdistetty',
+  [somethingWentWrong]: 'Jokin meni vikaan. Yritä uudelleen.',
+  [tooManyParticipants]: 'Osallistujien enimmäismäärä on täynnä.',
+  [muteConflictError]:
+    'Tämä puhelu on mykistetty toisella laitteella. Poista mykistys ennen kuin hallinnoit puhelua tässä sovelluksessa.',
+  [unHoldConflictError]:
+    'Tämä puhelu on pidossa toisella laitteella. Poista puhelu pidosta ennen kuin hallinnoit sitä tässä sovelluksessa.',
+  [unMuteConflictError]:
+    'Tämän puhelun mykistys on poistettu toisella laitteella. Mykistä puhelu ennen kuin hallinnoit sitä tässä sovelluksessa.',
+  [holdConflictError]:
+    'Tämä puhelu on poistettu pidosta toisella laitteella. Lisää puhelu pitoon ennen kuin hallinnoit sitä tässä sovelluksessa.',
+  [generalError]: 'Odottamaton palvelinvirhe. Yritä myöhemmin uudelleen.',
+  [forwardSuccess]: 'Soitto siirretty',
+  [transferCompleted]: 'Puhelu siirrettiin',
+  [replyCompleted]: 'Ääniviesti lähetettiin.',
+} as const;
 
 // @key: @#@"callsMerged"@#@ @source: @#@"Calls merged"@#@
 // @key: @#@"somethingWentWrong"@#@ @source: @#@"Something went wrong. Please try again."@#@

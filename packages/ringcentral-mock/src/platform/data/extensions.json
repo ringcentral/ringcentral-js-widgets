@@ -6,7 +6,7 @@
       "status": "Enabled",
       "firstName": "Something1",
       "lastName": "New1",
-      "email": "dean11@rc.com",
+      "email": "dean@test.com",
       "extensionNumber": "101",
       "account": {
         "id": "129832006"
@@ -55,7 +55,7 @@
       "firstName": "Something111",
       "lastName": "Unactived111",
       "department": "TEST",
-      "email": "bruce111@rc.com",
+      "email": "bruce@test.com",
       "extensionNumber": "102",
       "account": {
         "id": "129832006"

@@ -18,6 +18,7 @@ import {
   When,
   StepProp,
   WaitForRenderReady,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import { CommonLogin } from '../../../../steps/CommonLogin';
@@ -26,6 +27,7 @@ import { CreateMock } from '../../../../steps/Mock';
 
 // not enable in common
 @autorun(test.skip)
+@common
 @it
 @p1
 @title('RCM: Schedule meeting by clicking the schedule button')

@@ -1,5 +1,6 @@
+/* eslint-disable */
 export default {
-  saveLog: "Tallenna"
-};
+  saveLog: 'Tallenna',
+} as const;
 
 // @key: @#@"saveLog"@#@ @source: @#@"Save"@#@

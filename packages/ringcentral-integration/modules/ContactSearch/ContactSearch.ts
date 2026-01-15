@@ -6,7 +6,7 @@ import {
   storage,
 } from '@ringcentral-integration/core';
 import { identity, sortBy } from 'ramda';
-import * as uuid from 'uuid';
+import { v4 } from 'uuid';
 
 import { debounce } from '../../lib/debounce-throttle';
 import { Module } from '../../lib/di';
@@ -289,7 +289,7 @@ export class ContactSearch extends RcModuleV2<Deps> {
     sourceName,
     searchString,
   }: SearchSourceOptions) {
-    const searchId = uuid.v4();
+    const searchId = v4();
     this._searchIds[sourceName] = searchId;
     this.setSearchStatus(contactSearchStatus.searching);
     try {

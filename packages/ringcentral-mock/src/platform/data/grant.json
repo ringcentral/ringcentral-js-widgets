@@ -1,0 +1,87 @@
+{
+  "uri": "https://api-rcapps-labs_domain/restapi/v1.0/account/1029673004/extension/1029673004/grant?page=1&perPage=max",
+  "records": [
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/account/1029673004/extension/1029673004/grant/11570443004",
+      "extension": {
+        "uri": "https://api-rcapps-labs_domain/restapi/v1.0/account/1029673004/extension/11570443004",
+        "id": "11570443004",
+        "extensionNumber": "10086",
+        "type": "Department",
+        "name": "SMS queue"
+      },
+      "callPickup": false,
+      "callMonitoring": false,
+      "callOnBehalfOf": false,
+      "callDelegation": false,
+      "groupPaging": false,
+      "callQueueSetup": true,
+      "callQueueMembersSetup": false,
+      "callQueueMessages": false,
+      "sharedVoicemails": false,
+      "callQueueFacSetup": true,
+      "callQueueSmsRecipient": true,
+      "smsRecipient": true
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/account/1029673004/extension/1029673004/grant/11890538004",
+      "extension": {
+        "uri": "https://api-rcapps-labs_domain/restapi/v1.0/account/1029673004/extension/11890538004",
+        "id": "11890538004",
+        "extensionNumber": "10087",
+        "type": "Department",
+        "name": "Declan queue"
+      },
+      "callPickup": false,
+      "callMonitoring": false,
+      "callOnBehalfOf": false,
+      "callDelegation": false,
+      "groupPaging": false,
+      "callQueueSetup": true,
+      "callQueueMembersSetup": false,
+      "callQueueMessages": false,
+      "sharedVoicemails": false,
+      "callQueueFacSetup": true,
+      "callQueueSmsRecipient": true,
+      "smsRecipient": true
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/account/1029673004/extension/1029673004/grant/11890570004",
+      "extension": {
+        "uri": "https://api-rcapps-labs_domain/restapi/v1.0/account/1029673004/extension/11890570004",
+        "id": "11890570004",
+        "extensionNumber": "10088",
+        "type": "Department",
+        "name": "Klay queue"
+      },
+      "callPickup": false,
+      "callMonitoring": false,
+      "callOnBehalfOf": false,
+      "callDelegation": false,
+      "groupPaging": false,
+      "callQueueSetup": false,
+      "callQueueMembersSetup": false,
+      "callQueueMessages": false,
+      "sharedVoicemails": false,
+      "callQueueFacSetup": false,
+      "callQueueSmsRecipient": true,
+      "smsRecipient": true
+    }
+  ],
+  "paging": {
+    "page": 1,
+    "totalPages": 1,
+    "perPage": 1000,
+    "totalElements": 3,
+    "pageStart": 0,
+    "pageEnd": 2
+  },
+  "navigation": {
+    "firstPage": {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/account/1029673004/extension/1029673004/grant?page=1&perPage=max"
+    },
+    "lastPage": {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/account/1029673004/extension/1029673004/grant?page=1&perPage=max"
+    }
+  }
+}

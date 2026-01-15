@@ -10,7 +10,7 @@ export interface ConnectivityMonitorOptions {
    */
   heartBeatInterval?: number;
   /**
-   * function to check network, default `fetch('https://pubsub.pubnub.com/time/0')`.
+   * function to check network.
    */
   checkConnectionFunc?: () => Promise<void>;
 }

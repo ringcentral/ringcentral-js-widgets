@@ -1,4 +1,4 @@
-import * as uuid from 'uuid';
+import { v4 } from 'uuid';
 
 /**
  * If the browser supports web lock api, obtain a web lock indefinitely.
@@ -13,6 +13,6 @@ import * as uuid from 'uuid';
  * avoid this since the api is still experimental and might have strange results.
  */
 
-global.navigator?.locks?.request?.(uuid.v4(), () => {
+global.navigator?.locks?.request?.(v4(), () => {
   return new Promise(() => {});
 });

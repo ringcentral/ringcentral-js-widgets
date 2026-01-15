@@ -1,19 +1,27 @@
+/* eslint-disable */
 import { callingOptions } from '@ringcentral-integration/commons/modules/CallingSettings';
 export default {
-  title: "Appel",
-  [callingOptions.softphone]: "{brand} pour Desktop",
-  [callingOptions.browser]: "Navigateur",
-  [callingOptions.jupiter]: "{brand}",
-  makeCallsWith: "Passer mes appels sortants avec",
-  ringoutHint: "Appeler d’abord à mon emplacement, puis connecter le destinataire.",
-  myLocationLabel: "Mon emplacement",
-  press1ToStartCallLabel: "Me demander de composer le 1 avant d’établir la connexion",
-  [`${callingOptions.browser}Tooltip`]: "Utilisez cette option pour passer et recevoir des appels en utilisant le micro et le haut-parleur de votre ordinateur.",
-  [`${callingOptions.softphone}Tooltip`]: "Utilisez cette option pour passer et recevoir des appels à l’aide de votre {brand}.",
-  [`${callingOptions.ringout}Tooltip`]: "Utilisez cette option pour passer des appels en utilisant le numéro de téléphone que vous avez sélectionné ou saisi.",
-  [`${callingOptions.ringout}Tooltip1`]: "Pour l’appel que vous passez, ce téléphone sonnera avant celui de la personne appelée.",
-  [`${callingOptions.jupiter}Tooltip`]: "Utilisez cette option pour passer et recevoir des appels à l’aide de votre {brand}."
-};
+  title: 'Appel',
+  [callingOptions.softphone]: '{brand} pour Desktop',
+  [callingOptions.browser]: 'Navigateur',
+  [callingOptions.jupiter]: '{brand}',
+  makeCallsWith: 'Passer mes appels sortants avec',
+  ringoutHint:
+    'Appeler d’abord à mon emplacement, puis connecter le destinataire.',
+  myLocationLabel: 'Mon emplacement',
+  press1ToStartCallLabel:
+    'Me demander de composer le 1 avant d’établir la connexion',
+  [`${callingOptions.browser}Tooltip`]:
+    'Utilisez cette option pour passer et recevoir des appels à l’aide du micro et du haut-parleur de votre ordinateur.',
+  [`${callingOptions.softphone}Tooltip`]:
+    'Utilisez cette option pour passer et recevoir des appels à l’aide de votre {brand}.',
+  [`${callingOptions.ringout}Tooltip`]:
+    'Utilisez cette option pour passer des appels à l’aide du numéro de téléphone que vous avez sélectionné ou saisi.',
+  [`${callingOptions.ringout}Tooltip1`]:
+    'Pour l’appel que vous passez, ce téléphone sonnera avant celui de la personne appelée.',
+  [`${callingOptions.jupiter}Tooltip`]:
+    'Utilisez cette option pour passer et recevoir des appels à l’aide de votre {brand}.',
+} as const;
 
 // @key: @#@"title"@#@ @source: @#@"Calling"@#@
 // @key: @#@"[callingOptions.softphone]"@#@ @source: @#@"{brand} for Desktop"@#@

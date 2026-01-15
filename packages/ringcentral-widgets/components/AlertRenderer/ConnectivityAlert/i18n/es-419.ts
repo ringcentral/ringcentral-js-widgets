@@ -1,11 +1,17 @@
+/* eslint-disable */
 import { connectivityTypes } from '../../../../modules/ConnectivityManager';
 export default {
-  [connectivityTypes.networkLoss]: "Lo sentimos, se produjo un error; verifique su conexión de red y vuelva a intentarlo.",
-  [connectivityTypes.offline]: "No se puede conectar al servidor. Inténtelo de nuevo más tarde.",
-  [connectivityTypes.serverUnavailable]: "Se produjo un error en nuestro sistema. Inténtelo de nuevo más tarde.",
-  [connectivityTypes.voipOnly]: "Se produjo un error en nuestro sistema, pero estamos trabajando arduamente para solucionarlo. Aún puede hacer llamadas, pero otras funciones están actualmente limitadas.",
-  [connectivityTypes.survival]: "Se produjo un error en nuestro sistema, pero estamos trabajando arduamente para solucionarlo. Es posible que tenga acceso limitado a ciertas funciones. La aplicación se recuperará automáticamente tan pronto como esté disponible."
-};
+  [connectivityTypes.networkLoss]:
+    'Lo sentimos, se produjo un error; verifique su conexión de red y vuelva a intentarlo.',
+  [connectivityTypes.offline]:
+    'No se puede conectar al servidor. Inténtelo de nuevo más tarde.',
+  [connectivityTypes.serverUnavailable]:
+    'Se produjo un error en nuestro sistema. Inténtelo de nuevo más tarde.',
+  [connectivityTypes.voipOnly]:
+    'Se produjo un error en nuestro sistema, pero estamos trabajando arduamente para solucionarlo. Aún puede hacer llamadas, pero otras funciones están actualmente limitadas.',
+  [connectivityTypes.survival]:
+    'Se produjo un error en nuestro sistema, pero estamos trabajando arduamente para solucionarlo. Es posible que tenga acceso limitado a ciertas funciones. La aplicación se recuperará automáticamente tan pronto como esté disponible.',
+} as const;
 
 // @key: @#@"[connectivityTypes.networkLoss]"@#@ @source: @#@"Sorry, something went wrong, check your network connection and try again."@#@
 // @key: @#@"[connectivityTypes.offline]"@#@ @source: @#@"Cannot connect to the server. Please retry later."@#@

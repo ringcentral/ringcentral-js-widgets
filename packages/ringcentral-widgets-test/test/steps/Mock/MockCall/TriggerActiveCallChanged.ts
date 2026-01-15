@@ -12,6 +12,6 @@ export const TriggerActiveCallChanged: StepFunction<
   TriggerActiveCallChangedProps
 > = ({ handler, handlerSessions }, { phone, rcMock }) => {
   const sessions =
-    handlerSessions?.(phone.webphone.sessions) ?? phone.webphone.sessions;
+    handlerSessions?.(phone.webphone?.sessions) ?? phone.webphone?.sessions;
   rcMock.triggerActiveCallChanged({ sessions, handler });
 };

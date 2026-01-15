@@ -62,15 +62,8 @@ export const createRefreshTokenHelper = (
   const loggedIn = async (
     onCompleted?: (state: CheckRefreshTokenResult) => void,
   ) => {
-    // let refreshDelayMs = 0;
     const platform = getPlatform();
     try {
-      // TODO: those will be open in next MR, we ensure all exist be pass.
-      // * when use that loggedIn method will set that delay be zero 0, using that to avoid first check loggedIn need delay 100ms
-      // in SDK node_modules/@ringcentral/sdk/src/platform/Platform.ts:565 _refresh inner delay
-      // refreshDelayMs = platform['_refreshDelayMs'];
-      // platform['_refreshDelayMs'] = 0;
-
       if (platform['_authProxy']) {
         await platform.get('/restapi/v1.0/client-info');
         return true;
@@ -104,9 +97,6 @@ export const createRefreshTokenHelper = (
       }
 
       return state.refreshTokenValid;
-    } finally {
-      // * restore the delay
-      // platform['_refreshDelayMs'] = refreshDelayMs;
     }
   };
 

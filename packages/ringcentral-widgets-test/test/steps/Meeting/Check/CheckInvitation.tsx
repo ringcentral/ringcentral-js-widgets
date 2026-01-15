@@ -10,7 +10,10 @@ export const CheckInvitation: StepFunction = async (_, { phone, rcMock }) => {
     (obj) => obj.country.isoCode === phone.extensionInfo.country.isoCode,
   );
   const rcvMeeting = await rcMock.fetchMock
-    ?.lastResponse(new RegExp('.*/rcvideo/v1/bridges'), 'POST')
+    ?.lastResponse(
+      new RegExp('.*/rcvideo/v2/account/.*/extension/.*/bridges.*'),
+      'POST',
+    )
     ?.json();
   expect(phone.rcVideo.getMeetingInvitation).toHaveBeenCalledWith({
     brandId: phone.brand.id,
@@ -20,12 +23,12 @@ export const CheckInvitation: StepFunction = async (_, { phone, rcMock }) => {
     hostName: phone.extensionInfo.data.name,
     isSIPAvailable: phone.appFeatures.hasRoomConnectorBeta,
     id: rcvMeeting.id,
-    shortId: rcvMeeting.shortId,
-    e2ee: rcvMeeting.e2ee,
-    isMeetingSecret: rcvMeeting.isMeetingSecret,
-    meetingPassword: rcvMeeting.meetingPassword,
-    meetingPasswordPSTN: rcvMeeting.meetingPasswordPSTN,
-    meetingPasswordMasked: rcvMeeting.meetingPasswordMasked,
-    joinUri: rcvMeeting.joinUri,
+    shortId: rcvMeeting.pins.pstn.participant,
+    e2ee: rcvMeeting.security.e2ee,
+    isMeetingSecret: rcvMeeting.security.passwordProtected,
+    meetingPassword: rcvMeeting.security.password.plainText,
+    meetingPasswordPSTN: rcvMeeting.security.password.pstn,
+    meetingPasswordMasked: rcvMeeting.security.password.joinQuery,
+    joinUri: rcvMeeting.discovery.web,
   });
 };

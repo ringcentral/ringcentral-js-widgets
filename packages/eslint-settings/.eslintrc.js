@@ -41,6 +41,12 @@ module.exports = {
         'import/default': 'off',
         'no-console': 'warn',
         '@typescript-eslint/no-empty-function': 'off',
+        'react-hooks/exhaustive-deps': [
+          'warn',
+          {
+            additionalHooks: '(useEffectOnDocumentFocus)',
+          },
+        ],
       },
       parserOptions: {
         ecmaVersion: 2021,
@@ -122,9 +128,10 @@ module.exports = {
         '**/*.spec.js',
         '**/*.spec.jsx',
       ],
-      plugins: ['jest'],
+      plugins: ['jest', 'crius'],
       extends: ['plugin:jest/recommended'],
       rules: {
+        'crius/common-export': 'error',
         'no-console': 'off',
         'react-hooks/rules-of-hooks': 'off',
         'react/jsx-key': 'off',

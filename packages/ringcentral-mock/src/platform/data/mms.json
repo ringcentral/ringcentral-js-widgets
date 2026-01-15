@@ -1,0 +1,43 @@
+{
+  "uri" : "https://api-rcapps-labs_domain/restapi/v1.0/account/334153004/extension/334153004/message-store/4976738004",
+  "id" : 4976738004,
+  "to" : [ {
+    "phoneNumber" : "+17204084364",
+    "location" : "Brighton, CO"
+  } ],
+  "from" : {
+    "phoneNumber" : "+12132541914",
+    "name" : "RCV New1",
+    "location" : "Los Angeles, CA"
+  },
+  "type" : "SMS",
+  "creationTime" : "2024-09-04T06:02:04.000Z",
+  "readStatus" : "Read",
+  "priority" : "Normal",
+  "attachments" : [ {
+    "id" : 4976738004,
+    "uri" : "https://api-rcapps-labs_domain/restapi/v1.0/account/334153004/extension/334153004/message-store/4976738004/content/4976738004",
+    "type" : "Text",
+    "contentType" : "text/plain"
+  }, {
+    "id" : 1609709004,
+    "uri" : "https://media-xmrupxmn.intlabs_domain/restapi/v1.0/account/334153004/extension/334153004/message-store/4976738004/content/1609709004",
+    "type" : "MmsAttachment",
+    "contentType" : "image/jpeg",
+    "size" : 44029,
+    "fileName" : "Xnip2024-09-02_09-49-24 copy 3.jpg",
+    "width" : 574,
+    "height" : 436
+  } ],
+  "direction" : "Outbound",
+  "availability" : "Alive",
+  "subject" : "sd",
+  "messageStatus" : "Queued",
+  "smsSendingAttemptsCount" : 1,
+  "conversationId" : 2467968175823830061,
+  "conversation" : {
+    "id" : "2467968175823830061",
+    "uri" : "https://api-rcapps-labs_domain/restapi/v1.0/conversation/2467968175823830061"
+  },
+  "lastModifiedTime" : "2024-09-04T06:02:04.576Z"
+}

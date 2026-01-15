@@ -1,21 +1,23 @@
+/* eslint-disable */
 export default {
-  title: "音频",
-  dialButtonVolume: "拨号键音量",
-  ringtoneVolume: "铃声音量",
-  callVolume: "通话音量",
-  muteCalls: "静音通话",
-  outputDevice: "输出设备",
-  inputDevice: "输入设备",
-  micPermission: "麦克风权限",
-  noDevice: "无设备",
-  checkMicPermission: "检查权限",
-  micNoPermissionMessage: "该应用没有使用麦克风的权限",
-  noLabel: "未知设备",
-  notSetSinkIdTip: "抱歉，当前的浏览器权限未设置为允许访问音频输出设备。{clickHereLink}以查看如何设置。",
-  noLabelTip: "抱歉，当前的浏览器权限未设置为允许访问音频输入设备。",
-  clickHere: "点击此处",
-  defaultOutputDevice: "默认输出设备"
-};
+  title: '音频',
+  dialButtonVolume: '拨号键音量',
+  ringtoneVolume: '铃声音量',
+  callVolume: '通话音量',
+  muteCalls: '静音通话',
+  outputDevice: '输出设备',
+  inputDevice: '输入设备',
+  micPermission: '麦克风权限',
+  noDevice: '无设备',
+  checkMicPermission: '检查权限',
+  micNoPermissionMessage: '该应用没有使用麦克风的权限',
+  noLabel: '未知设备',
+  notSetSinkIdTip:
+    '抱歉，当前的浏览器权限未设置为允许访问音频输出设备。{clickHereLink}以查看如何设置。',
+  noLabelTip: '抱歉，当前的浏览器权限未设置为允许访问音频输入设备。',
+  clickHere: '点击此处',
+  defaultOutputDevice: '默认输出设备',
+} as const;
 
 // @key: @#@"title"@#@ @source: @#@"Audio"@#@
 // @key: @#@"dialButtonVolume"@#@ @source: @#@"Dial Button Volume"@#@

@@ -17,7 +17,16 @@ const errorMessageTypes = [
 ];
 
 async function defaultCheckConnectionFn() {
-  return fetch('https://pubsub.pubnub.com/time/0');
+  const response = await fetch(
+    'https://apps.ringcentral.com/integration/ping',
+    {
+      method: 'HEAD',
+      mode: 'no-cors',
+    },
+  );
+  if (response.type !== 'opaque' && response.status !== 200) {
+    throw new Error('Network check failed');
+  }
 }
 
 @Module({
@@ -69,6 +78,10 @@ export class ConnectivityMonitor extends RcModuleV2<Deps> {
     }
 
     this._retry();
+  };
+
+  _networkOnlineHandler = () => {
+    this._checkConnection();
   };
 
   protected _networkErrorHandler = () => {
@@ -146,6 +159,7 @@ export class ConnectivityMonitor extends RcModuleV2<Deps> {
     client.on(client.events.requestSuccess, this._requestSuccessHandler);
     client.on(client.events.requestError, this._requestErrorHandler);
     window?.addEventListener('offline', this._networkErrorHandler);
+    window?.addEventListener('online', this._networkOnlineHandler);
     this._unbindHandlers = () => {
       client.removeListener(
         client.events.requestSuccess,
@@ -156,6 +170,7 @@ export class ConnectivityMonitor extends RcModuleV2<Deps> {
         this._requestErrorHandler,
       );
       window?.removeEventListener('offline', this._networkErrorHandler);
+      window?.removeEventListener('online', this._networkOnlineHandler);
       this._unbindHandlers = null;
     };
   }

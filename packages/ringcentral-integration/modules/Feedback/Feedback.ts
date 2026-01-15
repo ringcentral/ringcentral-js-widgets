@@ -94,6 +94,6 @@ export class Feedback extends RcModuleV2<Deps> {
 
   @proxify
   async sendFeedback(mailToUrl: string) {
-    window.location.href = mailToUrl;
+    location.href = mailToUrl;
   }
 }

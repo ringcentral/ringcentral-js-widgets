@@ -19,6 +19,9 @@
     "@ringcentral-integration/crius": "**"
   },
   "nx": {
-    "tags": ["scope:ci-group-1"]
+    "tags": [
+      "scope:ci-group-1",
+      "scope:ci-test"
+    ]
   }
 }

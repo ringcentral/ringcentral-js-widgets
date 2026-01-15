@@ -16,7 +16,7 @@ import ActionMenu from '../ActionMenu';
 import CallIcon from '../CallIcon';
 import CircleButton from '../CircleButton';
 import ContactDisplay from '../ContactDisplay';
-import DurationCounter from '../DurationCounter';
+import { DurationCounter } from '../DurationCounter';
 
 import i18n from './i18n';
 import styles from './styles.scss';
@@ -474,6 +474,7 @@ class ActiveCallItem extends Component {
         : undefined;
 
     return (
+      // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
       <div className={styles.root} onClick={this.toggleExtended}>
         <div className={styles.wrapper}>
           <CallIcon

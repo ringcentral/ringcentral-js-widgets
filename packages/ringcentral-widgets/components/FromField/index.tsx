@@ -10,14 +10,16 @@ import styles from './styles.scss';
 const PhoneNumber = ({
   formatPhone,
   usageType,
+  label,
   currentLocale,
   phoneNumber,
 }: any) => {
-  const usageTypeDom = usageType ? (
-    <span className={styles.usageType}>
-      {i18n.getString(usageType, currentLocale)}
-    </span>
-  ) : null;
+  const usageTypeDom =
+    label || usageType ? (
+      <span className={styles.usageType}>
+        {label || i18n.getString(usageType, currentLocale)}
+      </span>
+    ) : null;
   return (
     <span className={styles.phoneNumber}>
       {usageTypeDom}
@@ -30,6 +32,7 @@ PhoneNumber.propTypes = {
   formatPhone: PropTypes.func.isRequired,
   phoneNumber: PropTypes.string,
   usageType: PropTypes.string,
+  label: PropTypes.string,
   currentLocale: PropTypes.string.isRequired,
 };
 
@@ -48,6 +51,7 @@ interface FromFieldIns {
   showAnonymous: boolean;
   className?: string;
   disabled?: boolean;
+  showCustomPhoneLabel?: boolean;
 }
 
 // phone number formatting becomes expensive when there are lots of numbers
@@ -62,6 +66,7 @@ const FromField = memo(function FromField({
   disabled,
   showAnonymous,
   currentLocale,
+  showCustomPhoneLabel,
 }: FromFieldIns) {
   if (hidden) {
     return null;
@@ -103,6 +108,7 @@ const FromField = memo(function FromField({
             formatPhone={formatPhone}
             phoneNumber={option.phoneNumber}
             usageType={option.usageType}
+            label={showCustomPhoneLabel ? option.label : undefined}
             currentLocale={currentLocale}
           />
         );

@@ -33,6 +33,7 @@ import {
   When,
   examples,
   StepProp,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import { generateDialPlanData } from '../../../../../__mock__/generateDialPlanData';
@@ -54,6 +55,7 @@ import {
 import { NavigateTo } from '../../../../../steps/Router';
 
 @autorun(test.skip)
+@common
 @it
 @p1
 @title('Disable area code in RC-CA/US/PR')

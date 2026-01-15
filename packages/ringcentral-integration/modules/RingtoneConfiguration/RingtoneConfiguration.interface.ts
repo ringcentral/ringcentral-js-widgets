@@ -1,4 +1,4 @@
-import type { AudioSettings } from '../AudioSettings';
+import type { Alert } from '../Alert';
 import type { Storage } from '../Storage';
 import type { Webphone } from '../Webphone';
 
@@ -8,9 +8,9 @@ export interface RingtoneConfigurationOptions {
 }
 
 export interface Deps {
-  audioSettings: AudioSettings;
   storage: Storage;
   webphone: Webphone;
+  alert: Alert;
   ringtoneConfigurationOptions?: RingtoneConfigurationOptions;
 }
 

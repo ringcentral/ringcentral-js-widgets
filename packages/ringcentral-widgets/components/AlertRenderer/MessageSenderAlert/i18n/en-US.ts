@@ -13,9 +13,9 @@ export default {
   [messageSenderMessages.noToNumber]: 'Please enter a valid phone number.',
   [messageSenderMessages.recipientsEmpty]:
     'Please enter a valid receiver number.',
-  [messageSenderMessages.textTooLong]: 'Text is too long, 1000 Limited',
+  [messageSenderMessages.textTooLong]: 'You can enter up to 1,000 characters.',
   [messageSenderMessages.multipartTextTooLong]:
-    'Text is too long, 5000 Limited',
+    'You can enter up to 5,000 characters.',
   [messageSenderMessages.recipientNumberInvalids]:
     'Please enter a valid phone number.',
   [messageSenderMessages.noAreaCode]:
@@ -40,9 +40,10 @@ export default {
     "You don't have permission to send messages. Please contact your {brand} account administrator for upgrade.",
   [messageSenderMessages.noSMSPermission]:
     "You don't have permission to send messages to recipients outside of your organization.",
-  [messageSenderMessages.attachmentCountLimitation]: 'Maximum 10 attachments.',
+  [messageSenderMessages.attachmentCountLimitation]:
+    "Can't be more than 10 attachments per message",
   [messageSenderMessages.attachmentSizeLimitation]:
-    'Attachments size is limited to 1.5M bytes.',
+    "The over all attachment size can't be larger than 1.5 MB per message.",
   [messageSenderMessages.noAttachmentToExtension]:
     "It isn't supported to send MMS to an extension.",
   areaCode: 'area code',

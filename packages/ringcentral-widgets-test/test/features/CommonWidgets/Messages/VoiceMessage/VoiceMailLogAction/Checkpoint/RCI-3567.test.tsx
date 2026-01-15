@@ -12,6 +12,7 @@
  */
 import {
   autorun,
+  common,
   Given,
   it,
   p2,
@@ -36,6 +37,7 @@ import { MockMessageList } from '../../../../../../steps/Mock/MockMessage/MockMe
 import { NavigateToVoiceMail } from '../../../../../../steps/Navigate';
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('Cancel deletion of voice message')

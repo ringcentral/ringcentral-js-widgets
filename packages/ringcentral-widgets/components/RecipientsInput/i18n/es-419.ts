@@ -1,7 +1,8 @@
+/* eslint-disable */
 export default {
-  to: "Para",
-  enterNameOrNumber: "Introduzca el nombre o número"
-};
+  to: 'Para',
+  enterNameOrNumber: 'Introduzca el nombre o número',
+} as const;
 
 // @key: @#@"to"@#@ @source: @#@"To"@#@
 // @key: @#@"enterNameOrNumber"@#@ @source: @#@"Enter name or number"@#@

@@ -13,7 +13,7 @@ export const SetVolumeSlider: StepFunction<{
   expect(volumeSlider).toBeInTheDocument();
 
   sliderRoot.getBoundingClientRect = jest.fn(() => {
-    return {
+    const rect = {
       width: 100,
       height: 10,
       bottom: 10,
@@ -22,7 +22,10 @@ export const SetVolumeSlider: StepFunction<{
       y: 0,
       right: 0,
       top: 0,
-      toJSON() {},
+    };
+    return {
+      ...rect,
+      toJSON: () => rect,
     };
   });
 

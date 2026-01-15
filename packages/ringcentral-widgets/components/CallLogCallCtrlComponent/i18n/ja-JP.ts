@@ -1,29 +1,33 @@
+/* eslint-disable */
 export default {
-  mute: "ミュート",
-  unmute: "ミュート解除",
-  hangup: "通話を終了",
-  reject: "拒否",
-  hold: "保留",
-  onHold: "保留中",
-  transfer: "転送",
-  more: "さらに表示",
-  stopRecord: "録音を停止",
-  record: "レコーディング",
-  showKeypad: "キーパッド",
-  hideKeypad: "キーパッドを非表示",
-  unHold: "保留解除",
-  forward: "転送",
-  ignore: "無視",
-  voicemail: "ボイスメールへ",
-  custom: "カスタム",
-  answerAndEnd: "応答/終了",
-  answerAndHold: "応答/保留",
-  answer: "応答",
-  completeTransfer: "転送完了",
-  reply: "返信",
-  add: "追加",
-  mergeCall: "アクティブな通話とマージ"
-};
+  mute: 'ミュート',
+  unmute: 'ミュート解除',
+  hangup: '通話を終了',
+  reject: '拒否',
+  hold: '保留',
+  onHold: '保留中',
+  transfer: '転送',
+  more: 'さらに表示',
+  stopRecord: '録音を停止',
+  record: 'レコーディング',
+  showKeypad: 'キーパッド',
+  hideKeypad: 'キーパッドを非表示',
+  unHold: '保留解除',
+  forward: '転送',
+  ignore: '無視',
+  voicemail: 'ボイスメールへ',
+  custom: 'カスタム',
+  answerAndEnd: '応答して終了',
+  answerAndHold: '応答/保留',
+  answer: '応答',
+  completeTransfer: '転送完了',
+  reply: '返信',
+  add: '追加',
+  mergeCall: 'アクティブな通話とマージ',
+  endCallForEveryone: '全員に対して通話を終了',
+  leaveCall: '通話から退出',
+  leaveOrEndCall: '通話から退出するか、通話を終了しますか？',
+} as const;
 
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
@@ -49,3 +53,6 @@ export default {
 // @key: @#@"reply"@#@ @source: @#@"Reply"@#@
 // @key: @#@"add"@#@ @source: @#@"Add"@#@
 // @key: @#@"mergeCall"@#@ @source: @#@"Merge with active call"@#@
+// @key: @#@"endCallForEveryone"@#@ @source: @#@"End call for everyone"@#@
+// @key: @#@"leaveCall"@#@ @source: @#@"Leave call"@#@
+// @key: @#@"leaveOrEndCall"@#@ @source: @#@"Leave or end call?"@#@

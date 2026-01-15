@@ -17,4 +17,5 @@ export interface GetExtensionForwardingNumberListResponse {
   /**
    */
   paging: CallHandlingPagingInfo;
+  label: string;
 }

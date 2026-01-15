@@ -1,11 +1,12 @@
+/* eslint-disable */
 export default {
-  to: "Naar:",
-  transferTo: "Doorschakelen naar",
-  blindTransfer: "Doorschakelen",
-  warmTransfer: "Eerst vragen",
-  enterNameOrNumber: "Nummer invoeren",
-  toVoicemail: "Naar voicemail"
-};
+  to: 'Naar:',
+  transferTo: 'Doorschakelen naar',
+  blindTransfer: 'Doorschakelen',
+  warmTransfer: 'Eerst vragen',
+  enterNameOrNumber: 'Nummer invoeren',
+  toVoicemail: 'Naar voicemail',
+} as const;
 
 // @key: @#@"to"@#@ @source: @#@"To:"@#@
 // @key: @#@"transferTo"@#@ @source: @#@"Transfer to"@#@

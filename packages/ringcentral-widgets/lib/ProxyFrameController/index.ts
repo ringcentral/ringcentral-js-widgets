@@ -6,7 +6,7 @@ type ProxyFrameControllerParams = {
 
 export default class ProxyFrameController {
   constructor({ prefix }: ProxyFrameControllerParams = {}) {
-    const urlParams = new URLSearchParams(window.location.search);
+    const urlParams = new URLSearchParams(location.search);
     const uuid = urlParams.get('uuid') || '';
 
     // TODO: should find where to call that

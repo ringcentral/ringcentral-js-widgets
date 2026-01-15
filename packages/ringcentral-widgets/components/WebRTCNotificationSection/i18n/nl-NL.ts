@@ -1,13 +1,14 @@
+/* eslint-disable */
 export default {
-  forward: "Doorverbinden",
-  ignore: "Negeren",
-  toVoicemail: "Naar voicemail",
-  answer: "Beantwoorden",
-  endAndAnswer: "Beëindigen en beantwoorden",
-  holdAndAnswer: "In wacht en beantwoorden",
-  custom: "Aangepast",
-  more: "Meer"
-};
+  forward: 'Doorverbinden',
+  ignore: 'Negeren',
+  toVoicemail: 'Naar voicemail',
+  answer: 'Beantwoorden',
+  endAndAnswer: 'Beëindigen en beantwoorden',
+  holdAndAnswer: 'In wacht en beantwoorden',
+  custom: 'Aangepast',
+  more: 'Meer',
+} as const;
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
 // @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@

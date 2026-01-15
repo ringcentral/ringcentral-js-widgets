@@ -31,6 +31,9 @@ $width: 30px;
   margin-top: 28px;
   color: #0c0c0c;
   padding: 0 16px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .number {

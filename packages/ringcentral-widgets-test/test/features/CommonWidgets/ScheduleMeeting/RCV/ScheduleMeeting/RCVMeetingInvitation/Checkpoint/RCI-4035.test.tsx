@@ -47,6 +47,7 @@ import {
   title,
   When,
   And,
+  common,
 } from '../../../../../../../lib/step';
 import { Login as CommonLogin } from '../../../../../../../steps/Login';
 import {
@@ -55,6 +56,7 @@ import {
 } from '../../../../../../../steps/Meeting';
 
 @autorun(test.skip)
+@common
 @it
 @p1
 @title('Request for RCV meeting invitation')

@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 import { EventEmitter } from 'events';
-import * as uuid from 'uuid';
+import { v4 } from 'uuid';
 
 const HEART_BEAT_INTERVAL = 1000;
 // heartbeat older than HEART_BEAT_EXPIRE will be gc'ed
@@ -19,7 +19,7 @@ const TabbieEvents = ObjectMap.fromKeys(['mainTabIdChanged', 'event']);
  * @description The base active tab and cross tab event handling class.
  */
 export class Tabbie {
-  id = uuid.v4();
+  id = v4();
   enabled: boolean;
   prefix: string;
 
@@ -194,7 +194,7 @@ export class Tabbie {
       return;
     }
 
-    const key = `${this._eventKey}${uuid.v4()}`;
+    const key = `${this._eventKey}${v4()}`;
 
     const payload = [this.id, event, ...args];
     localStorage.setItem(key, JSON.stringify(payload));

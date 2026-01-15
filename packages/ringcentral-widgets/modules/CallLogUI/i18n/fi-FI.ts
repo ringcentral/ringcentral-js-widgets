@@ -1,5 +1,6 @@
+/* eslint-disable */
 export default {
-  unknown: "Tuntematon"
-};
+  unknown: 'Tuntematon',
+} as const;
 
 // @key: @#@"unknown"@#@ @source: @#@"Unknown"@#@

@@ -28,6 +28,9 @@ export class ServerTransport extends TransportBase {
       if (port.name === CONNECT_PORT_NAME) {
         this._ports.add(port);
         port.onMessage.addListener(({ type, requestId, payload }) => {
+          if (type === this._events.send) {
+            this.emit(this._events.send, payload);
+          }
           if (type === this._events.request && requestId && payload) {
             this._requests.set(requestId, port);
             this.emit(this._events.request, {
@@ -97,5 +100,21 @@ export class ServerTransport extends TransportBase {
     } catch (error) {
       console.log('[ServerTransport]', error);
     }
+  }
+
+  send({ payload }: { payload: unknown }) {
+    const message = { type: this._events.send, payload };
+    // Since postMessage is really expensive,
+    // we only send messages to those ports on active tabs.
+    this._ports.forEach((port) => {
+      if (
+        port.sender?.tab?.id
+        // TODO: implement change active tab for syncing state
+        // send to all instances if app failed to query active tabs
+        // (!this._activeTabIds.size || this._activeTabIds.has(port.sender.tab.id))
+      ) {
+        port.postMessage(message);
+      }
+    });
   }
 }

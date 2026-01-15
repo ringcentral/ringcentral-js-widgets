@@ -1,7 +1,7 @@
-import React from 'react';
+import CallLogFields from '@ringcentral-integration/widgets/components/CallLogFields';
 import { RcThemeProvider } from '@ringcentral/juno';
 import { mount } from 'enzyme';
-import CallLogFields from '@ringcentral-integration/widgets/components/CallLogFields';
+import React from 'react';
 
 const WrappedCallLogFields = (props) => {
   return (

@@ -17,6 +17,7 @@ import { AudioSettings } from '@ringcentral-integration/commons/modules/AudioSet
 import { Auth } from '@ringcentral-integration/commons/modules/Auth';
 import { AvailabilityMonitor } from '@ringcentral-integration/commons/modules/AvailabilityMonitor';
 import { Brand } from '@ringcentral-integration/commons/modules/Brand';
+import { BrowserLogger } from '@ringcentral-integration/commons/modules/BrowserLogger';
 import { Call } from '@ringcentral-integration/commons/modules/Call';
 import { CallHistory } from '@ringcentral-integration/commons/modules/CallHistory';
 import { CallLog } from '@ringcentral-integration/commons/modules/CallLog';
@@ -42,6 +43,7 @@ import { Environment } from '@ringcentral-integration/commons/modules/Environmen
 import { ExtensionDevice } from '@ringcentral-integration/commons/modules/ExtensionDevice';
 import { ExtensionFeatures } from '@ringcentral-integration/commons/modules/ExtensionFeatures';
 import { ExtensionInfo } from '@ringcentral-integration/commons/modules/ExtensionInfo';
+import { ExtensionNumberAreaCode } from '@ringcentral-integration/commons/modules/ExtensionNumberAreaCode';
 import { ExtensionPhoneNumber } from '@ringcentral-integration/commons/modules/ExtensionPhoneNumber';
 import { Feedback } from '@ringcentral-integration/commons/modules/Feedback';
 import { ForwardingNumber } from '@ringcentral-integration/commons/modules/ForwardingNumber';
@@ -73,11 +75,11 @@ import {
 import { Storage } from '@ringcentral-integration/commons/modules/Storage';
 import { Subscription } from '@ringcentral-integration/commons/modules/Subscription';
 import { TabManager } from '@ringcentral-integration/commons/modules/TabManager';
-import { ExtensionNumberAreaCode } from '@ringcentral-integration/commons/modules/ExtensionNumberAreaCode';
 import { TierChecker } from '@ringcentral-integration/commons/modules/TierChecker';
 import { UserGuide } from '@ringcentral-integration/commons/modules/UserGuide';
 import { VideoConfiguration } from '@ringcentral-integration/commons/modules/VideoConfiguration';
 import { Webphone } from '@ringcentral-integration/commons/modules/Webphone';
+import { removeSDKNonISO8859Chars } from '@ringcentral-integration/core';
 import hasActiveCalls from '@ringcentral-integration/widgets/lib/hasActiveCalls';
 import { ActiveCallsUI } from '@ringcentral-integration/widgets/modules/ActiveCallsUI';
 import { AlertUI } from '@ringcentral-integration/widgets/modules/AlertUI';
@@ -103,6 +105,7 @@ import { FeedbackUI } from '@ringcentral-integration/widgets/modules/FeedbackUI'
 import { FlipUI } from '@ringcentral-integration/widgets/modules/FlipUI';
 import { GenericMeetingUI } from '@ringcentral-integration/widgets/modules/GenericMeetingUI';
 import { IncomingCallUI } from '@ringcentral-integration/widgets/modules/IncomingCallUI';
+import { IssuesTrackingUI } from '@ringcentral-integration/widgets/modules/IssuesTrackingUI';
 import { LoginUI } from '@ringcentral-integration/widgets/modules/LoginUI';
 import { ModalUI } from '@ringcentral-integration/widgets/modules/ModalUI';
 import { OAuth } from '@ringcentral-integration/widgets/modules/OAuth';
@@ -178,6 +181,12 @@ const history =
         ringtoneSettings: false,
       },
     },
+    {
+      provide: 'SettingsUIOptions',
+      useValue: {
+        showTrackingIssue: true,
+      },
+    },
     { provide: 'CallingSettingsUI', useClass: CallingSettingsUI },
     { provide: 'Call', useClass: Call },
     { provide: 'Subscription', useClass: Subscription },
@@ -209,6 +218,8 @@ const history =
     { provide: 'VideoConfiguration', useClass: VideoConfiguration },
     { provide: 'Webphone', useClass: Webphone },
     { provide: 'ExtensionNumberAreaCode', useClass: ExtensionNumberAreaCode },
+    { provide: 'IssuesTrackingUI', useClass: IssuesTrackingUI },
+    { provide: 'BrowserLogger', useClass: BrowserLogger },
     { provide: 'ContactSearch', useClass: ContactSearch },
     { provide: 'CallMonitor', useClass: CallMonitor },
     { provide: 'DialerUI', useClass: DialerUI },
@@ -287,7 +298,6 @@ const history =
     {
       provide: 'EnvironmentOptions',
       useValue: {
-        useDataTrackingSetting: true,
         defaultRecordingHost:
           'https://cdn.integration.ringcentral.com/integration/recording/dev/rc/index.html',
       },
@@ -610,7 +620,9 @@ export function createPhone({
       {
         provide: 'Client',
         useFactory: ({ sdkConfig }) =>
-          new RingCentralClient(clientService || new SDK(sdkConfig)),
+          new RingCentralClient(
+            clientService || new SDK(removeSDKNonISO8859Chars(sdkConfig)),
+          ),
         deps: [{ dep: 'SdkConfig', useParam: true }],
       },
       {
@@ -635,7 +647,7 @@ export function createPhone({
           clearCacheOnRefreshError: false,
           clientId: apiConfig.clientId || apiConfig.appKey,
           clientSecret: apiConfig.clientSecret || apiConfig.appSecret,
-          redirectUri: new URL('./redirect.html', window.location.href).href,
+          redirectUri: new URL('./redirect.html', location.href).href,
         },
       },
       {

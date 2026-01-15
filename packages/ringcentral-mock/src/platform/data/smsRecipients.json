@@ -1,0 +1,25 @@
+{
+  "smsRecipients": [
+    {
+      "id": "1029679004",
+      "extensionNumber": "103",
+      "name": "RCV RCV_ext3",
+      "assignable": true,
+      "hasLicense": true
+    },
+    {
+      "id": "1029678004",
+      "extensionNumber": "102",
+      "name": "202 RCV",
+      "assignable": true,
+      "hasLicense": true
+    },
+    {
+      "id": "1029673004",
+      "extensionNumber": "101",
+      "name": "101 New",
+      "assignable": true,
+      "hasLicense": true
+    }
+  ]
+}

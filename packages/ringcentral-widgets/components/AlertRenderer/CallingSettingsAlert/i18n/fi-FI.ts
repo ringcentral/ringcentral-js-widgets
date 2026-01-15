@@ -1,15 +1,23 @@
+/* eslint-disable */
 import { callingSettingsMessages } from '@ringcentral-integration/commons/modules/CallingSettings';
 export default {
-  [callingSettingsMessages.saveSuccess]: "Asetukset tallennettu.",
-  [callingSettingsMessages.saveSuccessWithSoftphone]: "Asetukset tallennettu. Varmista, että olet asentanut sovelluksen {brand} tietokoneellesi.",
-  [callingSettingsMessages.permissionChanged]: "Käyttölupiasi on muutettu äskettäin. Tarkista puheluvaihtoehtosi kohdassa {link}.",
-  [callingSettingsMessages.phoneNumberChanged]: "Puhelinnumerotietojasi on muutettu äskettäin. Tarkista puheluvaihtoehtosi kohdassa {link}.",
-  link: "Asetukset > Puhelut",
-  [callingSettingsMessages.webphonePermissionRemoved]: "Käyttölupiasi on muutettu, etkä voi soittaa puheluita selaimen kautta. Kysy lisätietoja tilisi järjestelmänvalvojalta.",
-  [callingSettingsMessages.emergencyCallingNotAvailable]: "Puheluiden soittamista hätä-/erikoispalvelunumeroihin ei tueta. Soita hätätilanteessa hätänumeroon lankapuhelimellasi tai langattomalla puhelimellasi.",
-  [callingSettingsMessages.saveSuccessWithJupiter]: "Asetukset tallennettu. Varmista, että olet asentanut sovelluksen {brand} tietokoneellesi.",
-  [callingSettingsMessages.disableEmergencyInJapan]: "Hätäpalvelu ei ole saatavilla Japanissa."
-};
+  [callingSettingsMessages.saveSuccess]: 'Asetusten tallennus onnistui.',
+  [callingSettingsMessages.saveSuccessWithSoftphone]:
+    'Asetusten tallennus onnistui. Varmista, että olet asentanut sovelluksen {brand} tietokoneellesi.',
+  [callingSettingsMessages.permissionChanged]:
+    'Käyttölupiasi on muutettu äskettäin. Tarkista puheluvaihtoehtosi kohdassa {link}.',
+  [callingSettingsMessages.phoneNumberChanged]:
+    'Puhelinnumerotietojasi on muutettu äskettäin. Tarkista puheluvaihtoehtosi kohdassa {link}.',
+  link: 'Asetukset > Puhelut',
+  [callingSettingsMessages.webphonePermissionRemoved]:
+    'Käyttölupiasi on muutettu, etkä voi soittaa puheluita selaimen kautta. Kysy lisätietoja tilisi järjestelmänvalvojalta.',
+  [callingSettingsMessages.emergencyCallingNotAvailable]:
+    'Puheluiden soittamista hätä-/erikoispalvelunumeroihin ei tueta. Soita hätätilanteessa hätänumeroon lankapuhelimellasi tai langattomalla puhelimellasi.',
+  [callingSettingsMessages.saveSuccessWithJupiter]:
+    'Asetusten tallennus onnistui. Varmista, että olet asentanut sovelluksen {brand} tietokoneellesi.',
+  [callingSettingsMessages.disableEmergencyInJapan]:
+    'Hätäpalvelu ei ole saatavilla Japanissa.',
+} as const;
 
 // @key: @#@"[callingSettingsMessages.saveSuccess]"@#@ @source: @#@"Settings saved successfully."@#@
 // @key: @#@"[callingSettingsMessages.saveSuccessWithSoftphone]"@#@ @source: @#@"Settings saved successfully. Please make sure you have {brand} installed in your computer."@#@

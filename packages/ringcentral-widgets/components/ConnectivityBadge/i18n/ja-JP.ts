@@ -1,11 +1,12 @@
+/* eslint-disable */
 import { connectivityTypes } from '../../../modules/ConnectivityManager';
 export default {
-  [connectivityTypes.webphoneUnavailable]: "ウェブ電話は利用できません",
-  [connectivityTypes.offline]: "オフライン",
-  [connectivityTypes.voipOnly]: "VoIPのみ",
-  [connectivityTypes.survival]: "制限モード",
-  [connectivityTypes.connecting]: "接続中"
-};
+  [connectivityTypes.webphoneUnavailable]: 'ウェブ電話は利用できません',
+  [connectivityTypes.offline]: 'オフライン',
+  [connectivityTypes.voipOnly]: 'VoIPのみ',
+  [connectivityTypes.survival]: '制限モード',
+  [connectivityTypes.connecting]: '接続中',
+} as const;
 
 // @key: @#@"[connectivityTypes.webphoneUnavailable]"@#@ @source: @#@"Web Phone Unavailable"@#@
 // @key: @#@"[connectivityTypes.offline]"@#@ @source: @#@"Offline"@#@

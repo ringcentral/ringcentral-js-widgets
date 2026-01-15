@@ -1,14 +1,15 @@
+/* eslint-disable */
 export default {
-  currentCall: "目前通話",
-  viewCalls: "檢視通話",
-  view: "檢視",
-  incomingCall: "{numberOf} 通來電",
-  incomingCalls: "{numberOf} 通來電",
-  callOnHold: "{numberOf} 通電話等待接通",
-  callsOnHold: "{numberOf} 通電話等待接通",
-  otherDeviceCall: "{numberOf} 通在其他裝置的通話",
-  otherDeviceCalls: "{numberOf} 通在其他裝置的通話"
-};
+  currentCall: '目前通話',
+  viewCalls: '檢視通話',
+  view: '檢視',
+  incomingCall: '{numberOf} 通來電',
+  incomingCalls: '{numberOf} 通來電',
+  callOnHold: '{numberOf} 通電話等待接通',
+  callsOnHold: '{numberOf} 通電話等待接通',
+  otherDeviceCall: '{numberOf} 通在其他裝置的通話',
+  otherDeviceCalls: '{numberOf} 通在其他裝置的通話',
+} as const;
 
 // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@
 // @key: @#@"viewCalls"@#@ @source: @#@"View Calls"@#@

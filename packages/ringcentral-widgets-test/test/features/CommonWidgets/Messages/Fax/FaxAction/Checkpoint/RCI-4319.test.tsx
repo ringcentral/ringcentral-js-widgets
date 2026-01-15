@@ -29,6 +29,7 @@ import {
   title,
   When,
   And,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import { mockMessageListData } from '../../../../../../__mock__';
@@ -51,6 +52,7 @@ import { NavigateToFax } from '../../../../../../steps/Navigate';
 import { WaitForSpinner } from '../../../../../../steps/WaitForSpinner';
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('View fax contact details for Company contact')
@@ -129,6 +131,7 @@ export class RCI4319CompanyContact extends Step {
 }
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('View fax contact details for Personal contact')
@@ -211,6 +214,7 @@ export class RCI4319PersonalContact extends Step {
 }
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('View fax contact details for Third Party')

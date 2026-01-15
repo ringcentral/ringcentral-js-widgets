@@ -1,28 +1,49 @@
+/* eslint-disable */
 import webphoneErrors from '@ringcentral-integration/commons/modules/Webphone/webphoneErrors';
 import webphoneMessages from '@ringcentral-integration/commons/modules/Webphone/webphoneMessages';
 export default {
-  [webphoneErrors.connectFailed]: "No momento, os recursos do telefone estão indisponíveis. Tente novamente mais tarde. ",
-  [webphoneErrors.connected]: "Telefone da Web registrado.",
-  [webphoneErrors.browserNotSupported]: "Não há suporte para chamadas usando este navegador.",
-  [webphoneErrors.webphoneCountOverLimit]: "É possível registrar no máximo cinco telefones Web.",
-  [webphoneErrors.checkDLError]: "Não é possível fazer uma chamada. Contate {brandName} para obter suporte se esse erro continuar aparecendo.",
-  [webphoneErrors.noOutboundCallWithoutDL]: "No momento, o ramal não pode fazer chamadas de saída com o navegador. Entre em contato com o representante da conta para fazer uma atualização.",
-  [webphoneErrors.provisionUpdate]: "Algo deu errado do nosso lado. Tentaremos reconectar automaticamente em breve.",
-  [webphoneErrors.serverConnecting]: "Há um problema de conexão com o servidor de telefone.",
-  [webphoneErrors.toVoiceMailError]: "Não é possível enviar chamadas para caixa postal devido a um erro interno",
-  [webphoneErrors.muteError]: "Não é possível deixar a chamada sem som no momento.",
-  [webphoneErrors.holdError]: "Não é possível colocar a chamada em espera no momento.",
-  [webphoneErrors.flipError]: "Não é possível transferir a chamada. Tente novamente mais tarde.",
-  [webphoneErrors.recordError]: "Não é possível gravar a chamada no momento. Código de erro: {errorCode}.",
-  [webphoneErrors.pauseRecordError]: "Não foi possível parar a gravação da chamada. Tente novamente mais tarde.",
-  [webphoneErrors.recordDisabled]: "Sua conta não tem o recurso de gravação de chamadas. Entre em contato com o administrador da conta.",
-  [webphoneErrors.transferError]: "Não é possível transferir a chamada. Tente novamente mais tarde.",
-  [webphoneMessages.parked]: "Sua chamada está estacionada no local: {parkedNumber}",
-  failWithStatusCode: "Ocorreu um erro: {errorCode}. Se o problema continuar, reporte esse erro ao suporte da {brandName}.",
-  registeringWithStatusCode: "Ocorreu um problema. Estamos tentando reconectar. Se o problema continuar, reporte-o ao suporte da {brandName}. Código de erro: {errorCode}.",
-  failWithoutStatusCode: "Algo deu errado do nosso lado. Se o erro continuar, reporte-o ao suporte da {brandName}.",
-  registeringWithoutStatusCode: "Ocorreu um problema. Estamos tentando reconectar. Se o problema continuar, reporte-o ao suporte da {brandName}."
-};
+  [webphoneErrors.connectFailed]:
+    'No momento, os recursos do telefone estão indisponíveis. Tente novamente mais tarde. ',
+  [webphoneErrors.connected]: 'Telefone da Web registrado.',
+  [webphoneErrors.browserNotSupported]:
+    'Não há suporte para chamadas usando este navegador.',
+  [webphoneErrors.webphoneCountOverLimit]:
+    'É possível registrar no máximo cinco telefones Web.',
+  [webphoneErrors.checkDLError]:
+    'Não é possível fazer uma chamada. Entre em contato com o {brandName} para obter suporte se esse erro continuar aparecendo.',
+  [webphoneErrors.noOutboundCallWithoutDL]:
+    'No momento, o ramal não pode fazer chamadas de saída com o navegador. Entre em contato com o representante da conta para fazer uma atualização.',
+  [webphoneErrors.provisionUpdate]:
+    'Algo deu errado do nosso lado. Tentaremos reconectar automaticamente em breve.',
+  [webphoneErrors.serverConnecting]:
+    'Há um problema de conexão com o servidor de telefone.',
+  [webphoneErrors.toVoiceMailError]:
+    'Não é possível enviar chamadas para caixa postal devido a um erro interno',
+  [webphoneErrors.muteError]:
+    'Não é possível deixar a chamada sem som no momento.',
+  [webphoneErrors.holdError]:
+    'Não é possível colocar a chamada em espera no momento.',
+  [webphoneErrors.flipError]:
+    'Não é possível transferir dinamicamente a chamada. Tente novamente mais tarde.',
+  [webphoneErrors.recordError]:
+    'Não é possível gravar a chamada no momento. Código de erro: {errorCode}.',
+  [webphoneErrors.pauseRecordError]:
+    'Não foi possível parar a gravação da chamada. Tente novamente mais tarde.',
+  [webphoneErrors.recordDisabled]:
+    'Sua conta não tem o recurso de gravação de chamadas. Entre em contato com o administrador da conta.',
+  [webphoneErrors.transferError]:
+    'Não é possível transferir a chamada. Tente novamente mais tarde.',
+  [webphoneMessages.parked]:
+    'Sua chamada está estacionada no local: {parkedNumber}',
+  failWithStatusCode:
+    'Ocorreu um erro: {errorCode}. Se o problema continuar, reporte esse erro ao suporte da {brandName}.',
+  registeringWithStatusCode:
+    'Ocorreu um problema. Estamos tentando reconectar. Se o problema continuar, reporte-o ao suporte da {brandName}. Código de erro: {errorCode}.',
+  failWithoutStatusCode:
+    'Algo deu errado do nosso lado. Se o erro continuar, reporte-o ao suporte do {brandName}.',
+  registeringWithoutStatusCode:
+    'Ocorreu um problema. Estamos tentando reconectar. Se o problema continuar, reporte-o ao suporte da {brandName}.',
+} as const;
 
 // @key: @#@"[webphoneErrors.connectFailed]"@#@ @source: @#@"Sorry, phone features are currently unavailable. Please retry later. "@#@
 // @key: @#@"[webphoneErrors.connected]"@#@ @source: @#@"Web phone registered."@#@

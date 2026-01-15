@@ -1,8 +1,9 @@
 import type { Call as NormalizedCall } from '@ringcentral-integration/commons/interfaces/Call.interface';
-import type { HistoryCall } from '@ringcentral-integration/commons/modules/CallHistory';
 import type { NormalizedSession } from '@ringcentral-integration/commons/interfaces/Webphone.interface';
+import type { HistoryCall } from '@ringcentral-integration/commons/modules/CallHistory';
+import { ZendeskTicketStatus } from '@ringcentral-integration/micro-generic-widget/src/app/services/ZendeskUIFAPI/models/ticket-status';
 
-import type { FieldItemOption } from '../CallLogFields/FieldItem/FieldItem.interface';
+import type { FieldItemOption } from '../CallLogFields';
 
 // This interface will change folder in the future
 export interface CallLog {
@@ -139,6 +140,10 @@ export interface Task {
   isEdited?: boolean;
   isLogged?: boolean;
   [fieldName: string]: unknown;
+  ticketStatuses?: ZendeskTicketStatus[];
+  shouldShowTicketStatusesDropDown?: boolean;
+  ticketStatusId?: number;
+  ticketStatus?: ZendeskTicketStatus;
 }
 
 export interface NavigateToEntities {

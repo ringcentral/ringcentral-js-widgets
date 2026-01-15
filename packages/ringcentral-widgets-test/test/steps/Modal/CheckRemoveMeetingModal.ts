@@ -9,10 +9,11 @@ export const CheckRemoveMeetingModal: StepFunction = async (
 ) => {
   return CheckModalValue(
     {
-      title: 'Remove meeting?',
+      title: 'Remove RingCentral meeting?',
       confirmButtonText: 'Remove',
       cancelButtonText: 'Cancel',
-      childrenContent: 'Would you like to remove the meeting?',
+      childrenContent:
+        'The RingCentral meeting will be removed from this event.',
     },
     context,
   );

@@ -1,5 +1,5 @@
+/* eslint-disable */
 import { callErrors } from '@ringcentral-integration/commons/modules/Call';
-
 export default {
   [callErrors.emergencyNumber]:
     'Emergency calling is not available. Please use another phone to contact emergency services',
@@ -22,7 +22,7 @@ export default {
   telus911: 'Emergency dialling is not supported.',
   [callErrors.fromAndToNumberIsSame]:
     'The RingOut number and destination number can’t be the same. Please update the number and try again.',
-};
+} as const;
 
 // @key: @#@"[callErrors.emergencyNumber]"@#@ @source: @#@"Emergency calling is not available. Please use another phone to contact emergency services"@#@
 // @key: @#@"[callErrors.noToNumber]"@#@ @source: @#@"Please enter a valid phone number."@#@

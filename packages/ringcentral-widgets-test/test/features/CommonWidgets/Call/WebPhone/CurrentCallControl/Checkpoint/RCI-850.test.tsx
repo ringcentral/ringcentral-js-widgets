@@ -16,6 +16,7 @@ import {
   Then,
   title,
   When,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import {
@@ -27,6 +28,7 @@ import { CommonLogin } from '../../../../../../steps/CommonLogin';
 import { TriggerActiveCallChanged } from '../../../../../../steps/Mock';
 
 @autorun(test.skip)
+@common
 @it
 @p1
 @title('Multiple calls incoming_send to voicemail')

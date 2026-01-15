@@ -57,7 +57,7 @@ import styles from './styles.scss';
 export interface MeetingConfigsProps {
   disabled: boolean;
   showSpinnerInConfigPanel: boolean;
-  personalMeetingId: string;
+  personalMeetingId?: string;
   updateMeetingSettings: (meeting: Partial<RcMMeetingModel>) => void;
   switchUsePersonalMeetingId: (usePersonalMeetingId: boolean) => any;
   update?: (...args: any[]) => any;

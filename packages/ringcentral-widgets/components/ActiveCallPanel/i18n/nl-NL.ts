@@ -1,12 +1,13 @@
+/* eslint-disable */
 export default {
-  conferenceCall: "Conference call",
-  onHold: "In de wacht",
-  ongoing: "Lopend",
-  unknown: "Onbekend",
-  disconnected: "Verbinding verbroken",
-  loading: "Laden...",
-  loadingTimeout: "Time-out bij het laden."
-};
+  conferenceCall: 'Conference call',
+  onHold: 'In de wacht',
+  ongoing: 'Lopend',
+  unknown: 'Onbekend',
+  disconnected: 'Verbinding verbroken',
+  loading: 'Laden...',
+  loadingTimeout: 'Time-out bij het laden.',
+} as const;
 
 // @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@
 // @key: @#@"onHold"@#@ @source: @#@"On Hold"@#@

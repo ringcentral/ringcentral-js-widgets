@@ -1,6 +1,6 @@
 export default {
   removeMeetingWarning:
-    'Please switch to the {app} to continue using the meeting feature.',
+    'The scheduling feature is discontinued. Please use the {app} to schedule your video meetings.',
   scheduleMeetingTips:
     'Please note that we removed meetings from this app. To use meetings, we recommend the {app}.',
   migrateToPluginAlert:

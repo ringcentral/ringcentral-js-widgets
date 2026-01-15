@@ -1,5 +1,6 @@
+/* eslint-disable */
 export default {
-  close: "Cerrar"
-};
+  close: 'Cerrar',
+} as const;
 
 // @key: @#@"close"@#@ @source: @#@"Close"@#@

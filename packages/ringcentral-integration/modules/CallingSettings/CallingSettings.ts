@@ -6,6 +6,7 @@ import {
   storage,
 } from '@ringcentral-integration/core';
 
+import { getExtensionPhoneNumberLabel } from '../../lib/contactHelper';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
 
@@ -51,6 +52,7 @@ class CallingSettings extends RcModuleV2<Deps> {
   private _blockedIdDisabled?: boolean;
   private _showCallWithJupiter: boolean;
   private _emergencyCallAvailable: boolean;
+  private _showCustomPhoneLabel: boolean;
   private _availableNumbers?: string[];
   private initRingoutPrompt?: boolean;
 
@@ -68,6 +70,8 @@ class CallingSettings extends RcModuleV2<Deps> {
     this._emergencyCallAvailable =
       this._deps.callingSettingsOptions?.emergencyCallAvailable ??
       !!this._deps.webphone;
+    this._showCustomPhoneLabel =
+      this._deps.callingSettingsOptions?.showCustomPhoneLabel ?? false;
   }
 
   get callWith() {
@@ -332,9 +336,15 @@ class CallingSettings extends RcModuleV2<Deps> {
   _getLocationLabel(phoneNumber: string) {
     const { devices } = this._deps.extensionDevice;
     const { flipNumbers } = this._deps.forwardingNumber;
-    const { mainCompanyNumber } = this._deps.extensionPhoneNumber;
+    const { mainCompanyNumber, numbers } = this._deps.extensionPhoneNumber;
     const { extensionNumber } = this._deps.extensionInfo;
     let name = null;
+    if (this._showCustomPhoneLabel && numbers.length) {
+      const label = getExtensionPhoneNumberLabel(phoneNumber, numbers);
+      if (label) {
+        return label;
+      }
+    }
     if (devices.length) {
       let registeredWithDevice = false;
       devices.forEach((device) => {

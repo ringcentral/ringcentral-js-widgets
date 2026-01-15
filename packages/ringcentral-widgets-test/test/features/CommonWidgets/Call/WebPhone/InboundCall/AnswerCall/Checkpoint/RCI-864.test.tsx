@@ -19,6 +19,7 @@ import {
   title,
   When,
   And,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import {
@@ -33,6 +34,7 @@ import { CommonLoginEntry } from '../../../../../../../steps/CommonLogin';
 import { TriggerActiveCallChanged } from '../../../../../../../steps/Mock';
 
 @autorun(test)
+@common
 @it
 @p1
 @title('Second call incoming_Answer and End - ${direction}')

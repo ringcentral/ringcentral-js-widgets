@@ -7,7 +7,7 @@ import type { BrandConfig } from './BrandConfig.interface';
 export interface BrandConfigOptions {
   /**
    * Custom brand config options
-   * if not specified, will use default window.location.origin
+   * if not specified, will use default location.origin
    */
   assetOrigin?: string;
 }

@@ -1,4 +1,4 @@
-import * as uuid from 'uuid';
+import { v4 } from 'uuid';
 
 import {
   TransportBase,
@@ -44,6 +44,13 @@ export class ClientTransport extends TransportBase {
         error?: string;
       }) => {
         switch (type) {
+          case this._events.send:
+            {
+              if (payload) {
+                this.emit(this._events.send, payload);
+              }
+            }
+            break;
           case this._events.push:
             {
               if (payload) {
@@ -71,7 +78,7 @@ export class ClientTransport extends TransportBase {
   }
 
   async request({ payload }: { payload: unknown }) {
-    const requestId = uuid.v4();
+    const requestId = v4();
     let promise = new Promise((resolve, reject) => {
       this._requests.set(requestId, {
         resolve,
@@ -105,5 +112,12 @@ export class ClientTransport extends TransportBase {
         );
       });
     return promise;
+  }
+
+  async send({ payload }: { payload: unknown }) {
+    this._port.postMessage({
+      type: this._events.send,
+      payload,
+    });
   }
 }

@@ -1,24 +1,27 @@
+/* eslint-disable */
 export default {
-  feedbackHeader: "Envoyer le commentaire",
-  back: "Revenir",
-  revert: "Rétablir",
-  instruction: "Vos commentaires sont très importants pour nous. Si vous rencontrez des difficultés pendant votre utilisation de l’application, si vous souhaitez faire la demande d’une fonctionnalité ou signaler un bogue, nous sommes toujours heureux de vous aider.",
-  fillForm: "Veuillez remplir le formulaire ci-dessous et cliquer sur ",
-  useMailBox: " ou veuillez utiliser votre messagerie pour envoyer votre requête à ",
-  email: "Votre adresse courriel",
-  reply: "(pour que nous puissions vous répondre)",
-  emailPlaceHolder: "ronald.app@ringcentral.com",
-  feedbackTopic: "Sujet des commentaires",
-  topicPlaceHolder: "Veuillez choisir une option",
-  bugReport: "Signalement de bogue",
-  featureRequest: "Demande de fonctionnalité",
-  others: "Autres",
-  subject: "Objet",
-  subjectPlaceHolder: "Veuillez nous indiquer comment nous pouvons vous aider",
-  description: "Description complète",
-  descriptionPlaceHolder: "Veuillez écrire le plus d’informations possible",
-  send: "Envoyer vos commentaires"
-};
+  feedbackHeader: 'Envoyer le commentaire',
+  back: 'Revenir',
+  revert: 'Rétablir',
+  instruction:
+    'Vos commentaires sont très importants pour nous. Si vous rencontrez des difficultés pendant votre utilisation de l’application, si vous souhaitez faire la demande d’une fonctionnalité ou signaler un bogue, nous sommes toujours heureux de vous aider.',
+  fillForm: 'Veuillez remplir le formulaire ci-dessous et cliquer sur ',
+  useMailBox:
+    ' ou veuillez utiliser votre messagerie pour envoyer votre requête à ',
+  email: 'Votre adresse courriel',
+  reply: '(pour que nous puissions vous répondre)',
+  emailPlaceHolder: 'ronald.app@ringcentral.com',
+  feedbackTopic: 'Sujet des commentaires',
+  topicPlaceHolder: 'Veuillez choisir une option',
+  bugReport: 'Signalement de bogue',
+  featureRequest: 'Demande de fonctionnalité',
+  others: 'Autres',
+  subject: 'Objet',
+  subjectPlaceHolder: 'Veuillez nous indiquer comment nous pouvons vous aider',
+  description: 'Description complète',
+  descriptionPlaceHolder: 'Veuillez écrire le plus d’informations possible',
+  send: 'Envoyer vos commentaires',
+} as const;
 
 // @key: @#@"feedbackHeader"@#@ @source: @#@"Submit Feedback"@#@
 // @key: @#@"back"@#@ @source: @#@"Back"@#@

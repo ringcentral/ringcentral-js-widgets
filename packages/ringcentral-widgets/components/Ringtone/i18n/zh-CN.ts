@@ -1,13 +1,14 @@
+/* eslint-disable */
 export default {
-  ringtones: "铃声",
-  incomingRingtone: "呼入铃声",
-  outgoingRingtone: "呼出铃声",
-  play: "播放",
-  stop: "停止",
-  upload: "上传",
-  reset: "重置",
-  save: "保存"
-};
+  ringtones: '铃声',
+  incomingRingtone: '呼入铃声',
+  outgoingRingtone: '呼出铃声',
+  play: '播放',
+  stop: '停止',
+  upload: '上传',
+  reset: '重置',
+  save: '保存',
+} as const;
 
 // @key: @#@"ringtones"@#@ @source: @#@"Ringtones"@#@
 // @key: @#@"incomingRingtone"@#@ @source: @#@"Incoming Ringtone"@#@

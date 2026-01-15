@@ -19,6 +19,7 @@ import {
   Then,
   title,
   When,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import {
@@ -34,6 +35,7 @@ import {
 import { CommonLoginEntry } from '../../../../../../steps/CommonLogin';
 
 @autorun(test)
+@common
 @it
 @p1
 @title('Current call control_Keypad')

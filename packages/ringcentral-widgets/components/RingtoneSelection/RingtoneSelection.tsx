@@ -219,11 +219,9 @@ export const RingtoneSelection = ({
                           if (ringtoneDeviceId === 'off' || !ringtoneDeviceId) {
                             return;
                           }
-                          if (id !== playingId) {
-                            audio.src = url;
-                            setAudioUrl(url);
-                            setPlayingId(id);
-                          }
+                          setPlayingId(id);
+                          audio.src = url;
+                          setAudioUrl(url);
                           audio.play();
                         } catch (err) {
                           console.log(err);

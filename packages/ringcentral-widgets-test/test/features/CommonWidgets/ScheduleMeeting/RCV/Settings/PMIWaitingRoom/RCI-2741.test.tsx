@@ -24,6 +24,7 @@ import {
   Then,
   title,
   When,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import { Login as CommonLogin } from '../../../../../../steps/Login';
@@ -31,11 +32,12 @@ import {
   CheckboxIsChecked,
   CheckboxIsLocked,
   CheckRCVPageDisplay,
-  CheckDropDownStatus,
-  TurnOnToggle,
+  MarkOnPMIAndEdit,
+  CheckWaitingRoomDropdown,
 } from '../../../../../../steps/Meeting';
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('PMI waiting room options when AuthCanJoin is unlocked')
@@ -66,16 +68,14 @@ export class RCI2741 extends Step {
         />
         <And
           desc="Mark on 'Use Personal Meeting ID'"
-          action={<TurnOnToggle dataSign="usePersonalMeetingId" />}
+          action={<MarkOnPMIAndEdit />}
         />
         <When
           desc="Check the value of'Enable waiting room for' should be the same as <waitingRoomOpt>"
           action={({ waitingRoomOpt }: any) => [
             <CheckboxIsChecked isChecked dataSign="enableWaitingRoom" />,
-            <CheckboxIsLocked isLocked dataSign="isWaitingRoomWrapper" />,
-            <CheckDropDownStatus
-              // all pmi status is default as disabled
-              isDisabled
+            <CheckboxIsLocked isLocked dataSign="waitingRoomField" />,
+            <CheckWaitingRoomDropdown
               dataSign="waitingRoom"
               defaultValue={waitingRoomOpt}
             />,

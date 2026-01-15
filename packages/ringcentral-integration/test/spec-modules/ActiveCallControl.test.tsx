@@ -81,6 +81,12 @@ const getMockModule = () =>
     },
   });
 
+const createModuleDeps = {
+  subscription: {
+    register() {},
+  },
+};
+
 @autorun(test)
 @title('ActiveCallControl Module "updateActiveSessions" action')
 export class ActiveCallControlUpdateActiveSessions extends Step {
@@ -90,7 +96,9 @@ export class ActiveCallControlUpdateActiveSessions extends Step {
         <Given
           desc="Create a 'ActiveCallControl' instance and have initial state 'activeSessions' as []"
           action={() => {
-            const activeCallControl = new ActiveCallControl({} as any);
+            const activeCallControl = new ActiveCallControl(
+              createModuleDeps as any,
+            );
             expect(activeCallControl.data.sessions.length).toBe(0);
             expect(activeCallControl.data.timestamp).toBe(0);
           }}
@@ -128,7 +136,9 @@ export class ActiveCallControlBusyTimestamp extends Step {
         <Given
           desc="Create a 'ActiveCallControl' instance and have initial state 'busyTimestamp' as 0"
           action={() => {
-            const activeCallControl = new ActiveCallControl({} as any);
+            const activeCallControl = new ActiveCallControl(
+              createModuleDeps as any,
+            );
             expect(activeCallControl.data.busyTimestamp).toBe(0);
           }}
         />
@@ -179,7 +189,9 @@ export class ActiveCallControlActiveSessionId extends Step {
         <Given
           desc="Create a 'ActiveCallControl' instance and have initial state 'activeSessions' as []"
           action={() => {
-            const activeCallControl = new ActiveCallControl({} as any);
+            const activeCallControl = new ActiveCallControl(
+              createModuleDeps as any,
+            );
             expect(activeCallControl.data.activeSessionId).toBe(null);
           }}
           ac
@@ -301,6 +313,9 @@ export class ActiveCallControlTransferCall extends Step {
                 },
                 alert: {
                   warning: jest.fn(),
+                },
+                subscription: {
+                  register() {},
                 },
               },
               _permissionCheck: true,

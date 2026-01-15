@@ -1,9 +1,10 @@
-import { callControlAlerts, callControlError } from '@ringcentral-integration/commons/modules/ActiveCallControl';
-const {
-  callsMerged,
-  somethingWentWrong,
-  tooManyParticipants
-} = callControlAlerts;
+/* eslint-disable */
+import {
+  callControlAlerts,
+  callControlError,
+} from '@ringcentral-integration/commons/modules/ActiveCallControl';
+const { callsMerged, somethingWentWrong, tooManyParticipants } =
+  callControlAlerts;
 const {
   holdConflictError,
   unHoldConflictError,
@@ -12,21 +13,25 @@ const {
   generalError,
   forwardSuccess,
   transferCompleted,
-  replyCompleted
+  replyCompleted,
 } = callControlError;
 export default {
-  [callsMerged]: "통화 병합됨",
-  [somethingWentWrong]: "문제가 발생했습니다. 다시 시도하세요.",
-  [tooManyParticipants]: "최대 참가자 수에 도달했습니다.",
-  [muteConflictError]: "이 통화는 다른 디바이스에서 음소거되었습니다. 이 앱에서 컨트롤하기 전에 통화 음소거를 해제하세요.",
-  [unHoldConflictError]: "이 통화는 다른 디바이스에서 대기되었습니다. 이 앱에서 컨트롤하기 전에 통화 대기를 해제하세요.",
-  [unMuteConflictError]: "이 통화는 다른 디바이스에서 음소거 해제되었습니다. 이 앱에서 컨트롤하기 전에 통화를 음소거하세요.",
-  [holdConflictError]: "이 통화는 다른 디바이스에서 대기 해제되었습니다. 이 앱에서 컨트롤하기 전에 통화 대기하세요.",
-  [generalError]: "예기치 않은 서버 오류입니다. 나중에 다시 시도하세요.",
-  [forwardSuccess]: "착신 전환됨",
-  [transferCompleted]: "통화가 전달되었습니다.",
-  [replyCompleted]: "음성 메시지를 보냈습니다."
-};
+  [callsMerged]: '통화 병합됨',
+  [somethingWentWrong]: '문제가 발생했습니다. 다시 시도하세요.',
+  [tooManyParticipants]: '최대 참가자 수에 도달했습니다.',
+  [muteConflictError]:
+    '이 통화는 다른 디바이스에서 음소거되었습니다. 이 앱에서 컨트롤하기 전에 통화 음소거를 해제하세요.',
+  [unHoldConflictError]:
+    '이 통화는 다른 디바이스에서 대기되었습니다. 이 앱에서 컨트롤하기 전에 통화 대기를 해제하세요.',
+  [unMuteConflictError]:
+    '이 통화는 다른 디바이스에서 음소거 해제되었습니다. 이 앱에서 컨트롤하기 전에 통화를 음소거하세요.',
+  [holdConflictError]:
+    '이 통화는 다른 디바이스에서 대기 해제되었습니다. 이 앱에서 컨트롤하기 전에 통화 대기하세요.',
+  [generalError]: '예기치 않은 서버 오류입니다. 나중에 다시 시도하세요.',
+  [forwardSuccess]: '착신 전환됨',
+  [transferCompleted]: '통화가 전달되었습니다.',
+  [replyCompleted]: '음성 메시지를 보냈습니다.',
+} as const;
 
 // @key: @#@"callsMerged"@#@ @source: @#@"Calls merged"@#@
 // @key: @#@"somethingWentWrong"@#@ @source: @#@"Something went wrong. Please try again."@#@

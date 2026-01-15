@@ -22,6 +22,7 @@ import {
   Then,
   title,
   When,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import { Login as CommonLogin } from '../../../../steps/Login';
@@ -35,6 +36,7 @@ import { CheckEventTracking } from '../../../../steps/Tracking';
 const meetingTitle = "Test1!@#%^&*()-_+{}|:'<>?/.,{}'?><:L,./";
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('Schedule a meeting with custom or default Subject')

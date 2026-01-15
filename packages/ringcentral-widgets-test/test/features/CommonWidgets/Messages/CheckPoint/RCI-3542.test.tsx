@@ -12,6 +12,7 @@ import {
   title,
   When,
   And,
+  common,
 } from '../../../../lib/step';
 import {
   ExpandTheActionMenu,
@@ -29,6 +30,7 @@ import {
 import { NavigateToMessagesTab } from '../../../../steps/Navigate';
 
 @autorun(test.skip)
+@common
 @p2
 @title('Verified the status of the record data after clicking the flag icon')
 export class VerifiedRecordDataStatus extends Step {

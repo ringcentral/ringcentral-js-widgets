@@ -23,6 +23,7 @@ export const NavigateToContacts: StepFunction = async (_, context) => {
   }
 
   expect(element).toBeInTheDocument();
+
   if (element) {
     jest.useFakeTimers();
     fireEvent.click(element);

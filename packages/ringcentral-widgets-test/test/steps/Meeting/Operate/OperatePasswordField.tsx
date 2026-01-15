@@ -1,4 +1,4 @@
-import { fireEvent, screen } from '@testing-library/react';
+import { fireEvent, screen, within } from '@testing-library/react';
 
 import type { StepFunction } from '../../../lib/step';
 
@@ -22,6 +22,17 @@ export const EnterPassword: StepFunction<{ password: string }> = async ({
 }) => {
   const element =
     screen.getByPlaceholderText<HTMLInputElement>('Enter Password');
+  fireEvent.change(element, {
+    target: { value: password },
+  });
+};
+
+export const EnterPasswordInPopup: StepFunction<{ password: string }> = async ({
+  password,
+}) => {
+  const modal = screen.getByRole('dialog', { hidden: false });
+  const element =
+    within(modal).getByPlaceholderText<HTMLInputElement>('Enter Password');
   fireEvent.change(element, {
     target: { value: password },
   });

@@ -1,9 +1,10 @@
+/* eslint-disable */
 export default {
-  confirmation: "Confirmação",
-  confirmMergeToConference: "Adicionar à chamada em conferência?",
-  mergeToConference: "Mesclar",
-  conferenceCall: "Chamada em conferência"
-};
+  confirmation: 'Confirmação',
+  confirmMergeToConference: 'Adicionar à chamada em conferência?',
+  mergeToConference: 'Mesclar',
+  conferenceCall: 'Chamada em conferência',
+} as const;
 
 // @key: @#@"confirmation"@#@ @source: @#@"Confirmation"@#@
 // @key: @#@"confirmMergeToConference"@#@ @source: @#@"Add to conference call?"@#@

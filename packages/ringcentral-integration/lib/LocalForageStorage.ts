@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { EventEmitter } from 'events';
 import localforage from 'localforage';
-import * as uuid from 'uuid';
+import { v4 } from 'uuid';
 
 import type {
   AsyncStorage,
@@ -26,7 +26,7 @@ export class LocalForageStorage extends EventEmitter implements AsyncStorage {
     this._storageKey = storageKey;
     this._storageSyncKey = `${storageKey}-sync`;
     this._ready = false;
-    this._id = uuid.v4();
+    this._id = v4();
     if (typeof localStorage !== 'undefined' && typeof window !== 'undefined') {
       localforage.config({ name: this._storageKey });
       this._localforage = localforage.createInstance({

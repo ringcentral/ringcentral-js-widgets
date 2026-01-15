@@ -1,9 +1,10 @@
+/* eslint-disable */
 export default {
-  mute: "靜音",
-  unmute: "取消靜音",
-  hangup: "掛斷",
-  reject: "拒絕"
-};
+  mute: '靜音',
+  unmute: '取消靜音',
+  hangup: '掛斷',
+  reject: '拒絕',
+} as const;
 
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@

@@ -8,7 +8,7 @@
  *
   | Brand |Brand name |
   |  Avaya | Avaya Cloud Office |
-	| Telus |TELUS Business Connect |
+	| Telus |TELUS Business Connect™ |
 	| AT&T |AT&T Office@Hand |
 
  * Entry point(/s):

@@ -54,6 +54,7 @@ export type Party = {
   direction: CallDirection;
   to: NumberData;
   from: NumberData;
+  uiCallInfo?: any;
   status: {
     code: (typeof PartyStatusCode)[PartyStatusCodeKeys];
     reason: string;
@@ -81,6 +82,9 @@ export type Origin = {
 export type Body = {
   sequence: number;
   sessionId: string;
+  // TODO: in test env, we not mock this._presence.calls, so there not have the id data, so apply that here temporary
+  // apps/micro-phone/src/app/services/CallMonitor/CallMonitor.ts
+  activeCallId: string;
   telephonySessionId: string;
   serverId: string;
   eventTime: string;
@@ -97,6 +101,14 @@ const DEFAULT_RECORD_STATUS = false;
 export const DEFAULT_PHONE_NUMBER = '+16501234567';
 
 const DEFAULT_EXTENSION_ID = extensionBody.id.toString();
+export const DEFAULT_SERVER_NAME = 'DEFAULT SERVER_NAME';
+
+/**
+ * global config for TelephonySessionBuilder
+ */
+export const TelephonySessionBuilderConfig = {
+  disabledDefaultServerName: false,
+};
 
 export interface TelephonySessionInterface {
   uuid: string;
@@ -108,12 +120,13 @@ export interface TelephonySessionInterface {
 }
 
 export interface NumberData {
+  extensionNumber?: string;
   phoneNumber?: string;
   name?: string;
   extensionId?: string;
 }
 
-interface InitParams {
+export interface TelephonySessionBuilderParams {
   telephonySessionId?: string;
   partyId?: string;
   sessionId?: string;
@@ -156,7 +169,7 @@ class TelephonySessionBuilder {
   private _conferenceRole?: ConferenceRole;
   relatedWebphoneSession: any;
 
-  constructor(initParams: InitParams = {}) {
+  constructor(initParams: TelephonySessionBuilderParams = {}) {
     this._init(initParams);
     telephonySessionBuildersCache.push(this);
   }
@@ -178,7 +191,7 @@ class TelephonySessionBuilder {
     originType = 'Call',
     peerId,
     conferenceRole,
-  }: InitParams) {
+  }: TelephonySessionBuilderParams) {
     this._telephonySessionId = telephonySessionId;
     this._partyId = partyId;
     this._sessionId = sessionId;
@@ -258,13 +271,24 @@ class TelephonySessionBuilder {
   setHoldCall() {
     return this.status(PartyStatusCode.hold);
   }
+
   setMuteCall() {
     this._muteStatus = true;
     return this;
   }
 
+  setUnmuteCall() {
+    this._muteStatus = false;
+    return this;
+  }
+
   startRecord() {
     this._isRecording = true;
+    return this;
+  }
+
+  stopRecord() {
+    this._isRecording = false;
     return this;
   }
 
@@ -286,8 +310,22 @@ class TelephonySessionBuilder {
     return this;
   }
 
+  getPeerId() {
+    return this._peerId;
+  }
+
   setConferenceRole(role: ConferenceRole) {
     this._conferenceRole = role;
+    return this;
+  }
+
+  setToNumberData(data: NumberData) {
+    this._toNumberData = data;
+    return this;
+  }
+
+  setFromNumberData(data: NumberData) {
+    this._fromNumberData = data;
     return this;
   }
 
@@ -314,7 +352,9 @@ class TelephonySessionBuilder {
   get numberData() {
     return {
       phoneNumber: this._phoneNumber,
-      name: 'Yoda HubSpot',
+      name: TelephonySessionBuilderConfig.disabledDefaultServerName
+        ? ''
+        : DEFAULT_SERVER_NAME,
       extensionId: DEFAULT_EXTENSION_ID,
     };
   }
@@ -337,6 +377,7 @@ class TelephonySessionBuilder {
       body: {
         ...telephonySessionMessage.body,
         sequence: sequence++,
+        activeCallId: this._sessionId,
         sessionId: this._sessionId,
         telephonySessionId: this._telephonySessionId,
         serverId: '10.62.25.111.TAM',
@@ -350,6 +391,9 @@ class TelephonySessionBuilder {
             direction: this._direction,
             to: this._toNumberData || this.numberData,
             from: this._fromNumberData || this.numberData,
+            uiCallInfo: this._queueCall
+              ? { primary: { type: 'QueueName', value: 'Dummy Call Queue' } }
+              : undefined,
             status: {
               code: this._partyStatus,
               reason: this._partyReason,
@@ -379,7 +423,7 @@ class TelephonySessionBuilder {
   }
 }
 
-function createTelephonySession(initParams?: InitParams) {
+function createTelephonySession(initParams?: TelephonySessionBuilderParams) {
   return new TelephonySessionBuilder(initParams);
 }
 

@@ -1,5 +1,6 @@
+/* eslint-disable */
 export default {
-  unknown: "Sconosciuto"
-};
+  unknown: 'Sconosciuto',
+} as const;
 
 // @key: @#@"unknown"@#@ @source: @#@"Unknown"@#@

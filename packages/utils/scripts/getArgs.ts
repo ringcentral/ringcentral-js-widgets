@@ -4,7 +4,8 @@ interface Argv {
   [k: string]: unknown;
   buildHash: string;
   brand: string[];
-  excludeEntries: string[];
+  pages: string[];
+  excludePages?: string[];
   tag: string;
   exportType: string;
   buildEnv: string;
@@ -28,7 +29,8 @@ export const getArgs = <T extends Record<string, unknown> = {}>(
     .default('tag', '')
     .boolean('ci')
     .array('brand')
-    .array('excludeEntries')
+    .array('pages')
+    .array('excludePages')
     .default('brand', defaultBrand)
     .default('ci', defaultCI)
     .default('exportType', defaultExportType)

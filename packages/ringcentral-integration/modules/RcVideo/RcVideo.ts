@@ -146,6 +146,9 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
   meeting: Partial<RcVMeetingModel> = null;
 
   @state
+  personalVideoSetting: Partial<RcVMeetingModel> = {};
+
+  @state
   videoStatus: ObjectMapValue<typeof videoStatus> = videoStatus.idle;
 
   @state
@@ -171,6 +174,14 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
   protected _savePersonalMeeting(settings: Partial<RcVideoAPI>) {
     this.personalVideo = {
       ...this.personalVideo,
+      ...settings,
+    };
+  }
+
+  @action
+  protected _updatePersonalVideoSetting(settings: Partial<RcVideoAPI>) {
+    this.personalVideoSetting = {
+      ...this.personalVideoSetting,
       ...settings,
     };
   }
@@ -335,6 +346,7 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
     ]);
 
     this._initMeetingSettings(false);
+    this._initPersonalMeetingSettings();
 
     this._updateVideoStatus(videoStatus.initialized);
   }
@@ -376,7 +388,6 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
     } catch (errors) {
       console.error('fetch personal meeting error:', errors);
       this._resetPersonalMeeting();
-      this._errorHandle(errors);
     }
   }
 
@@ -477,7 +488,7 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
       const meetingDetail = this.pruneMeetingObject(meeting);
 
       const [newMeeting, dialInNumber, extensionInfo] = await Promise.all([
-        this._postBridges(meetingDetail),
+        this._postBridges(meetingDetail, meeting.usePersonalMeetingId),
         this._getDialinNumbers(),
         this.getExtensionInfo(this.currentUser.extensionId),
       ]);
@@ -491,6 +502,7 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
         hostName: extensionInfo.name!,
         shortId: newMeeting.shortId,
         id: newMeeting.id,
+        personalMeetingName: newMeeting.personalMeetingName,
         e2ee: newMeeting.e2ee,
         isMeetingSecret: newMeeting.isMeetingSecret,
         meetingPassword: newMeeting.meetingPassword,
@@ -537,7 +549,7 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
         ...meeting,
       };
     } catch (errors) {
-      console.log('failed to create rcv:', errors);
+      console.error('failed to create rcv:', errors);
       this._updateVideoStatus(videoStatus.idle);
       this._errorHandle(errors);
       return null;
@@ -629,7 +641,10 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
   }
 
   @proxify
-  protected async _postBridges(meetingDetail: RcVideoAPI) {
+  protected async _postBridges(
+    meetingDetail: RcVideoAPI,
+    usePersonalMeetingId: boolean,
+  ) {
     const result = await this._deps.client.service
       .platform()
       .post('/rcvideo/v1/bridges', meetingDetail);
@@ -637,7 +652,11 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
   }
 
   @proxify
-  protected async _patchBridges(meetingId: string, meetingDetail: RcVideoAPI) {
+  protected async _patchBridges(
+    meetingId: string,
+    meetingDetail: RcVideoAPI,
+    usePersonalMeetingId: boolean,
+  ) {
     const result = await this._deps.client.service.platform().send({
       method: 'PATCH',
       url: `/rcvideo/v1/bridges/${meetingId}`,
@@ -762,14 +781,14 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
 
   @proxify
   async getMeeting(
-    meetingId: string,
+    shortId: string,
     accountId: number = this.accountId,
     extensionId: number = this.extensionId,
   ): Promise<RcVideoAPI> {
     const result = await this._deps.client.service
       .platform()
       .get('/rcvideo/v1/bridges', {
-        shortId: meetingId,
+        shortId,
         accountId,
         extensionId,
       });
@@ -803,8 +822,11 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
       }
 
       const [newMeeting, dialInNumber, extensionInfo] = await Promise.all([
-        // @ts-expect-error TS(2345): Argument of type 'string | null | undefined' is no... Remove this comment to see the full error message
-        this._patchBridges(meeting.id, meetingDetail),
+        this._patchBridges(
+          meeting.id!,
+          meetingDetail,
+          meeting.usePersonalMeetingId,
+        ),
         this._getDialinNumbers(),
         this.getExtensionInfo(this.currentUser.extensionId),
       ]);
@@ -813,6 +835,7 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
         hostName: extensionInfo.name!,
         shortId: newMeeting.shortId,
         id: newMeeting.id,
+        personalMeetingName: newMeeting.personalMeetingName,
         e2ee: newMeeting.e2ee,
         isMeetingSecret: newMeeting.isMeetingSecret,
         meetingPassword: newMeeting.meetingPassword,
@@ -855,6 +878,7 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
 
       return meetingResponse;
     } catch (errors) {
+      console.error('updateMeeting errors:', errors);
       this._updateVideoStatus(videoStatus.idle);
       this._errorHandle(errors);
       return null;
@@ -864,13 +888,19 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
   protected _initMeetingSettings(usePersonalMeetingId: boolean) {
     if (usePersonalMeetingId) {
       this.updateMeetingSettings({
-        ...this.personalVideoSetting,
+        ...this.defaultPersonalVideoSetting,
       });
     } else {
       this.updateMeetingSettings({
         ...this.defaultVideoSetting,
       });
     }
+  }
+
+  protected _initPersonalMeetingSettings() {
+    this.updatePersonalMeetingSettings({
+      ...this.defaultPersonalVideoSetting,
+    });
   }
 
   @proxify
@@ -913,6 +943,26 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
       },
       patch,
     );
+    this._comparePreferences();
+  }
+
+  @proxify
+  async updatePersonalMeetingSettings(pmiMeeting: Partial<RcVMeetingModel>) {
+    let processedMeeting = pmiMeeting;
+    if (this.enableWaitingRoom) {
+      processedMeeting = {
+        ...processedMeeting,
+        ...patchWaitingRoomRelated(
+          {
+            ...this.meeting,
+            ...processedMeeting,
+          } as RcVMeetingModel,
+          this.transformedPreferences,
+          true,
+        ),
+      };
+    }
+    this._updatePersonalVideoSetting(processedMeeting);
     this._comparePreferences();
   }
 
@@ -1064,7 +1114,7 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
       transformedSettingLocks,
     ],
   )
-  get personalVideoSetting() {
+  get defaultPersonalVideoSetting() {
     if (!this.personalMeeting) {
       return null;
     }
@@ -1085,6 +1135,7 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
         ...this.transformedSettingLocks,
       },
     } as RcVMeetingModel;
+
     if (this.enableWaitingRoom) {
       return {
         ...processedSettings,

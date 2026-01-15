@@ -1,13 +1,14 @@
+/* eslint-disable */
 export default {
-  Inbound: "In entrata",
-  Outbound: "In uscita",
-  log: "Registro",
-  save: "Salva e crea nuovo",
-  discard: "Elimina e crea nuovo",
-  hangup: "Riaggancia",
-  reject: "Alla segreteria telefonica",
-  saveDraftAndCreateNewLog: "Salva la bozza e crea un nuovo registro chiamate"
-};
+  Inbound: 'In entrata',
+  Outbound: 'In uscita',
+  log: 'Registro',
+  save: 'Salva e crea nuovo',
+  discard: 'Elimina e crea nuovo',
+  hangup: 'Riaggancia',
+  reject: 'Alla segreteria telefonica',
+  saveDraftAndCreateNewLog: 'Salva la bozza e crea un nuovo registro chiamate',
+} as const;
 
 // @key: @#@"Inbound"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"Outbound"@#@ @source: @#@"Outbound"@#@

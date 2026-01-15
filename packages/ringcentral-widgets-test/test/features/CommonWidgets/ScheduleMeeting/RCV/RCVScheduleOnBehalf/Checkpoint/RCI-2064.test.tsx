@@ -11,6 +11,7 @@
 import type { RcVideoAPI } from '@ringcentral-integration/commons/interfaces/Rcv.model';
 import {
   autorun,
+  common,
   it,
   p2,
   Scenario,
@@ -36,6 +37,7 @@ import {
 } from '../../../../../../steps/Modal';
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('Schedule on behalf - Update PMI meeting')

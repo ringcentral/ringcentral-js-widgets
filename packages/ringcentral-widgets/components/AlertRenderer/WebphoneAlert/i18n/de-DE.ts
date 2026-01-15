@@ -1,28 +1,48 @@
+/* eslint-disable */
 import webphoneErrors from '@ringcentral-integration/commons/modules/Webphone/webphoneErrors';
 import webphoneMessages from '@ringcentral-integration/commons/modules/Webphone/webphoneMessages';
 export default {
-  [webphoneErrors.connectFailed]: "Leider sind Telefonfunktionen zurzeit nicht verfügbar. Versuchen Sie es später erneut. ",
-  [webphoneErrors.connected]: "Das Webtelefon wurde registriert.",
-  [webphoneErrors.browserNotSupported]: "Das Tätigen von Anrufen mit diesem Browser wird leider nicht unterstützt.",
-  [webphoneErrors.webphoneCountOverLimit]: "Maximal fünf Webtelefone können registriert werden.",
-  [webphoneErrors.checkDLError]: "Der ausgehende Anruf konnte nicht getätigt werden. Wenden Sie sich an {brandName}, um Unterstützung zu erhalten, wenn dieser Fehler weiterhin angezeigt wird.",
-  [webphoneErrors.noOutboundCallWithoutDL]: "Ihre Durchwahl ist aktuell nicht dazu berechtigt, ausgehende Anrufe über den Browser zu tätigen. Wenden Sie sich bitte an Ihren Kontoadministrator, um ein Upgrade zu erhalten.",
-  [webphoneErrors.provisionUpdate]: "Leider ist auf unserer Seite ein Fehler aufgetreten. Wir versuchen in Kürze automatisch, die Verbindung neu herzustellen.",
-  [webphoneErrors.serverConnecting]: "Leider ist ein Problem beim Herstellen einer Verbindung mit dem Telefonserver aufgetreten.",
-  [webphoneErrors.toVoiceMailError]: "Der Anruf konnte wegen eines internen Fehlers nicht an die Voicemail geleitet werden.",
-  [webphoneErrors.muteError]: "Der Anruf kann im Moment nicht stummgeschaltet werden.",
-  [webphoneErrors.holdError]: "Der Anruf kann im Moment nicht gehalten werden.",
-  [webphoneErrors.flipError]: "Der Anruf kann nicht umgelegt werden. Versuchen Sie es später noch einmal.",
-  [webphoneErrors.recordError]: "Sie können den Anruf gegenwärtig nicht aufzeichnen. Fehlercode: {errorCode}",
-  [webphoneErrors.pauseRecordError]: "Wir konnten die Aufzeichnung des Anrufs leider nicht beenden. Versuchen Sie es später noch einmal.",
-  [webphoneErrors.recordDisabled]: "Ihr Konto verfügt über keine Funktion zum Aufzeichnen von Anrufen. Wenden Sie sich an Ihren Kontoadministrator.",
-  [webphoneErrors.transferError]: "Der Anruf kann nicht weitergeleitet werden. Versuchen Sie es später noch einmal.",
-  [webphoneMessages.parked]: "Ihr Anruf ist an folgendem Ort geparkt: {parkedNumber}",
-  failWithStatusCode: "Leider ist bei uns ein Fehler aufgetreten: {errorCode}. Sollte das Problem weiterhin bestehen, melden Sie es an den {brandName}-Kundendienst.",
-  registeringWithStatusCode: "Leider ist ein Fehler aufgetreten. Wir versuchen, die Verbindung neu herzustellen. Sollte das Problem weiterhin bestehen, melden Sie es bitte an den {brandName}-Kundendienst. Fehlercode: {errorCode}.",
-  failWithoutStatusCode: "Leider ist auf unserer Seite ein Fehler aufgetreten. Sollte dieser Fehler weiterhin bestehen, melden Sie ihn an den {brandName}-Kundendienst.",
-  registeringWithoutStatusCode: "Leider ist ein Fehler aufgetreten. Wir versuchen, die Verbindung neu herzustellen. Sollte das Problem weiterhin bestehen, melden Sie es bitte an den {brandName}-Kundendienst."
-};
+  [webphoneErrors.connectFailed]:
+    'Leider sind Telefonfunktionen zurzeit nicht verfügbar. Versuchen Sie es später erneut. ',
+  [webphoneErrors.connected]: 'Das Webtelefon wurde registriert.',
+  [webphoneErrors.browserNotSupported]:
+    'Das Tätigen von Anrufen mit diesem Browser wird leider nicht unterstützt.',
+  [webphoneErrors.webphoneCountOverLimit]:
+    'Maximal fünf Webtelefone können registriert werden.',
+  [webphoneErrors.checkDLError]:
+    'Der ausgehende Anruf konnte nicht getätigt werden. Wenden Sie sich an {brandName}, um Unterstützung zu erhalten, wenn dieser Fehler weiterhin angezeigt wird.',
+  [webphoneErrors.noOutboundCallWithoutDL]:
+    'Ihre Nebenstelle ist aktuell nicht dazu berechtigt, ausgehende Anrufe über den Browser zu tätigen. Wenden Sie sich bitte an Ihren Kontoadministrator, um ein Upgrade zu erhalten.',
+  [webphoneErrors.provisionUpdate]:
+    'Leider ist auf unserer Seite ein Fehler aufgetreten. Wir versuchen in Kürze automatisch, die Verbindung neu herzustellen.',
+  [webphoneErrors.serverConnecting]:
+    'Leider ist ein Problem beim Herstellen einer Verbindung mit dem Telefonserver aufgetreten.',
+  [webphoneErrors.toVoiceMailError]:
+    'Der Anruf konnte wegen eines internen Fehlers nicht an die Voicemail geleitet werden.',
+  [webphoneErrors.muteError]:
+    'Der Anruf kann im Moment nicht stummgeschaltet werden.',
+  [webphoneErrors.holdError]: 'Der Anruf kann im Moment nicht gehalten werden.',
+  [webphoneErrors.flipError]:
+    'Der Anruf kann nicht umgelegt werden. Versuchen Sie es später noch einmal.',
+  [webphoneErrors.recordError]:
+    'Sie können den Anruf gegenwärtig nicht aufzeichnen. Fehlercode: {errorCode}',
+  [webphoneErrors.pauseRecordError]:
+    'Wir konnten die Aufzeichnung des Anrufs leider nicht beenden. Versuchen Sie es später erneut.',
+  [webphoneErrors.recordDisabled]:
+    'Ihr Konto verfügt über keine Funktion zum Aufzeichnen von Anrufen. Bitte wenden Sie sich an Ihren Kontoadministrator.',
+  [webphoneErrors.transferError]:
+    'Der Anruf kann nicht weitergeleitet werden. Versuchen Sie es später noch einmal.',
+  [webphoneMessages.parked]:
+    'Ihr Anruf ist an folgendem Ort geparkt: {parkedNumber}',
+  failWithStatusCode:
+    'Leider ist bei uns ein Fehler aufgetreten: {errorCode}. Sollte das Problem weiterhin bestehen, melden Sie es an den {brandName}-Kundendienst.',
+  registeringWithStatusCode:
+    'Leider ist ein Fehler aufgetreten. Wir versuchen, die Verbindung neu herzustellen. Sollte das Problem weiterhin bestehen, melden Sie es bitte an den {brandName}-Kundendienst. Fehlercode: {errorCode}.',
+  failWithoutStatusCode:
+    'Leider ist auf unserer Seite ein Fehler aufgetreten. Sollte dieser Fehler weiterhin bestehen, melden Sie ihn an den {brandName}-Kundendienst.',
+  registeringWithoutStatusCode:
+    'Leider ist ein Fehler aufgetreten. Wir versuchen, die Verbindung neu herzustellen. Sollte das Problem weiterhin bestehen, melden Sie es bitte an den {brandName}-Kundendienst.',
+} as const;
 
 // @key: @#@"[webphoneErrors.connectFailed]"@#@ @source: @#@"Sorry, phone features are currently unavailable. Please retry later. "@#@
 // @key: @#@"[webphoneErrors.connected]"@#@ @source: @#@"Web phone registered."@#@

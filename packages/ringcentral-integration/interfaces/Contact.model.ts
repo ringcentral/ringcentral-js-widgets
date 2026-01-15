@@ -3,6 +3,21 @@ import type PersonalContactResource from '@rc-ex/core/lib/definitions/PersonalCo
 import type PhoneNumberResource from '@rc-ex/core/lib/definitions/PhoneNumberResource';
 import type PresenceInfoResponse from '@rc-ex/core/lib/definitions/PresenceInfoResponse';
 
+/**
+ * the size of contact avatar
+ *
+ * the size information in AccountContact will like below
+ * - `xsmall` - 90x90 pixels
+ * - `small` - 195x195 pixels
+ * - `large` - 584x584 pixels
+ * - `original` - original size
+ *
+ * if you want to your custom avatar with different size, define your size map in use case
+ *
+ * @default 'original'
+ */
+export type ContactAvatarSize = 'xsmall' | 'small' | 'large' | 'original';
+
 export interface ContactGroup {
   caption: string;
   contacts: IContact[];
@@ -94,11 +109,35 @@ export interface ContactSource {
   /**
    * get source presence
    */
+  getPresenceSync?: (
+    contact: IContact,
+    useCache?: boolean,
+  ) => ContactPresence | null;
+  /**
+   * pair work with `getPresenceSync`, when the contact not need anymore will be trigger this function to remove the contact presence listener
+   */
+  unlinkPresence?: (contact: IContact) => void;
+  /**
+   * @deprecated use `getPresenceSync` instead
+   * TODO: spring-ui will be removed after all projects switch to spring-ui
+   *
+   * get source presence
+   */
   getPresence?: (
     contact: IContact,
     useCache?: boolean,
   ) => ContactPresence | Promise<ContactPresence | null>;
   /**
+   * get source profile image
+   */
+  getProfileImageSync?: (
+    contact: IContact,
+    size?: ContactAvatarSize,
+  ) => string | undefined;
+  /**
+   * @deprecated use `getProfileImageSync` instead
+   * TODO: spring-ui will be removed after all projects switch to spring-ui
+   *
    * get source profile image
    */
   getProfileImage?: (

@@ -1,5 +1,6 @@
+/* eslint-disable */
 export default {
-  activeCall: "Actieve oproep"
-};
+  activeCall: 'Actieve oproep',
+} as const;
 
 // @key: @#@"activeCall"@#@ @source: @#@"Active Call"@#@

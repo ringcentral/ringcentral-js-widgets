@@ -21,6 +21,7 @@ import {
   Then,
   title,
   When,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import {
@@ -37,6 +38,7 @@ import {
 } from '../../../../../../steps/Meeting';
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('Enable waiting room - linkage "Only authenticated users can join"')
@@ -56,7 +58,7 @@ export class RCI1975 extends Step {
           action={[
             <CheckItemLabel
               label="Enable waiting room"
-              dataSign="isWaitingRoomWrapper"
+              dataSign="waitingRoomField"
             />,
             <TurnOffToggle dataSign="isOnlyAuthUserJoin" />,
             <TurnOnToggle dataSign="enableWaitingRoom" />,
@@ -72,7 +74,7 @@ export class RCI1975 extends Step {
           action={[
             <CheckItemLabel
               label="Enable waiting room for"
-              dataSign="isWaitingRoomWrapper"
+              dataSign="waitingRoomField"
             />,
             <CheckDropDownList
               dataSign="waitingRoom"

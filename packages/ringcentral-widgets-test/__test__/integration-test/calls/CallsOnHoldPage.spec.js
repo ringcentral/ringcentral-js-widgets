@@ -55,14 +55,12 @@ describe('When user records the outbound call, user can not merge this call into
       .at(1);
     expect(
       currentCallItem
-        .find('.webphoneButtons')
         .find('.webphoneButton')
         .at(0)
         .props().title,
     ).toEqual('Hold');
     expect(
       onheldCallItem
-        .find('.webphoneButtons')
         .find('.webphoneButton')
         .at(0)
         .props().title,
@@ -81,7 +79,6 @@ describe('When user records the outbound call, user can not merge this call into
       .find(ActiveCallItem)
       .at(0);
     const mergeButton = itemToAdd
-      .find('.webphoneButtons')
       .find('.webphoneButton')
       .at(0);
     mergeButton.find(CircleButton).find('g').simulate('click');
@@ -124,7 +121,6 @@ describe('When user records the outbound call, user can not merge this call into
       .find(ActiveCallItem)
       .at(0);
     const mergeButton = itemToAdd
-      .find('.webphoneButtons')
       .find('.webphoneButton')
       .at(0);
     mergeButton.find(CircleButton).find('g').simulate('click');

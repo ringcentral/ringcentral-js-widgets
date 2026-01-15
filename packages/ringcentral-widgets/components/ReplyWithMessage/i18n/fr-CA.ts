@@ -1,14 +1,15 @@
+/* eslint-disable */
 export default {
-  cancel: "Annuler",
-  reply: "Répondre",
-  onMyWay: "En route",
-  customMessage: "Personnaliser le message",
-  callMeBackIn: "Rappelez-moi dans",
-  willCallYouBackIn: "Vous rappellera dans",
-  min: " min",
-  hours: " heures",
-  days: " jours"
-};
+  cancel: 'Annuler',
+  reply: 'Répondre',
+  onMyWay: 'En route',
+  customMessage: 'Personnaliser le message',
+  callMeBackIn: 'Rappelez-moi dans',
+  willCallYouBackIn: 'Vous rappellera dans',
+  min: ' min',
+  hours: ' heures',
+  days: ' jours',
+} as const;
 
 // @key: @#@"cancel"@#@ @source: @#@"Cancel"@#@
 // @key: @#@"reply"@#@ @source: @#@"Reply"@#@

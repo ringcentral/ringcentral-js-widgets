@@ -68,6 +68,7 @@ afterEach(async () => {
     WS.clean();
   }
 
+  global.destroyApp?.();
   timerHandler.clear();
   global.instance = {};
 });

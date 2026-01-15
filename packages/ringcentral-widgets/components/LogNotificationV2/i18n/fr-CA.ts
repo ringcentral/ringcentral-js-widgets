@@ -1,13 +1,15 @@
+/* eslint-disable */
 export default {
-  Inbound: "Entrant",
-  Outbound: "Sortants",
-  log: "Journal",
-  save: "Enregistrer et nouveau",
-  discard: "Annuler et nouveau",
-  hangup: "Raccrocher",
-  reject: "À la messagerie vocale",
-  saveDraftAndCreateNewLog: "Enregistrer le brouillon et créer un nouveau journal des appels"
-};
+  Inbound: 'Entrant',
+  Outbound: 'Sortants',
+  log: 'Journal',
+  save: 'Enregistrer et nouveau',
+  discard: 'Annuler et nouveau',
+  hangup: 'Raccrocher',
+  reject: 'À la messagerie vocale',
+  saveDraftAndCreateNewLog:
+    'Enregistrer le brouillon et créer un nouveau journal des appels',
+} as const;
 
 // @key: @#@"Inbound"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"Outbound"@#@ @source: @#@"Outbound"@#@

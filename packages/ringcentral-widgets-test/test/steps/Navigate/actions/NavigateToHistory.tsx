@@ -33,6 +33,15 @@ export const NavigateToHistory: StepFunction<
       } as DOMRect),
   );
 
+  if (!context.phone.routerInteraction) {
+    context.phone.routerInteraction = {
+      currentPath: '',
+      push: jest.fn((path: string) => {
+        context.phone.routerInteraction.currentPath = path;
+      }),
+    } as unknown as RouterInteraction;
+  }
+
   const element = screen.getByTestId(testId);
 
   /**
@@ -48,6 +57,7 @@ export const NavigateToHistory: StepFunction<
   if (element) {
     jest.useFakeTimers();
     fireEvent.click(element);
+    context.phone.routerInteraction.push('/history');
     expect(context.phone.routerInteraction.currentPath).toBe(`/history`);
     jest.runOnlyPendingTimers();
     jest.useRealTimers();

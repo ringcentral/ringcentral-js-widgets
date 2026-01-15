@@ -1,30 +1,33 @@
+/* eslint-disable */
 import { HintsType } from '../ContactSearchPanelEnum';
 export default {
-  [HintsType.thirdPartyNoRecordsContent]: "すべての{sourceName}の記録を検索するには、少なくとも{minimumLength}つの文字または数字を入力してください。",
-  [HintsType.noFilterOrSearchRecordsTitle]: "結果が見つかりません",
-  [HintsType.noFilterOrSearchRecordsContent]: "他のソースから結果を確認するか、キーワードを変更してください。",
-  [HintsType.searching]: "検索中...",
-  companyTabTitle: "会社",
-  personalTabTitle: "個人",
-  direct: "直通",
-  extension: "内線",
-  contact: "連絡先",
-  mobile: "モバイル",
-  company: "会社",
-  home: "自宅",
-  home2: "自宅",
-  other: "その他",
-  business: "職場",
-  business2: "職場",
-  car: "自動車",
-  fax: "FAX",
-  assistant: "アシスタント",
-  callback: "コールバック",
-  MobileNumber: "携帯電話番号",
-  ContactNumber: "連絡先電話番号",
-  DirectNumber: "ダイレクトナンバー",
-  doNotCall: "通話拒否"
-};
+  [HintsType.thirdPartyNoRecordsContent]:
+    'すべての{sourceName}の記録を検索するには、少なくとも{minimumLength}つの文字または数字を入力してください。',
+  [HintsType.noFilterOrSearchRecordsTitle]: '結果が見つかりません',
+  [HintsType.noFilterOrSearchRecordsContent]:
+    '他のソースから結果を確認するか、キーワードを変更してください。',
+  [HintsType.searching]: '検索中...',
+  companyTabTitle: '会社',
+  personalTabTitle: '個人',
+  direct: '直通',
+  extension: '内線',
+  contact: '連絡先',
+  mobile: 'モバイル',
+  company: '会社',
+  home: '自宅',
+  home2: '自宅',
+  other: 'その他',
+  business: '職場',
+  business2: '職場',
+  car: '自動車',
+  fax: 'FAX',
+  assistant: 'アシスタント',
+  callback: 'コールバック',
+  MobileNumber: '携帯電話番号',
+  ContactNumber: '連絡先電話番号',
+  DirectNumber: 'ダイレクトナンバー',
+  doNotCall: '通話拒否',
+} as const;
 
 // @key: @#@"[HintsType.thirdPartyNoRecordsContent]"@#@ @source: @#@"Enter at least {minimumLength} characters or digits to search all {sourceName} records."@#@
 // @key: @#@"[HintsType.noFilterOrSearchRecordsTitle]"@#@ @source: @#@"No results found"@#@

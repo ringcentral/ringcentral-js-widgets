@@ -23,6 +23,7 @@ import {
   title,
   When,
   Given,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import { mockMessageListData } from '../../../../../__mock__';
@@ -38,6 +39,7 @@ interface CheckFaxPageNumberProps {
 }
 
 @autorun(test.skip)
+@common
 @it
 @p3
 @title('Check Fax page number')

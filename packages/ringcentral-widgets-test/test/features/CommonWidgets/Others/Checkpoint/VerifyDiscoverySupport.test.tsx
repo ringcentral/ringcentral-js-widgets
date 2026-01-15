@@ -5,6 +5,7 @@ import type { StepProp } from '../../../../lib/step';
 import {
   And,
   autorun,
+  common,
   Given,
   Scenario,
   Step,
@@ -17,6 +18,7 @@ import { CreateInstance } from '../../../../steps/CreateInstance';
 import { CreateMock } from '../../../../steps/Mock';
 
 @autorun(test)
+@common
 @title('Verify discovery API support')
 export class VerifyDiscoverySupport extends Step {
   Login: StepProp = (props) => (

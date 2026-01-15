@@ -1,19 +1,27 @@
+/* eslint-disable */
 import { callingOptions } from '@ringcentral-integration/commons/modules/CallingSettings';
 export default {
-  title: "Chiamata",
-  [callingOptions.softphone]: "{brand} for Desktop",
-  [callingOptions.browser]: "Browser",
-  [callingOptions.jupiter]: "{brand}",
-  makeCallsWith: "Effettua chiamate con",
-  ringoutHint: "Chiamami prima alla mia postazione, poi connetti la persona chiamata",
-  myLocationLabel: "La mia postazione",
-  press1ToStartCallLabel: "Chiedimi di comporre 1 prima di connettere la chiamata",
-  [`${callingOptions.browser}Tooltip`]: "Usa questa opzione per effettuare e ricevere chiamate usando il microfono e l'altoparlante del computer.",
-  [`${callingOptions.softphone}Tooltip`]: "Usa questa opzione per effettuare e ricevere chiamate usando {brand}.",
-  [`${callingOptions.ringout}Tooltip`]: "Utilizza questa opzione per effettuare chiamate utilizzando il numero di telefono selezionato o inserito.",
-  [`${callingOptions.ringout}Tooltip1`]: "Per la chiamata che effettui, squillerà prima questo telefono e poi quello della persona chiamata.",
-  [`${callingOptions.jupiter}Tooltip`]: "Usa questa opzione per effettuare e ricevere chiamate usando {brand}."
-};
+  title: 'Chiamata',
+  [callingOptions.softphone]: '{brand} for Desktop',
+  [callingOptions.browser]: 'Browser',
+  [callingOptions.jupiter]: '{brand}',
+  makeCallsWith: 'Effettua chiamate con',
+  ringoutHint:
+    'Chiamami prima alla mia postazione, poi connetti la persona chiamata',
+  myLocationLabel: 'La mia postazione',
+  press1ToStartCallLabel:
+    'Chiedimi di comporre 1 prima di connettere la chiamata',
+  [`${callingOptions.browser}Tooltip`]:
+    "Usa questa opzione per effettuare e ricevere chiamate usando il microfono e l'altoparlante del computer.",
+  [`${callingOptions.softphone}Tooltip`]:
+    'Usa questa opzione per effettuare e ricevere chiamate usando {brand}.',
+  [`${callingOptions.ringout}Tooltip`]:
+    'Utilizza questa opzione per effettuare chiamate utilizzando il numero di telefono selezionato o inserito.',
+  [`${callingOptions.ringout}Tooltip1`]:
+    'Per la chiamata che effettui, squillerà prima questo telefono e poi quello della persona chiamata.',
+  [`${callingOptions.jupiter}Tooltip`]:
+    'Usa questa opzione per effettuare e ricevere chiamate usando {brand}.',
+} as const;
 
 // @key: @#@"title"@#@ @source: @#@"Calling"@#@
 // @key: @#@"[callingOptions.softphone]"@#@ @source: @#@"{brand} for Desktop"@#@

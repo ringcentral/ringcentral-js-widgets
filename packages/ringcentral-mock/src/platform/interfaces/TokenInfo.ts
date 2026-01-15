@@ -21,7 +21,7 @@ export interface TokenInfo {
   refresh_token_expires_in: number;
   /**
    * List of permissions allowed with this access token, white-space separated
-   * Example: AccountInfo CallLog ExtensionInfo Messages SMS
+   * Example: 'EditAccounts ReadMessages Faxes ReadPresence EditCallLog Meetings VoipCalling ReadClientInfo Interoperability VideoInternal WebSocket SubscriptionPubNub SubscriptionWebSocket Contacts SubscriptionGCM EditExtensions TelephonySessions ProblemReportsManagement RingOut SMS InternalMessages EditMessages EditPresence SendUsageInfo'
    */
   scope: string;
   /**

@@ -1,4 +1,5 @@
-const LOG_TAG = 'RTCAudioMeter';
+/* eslint-disable no-console */
+const LOG_TAG = '[RTCAudioMeter]';
 const kFftSize = 32;
 const kMinDecibels = -90;
 const kMaxDecibels = -30;

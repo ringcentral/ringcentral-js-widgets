@@ -5,7 +5,7 @@ import {
   RcModuleV2,
   state,
 } from '@ringcentral-integration/core';
-import * as uuid from 'uuid';
+import { v4 } from 'uuid';
 
 import type { BlockItem, DepsModules, IBlock } from './Block.interface';
 
@@ -86,6 +86,6 @@ export class Block extends RcModuleV2<DepsModules> implements IBlock {
   }
 
   private _getId() {
-    return uuid.v4();
+    return v4();
   }
 }

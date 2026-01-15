@@ -71,14 +71,18 @@ export class ExtensionInfo extends DataFetcherV2Consumer<
       readyCheckFunction: () => this._deps.auth.loggedIn,
     });
     this._deps.dataFetcherV2.register(this._source);
+
+    this._deps.subscription?.register(this, {
+      filters: [subscriptionFilters.extensionInfo],
+    });
   }
 
-  private _handleSubscription(message: ExtensionInfoEvent) {
+  private _handleSubscription(message?: ExtensionInfoEvent) {
     if (
       this.ready &&
       (this._source.disableCache || (this._deps.tabManager?.active ?? true)) &&
-      // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
-      extensionRegExp.test(message?.event) &&
+      message?.event &&
+      extensionRegExp.test(message.event) &&
       !(
         message.body?.hints?.includes(subscriptionHints.companyNumbers) ||
         message.body?.hints?.includes(subscriptionHints.limits) ||
@@ -93,10 +97,10 @@ export class ExtensionInfo extends DataFetcherV2Consumer<
 
   override onInit() {
     if (this._deps.subscription) {
-      this._deps.subscription.subscribe([subscriptionFilters.extensionInfo]);
       this._stopWatching = watch(
         this,
-        () => this._deps.subscription!.message,
+        () =>
+          this._deps.subscription!.message as ExtensionInfoEvent | undefined,
         (message) => this._handleSubscription(message),
       );
     }

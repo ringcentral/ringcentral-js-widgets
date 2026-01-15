@@ -5,6 +5,7 @@ import type { MutableRefObject, ReactNode } from 'react';
 import type { CallLog, Task } from '../CallLogPanel';
 
 export type CallLogFieldsProps = {
+  appName?: string;
   currentLocale: string;
   currentLog?: CallLog;
   currentDelaySavingState?: any;
@@ -15,11 +16,14 @@ export type CallLogFieldsProps = {
   subjectDropdownsTracker?: (...args: any[]) => any;
   startAdornmentRender?: (...args: any[]) => any;
   referenceFieldOptions: { [key: string]: FieldOption };
+  isSearching?: boolean;
   contactSearch: ({
     searchString,
+    fromField,
   }: {
     searchString: string;
-  }) => Promise<Array<any>> | Promise<void>;
+    fromField?: string;
+  }) => Promise<void>;
   showFoundFromServer: boolean;
   editSectionScrollBy?: (top: number) => void;
   fieldSize: RcDatePickerProps['size'];

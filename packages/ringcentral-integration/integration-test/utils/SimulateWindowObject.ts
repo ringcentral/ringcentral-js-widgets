@@ -38,7 +38,15 @@ export function mockDevice(devices: devicesProps = defaultDevices) {
   });
 }
 
-export default function SimulateWindowObject(isMockDevices = true) {
+export default function SimulateWindowObject(
+  isMockDevices = true,
+  mockDevices?: {
+    deviceId: string;
+    kind: 'audioinput' | 'videoinput' | 'audiooutput';
+    label: string;
+    groupId: string;
+  }[],
+) {
   Object.defineProperties(window.navigator, {
     userAgent: {
       value:
@@ -50,7 +58,7 @@ export default function SimulateWindowObject(isMockDevices = true) {
     RTCPeerConnection: { value: true },
   });
 
-  mockDevice(isMockDevices ? defaultDevices : []);
+  mockDevice(isMockDevices ? mockDevices ?? defaultDevices : []);
 
   if (!HTMLMediaElement.prototype || !HTMLMediaElement.prototype.setSinkId) {
     Object.defineProperties(HTMLMediaElement.prototype, {

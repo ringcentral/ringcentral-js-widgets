@@ -1,8 +1,10 @@
+/* eslint-disable */
 export default {
-  schedule: "会議をスケジュール",
-  prompt: "アカウント情報へのアクセスを許可するためにRingCentralを承認してください。",
-  saveAsDefault: "既定として保存"
-};
+  schedule: '会議をスケジュール',
+  prompt:
+    'アカウント情報へのアクセスを許可するためにRingCentralを承認してください。',
+  saveAsDefault: '既定として保存',
+} as const;
 
 // @key: @#@"schedule"@#@ @source: @#@"Schedule Meeting"@#@
 // @key: @#@"prompt"@#@ @source: @#@"Please authorize RingCentral to access your account information."@#@

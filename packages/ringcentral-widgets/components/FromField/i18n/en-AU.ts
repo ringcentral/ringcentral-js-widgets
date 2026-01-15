@@ -1,13 +1,14 @@
+/* eslint-disable */
 export default {
-  DirectNumber: "Direct",
-  MainCompanyNumber: "Main",
-  CompanyNumber: "Company",
-  CompanyFaxNumber: "Fax",
-  Blocked: "Blocked",
-  AdditionalCompanyNumber: "Company",
-  ForwardedCompanyNumber: "Forwarded",
-  from: "From"
-};
+  DirectNumber: 'Direct',
+  MainCompanyNumber: 'Main',
+  CompanyNumber: 'Company',
+  CompanyFaxNumber: 'Fax',
+  Blocked: 'Blocked',
+  AdditionalCompanyNumber: 'Company',
+  ForwardedCompanyNumber: 'Forwarded',
+  from: 'From',
+} as const;
 
 // @key: @#@"DirectNumber"@#@ @source: @#@"Direct"@#@
 // @key: @#@"MainCompanyNumber"@#@ @source: @#@"Main"@#@

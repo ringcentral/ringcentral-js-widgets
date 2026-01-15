@@ -6,6 +6,7 @@ import React, { Component } from 'react';
 
 import { environment } from '../../lib';
 import BackHeader from '../BackHeaderV2';
+import { LeaveConferenceCall } from '../CallLogCallCtrlComponent/LeaveConferenceCall';
 import { ConferenceCallParticipants } from '../ConferenceCallParticipants';
 import LogBasicInfo from '../LogBasicInfoV2';
 import NotificationSection from '../NotificationSection';
@@ -46,12 +47,16 @@ const getWarmTransferSession = ({
 
 export default class CallLogPanel extends Component<
   CallLogPanelProps,
-  { showConferenceCallParticipants: boolean }
+  {
+    showConferenceCallParticipants: boolean;
+    showLeaveConferenceCallComponent: boolean;
+  }
 > {
   constructor(props: CallLogPanelProps) {
     super(props);
     this.state = {
       showConferenceCallParticipants: false,
+      showLeaveConferenceCallComponent: false,
     };
   }
 
@@ -61,6 +66,12 @@ export default class CallLogPanel extends Component<
     }
     this.setState({
       showConferenceCallParticipants: open,
+    });
+  };
+
+  toggleLeaveConferenceCallComponent = (open: boolean) => {
+    this.setState({
+      showLeaveConferenceCallComponent: open,
     });
   };
   static defaultProps: Partial<CallLogPanelProps> = {
@@ -100,7 +111,7 @@ export default class CallLogPanel extends Component<
       subContactNameDisplay: '',
       displayEntity: null,
       entityType: '',
-      entityDetailLink: '',
+      entityDetailLinkId: '',
     },
     showRecordingIndicator: false,
     // @ts-expect-error TS(2322): Type '() => null' is not assignable to type '(cont... Remove this comment to see the full error message
@@ -113,8 +124,7 @@ export default class CallLogPanel extends Component<
 
   // TODO: use react function component to refactor with react hook
   // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
-  // eslint-disable-next-line react/no-deprecated
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { pushLogPageStatus } = this.props;
     if (pushLogPageStatus) {
       pushLogPageStatus(true);
@@ -140,6 +150,9 @@ export default class CallLogPanel extends Component<
   renderLogSection() {
     const {
       currentLog,
+      currentLocale,
+      warmTransferLog,
+      warmTransferActiveTelephonySessionId,
       renderEditLogSection,
       // @ts-expect-error TS(2339): Property 'editSection' does not exist on type 'Cal... Remove this comment to see the full error message
       classes: { editSection },
@@ -151,6 +164,15 @@ export default class CallLogPanel extends Component<
     if (currentLog.showSpinner || showSpinner) {
       return <SpinnerOverlay className={styles.spinner} />;
     }
+    const { activeLog } = getWarmTransferSession({
+      mainLog: currentLog,
+      transferLog: warmTransferLog,
+      activeTelephonySessionId: warmTransferActiveTelephonySessionId,
+    });
+
+    const { call } = activeLog;
+    // @ts-expect-error TS(2339): Property 'telephonySessionId' does not exist on ty... Remove this comment to see the full error message
+    const { telephonySessionId, webphoneSession } = call;
     return (
       <>
         {this.renderLogNotification()}
@@ -163,6 +185,7 @@ export default class CallLogPanel extends Component<
           {renderEditLogSection && this.getEditLogSection()}
         </div>
         {renderKeypadPanel && renderKeypadPanel()}
+
         {this.getCallControlButtons()}
       </>
     );
@@ -209,6 +232,7 @@ export default class CallLogPanel extends Component<
               enableReply,
               isCurrentDeviceCall,
               warmTransferActiveTelephonySessionId,
+
             )}
         </div>
       );
@@ -267,6 +291,7 @@ export default class CallLogPanel extends Component<
       classes: { logBasicInfo },
       showRecordingIndicator,
       openEntityDetailLinkTrack,
+      openEntityDetailLink,
       warmTransferActiveTelephonySessionId,
       onSwitchWarmTransferSession,
     } = this.props;
@@ -295,6 +320,7 @@ export default class CallLogPanel extends Component<
         className={logBasicInfo}
         showRecordingIndicator={showRecordingIndicator}
         openEntityDetailLinkTrack={openEntityDetailLinkTrack}
+        openEntityDetailLink={openEntityDetailLink}
         onSwitchWarmTransferSession={onSwitchWarmTransferSession}
       />
     );
@@ -353,6 +379,7 @@ export default class CallLogPanel extends Component<
       renderCallNotificationAvatar,
       getAvatarUrl,
       openEntityDetailLinkTrack,
+      openEntityDetailLink,
       enableReply,
       reply,
     } = this.props;
@@ -369,8 +396,8 @@ export default class CallLogPanel extends Component<
       displayEntity,
       // @ts-expect-error TS(2339): Property 'entityType' does not exist on type 'LogN... Remove this comment to see the full error message
       entityType,
-      // @ts-expect-error TS(2339): Property 'entityDetailLink' does not exist on type... Remove this comment to see the full error message
-      entityDetailLink,
+      // @ts-expect-error TS(2339): Property 'entityDetailLinkId' does not exist on type... Remove this comment to see the full error message
+      entityDetailLinkId,
       // @ts-expect-error TS(2339): Property 'showLogOptions' does not exist on type... Remove this comment to see the full error message
       showLogOptions,
     } = logNotification;
@@ -385,6 +412,8 @@ export default class CallLogPanel extends Component<
       ) {
         return null;
       }
+      const isCallQueueCall = !!call.webphoneSession.callQueueName;
+
       return (
         <WebRTCNotificationSection
           formatPhone={formatPhone}
@@ -394,7 +423,8 @@ export default class CallLogPanel extends Component<
           subContactNameDisplay={subContactNameDisplay}
           displayEntity={displayEntity}
           entityType={entityType}
-          entityDetailLink={entityDetailLink}
+          entityDetailLinkId={entityDetailLinkId}
+          openEntityDetailLink={openEntityDetailLink}
           // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | undefined' is no... Remove this comment to see the full error message
           onCloseNotification={onCloseNotification}
           // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
@@ -405,6 +435,7 @@ export default class CallLogPanel extends Component<
           onForward={onForward}
           endAndAnswer={endAndAnswer}
           holdAndAnswer={holdAndAnswer}
+          showToVoicemail={!isCallQueueCall}
           toVoicemail={toVoicemail}
           forwardingNumbers={forwardingNumbers}
           hasActiveSession={!!activeSession}
@@ -470,12 +501,14 @@ export default class CallLogPanel extends Component<
       onRemoveParticipant,
       renderConferenceParticipantsAvatar,
       clickRemoveParticipantTrack,
+      openEntityDetailLink,
     } = this.props;
     const call = currentLog.call;
     if (!call?.isConferenceCall || !isOpen) return null;
 
     return (
       <ConferenceCallParticipants
+        openEntityDetailLink={openEntityDetailLink}
         isOpen={!call.result && isOpen}
         currentLocale={currentLocale}
         toggleConference={this.toggleConference}
@@ -515,7 +548,7 @@ export default class CallLogPanel extends Component<
     } = this.props;
     if (!currentIdentify || isInTransferPage) return null;
     const _root =
-      root ?? typeof rootLayout === 'boolean'
+      typeof rootLayout === 'boolean'
         ? rootLayout
           ? styles.callLogPanelClassLeftNav
           : styles.callLogPanelClass
@@ -523,7 +556,12 @@ export default class CallLogPanel extends Component<
     return (
       <div
         ref={rootRef}
-        className={clsx(styles.root, !isWide ? styles.classic : null, _root)}
+        className={clsx(
+          styles.root,
+          !isWide ? styles.classic : null,
+          _root,
+          root,
+        )}
       >
         {header && (
           <BackHeader

@@ -1,5 +1,6 @@
+/* eslint-disable */
 export default {
-  notActivated: "Inactif"
-};
+  notActivated: 'Inactif',
+} as const;
 
 // @key: @#@"notActivated"@#@ @source: @#@"Inactive"@#@

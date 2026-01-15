@@ -1,8 +1,9 @@
+/* eslint-disable */
 export default {
-  logged: "Enregistré",
-  unlogged: "Non traité",
-  faxNotSupported: "L’enregistrement du fax n’est pas pris en charge."
-};
+  logged: 'Enregistré',
+  unlogged: 'Non traité',
+  faxNotSupported: 'L’enregistrement du fax n’est pas pris en charge.',
+} as const;
 
 // @key: @#@"logged"@#@ @source: @#@"Logged"@#@
 // @key: @#@"unlogged"@#@ @source: @#@"Unworked"@#@

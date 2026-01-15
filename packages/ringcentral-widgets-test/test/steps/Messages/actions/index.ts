@@ -2,6 +2,7 @@ export * from './ClearMessage';
 export * from './ClearSMSMock';
 export * from './ClickActionButton';
 export * from './ClickConversationPageHyperLink';
+export * from './ClickDownloadAndCheckAction';
 export * from './ClickMessageItem';
 export * from './ClickMessageItemAndBack';
 export * from './ClickModalActionButton';

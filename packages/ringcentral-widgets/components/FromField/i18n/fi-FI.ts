@@ -1,13 +1,14 @@
+/* eslint-disable */
 export default {
-  DirectNumber: "Suora",
-  MainCompanyNumber: "Päänumero",
-  CompanyNumber: "Yritys",
-  CompanyFaxNumber: "Faksi",
-  Blocked: "Estetty",
-  AdditionalCompanyNumber: "Yritys",
-  ForwardedCompanyNumber: "Siirretty",
-  from: "Läh."
-};
+  DirectNumber: 'Suora',
+  MainCompanyNumber: 'Päänumero',
+  CompanyNumber: 'Yritys',
+  CompanyFaxNumber: 'Faksi',
+  Blocked: 'Estetty',
+  AdditionalCompanyNumber: 'Yritys',
+  ForwardedCompanyNumber: 'Siirretty',
+  from: 'Läh.',
+} as const;
 
 // @key: @#@"DirectNumber"@#@ @source: @#@"Direct"@#@
 // @key: @#@"MainCompanyNumber"@#@ @source: @#@"Main"@#@

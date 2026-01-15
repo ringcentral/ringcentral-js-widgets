@@ -35,3 +35,6 @@ export * from './CheckMessageToFieldValue';
 export * from './CheckInputToRecipients';
 export * from './CheckConversationHistory';
 export * from './CheckConversationPageHyperLink';
+export * from './CheckAttachment';
+export * from './HoverAndCheckFileMessage';
+export * from './HoverAndCheckImageMessage';

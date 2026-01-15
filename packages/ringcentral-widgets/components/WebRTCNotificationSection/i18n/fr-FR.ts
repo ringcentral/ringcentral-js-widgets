@@ -1,13 +1,14 @@
+/* eslint-disable */
 export default {
-  forward: "Renvoyer",
-  ignore: "Ignorer",
-  toVoicemail: "Vers la messagerie vocale",
-  answer: "Répondre",
-  endAndAnswer: "Terminer et répondre",
-  holdAndAnswer: "Mettre en attente et répondre",
-  custom: "Personnaliser",
-  more: "Plus"
-};
+  forward: 'Renvoyer',
+  ignore: 'Ignorer',
+  toVoicemail: 'Vers la messagerie vocale',
+  answer: 'Répondre',
+  endAndAnswer: 'Terminer et répondre',
+  holdAndAnswer: 'Mettre en attente et répondre',
+  custom: 'Personnaliser',
+  more: 'Plus',
+} as const;
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
 // @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@
