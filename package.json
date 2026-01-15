@@ -1,28 +1,21 @@
 {
   "name": "@ringcentral-integration/i18n",
-  "version": "2.2.1",
+  "version": "2.3.1",
   "private": false,
   "description": "A simple I18n implementation used in RingCentral Integration projects.",
   "homepage": "https://github.com/ringcentral/ringcentral-js-widgets#readme",
   "bugs": {
     "url": "https://github.com/ringcentral/ringcentral-js-widgets/issues"
   },
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ringcentral/ringcentral-js-widgets.git"
   },
   "license": "MIT",
   "author": "RingCentral Integrations",
-  "peerDependencies": {
-    "@babel/polyfill": "^7.10.4"
+  "dependencies": {
+    "crypto-js": "^4.1.1"
   },
-  "common": true,
-  "ci": {
-    "@ringcentral-integration/i18n": "**"
-  },
-  "nx": {
-    "tags": [
-      "scope:ci-group-1"
-    ]
-  }
+  "common": true
 }

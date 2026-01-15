@@ -4,7 +4,7 @@ exports.RUNTIME = void 0;
 const tslib_1 = require("tslib");
 const constants_1 = require("./constants");
 const getLanguageFromLocale_1 = require("./lib/getLanguageFromLocale");
-const toPseudoString_1 = tslib_1.__importDefault(require("./lib/toPseudoString"));
+const toPseudoString_1 = require("./lib/toPseudoString");
 exports.RUNTIME = {
     locale: constants_1.DEFAULT_LOCALE,
     defaultLocale: constants_1.DEFAULT_LOCALE,
@@ -12,6 +12,10 @@ exports.RUNTIME = {
     padRatio: 0.3,
     fallbackLocale: constants_1.DEFAULT_LOCALE,
     languageDefaults: null,
+    /**
+     * get the locale when use `t` from `getTranslateFn`
+     */
+    getTranslateLocale: null,
 };
 /**
  * @function
@@ -106,34 +110,66 @@ class I18n {
     _getString(key, locale) {
         const currI18n = this._cache[locale];
         if (currI18n && Object.prototype.hasOwnProperty.call(currI18n, key)) {
-            return currI18n[key];
+            const value = currI18n[key];
+            return value === null ? key : value;
         }
         const lang = (0, getLanguageFromLocale_1.getLanguageFromLocale)(locale);
         const currParsedLocal = lang && this._cache[lang];
         if (currParsedLocal &&
             Object.prototype.hasOwnProperty.call(currParsedLocal, key)) {
-            return currParsedLocal[key];
+            const value = currParsedLocal[key];
+            return value === null ? key : value;
         }
         const defaultI18n = this._cache[exports.RUNTIME.defaultLocale];
         if (defaultI18n && Object.prototype.hasOwnProperty.call(defaultI18n, key)) {
-            return defaultI18n[key];
+            const value = defaultI18n[key];
+            return value === null ? key : value;
         }
         const fallbackI18n = this._cache[exports.RUNTIME.fallbackLocale];
         if (fallbackI18n &&
             Object.prototype.hasOwnProperty.call(fallbackI18n, key)) {
-            return fallbackI18n[key];
+            const value = fallbackI18n[key];
+            return value === null ? key : value;
         }
         return key;
     }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     getString(key, locale = exports.RUNTIME.locale) {
         if (locale === constants_1.PSEUDO_LOCALE) {
-            return (0, toPseudoString_1.default)({
+            return (0, toPseudoString_1.toPseudoStringWithPadding)({
                 str: this._getString(key, exports.RUNTIME.fallbackLocale),
                 padRatio: exports.RUNTIME.padRatio,
             });
         }
         return this._getString(key, checkDefaults(locale));
+    }
+    formatNumber(value, options) {
+        const locale = this.currentLocale === constants_1.PSEUDO_LOCALE
+            ? exports.RUNTIME.fallbackLocale
+            : exports.RUNTIME.locale;
+        const customOptions = Object.assign({}, options);
+        try {
+            /**
+             * es-419, es-ES
+             * These languages use space as thousand separator
+             * Ref: https://wiki_domain/pages/viewpage.action?pageId=182683659
+             */
+            if (locale.startsWith('es-419')) {
+                return new Intl.NumberFormat(locale, Object.assign(Object.assign({}, customOptions), { useGrouping: true }))
+                    .format(value)
+                    .replace(/,/g, ' ');
+            }
+            if (locale.startsWith('es-ES')) {
+                return new Intl.NumberFormat(locale, Object.assign(Object.assign({}, customOptions), { numberingSystem: 'latn', useGrouping: true }))
+                    .format(value)
+                    .replace(/\./g, ' ');
+            }
+            return new Intl.NumberFormat(locale, customOptions).format(value);
+        }
+        catch (error) {
+            console.error('I18n | failed to format number', error);
+            return value;
+        }
     }
     static checkDefaults(locale) {
         return checkDefaults(locale);
@@ -182,6 +218,12 @@ class I18n {
         return tslib_1.__awaiter(this, void 0, void 0, function* () {
             return setLanguageDefaults(defaults);
         });
+    }
+    /**
+     * set the method to get the locale when use `t` from `getTranslateFn`
+     */
+    static setGetTranslateLocale(getTranslateLocale) {
+        exports.RUNTIME.getTranslateLocale = getTranslateLocale;
     }
 }
 exports.default = I18n;

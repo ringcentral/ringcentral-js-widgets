@@ -12,6 +12,10 @@ export declare const RUNTIME: {
     padRatio: number;
     fallbackLocale: string;
     languageDefaults: LanguageInstance;
+    /**
+     * get the locale when use `t` from `getTranslateFn`
+     */
+    getTranslateLocale: (() => string) | null;
 };
 /**
  * @function
@@ -42,6 +46,7 @@ export default class I18n<T = Record<string, string>> {
     load(): Promise<void>;
     _getString(key: string, locale: string): string;
     getString<K extends keyof T = any>(key: K, locale?: string): string;
+    formatNumber(value: number, options?: Intl.NumberFormatOptions): string | number;
     static checkDefaults(locale: string): string;
     checkDefaults(locale: string): string;
     get currentLocale(): string;
@@ -54,5 +59,9 @@ export default class I18n<T = Record<string, string>> {
     setDefaultLocale(locale: string): Promise<void>;
     static setLanguageDefaults(defaults: LanguageInstance): Promise<void>;
     setLanguageDefaults(defaults: LanguageInstance): Promise<void>;
+    /**
+     * set the method to get the locale when use `t` from `getTranslateFn`
+     */
+    static setGetTranslateLocale(getTranslateLocale: typeof RUNTIME.getTranslateLocale): void;
 }
 export {};
