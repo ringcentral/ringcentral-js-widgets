@@ -4,16 +4,17 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  currentCall: "현재 통화",
-  viewCalls: "통화 보기",
-  view: "보기",
-  incomingCall: "수신 통화 {numberOf}통",
-  incomingCalls: "수신 통화 {numberOf}통",
-  callOnHold: "대기 중인 통화 {numberOf}통",
-  callsOnHold: "대기 중인 통화 {numberOf}통",
-  otherDeviceCall: "다른 디바이스에서 {numberOf}통의 전화",
-  otherDeviceCalls: "다른 디바이스에서 {numberOf}통의 전화"
+  currentCall: '현재 통화',
+  viewCalls: '통화 보기',
+  view: '보기',
+  incomingCall: '수신 통화 {numberOf}통',
+  incomingCalls: '수신 통화 {numberOf}통',
+  callOnHold: '대기 중인 통화 {numberOf}통',
+  callsOnHold: '대기 중인 통화 {numberOf}통',
+  otherDeviceCall: '다른 디바이스에서 {numberOf}통의 전화',
+  otherDeviceCalls: '다른 디바이스에서 {numberOf}통의 전화'
 }; // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@
 // @key: @#@"viewCalls"@#@ @source: @#@"View Calls"@#@
 // @key: @#@"view"@#@ @source: @#@"View"@#@

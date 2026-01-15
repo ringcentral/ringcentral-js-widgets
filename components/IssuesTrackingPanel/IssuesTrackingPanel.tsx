@@ -48,7 +48,8 @@ const _IssuesTrackingPanel: FunctionComponent<IssuesTrackingPanelProps> = ({
   const downloadDisabled = !initEnabledRef.current || !enabled || downloading;
 
   useEffect(() => {
-    // if log download failed, the button should be kept enabled.
+    // the behavior is make user need enter page again to enable
+    // so when become not enable, set the first time enable to false
     if (!enabled) {
       initEnabledRef.current = false;
     }
@@ -137,6 +138,7 @@ const _IssuesTrackingPanel: FunctionComponent<IssuesTrackingPanelProps> = ({
             {i18n.getString('privacyNotice', currentLocale)}
             <RcLink
               href="https://www.ringcentral.com/legal/last-update-september-1-2023/eulatos.html"
+              data-sign="privacyNoticeLink"
               target="_blank"
               variant="inherit"
             >
@@ -145,6 +147,7 @@ const _IssuesTrackingPanel: FunctionComponent<IssuesTrackingPanelProps> = ({
             {i18n.getString('and', currentLocale)}
             <RcLink
               href="https://www.ringcentral.com/legal/privacy-notice.html"
+              data-sign="privacyNoticeEnd"
               target="_blank"
               variant="inherit"
             >

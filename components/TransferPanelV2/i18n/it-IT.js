@@ -4,13 +4,14 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  to: "A:",
-  transferTo: "Trasferisci a",
-  blindTransfer: "Trasferisci",
-  warmTransfer: "Chiedi prima",
-  enterNameOrNumber: "Immetti numero",
-  toVoicemail: "Alla segreteria telefonica"
+  to: 'A:',
+  transferTo: 'Trasferisci a',
+  blindTransfer: 'Trasferisci',
+  warmTransfer: 'Chiedi prima',
+  enterNameOrNumber: 'Immetti numero',
+  toVoicemail: 'Alla segreteria telefonica'
 }; // @key: @#@"to"@#@ @source: @#@"To:"@#@
 // @key: @#@"transferTo"@#@ @source: @#@"Transfer to"@#@
 // @key: @#@"blindTransfer"@#@ @source: @#@"Transfer"@#@

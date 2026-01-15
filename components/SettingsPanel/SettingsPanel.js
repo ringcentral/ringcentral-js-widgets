@@ -11,13 +11,17 @@ var _ClickToDial = require("./ClickToDial");
 var _LinkLineItem = require("./LinkLineItem");
 var _Locale = require("./Locale");
 var _PresenceSetting = require("./PresenceSetting");
+var _SelectLineItem = require("./SelectLineItem");
+var _SelectToDial = require("./SelectToDial");
 var _SwitchLineItem = require("./SwitchLineItem");
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var Empty = function Empty() {
   return null;
 };
 var SettingsPanel = function SettingsPanel(_ref) {
-  var additional = _ref.additional,
+  var _ref$enableAcceptQueu = _ref.enableAcceptQueueCallsControl,
+    enableAcceptQueueCallsControl = _ref$enableAcceptQueu === void 0 ? true : _ref$enableAcceptQueu,
+    additional = _ref.additional,
     _ref$autoLogEnabled = _ref.autoLogEnabled,
     autoLogEnabled = _ref$autoLogEnabled === void 0 ? false : _ref$autoLogEnabled,
     _ref$autoLogNotesEnab = _ref.autoLogNotesEnabled,
@@ -28,6 +32,10 @@ var SettingsPanel = function SettingsPanel(_ref) {
     autoLogTitle = _ref.autoLogTitle,
     children = _ref.children,
     className = _ref.className,
+    onSelectToDialChange = _ref.onSelectToDialChange,
+    selectToDialTitle = _ref.selectToDialTitle,
+    _ref$selectToDialEnab = _ref.selectToDialEnabled,
+    selectToDialEnabled = _ref$selectToDialEnab === void 0 ? false : _ref$selectToDialEnab,
     _ref$clickToDialEnabl = _ref.clickToDialEnabled,
     clickToDialEnabled = _ref$clickToDialEnabl === void 0 ? false : _ref$clickToDialEnabl,
     _ref$clickToCallPermi = _ref.clickToCallPermission,
@@ -54,6 +62,8 @@ var SettingsPanel = function SettingsPanel(_ref) {
     logExtCallEnabled = _ref$logExtCallEnable === void 0 ? false : _ref$logExtCallEnable,
     logSMSContentTitle = _ref.logSMSContentTitle,
     logExtCallTitle = _ref.logExtCallTitle,
+    openEntityFrom = _ref.openEntityFrom,
+    ctiPanelSize = _ref.ctiPanelSize,
     onAudioSettingsLinkClick = _ref.onAudioSettingsLinkClick,
     _ref$onAutoLogChange = _ref.onAutoLogChange,
     onAutoLogChange = _ref$onAutoLogChange === void 0 ? Empty : _ref$onAutoLogChange,
@@ -62,6 +72,10 @@ var SettingsPanel = function SettingsPanel(_ref) {
     onAutoLogSMSChange = _ref.onAutoLogSMSChange,
     _ref$onLogExtCallChan = _ref.onLogExtCallChange,
     onLogExtCallChange = _ref$onLogExtCallChan === void 0 ? Empty : _ref$onLogExtCallChan,
+    _ref$onOpenEntityFrom = _ref.onOpenEntityFromChange,
+    onOpenEntityFromChange = _ref$onOpenEntityFrom === void 0 ? Empty : _ref$onOpenEntityFrom,
+    _ref$onCtiPanelSizeCh = _ref.onCtiPanelSizeChange,
+    onCtiPanelSizeChange = _ref$onCtiPanelSizeCh === void 0 ? Empty : _ref$onCtiPanelSizeCh,
     onCallingSettingsLinkClick = _ref.onCallingSettingsLinkClick,
     onClickToDialChange = _ref.onClickToDialChange,
     onFeedbackSettingsLinkClick = _ref.onFeedbackSettingsLinkClick,
@@ -105,6 +119,8 @@ var SettingsPanel = function SettingsPanel(_ref) {
     showCalling = _ref$showCalling === void 0 ? false : _ref$showCalling,
     _ref$showClickToDial = _ref.showClickToDial,
     showClickToDial = _ref$showClickToDial === void 0 ? false : _ref$showClickToDial,
+    _ref$showSelectToDial = _ref.showSelectToDial,
+    showSelectToDial = _ref$showSelectToDial === void 0 ? false : _ref$showSelectToDial,
     _ref$showFeedback = _ref.showFeedback,
     showFeedback = _ref$showFeedback === void 0 ? true : _ref$showFeedback,
     _ref$showTrackingIssu = _ref.showTrackingIssue,
@@ -121,6 +137,10 @@ var SettingsPanel = function SettingsPanel(_ref) {
     showRegion = _ref$showRegion === void 0 ? false : _ref$showRegion,
     _ref$showReport = _ref.showReport,
     showReport = _ref$showReport === void 0 ? false : _ref$showReport,
+    _ref$showOpenEntityFr = _ref.showOpenEntityFrom,
+    showOpenEntityFrom = _ref$showOpenEntityFr === void 0 ? false : _ref$showOpenEntityFr,
+    _ref$showCtiPanelSize = _ref.showCtiPanelSize,
+    showCtiPanelSize = _ref$showCtiPanelSize === void 0 ? false : _ref$showCtiPanelSize,
     _ref$showShareIdea = _ref.showShareIdea,
     showShareIdea = _ref$showShareIdea === void 0 ? false : _ref$showShareIdea,
     _ref$showSpinner = _ref.showSpinner,
@@ -131,6 +151,10 @@ var SettingsPanel = function SettingsPanel(_ref) {
     isEnablePendo = _ref$isEnablePendo === void 0 ? false : _ref$isEnablePendo,
     _ref$showReportIssue = _ref.showReportIssue,
     showReportIssue = _ref$showReportIssue === void 0 ? false : _ref$showReportIssue,
+    _ref$openEntityFromOp = _ref.openEntityFromOptions,
+    openEntityFromOptions = _ref$openEntityFromOp === void 0 ? [] : _ref$openEntityFromOp,
+    _ref$ctiPanelSizeOpti = _ref.ctiPanelSizeOptions,
+    ctiPanelSizeOptions = _ref$ctiPanelSizeOpti === void 0 ? [] : _ref$ctiPanelSizeOpti,
     supportedLocales = _ref.supportedLocales,
     _ref$toggleAcceptCall = _ref.toggleAcceptCallQueueCalls,
     toggleAcceptCallQueueCalls = _ref$toggleAcceptCall === void 0 ? Empty : _ref$toggleAcceptCall,
@@ -138,7 +162,8 @@ var SettingsPanel = function SettingsPanel(_ref) {
     version = _ref.version,
     versionContainer = _ref.versionContainer,
     showRemoveMeetingWarning = _ref.showRemoveMeetingWarning,
-    brandConfig = _ref.brandConfig;
+    brandConfig = _ref.brandConfig,
+    onCallQueueManagementClick = _ref.onCallQueueManagementClick;
   return /*#__PURE__*/_react["default"].createElement(_BasePanel.BasePanel, {
     currentLocale: currentLocale,
     className: className,
@@ -185,6 +210,7 @@ var SettingsPanel = function SettingsPanel(_ref) {
     onClick: onAudioSettingsLinkClick
   }), /*#__PURE__*/_react["default"].createElement(_PresenceSetting.PresenceSetting, {
     showPresenceSettings: showPresenceSettings,
+    enableAcceptQueueCallsControl: enableAcceptQueueCallsControl,
     dndStatus: dndStatus,
     userStatus: userStatus,
     currentLocale: currentLocale,
@@ -194,7 +220,8 @@ var SettingsPanel = function SettingsPanel(_ref) {
     setDoNotDisturb: setDoNotDisturb,
     setInvisible: setInvisible,
     toggleAcceptCallQueueCalls: toggleAcceptCallQueueCalls,
-    openPresenceSettings: openPresenceSettings
+    openPresenceSettings: openPresenceSettings,
+    onCallQueueManagementClick: onCallQueueManagementClick
   }), children, /*#__PURE__*/_react["default"].createElement(_SwitchLineItem.SwitchLineItem, {
     name: "autoLogCalls",
     dataSign: "AutoLogCall",
@@ -237,6 +264,22 @@ var SettingsPanel = function SettingsPanel(_ref) {
     currentLocale: currentLocale,
     checked: logExtCallEnabled,
     onChange: onLogExtCallChange
+  }), /*#__PURE__*/_react["default"].createElement(_SelectLineItem.SelectLineItem, {
+    currentLocale: currentLocale,
+    value: openEntityFrom,
+    options: openEntityFromOptions,
+    show: showOpenEntityFrom,
+    name: "openEntityFrom",
+    dataSign: "openEntityFrom",
+    onChange: onOpenEntityFromChange
+  }), /*#__PURE__*/_react["default"].createElement(_SelectLineItem.SelectLineItem, {
+    currentLocale: currentLocale,
+    value: ctiPanelSize,
+    options: ctiPanelSizeOptions,
+    show: showCtiPanelSize,
+    name: "ctiPanelSize",
+    dataSign: "ctiPanelSize",
+    onChange: onCtiPanelSizeChange
   }), /*#__PURE__*/_react["default"].createElement(_ClickToDial.ClickToDial, {
     currentLocale: currentLocale,
     showClickToDial: showClickToDial,
@@ -245,9 +288,17 @@ var SettingsPanel = function SettingsPanel(_ref) {
     clickToDialEnabled: clickToDialEnabled,
     onClickToDialChange: onClickToDialChange,
     clickToDialTitle: clickToDialTitle
+  }), /*#__PURE__*/_react["default"].createElement(_SelectToDial.SelectToDial, {
+    currentLocale: currentLocale,
+    showSelectToDial: showSelectToDial,
+    smsPermission: outboundSMS,
+    callPermission: clickToCallPermission,
+    selectToDialEnabled: selectToDialEnabled,
+    onSelectToDialChange: onSelectToDialChange,
+    selectToDialTitle: selectToDialTitle
   }), additional, /*#__PURE__*/_react["default"].createElement(_LinkLineItem.LinkLineItem, {
-    name: "havingIssues",
-    dataSign: "HavingIssues",
+    name: "contactSupport",
+    dataSign: "ContactSupport",
     show: showTrackingIssue,
     currentLocale: currentLocale,
     onClick: onTrackingClick

@@ -1,11 +1,17 @@
+/* eslint-disable */
 import { conferenceCallErrors } from '@ringcentral-integration/commons/modules/ConferenceCall';
 export default {
-  [conferenceCallErrors.bringInFailed]: "No se han podido combinar las llamadas debido a errores inesperados. Inténtelo de nuevo más tarde.",
-  [conferenceCallErrors.makeConferenceFailed]: "No se han podido combinar las llamadas debido a errores inesperados. Inténtelo de nuevo más tarde.",
-  [conferenceCallErrors.terminateConferenceFailed]: "No se ha podido colgar la conferencia debido a errores inesperados. Inténtelo de nuevo más tarde.",
-  [conferenceCallErrors.removeFromConferenceFailed]: "No se ha podido quitar al participante debido a errores inesperados. Inténtelo de nuevo más tarde.",
-  [conferenceCallErrors.callIsRecording]: "Grabación de llamada en curso. Pare la grabación y vuelva a intentarlo."
-};
+  [conferenceCallErrors.bringInFailed]:
+    'No se han podido combinar las llamadas debido a errores inesperados. Inténtelo de nuevo más tarde.',
+  [conferenceCallErrors.makeConferenceFailed]:
+    'No se han podido combinar las llamadas debido a errores inesperados. Inténtelo de nuevo más tarde.',
+  [conferenceCallErrors.terminateConferenceFailed]:
+    'No se ha podido colgar la conferencia debido a errores inesperados. Inténtelo de nuevo más tarde.',
+  [conferenceCallErrors.removeFromConferenceFailed]:
+    'No se ha podido quitar al participante debido a errores inesperados. Inténtelo de nuevo más tarde.',
+  [conferenceCallErrors.callIsRecording]:
+    'Grabación de llamada en curso. Pare la grabación y vuelva a intentarlo.',
+} as const;
 
 // @key: @#@"[conferenceCallErrors.bringInFailed]"@#@ @source: @#@"Failed to merge the calls due to unexpected errors. Please try again later."@#@
 // @key: @#@"[conferenceCallErrors.makeConferenceFailed]"@#@ @source: @#@"Failed to merge the calls due to unexpected errors. Please try again later."@#@

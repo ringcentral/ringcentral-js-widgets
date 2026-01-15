@@ -1,5 +1,7 @@
+/* eslint-disable */
 export default {
-  rateExceeded: "Limite de pedidos excedido. A aplicação irá retomar dentro de {ttl} segundos."
-};
+  rateExceeded:
+    'Limite de pedidos excedido. A aplicação irá retomar dentro de {ttl} segundos.',
+} as const;
 
 // @key: @#@"rateExceeded"@#@ @source: @#@"Request limit exceeded. App will resume in {ttl} seconds."@#@

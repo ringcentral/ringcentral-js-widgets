@@ -1,9 +1,10 @@
-import { callControlAlerts, callControlError } from '@ringcentral-integration/commons/modules/ActiveCallControl';
-const {
-  callsMerged,
-  somethingWentWrong,
-  tooManyParticipants
-} = callControlAlerts;
+/* eslint-disable */
+import {
+  callControlAlerts,
+  callControlError,
+} from '@ringcentral-integration/commons/modules/ActiveCallControl';
+const { callsMerged, somethingWentWrong, tooManyParticipants } =
+  callControlAlerts;
 const {
   holdConflictError,
   unHoldConflictError,
@@ -12,21 +13,25 @@ const {
   generalError,
   forwardSuccess,
   transferCompleted,
-  replyCompleted
+  replyCompleted,
 } = callControlError;
 export default {
-  [callsMerged]: "Chiamate unite",
-  [somethingWentWrong]: "Si è verificato un problema. Riprova.",
-  [tooManyParticipants]: "Numero massimo di partecipanti raggiunto.",
-  [muteConflictError]: "L'audio di questa chiamata è stato disattivato sull'altro dispositivo. Riattivalo prima di eseguire l'operazione in questa app.",
-  [unHoldConflictError]: "Questa chiamata è stata messa in attesa sull'altro dispositivo. Riprendila prima di eseguire l'operazione in questa app.",
-  [unMuteConflictError]: "L'audio di questa chiamata è stato riattivato sull'altro dispositivo. Disattivalo prima di eseguire l'operazione in questa app.",
-  [holdConflictError]: "Questa chiamata è stata ripresa sull'altro dispositivo. Mettila in attesa prima di eseguire l'operazione in questa app.",
-  [generalError]: "Errore inatteso del server. Riprova più tardi.",
-  [forwardSuccess]: "Chiamata trasferita",
-  [transferCompleted]: "Trasferimento di chiamata completato",
-  [replyCompleted]: "Messaggio vocale inviato."
-};
+  [callsMerged]: 'Chiamate unite',
+  [somethingWentWrong]: 'Si è verificato un problema. Riprova.',
+  [tooManyParticipants]: 'Numero massimo di partecipanti raggiunto.',
+  [muteConflictError]:
+    "L'audio di questa chiamata è stato disattivato sull'altro dispositivo. Riattivalo prima di eseguire l'operazione in questa app.",
+  [unHoldConflictError]:
+    "Questa chiamata è stata messa in attesa sull'altro dispositivo. Riprendila prima di eseguire l'operazione in questa app.",
+  [unMuteConflictError]:
+    "L'audio di questa chiamata è stato riattivato sull'altro dispositivo. Disattivalo prima di eseguire l'operazione in questa app.",
+  [holdConflictError]:
+    "Questa chiamata è stata ripresa sull'altro dispositivo. Mettila in attesa prima di eseguire l'operazione in questa app.",
+  [generalError]: 'Errore inatteso del server. Riprova più tardi.',
+  [forwardSuccess]: 'Chiamata trasferita',
+  [transferCompleted]: 'Chiamata trasferita',
+  [replyCompleted]: 'Messaggio vocale inviato.',
+} as const;
 
 // @key: @#@"callsMerged"@#@ @source: @#@"Calls merged"@#@
 // @key: @#@"somethingWentWrong"@#@ @source: @#@"Something went wrong. Please try again."@#@

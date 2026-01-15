@@ -4,8 +4,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  noRecords: "최근 레코드를 찾을 수 없습니다."
+  noRecords: '최근 레코드를 찾을 수 없습니다.'
 }; // @key: @#@"noRecords"@#@ @source: @#@"No recent records found."@#@
 exports["default"] = _default;
 //# sourceMappingURL=ko-KR.js.map

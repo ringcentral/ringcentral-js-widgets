@@ -4,14 +4,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  account: "Tili",
-  contact: "Yhteystieto",
-  lead: "Liidi",
-  opportunity: "Mahdollisuus",
-  "case": "Tapaus",
-  chooseEntity: "Anna entiteetin tyyppi",
-  create: "Luo"
+  account: 'Tili',
+  contact: 'Yhteystieto',
+  lead: 'Liidi',
+  opportunity: 'Mahdollisuus',
+  "case": 'Tapaus',
+  chooseEntity: 'Anna entiteetin tyyppi',
+  create: 'Luo'
 }; // @key: @#@"account"@#@ @source: @#@"Account"@#@
 // @key: @#@"contact"@#@ @source: @#@"Contact"@#@
 // @key: @#@"lead"@#@ @source: @#@"Lead"@#@

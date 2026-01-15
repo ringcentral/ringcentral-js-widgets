@@ -1,17 +1,19 @@
+/* eslint-disable */
 export default {
-  logging: "기록 중...",
-  logCall: "통화 기록",
-  editLog: "기록 편집",
-  select: "기록 선택",
-  OnHold: "대기 중",
-  Ringing: "벨 울림",
-  CallConnected: "통화 연결됨",
-  unknownUser: "알 수 없는 사용자",
-  unknownNumber: "익명",
-  unavailable: "통화 불가능",
-  viewDetails: "세부 정보 보기",
-  conferenceCall: "전화 회의"
-};
+  logging: '기록 중...',
+  logCall: '통화 기록',
+  editLog: '기록 편집',
+  select: '기록 선택',
+  OnHold: '대기 중',
+  Ringing: '벨 울림',
+  CallConnected: '통화 연결됨',
+  unknownUser: '알 수 없는 사용자',
+  unknownNumber: '익명',
+  unavailable: '통화 불가능',
+  viewDetails: '세부 정보 보기',
+  conferenceCall: '전화 회의',
+  callerId: '발신자 ID',
+} as const;
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
@@ -25,3 +27,4 @@ export default {
 // @key: @#@"unavailable"@#@ @source: @#@"Unavailable"@#@
 // @key: @#@"viewDetails"@#@ @source: @#@"View Details"@#@
 // @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@
+// @key: @#@"callerId"@#@ @source: @#@"Caller ID"@#@

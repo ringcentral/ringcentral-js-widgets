@@ -1,14 +1,17 @@
+/* eslint-disable */
 import { meetingStatus } from '@ringcentral-integration/commons/modules/Meeting';
 export default {
-  [meetingStatus.emptyTopic]: "請輸入會議主題。",
-  [meetingStatus.noPassword]: "請提供會議密碼。",
-  [meetingStatus.insufficientPermissions]: "{application} 沒有 {permissionName} 權限。",
-  [meetingStatus.scheduledSuccess]: "已新增會議",
-  [meetingStatus.updatedSuccess]: "已更新會議",
-  [meetingStatus.meetingIsDeleted]: "已刪除會議",
-  [meetingStatus.internalError]: "抱歉，系統發生錯誤。請再試一次。",
-  [meetingStatus.renderInviteError]: "抱歉，系統發生錯誤，無法新增會議邀請。請稍後再試。"
-};
+  [meetingStatus.emptyTopic]: '請輸入會議主題。',
+  [meetingStatus.noPassword]: '請提供會議密碼。',
+  [meetingStatus.insufficientPermissions]:
+    '{application} 沒有{permissionName}權限。',
+  [meetingStatus.scheduledSuccess]: '已新增會議',
+  [meetingStatus.updatedSuccess]: '已更新會議',
+  [meetingStatus.meetingIsDeleted]: '已刪除會議',
+  [meetingStatus.internalError]: '抱歉，系統發生錯誤。請再試一次。',
+  [meetingStatus.renderInviteError]:
+    '抱歉，系統發生錯誤，無法新增會議邀請。請稍後再試。',
+} as const;
 
 // @key: @#@"[meetingStatus.emptyTopic]"@#@ @source: @#@"Please enter meeting topic."@#@
 // @key: @#@"[meetingStatus.noPassword]"@#@ @source: @#@"Please provide meeting password."@#@

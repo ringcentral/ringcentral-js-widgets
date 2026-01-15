@@ -1,8 +1,9 @@
+/* eslint-disable */
 export default {
-  logged: "Gelogd",
-  unlogged: "Onbewerkt",
-  faxNotSupported: "Het loggen van faxen wordt niet ondersteund."
-};
+  logged: 'Geregistreerd',
+  unlogged: 'Onbewerkt',
+  faxNotSupported: 'Het loggen van faxen wordt niet ondersteund.',
+} as const;
 
 // @key: @#@"logged"@#@ @source: @#@"Logged"@#@
 // @key: @#@"unlogged"@#@ @source: @#@"Unworked"@#@

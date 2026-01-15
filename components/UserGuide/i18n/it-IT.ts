@@ -1,9 +1,10 @@
+/* eslint-disable */
 export default {
-  start: "Visita guidata rapida",
-  skip: "Ignora",
-  next: "Avanti",
-  finish: "Fine"
-};
+  start: 'Visita guidata rapida',
+  skip: 'Ignora',
+  next: 'Avanti',
+  finish: 'Fine',
+} as const;
 
 // @key: @#@"start"@#@ @source: @#@"Take a quick tour"@#@
 // @key: @#@"skip"@#@ @source: @#@"Skip"@#@

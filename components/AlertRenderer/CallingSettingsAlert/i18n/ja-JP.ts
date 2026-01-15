@@ -1,15 +1,23 @@
+/* eslint-disable */
 import { callingSettingsMessages } from '@ringcentral-integration/commons/modules/CallingSettings';
 export default {
-  [callingSettingsMessages.saveSuccess]: "設定が正常に保存されました。",
-  [callingSettingsMessages.saveSuccessWithSoftphone]: "設定が正常に保存されました。お使いのコンピューターに{brand}がインストールされていることを確認してください。",
-  [callingSettingsMessages.permissionChanged]: "アクセス許可が最近変更されました。{link}の順に移動して、[通話]のオプションを確認してください。",
-  [callingSettingsMessages.phoneNumberChanged]: "電話番号情報が最近変更されました。{link}にアクセスして、[通話]のオプションを確認してください。",
-  link: "[設定] > [通話]",
-  [callingSettingsMessages.webphonePermissionRemoved]: "アクセス許可が変更されたため、ブラウザーを使用した通話はできません。詳細については、アカウント管理者にお問い合わせください。",
-  [callingSettingsMessages.emergencyCallingNotAvailable]: "緊急サービスまたは特別なサービスの番号へのダイヤルはサポートされていません。緊急時は、従来の有線電話または携帯電話を使用して、緊急電話番号に電話してください。",
-  [callingSettingsMessages.saveSuccessWithJupiter]: "設定が正常に保存されました。お使いのコンピューターに{brand}がインストールされていることを確認してください。",
-  [callingSettingsMessages.disableEmergencyInJapan]: "緊急サービスは日本では利用できません。"
-};
+  [callingSettingsMessages.saveSuccess]: '設定が正常に保存されました。',
+  [callingSettingsMessages.saveSuccessWithSoftphone]:
+    '設定が正常に保存されました。お使いのコンピューターに{brand}がインストールされていることを確認してください。',
+  [callingSettingsMessages.permissionChanged]:
+    'アクセス許可が最近変更されました。{link}の順に移動して、[通話]のオプションを確認してください。',
+  [callingSettingsMessages.phoneNumberChanged]:
+    '電話番号情報が最近変更されました。{link}にアクセスして、[通話]のオプションを確認してください。',
+  link: '[設定] > [発信]',
+  [callingSettingsMessages.webphonePermissionRemoved]:
+    'アクセス許可が変更されたため、ブラウザーを使用した通話はできません。詳細については、アカウント管理者にお問い合わせください。',
+  [callingSettingsMessages.emergencyCallingNotAvailable]:
+    '緊急サービスまたは特別なサービスの番号へのダイヤルはサポートされていません。緊急時は、従来の有線電話または携帯電話を使用して、緊急電話番号に電話してください。',
+  [callingSettingsMessages.saveSuccessWithJupiter]:
+    '設定が正常に保存されました。お使いのコンピューターに{brand}がインストールされていることを確認してください。',
+  [callingSettingsMessages.disableEmergencyInJapan]:
+    '緊急サービスは日本では利用できません。',
+} as const;
 
 // @key: @#@"[callingSettingsMessages.saveSuccess]"@#@ @source: @#@"Settings saved successfully."@#@
 // @key: @#@"[callingSettingsMessages.saveSuccessWithSoftphone]"@#@ @source: @#@"Settings saved successfully. Please make sure you have {brand} installed in your computer."@#@

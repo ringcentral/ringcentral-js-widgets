@@ -4,23 +4,24 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  title: "Audio",
-  dialButtonVolume: "Volume pulsante di chiamata",
-  ringtoneVolume: "Volume suoneria",
-  callVolume: "Volume chiamata",
-  muteCalls: "Disattiva audio chiamate",
-  outputDevice: "Dispositivo di uscita",
-  inputDevice: "Dispositivo di ingresso",
-  micPermission: "Autorizzazione microfono",
-  noDevice: "Nessun dispositivo",
-  checkMicPermission: "Controlla autorizzazione",
+  title: 'Audio',
+  dialButtonVolume: 'Volume pulsante di chiamata',
+  ringtoneVolume: 'Volume suoneria',
+  callVolume: 'Volume chiamata',
+  muteCalls: 'Disattiva audio chiamate',
+  outputDevice: 'Dispositivo di uscita',
+  inputDevice: 'Dispositivo di ingresso',
+  micPermission: 'Autorizzazione microfono',
+  noDevice: 'Nessun dispositivo',
+  checkMicPermission: 'Controlla autorizzazione',
   micNoPermissionMessage: "L'app non è autorizzata a usare il microfono",
-  noLabel: "Dispositivo sconosciuto",
+  noLabel: 'Dispositivo sconosciuto',
   notSetSinkIdTip: "Le attuali autorizzazioni del browser non sono impostate per consentire l'accesso ai dispositivi di input audio. {clickHereLink} per la configurazione.",
   noLabelTip: "Le attuali autorizzazioni del browser non sono impostate per consentire l'accesso ai dispositivi di input audio.",
-  clickHere: "Fai clic qui",
-  defaultOutputDevice: "Dispositivo di output predefinito"
+  clickHere: 'Fai clic qui',
+  defaultOutputDevice: 'Dispositivo di output predefinito'
 }; // @key: @#@"title"@#@ @source: @#@"Audio"@#@
 // @key: @#@"dialButtonVolume"@#@ @source: @#@"Dial Button Volume"@#@
 // @key: @#@"ringtoneVolume"@#@ @source: @#@"Ringtone Volume"@#@

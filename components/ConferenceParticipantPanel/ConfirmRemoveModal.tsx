@@ -9,12 +9,18 @@ import styles from './styles.scss';
 type ConfirmRemoveModalProps = {
   currentLocale: string;
   show: boolean;
+  showCallerIdName?: boolean;
   onCancel?: (...args: any[]) => any;
   onRemove?: (...args: any[]) => any;
-  detail?: object;
+  detail?: {
+    partyNumber: string;
+    partyName: string;
+    calleeType: string;
+  };
 };
 const ConfirmRemoveModal: React.FC<ConfirmRemoveModalProps> = ({
   currentLocale,
+  showCallerIdName,
   show,
   onRemove,
   onCancel,
@@ -24,12 +30,17 @@ const ConfirmRemoveModal: React.FC<ConfirmRemoveModalProps> = ({
     return null;
   }
   let displayText =
-    // @ts-expect-error TS(2339): Property 'partyNumber' does not exist on type 'obj... Remove this comment to see the full error message
     detail.partyNumber || i18n.getString('unknownNumber', currentLocale);
-  // @ts-expect-error TS(2339): Property 'partyName' does not exist on type 'objec... Remove this comment to see the full error message
   if (detail.partyName && detail.calleeType === calleeTypes.contacts) {
     // means that matched a contact
-    // @ts-expect-error TS(2339): Property 'partyName' does not exist on type 'objec... Remove this comment to see the full error message
+    displayText = detail.partyName;
+  }
+  if (
+    detail.partyName &&
+    detail.calleeType === calleeTypes.unknown &&
+    showCallerIdName
+  ) {
+    // means outside company call, show caller id name
     displayText = detail.partyName;
   }
   return (

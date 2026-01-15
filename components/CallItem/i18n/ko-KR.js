@@ -4,25 +4,27 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  logging: "기록 중...",
-  logCall: "통화 기록",
-  editLog: "기록 편집",
-  select: "일치하는 레코드 선택",
-  OnHold: "대기 중",
-  Ringing: "벨 울림",
-  CallConnected: "통화 연결됨",
-  unknownUser: "알 수 없는 사용자",
-  unknownNumber: "익명",
-  unavailable: "통화 불가능",
-  viewDetails: "세부 정보 보기",
-  addEntity: "새로 만들기",
-  addLog: "기록",
-  text: "문자",
-  call: "전화",
-  missedCall: "부재중 전화",
-  inboundCall: "수신",
-  outboundCall: "발신"
+  logging: '기록 중...',
+  logCall: '통화 기록',
+  editLog: '기록 편집',
+  select: '일치하는 레코드 선택',
+  OnHold: '대기 중',
+  Ringing: '벨 울림',
+  CallConnected: '통화 연결됨',
+  unknownUser: '알 수 없는 사용자',
+  unknownNumber: '익명',
+  unavailable: '통화 불가능',
+  viewDetails: '세부 정보 보기',
+  addEntity: '새로 만들기',
+  addLog: '기록',
+  text: '문자',
+  call: '전화',
+  missedCall: '부재중 전화',
+  inboundCall: '수신',
+  outboundCall: '발신',
+  answeredBy: '님이 응답함'
 }; // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
@@ -41,5 +43,6 @@ var _default = {
 // @key: @#@"missedCall"@#@ @source: @#@"Missed"@#@
 // @key: @#@"inboundCall"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"outboundCall"@#@ @source: @#@"Outbound"@#@
+// @key: @#@"answeredBy"@#@ @source: @#@"Answered by"@#@
 exports["default"] = _default;
 //# sourceMappingURL=ko-KR.js.map

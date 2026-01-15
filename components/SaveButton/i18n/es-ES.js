@@ -4,8 +4,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  save: "Guardar"
+  save: 'Guardar'
 }; // @key: @#@"save"@#@ @source: @#@"Save"@#@
 exports["default"] = _default;
 //# sourceMappingURL=es-ES.js.map

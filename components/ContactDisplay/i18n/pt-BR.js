@@ -4,19 +4,21 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  logging: "Registrando...",
-  logCall: "Registrar chamada",
-  editLog: "Editar log",
-  select: "Selecionar registro",
-  OnHold: "Em espera",
-  Ringing: "Chamando",
-  CallConnected: "Chamada conectada",
-  unknownUser: "Usuário desconhecido",
-  unknownNumber: "Anônimo",
-  unavailable: "Indisponível",
-  viewDetails: "Exibir detalhes",
-  conferenceCall: "Chamada em conferência"
+  logging: 'Registrando...',
+  logCall: 'Registrar chamada',
+  editLog: 'Editar log',
+  select: 'Selecionar registro',
+  OnHold: 'Em espera',
+  Ringing: 'Chamando',
+  CallConnected: 'Chamada conectada',
+  unknownUser: 'Usuário desconhecido',
+  unknownNumber: 'Anônimo',
+  unavailable: 'Indisponível',
+  viewDetails: 'Exibir detalhes',
+  conferenceCall: 'Chamada em conferência',
+  callerId: 'ID da chamada'
 }; // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
@@ -29,5 +31,6 @@ var _default = {
 // @key: @#@"unavailable"@#@ @source: @#@"Unavailable"@#@
 // @key: @#@"viewDetails"@#@ @source: @#@"View Details"@#@
 // @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@
+// @key: @#@"callerId"@#@ @source: @#@"Caller ID"@#@
 exports["default"] = _default;
 //# sourceMappingURL=pt-BR.js.map

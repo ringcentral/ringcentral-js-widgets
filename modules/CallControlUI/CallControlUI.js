@@ -182,6 +182,7 @@ var CallControlUI = (_dec = (0, _di.Module)({
         conferenceCallParties: conferenceCallParties,
         conferenceCallId: conferenceCallId,
         lastCallInfo: lastCallInfo,
+        showCallerIdName: showCallerIdName,
         callerIdName: showCallerIdName ? this.callerIdName : undefined,
         // TODO: investigate whether it's better to just
         // use isMerging and let the component decide whether to display children

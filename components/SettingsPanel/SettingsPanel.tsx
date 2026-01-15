@@ -8,12 +8,15 @@ import { ClickToDial } from './ClickToDial';
 import { LinkLineItem } from './LinkLineItem';
 import { Locale } from './Locale';
 import { PresenceSetting } from './PresenceSetting';
+import { SelectLineItem } from './SelectLineItem';
+import { SelectToDial } from './SelectToDial';
 import type { SettingsPanelProps } from './SettingsPanel.interface';
 import { SwitchLineItem } from './SwitchLineItem';
 
 const Empty = (): null => null;
 
 export const SettingsPanel: FunctionComponent<SettingsPanelProps> = ({
+  enableAcceptQueueCallsControl = true,
   additional,
   autoLogEnabled = false,
   autoLogNotesEnabled = false,
@@ -22,6 +25,9 @@ export const SettingsPanel: FunctionComponent<SettingsPanelProps> = ({
   autoLogTitle,
   children,
   className,
+  onSelectToDialChange,
+  selectToDialTitle,
+  selectToDialEnabled = false,
   clickToDialEnabled = false,
   clickToCallPermission = false,
   clickToDialTitle,
@@ -41,11 +47,15 @@ export const SettingsPanel: FunctionComponent<SettingsPanelProps> = ({
   logExtCallEnabled = false,
   logSMSContentTitle,
   logExtCallTitle,
+  openEntityFrom,
+  ctiPanelSize,
   onAudioSettingsLinkClick,
   onAutoLogChange = Empty,
   onAutoLogNotesChange = Empty,
   onAutoLogSMSChange,
   onLogExtCallChange = Empty,
+  onOpenEntityFromChange = Empty,
+  onCtiPanelSizeChange = Empty,
   onCallingSettingsLinkClick,
   onClickToDialChange,
   onFeedbackSettingsLinkClick,
@@ -73,6 +83,7 @@ export const SettingsPanel: FunctionComponent<SettingsPanelProps> = ({
   showAutoLogSMS = false,
   showCalling = false,
   showClickToDial = false,
+  showSelectToDial = false,
   showFeedback = true,
   showTrackingIssue = false,
   showHeader = false,
@@ -81,12 +92,16 @@ export const SettingsPanel: FunctionComponent<SettingsPanelProps> = ({
   showQuickAccess = false,
   showRegion = false,
   showReport = false,
+  showOpenEntityFrom = false,
+  showCtiPanelSize = false,
   showShareIdea = false,
   showSpinner = false,
   showUserGuide = false,
   // @ts-expect-error TS(2339): Property 'isEnablePendo' does not exist on type 'P... Remove this comment to see the full error message
   isEnablePendo = false,
   showReportIssue = false,
+  openEntityFromOptions = [],
+  ctiPanelSizeOptions = [],
   supportedLocales,
   toggleAcceptCallQueueCalls = Empty,
   userStatus,
@@ -94,6 +109,7 @@ export const SettingsPanel: FunctionComponent<SettingsPanelProps> = ({
   versionContainer,
   showRemoveMeetingWarning,
   brandConfig,
+  onCallQueueManagementClick,
 }) => {
   return (
     <BasePanel
@@ -153,6 +169,7 @@ export const SettingsPanel: FunctionComponent<SettingsPanelProps> = ({
       />
       <PresenceSetting
         showPresenceSettings={showPresenceSettings}
+        enableAcceptQueueCallsControl={enableAcceptQueueCallsControl}
         dndStatus={dndStatus}
         userStatus={userStatus}
         currentLocale={currentLocale}
@@ -163,6 +180,7 @@ export const SettingsPanel: FunctionComponent<SettingsPanelProps> = ({
         setInvisible={setInvisible}
         toggleAcceptCallQueueCalls={toggleAcceptCallQueueCalls}
         openPresenceSettings={openPresenceSettings}
+        onCallQueueManagementClick={onCallQueueManagementClick}
       />
       {children}
       <SwitchLineItem
@@ -212,6 +230,24 @@ export const SettingsPanel: FunctionComponent<SettingsPanelProps> = ({
         checked={logExtCallEnabled}
         onChange={onLogExtCallChange}
       />
+      <SelectLineItem
+        currentLocale={currentLocale}
+        value={openEntityFrom}
+        options={openEntityFromOptions}
+        show={showOpenEntityFrom}
+        name="openEntityFrom"
+        dataSign="openEntityFrom"
+        onChange={onOpenEntityFromChange}
+      />
+      <SelectLineItem
+        currentLocale={currentLocale}
+        value={ctiPanelSize}
+        options={ctiPanelSizeOptions}
+        show={showCtiPanelSize}
+        name="ctiPanelSize"
+        dataSign="ctiPanelSize"
+        onChange={onCtiPanelSizeChange}
+      />
       <ClickToDial
         currentLocale={currentLocale}
         showClickToDial={showClickToDial}
@@ -221,10 +257,19 @@ export const SettingsPanel: FunctionComponent<SettingsPanelProps> = ({
         onClickToDialChange={onClickToDialChange}
         clickToDialTitle={clickToDialTitle}
       />
+      <SelectToDial
+        currentLocale={currentLocale}
+        showSelectToDial={showSelectToDial}
+        smsPermission={outboundSMS}
+        callPermission={clickToCallPermission}
+        selectToDialEnabled={selectToDialEnabled}
+        onSelectToDialChange={onSelectToDialChange}
+        selectToDialTitle={selectToDialTitle}
+      />
       {additional}
       <LinkLineItem
-        name="havingIssues"
-        dataSign="HavingIssues"
+        name="contactSupport"
+        dataSign="ContactSupport"
         show={showTrackingIssue}
         currentLocale={currentLocale}
         onClick={onTrackingClick}

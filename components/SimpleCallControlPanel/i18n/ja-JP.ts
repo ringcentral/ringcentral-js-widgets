@@ -1,8 +1,9 @@
+/* eslint-disable */
 export default {
-  allCalls: "すべての通話",
-  Unknown: "不明",
-  Multiple: "複数"
-};
+  allCalls: 'すべての通話',
+  Unknown: '不明',
+  Multiple: '複数',
+} as const;
 
 // @key: @#@"allCalls"@#@ @source: @#@"All calls"@#@
 // @key: @#@"Unknown"@#@ @source: @#@"Unknown"@#@

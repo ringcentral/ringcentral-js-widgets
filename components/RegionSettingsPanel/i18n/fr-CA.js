@@ -4,14 +4,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  title: "Région",
-  NAOnlyMessage: "Veuillez entrer votre indicatif régional. Il sera utilisé pour la composition des numéros locaux.",
-  MultiWithNAMessage: "Veuillez définir l’indicatif de votre pays et votre indicatif régional. Ils seront utilisés pour la composition des numéros locaux et le formatage des numéros de téléphone.",
-  MultiWithoutNAMessage: "Veuillez sélectionner le pays correspondant à votre emplacement. Il sera utilisé pour la composition des numéros locaux et le formatage des numéros de téléphone.",
-  country: "Pays",
-  areaCode: "Indicatif régional",
-  areaCodePlaceholder: "Entrer l’indicatif régional"
+  title: 'Région',
+  NAOnlyMessage: 'Veuillez entrer votre indicatif régional. Il sera utilisé pour la composition des numéros locaux.',
+  MultiWithNAMessage: 'Veuillez définir l’indicatif de votre pays et votre indicatif régional. Ils seront utilisés pour la composition des numéros locaux et le formatage des numéros de téléphone.',
+  MultiWithoutNAMessage: 'Veuillez sélectionner le pays correspondant à votre emplacement. Il sera utilisé pour la composition des numéros locaux et le formatage des numéros de téléphone.',
+  country: 'Pays',
+  areaCode: 'Indicatif régional',
+  areaCodePlaceholder: 'Entrer l’indicatif régional'
 }; // @key: @#@"title"@#@ @source: @#@"Region"@#@
 // @key: @#@"NAOnlyMessage"@#@ @source: @#@"Please set your area code. This will be used for local dialing."@#@
 // @key: @#@"MultiWithNAMessage"@#@ @source: @#@"Please set the country and area code for your region. This will be used for local dialing and phone number formatting."@#@

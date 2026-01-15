@@ -4,26 +4,27 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  feedbackHeader: "Envoyer un commentaire",
-  back: "Retour",
-  revert: "Rétablir",
-  instruction: "Nous accordons beaucoup d’importance à vos commentaires. N’hésitez pas à nous contacter si vous rencontrez des problèmes avec l’application, si vous souhaitez obtenir une fonctionnalité ou pour signaler un bogue.",
-  fillForm: "Veuillez remplir le formulaire ci-dessous et cliquer ",
-  useMailBox: " ou utilisez votre boîte mail et envoyez une demande à ",
-  email: "Votre adresse e-mail",
-  reply: "(pour que nous puissions vous répondre)",
-  emailPlaceHolder: "ronald.app@ringcentral.com",
-  feedbackTopic: "Rubrique du commentaire",
-  topicPlaceHolder: "Veuillez choisir une option",
-  bugReport: "Signalement de bug",
-  featureRequest: "Demande de fonctionnalité",
-  others: "Autres",
-  subject: "Objet",
-  subjectPlaceHolder: "Que pouvons-nous faire pour vous aider ?",
-  description: "Description complète",
-  descriptionPlaceHolder: "Veuillez saisir autant de détails que possible",
-  send: "Envoyez votre commentaire"
+  feedbackHeader: 'Envoyer un commentaire',
+  back: 'Retour',
+  revert: 'Rétablir',
+  instruction: 'Nous accordons beaucoup d’importance à vos commentaires. N’hésitez pas à nous contacter si vous rencontrez des problèmes avec l’application, si vous souhaitez obtenir une fonctionnalité ou pour signaler un bogue.',
+  fillForm: 'Veuillez remplir le formulaire ci-dessous et cliquer ',
+  useMailBox: ' ou utilisez votre boîte mail et envoyez une demande à ',
+  email: 'Votre adresse e-mail',
+  reply: '(pour que nous puissions vous répondre)',
+  emailPlaceHolder: 'ronald.app@ringcentral.com',
+  feedbackTopic: 'Rubrique du commentaire',
+  topicPlaceHolder: 'Veuillez choisir une option',
+  bugReport: 'Signalement de bug',
+  featureRequest: 'Demande de fonctionnalité',
+  others: 'Autres',
+  subject: 'Objet',
+  subjectPlaceHolder: 'Que pouvons-nous faire pour vous aider ?',
+  description: 'Description complète',
+  descriptionPlaceHolder: 'Veuillez saisir autant de détails que possible',
+  send: 'Envoyez votre commentaire'
 }; // @key: @#@"feedbackHeader"@#@ @source: @#@"Submit Feedback"@#@
 // @key: @#@"back"@#@ @source: @#@"Back"@#@
 // @key: @#@"revert"@#@ @source: @#@"Revert"@#@

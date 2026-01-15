@@ -1,9 +1,10 @@
+/* eslint-disable */
 export default {
-  confirmation: "確認",
-  confirmMergeToConference: "電話会議に追加しますか?",
-  mergeToConference: "マージ",
-  conferenceCall: "電話会議"
-};
+  confirmation: '確認',
+  confirmMergeToConference: '電話会議に追加しますか?',
+  mergeToConference: 'マージ',
+  conferenceCall: '電話会議',
+} as const;
 
 // @key: @#@"confirmation"@#@ @source: @#@"Confirmation"@#@
 // @key: @#@"confirmMergeToConference"@#@ @source: @#@"Add to conference call?"@#@

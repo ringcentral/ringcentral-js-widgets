@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+var _reactHooks = require("@ringcentral-integration/react-hooks");
 var _clsx = _interopRequireDefault(require("clsx"));
 var _react = _interopRequireWildcard(require("react"));
 var _Answer = _interopRequireDefault(require("../../assets/images/Answer.svg"));
@@ -54,15 +55,19 @@ var DialerPanel = function DialerPanel(_ref) {
     inConference = _ref.inConference,
     isLastInputFromDialpad = _ref.isLastInputFromDialpad,
     showAnonymous = _ref.showAnonymous,
-    useV2 = _ref.useV2;
+    useV2 = _ref.useV2,
+    showCustomPhoneLabel = _ref.showCustomPhoneLabel;
   var inputEl = (0, _react.useRef)(null);
-  (0, _react.useEffect)(function () {
-    if (useV2 && autoFocus && inputEl.current) {
-      // @ts-expect-error TS(2339): Property 'focus' does not exist on type 'never'.
-      inputEl.current.focus();
+  var autoFocusRef = (0, _react.useRef)(autoFocus);
+  if (process.env.NODE_ENV !== 'production') {
+    if (typeof autoFocus === 'boolean' && autoFocus !== autoFocusRef.current) {
+      console.warn('DialerPanel: autoFocus should never change after component mounted, only work when keep it as a constant');
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }
+  if (autoFocusRef.current) {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    (0, _reactHooks.usePageAutoFocus)(inputEl);
+  }
   var input = useV2 ? /*#__PURE__*/_react["default"].createElement(_RecipientsInputV.RecipientsInputV2, {
     ref: inputEl
     // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
@@ -108,8 +113,7 @@ var DialerPanel = function DialerPanel(_ref) {
     contactInfoRenderer: recipientsContactInfoRenderer,
     contactPhoneRenderer: recipientsContactPhoneRenderer,
     isLastInputFromDialpad: isLastInputFromDialpad,
-    titleEnabled: true,
-    autoFocus: autoFocus
+    titleEnabled: true
     // @ts-expect-error TS(2322): Type 'string | null' is not assignable to type 'st... Remove this comment to see the full error message
     ,
     className: !showFromField ? (0, _clsx["default"])(_styles["default"].inputField, _styles["default"].recipientsField) : null
@@ -136,7 +140,8 @@ var DialerPanel = function DialerPanel(_ref) {
     formatPhone: formatPhone,
     currentLocale: currentLocale,
     hidden: !isWebphoneMode,
-    disabled: disableFromField
+    disabled: disableFromField,
+    showCustomPhoneLabel: showCustomPhoneLabel
   })) : null, /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _clsx["default"])(_styles["default"].dialButtons, dialButtonsClassName)
   }, /*#__PURE__*/_react["default"].createElement(_DialPad["default"], {

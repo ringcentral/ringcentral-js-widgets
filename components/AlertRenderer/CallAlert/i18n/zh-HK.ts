@@ -1,5 +1,5 @@
+/* eslint-disable */
 import { callErrors } from '@ringcentral-integration/commons/modules/Call';
-
 export default {
   [callErrors.emergencyNumber]: '緊急通話無法使用。請使用其他電話連絡緊急服務',
   [callErrors.noToNumber]: '請輸入有效的電話號碼。',
@@ -16,8 +16,8 @@ export default {
   areaCode: '區碼',
   telus911: '不支援緊急撥號。',
   [callErrors.fromAndToNumberIsSame]:
-    'RingOut 號碼和目的地號碼不得相同。請更新號碼，然後再試一次。',
-};
+    'RingOut 號碼和目的地號碼不得相同。請更新號碼並再試一次。',
+} as const;
 
 // @key: @#@"[callErrors.emergencyNumber]"@#@ @source: @#@"Emergency calling is not available. Please use another phone to contact emergency services"@#@
 // @key: @#@"[callErrors.noToNumber]"@#@ @source: @#@"Please enter a valid phone number."@#@

@@ -4,10 +4,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  hide: "Hide",
-  end: "End",
-  keypad: "Keypad"
+  hide: 'Hide',
+  end: 'End',
+  keypad: 'Keypad'
 }; // @key: @#@"hide"@#@ @source: @#@"Hide"@#@
 // @key: @#@"end"@#@ @source: @#@"End"@#@
 // @key: @#@"keypad"@#@ @source: @#@"Keypad"@#@

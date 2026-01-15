@@ -4,16 +4,17 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  noActiveCalls: "Aucun appel actif",
-  currentCall: "Appel en cours",
-  ringCall: "Sonnerie en cours",
-  onHoldCall: "Appel en attente",
-  otherDeviceCall: "Appels en cours sur mes autres terminaux",
-  confirmation: "Confirmation",
-  confirmMergeToConference: "Ajouter à la conférence téléphonique ?",
-  mergeToConference: "Fusionner",
-  conferenceCall: "Conférence téléphonique"
+  noActiveCalls: 'Aucun appel actif',
+  currentCall: 'Appel en cours',
+  ringCall: 'Sonnerie en cours',
+  onHoldCall: 'Appel en attente',
+  otherDeviceCall: 'Appels en cours sur mes autres terminaux',
+  confirmation: 'Confirmation',
+  confirmMergeToConference: 'Ajouter à la conférence téléphonique ?',
+  mergeToConference: 'Fusionner',
+  conferenceCall: 'Conférence téléphonique'
 }; // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
 // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@
 // @key: @#@"ringCall"@#@ @source: @#@"Ringing Call"@#@

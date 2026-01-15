@@ -4,23 +4,24 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  header: "Hebt u problemen?",
-  toggleTitle: "1. Schakel de foutopsporingsmodus in",
-  toggleDescription: "Dit helpt ons om uw problemen te lokaliseren, maar kan de prestaties van uw app enigszins beïnvloeden.",
-  downloadTitle: "2. Download het foutenlogboek wanneer u het probleem hebt gerepliceerd.",
-  downloadButton: "Downloaden",
-  downloadDisabledTitle: "Schakel de foutopsporingsmodus in voordat u het foutenlogboek kunt downloaden.",
-  sendTitle: "3. Stuur het logboek naar het ondersteuningsteam",
-  createSupportTicket: "Maak een supportticket",
-  sendDescription: " om contact op te nemen met ons ondersteuningsteam. Stuur het logboek vervolgens naar het ondersteuningsteam voor probleemoplossing.",
-  privacyNotice: "Door het logboek te downloaden en naar ons te verzenden, gaat u ermee akkoord dat RingCentral toegang heeft tot bepaalde informatie in het logboek om het oplossen van problemen en fouten te ondersteunen. Raadpleeg voor meer informatie over hoe RingCentral persoonlijke gegevens verwerkt onze ",
-  privacyNoticeLink: "Servicevoorwaarden",
-  and: " en ",
-  privacyNoticeEnd: "Privacyverklaring.",
-  needLeavePage: "U kunt deze pagina verlaten terwijl het opsporen van fouten wordt uitgevoerd. Wanneer u het probleem hebt gerepliceerd, keert u terug naar deze pagina en downloadt u de logbestanden.",
-  downloading: "Downloaden"
-}; // @key: @#@"header"@#@ @source: @#@"Having issues?"@#@
+  header: 'Contact opnemen met de klantenservice',
+  toggleTitle: '1. Schakel de foutopsporingsmodus in',
+  toggleDescription: 'Dit helpt ons om uw problemen te lokaliseren, maar kan de prestaties van uw app enigszins beïnvloeden.',
+  downloadTitle: '2. Download het foutenlogboek wanneer u het probleem hebt gerepliceerd.',
+  downloadButton: 'Downloaden',
+  downloadDisabledTitle: 'Schakel de foutopsporingsmodus in voordat u het foutenlogboek kunt downloaden.',
+  sendTitle: '3. Stuur het logboek naar het ondersteuningsteam',
+  createSupportTicket: 'Maak een supportticket',
+  sendDescription: ' om contact op te nemen met ons ondersteuningsteam. Stuur het logboek vervolgens naar het ondersteuningsteam voor probleemoplossing.',
+  privacyNotice: 'Door het logboek te downloaden en naar ons te verzenden, gaat u ermee akkoord dat RingCentral toegang heeft tot bepaalde informatie in het logboek om het oplossen van problemen en fouten te ondersteunen. Raadpleeg voor meer informatie over hoe RingCentral persoonlijke gegevens verwerkt onze ',
+  privacyNoticeLink: 'Servicevoorwaarden',
+  and: ' en ',
+  privacyNoticeEnd: 'Privacyverklaring.',
+  needLeavePage: 'U kunt deze pagina verlaten terwijl het opsporen van fouten wordt uitgevoerd. Wanneer u het probleem hebt gerepliceerd, keert u terug naar deze pagina en downloadt u de logbestanden.',
+  downloading: 'Downloaden'
+}; // @key: @#@"header"@#@ @source: @#@"Contact support"@#@
 // @key: @#@"toggleTitle"@#@ @source: @#@"1. Turn on error tracking mode"@#@
 // @key: @#@"toggleDescription"@#@ @source: @#@"This will help us locate your issues, but may slightly affect your app performance."@#@
 // @key: @#@"downloadTitle"@#@ @source: @#@"2. Download the error log when you have replicated the issue."@#@

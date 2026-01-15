@@ -69,6 +69,11 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
         showConferenceCallParticipants: open
       });
     };
+    _this.toggleLeaveConferenceCallComponent = function (open) {
+      _this.setState({
+        showLeaveConferenceCallComponent: open
+      });
+    };
     _this.editSectionRef = /*#__PURE__*/_react["default"].createRef();
     _this.editSectionScrollBy = function (top) {
       // @ts-expect-error TS(2531): Object is possibly 'null'.
@@ -78,16 +83,16 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
       });
     };
     _this.state = {
-      showConferenceCallParticipants: false
+      showConferenceCallParticipants: false,
+      showLeaveConferenceCallComponent: false
     };
     return _this;
   }
   _createClass(CallLogPanel, [{
-    key: "componentWillMount",
+    key: "UNSAFE_componentWillMount",
     // TODO: use react function component to refactor with react hook
     // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
-    // eslint-disable-next-line react/no-deprecated
-    value: function componentWillMount() {
+    value: function UNSAFE_componentWillMount() {
       var pushLogPageStatus = this.props.pushLogPageStatus;
       if (pushLogPageStatus) {
         pushLogPageStatus(true);
@@ -106,6 +111,9 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
     value: function renderLogSection() {
       var _this$props2 = this.props,
         currentLog = _this$props2.currentLog,
+        currentLocale = _this$props2.currentLocale,
+        warmTransferLog = _this$props2.warmTransferLog,
+        warmTransferActiveTelephonySessionId = _this$props2.warmTransferActiveTelephonySessionId,
         renderEditLogSection = _this$props2.renderEditLogSection,
         editSection = _this$props2.classes.editSection,
         renderKeypadPanel = _this$props2.renderKeypadPanel;
@@ -116,6 +124,15 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
           className: _styles["default"].spinner
         });
       }
+      var _getWarmTransferSessi = getWarmTransferSession({
+          mainLog: currentLog,
+          transferLog: warmTransferLog,
+          activeTelephonySessionId: warmTransferActiveTelephonySessionId
+        }),
+        activeLog = _getWarmTransferSessi.activeLog;
+      var call = activeLog.call; // @ts-expect-error TS(2339): Property 'telephonySessionId' does not exist on ty... Remove this comment to see the full error message
+      var telephonySessionId = call.telephonySessionId,
+        webphoneSession = call.webphoneSession;
       return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, this.renderLogNotification(), this.renderLogBasicInfo(), this.renderConferenceCallParticipants(), /*#__PURE__*/_react["default"].createElement("div", {
         ref: this.editSectionRef,
         className: (0, _clsx["default"])(_styles["default"].editSection, editSection)
@@ -135,12 +152,12 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
         showSmallCallControl = _this$props3.showSmallCallControl,
         warmTransferLog = _this$props3.warmTransferLog,
         warmTransferActiveTelephonySessionId = _this$props3.warmTransferActiveTelephonySessionId;
-      var _getWarmTransferSessi = getWarmTransferSession({
+      var _getWarmTransferSessi2 = getWarmTransferSession({
           mainLog: currentLog,
           transferLog: warmTransferLog,
           activeTelephonySessionId: warmTransferActiveTelephonySessionId
         }),
-        activeLog = _getWarmTransferSessi.activeLog;
+        activeLog = _getWarmTransferSessi2.activeLog;
       var call = activeLog.call; // @ts-expect-error TS(2339): Property 'telephonySessionId' does not exist on ty... Remove this comment to see the full error message
       var telephonySessionId = call.telephonySessionId,
         webphoneSession = call.webphoneSession;
@@ -207,6 +224,7 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
         logBasicInfo = _this$props5.classes.logBasicInfo,
         showRecordingIndicator = _this$props5.showRecordingIndicator,
         openEntityDetailLinkTrack = _this$props5.openEntityDetailLinkTrack,
+        openEntityDetailLink = _this$props5.openEntityDetailLink,
         warmTransferActiveTelephonySessionId = _this$props5.warmTransferActiveTelephonySessionId,
         onSwitchWarmTransferSession = _this$props5.onSwitchWarmTransferSession;
       if (renderBasicInfo) {
@@ -216,13 +234,13 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
           currentLog: currentLog
         });
       }
-      var _getWarmTransferSessi2 = getWarmTransferSession({
+      var _getWarmTransferSessi3 = getWarmTransferSession({
           mainLog: currentLog,
           transferLog: warmTransferLog,
           activeTelephonySessionId: warmTransferActiveTelephonySessionId
         }),
-        activeLog = _getWarmTransferSessi2.activeLog,
-        subLog = _getWarmTransferSessi2.subLog;
+        activeLog = _getWarmTransferSessi3.activeLog,
+        subLog = _getWarmTransferSessi3.subLog;
       return /*#__PURE__*/_react["default"].createElement(_LogBasicInfoV["default"], {
         dataSign: "leftSectionInfo",
         isWide: isWide,
@@ -238,6 +256,7 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
         className: logBasicInfo,
         showRecordingIndicator: showRecordingIndicator,
         openEntityDetailLinkTrack: openEntityDetailLinkTrack,
+        openEntityDetailLink: openEntityDetailLink,
         onSwitchWarmTransferSession: onSwitchWarmTransferSession
       });
     }
@@ -296,6 +315,7 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
         renderCallNotificationAvatar = _this$props7.renderCallNotificationAvatar,
         getAvatarUrl = _this$props7.getAvatarUrl,
         openEntityDetailLinkTrack = _this$props7.openEntityDetailLinkTrack,
+        openEntityDetailLink = _this$props7.openEntityDetailLink,
         enableReply = _this$props7.enableReply,
         reply = _this$props7.reply;
       var showNotification = logNotification.showNotification,
@@ -304,7 +324,7 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
         subContactNameDisplay = logNotification.subContactNameDisplay,
         displayEntity = logNotification.displayEntity,
         entityType = logNotification.entityType,
-        entityDetailLink = logNotification.entityDetailLink,
+        entityDetailLinkId = logNotification.entityDetailLinkId,
         showLogOptions = logNotification.showLogOptions;
       if (!showNotification) {
         return null;
@@ -313,6 +333,7 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
         if (!call || !call.webphoneSession || call.webphoneSession.callStatus !== 'webphone-session-connecting') {
           return null;
         }
+        var isCallQueueCall = !!call.webphoneSession.callQueueName;
         return /*#__PURE__*/_react["default"].createElement(_WebRTCNotificationSection["default"], {
           formatPhone: formatPhone,
           currentLocale: currentLocale,
@@ -321,7 +342,8 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
           subContactNameDisplay: subContactNameDisplay,
           displayEntity: displayEntity,
           entityType: entityType,
-          entityDetailLink: entityDetailLink
+          entityDetailLinkId: entityDetailLinkId,
+          openEntityDetailLink: openEntityDetailLink
           // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | undefined' is no... Remove this comment to see the full error message
           ,
           onCloseNotification: onCloseNotification
@@ -335,6 +357,7 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
           onForward: onForward,
           endAndAnswer: endAndAnswer,
           holdAndAnswer: holdAndAnswer,
+          showToVoicemail: !isCallQueueCall,
           toVoicemail: toVoicemail,
           forwardingNumbers: forwardingNumbers,
           hasActiveSession: !!activeSession,
@@ -397,10 +420,12 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
         currentLog = _this$props8.currentLog,
         onRemoveParticipant = _this$props8.onRemoveParticipant,
         renderConferenceParticipantsAvatar = _this$props8.renderConferenceParticipantsAvatar,
-        clickRemoveParticipantTrack = _this$props8.clickRemoveParticipantTrack;
+        clickRemoveParticipantTrack = _this$props8.clickRemoveParticipantTrack,
+        openEntityDetailLink = _this$props8.openEntityDetailLink;
       var call = currentLog.call;
       if (!(call === null || call === void 0 ? void 0 : call.isConferenceCall) || !isOpen) return null;
       return /*#__PURE__*/_react["default"].createElement(_ConferenceCallParticipants.ConferenceCallParticipants, {
+        openEntityDetailLink: openEntityDetailLink,
         isOpen: !call.result && isOpen,
         currentLocale: currentLocale,
         toggleConference: this.toggleConference,
@@ -438,10 +463,10 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
         getRenderLogButton = _this$props9.getRenderLogButton,
         rootLayout = _this$props9.rootLayout;
       if (!currentIdentify || isInTransferPage) return null;
-      var _root = (root !== null && root !== void 0 ? root : typeof rootLayout === 'boolean') ? rootLayout ? _styles["default"].callLogPanelClassLeftNav : _styles["default"].callLogPanelClass : undefined;
+      var _root = typeof rootLayout === 'boolean' ? rootLayout ? _styles["default"].callLogPanelClassLeftNav : _styles["default"].callLogPanelClass : undefined;
       return /*#__PURE__*/_react["default"].createElement("div", {
         ref: rootRef,
-        className: (0, _clsx["default"])(_styles["default"].root, !isWide ? _styles["default"].classic : null, _root)
+        className: (0, _clsx["default"])(_styles["default"].root, !isWide ? _styles["default"].classic : null, _root, root)
       }, header && /*#__PURE__*/_react["default"].createElement(_BackHeaderV["default"], {
         currentLocale: currentLocale,
         backIcon: backIcon,
@@ -499,7 +524,7 @@ CallLogPanel.defaultProps = {
     subContactNameDisplay: '',
     displayEntity: null,
     entityType: '',
-    entityDetailLink: ''
+    entityDetailLinkId: ''
   },
   showRecordingIndicator: false,
   // @ts-expect-error TS(2322): Type '() => null' is not assignable to type '(cont... Remove this comment to see the full error message

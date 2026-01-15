@@ -234,7 +234,7 @@ const CommunicationSetupWrapper: FunctionComponent<
   const options = useMemo(() => {
     if (showAnonymous) {
       return [
-        // @ts-expect-error TS(2488): Type '{ phoneNumber: string; usageType?: string | ... Remove this comment to see the full error message
+        // @ts-ignore
         ...fromNumbers,
         {
           phoneNumber: BLOCKED_ID_VALUE,

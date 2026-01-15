@@ -43,6 +43,7 @@ export interface WebphoneButtonsProps {
   showHoldAnswerBtn?: boolean;
   useCallDetailV2?: boolean;
   isConnecting?: boolean;
+  isCallQueueCall?: boolean;
 }
 
 export interface ActiveCallControlButtonsProps {

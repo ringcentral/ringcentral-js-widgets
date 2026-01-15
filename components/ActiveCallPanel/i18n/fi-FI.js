@@ -4,14 +4,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  conferenceCall: "Neuvottelupuhelu",
-  onHold: "Pidossa",
-  ongoing: "Käynnissä",
-  unknown: "Tuntematon",
-  disconnected: "Yhteys katkaistu",
-  loading: "Ladataan...",
-  loadingTimeout: "Lataus aikakatkaistiin."
+  conferenceCall: 'Neuvottelupuhelu',
+  onHold: 'Pidossa',
+  ongoing: 'Käynnissä',
+  unknown: 'Tuntematon',
+  disconnected: 'Yhteys katkaistu',
+  loading: 'Ladataan...',
+  loadingTimeout: 'Lataus aikakatkaistiin.'
 }; // @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@
 // @key: @#@"onHold"@#@ @source: @#@"On Hold"@#@
 // @key: @#@"ongoing"@#@ @source: @#@"Ongoing"@#@

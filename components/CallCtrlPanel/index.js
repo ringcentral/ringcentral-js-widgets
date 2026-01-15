@@ -136,6 +136,7 @@ var CallCtrlPanel = /*#__PURE__*/function (_Component) {
         conferenceCallEquipped = _this$props.conferenceCallEquipped,
         conferenceCallParties = _this$props.conferenceCallParties,
         controlBusy = _this$props.controlBusy,
+        showCallerIdName = _this$props.showCallerIdName,
         callerIdName = _this$props.callerIdName,
         countryCode = _this$props.countryCode,
         currentLocale = _this$props.currentLocale,
@@ -193,6 +194,7 @@ var CallCtrlPanel = /*#__PURE__*/function (_Component) {
         });
       }
       return /*#__PURE__*/_react["default"].createElement(_ActiveCallPanel["default"], {
+        showCallerIdName: showCallerIdName,
         callerIdName: callerIdName,
         showBackButton: showBackButton,
         backButtonLabel: backButtonLabel,
@@ -340,7 +342,8 @@ CallCtrlPanel.defaultProps = {
   showPark: false,
   isOnWaitingTransfer: false,
   isOnTransfer: false,
-  callerIdName: undefined
+  callerIdName: undefined,
+  showCallerIdName: false
 };
 var _default = /*#__PURE__*/(0, _react.memo)(CallCtrlPanel);
 exports["default"] = _default;

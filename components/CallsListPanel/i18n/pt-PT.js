@@ -4,15 +4,16 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  noActiveCalls: "Sem chamadas ativas",
-  noCalls: "Não foram encontrados resultados.",
-  currentCall: "Chamada atual",
-  ringCall: "Chamada a tocar",
-  onHoldCall: "Chamada em espera",
-  historyCalls: "Chamadas anteriores",
-  otherDeviceCall: "Chamadas em curso nos outros dispositivos",
-  searchPlaceholder: "Pesquisar…"
+  noActiveCalls: 'Sem chamadas ativas',
+  noCalls: 'Não foram encontrados resultados.',
+  currentCall: 'Chamada atual',
+  ringCall: 'Chamada a tocar',
+  onHoldCall: 'Chamada em espera',
+  historyCalls: 'Chamadas anteriores',
+  otherDeviceCall: 'Chamadas em curso nos outros dispositivos',
+  searchPlaceholder: 'Pesquisar…'
 }; // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
 // @key: @#@"noCalls"@#@ @source: @#@"No results found."@#@
 // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@

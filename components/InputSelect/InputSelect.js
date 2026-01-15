@@ -41,8 +41,8 @@ var InputSelect = /*#__PURE__*/function (_Component) {
     _this = _super.call(this, props);
     _this.checkPropsUpdate = (0, _bindNextPropsUpdate.bindNextPropsUpdate)(_assertThisInitialized(_this));
     _this.debounce = (0, _bindDebounce.bindDebounce)(_assertThisInitialized(_this), _this.props.timeout);
-    // @ts-expect-error TS(2564): Property 'wrapper' has no initializer and is not d... Remove this comment to see the full error message
-    _this.wrapper = void 0;
+    _this.wrapper = null;
+    _this.inputRef = /*#__PURE__*/_react["default"].createRef();
     _this._renderPickList = function () {
       var subjectPicklist = _this.props.subjectPicklist;
       var expand = _this.state.expand;
@@ -51,7 +51,7 @@ var InputSelect = /*#__PURE__*/function (_Component) {
       }
       return /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].select
-      }, /*#__PURE__*/_react["default"].createElement(_juno.RcList, null, subjectPicklist.map(function (option, i) {
+      }, /*#__PURE__*/_react["default"].createElement(_juno.RcList, null, subjectPicklist === null || subjectPicklist === void 0 ? void 0 : subjectPicklist.map(function (option, i) {
         return /*#__PURE__*/_react["default"].createElement(_juno.RcListItem, {
           key: i,
           button: true,
@@ -80,9 +80,9 @@ var InputSelect = /*#__PURE__*/function (_Component) {
           if (onSelectOption) {
             onSelectOption();
           }
-          var subject = _this.state.subject; // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
-          onChange(subject).then(function () {
-            return onSave();
+          var subject = _this.state.subject;
+          onChange === null || onChange === void 0 ? void 0 : onChange(subject).then(function () {
+            return onSave === null || onSave === void 0 ? void 0 : onSave();
           });
         }, 0);
       });
@@ -112,14 +112,15 @@ var InputSelect = /*#__PURE__*/function (_Component) {
     };
     return _this;
   }
-
-  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   _createClass(InputSelect, [{
     key: "UNSAFE_componentWillReceiveProps",
     value: function UNSAFE_componentWillReceiveProps(nextProps) {
-      // @ts-expect-error TS(2554): Expected 3 arguments, but got 2.
-      this.checkPropsUpdate(nextProps, 'subject');
-    } // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
+      var _this$inputRef;
+      var isFocused = document.activeElement === ((_this$inputRef = this.inputRef) === null || _this$inputRef === void 0 ? void 0 : _this$inputRef.current);
+      if (!isFocused) {
+        this.checkPropsUpdate(nextProps, 'subject', false);
+      }
+    }
   }, {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
@@ -127,7 +128,6 @@ var InputSelect = /*#__PURE__*/function (_Component) {
     }
   }, {
     key: "render",
-    // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
     value: function render() {
       var _this2 = this;
       var _this$props2 = this.props,
@@ -140,7 +140,6 @@ var InputSelect = /*#__PURE__*/function (_Component) {
       return /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].root,
         ref: function ref(_ref) {
-          // @ts-expect-error TS(2322): Type 'HTMLDivElement | null' is not assignable to ... Remove this comment to see the full error message
           _this2.wrapper = _ref;
         }
       }, /*#__PURE__*/_react["default"].createElement(_juno.RcTextField, {
@@ -156,36 +155,37 @@ var InputSelect = /*#__PURE__*/function (_Component) {
         inputProps: {
           maxLength: 255
         },
+        inputRef: this.inputRef,
         InputProps: {
-          // @ts-expect-error TS(2532): Object is possibly 'undefined'.
-          endAdornment: subjectPicklist.length > 0 && /*#__PURE__*/_react["default"].createElement(_CustomArrowButton.CustomArrowButton, {
+          endAdornment: (subjectPicklist === null || subjectPicklist === void 0 ? void 0 : subjectPicklist.length) && /*#__PURE__*/_react["default"].createElement(_CustomArrowButton.CustomArrowButton, {
             symbol: _junoIcon.ArrowDown2,
             onClick: this.toggleDropDownList,
             size: "large"
           })
         },
         onChange: function onChange(e) {
-          return _this2.updateValue(e.target.value, 500);
+          return _this2.updateValue(e.target, 500);
         }
       }), this._renderPickList());
     }
   }, {
     key: "updateValue",
-    value: function updateValue(subject, time) {
+    value: function updateValue(_ref2, time) {
       var _this3 = this;
+      var value = _ref2.value;
       var _this$props3 = this.props,
         onChange = _this$props3.onChange,
         onSave = _this$props3.onSave,
-        timeout = _this$props3.timeout;
+        _this$props3$timeout = _this$props3.timeout,
+        timeout = _this$props3$timeout === void 0 ? 2e3 : _this$props3$timeout;
       this.setState({
-        subject: subject
+        subject: value
       }, function () {
         _this3.debounce(function () {
-          var subject = _this3.state.subject; // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
-          onChange(subject).then(function () {
-            // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
+          var subject = _this3.state.subject;
+          onChange === null || onChange === void 0 ? void 0 : onChange(subject).then(function () {
             _this3.debounce(function () {
-              return onSave();
+              return onSave === null || onSave === void 0 ? void 0 : onSave();
             }, timeout - time);
           });
         }, time);
@@ -198,7 +198,6 @@ exports["default"] = InputSelect;
 InputSelect.defaultProps = {
   required: false,
   subjectPicklist: [],
-  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   subject: null,
   onChange: undefined,
   onSave: undefined,

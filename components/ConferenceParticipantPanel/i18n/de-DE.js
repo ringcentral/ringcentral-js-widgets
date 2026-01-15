@@ -4,16 +4,17 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  removeParticipant: "Teilnehmer entfernen",
-  confirmStr1: "Möchten Sie wirklich",
-  confirmStr2: "aus diesem Anruf entfernen?",
-  remove: "Entfernen",
-  cancel: "Abbrechen",
-  participants: "Teilnehmer",
-  participant: "Teilnehmer",
-  conferenceCall: "Telefonkonferenz",
-  unknownNumber: "Anonym"
+  removeParticipant: 'Teilnehmer entfernen',
+  confirmStr1: 'Möchten Sie wirklich',
+  confirmStr2: 'aus diesem Anruf entfernen?',
+  remove: 'Entfernen',
+  cancel: 'Abbrechen',
+  participants: 'Teilnehmer',
+  participant: 'Teilnehmer',
+  conferenceCall: 'Telefonkonferenz',
+  unknownNumber: 'Anonym'
 }; // @key: @#@"removeParticipant"@#@ @source: @#@"Remove Participant"@#@
 // @key: @#@"confirmStr1"@#@ @source: @#@"Are you sure you want to remove"@#@
 // @key: @#@"confirmStr2"@#@ @source: @#@"from this call?"@#@

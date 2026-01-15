@@ -1,8 +1,9 @@
+/* eslint-disable */
 export default {
-  all: "Kaikki",
-  company: "Yritys",
-  personal: "Henkilökohtainen"
-};
+  all: 'Kaikki',
+  company: 'Yritys',
+  personal: 'Henkilökohtainen',
+} as const;
 
 // @key: @#@"all"@#@ @source: @#@"All"@#@
 // @key: @#@"company"@#@ @source: @#@"Company"@#@

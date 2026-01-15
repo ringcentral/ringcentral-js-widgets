@@ -1,9 +1,10 @@
+/* eslint-disable */
 export default {
-  noRecords: "Não foram encontrados registos.",
-  inBound: "Recebida",
-  outBound: "Efetuada",
-  missed: "Chamada não atendida"
-};
+  noRecords: 'Nenhum registo recente encontrado.',
+  inBound: 'Recebida',
+  outBound: 'Efetuada',
+  missed: 'Chamada não atendida',
+} as const;
 
 // @key: @#@"noRecords"@#@ @source: @#@"No recent records found."@#@
 // @key: @#@"inBound"@#@ @source: @#@"Inbound"@#@

@@ -4,15 +4,16 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  DirectNumber: "Suora",
-  MainCompanyNumber: "Päänumero",
-  CompanyNumber: "Yritys",
-  CompanyFaxNumber: "Faksi",
-  Blocked: "Estetty",
-  AdditionalCompanyNumber: "Yritys",
-  ForwardedCompanyNumber: "Siirretty",
-  from: "Läh."
+  DirectNumber: 'Suora',
+  MainCompanyNumber: 'Päänumero',
+  CompanyNumber: 'Yritys',
+  CompanyFaxNumber: 'Faksi',
+  Blocked: 'Estetty',
+  AdditionalCompanyNumber: 'Yritys',
+  ForwardedCompanyNumber: 'Siirretty',
+  from: 'Läh.'
 }; // @key: @#@"DirectNumber"@#@ @source: @#@"Direct"@#@
 // @key: @#@"MainCompanyNumber"@#@ @source: @#@"Main"@#@
 // @key: @#@"CompanyNumber"@#@ @source: @#@"Company"@#@

@@ -4,16 +4,17 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  cancel: "Peruuta",
-  reply: "Vastaa",
-  onMyWay: "Olen tulossa",
-  customMessage: "Mukautettu viesti",
-  callMeBackIn: "Soita takaisin, kun on kulunut",
-  willCallYouBackIn: "Soitan takaisin, kun on kulunut",
-  min: "min",
-  hours: "tuntia",
-  days: "päivää"
+  cancel: 'Peruuta',
+  reply: 'Vastaa',
+  onMyWay: 'Olen tulossa',
+  customMessage: 'Mukautettu viesti',
+  callMeBackIn: 'Soita takaisin, kun on kulunut',
+  willCallYouBackIn: 'Soitan takaisin, kun on kulunut',
+  min: 'min',
+  hours: 'tuntia',
+  days: 'päivää'
 }; // @key: @#@"cancel"@#@ @source: @#@"Cancel"@#@
 // @key: @#@"reply"@#@ @source: @#@"Reply"@#@
 // @key: @#@"onMyWay"@#@ @source: @#@"On my way"@#@

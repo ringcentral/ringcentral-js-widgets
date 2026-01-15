@@ -4,22 +4,23 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  unmute: "Unmute",
-  mute: "Mute",
-  keypad: "Keypad",
-  hold: "Hold",
-  onHold: "On Hold",
-  park: "Park",
-  stopRecord: "Stop",
-  record: "Record",
-  add: "Add",
-  transfer: "Transfer",
-  flip: "Flip",
-  more: "Call Actions",
-  mergeToConference: "Merge",
-  end: "End",
-  completeTransfer: "Complete\nTransfer"
+  unmute: 'Unmute',
+  mute: 'Mute',
+  keypad: 'Keypad',
+  hold: 'Hold',
+  onHold: 'On Hold',
+  park: 'Park',
+  stopRecord: 'Stop',
+  record: 'Record',
+  add: 'Add',
+  transfer: 'Transfer',
+  flip: 'Flip',
+  more: 'Call Actions',
+  mergeToConference: 'Merge',
+  end: 'End',
+  completeTransfer: 'Complete\nTransfer'
 }; // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
 // @key: @#@"keypad"@#@ @source: @#@"Keypad"@#@

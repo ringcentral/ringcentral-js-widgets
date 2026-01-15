@@ -4,15 +4,16 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  Inbound: "Saapuvat",
-  Outbound: "Lähtevät",
-  log: "Loki",
-  save: "Tallenna ja uusi",
-  discard: "Hylkää ja uusi",
-  hangup: "Lopeta puhelu",
-  reject: "Vastaajaan",
-  saveDraftAndCreateNewLog: "Tallenna luonnos ja luo uusi puheluloki"
+  Inbound: 'Saapuvat',
+  Outbound: 'Lähtevät',
+  log: 'Loki',
+  save: 'Tallenna ja uusi',
+  discard: 'Hylkää ja uusi',
+  hangup: 'Lopeta puhelu',
+  reject: 'Vastaajaan',
+  saveDraftAndCreateNewLog: 'Tallenna luonnos ja luo uusi puheluloki'
 }; // @key: @#@"Inbound"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"Outbound"@#@ @source: @#@"Outbound"@#@
 // @key: @#@"log"@#@ @source: @#@"Log"@#@

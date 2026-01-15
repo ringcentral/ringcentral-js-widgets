@@ -4,23 +4,24 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  title: "Audio",
-  dialButtonVolume: "Dial button volume",
-  ringtoneVolume: "Ringtone volume",
-  callVolume: "Call volume",
-  muteCalls: "Mute calls",
-  outputDevice: "Output device",
-  inputDevice: "Input device",
-  micPermission: "Microphone permission",
-  noDevice: "No device",
-  checkMicPermission: "Check permission",
-  micNoPermissionMessage: "The app does not have permission to use the microphone",
-  noLabel: "Unknown device",
-  notSetSinkIdTip: "Sorry, your current browser permissions are not set to allow us to access your audio output devices. {clickHereLink} to see how to set up.",
-  noLabelTip: "Sorry, your current browser permissions are not set to allow us to access your audio input devices.",
-  clickHere: "Click here",
-  defaultOutputDevice: "Default output device"
+  title: 'Audio',
+  dialButtonVolume: 'Dial button volume',
+  ringtoneVolume: 'Ring tone volume',
+  callVolume: 'Call volume',
+  muteCalls: 'Mute calls',
+  outputDevice: 'Output device',
+  inputDevice: 'Input device',
+  micPermission: 'Microphone permission',
+  noDevice: 'No device',
+  checkMicPermission: 'Check permission',
+  micNoPermissionMessage: 'The app does not have permission to use the microphone',
+  noLabel: 'Unknown device',
+  notSetSinkIdTip: 'Sorry, your current browser permissions are not set to allow us to access your audio output devices. {clickHereLink} to see how to set up.',
+  noLabelTip: 'Sorry, your current browser permissions are not set to allow us to access your audio input devices.',
+  clickHere: 'Click here',
+  defaultOutputDevice: 'Default output device'
 }; // @key: @#@"title"@#@ @source: @#@"Audio"@#@
 // @key: @#@"dialButtonVolume"@#@ @source: @#@"Dial Button Volume"@#@
 // @key: @#@"ringtoneVolume"@#@ @source: @#@"Ringtone Volume"@#@

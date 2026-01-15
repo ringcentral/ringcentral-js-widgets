@@ -4,15 +4,16 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  Inbound: "Recebida",
-  Outbound: "Efetuada",
-  log: "Registo",
-  save: "Guardar e nova",
-  discard: "Rejeitar e nova",
-  hangup: "Desligar",
-  reject: "Para correio de voz",
-  saveDraftAndCreateNewLog: "Guardar rascunho e criar novo registo de chamadas"
+  Inbound: 'Recebida',
+  Outbound: 'Efetuada',
+  log: 'Registo',
+  save: 'Guardar e nova',
+  discard: 'Rejeitar e nova',
+  hangup: 'Desligar',
+  reject: 'Para correio de voz',
+  saveDraftAndCreateNewLog: 'Guardar rascunho e criar novo registo de chamadas'
 }; // @key: @#@"Inbound"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"Outbound"@#@ @source: @#@"Outbound"@#@
 // @key: @#@"log"@#@ @source: @#@"Log"@#@

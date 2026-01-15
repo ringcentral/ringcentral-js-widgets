@@ -3,7 +3,7 @@
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 require("core-js/modules/es.array.concat");
 require("core-js/modules/es.array.filter");
-require("core-js/modules/es.array.is-array");
+require("core-js/modules/es.array.index-of");
 require("core-js/modules/es.regexp.exec");
 require("core-js/modules/es.string.search");
 require("core-js/modules/es.string.trim");
@@ -26,12 +26,15 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
 function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) { if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } } return n["default"] = e, t && t.set(e, n), n; }
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) { ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } } return n; }, _extends.apply(null, arguments); }
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) { n[e] = r[e]; } return n; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0) { ; } } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) { o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } } return i; }
+function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) { if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } } return t; }
 var defaultRenderListView = function defaultRenderListView() {
   return null;
 };
@@ -46,6 +49,8 @@ var SelectListBasic = function SelectListBasic(_ref) {
     showOtherSection = _ref$showOtherSection === void 0 ? true : _ref$showOtherSection,
     _ref$showAssociatedSe = _ref.showAssociatedSection,
     showAssociatedSection = _ref$showAssociatedSe === void 0 ? false : _ref$showAssociatedSe,
+    _ref$showRecentlySect = _ref.showRecentlySection,
+    showRecentlySection = _ref$showRecentlySect === void 0 ? false : _ref$showRecentlySect,
     _ref$placeholder = _ref.placeholder,
     placeholder = _ref$placeholder === void 0 ? '' : _ref$placeholder,
     _ref$rightIcon = _ref.rightIcon,
@@ -74,6 +79,8 @@ var SelectListBasic = function SelectListBasic(_ref) {
     otherTitle = _ref$otherTitle === void 0 ? null : _ref$otherTitle,
     _ref$associatedTitle = _ref.associatedTitle,
     associatedTitle = _ref$associatedTitle === void 0 ? null : _ref$associatedTitle,
+    _ref$recentlyTitle = _ref.recentlyTitle,
+    recentlyTitle = _ref$recentlyTitle === void 0 ? null : _ref$recentlyTitle,
     _ref$contactSearch = _ref.contactSearch,
     contactSearch = _ref$contactSearch === void 0 ? null : _ref$contactSearch,
     _ref$field = _ref.field,
@@ -84,6 +91,8 @@ var SelectListBasic = function SelectListBasic(_ref) {
     showFoundFromServer = _ref$showFoundFromSer === void 0 ? false : _ref$showFoundFromSer,
     _ref$foundFromServerE = _ref.foundFromServerEntities,
     foundFromServerEntities = _ref$foundFromServerE === void 0 ? [] : _ref$foundFromServerE,
+    recentlyEntities = _ref.recentlyEntities,
+    serverEntitiesClientFilter = _ref.serverEntitiesClientFilter,
     _ref$appName = _ref.appName,
     appName = _ref$appName === void 0 ? null : _ref$appName,
     _ref$isSearching = _ref.isSearching,
@@ -92,7 +101,10 @@ var SelectListBasic = function SelectListBasic(_ref) {
     disabled = _ref$disabled === void 0 ? false : _ref$disabled,
     title = _ref.title,
     searchOption = _ref.searchOption,
-    currentLocale = _ref.currentLocale;
+    currentLocale = _ref.currentLocale,
+    _ref$showMatched = _ref.showMatched,
+    showMatched = _ref$showMatched === void 0 ? true : _ref$showMatched,
+    rest = _objectWithoutProperties(_ref, ["options", "otherOptions", "associatedOptions", "showOtherSection", "showAssociatedSection", "showRecentlySection", "placeholder", "rightIcon", "setOpen", "open", "renderListView", "scrollCheck", "selectListBasicClassName", "backHeaderClassName", "listContainerClassName", "classes", "onBackClick", "matchedTitle", "otherTitle", "associatedTitle", "recentlyTitle", "contactSearch", "field", "foundFromServerTitle", "showFoundFromServer", "foundFromServerEntities", "recentlyEntities", "serverEntitiesClientFilter", "appName", "isSearching", "disabled", "title", "searchOption", "currentLocale", "showMatched"]);
   var _useRefState = (0, _juno.useRefState)(''),
     _useRefState2 = _slicedToArray(_useRefState, 2),
     filterRef = _useRefState2[0],
@@ -132,10 +144,13 @@ var SelectListBasic = function SelectListBasic(_ref) {
   var matchAssociatedOptions = hasSearch ? associatedOptions.filter(function (option) {
     return searchOption(option, filter);
   }) : associatedOptions;
-  var filteredFoundFromServerOptions = hasSearch ? foundFromServerEntities.filter(function (option) {
+  var filteredFoundFromServerOptions = hasSearch && serverEntitiesClientFilter !== 'none' ? foundFromServerEntities.filter(function (option) {
     return searchOption(option, filter);
   }) : foundFromServerEntities;
-  var hasResult = matchOptions.length + matchOtherOptions.length + matchAssociatedOptions.length > 0 || options.length + otherOptions.length + associatedOptions.length === 0;
+  var matchRecentlyOptions = hasSearch && recentlyEntities ? recentlyEntities.filter(function (option) {
+    return searchOption(option, filter);
+  }) : recentlyEntities;
+  var hasResult = matchOptions.length + matchOtherOptions.length + matchAssociatedOptions.length + ((matchRecentlyOptions === null || matchRecentlyOptions === void 0 ? void 0 : matchRecentlyOptions.length) || 0) > 0 || options.length + otherOptions.length + associatedOptions.length + ((recentlyEntities === null || recentlyEntities === void 0 ? void 0 : recentlyEntities.length) || 0) === 0;
   var backHeaderOnclick = function backHeaderOnclick() {
     setOpen(false);
     if (onBackClick) {
@@ -161,13 +176,14 @@ var SelectListBasic = function SelectListBasic(_ref) {
     appName: appName
   });
   associatedTitle = associatedTitle || _i18n["default"].getString('associated', currentLocale);
+  recentlyTitle = recentlyTitle || _i18n["default"].getString('recently', currentLocale);
   return (
     /*#__PURE__*/
     // @ts-expect-error TS(2322): Type 'string | null' is not assignable to type 'st... Remove this comment to see the full error message
-    _react["default"].createElement(_AnimationPanel.AnimationPanel, {
+    _react["default"].createElement(_AnimationPanel.AnimationPanel, _extends({
       open: open,
       className: selectListBasicClassName
-    }, open ? /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_BackHeaderV["default"], {
+    }, rest), open ? /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_BackHeaderV["default"], {
       currentLocale: currentLocale,
       title: title,
       onBackClick: backHeaderOnclick,
@@ -205,10 +221,10 @@ var SelectListBasic = function SelectListBasic(_ref) {
           setFilter(value);
         }
       },
-      onKeyDown: function onKeyDown(key) {
+      onKeyDown: function onKeyDown(event) {
         // Press enter to search contacts from server
-        if (key && key.keyCode !== 13 || !showFoundFromServer) return;
-        if (contactSearch && typeof contactSearch === 'function') {
+        if (event.key !== 'Enter' || !showFoundFromServer) return;
+        if (typeof contactSearch === 'function') {
           var searchString = filter ? filter.trim() : '';
           if (searchString.length) {
             contactSearch({
@@ -226,7 +242,14 @@ var SelectListBasic = function SelectListBasic(_ref) {
       ,
       ref: scrollElmRef,
       "data-sign": "searchResult"
-    }, hasResult || showFoundFromServer ? /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement("div", {
+    }, hasResult || showFoundFromServer ? /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, showRecentlySection && /*#__PURE__*/_react["default"].createElement("div", {
+      className: _styles["default"].text,
+      "data-sign": "recently"
+    }, recentlyTitle && /*#__PURE__*/_react["default"].createElement("div", {
+      className: _styles["default"].title
+    }, recentlyTitle, " (", (matchRecentlyOptions === null || matchRecentlyOptions === void 0 ? void 0 : matchRecentlyOptions.length) || 0, ")"), matchRecentlyOptions && matchRecentlyOptions.length > 0 && renderListView(matchRecentlyOptions, 'recently', filter, function (elm, type) {
+      return scrollCheck(scrollElmRef, matchElmRef, elm, type);
+    })), showMatched && /*#__PURE__*/_react["default"].createElement("div", {
       // @ts-expect-error TS(2322): Type 'MutableRefObject<undefined>' is not assignab... Remove this comment to see the full error message
       ref: matchElmRef,
       className: _styles["default"].text,
@@ -243,7 +266,8 @@ var SelectListBasic = function SelectListBasic(_ref) {
     }, otherTitle, " (", matchOtherOptions.length, ")"), matchOtherOptions.length > 0 && renderListView(matchOtherOptions, 'other', filter, function (elm, type) {
       return scrollCheck(scrollElmRef, matchElmRef, elm, type);
     })), showAssociatedSection && /*#__PURE__*/_react["default"].createElement("div", {
-      className: _styles["default"].text
+      className: _styles["default"].text,
+      "data-sign": "Associated"
     }, associatedTitle && /*#__PURE__*/_react["default"].createElement("div", {
       className: _styles["default"].title
     }, associatedTitle, " (", matchAssociatedOptions.length, ")"), matchAssociatedOptions.length > 0 && renderListView(matchAssociatedOptions, 'other', filter, function (elm, type) {

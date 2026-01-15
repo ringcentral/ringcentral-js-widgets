@@ -36,23 +36,29 @@ var EnvironmentPanel = function EnvironmentPanel(props) {
     onSetData = props.onSetData,
     enabled = props.enabled,
     allowDataTracking = props.allowDataTracking,
-    server = props.server;
+    server = props.server,
+    _props$mfeDepsInfo = props.mfeDepsInfo,
+    mfeDepsInfo = _props$mfeDepsInfo === void 0 ? '' : _props$mfeDepsInfo;
   var _useRefState = (0, _juno.useRefState)(server),
     _useRefState2 = _slicedToArray(_useRefState, 2),
     serverValueRef = _useRefState2[0],
     setServerValue = _useRefState2[1];
-  var _useRefState3 = (0, _juno.useRefState)(recordingHost),
+  var _useRefState3 = (0, _juno.useRefState)(mfeDepsInfo),
     _useRefState4 = _slicedToArray(_useRefState3, 2),
-    recordingHostValueRef = _useRefState4[0],
-    setRecordingHostValue = _useRefState4[1];
-  var _useRefState5 = (0, _juno.useRefState)(allowDataTracking),
+    mfeDepsInfoRef = _useRefState4[0],
+    setMfeDepsInfo = _useRefState4[1];
+  var _useRefState5 = (0, _juno.useRefState)(recordingHost),
     _useRefState6 = _slicedToArray(_useRefState5, 2),
-    enabledDataTrackingRef = _useRefState6[0],
-    setEnabledDataTracking = _useRefState6[1];
-  var _useRefState7 = (0, _juno.useRefState)(enabled),
+    recordingHostValueRef = _useRefState6[0],
+    setRecordingHostValue = _useRefState6[1];
+  var _useRefState7 = (0, _juno.useRefState)(allowDataTracking),
     _useRefState8 = _slicedToArray(_useRefState7, 2),
-    enabledValueRef = _useRefState8[0],
-    setEnabledValue = _useRefState8[1];
+    enabledDataTrackingRef = _useRefState8[0],
+    setEnabledDataTracking = _useRefState8[1];
+  var _useRefState9 = (0, _juno.useRefState)(enabled),
+    _useRefState10 = _slicedToArray(_useRefState9, 2),
+    enabledValueRef = _useRefState10[0],
+    setEnabledValue = _useRefState10[1];
   var _useState = (0, _react.useState)(defaultHidden),
     _useState2 = _slicedToArray(_useState, 2),
     hidden = _useState2[0],
@@ -61,6 +67,7 @@ var EnvironmentPanel = function EnvironmentPanel(props) {
     // when open panel, reset value again
     if (!hidden) {
       setServerValue(server, false);
+      setMfeDepsInfo(mfeDepsInfo, false);
       setRecordingHostValue(recordingHost, false);
       setEnabledValue(enabled, false);
       setEnabledDataTracking(allowDataTracking, false);
@@ -70,6 +77,9 @@ var EnvironmentPanel = function EnvironmentPanel(props) {
   });
   var onServerChange = function onServerChange(e) {
     setServerValue(e.currentTarget.value);
+  };
+  var onMfeDepsInfoChange = function onMfeDepsInfoChange(e) {
+    setMfeDepsInfo(e.currentTarget.value);
   };
   var onRecordingHostChange = function onRecordingHostChange(e) {
     setRecordingHostValue(e.currentTarget.value);
@@ -86,6 +96,7 @@ var EnvironmentPanel = function EnvironmentPanel(props) {
   var onOk = function onOk() {
     onSetData({
       server: serverValueRef.current,
+      mfeDepsInfo: mfeDepsInfoRef.current,
       recordingHost: recordingHostValueRef.current,
       enabled: enabledValueRef.current,
       allowDataTracking: enabledDataTrackingRef.current
@@ -94,6 +105,7 @@ var EnvironmentPanel = function EnvironmentPanel(props) {
   };
   var onCancel = function onCancel() {
     setServerValue(server);
+    setMfeDepsInfo(mfeDepsInfo);
     setRecordingHostValue(recordingHost);
     setEnabledValue(enabled);
     setEnabledDataTracking(allowDataTracking);
@@ -106,13 +118,14 @@ var EnvironmentPanel = function EnvironmentPanel(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   var serverValue = serverValueRef.current;
+  var mfeDepsInfoValue = mfeDepsInfoRef.current;
   var enabledValue = enabledValueRef.current;
   var enabledDataTrackingValue = enabledDataTrackingRef.current;
   var recordingHostValue = recordingHostValueRef.current;
   if (hidden) {
     return null;
   }
-  var hasChanges = !(serverValue === server && enabledValue === enabled && recordingHostValue === recordingHost && enabledDataTrackingValue === allowDataTracking);
+  var hasChanges = !(serverValue === server && mfeDepsInfoValue === mfeDepsInfo && enabledValue === enabled && recordingHostValue === recordingHost && enabledDataTrackingValue === allowDataTracking);
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].root
   }, /*#__PURE__*/_react["default"].createElement(_PageHeader.PageHeader, null, /*#__PURE__*/_react["default"].createElement(_PageHeader.PageHeaderBack, {
@@ -121,7 +134,6 @@ var EnvironmentPanel = function EnvironmentPanel(props) {
     className: _styles["default"].main
   }, /*#__PURE__*/_react["default"].createElement(_SettingGroup.SettingGroup, {
     dataSign: "server",
-    expandable: false,
     summary: "Server setting"
   }, /*#__PURE__*/_react["default"].createElement(_Line["default"], null, "Server", /*#__PURE__*/_react["default"].createElement(_TextInput["default"], {
     dataSign: "envServerUrl",
@@ -137,9 +149,15 @@ var EnvironmentPanel = function EnvironmentPanel(props) {
       checked: enabledValue,
       onChange: onToggleEnabled
     })
-  }, "Enable")), useDataTrackingSetting && /*#__PURE__*/_react["default"].createElement(_SettingGroup.SettingGroup, {
+  }, "Enable")), mfeDepsInfo ? /*#__PURE__*/_react["default"].createElement(_SettingGroup.SettingGroup, {
+    dataSign: "mfe",
+    summary: "MFE setting"
+  }, /*#__PURE__*/_react["default"].createElement(_Line["default"], null, "MFE setting", /*#__PURE__*/_react["default"].createElement(_TextInput["default"], {
+    dataSign: "mfeDepsInfo",
+    value: mfeDepsInfoValue,
+    onChange: onMfeDepsInfoChange
+  }))) : null, useDataTrackingSetting && /*#__PURE__*/_react["default"].createElement(_SettingGroup.SettingGroup, {
     dataSign: "analytics",
-    expandable: false,
     summary: "Analytics setting"
   }, /*#__PURE__*/_react["default"].createElement(_IconLine["default"], {
     icon: /*#__PURE__*/_react["default"].createElement(_Switch["default"], {
@@ -149,7 +167,11 @@ var EnvironmentPanel = function EnvironmentPanel(props) {
     })
   }, "Enable Data Tracking"), /*#__PURE__*/_react["default"].createElement("span", {
     className: _styles["default"].comment
-  }, "After clicking save, remember to ", /*#__PURE__*/_react["default"].createElement("b", null, "refresh to take effect"), "(all tabs need to be closed) when you enable that manually, the enable will take ", /*#__PURE__*/_react["default"].createElement("b", null, "two hours"), " enable, will auto close after", ' ', /*#__PURE__*/_react["default"].createElement("b", null, "two hours")))), /*#__PURE__*/_react["default"].createElement(_Line["default"], {
+  }, "After clicking save, remember to", ' ', /*#__PURE__*/_react["default"].createElement("b", null, /*#__PURE__*/_react["default"].createElement("h2", {
+    style: {
+      display: 'inline'
+    }
+  }, "refresh"), " to take effect"), "(all tabs need to be closed) when you enable that manually, the enable will take ", /*#__PURE__*/_react["default"].createElement("b", null, "two hours"), " enable, will auto close after", ' ', /*#__PURE__*/_react["default"].createElement("b", null, "two hours")))), /*#__PURE__*/_react["default"].createElement(_Line["default"], {
     className: _styles["default"].saveButtonLine
   }, /*#__PURE__*/_react["default"].createElement(_Button.Button, {
     dataSign: "envSave",

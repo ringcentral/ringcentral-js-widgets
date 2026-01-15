@@ -1,12 +1,13 @@
+/* eslint-disable */
 export default {
-  account: "Account",
-  contact: "Contact",
-  lead: "Lead",
-  opportunity: "Opportunity",
-  case: "Case",
-  chooseEntity: "Please select entity type",
-  create: "Create"
-};
+  account: 'Account',
+  contact: 'Contact',
+  lead: 'Lead',
+  opportunity: 'Opportunity',
+  case: 'Case',
+  chooseEntity: 'Please select entity type',
+  create: 'Create',
+} as const;
 
 // @key: @#@"account"@#@ @source: @#@"Account"@#@
 // @key: @#@"contact"@#@ @source: @#@"Contact"@#@

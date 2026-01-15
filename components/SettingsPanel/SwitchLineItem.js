@@ -28,7 +28,8 @@ var SwitchLineItem = function SwitchLineItem(_ref) {
     disabled = _ref.disabled,
     checked = _ref.checked,
     onChange = _ref.onChange,
-    tooltip = _ref.tooltip;
+    tooltip = _ref.tooltip,
+    children = _ref.children;
   if (!show) {
     return null;
   }
@@ -51,7 +52,7 @@ var SwitchLineItem = function SwitchLineItem(_ref) {
     size: "small",
     symbol: _junoIcon.InfoBorder,
     className: _styles["default"].tooltipIcon
-  })))) : null));
+  })))) : null), children);
 };
 exports.SwitchLineItem = SwitchLineItem;
 //# sourceMappingURL=SwitchLineItem.js.map

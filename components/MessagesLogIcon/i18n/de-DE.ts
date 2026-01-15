@@ -1,5 +1,6 @@
+/* eslint-disable */
 export default {
-  log: "Protokoll"
-};
+  log: 'Protokoll',
+} as const;
 
 // @key: @#@"log"@#@ @source: @#@"Log"@#@

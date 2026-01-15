@@ -4,15 +4,16 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  Inbound: "In entrata",
-  Outbound: "In uscita",
-  log: "Registro",
-  save: "Salva e crea nuovo",
-  discard: "Elimina e crea nuovo",
-  hangup: "Riaggancia",
-  reject: "Alla segreteria telefonica",
-  saveDraftAndCreateNewLog: "Salva la bozza e crea un nuovo registro chiamate"
+  Inbound: 'In entrata',
+  Outbound: 'In uscita',
+  log: 'Registro',
+  save: 'Salva e crea nuovo',
+  discard: 'Elimina e crea nuovo',
+  hangup: 'Riaggancia',
+  reject: 'Alla segreteria telefonica',
+  saveDraftAndCreateNewLog: 'Salva la bozza e crea un nuovo registro chiamate'
 }; // @key: @#@"Inbound"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"Outbound"@#@ @source: @#@"Outbound"@#@
 // @key: @#@"log"@#@ @source: @#@"Log"@#@

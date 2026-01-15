@@ -58,6 +58,7 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
     onIgnore = _ref.onIgnore,
     endAndAnswer = _ref.endAndAnswer,
     holdAndAnswer = _ref.holdAndAnswer,
+    showToVoicemail = _ref.showToVoicemail,
     toVoicemail = _ref.toVoicemail,
     hasActiveSession = _ref.hasActiveSession,
     answer = _ref.answer,
@@ -69,8 +70,9 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
     displayEntity = _ref.displayEntity,
     entityType = _ref.entityType,
     getAvatarUrl = _ref.getAvatarUrl,
-    entityDetailLink = _ref.entityDetailLink,
+    entityDetailLinkId = _ref.entityDetailLinkId,
     openEntityDetailLinkTrack = _ref.openEntityDetailLinkTrack,
+    openEntityDetailLink = _ref.openEntityDetailLink,
     _reply = _ref.reply,
     enableReply = _ref.enableReply,
     _ref$disableLinks = _ref.disableLinks,
@@ -119,12 +121,11 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
       "data-sign": "inboundNotificationLogName",
       title: logName,
       className: _styles["default"].contact
-    }, entityDetailLink ? /*#__PURE__*/_react["default"].createElement(_juno.RcLink, {
+    }, entityDetailLinkId ? /*#__PURE__*/_react["default"].createElement(_juno.RcLink, {
       variant: "inherit",
       onClick: function onClick() {
-        window.open(entityDetailLink, '_blank');
-        // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
-        openEntityDetailLinkTrack();
+        openEntityDetailLink === null || openEntityDetailLink === void 0 ? void 0 : openEntityDetailLink(entityDetailLinkId);
+        openEntityDetailLinkTrack === null || openEntityDetailLinkTrack === void 0 ? void 0 : openEntityDetailLinkTrack();
       }
     }, logName) : logName), subContactNameDisplay && /*#__PURE__*/_react["default"].createElement("div", {
       "data-sign": "subName",
@@ -190,7 +191,7 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
     }), /*#__PURE__*/_react["default"].createElement("span", {
       title: _i18n["default"].getString('forward', currentLocale),
       className: _styles["default"].firstLineText
-    }, _i18n["default"].getString('forward', currentLocale)))), !isWide && hasActiveSession && /*#__PURE__*/_react["default"].createElement("li", {
+    }, _i18n["default"].getString('forward', currentLocale)))), showToVoicemail && !isWide && hasActiveSession && /*#__PURE__*/_react["default"].createElement("li", {
       className: (0, _clsx2["default"])(_styles["default"].callButton, _styles["default"].voicemail)
     }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
       dataSign: "toVoiceMail",
@@ -239,7 +240,7 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
     }), /*#__PURE__*/_react["default"].createElement("span", {
       title: _i18n["default"].getString('endAndAnswer', currentLocale),
       className: _styles["default"].secondLineText
-    }, _i18n["default"].getString('endAndAnswer', currentLocale))), (isWide || !hasActiveSession) && /*#__PURE__*/_react["default"].createElement("li", {
+    }, _i18n["default"].getString('endAndAnswer', currentLocale))), (isWide || !hasActiveSession) && showToVoicemail && /*#__PURE__*/_react["default"].createElement("li", {
       className: _styles["default"].callButton
     }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
       dataSign: "toVoiceMail",

@@ -29,8 +29,9 @@ var ComposeTextPanel = function ComposeTextPanel(_ref) {
     inputExpandable = _ref.inputExpandable,
     attachments = _ref.attachments,
     supportAttachment = _ref.supportAttachment,
+    supportEmoji = _ref.supportEmoji,
     removeAttachment = _ref.removeAttachment,
-    addAttachment = _ref.addAttachment,
+    addAttachments = _ref.addAttachments,
     typingToNumber = _ref.typingToNumber,
     updateTypingToNumber = _ref.updateTypingToNumber,
     addToNumber = _ref.addToNumber,
@@ -117,7 +118,8 @@ var ComposeTextPanel = function ComposeTextPanel(_ref) {
     inputExpandable: inputExpandable,
     attachments: attachments,
     supportAttachment: supportAttachment,
-    addAttachment: addAttachment,
+    supportEmoji: supportEmoji,
+    addAttachments: addAttachments,
     removeAttachment: removeAttachment
   })));
 };

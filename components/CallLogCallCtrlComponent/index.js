@@ -95,7 +95,8 @@ var CallLogCallCtrlComponent = function CallLogCallCtrlComponent(props) {
     allowPickupCall = props.allowPickupCall,
     showConferenceCall = props.showConferenceCall,
     isCurrentCall = props.isCurrentCall,
-    onMergeCall = props.onMergeCall; // reject conditions: call direction is inbound & call status is ringing
+    onMergeCall = props.onMergeCall,
+    isCallQueueCall = props.isCallQueueCall; // reject conditions: call direction is inbound & call status is ringing
   var isInComingCall = _callDirections["default"].inbound === callDirection && _telephonyStatus["default"].ringing === callStatus;
   // real outbound call status
   var isOutboundCallConnecting = realOutboundCallStatus === _telephonySessionStatus.telephonySessionStatus.proceeding;
@@ -438,7 +439,7 @@ var CallLogCallCtrlComponent = function CallLogCallCtrlComponent(props) {
       className: (0, _clsx23["default"])((_clsx15 = {}, _defineProperty(_clsx15, _styles["default"].button, true), _defineProperty(_clsx15, _styles["default"].buttonDisabled, disableLinks || !isWebRTCCall), _clsx15)),
       disabled: disableLinks || !isWebRTCCall,
       onClick: ignore
-    }), /*#__PURE__*/_react["default"].createElement(_CircleButton.CircleButtonWithTitle, {
+    }), !isCallQueueCall && /*#__PURE__*/_react["default"].createElement(_CircleButton.CircleButtonWithTitle, {
       title: _i18n["default"].getString('voicemail', currentLocale),
       dataSign: "toVoiceMail",
       showBorder: false,
@@ -489,7 +490,7 @@ var CallLogCallCtrlComponent = function CallLogCallCtrlComponent(props) {
       title: _i18n["default"].getString('answerAndEnd', currentLocale),
       className: _styles["default"].answerButton,
       onClick: answerAndEnd
-    }, /*#__PURE__*/_react["default"].createElement(_EndAnswer["default"], null)), /*#__PURE__*/_react["default"].createElement(_CircleButton.CircleButtonWithTitle, {
+    }, /*#__PURE__*/_react["default"].createElement(_EndAnswer["default"], null)), !isCallQueueCall && /*#__PURE__*/_react["default"].createElement(_CircleButton.CircleButtonWithTitle, {
       title: _i18n["default"].getString('voicemail', currentLocale),
       dataSign: "voicemail",
       showBorder: false,

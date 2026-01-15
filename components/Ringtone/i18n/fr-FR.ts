@@ -1,13 +1,14 @@
+/* eslint-disable */
 export default {
-  ringtones: "Sonneries",
-  incomingRingtone: "Sonnerie d’appel entrant",
-  outgoingRingtone: "Sonnerie d’appel sortant",
-  play: "Lire",
-  stop: "Arrêter",
-  upload: "Importer",
-  reset: "Réinitialiser",
-  save: "Enregistrer"
-};
+  ringtones: 'Sonneries',
+  incomingRingtone: 'Sonnerie d’appel entrant',
+  outgoingRingtone: 'Sonnerie d’appel sortant',
+  play: 'Lire',
+  stop: 'Arrêter',
+  upload: 'Importer',
+  reset: 'Réinitialiser',
+  save: 'Enregistrer',
+} as const;
 
 // @key: @#@"ringtones"@#@ @source: @#@"Ringtones"@#@
 // @key: @#@"incomingRingtone"@#@ @source: @#@"Incoming Ringtone"@#@

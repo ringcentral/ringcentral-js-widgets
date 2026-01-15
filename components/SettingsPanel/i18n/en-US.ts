@@ -4,6 +4,9 @@ export default {
   logout: 'Logout',
   version: 'Version',
   settings: 'Settings',
+  selectToDialSMS: 'Select to Dial/SMS',
+  selectToDial: 'Select to Dial',
+  selectToSMS: 'Select to SMS',
   clickToDial: 'Click to Dial',
   autoCreateLog: 'Auto-create Call Log',
   autoCreateSMSLog: 'Auto-create SMS Log',
@@ -21,8 +24,12 @@ export default {
   quickAccess: 'Quick Access Setting',
   report: 'Analytics Report',
   shareIdea: 'Share idea',
+  openEntityFrom: 'Salesforce object behavior',
+  ctiPanelSize: 'CTI panel size',
+  openInNewTab: 'Open in new tab',
+  openInCurrentTab: 'Open in current tab',
   reportIssue: 'Report issue',
-  havingIssues: 'Having issues?',
+  contactSupport: 'Contact support',
   selectToDialHint:
     'For your better experience, select phone number to dial with RingCentral in large quantity phone number page.',
 } as const;

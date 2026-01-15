@@ -4,25 +4,27 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  logging: "Connexion…",
-  logCall: "Journal des appels",
-  editLog: "Modifier le journal",
-  select: "Sélectionner un enregistrement correspondant",
-  OnHold: "En attente",
-  Ringing: "Sonnerie en cours",
-  CallConnected: "Appel connecté",
-  unknownUser: "Utilisateur inconnu",
-  unknownNumber: "Anonyme",
-  unavailable: "Non disponible",
-  viewDetails: "Afficher les renseignements",
-  addEntity: "Créer",
-  addLog: "Liste",
-  text: "Texto",
-  call: "Appeler",
-  missedCall: "Manqué",
-  inboundCall: "Entrant",
-  outboundCall: "Sortant"
+  logging: 'Connexion…',
+  logCall: 'Journal des appels',
+  editLog: 'Modifier le journal',
+  select: 'Sélectionner un enregistrement correspondant',
+  OnHold: 'En attente',
+  Ringing: 'Sonnerie en cours',
+  CallConnected: 'Appel connecté',
+  unknownUser: 'Utilisateur inconnu',
+  unknownNumber: 'Anonyme',
+  unavailable: 'Non disponible',
+  viewDetails: 'Afficher les renseignements',
+  addEntity: 'Créer',
+  addLog: 'Liste',
+  text: 'Texto',
+  call: 'Appeler',
+  missedCall: 'Manqué',
+  inboundCall: 'Entrant',
+  outboundCall: 'Sortant',
+  answeredBy: 'Répondu par'
 }; // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
@@ -41,5 +43,6 @@ var _default = {
 // @key: @#@"missedCall"@#@ @source: @#@"Missed"@#@
 // @key: @#@"inboundCall"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"outboundCall"@#@ @source: @#@"Outbound"@#@
+// @key: @#@"answeredBy"@#@ @source: @#@"Answered by"@#@
 exports["default"] = _default;
 //# sourceMappingURL=fr-CA.js.map

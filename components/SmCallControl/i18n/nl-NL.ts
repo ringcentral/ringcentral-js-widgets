@@ -1,9 +1,10 @@
+/* eslint-disable */
 export default {
-  mute: "Dempen",
-  unmute: "Dempen uitschakelen",
-  hangup: "Ophangen",
-  reject: "Weigeren"
-};
+  mute: 'Dempen',
+  unmute: 'Dempen uitschakelen',
+  hangup: 'Ophangen',
+  reject: 'Weigeren',
+} as const;
 
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@

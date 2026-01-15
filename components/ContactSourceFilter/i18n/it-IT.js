@@ -4,10 +4,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  all: "Tutto",
-  company: "Azienda",
-  personal: "Personale"
+  all: 'Tutto',
+  company: 'Azienda',
+  personal: 'Personale'
 }; // @key: @#@"all"@#@ @source: @#@"All"@#@
 // @key: @#@"company"@#@ @source: @#@"Company"@#@
 // @key: @#@"personal"@#@ @source: @#@"Personal"@#@

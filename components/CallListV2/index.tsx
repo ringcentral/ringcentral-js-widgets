@@ -38,6 +38,7 @@ type CallListV2Props = {
   autoLog?: boolean;
   showContactDisplayPlaceholder?: boolean;
   showCallerIdName?: boolean;
+  isSyncingActivityMatcher?: boolean;
   sourceIcons?: object;
   phoneTypeRenderer?: (...args: any[]) => any;
   phoneSourceNameRenderer?: (...args: any[]) => any;
@@ -54,7 +55,7 @@ type CallListV2Props = {
   showChooseEntityModal?: boolean;
   enableCDC?: boolean;
   maxExtensionNumberLength: number;
-  formatPhone: (phoneNumber: string) => string | undefined;
+  formatPhone?: (phoneNumber: string) => string | undefined;
   callsDelaySavingState: Record<string, any>;
 };
 
@@ -116,6 +117,13 @@ class CallListV2 extends React.PureComponent<CallListV2Props, CallListV2State> {
       callsDelaySavingState,
     } = this.props;
     const call = calls[index];
+
+    const heightForAnsweredBy =
+      call.result === 'Answered Elsewhere' &&
+      call.delegationType === 'QueueForwarding'
+        ? 15
+        : 0;
+
     const isDelaySavingState =
       callsDelaySavingState && callsDelaySavingState[call.sessionId];
     const { extendedIndex } = this.state;
@@ -125,7 +133,7 @@ class CallListV2 extends React.PureComponent<CallListV2Props, CallListV2State> {
     const height =
       index === extendedIndex
         ? extendedRowHeight
-        : rowHeight + delaySavingStateHeight;
+        : rowHeight + delaySavingStateHeight + heightForAnsweredBy;
     return height + margin;
   };
   _rowRender = ({ index, key, style }: any) => {
@@ -165,6 +173,7 @@ class CallListV2 extends React.PureComponent<CallListV2Props, CallListV2State> {
       renderContactName,
       renderSubContactName,
       renderExtraButton,
+      isSyncingActivityMatcher,
       contactDisplayStyle,
       externalViewEntity,
       externalHasEntity,
@@ -180,6 +189,7 @@ class CallListV2 extends React.PureComponent<CallListV2Props, CallListV2State> {
     } = this.props;
     const { extendedIndex } = this.state;
     let content;
+
     if (index >= calls.length) {
       content = (
         <div className={className}>
@@ -227,6 +237,7 @@ class CallListV2 extends React.PureComponent<CallListV2Props, CallListV2State> {
           renderContactName={renderContactName}
           renderSubContactName={renderSubContactName}
           renderExtraButton={renderExtraButton}
+          isSyncingActivityMatcher={isSyncingActivityMatcher}
           contactDisplayStyle={contactDisplayStyle}
           externalViewEntity={externalViewEntity}
           externalHasEntity={externalHasEntity}
@@ -311,6 +322,7 @@ CallListV2.defaultProps = {
   renderContactName: undefined,
   renderSubContactName: undefined,
   renderExtraButton: undefined,
+  isSyncingActivityMatcher: false,
   contactDisplayStyle: undefined,
   externalViewEntity: undefined,
   externalHasEntity: undefined,

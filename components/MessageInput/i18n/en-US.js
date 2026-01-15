@@ -9,7 +9,8 @@ var _default = {
   to: 'To',
   enterNameOrNumber: 'Enter Number or Name...',
   typeMessage: 'Type message...',
-  send: 'Send'
+  send: 'Send',
+  emoji: 'Emoji'
 };
 exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

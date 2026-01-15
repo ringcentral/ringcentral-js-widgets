@@ -1,10 +1,12 @@
+/* eslint-disable */
 export default {
-  confirmationInfo: "Suas edições não salvas na chamada anterior serão perdidas, tem certeza de que deseja trabalhar em uma nova chamada?",
-  log: "Log",
-  save: "Salvar e usar nova",
-  discard: "Descartar e usar nova",
-  stay: "Permanecer no anterior"
-};
+  confirmationInfo:
+    'Suas edições não salvas na chamada anterior serão perdidas, tem certeza de que deseja trabalhar em uma nova chamada?',
+  log: 'Log',
+  save: 'Salvar e usar nova',
+  discard: 'Descartar e usar nova',
+  stay: 'Permanecer no anterior',
+} as const;
 
 // @key: @#@"confirmationInfo"@#@ @source: @#@"Your unsaved edits on the previous call will be lost, are you sure you want to work on the new call?"@#@
 // @key: @#@"log"@#@ @source: @#@"Log"@#@

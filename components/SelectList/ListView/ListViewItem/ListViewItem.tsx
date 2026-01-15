@@ -66,6 +66,7 @@ export const ListViewItem: FunctionComponent<ListViewItemProps> = ({
             : () => onChange(isSelected ? {} : option)
         }
         data-sign={`match${index}`}
+        data-selected={isSelected}
         selected={isSelected}
         disabled={disabled}
       >

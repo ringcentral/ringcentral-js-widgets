@@ -405,6 +405,7 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
         renderContactName = _this$props2.renderContactName,
         renderSubContactName = _this$props2.renderSubContactName,
         renderExtraButton = _this$props2.renderExtraButton,
+        isSyncingActivityMatcher = _this$props2.isSyncingActivityMatcher,
         contactDisplayStyle = _this$props2.contactDisplayStyle,
         activeContactDisplayStyle = _this$props2.activeContactDisplayStyle,
         currentLog = _this$props2.currentLog,
@@ -441,10 +442,7 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
         return /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null);
       }
       var isShowMessageIcon = readTextPermission && !!onClickToSms;
-      var CallsListView = useNewList ?
-      /*#__PURE__*/
-      // @ts-expect-error TS(2339): Property 'contentWidth' does not exist on type 'Re... Remove this comment to see the full error message
-      _react["default"].createElement(_CallListV["default"], {
+      var CallsListView = useNewList ? /*#__PURE__*/_react["default"].createElement(_CallListV["default"], {
         width: adaptive ? contentWidth : width,
         height: adaptive ? contentHeight : height,
         brand: brand,
@@ -481,6 +479,7 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
         renderContactName: renderContactName,
         renderSubContactName: renderSubContactName,
         renderExtraButton: renderExtraButton,
+        isSyncingActivityMatcher: isSyncingActivityMatcher,
         contactDisplayStyle: contactDisplayStyle,
         externalViewEntity: externalViewEntity,
         externalHasEntity: externalHasEntity,
@@ -517,6 +516,7 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
         phoneSourceNameRenderer: phoneSourceNameRenderer,
         renderContactName: renderContactName,
         renderExtraButton: renderExtraButton,
+        isSyncingActivityMatcher: isSyncingActivityMatcher,
         contactDisplayStyle: contactDisplayStyle,
         externalViewEntity: externalViewEntity,
         externalHasEntity: externalHasEntity,
@@ -640,6 +640,7 @@ CallsListPanel.propTypes = {
   renderContactName: _propTypes["default"].func,
   renderSubContactName: _propTypes["default"].func,
   renderExtraButton: _propTypes["default"].func,
+  isSyncingActivityMatcher: _propTypes["default"].bool,
   contactDisplayStyle: _propTypes["default"].string,
   activeContactDisplayStyle: _propTypes["default"].string,
   currentLog: _propTypes["default"].object,
@@ -734,7 +735,8 @@ CallsListPanel.defaultProps = {
   onlyHistory: false,
   showChooseEntityModal: true,
   enableCDC: false,
-  callsDelaySavingState: undefined
+  callsDelaySavingState: undefined,
+  isSyncingActivityMatcher: false
 };
 var _default = CallsListPanel;
 exports["default"] = _default;

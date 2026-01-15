@@ -2,9 +2,7 @@ import {
   updateFullTime,
   updateFullYear,
 } from '@ringcentral-integration/commons/helpers/meetingHelper';
-import type { RcVMeetingModel } from '@ringcentral-integration/commons/interfaces/Rcv.model';
 import type {
-  AUTH_USER,
   RcvDelegator,
   RcvItemType,
   RcvWaitingRoomModeProps,
@@ -15,12 +13,6 @@ import {
   RCV_ITEM_NAME,
   RCV_WAITING_ROOM_MODE,
 } from '@ringcentral-integration/commons/modules/RcVideo';
-import { format } from '@ringcentral-integration/utils';
-import type {
-  RcCheckboxProps,
-  RcDatePickerProps,
-  RcTimePickerProps,
-} from '@ringcentral/juno';
 import {
   RcCheckbox,
   RcDatePicker,
@@ -37,7 +29,13 @@ import {
 import { InfoBorder } from '@ringcentral/juno-icon';
 import clsx from 'clsx';
 import type { FunctionComponent } from 'react';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useCallback,
+} from 'react';
 
 import { formatMeetingId } from '../../lib/MeetingCalendarHelper';
 import {
@@ -46,6 +44,7 @@ import {
   HOUR_SCALE,
   MINUTE_SCALE,
 } from '../../lib/MeetingHelper';
+import { VideoPanelProps } from '../GenericMeetingPanel/interface';
 import { MigrateToPluginAlert, RemoveMeetingWarn } from '../MeetingAlert';
 import { ExtendedTooltip } from '../MeetingConfigsV2/ExtendedTooltip';
 import { SpinnerOverlay } from '../SpinnerOverlay';
@@ -55,80 +54,7 @@ import { VideoSecuritySettingItem } from './VideoSecuritySettingItem';
 import { RCV_SCHEDULE_ON_BEHALF_GUIDANCE_LINK } from './constants';
 import i18n, { type I18nKey } from './i18n';
 import styles from './styles.scss';
-
-function getHelperTextForPasswordField(
-  meeting: RcVMeetingModel,
-  currentLocale: string,
-  isPasswordFocus: boolean,
-): string {
-  if (!meeting.meetingPassword) {
-    return i18n.getString('passwordEmptyError', currentLocale);
-  }
-  if (!meeting.isMeetingPasswordValid) {
-    return i18n.getString('passwordInvalidError', currentLocale);
-  }
-  if (isPasswordFocus) {
-    return i18n.getString('passwordHintText', currentLocale);
-  }
-  // when correct input without focus, show nothing
-  return '';
-}
-
-// TODO: integrate with VideoPanelProps from 'GenericMeetingPanel/interface'
-interface VideoConfigProps {
-  disabled?: boolean;
-  showScheduleOnBehalf?: boolean;
-  delegators?: RcvDelegator[];
-  currentLocale: string;
-  meeting: RcVMeetingModel;
-
-  updateMeetingSettings: (meeting: Partial<RcVMeetingModel>) => void;
-  onCloseMigrationAlert?: () => void;
-
-  recipientsSection?: React.ReactNode;
-  showWhen?: boolean;
-  showDuration?: boolean;
-  showRcvAdminLock?: boolean;
-  showPmiConfirm?: boolean;
-  showWaitingRoom?: boolean;
-  showE2EE?: boolean;
-  isE2EEDisabled?: boolean;
-
-  enablePersonalMeeting?: boolean;
-  isPmiChangeConfirmed?: boolean;
-  isPersonalMeetingDisabled: boolean;
-  personalMeetingId: string;
-  showMigrationAlert?: boolean;
-  switchUsePersonalMeetingId: (usePersonalMeetingId: boolean) => any;
-  trackSettingChanges?: (itemName: RcvItemType) => void;
-  updateScheduleFor: (userExtensionId: string) => any;
-  init: () => any;
-  e2eeInteractFunc: (e2eeValue: boolean) => void;
-  onPmiChangeClick: () => void;
-  datePickerSize?: RcDatePickerProps['size'];
-  timePickerSize?: RcTimePickerProps['size'];
-  checkboxSize?: RcCheckboxProps['size'];
-  labelPlacement?: 'end' | 'start' | 'top' | 'bottom';
-  showSpinnerInConfigPanel: boolean;
-  joinBeforeHostLabel: string;
-  authUserTypeValue: AUTH_USER;
-  isJoinBeforeHostDisabled: boolean;
-  isMuteAudioDisabled: boolean;
-  isTurnOffCameraDisabled: boolean;
-  isAllowScreenSharingDisabled: boolean;
-  isAuthenticatedCanJoinDisabled: boolean;
-  isWaitingRoomDisabled: boolean;
-  isRequirePasswordDisabled: boolean;
-  isWaitingRoomNotCoworkerDisabled: boolean;
-  isWaitingRoomGuestDisabled: boolean;
-  isWaitingRoomAllDisabled: boolean;
-  isAuthUserTypeDisabled: boolean;
-  isWaitingRoomTypeDisabled: boolean;
-  isSignedInUsersDisabled: boolean;
-  isSignedInCoWorkersDisabled: boolean;
-  showRemoveMeetingWarning: boolean;
-  brandConfig: any;
-}
+import { getHelperTextForPasswordField } from './utils';
 
 const PanelRoot = styled.div`
   ${RcCheckbox} {
@@ -136,7 +62,7 @@ const PanelRoot = styled.div`
   }
 `;
 
-export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
+export const VideoConfig: FunctionComponent<VideoPanelProps> = (props) => {
   const {
     disabled,
     currentLocale,
@@ -149,6 +75,8 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
     showDuration,
     showRcvAdminLock,
     showPmiConfirm,
+    showAllowAnyoneRecord,
+    showAllowAnyoneTranscribe,
     showWaitingRoom,
     showE2EE,
     isE2EEDisabled,
@@ -156,6 +84,7 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
     isPmiChangeConfirmed,
     isPersonalMeetingDisabled,
     personalMeetingId,
+    personalMeetingName,
     switchUsePersonalMeetingId,
     trackSettingChanges,
     e2eeInteractFunc,
@@ -172,25 +101,24 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
     joinBeforeHostLabel,
     authUserTypeValue,
     isJoinBeforeHostDisabled,
+    isPasswordFieldDisabled,
+    isAllowToRecordDisabled,
+    isAllowAnyoneTranscribeDisabled,
     isMuteAudioDisabled,
     isTurnOffCameraDisabled,
     isAllowScreenSharingDisabled,
     isAuthenticatedCanJoinDisabled,
     isAuthUserTypeDisabled,
     isWaitingRoomTypeDisabled,
-    isSignedInUsersDisabled,
-    isSignedInCoWorkersDisabled,
     isWaitingRoomDisabled,
     isRequirePasswordDisabled,
     isWaitingRoomNotCoworkerDisabled,
     isWaitingRoomGuestDisabled,
-    isWaitingRoomAllDisabled,
     showRemoveMeetingWarning,
     brandConfig,
     showMigrationAlert,
   } = props;
 
-  const settingsGroupExpandable = false;
   const hoursList = getHoursList(HOUR_SCALE, currentLocale);
   const minutesList = getMinutesList(MINUTE_SCALE, currentLocale);
 
@@ -212,8 +140,8 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
   const [isPasswordFocus, setPasswordFocus] = useState<boolean>(false);
 
   const startTime = useMemo(() => {
-    return new Date(meeting.startTime);
-  }, [meeting.startTime]);
+    return new Date(meeting.startTime!);
+  }, [meeting.startTime!]);
 
   /* Scrollbar */
   const configRef = useRef<HTMLDivElement>();
@@ -225,6 +153,39 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
     );
   }, []);
 
+  const showPMI = useMemo(
+    () => enablePersonalMeeting && (personalMeetingId || personalMeetingName),
+    [enablePersonalMeeting, personalMeetingId, personalMeetingName],
+  );
+
+  const getPMILabel = useCallback(() => {
+    if (personalMeetingName) {
+      return (
+        <div className={styles.pmiLabel}>
+          <span className={styles.text}>
+            {i18n.getString('usePersonalMeetingName', currentLocale)}
+          </span>
+          &nbsp;
+          <span data-sign="personalMeetingName" title={personalMeetingName}>
+            {personalMeetingName}
+          </span>
+        </div>
+      );
+    }
+    const pmiId = formatMeetingId(personalMeetingId!, '-');
+    return (
+      <div className={styles.pmiLabel}>
+        <span className={styles.text}>
+          {i18n.getString('usePersonalMeetingId', currentLocale)}
+        </span>
+        &nbsp;
+        <span data-sign="personalMeetingId" title={pmiId}>
+          {pmiId}
+        </span>
+      </div>
+    );
+  }, [personalMeetingId, personalMeetingName, currentLocale]);
+
   return (
     // @ts-expect-error TS(2322): Type '{ children: Element; ref: MutableRefObject<H... Remove this comment to see the full error message
     <PanelRoot
@@ -235,14 +196,14 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
       <div className={styles.meetingContent}>
         {showSpinnerInConfigPanel ? <SpinnerOverlay /> : null}
         {showRemoveMeetingWarning && (
-          <SettingGroup dataSign="removeMeetingWarningPanel" expandable={false}>
+          <SettingGroup dataSign="removeMeetingWarningPanel">
             <RemoveMeetingWarn
               brandConfig={brandConfig}
               currentLocale={currentLocale}
             />
           </SettingGroup>
         )}
-        {showMigrationAlert && (
+        {showMigrationAlert && brandConfig.substituteName && (
           <MigrateToPluginAlert
             currentLocale={currentLocale}
             substituteName={brandConfig.substituteName}
@@ -306,11 +267,11 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
                 fullWidth
                 gutterBottom
                 data-sign="durationHour"
-                value={Math.floor(meeting.duration / 60)}
+                value={Math.floor(meeting.duration! / 60)}
                 onChange={(e) => {
                   // @ts-expect-error TS(2571): Object is of type 'unknown'.
                   const value = +e.target.value;
-                  const restMinutes = Math.floor(meeting.duration % 60);
+                  const restMinutes = Math.floor(meeting.duration! % 60);
                   const durationInMinutes = value * 60 + restMinutes;
                   update({
                     duration: durationInMinutes,
@@ -338,11 +299,11 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
                 gutterBottom
                 data-sign="durationMinute"
                 required
-                value={Math.floor(meeting.duration % 60)}
+                value={Math.floor(meeting.duration! % 60)}
                 onChange={(e) => {
                   // @ts-expect-error TS(2571): Object is of type 'unknown'.
                   const value = +e.target.value;
-                  const restHours = Math.floor(meeting.duration / 60);
+                  const restHours = Math.floor(meeting.duration! / 60);
                   // @ts-expect-error TS(2339): Property 'value' does not exist on type 'never'.
                   const isMax = restHours === hoursList.slice(-1)[0].value;
                   const minutes = isMax ? 0 : value;
@@ -370,7 +331,6 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
         {showScheduleOnBehalf ? (
           <SettingGroup
             dataSign="scheduleOnBehalfPanel"
-            expandable={settingsGroupExpandable}
             summary={
               <span className={styles.flexVertical}>
                 {i18n.getString('scheduleFor', currentLocale)}
@@ -462,10 +422,9 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
         ) : null}
         <SettingGroup
           dataSign="settingsPanel"
-          expandable={settingsGroupExpandable}
           summary={i18n.getString('meetingSettings', currentLocale)}
         >
-          {enablePersonalMeeting && personalMeetingId && (
+          {showPMI && (
             <>
               <VideoSecuritySettingItem
                 labelPlacement={labelPlacement}
@@ -473,15 +432,7 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
                 hasScrollBar={hasScrollBar}
                 isDisabled={isPersonalMeetingDisabled}
                 currentLocale={currentLocale}
-                label={
-                  <div className={styles.pmiLabel}>
-                    {i18n.getString('usePersonalMeetingId', currentLocale)}
-                    &nbsp;
-                    <span data-sign="personalMeetingId">
-                      {formatMeetingId(personalMeetingId, '-')}
-                    </span>
-                  </div>
-                }
+                label={getPMILabel()}
               >
                 <RcCheckbox
                   data-sign="usePersonalMeetingId"
@@ -557,7 +508,6 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
         </SettingGroup>
         <SettingGroup
           dataSign="securityPanel"
-          expandable={settingsGroupExpandable}
           summary={i18n.getString('meetingSettingsSecurity', currentLocale)}
         >
           {showE2EE ? (
@@ -632,12 +582,13 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
               <RcTextField
                 variant="outline"
                 fullWidth
-                disabled={disabled}
+                disabled={isPasswordFieldDisabled}
                 size="small"
                 placeholder={i18n.getString('enterPassword', currentLocale)}
                 error={!meeting.isMeetingPasswordValid}
                 helperText={getHelperTextForPasswordField(
-                  meeting,
+                  meeting.meetingPassword || '',
+                  meeting.isMeetingPasswordValid || false,
                   currentLocale,
                   isPasswordFocus,
                 )}
@@ -699,7 +650,7 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
             <>
               <VideoSecuritySettingItem
                 labelPlacement={labelPlacement}
-                dataSign="isWaitingRoomWrapper"
+                dataSign="waitingRoomField"
                 hasScrollBar={hasScrollBar}
                 isLock={
                   showRcvAdminLock && meeting.settingLock?.waitingRoomMode
@@ -752,6 +703,14 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
                     value={meeting.waitingRoomMode}
                   >
                     <RcMenuItem
+                      data-sign="waitingRoomAll"
+                      value={RCV_WAITING_ROOM_MODE.all}
+                      className={styles.boxSelectMenuItem}
+                      title={i18n.getString('waitingRoomAll', currentLocale)}
+                    >
+                      {i18n.getString('waitingRoomAll', currentLocale)}
+                    </RcMenuItem>
+                    <RcMenuItem
                       data-sign="waitingRoomNotCoworker"
                       disabled={isWaitingRoomNotCoworkerDisabled}
                       value={RCV_WAITING_ROOM_MODE.notcoworker}
@@ -771,15 +730,6 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
                       title={i18n.getString('waitingRoomGuest', currentLocale)}
                     >
                       {i18n.getString('waitingRoomGuest', currentLocale)}
-                    </RcMenuItem>
-                    <RcMenuItem
-                      data-sign="waitingRoomAll"
-                      disabled={isWaitingRoomAllDisabled}
-                      value={RCV_WAITING_ROOM_MODE.all}
-                      className={styles.boxSelectMenuItem}
-                      title={i18n.getString('waitingRoomAll', currentLocale)}
-                    >
-                      {i18n.getString('waitingRoomAll', currentLocale)}
                     </RcMenuItem>
                   </RcSelect>
                 </div>
@@ -837,14 +787,12 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
                 value={authUserTypeValue}
               >
                 <RcMenuItem
-                  disabled={isSignedInUsersDisabled}
                   value={AUTH_USER_TYPE.SIGNED_IN_USERS}
                   title={i18n.getString('signedInUsers', currentLocale)}
                 >
                   {i18n.getString('signedInUsers', currentLocale)}
                 </RcMenuItem>
                 <RcMenuItem
-                  disabled={isSignedInCoWorkersDisabled}
                   value={AUTH_USER_TYPE.SIGNED_IN_CO_WORKERS}
                   title={i18n.getString('signedInCoWorkers', currentLocale)}
                 >
@@ -853,7 +801,6 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
               </RcSelect>
             </div>
           ) : null}
-
           <VideoSecuritySettingItem
             labelPlacement={labelPlacement}
             dataSign="limitScreenSharingWrapper"
@@ -877,6 +824,100 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
               }}
             />
           </VideoSecuritySettingItem>
+          {showAllowAnyoneRecord && (
+            <VideoSecuritySettingItem
+              labelPlacement="top"
+              dataSign="allowToRecording"
+              hasScrollBar={hasScrollBar}
+              isLock={
+                showRcvAdminLock && meeting.settingLock?.allowAnyoneRecord
+              }
+              currentLocale={currentLocale}
+              label={i18n.getString('allowToRecording', currentLocale)}
+            >
+              <RcSelect
+                variant="box"
+                data-sign="selectAllowToRecord"
+                data-test-automation-id="selectAllowToRecord"
+                className={styles.boxSelect}
+                fullWidth
+                disabled={isAllowToRecordDisabled}
+                onChange={(e) => {
+                  update(
+                    {
+                      allowAnyoneRecord: e.target.value === 'true',
+                    },
+                    RCV_ITEM_NAME.allowAnyoneRecord,
+                  );
+                }}
+                value={meeting.allowAnyoneRecord?.toString()}
+              >
+                <RcMenuItem
+                  data-sign="everyone"
+                  value="true"
+                  className={styles.boxSelectMenuItem}
+                  title={i18n.getString('everyone', currentLocale)}
+                >
+                  {i18n.getString('everyone', currentLocale)}
+                </RcMenuItem>
+                <RcMenuItem
+                  data-sign="onlyHostModerators"
+                  value="false"
+                  className={styles.boxSelectMenuItem}
+                  title={i18n.getString('onlyHostModerators', currentLocale)}
+                >
+                  {i18n.getString('onlyHostModerators', currentLocale)}
+                </RcMenuItem>
+              </RcSelect>
+            </VideoSecuritySettingItem>
+          )}
+          {showAllowAnyoneTranscribe && (
+            <VideoSecuritySettingItem
+              labelPlacement="top"
+              dataSign="allowTranscribe"
+              hasScrollBar={hasScrollBar}
+              isLock={
+                showRcvAdminLock && meeting.settingLock?.allowAnyoneTranscribe
+              }
+              currentLocale={currentLocale}
+              label={i18n.getString('allowTranscribe', currentLocale)}
+            >
+              <RcSelect
+                variant="box"
+                data-sign="selectAllowTranscribe"
+                data-test-automation-id="selectAllowTranscribe"
+                className={styles.boxSelect}
+                disabled={isAllowAnyoneTranscribeDisabled}
+                fullWidth
+                onChange={(e) => {
+                  update(
+                    {
+                      allowAnyoneTranscribe: e.target.value === 'true',
+                    },
+                    RCV_ITEM_NAME.allowAnyoneTranscribe,
+                  );
+                }}
+                value={meeting.allowAnyoneTranscribe?.toString()}
+              >
+                <RcMenuItem
+                  data-sign="everyone"
+                  value="true"
+                  className={styles.boxSelectMenuItem}
+                  title={i18n.getString('everyone', currentLocale)}
+                >
+                  {i18n.getString('everyone', currentLocale)}
+                </RcMenuItem>
+                <RcMenuItem
+                  data-sign="onlyHostModerators"
+                  value="false"
+                  className={styles.boxSelectMenuItem}
+                  title={i18n.getString('onlyHostModerators', currentLocale)}
+                >
+                  {i18n.getString('onlyHostModerators', currentLocale)}
+                </RcMenuItem>
+              </RcSelect>
+            </VideoSecuritySettingItem>
+          )}
         </SettingGroup>
       </div>
     </PanelRoot>

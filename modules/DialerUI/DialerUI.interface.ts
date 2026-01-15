@@ -38,6 +38,7 @@ export interface Deps {
 
 export interface DialerUIContainerProps {
   autoFocusToField?: boolean;
+  showCustomPhoneLabel?: boolean;
 }
 
 export interface DialerUIPanelProps {

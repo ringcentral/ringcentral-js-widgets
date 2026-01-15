@@ -23,4 +23,7 @@ export default {
   reply: 'Reply',
   add: 'Add',
   mergeCall: 'Merge with active call',
+  endCallForEveryone: 'End call for everyone',
+  leaveCall: 'Leave call',
+  leaveOrEndCall: 'Leave or end call?',
 } as const;

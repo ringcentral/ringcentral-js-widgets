@@ -10,7 +10,7 @@ var _callCtrlLayouts = _interopRequireDefault(require("../../enums/callCtrlLayou
 var _ActiveCallPad = _interopRequireDefault(require("../ActiveCallPad"));
 var _BackButton = _interopRequireDefault(require("../BackButton"));
 var _BackHeader = _interopRequireDefault(require("../BackHeader"));
-var _DurationCounter = _interopRequireDefault(require("../DurationCounter"));
+var _DurationCounter = require("../DurationCounter");
 var _Panel = _interopRequireDefault(require("../Panel"));
 var _CallInfo = _interopRequireDefault(require("./CallInfo"));
 var _ConferenceInfo = _interopRequireDefault(require("./ConferenceInfo"));
@@ -69,6 +69,7 @@ var ActiveCallPanel = function ActiveCallPanel(_ref) {
     getAvatarUrl = _ref.getAvatarUrl,
     actions = _ref.actions,
     controlBusy = _ref.controlBusy,
+    showCallerIdName = _ref.showCallerIdName,
     callerIdName = _ref.callerIdName,
     callQueueName = _ref.callQueueName,
     isOnTransfer = _ref.isOnTransfer,
@@ -82,7 +83,7 @@ var ActiveCallPanel = function ActiveCallPanel(_ref) {
   }) : null;
   var timeCounter = /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].timeCounter
-  }, startTime ? /*#__PURE__*/_react["default"].createElement(_DurationCounter["default"], {
+  }, startTime ? /*#__PURE__*/_react["default"].createElement(_DurationCounter.DurationCounter, {
     startTime: startTime,
     offset: startTimeOffset
   }) : /*#__PURE__*/_react["default"].createElement("span", {
@@ -94,6 +95,7 @@ var ActiveCallPanel = function ActiveCallPanel(_ref) {
     case _callCtrlLayouts["default"].completeTransferCtrl:
     case _callCtrlLayouts["default"].mergeCtrl:
       callInfo = /*#__PURE__*/_react["default"].createElement(_MergeInfo["default"], {
+        showCallerIdName: showCallerIdName,
         currentLocale: currentLocale,
         timeCounter: timeCounter,
         lastCallInfo: lastCallInfo,

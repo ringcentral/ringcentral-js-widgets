@@ -1,11 +1,17 @@
+/* eslint-disable */
 import { conferenceCallErrors } from '@ringcentral-integration/commons/modules/ConferenceCall';
 export default {
-  [conferenceCallErrors.bringInFailed]: "Puheluiden yhdistäminen epäonnistui odottamattoman virheen vuoksi. Yritä myöhemmin uudelleen.",
-  [conferenceCallErrors.makeConferenceFailed]: "Puheluiden yhdistäminen epäonnistui odottamattoman virheen vuoksi. Yritä myöhemmin uudelleen.",
-  [conferenceCallErrors.terminateConferenceFailed]: "Neuvottelupuhelun lopettaminen epäonnistui odottamattoman virheen vuoksi. Yritä myöhemmin uudelleen.",
-  [conferenceCallErrors.removeFromConferenceFailed]: "Osallistujan poistaminen epäonnistui odottamattoman virheen vuoksi. Yritä myöhemmin uudelleen.",
-  [conferenceCallErrors.callIsRecording]: "Puhelun tallennus on käynnissä. Lopeta tallennus ja yritä uudelleen."
-};
+  [conferenceCallErrors.bringInFailed]:
+    'Puheluiden yhdistäminen epäonnistui odottamattoman virheen vuoksi. Yritä myöhemmin uudelleen.',
+  [conferenceCallErrors.makeConferenceFailed]:
+    'Puheluiden yhdistäminen epäonnistui odottamattoman virheen vuoksi. Yritä myöhemmin uudelleen.',
+  [conferenceCallErrors.terminateConferenceFailed]:
+    'Neuvottelupuhelun lopettaminen epäonnistui odottamattoman virheen vuoksi. Yritä myöhemmin uudelleen.',
+  [conferenceCallErrors.removeFromConferenceFailed]:
+    'Osallistujan poistaminen epäonnistui odottamattoman virheen vuoksi. Yritä myöhemmin uudelleen.',
+  [conferenceCallErrors.callIsRecording]:
+    'Puhelun tallennus on käynnissä. Lopeta tallennus ja yritä uudelleen.',
+} as const;
 
 // @key: @#@"[conferenceCallErrors.bringInFailed]"@#@ @source: @#@"Failed to merge the calls due to unexpected errors. Please try again later."@#@
 // @key: @#@"[conferenceCallErrors.makeConferenceFailed]"@#@ @source: @#@"Failed to merge the calls due to unexpected errors. Please try again later."@#@

@@ -4,11 +4,12 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  mute: "Silenciar",
-  unmute: "Reactivar",
-  hangup: "Colgar",
-  reject: "Rechazar"
+  mute: 'Silenciar',
+  unmute: 'Reactivar',
+  hangup: 'Colgar',
+  reject: 'Rechazar'
 }; // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
 // @key: @#@"hangup"@#@ @source: @#@"Hang up"@#@

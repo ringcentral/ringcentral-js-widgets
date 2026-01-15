@@ -1,21 +1,25 @@
+/* eslint-disable */
 export default {
-  title: "Audio",
-  dialButtonVolume: "Volumen del botón \"Marcar\"",
-  ringtoneVolume: "Volumen del tono de llamada",
-  callVolume: "Volumen de llamadas",
-  muteCalls: "Silenciar llamadas",
-  outputDevice: "Dispositivo de salida",
-  inputDevice: "Dispositivo de entrada",
-  micPermission: "Permiso para el micrófono",
-  noDevice: "Sin dispositivo",
-  checkMicPermission: "Comprobar permiso",
-  micNoPermissionMessage: "La app no tiene permiso para utilizar el micrófono",
-  noLabel: "Dispositivo desconocido",
-  notSetSinkIdTip: "Los permisos de su navegador actual no están configurados para que podamos acceder a sus dispositivos de salida de audio. {clickHereLink} para ver cómo configurarlos.",
-  noLabelTip: "Los permisos de su navegador actual no están configurados para que podamos acceder a sus dispositivos de entrada de audio.",
-  clickHere: "Haga clic aquí",
-  defaultOutputDevice: "Dispositivo de salida predeterminado"
-};
+  title: 'Audio',
+  dialButtonVolume: 'Volumen del botón "Marcar"',
+  ringtoneVolume: 'Volumen del tono de llamada',
+  callVolume: 'Volumen de llamadas',
+  muteCalls: 'Silenciar llamadas',
+  outputDevice: 'Dispositivo de salida',
+  inputDevice: 'Dispositivo de entrada',
+  micPermission: 'Permiso para el micrófono',
+  noDevice: 'Sin dispositivo',
+  checkMicPermission: 'Comprobar permiso',
+  micNoPermissionMessage:
+    'La aplicación no tiene permiso para utilizar el micrófono',
+  noLabel: 'Dispositivo desconocido',
+  notSetSinkIdTip:
+    'Los permisos de su navegador actual no están configurados para que podamos acceder a sus dispositivos de salida de audio.{clickHereLink}para ver cómo configurarlos.',
+  noLabelTip:
+    'Los permisos de su navegador actual no están configurados para que podamos acceder a sus dispositivos de entrada de audio.',
+  clickHere: 'Haga clic aquí',
+  defaultOutputDevice: 'Dispositivo de salida predeterminado',
+} as const;
 
 // @key: @#@"title"@#@ @source: @#@"Audio"@#@
 // @key: @#@"dialButtonVolume"@#@ @source: @#@"Dial Button Volume"@#@

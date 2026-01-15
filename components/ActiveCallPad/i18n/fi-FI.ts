@@ -1,20 +1,21 @@
+/* eslint-disable */
 export default {
-  unmute: "Poista mykistys",
-  mute: "Mykistä",
-  keypad: "Näppäimistö",
-  hold: "Pito",
-  onHold: "Pidossa",
-  park: "Säilytyksessä",
-  stopRecord: "Lopeta",
-  record: "Tallenna",
-  add: "Lisää",
-  transfer: "Siirrä",
-  flip: "Käännä",
-  more: "Puhelutoiminnot",
-  mergeToConference: "Yhdistä",
-  end: "Lopeta",
-  completeTransfer: "Suorita\nsiirto"
-};
+  unmute: 'Poista mykistys',
+  mute: 'Mykistä',
+  keypad: 'Näppäimistö',
+  hold: 'Pito',
+  onHold: 'Pidossa',
+  park: 'Säilytyksessä',
+  stopRecord: 'Lopeta',
+  record: 'Tallenna',
+  add: 'Lisää',
+  transfer: 'Siirrä',
+  flip: 'Käännä',
+  more: 'Puhelutoiminnot',
+  mergeToConference: 'Yhdistä',
+  end: 'Lopeta',
+  completeTransfer: 'Suorita\nsiirto',
+} as const;
 
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@

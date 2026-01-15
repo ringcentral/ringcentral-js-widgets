@@ -50,13 +50,16 @@ export interface ComposeTextPanelProps {
   autoFocus?: boolean;
   inputExpandable?: boolean;
   supportAttachment?: boolean;
+  supportEmoji?: boolean;
   attachments?: {
     name: string;
     size: number;
+    file: File;
   }[];
-  addAttachment?: (...args: any[]) => any;
+  addAttachments?: (...args: any[]) => any;
   removeAttachment?: (...args: any[]) => any;
   useRecipientsInputV2?: boolean;
+  showCustomPhoneLabel?: boolean;
 }
 type ComposeTextPanelState = {
   messageText: any;
@@ -78,7 +81,9 @@ class ComposeTextPanel extends Component<
     outboundSMS: false;
     showSpinner: false;
     autoFocus: false;
+    showCustomPhoneLabel: false;
     supportAttachment: false;
+    supportEmoji: false;
   };
   constructor(props: ComposeTextPanelProps | Readonly<ComposeTextPanelProps>) {
     super(props);
@@ -152,7 +157,7 @@ class ComposeTextPanel extends Component<
       messageText,
       showSpinner,
       senderNumber,
-      addAttachment,
+      addAttachments,
       currentLocale,
       searchContact,
       senderNumbers,
@@ -162,6 +167,7 @@ class ComposeTextPanel extends Component<
       phoneTypeRenderer,
       searchContactList,
       supportAttachment,
+      supportEmoji,
       updateMessageText,
       detectPhoneNumbers,
       formatContactPhone,
@@ -169,6 +175,7 @@ class ComposeTextPanel extends Component<
       updateTypingToNumber,
       // TODO: temporary solution, wait for new component ready
       useRecipientsInputV2,
+      showCustomPhoneLabel,
       phoneSourceNameRenderer,
       recipientsContactInfoRenderer,
       recipientsContactPhoneRenderer,
@@ -223,6 +230,7 @@ class ComposeTextPanel extends Component<
             contactInfoRenderer={recipientsContactInfoRenderer}
             contactPhoneRenderer={recipientsContactPhoneRenderer}
             titleEnabled
+            // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus={autoFocus}
             multiple
           />
@@ -235,6 +243,7 @@ class ComposeTextPanel extends Component<
             formatPhone={formatPhone}
             onChange={this.onSenderChange}
             hidden={!this.hasSenderNumbers()}
+            showCustomPhoneLabel={showCustomPhoneLabel}
             showAnonymous={false}
           />
         </div>
@@ -247,7 +256,8 @@ class ComposeTextPanel extends Component<
           inputExpandable={inputExpandable}
           attachments={attachments}
           supportAttachment={supportAttachment}
-          addAttachment={addAttachment}
+          supportEmoji={supportEmoji}
+          addAttachments={addAttachments}
           removeAttachment={removeAttachment}
         />
       </div>

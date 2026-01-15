@@ -109,6 +109,7 @@ var ParticipantsContainer = /*#__PURE__*/function (_Component) {
     value: function render() {
       var _this3 = this;
       var _this$props = this.props,
+        showCallerIdName = _this$props.showCallerIdName,
         participants = _this$props.participants,
         currentLocale = _this$props.currentLocale,
         removeFunc = _this$props.removeFunc,
@@ -144,6 +145,10 @@ var ParticipantsContainer = /*#__PURE__*/function (_Component) {
           // means that matched a contact
           displayText = partyName;
         }
+        if (partyName && calleeType === _calleeTypes["default"].unknown && showCallerIdName) {
+          // means outside company call, show caller id name
+          displayText = partyName;
+        }
         return /*#__PURE__*/_react["default"].createElement(_ParticipantItem["default"], {
           key: id,
           avatarUrl: avatarUrl,
@@ -158,6 +163,7 @@ var ParticipantsContainer = /*#__PURE__*/function (_Component) {
         // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'object | un... Remove this comment to see the full error message
         ,
         detail: detail,
+        showCallerIdName: showCallerIdName,
         onCancel: this.onCancel,
         currentLocale: currentLocale,
         onRemove: function onRemove() {

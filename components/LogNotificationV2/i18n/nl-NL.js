@@ -4,15 +4,16 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  Inbound: "Inkomend",
-  Outbound: "Uitgaand",
-  log: "Lijst",
-  save: "Opslaan en nieuw",
-  discard: "Weggooien en nieuw",
-  hangup: "Ophangen",
-  reject: "Naar voicemail",
-  saveDraftAndCreateNewLog: "Concept opslaan en nieuwe oproeplijst maken"
+  Inbound: 'Inkomend',
+  Outbound: 'Uitgaand',
+  log: 'Lijst',
+  save: 'Opslaan en nieuw',
+  discard: 'Weggooien en nieuw',
+  hangup: 'Ophangen',
+  reject: 'Naar voicemail',
+  saveDraftAndCreateNewLog: 'Concept opslaan en nieuwe oproeplijst maken'
 }; // @key: @#@"Inbound"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"Outbound"@#@ @source: @#@"Outbound"@#@
 // @key: @#@"log"@#@ @source: @#@"Log"@#@

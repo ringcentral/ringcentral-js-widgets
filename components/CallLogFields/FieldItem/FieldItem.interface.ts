@@ -11,6 +11,7 @@ export type PickListOption = {
 export type FieldItemType =
   | 'reference'
   | 'picklist'
+  | 'multipicklist'
   | 'textarea'
   | 'date'
   | 'string'
@@ -37,8 +38,11 @@ export type FieldItemOption = {
   defaultValue?: string;
   renderCondition?: string;
   onlyShowInMultipleMatches?: boolean;
+  showMatched?: boolean;
   showOtherSection?: boolean;
   showFoundFromServer?: boolean;
+  foundFromServerTitle?: string;
+  serverEntitiesClientFilter?: 'none';
   onChange?: (value?: any) => any;
   multiple?: boolean;
 } & Pick<RcTextFieldProps, 'helperText' | 'error' | 'disabled' | 'placeholder'>;

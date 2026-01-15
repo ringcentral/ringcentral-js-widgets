@@ -4,14 +4,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  forward: "转接",
-  reply: "回复",
-  ignore: "忽略",
-  toVoicemail: "到语音信箱",
-  answer: "接听",
-  answerAndEnd: "接听并结束",
-  answerAndHold: "接听并保持"
+  forward: '转接',
+  reply: '回复',
+  ignore: '忽略',
+  toVoicemail: '到语音信箱',
+  answer: '接听',
+  answerAndEnd: '接听并结束',
+  answerAndHold: '接听并保持'
 }; // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
 // @key: @#@"reply"@#@ @source: @#@"Reply"@#@
 // @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@

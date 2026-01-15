@@ -4,16 +4,17 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  currentCall: "Aktueller Anruf",
-  viewCalls: "Anzeigen",
-  view: "Anzeigen",
-  incomingCall: "{numberOf} eingeh. Anruf",
-  incomingCalls: "{numberOf} eingeh. Anrufe",
-  callOnHold: "{numberOf} Anruf wird gehalten",
-  callsOnHold: "{numberOf} Anrufe werden gehalten",
-  otherDeviceCall: "{numberOf} Anruf auf anderen Geräten",
-  otherDeviceCalls: "{numberOf} Anrufe auf anderen Geräten"
+  currentCall: 'Aktueller Anruf',
+  viewCalls: 'Anzeigen',
+  view: 'Anzeigen',
+  incomingCall: '{numberOf} eingeh. Anruf',
+  incomingCalls: '{numberOf} eingeh. Anrufe',
+  callOnHold: '{numberOf} Anruf wird gehalten',
+  callsOnHold: '{numberOf} Anrufe werden gehalten',
+  otherDeviceCall: '{numberOf} Anruf auf anderen Geräten',
+  otherDeviceCalls: '{numberOf} Anrufe auf anderen Geräten'
 }; // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@
 // @key: @#@"viewCalls"@#@ @source: @#@"View Calls"@#@
 // @key: @#@"view"@#@ @source: @#@"View"@#@

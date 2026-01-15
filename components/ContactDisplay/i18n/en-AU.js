@@ -4,19 +4,21 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  logging: "Logging...",
-  logCall: "Log Call",
-  editLog: "Edit Log",
-  select: "Select record",
-  OnHold: "On Hold",
-  Ringing: "Ringing",
-  CallConnected: "Call Connected",
-  unknownUser: "Unknown user",
-  unknownNumber: "Anonymous",
-  unavailable: "Unavailable",
-  viewDetails: "View Details",
-  conferenceCall: "Conference Call"
+  logging: 'Logging...',
+  logCall: 'Log Call',
+  editLog: 'Edit Log',
+  select: 'Select record',
+  OnHold: 'On Hold',
+  Ringing: 'Ringing',
+  CallConnected: 'Call Connected',
+  unknownUser: 'Unknown user',
+  unknownNumber: 'Anonymous',
+  unavailable: 'Unavailable',
+  viewDetails: 'View Details',
+  conferenceCall: 'Conference Call',
+  callerId: 'Caller ID'
 }; // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
@@ -29,5 +31,6 @@ var _default = {
 // @key: @#@"unavailable"@#@ @source: @#@"Unavailable"@#@
 // @key: @#@"viewDetails"@#@ @source: @#@"View Details"@#@
 // @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@
+// @key: @#@"callerId"@#@ @source: @#@"Caller ID"@#@
 exports["default"] = _default;
 //# sourceMappingURL=en-AU.js.map

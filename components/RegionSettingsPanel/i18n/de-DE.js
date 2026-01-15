@@ -4,14 +4,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  title: "Region",
-  NAOnlyMessage: "Legen Sie Ihre Vorwahl fest. Diese Information wird für Ortsgespräche verwendet.",
-  MultiWithNAMessage: "Legen Sie das Land und die Vorwahl Ihrer Region fest. Diese Information wird für Ortsgespräche und die Formatierung der Telefonnummer verwendet.",
-  MultiWithoutNAMessage: "Wählen Sie das Land aus, in dem Sie sich befinden. Dies wird für Ortsgespräche und die Telefonnummernformatierung verwendet.",
-  country: "Land",
-  areaCode: "Vorwahl",
-  areaCodePlaceholder: "Vorwahl eingeben"
+  title: 'Region',
+  NAOnlyMessage: 'Legen Sie Ihre Vorwahl fest. Diese Information wird für Ortsgespräche verwendet.',
+  MultiWithNAMessage: 'Legen Sie das Land und die Vorwahl Ihrer Region fest. Diese Information wird für Ortsgespräche und die Formatierung der Telefonnummer verwendet.',
+  MultiWithoutNAMessage: 'Wählen Sie das Land aus, in dem Sie sich befinden. Dies wird für Ortsgespräche und die Telefonnummernformatierung verwendet.',
+  country: 'Land',
+  areaCode: 'Vorwahl',
+  areaCodePlaceholder: 'Vorwahl eingeben'
 }; // @key: @#@"title"@#@ @source: @#@"Region"@#@
 // @key: @#@"NAOnlyMessage"@#@ @source: @#@"Please set your area code. This will be used for local dialing."@#@
 // @key: @#@"MultiWithNAMessage"@#@ @source: @#@"Please set the country and area code for your region. This will be used for local dialing and phone number formatting."@#@

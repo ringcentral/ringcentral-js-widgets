@@ -49,8 +49,10 @@ export class ComposeTextUI extends RcUIModuleV2<Deps> {
   getUIProps({
     inputExpandable,
     supportAttachment,
+    supportEmoji = false,
     useRecipientsInputV2 = false,
     autoFocusToField,
+    showCustomPhoneLabel = false,
   }: ComposeTextUIComponentProps): UIProps<ComposeTextPanelProps> {
     const isContentEmpty =
       this._deps.composeText.messageText.length === 0 &&
@@ -83,9 +85,12 @@ export class ComposeTextUI extends RcUIModuleV2<Deps> {
       ),
       inputExpandable,
       attachments: this._deps.composeText.attachments,
-      supportAttachment,
+      supportAttachment:
+        supportAttachment && this._deps.appFeatures.hasSendMMSPermission,
+      supportEmoji,
       useRecipientsInputV2,
       autoFocus: autoFocusToField,
+      showCustomPhoneLabel,
     };
   }
 
@@ -182,8 +187,9 @@ export class ComposeTextUI extends RcUIModuleV2<Deps> {
       phoneSourceNameRenderer,
       recipientsContactInfoRenderer,
       recipientsContactPhoneRenderer,
-      // @ts-expect-error TS(2556): A spread argument must either have a tuple type or... Remove this comment to see the full error message
-      addAttachment: (...args) => this._deps.composeText.addAttachment(...args),
+      addAttachments: (...args) =>
+        // @ts-expect-error TS(2556): A spread argument must either have a tuple type or... Remove this comment to see the full error message
+        this._deps.composeText.addAttachments(...args),
       removeAttachment: (...args) =>
         // @ts-expect-error TS(2556): A spread argument must either have a tuple type or... Remove this comment to see the full error message
         this._deps.composeText.removeAttachment(...args),

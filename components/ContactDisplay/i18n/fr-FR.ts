@@ -1,17 +1,19 @@
+/* eslint-disable */
 export default {
-  logging: "Connexion en cours…",
-  logCall: "Journal des appels",
-  editLog: "Modifier le journal",
-  select: "Sélec. enreg.",
-  OnHold: "En attente",
-  Ringing: "Sonnerie en cours",
-  CallConnected: "Appel établi",
-  unknownUser: "Utilisateur inconnu",
-  unknownNumber: "Anonyme",
-  unavailable: "Non disponible",
-  viewDetails: "Afficher les détails",
-  conferenceCall: "Conférence téléphonique"
-};
+  logging: 'Connexion en cours…',
+  logCall: 'Journal des appels',
+  editLog: 'Modifier le journal',
+  select: 'Sélec. enreg.',
+  OnHold: 'En attente',
+  Ringing: 'Sonnerie en cours',
+  CallConnected: 'Appel établi',
+  unknownUser: 'Utilisateur inconnu',
+  unknownNumber: 'Anonyme',
+  unavailable: 'Non disponible',
+  viewDetails: 'Afficher les détails',
+  conferenceCall: 'Conférence téléphonique',
+  callerId: 'ID de l’appelant',
+} as const;
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
@@ -25,3 +27,4 @@ export default {
 // @key: @#@"unavailable"@#@ @source: @#@"Unavailable"@#@
 // @key: @#@"viewDetails"@#@ @source: @#@"View Details"@#@
 // @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@
+// @key: @#@"callerId"@#@ @source: @#@"Caller ID"@#@

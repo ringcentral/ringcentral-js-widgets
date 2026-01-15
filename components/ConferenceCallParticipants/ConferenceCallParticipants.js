@@ -49,7 +49,8 @@ var ConferenceCallParticipants = function ConferenceCallParticipants(_ref) {
     getContactNameInfo = _ref.getContactNameInfo,
     renderAvatar = _ref.renderAvatar,
     onRemoveParticipant = _ref.onRemoveParticipant,
-    clickRemoveParticipantTrack = _ref.clickRemoveParticipantTrack;
+    clickRemoveParticipantTrack = _ref.clickRemoveParticipantTrack,
+    openEntityDetailLink = _ref.openEntityDetailLink;
   var _useState = (0, _react.useState)(),
     _useState2 = _slicedToArray(_useState, 2),
     removeData = _useState2[0],
@@ -124,7 +125,8 @@ var ConferenceCallParticipants = function ConferenceCallParticipants(_ref) {
       logName = _getContactNameInfo$l === void 0 ? sessionName : _getContactNameInfo$l,
       entityDetailLink = _getContactNameInfo.entityDetailLink,
       displayEntity = _getContactNameInfo.displayEntity,
-      entityType = _getContactNameInfo.entityType;
+      entityType = _getContactNameInfo.entityType,
+      entityDetailLinkId = _getContactNameInfo.entityDetailLinkId;
     var ConferenceAvatarIcon = renderAvatar ? renderAvatar({
       displayEntity: displayEntity,
       entityType: entityType,
@@ -145,10 +147,10 @@ var ConferenceCallParticipants = function ConferenceCallParticipants(_ref) {
       "data-sign": "participantName",
       isEllipsis: true,
       title: displayName,
-      primary: entityDetailLink ? /*#__PURE__*/_react["default"].createElement(_juno.RcLink, {
+      primary: entityDetailLinkId ? /*#__PURE__*/_react["default"].createElement(_juno.RcLink, {
         variant: "inherit",
         onClick: function onClick() {
-          window.open(entityDetailLink, '_blank');
+          return openEntityDetailLink ? openEntityDetailLink(entityDetailLinkId) : window.open(entityDetailLink, '_blank');
         }
       }, displayName) : displayName
     }), !isHost && /*#__PURE__*/_react["default"].createElement(_juno.RcListItemSecondaryAction, null, /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {

@@ -69,7 +69,6 @@ class RecipientsInput extends Component<
   handleHotKey: (ev: React.KeyboardEvent<HTMLInputElement>) => void;
   listRef: any;
   inputRef: any;
-  _focusTimeout?: NodeJS.Timeout;
 
   static defaultProps: Partial<RecipientsInputProps> = {
     recipients: [],
@@ -254,22 +253,11 @@ class RecipientsInput extends Component<
     // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
     this.props.searchContact(this.props.value);
     window.addEventListener('click', this.clickHandler);
-    if (this.props.autoFocus) {
-      this._focusTimeout = setTimeout(() => {
-        if (this.inputRef) {
-          this.inputRef.focus();
-        }
-      }, 300);
-    }
   }
 
   // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentWillUnmount() {
     window.removeEventListener('click', this.clickHandler);
-    if (this._focusTimeout) {
-      clearTimeout(this._focusTimeout);
-      this._focusTimeout = undefined;
-    }
   }
 
   clickHandler = (ev: MouseEvent) => {

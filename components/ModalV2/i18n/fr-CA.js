@@ -4,8 +4,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  close: "Fermer"
+  close: 'Fermer'
 }; // @key: @#@"close"@#@ @source: @#@"Close"@#@
 exports["default"] = _default;
 //# sourceMappingURL=fr-CA.js.map

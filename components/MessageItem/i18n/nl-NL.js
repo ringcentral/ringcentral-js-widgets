@@ -16,18 +16,18 @@ function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default":
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); } /* eslint-disable */
 var _default = (_addLog$editLog$viewD = {
-  addLog: "Lijst",
-  editLog: "Lijst bewerken",
-  viewDetails: "Details weergeven",
-  addEntity: "Nieuwe maken",
-  call: "Bellen",
-  text: "Tekstbericht",
-  conversation: "Gesprek",
-  groupConversation: "Groepsgesprek",
-  voiceMessage: "Spraakbericht"
-}, _defineProperty(_addLog$editLog$viewD, _messageTypes["default"].voiceMail, "Voicemail"), _defineProperty(_addLog$editLog$viewD, _messageTypes["default"].fax, "Fax"), _defineProperty(_addLog$editLog$viewD, "mark", "Markeren als ongelezen"), _defineProperty(_addLog$editLog$viewD, "unmark", "Markeren als gelezen"), _defineProperty(_addLog$editLog$viewD, "delete", "Verwijderen"), _defineProperty(_addLog$editLog$viewD, "faxSent", "Fax verzonden"), _defineProperty(_addLog$editLog$viewD, "faxReceived", "Fax ontvangen"), _defineProperty(_addLog$editLog$viewD, "pages", "pagina's"), _defineProperty(_addLog$editLog$viewD, "page", "pagina"), _defineProperty(_addLog$editLog$viewD, "preview", "Weergeven"), _defineProperty(_addLog$editLog$viewD, "download", "Downloaden"), _defineProperty(_addLog$editLog$viewD, "imageAttachment", "Bijlage: {count} afbeelding"), _defineProperty(_addLog$editLog$viewD, "fileAttachment", "Bijlage: {count} bestand"), _addLog$editLog$viewD); // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
+  addLog: 'Lijst',
+  editLog: 'Lijst bewerken',
+  viewDetails: 'Details weergeven',
+  addEntity: 'Nieuwe maken',
+  call: 'Bellen',
+  text: 'Tekstbericht',
+  conversation: 'Gesprek',
+  groupConversation: 'Groepsgesprek',
+  voiceMessage: 'Spraakbericht'
+}, _defineProperty(_addLog$editLog$viewD, _messageTypes["default"].voiceMail, 'Voicemail'), _defineProperty(_addLog$editLog$viewD, _messageTypes["default"].fax, 'Fax'), _defineProperty(_addLog$editLog$viewD, "mark", 'Markeren als ongelezen'), _defineProperty(_addLog$editLog$viewD, "unmark", 'Markeren als gelezen'), _defineProperty(_addLog$editLog$viewD, "delete", 'Verwijderen'), _defineProperty(_addLog$editLog$viewD, "faxSent", 'Fax verzonden'), _defineProperty(_addLog$editLog$viewD, "faxReceived", 'Fax ontvangen'), _defineProperty(_addLog$editLog$viewD, "pages", "pagina's"), _defineProperty(_addLog$editLog$viewD, "page", 'pagina'), _defineProperty(_addLog$editLog$viewD, "preview", 'Weergeven'), _defineProperty(_addLog$editLog$viewD, "download", 'Downloaden'), _defineProperty(_addLog$editLog$viewD, "mmsWithOneAttachment", 'Mms met 1 bijlage'), _defineProperty(_addLog$editLog$viewD, "mmsWithAttachments", 'Mms met {count} bijlagen'), _addLog$editLog$viewD); // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
 // @key: @#@"viewDetails"@#@ @source: @#@"View Details"@#@
 // @key: @#@"addEntity"@#@ @source: @#@"Create New"@#@
@@ -47,7 +47,7 @@ var _default = (_addLog$editLog$viewD = {
 // @key: @#@"page"@#@ @source: @#@"page"@#@
 // @key: @#@"preview"@#@ @source: @#@"View"@#@
 // @key: @#@"download"@#@ @source: @#@"Download"@#@
-// @key: @#@"imageAttachment"@#@ @source: @#@"Attachment: {count} image"@#@
-// @key: @#@"fileAttachment"@#@ @source: @#@"Attachment: {count} file"@#@
+// @key: @#@"mmsWithOneAttachment"@#@ @source: @#@"MMS with 1 attachment"@#@
+// @key: @#@"mmsWithAttachments"@#@ @source: @#@"MMS with {count} attachments"@#@
 exports["default"] = _default;
 //# sourceMappingURL=nl-NL.js.map

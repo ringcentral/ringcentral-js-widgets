@@ -4,25 +4,27 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  logging: "Wordt gelogd...",
-  logCall: "Oproep loggen",
-  editLog: "Lijst bewerken",
-  select: "Selecteer een overeenkomende opname",
-  OnHold: "In de wacht",
-  Ringing: "Gaat over",
-  CallConnected: "Oproep verbonden",
-  unknownUser: "Onbekende gebruiker",
-  unknownNumber: "Anoniem",
-  unavailable: "Niet beschikbaar",
-  viewDetails: "Details weergeven",
-  addEntity: "Nieuwe maken",
-  addLog: "Lijst",
-  text: "Tekstbericht",
-  call: "Oproep",
-  missedCall: "Gemist",
-  inboundCall: "Inkomend",
-  outboundCall: "Uitgaand"
+  logging: 'Wordt gelogd...',
+  logCall: 'Oproep loggen',
+  editLog: 'Lijst bewerken',
+  select: 'Selecteer een overeenkomende opname',
+  OnHold: 'In de wacht',
+  Ringing: 'Gaat over',
+  CallConnected: 'Oproep verbonden',
+  unknownUser: 'Onbekende gebruiker',
+  unknownNumber: 'Anoniem',
+  unavailable: 'Niet beschikbaar',
+  viewDetails: 'Details weergeven',
+  addEntity: 'Nieuwe maken',
+  addLog: 'Lijst',
+  text: 'Tekstbericht',
+  call: 'Oproep',
+  missedCall: 'Gemist',
+  inboundCall: 'Inkomend',
+  outboundCall: 'Uitgaand',
+  answeredBy: 'Beantwoord door'
 }; // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
@@ -41,5 +43,6 @@ var _default = {
 // @key: @#@"missedCall"@#@ @source: @#@"Missed"@#@
 // @key: @#@"inboundCall"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"outboundCall"@#@ @source: @#@"Outbound"@#@
+// @key: @#@"answeredBy"@#@ @source: @#@"Answered by"@#@
 exports["default"] = _default;
 //# sourceMappingURL=nl-NL.js.map

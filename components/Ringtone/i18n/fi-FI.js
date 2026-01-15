@@ -4,15 +4,16 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  ringtones: "Soittoäänet",
-  incomingRingtone: "Saapuvan puhelun soittoääni",
-  outgoingRingtone: "Lähtevän puhelun soittoääni",
-  play: "Toista",
-  stop: "Lopeta",
-  upload: "Lähetä",
-  reset: "Palauta",
-  save: "Tallenna"
+  ringtones: 'Soittoäänet',
+  incomingRingtone: 'Saapuvan puhelun soittoääni',
+  outgoingRingtone: 'Lähtevän puhelun soittoääni',
+  play: 'Toista',
+  stop: 'Lopeta',
+  upload: 'Lähetä',
+  reset: 'Palauta',
+  save: 'Tallenna'
 }; // @key: @#@"ringtones"@#@ @source: @#@"Ringtones"@#@
 // @key: @#@"incomingRingtone"@#@ @source: @#@"Incoming Ringtone"@#@
 // @key: @#@"outgoingRingtone"@#@ @source: @#@"Outgoing Ringtone"@#@

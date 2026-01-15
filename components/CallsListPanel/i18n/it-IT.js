@@ -4,15 +4,16 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  noActiveCalls: "Nessuna chiamata attiva",
-  noCalls: "Nessun risultato trovato.",
-  currentCall: "Chiamata corrente",
-  ringCall: "Chiamata in arrivo",
-  onHoldCall: "Chiamata in attesa",
-  historyCalls: "Chiamate passate",
-  otherDeviceCall: "Chiamate in corso sugli altri dispositivi",
-  searchPlaceholder: "Ricerca..."
+  noActiveCalls: 'Nessuna chiamata attiva',
+  noCalls: 'Nessun risultato trovato.',
+  currentCall: 'Chiamata corrente',
+  ringCall: 'Chiamata in arrivo',
+  onHoldCall: 'Chiamata in attesa',
+  historyCalls: 'Chiamate passate',
+  otherDeviceCall: 'Chiamate in corso sugli altri dispositivi',
+  searchPlaceholder: 'Ricerca...'
 }; // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
 // @key: @#@"noCalls"@#@ @source: @#@"No results found."@#@
 // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@

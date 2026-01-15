@@ -1,14 +1,15 @@
+/* eslint-disable */
 export default {
-  cancel: "Annuleren",
-  reply: "Beantwoorden",
-  onMyWay: "Onderweg",
-  customMessage: "Aangepast bericht",
-  callMeBackIn: "Bel me terug over",
-  willCallYouBackIn: "Ik bel u terug over",
-  min: "min.",
-  hours: "uur",
-  days: "dagen"
-};
+  cancel: 'Annuleren',
+  reply: 'Beantwoorden',
+  onMyWay: 'Onderweg',
+  customMessage: 'Aangepast bericht',
+  callMeBackIn: 'Bel me terug over',
+  willCallYouBackIn: 'Ik bel u terug over',
+  min: 'min.',
+  hours: 'uur',
+  days: 'dagen',
+} as const;
 
 // @key: @#@"cancel"@#@ @source: @#@"Cancel"@#@
 // @key: @#@"reply"@#@ @source: @#@"Reply"@#@

@@ -35,8 +35,7 @@ var ClickToDial = function ClickToDial(_ref) {
         checked: clickToDialEnabled,
         onChange: onClickToDialChange
       }),
-      title: clickToDialTitle,
-      hintText: clickToDialEnabled ? undefined : (0, _i18n.t)('selectToDialHint', currentLocale)
+      title: clickToDialTitle
     }, displayText);
   }
   return null;

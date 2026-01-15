@@ -1,11 +1,12 @@
+/* eslint-disable */
 import { phoneSources } from '@ringcentral-integration/commons/enums/phoneSources';
 export default {
-  [phoneSources.account]: "Tili",
-  [phoneSources.contact]: "Yhteystieto",
-  [phoneSources.rcContact]: "{brand}",
-  [phoneSources.lead]: "Liidi",
-  [phoneSources.opportunity]: "Mahdollisuus",
-  [phoneSources.systemUser]: "Järjestelmän käyttäjä"
+  [phoneSources.account]: 'Tili',
+  [phoneSources.contact]: 'Yhteystieto',
+  [phoneSources.rcContact]: '{brand}',
+  [phoneSources.lead]: 'Liidi',
+  [phoneSources.opportunity]: 'Mahdollisuus',
+  [phoneSources.systemUser]: 'Järjestelmän käyttäjä',
 };
 
 // @key: @#@"[phoneSources.account]"@#@ @source: @#@"Account"@#@

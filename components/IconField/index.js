@@ -18,7 +18,7 @@ var IconField = function IconField(props) {
   }, props.children), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].iconHolder
   }, /*#__PURE__*/_react["default"].createElement("div", {
-    className: _styles["default"].icon
+    className: (0, _clsx["default"])(_styles["default"].icon, props.iconClassName)
   }, props.icon)));
 };
 IconField.defaultProps = {

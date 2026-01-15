@@ -1,34 +1,48 @@
+/* eslint-disable */
 export default {
-  region: "Region",
-  calling: "Anrufen",
-  logout: "Abmelden",
-  version: "Version",
-  settings: "Einstellungen",
-  clickToDial: "Zum Wählen klicken",
-  autoCreateLog: "Automatisch Anrufprotokoll erstellen",
-  autoCreateSMSLog: "Automatisch SMS-Protokoll erstellen",
-  autoLogCalls: "Anrufe automatisch protokollieren",
-  autoLogNotes: "Anmerkungen automatisch protokollieren",
-  autoLogSMS: "SMS automatisch protokollieren",
-  clickToSMS: "Zum Senden von SMS klicken",
-  logSMSContent: "SMS-Inhalt protokollieren",
-  clickToDialSMS: "Zum Wählen/Senden von SMS klicken",
-  audio: "Audio",
-  language: "Sprache",
-  feedback: "Feedback",
+  region: 'Region',
+  calling: 'Anrufen',
+  logout: 'Abmelden',
+  version: 'Version',
+  settings: 'Einstellungen',
+  selectToDialSMS: 'Zum Wählen/Senden von SMS auswählen',
+  selectToDial: 'Zum Wählen auswählen',
+  selectToSMS: 'Zum Senden von SMS auswählen',
+  clickToDial: 'Zum Wählen klicken',
+  autoCreateLog: 'Automatisch Anrufprotokoll erstellen',
+  autoCreateSMSLog: 'Automatisch SMS-Protokoll erstellen',
+  autoLogCalls: 'Anrufe automatisch protokollieren',
+  autoLogNotes: 'Anmerkungen automatisch protokollieren',
+  autoLogSMS: 'SMS automatisch protokollieren',
+  clickToSMS: 'Zum Senden von SMS klicken',
+  logSMSContent: 'SMS-Inhalt protokollieren',
+  clickToDialSMS: 'Zum Wählen/Senden von SMS klicken',
+  logExtensionCall: 'Nebenstellenanrufe protokollieren',
+  audio: 'Audio',
+  language: 'Sprache',
+  feedback: 'Feedback',
   userGuide: "Was gibt's Neues",
-  quickAccess: "Einstellung für Schnellzugriff",
-  report: "Analysebericht",
-  shareIdea: "Idee teilen",
-  reportIssue: "Problem melden",
-  havingIssues: "Treten Probleme auf?"
-};
+  quickAccess: 'Einstellung für Schnellzugriff',
+  report: 'Analysebericht',
+  shareIdea: 'Idee teilen',
+  openEntityFrom: 'Verhalten von Salesforce-Objekten',
+  ctiPanelSize: 'CTI-Panel-Größe',
+  openInNewTab: 'In einem neuen Tab öffnen',
+  openInCurrentTab: 'Im aktuellen Tab öffnen',
+  reportIssue: 'Problem melden',
+  contactSupport: 'Support kontaktieren',
+  selectToDialHint:
+    'Wählen Sie für eine bessere Erfahrung die Telefonnummer, die mit RingCentral gewählt werden soll, auf der Seite für Telefonnummern in großer Menge aus.',
+} as const;
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@
 // @key: @#@"calling"@#@ @source: @#@"Calling"@#@
 // @key: @#@"logout"@#@ @source: @#@"Logout"@#@
 // @key: @#@"version"@#@ @source: @#@"Version"@#@
 // @key: @#@"settings"@#@ @source: @#@"Settings"@#@
+// @key: @#@"selectToDialSMS"@#@ @source: @#@"Select to Dial/SMS"@#@
+// @key: @#@"selectToDial"@#@ @source: @#@"Select to Dial"@#@
+// @key: @#@"selectToSMS"@#@ @source: @#@"Select to SMS"@#@
 // @key: @#@"clickToDial"@#@ @source: @#@"Click to Dial"@#@
 // @key: @#@"autoCreateLog"@#@ @source: @#@"Auto-create Call Log"@#@
 // @key: @#@"autoCreateSMSLog"@#@ @source: @#@"Auto-create SMS Log"@#@
@@ -38,6 +52,7 @@ export default {
 // @key: @#@"clickToSMS"@#@ @source: @#@"Click to SMS"@#@
 // @key: @#@"logSMSContent"@#@ @source: @#@"Log SMS content"@#@
 // @key: @#@"clickToDialSMS"@#@ @source: @#@"Click to Dial/SMS"@#@
+// @key: @#@"logExtensionCall"@#@ @source: @#@"Log extension calls"@#@
 // @key: @#@"audio"@#@ @source: @#@"Audio"@#@
 // @key: @#@"language"@#@ @source: @#@"Language"@#@
 // @key: @#@"feedback"@#@ @source: @#@"Feedback"@#@
@@ -45,5 +60,10 @@ export default {
 // @key: @#@"quickAccess"@#@ @source: @#@"Quick Access Setting"@#@
 // @key: @#@"report"@#@ @source: @#@"Analytics Report"@#@
 // @key: @#@"shareIdea"@#@ @source: @#@"Share idea"@#@
+// @key: @#@"openEntityFrom"@#@ @source: @#@"Salesforce object behavior"@#@
+// @key: @#@"ctiPanelSize"@#@ @source: @#@"CTI panel size"@#@
+// @key: @#@"openInNewTab"@#@ @source: @#@"Open in new tab"@#@
+// @key: @#@"openInCurrentTab"@#@ @source: @#@"Open in current tab"@#@
 // @key: @#@"reportIssue"@#@ @source: @#@"Report issue"@#@
-// @key: @#@"havingIssues"@#@ @source: @#@"Having issues?"@#@
+// @key: @#@"contactSupport"@#@ @source: @#@"Contact support"@#@
+// @key: @#@"selectToDialHint"@#@ @source: @#@"For your better experience, select phone number to dial with RingCentral in large quantity phone number page."@#@

@@ -4,16 +4,17 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  cancel: "Annuleren",
-  reply: "Beantwoorden",
-  onMyWay: "Onderweg",
-  customMessage: "Aangepast bericht",
-  callMeBackIn: "Bel me terug over",
-  willCallYouBackIn: "Ik bel u terug over",
-  min: "min.",
-  hours: "uur",
-  days: "dagen"
+  cancel: 'Annuleren',
+  reply: 'Beantwoorden',
+  onMyWay: 'Onderweg',
+  customMessage: 'Aangepast bericht',
+  callMeBackIn: 'Bel me terug over',
+  willCallYouBackIn: 'Ik bel u terug over',
+  min: 'min.',
+  hours: 'uur',
+  days: 'dagen'
 }; // @key: @#@"cancel"@#@ @source: @#@"Cancel"@#@
 // @key: @#@"reply"@#@ @source: @#@"Reply"@#@
 // @key: @#@"onMyWay"@#@ @source: @#@"On my way"@#@

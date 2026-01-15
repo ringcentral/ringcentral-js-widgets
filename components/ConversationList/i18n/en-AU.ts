@@ -1,5 +1,6 @@
+/* eslint-disable */
 export default {
-  loading: "Loading..."
-};
+  loading: 'Loading...',
+} as const;
 
 // @key: @#@"loading"@#@ @source: @#@"Loading ..."@#@

@@ -1,8 +1,9 @@
+/* eslint-disable */
 export default {
-  all: "All",
-  company: "Company",
-  personal: "Personal"
-};
+  all: 'All',
+  company: 'Company',
+  personal: 'Personal',
+} as const;
 
 // @key: @#@"all"@#@ @source: @#@"All"@#@
 // @key: @#@"company"@#@ @source: @#@"Company"@#@

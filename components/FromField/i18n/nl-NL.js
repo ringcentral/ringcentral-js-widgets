@@ -4,15 +4,16 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  DirectNumber: "Direct",
-  MainCompanyNumber: "Primair",
-  CompanyNumber: "Bedrijf",
-  CompanyFaxNumber: "Fax",
-  Blocked: "Geblokkeerd",
-  AdditionalCompanyNumber: "Bedrijf",
-  ForwardedCompanyNumber: "Doorverbonden",
-  from: "Van"
+  DirectNumber: 'Direct',
+  MainCompanyNumber: 'Primair',
+  CompanyNumber: 'Bedrijf',
+  CompanyFaxNumber: 'Fax',
+  Blocked: 'Geblokkeerd',
+  AdditionalCompanyNumber: 'Bedrijf',
+  ForwardedCompanyNumber: 'Doorgeschakeld',
+  from: 'Van'
 }; // @key: @#@"DirectNumber"@#@ @source: @#@"Direct"@#@
 // @key: @#@"MainCompanyNumber"@#@ @source: @#@"Main"@#@
 // @key: @#@"CompanyNumber"@#@ @source: @#@"Company"@#@

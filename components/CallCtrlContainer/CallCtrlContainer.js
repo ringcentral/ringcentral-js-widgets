@@ -394,7 +394,8 @@ var CallCtrlContainer = /*#__PURE__*/function (_Component) {
         afterConfirmMerge: this.props.afterConfirmMerge,
         afterOnMerge: this.props.afterOnMerge,
         controlBusy: this.props.controlBusy,
-        callerIdName: this.props.callerIdName
+        callerIdName: this.props.callerIdName,
+        showCallerIdName: this.props.showCallerIdName
       }, this.props.children);
     }
   }], [{
@@ -449,6 +450,7 @@ CallCtrlContainer.defaultProps = {
   phoneNumber: null,
   showPark: false,
   controlBusy: false,
-  callerIdName: undefined
+  callerIdName: undefined,
+  showCallerIdName: false
 };
 //# sourceMappingURL=CallCtrlContainer.js.map

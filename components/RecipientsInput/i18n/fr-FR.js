@@ -4,9 +4,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  to: "À",
-  enterNameOrNumber: "Saisir un nom ou numéro"
+  to: 'À',
+  enterNameOrNumber: 'Saisir un nom ou numéro'
 }; // @key: @#@"to"@#@ @source: @#@"To"@#@
 // @key: @#@"enterNameOrNumber"@#@ @source: @#@"Enter name or number"@#@
 exports["default"] = _default;

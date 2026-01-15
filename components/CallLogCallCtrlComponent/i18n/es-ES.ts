@@ -1,29 +1,33 @@
+/* eslint-disable */
 export default {
-  mute: "Silenciar",
-  unmute: "Reactivar",
-  hangup: "Colgar",
-  reject: "Rechazar",
-  hold: "Retener",
-  onHold: "En espera",
-  transfer: "Transferir",
-  more: "Más",
-  stopRecord: "Detener grabación",
-  record: "Grabar",
-  showKeypad: "Teclado",
-  hideKeypad: "Ocultar teclado de marcación",
-  unHold: "Reanudar llamada",
-  forward: "Reenviar",
-  ignore: "Ignorar",
-  voicemail: "Al buzón de voz",
-  custom: "Personalizado",
-  answerAndEnd: "Responder y finalizar",
-  answerAndHold: "Responder y poner en espera",
-  answer: "Responder",
-  completeTransfer: "Completar transferencia",
-  reply: "Responder",
-  add: "Añadir",
-  mergeCall: "Combinar con la llamada activa"
-};
+  mute: 'Silenciar',
+  unmute: 'Reactivar',
+  hangup: 'Colgar',
+  reject: 'Rechazar',
+  hold: 'Retener',
+  onHold: 'En espera',
+  transfer: 'Transferir',
+  more: 'Más',
+  stopRecord: 'Detener grabación',
+  record: 'Grabar',
+  showKeypad: 'Teclado',
+  hideKeypad: 'Ocultar teclado de marcación',
+  unHold: 'Reanudar llamada',
+  forward: 'Desviar',
+  ignore: 'Ignorar',
+  voicemail: 'Al buzón de voz',
+  custom: 'Personalizado',
+  answerAndEnd: 'Responder y finalizar',
+  answerAndHold: 'Responder y poner en espera',
+  answer: 'Responder',
+  completeTransfer: 'Completar transferencia',
+  reply: 'Responder',
+  add: 'Añadir',
+  mergeCall: 'Combinar con la llamada activa',
+  endCallForEveryone: 'Finalizar llamada para todos',
+  leaveCall: 'Abandonar llamada',
+  leaveOrEndCall: '¿Abandonar o finalizar la llamada?',
+} as const;
 
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
@@ -49,3 +53,6 @@ export default {
 // @key: @#@"reply"@#@ @source: @#@"Reply"@#@
 // @key: @#@"add"@#@ @source: @#@"Add"@#@
 // @key: @#@"mergeCall"@#@ @source: @#@"Merge with active call"@#@
+// @key: @#@"endCallForEveryone"@#@ @source: @#@"End call for everyone"@#@
+// @key: @#@"leaveCall"@#@ @source: @#@"Leave call"@#@
+// @key: @#@"leaveOrEndCall"@#@ @source: @#@"Leave or end call?"@#@

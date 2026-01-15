@@ -22,7 +22,8 @@ var _default = {
   call: 'Call',
   missedCall: 'Missed',
   inboundCall: 'Inbound',
-  outboundCall: 'Outbound'
+  outboundCall: 'Outbound',
+  answeredBy: 'Answered by'
 };
 exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

@@ -18,8 +18,11 @@ var PresenceSetting = function PresenceSetting(_ref) {
     setDoNotDisturb = _ref.setDoNotDisturb,
     setInvisible = _ref.setInvisible,
     toggleAcceptCallQueueCalls = _ref.toggleAcceptCallQueueCalls,
-    openPresenceSettings = _ref.openPresenceSettings;
+    openPresenceSettings = _ref.openPresenceSettings,
+    enableAcceptQueueCallsControl = _ref.enableAcceptQueueCallsControl,
+    onCallQueueManagementClick = _ref.onCallQueueManagementClick;
   return showPresenceSettings && dndStatus && userStatus ? /*#__PURE__*/_react["default"].createElement(_PresenceSettingSection.PresenceSettingSection, {
+    enableAcceptQueueCallsControl: enableAcceptQueueCallsControl,
     currentLocale: currentLocale,
     dndStatus: dndStatus,
     userStatus: userStatus
@@ -43,7 +46,8 @@ var PresenceSetting = function PresenceSetting(_ref) {
     toggleAcceptCallQueueCalls: toggleAcceptCallQueueCalls
     // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
     ,
-    showPresenceSettings: openPresenceSettings
+    showPresenceSettings: openPresenceSettings,
+    onCallQueueManagementClick: onCallQueueManagementClick
   }) : null;
 };
 exports.PresenceSetting = PresenceSetting;

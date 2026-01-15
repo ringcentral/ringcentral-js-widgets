@@ -10,7 +10,7 @@ var _utils = require("@ringcentral-integration/utils");
 var _react = _interopRequireWildcard(require("react"));
 var _Button = require("../Button");
 var _CarrouselBar = _interopRequireDefault(require("../CarrouselBar"));
-var _DurationCounter = _interopRequireDefault(require("../DurationCounter"));
+var _DurationCounter = require("../DurationCounter");
 var _CallInfoBar = require("./CallInfoBar");
 var _i18n = _interopRequireDefault(require("./i18n"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
@@ -108,7 +108,7 @@ var CallMonitorBar = function CallMonitorBar(props) {
     "data-sign": "callDuration",
     className: _styles["default"].duration,
     onClick: onCurrentCallBtnClick
-  }, /*#__PURE__*/_react["default"].createElement(_DurationCounter["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_DurationCounter.DurationCounter, {
     startTime: currentCalls[0].startTime
   })), shouldDisplayCurrentCallBtn && onCurrentCallBtnClick ? /*#__PURE__*/_react["default"].createElement(_Button.Button, {
     "data-sign": "currentCallButton",

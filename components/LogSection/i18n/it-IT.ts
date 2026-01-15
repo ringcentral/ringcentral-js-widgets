@@ -1,5 +1,6 @@
+/* eslint-disable */
 export default {
-  saveLog: "Salva"
-};
+  saveLog: 'Salva',
+} as const;
 
 // @key: @#@"saveLog"@#@ @source: @#@"Save"@#@

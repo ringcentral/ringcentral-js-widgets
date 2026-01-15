@@ -1,23 +1,25 @@
+/* eslint-disable */
 export default {
-  logging: "Protokollierung...",
-  logCall: "Anruf protokollieren",
-  editLog: "Protokoll bearbeiten",
-  select: "Übereinstimmenden Datensatz auswählen",
-  OnHold: "Wird gehalten",
-  Ringing: "Läutet",
-  CallConnected: "Anruf verbunden",
-  unknownUser: "Unbekannter Benutzer",
-  unknownNumber: "Anonym",
-  unavailable: "Nicht verfügbar",
-  viewDetails: "Details anzeigen",
-  addEntity: "Neu erstellen",
-  addLog: "Protokoll",
-  text: "Text",
-  call: "Anruf",
-  missedCall: "Verpasste",
-  inboundCall: "Eingehend",
-  outboundCall: "Ausgehend"
-};
+  logging: 'Protokollierung...',
+  logCall: 'Anruf protokollieren',
+  editLog: 'Protokoll bearbeiten',
+  select: 'Übereinstimmenden Datensatz auswählen',
+  OnHold: 'Wird gehalten',
+  Ringing: 'Läutet',
+  CallConnected: 'Anruf verbunden',
+  unknownUser: 'Unbekannter Benutzer',
+  unknownNumber: 'Anonym',
+  unavailable: 'Nicht verfügbar',
+  viewDetails: 'Details anzeigen',
+  addEntity: 'Neu erstellen',
+  addLog: 'Protokoll',
+  text: 'Text',
+  call: 'Anruf',
+  missedCall: 'Verpasste',
+  inboundCall: 'Eingehend',
+  outboundCall: 'Ausgehend',
+  answeredBy: 'Beantwortet von',
+} as const;
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
@@ -37,3 +39,4 @@ export default {
 // @key: @#@"missedCall"@#@ @source: @#@"Missed"@#@
 // @key: @#@"inboundCall"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"outboundCall"@#@ @source: @#@"Outbound"@#@
+// @key: @#@"answeredBy"@#@ @source: @#@"Answered by"@#@

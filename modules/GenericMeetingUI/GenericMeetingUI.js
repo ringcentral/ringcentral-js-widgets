@@ -3,6 +3,9 @@
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 require("core-js/modules/es.object.get-own-property-descriptor");
 require("core-js/modules/es.object.keys");
+require("core-js/modules/es.object.to-string");
+require("core-js/modules/es.promise");
+require("core-js/modules/es.promise.finally");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -12,8 +15,10 @@ var _di = require("@ringcentral-integration/commons/lib/di");
 var _RcVideo = require("@ringcentral-integration/commons/modules/RcVideo");
 var _core = require("@ringcentral-integration/core");
 var _ramda = require("ramda");
+var _react = _interopRequireDefault(require("react"));
+var _ChangePasswordPopup = require("../../components/SchedulerMeetingPanel/ChangePasswordPopup");
 var _i18n = _interopRequireDefault(require("./i18n"));
-var _dec, _class, _class2, _descriptor;
+var _dec, _dec2, _dec3, _dec4, _class, _class2, _descriptor;
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
@@ -35,9 +40,20 @@ function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.
 function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
 function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
 function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
+var PasswordChangeRendererID = 'GenericMeetingUI.PasswordChangeRenderer';
 var GenericMeetingUI = (_dec = (0, _di.Module)({
   name: 'GenericMeetingUI',
   deps: ['GenericMeeting', 'AppFeatures', 'Brand', 'Locale', 'ModalUI', 'RateLimiter', 'ConnectivityMonitor']
+}), _dec2 = (0, _core.computed)(function (that) {
+  return [that._deps.genericMeeting.isRCM];
+}), _dec3 = (0, _core.computed)(function (that) {
+  return [that._deps.genericMeeting.isRCV];
+}), _dec4 = (0, _core.computed)(function (_ref) {
+  var _ref$_deps = _ref._deps,
+    genericMeeting = _ref$_deps.genericMeeting,
+    rateLimiter = _ref$_deps.rateLimiter,
+    connectivityMonitor = _ref$_deps.connectivityMonitor;
+  return [genericMeeting.ready, genericMeeting.isScheduling, connectivityMonitor.ready, connectivityMonitor.connectivity, rateLimiter.ready, rateLimiter.throttling];
 }), _dec(_class = (_class2 = /*#__PURE__*/function (_RcUIModuleV) {
   _inherits(GenericMeetingUI, _RcUIModuleV);
   var _super = _createSuper(GenericMeetingUI);
@@ -47,7 +63,11 @@ var GenericMeetingUI = (_dec = (0, _di.Module)({
     _this = _super.call(this, {
       deps: deps
     });
+    _this._changePasswordPopupId = null;
     _initializerDefineProperty(_this, "isPmiChangeConfirmed", _descriptor, _assertThisInitialized(_this));
+    _this._deps.modalUI.registerRenderer(PasswordChangeRendererID, function (props) {
+      return /*#__PURE__*/_react["default"].createElement(_ChangePasswordPopup.ChangePasswordPopup, props);
+    });
     return _this;
   }
   _createClass(GenericMeetingUI, [{
@@ -56,31 +76,84 @@ var GenericMeetingUI = (_dec = (0, _di.Module)({
       this.isPmiChangeConfirmed = status;
     }
   }, {
-    key: "getRcvConfig",
-    value: function getRcvConfig(_ref) {
-      var _meeting$settingLock2, _meeting$settingLock3, _meeting$settingLock4, _meeting$settingLock5, _meeting$settingLock6, _meeting$settingLock7, _meeting$settingLock8;
-      var _ref$disabled = _ref.disabled,
-        disabled = _ref$disabled === void 0 ? false : _ref$disabled,
-        _ref$showRcvAdminLock = _ref.showRcvAdminLock,
-        showRcvAdminLock = _ref$showRcvAdminLock === void 0 ? false : _ref$showRcvAdminLock,
-        _ref$configDisabled = _ref.configDisabled,
-        configDisabled = _ref$configDisabled === void 0 ? false : _ref$configDisabled,
-        _ref$showPmiConfirm = _ref.showPmiConfirm,
-        showPmiConfirm = _ref$showPmiConfirm === void 0 ? false : _ref$showPmiConfirm;
-      var isDelegator = false;
-      var meeting = this.meeting;
-      var delegators = this.delegators;
-      var user = (0, _ramda.find)(function (item) {
-        return item.extensionId === meeting.extensionId;
-      }, delegators);
-      // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
-      isDelegator = user && !user.isLoginUser;
-      var enableWaitingRoom = this._deps.genericMeeting.ready && this._deps.genericMeeting.enableWaitingRoom;
+    key: "showPasswordChangeModal",
+    value: function showPasswordChangeModal() {
+      var _this2 = this;
+      if (this._changePasswordPopupId) {
+        return;
+      }
+      var currentLocale = this._deps.locale.currentLocale;
+      this._changePasswordPopupId = this._deps.modalUI.info({
+        fullWidth: true,
+        title: _i18n["default"].getString('updatePassword', currentLocale),
+        content: PasswordChangeRendererID,
+        childrenSize: this.isSmallScreen ? 'small' : 'medium',
+        contentProps: {
+          currentLocale: currentLocale,
+          meetingPassword: this.meeting.usePersonalMeetingId ? this.personalMeetingSettings.meetingPassword : this.meeting.meetingPassword,
+          handleCancel: function handleCancel() {
+            _this2.closePasswordChangeModal();
+          },
+          handleUpdate: function handleUpdate(meetingPassword) {
+            if (_this2.meeting.usePersonalMeetingId) {
+              _this2.updatePersonalMeetingSettings(_objectSpread(_objectSpread({}, _this2.personalMeetingSettings), {}, {
+                meetingPassword: meetingPassword
+              }));
+            } else {
+              _this2.updateMeetingSettings(_objectSpread(_objectSpread({}, _this2.meeting), {}, {
+                meetingPassword: meetingPassword
+              }));
+            }
+            _this2.actionAfterUpdateMeetingPassword();
+
+            // @ts-expect-error TS(2322): Type '{ id: string; code: string; name: string; sh... Remove this comment to see the full error message
+            if (_this2._deps.genericMeeting.trackSettingChanges) {
+              // @ts-expect-error
+              _this2._deps.genericMeeting.trackSettingChanges(_RcVideo.RCV_ITEM_NAME.meetingPassword);
+            }
+            _this2.closePasswordChangeModal();
+          }
+        }
+      });
+      this._deps.modalUI.getPromise(this._changePasswordPopupId)["finally"](function () {
+        _this2._changePasswordPopupId = null;
+      });
+    }
+  }, {
+    key: "closePasswordChangeModal",
+    value: function closePasswordChangeModal() {
+      if (this._changePasswordPopupId) {
+        this._deps.modalUI.close(this._changePasswordPopupId);
+        this._changePasswordPopupId = null;
+      }
+    }
+  }, {
+    key: "updateMeetingSettings",
+    value: function updateMeetingSettings(value) {
+      this._deps.genericMeeting.updateHasSettingsChanged(true);
+      this._deps.genericMeeting.updateMeetingSettings(value);
+    }
+  }, {
+    key: "updatePersonalMeetingSettings",
+    value: function updatePersonalMeetingSettings(value) {
+      this._deps.genericMeeting.updateHasSettingsChanged(true);
+      this._deps.genericMeeting.updatePersonalMeetingSettings(value);
+    }
+  }, {
+    key: "getRcvOptionsDisabledStatus",
+    value: function getRcvOptionsDisabledStatus(_ref2) {
+      var _meeting$settingLock, _meeting$settingLock2, _meeting$settingLock3, _meeting$settingLock4, _meeting$settingLock5, _meeting$settingLock6, _meeting$settingLock7, _meeting$settingLock8, _meeting$settingLock9;
+      var disabled = _ref2.disabled,
+        showRcvAdminLock = _ref2.showRcvAdminLock,
+        configDisabled = _ref2.configDisabled,
+        showPmiConfirm = _ref2.showPmiConfirm;
+      var meeting = this.meeting.usePersonalMeetingId ? this.personalMeetingSettings : this.meeting;
+      var _ref3 = this.meeting,
+        _ref3$settingLock = _ref3.settingLock,
+        settingLock = _ref3$settingLock === void 0 ? {} : _ref3$settingLock,
+        e2ee = _ref3.e2ee;
       var showE2EE = this._deps.genericMeeting.ready && this._deps.genericMeeting.enableE2EE;
-      var _meeting$settingLock = meeting.settingLock,
-        settingLock = _meeting$settingLock === void 0 ? {} : _meeting$settingLock,
-        e2ee = meeting.e2ee,
-        isOnlyCoworkersJoin = meeting.isOnlyCoworkersJoin;
+      var enableWaitingRoom = this._deps.genericMeeting.ready && this._deps.genericMeeting.enableWaitingRoom;
       var isPmiConfigDisabled = configDisabled || showPmiConfirm && this.meeting.usePersonalMeetingId && !this.isPmiChangeConfirmed;
 
       // when e2ee is on, waiting room&auth can join&require password&jbh will be disabled and turn on.
@@ -93,38 +166,68 @@ var GenericMeetingUI = (_dec = (0, _di.Module)({
           settingLock[key] && meeting[key] === _RcVideo.DISABLE_E2EE_WHEN_RELATED_OPTION_MATCH[key]
         );
       })(Object.keys(_RcVideo.DISABLE_E2EE_WHEN_RELATED_OPTION_MATCH)));
-      var authUserTypeValue = isOnlyCoworkersJoin ? _RcVideo.AUTH_USER_TYPE.SIGNED_IN_CO_WORKERS : _RcVideo.AUTH_USER_TYPE.SIGNED_IN_USERS;
       return {
-        meeting: meeting,
-        showE2EE: showE2EE,
-        delegators: delegators,
         isE2EEDisabled: isE2EEDisabled,
-        authUserTypeValue: authUserTypeValue,
         isE2eeRelatedOptionsDisabled: isE2eeRelatedOptionsDisabled,
-        showWaitingRoom: enableWaitingRoom,
-        isPersonalMeetingDisabled: showE2EE && meeting.e2ee,
-        joinBeforeHostLabel: isDelegator ? _RcVideo.JBH_LABEL.JOIN_AFTER_HOST : _RcVideo.JBH_LABEL.JOIN_AFTER_ME,
-        isRequirePasswordDisabled: isE2eeRelatedOptionsDisabled || isPmiConfigDisabled || configDisabled || showRcvAdminLock && ((_meeting$settingLock2 = meeting.settingLock) === null || _meeting$settingLock2 === void 0 ? void 0 : _meeting$settingLock2.isMeetingSecret),
-        isJoinBeforeHostDisabled: configDisabled || isPmiConfigDisabled || showRcvAdminLock && ((_meeting$settingLock3 = meeting.settingLock) === null || _meeting$settingLock3 === void 0 ? void 0 : _meeting$settingLock3.allowJoinBeforeHost) || enableWaitingRoom && meeting.waitingRoomMode === _RcVideo.RCV_WAITING_ROOM_MODE.all,
+        isRequirePasswordDisabled: isE2eeRelatedOptionsDisabled || isPmiConfigDisabled || configDisabled || showRcvAdminLock && ((_meeting$settingLock = meeting.settingLock) === null || _meeting$settingLock === void 0 ? void 0 : _meeting$settingLock.isMeetingSecret),
+        isJoinBeforeHostDisabled: configDisabled || isPmiConfigDisabled || showRcvAdminLock && ((_meeting$settingLock2 = meeting.settingLock) === null || _meeting$settingLock2 === void 0 ? void 0 : _meeting$settingLock2.allowJoinBeforeHost) || enableWaitingRoom && meeting.waitingRoomMode === _RcVideo.RCV_WAITING_ROOM_MODE.all,
+        isPasswordFieldDisabled: isPmiConfigDisabled,
+        isAllowToRecordDisabled: isPmiConfigDisabled || showRcvAdminLock && ((_meeting$settingLock3 = meeting.settingLock) === null || _meeting$settingLock3 === void 0 ? void 0 : _meeting$settingLock3.allowAnyoneRecord),
+        isAllowAnyoneTranscribeDisabled: isPmiConfigDisabled || showRcvAdminLock && ((_meeting$settingLock4 = meeting.settingLock) === null || _meeting$settingLock4 === void 0 ? void 0 : _meeting$settingLock4.allowAnyoneTranscribe),
         isMuteAudioDisabled: configDisabled || isPmiConfigDisabled,
         isTurnOffCameraDisabled: configDisabled || isPmiConfigDisabled,
-        isAllowScreenSharingDisabled: configDisabled || isPmiConfigDisabled || showRcvAdminLock && ((_meeting$settingLock4 = meeting.settingLock) === null || _meeting$settingLock4 === void 0 ? void 0 : _meeting$settingLock4.allowScreenSharing),
-        isWaitingRoomDisabled: isE2eeRelatedOptionsDisabled || isPmiConfigDisabled || configDisabled || showRcvAdminLock && ((_meeting$settingLock5 = meeting.settingLock) === null || _meeting$settingLock5 === void 0 ? void 0 : _meeting$settingLock5.waitingRoomMode),
-        isWaitingRoomTypeDisabled: disabled || configDisabled || isPmiConfigDisabled || showRcvAdminLock && ((_meeting$settingLock6 = meeting.settingLock) === null || _meeting$settingLock6 === void 0 ? void 0 : _meeting$settingLock6.waitingRoomMode),
+        isAllowScreenSharingDisabled: configDisabled || isPmiConfigDisabled || showRcvAdminLock && ((_meeting$settingLock5 = meeting.settingLock) === null || _meeting$settingLock5 === void 0 ? void 0 : _meeting$settingLock5.allowScreenSharing),
+        isWaitingRoomDisabled: isE2eeRelatedOptionsDisabled || isPmiConfigDisabled || configDisabled || showRcvAdminLock && ((_meeting$settingLock6 = meeting.settingLock) === null || _meeting$settingLock6 === void 0 ? void 0 : _meeting$settingLock6.waitingRoomMode),
+        isWaitingRoomTypeDisabled: disabled || configDisabled || isPmiConfigDisabled || showRcvAdminLock && ((_meeting$settingLock7 = meeting.settingLock) === null || _meeting$settingLock7 === void 0 ? void 0 : _meeting$settingLock7.waitingRoomMode),
         isWaitingRoomNotCoworkerDisabled: meeting.isOnlyCoworkersJoin,
         isWaitingRoomGuestDisabled: meeting.isOnlyAuthUserJoin || showE2EE && meeting.e2ee,
-        isWaitingRoomAllDisabled: false,
-        isAuthenticatedCanJoinDisabled: isE2eeRelatedOptionsDisabled || configDisabled || isPmiConfigDisabled || showRcvAdminLock && ((_meeting$settingLock7 = meeting.settingLock) === null || _meeting$settingLock7 === void 0 ? void 0 : _meeting$settingLock7.isOnlyAuthUserJoin),
-        isAuthUserTypeDisabled: disabled || configDisabled || isPmiConfigDisabled || showRcvAdminLock && ((_meeting$settingLock8 = meeting.settingLock) === null || _meeting$settingLock8 === void 0 ? void 0 : _meeting$settingLock8.isOnlyCoworkersJoin),
-        isSignedInUsersDisabled: false,
-        isSignedInCoWorkersDisabled: false
+        isAuthenticatedCanJoinDisabled: isE2eeRelatedOptionsDisabled || configDisabled || isPmiConfigDisabled || showRcvAdminLock && ((_meeting$settingLock8 = meeting.settingLock) === null || _meeting$settingLock8 === void 0 ? void 0 : _meeting$settingLock8.isOnlyAuthUserJoin),
+        isAuthUserTypeDisabled: disabled || configDisabled || isPmiConfigDisabled || showRcvAdminLock && ((_meeting$settingLock9 = meeting.settingLock) === null || _meeting$settingLock9 === void 0 ? void 0 : _meeting$settingLock9.isOnlyCoworkersJoin)
       };
     }
   }, {
+    key: "getRcvConfig",
+    value: function getRcvConfig(_ref4) {
+      var _ref4$disabled = _ref4.disabled,
+        disabled = _ref4$disabled === void 0 ? false : _ref4$disabled,
+        _ref4$showRcvAdminLoc = _ref4.showRcvAdminLock,
+        showRcvAdminLock = _ref4$showRcvAdminLoc === void 0 ? false : _ref4$showRcvAdminLoc,
+        _ref4$configDisabled = _ref4.configDisabled,
+        configDisabled = _ref4$configDisabled === void 0 ? false : _ref4$configDisabled,
+        _ref4$showPmiConfirm = _ref4.showPmiConfirm,
+        showPmiConfirm = _ref4$showPmiConfirm === void 0 ? false : _ref4$showPmiConfirm;
+      var isDelegator = false;
+      var meeting = this.meeting;
+      var delegators = this.delegators;
+      var user = (0, _ramda.find)(function (item) {
+        return item.extensionId === meeting.extensionId;
+      }, delegators);
+      // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
+      isDelegator = user && !user.isLoginUser;
+      var enableWaitingRoom = this._deps.genericMeeting.ready && this._deps.genericMeeting.enableWaitingRoom;
+      var showE2EE = this._deps.genericMeeting.ready && this._deps.genericMeeting.enableE2EE;
+      var isOnlyCoworkersJoin = meeting.isOnlyCoworkersJoin;
+      var authUserTypeValue = isOnlyCoworkersJoin ? _RcVideo.AUTH_USER_TYPE.SIGNED_IN_CO_WORKERS : _RcVideo.AUTH_USER_TYPE.SIGNED_IN_USERS;
+      return _objectSpread({
+        meeting: meeting,
+        showE2EE: showE2EE,
+        delegators: delegators,
+        authUserTypeValue: authUserTypeValue,
+        showWaitingRoom: enableWaitingRoom,
+        isPersonalMeetingDisabled: showE2EE && meeting.e2ee,
+        joinBeforeHostLabel: isDelegator ? _RcVideo.JBH_LABEL.JOIN_AFTER_HOST : _RcVideo.JBH_LABEL.JOIN_AFTER_ME
+      }, this.getRcvOptionsDisabledStatus({
+        disabled: disabled,
+        showRcvAdminLock: showRcvAdminLock,
+        configDisabled: configDisabled,
+        showPmiConfirm: showPmiConfirm
+      }));
+    }
+  }, {
     key: "getRcmConfig",
-    value: function getRcmConfig(_ref2) {
+    value: function getRcmConfig(_ref5) {
       var _this$meeting;
-      var showRecurringMeeting = _ref2.showRecurringMeeting;
+      var showRecurringMeeting = _ref5.showRecurringMeeting;
       return {
         delegators: this.delegators,
         showRecurringMeeting: !((_this$meeting = this.meeting) === null || _this$meeting === void 0 ? void 0 : _this$meeting.usePersonalMeetingId) && showRecurringMeeting
@@ -133,7 +236,7 @@ var GenericMeetingUI = (_dec = (0, _di.Module)({
   }, {
     key: "getUIProps",
     value: function getUIProps(props) {
-      var _this$meeting2;
+      var _this$meeting2, _this$_deps$genericMe, _this$_deps$genericMe2, _this$_deps$genericMe3, _this$_deps$genericMe4, _this$_deps$genericMe5, _this$_deps$genericMe6;
       var disabled = props.disabled,
         showTopic = props.showTopic,
         showWhen = props.showWhen,
@@ -152,15 +255,13 @@ var GenericMeetingUI = (_dec = (0, _di.Module)({
         configDisabled = _props$configDisabled === void 0 ? false : _props$configDisabled,
         _props$showRemoveMeet = props.showRemoveMeetingWarning,
         showRemoveMeetingWarning = _props$showRemoveMeet === void 0 ? false : _props$showRemoveMeet;
-      var isRCM = this._deps.genericMeeting.isRCM;
-      var isRCV = this._deps.genericMeeting.isRCV;
-      var isAllOptionDisabled = !!(disabled || !((_this$meeting2 = this.meeting) === null || _this$meeting2 === void 0 ? void 0 : _this$meeting2.isMeetingPasswordValid) || this._deps.genericMeeting.ready && this._deps.genericMeeting.isScheduling || this._deps.connectivityMonitor && !this._deps.connectivityMonitor.connectivity || this._deps.rateLimiter && this._deps.rateLimiter.throttling);
-
+      var isAllOptionDisabled = !!(disabled || !((_this$meeting2 = this.meeting) === null || _this$meeting2 === void 0 ? void 0 : _this$meeting2.isMeetingPasswordValid) || this.isUnavailable);
+      var config = this.isRCM ?
       // @ts-expect-error TS(2345): Argument of type 'GenericMeetingContainerProps' is... Remove this comment to see the full error message
-      var config = isRCM ? this.getRcmConfig(props) : this.getRcvConfig(props);
+      this.getRcmConfig(props) : this.getRcvConfig(props);
       return _objectSpread({
-        isRCV: isRCV,
-        isRCM: isRCM,
+        isRCV: this.isRCV,
+        isRCM: this.isRCM,
         showWhen: showWhen,
         showTopic: showTopic,
         showDuration: showDuration,
@@ -189,9 +290,11 @@ var GenericMeetingUI = (_dec = (0, _di.Module)({
         disableSaveAsDefault: false,
         enableServiceWebSettings: this._deps.genericMeeting.ready && this._deps.genericMeeting.enableServiceWebSettings,
         enablePersonalMeeting: this._deps.genericMeeting.ready && this._deps.genericMeeting.enablePersonalMeeting,
-        // @ts-expect-error TS(2322): Type 'string | false' is not assignable to type 's... Remove this comment to see the full error message
-        personalMeetingId: this._deps.genericMeeting.ready && this._deps.genericMeeting.personalMeetingId,
-        showSpinner: !!(!this._deps.locale.ready || !this._deps.genericMeeting.ready || !isRCM && !isRCV || !this._deps.genericMeeting.meeting || this._deps.connectivityMonitor && !this._deps.connectivityMonitor.ready || this._deps.rateLimiter && !this._deps.rateLimiter.ready),
+        personalMeeting: this.personalMeetingSettings,
+        personalMeetingId: (_this$_deps$genericMe = (_this$_deps$genericMe2 = this._deps.genericMeeting) === null || _this$_deps$genericMe2 === void 0 ? void 0 : _this$_deps$genericMe2.personalMeetingId) !== null && _this$_deps$genericMe !== void 0 ? _this$_deps$genericMe : '',
+        personalMeetingName: (_this$_deps$genericMe3 = (_this$_deps$genericMe4 = this._deps.genericMeeting) === null || _this$_deps$genericMe4 === void 0 ? void 0 : _this$_deps$genericMe4.personalMeetingName) !== null && _this$_deps$genericMe3 !== void 0 ? _this$_deps$genericMe3 : '',
+        personalMeetingLink: (_this$_deps$genericMe5 = (_this$_deps$genericMe6 = this._deps.genericMeeting) === null || _this$_deps$genericMe6 === void 0 ? void 0 : _this$_deps$genericMe6.personalMeetingLink) !== null && _this$_deps$genericMe5 !== void 0 ? _this$_deps$genericMe5 : '',
+        showSpinner: !!(!this._deps.locale.ready || !this._deps.genericMeeting.ready || !this.isRCM && !this.isRCV || !this._deps.genericMeeting.meeting || this._deps.connectivityMonitor && !this._deps.connectivityMonitor.ready || this._deps.rateLimiter && !this._deps.rateLimiter.ready),
         showSpinnerInConfigPanel: this._deps.genericMeeting.isUpdating,
         hasSettingsChanged: this._deps.genericMeeting.hasSettingsChanged,
         defaultSetting: this._deps.genericMeeting.defaultSetting,
@@ -201,53 +304,52 @@ var GenericMeetingUI = (_dec = (0, _di.Module)({
     }
   }, {
     key: "getUIFunctions",
-    value: function getUIFunctions(_ref3) {
-      var _this2 = this;
-      var _schedule = _ref3.schedule;
+    value: function getUIFunctions(_ref6) {
+      var _this3 = this;
+      var _schedule = _ref6.schedule;
       return {
         switchUsePersonalMeetingId: function switchUsePersonalMeetingId(usePersonalMeetingId) {
-          _this2._deps.genericMeeting.switchUsePersonalMeetingId(usePersonalMeetingId);
+          _this3._deps.genericMeeting.switchUsePersonalMeetingId(usePersonalMeetingId);
           // reset pmi change confirm popup
           if (usePersonalMeetingId) {
-            _this2.setIsPmiChangeConfirmed(false);
+            _this3.setIsPmiChangeConfirmed(false);
           }
-          _this2._deps.genericMeeting.updateHasSettingsChanged(true);
+          _this3._deps.genericMeeting.updateHasSettingsChanged(true);
         },
         updateScheduleFor: function updateScheduleFor(userExtensionId) {
-          return _this2._deps.genericMeeting.updateScheduleFor(userExtensionId);
+          return _this3._deps.genericMeeting.updateScheduleFor(userExtensionId);
         },
         // TODO: any is reserved for RcM
         updateMeetingSettings: function updateMeetingSettings(value) {
-          _this2._deps.genericMeeting.updateHasSettingsChanged(true);
-          _this2._deps.genericMeeting.updateMeetingSettings(value);
+          _this3.updateMeetingSettings(value);
         },
         validatePasswordSettings: function validatePasswordSettings(password, isSecret) {
-          return _this2._deps.genericMeeting.validatePasswordSettings(password, isSecret);
+          return _this3._deps.genericMeeting.validatePasswordSettings(password, isSecret);
         },
         schedule: function schedule(meetingInfo, opener) {
           if (_schedule) {
             return _schedule(meetingInfo, opener);
           }
-          return _this2._deps.genericMeeting.schedule(meetingInfo, {}, opener);
+          return _this3._deps.genericMeeting.schedule(meetingInfo, {}, opener);
         },
         init: function init() {
-          return _this2._deps.genericMeeting.init();
+          return _this3._deps.genericMeeting.init();
         },
         // TODO: Moving to RcVideo updateMeetingSettings would be better
         e2eeInteractFunc: function e2eeInteractFunc(e2eeValue) {
           if (!e2eeValue) {
-            _this2._deps.genericMeeting.updateMeetingSettings({
+            _this3._deps.genericMeeting.updateMeetingSettings({
               e2ee: e2eeValue
             });
             // when user turn on e2ee option in pmi meeting, should switch to non-pmi meeting
             // @ts-expect-error TS(2531): Object is possibly 'null'.
-          } else if (_this2._deps.genericMeeting.meeting.usePersonalMeetingId) {
-            _this2._deps.genericMeeting.switchUsePersonalMeetingId(false);
-            _this2._deps.genericMeeting.turnOnE2ee();
+          } else if (_this3._deps.genericMeeting.meeting.usePersonalMeetingId) {
+            _this3._deps.genericMeeting.switchUsePersonalMeetingId(false);
+            _this3._deps.genericMeeting.turnOnE2ee();
           } else {
-            _this2._deps.genericMeeting.turnOnE2ee();
+            _this3._deps.genericMeeting.turnOnE2ee();
           }
-          _this2._deps.genericMeeting.updateHasSettingsChanged(true);
+          _this3._deps.genericMeeting.updateHasSettingsChanged(true);
         },
         onPmiChangeClick: function () {
           var _onPmiChangeClick = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
@@ -256,17 +358,17 @@ var GenericMeetingUI = (_dec = (0, _di.Module)({
               while (1) {
                 switch (_context.prev = _context.next) {
                   case 0:
-                    currentLocale = _this2._deps.locale.currentLocale;
-                    _this2._deps.modalUI.confirm({
+                    currentLocale = _this3._deps.locale.currentLocale;
+                    _this3._deps.modalUI.confirm({
                       maxWidth: 'xs',
-                      childrenSize: _this2.isSmallScreen ? 'small' : 'medium',
+                      childrenSize: _this3.isSmallScreen ? 'small' : 'medium',
                       title: _i18n["default"].getString('pmiChangeConfirmTitle', currentLocale),
                       content: _i18n["default"].getString('pmiChangeConfirmContext', currentLocale),
                       onConfirm: function onConfirm() {
-                        _this2.setIsPmiChangeConfirmed(true);
+                        _this3.setIsPmiChangeConfirmed(true);
                       },
                       confirmButtonText: _i18n["default"].getString('pmiChangeConfirmed', currentLocale),
-                      cancelButtonText: _i18n["default"].getString('pmiChangeCancel', currentLocale)
+                      cancelButtonText: _i18n["default"].getString('cancel', currentLocale)
                     });
                   case 2:
                   case "end":
@@ -279,13 +381,42 @@ var GenericMeetingUI = (_dec = (0, _di.Module)({
             return _onPmiChangeClick.apply(this, arguments);
           }
           return onPmiChangeClick;
+        }(),
+        onPasswordChangeClick: function () {
+          var _onPasswordChangeClick = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+            return regeneratorRuntime.wrap(function _callee2$(_context2) {
+              while (1) {
+                switch (_context2.prev = _context2.next) {
+                  case 0:
+                    _this3.showPasswordChangeModal();
+                  case 1:
+                  case "end":
+                    return _context2.stop();
+                }
+              }
+            }, _callee2);
+          }));
+          function onPasswordChangeClick() {
+            return _onPasswordChangeClick.apply(this, arguments);
+          }
+          return onPasswordChangeClick;
         }()
       };
+    }
+  }, {
+    key: "actionAfterUpdateMeetingPassword",
+    value: function actionAfterUpdateMeetingPassword() {
+      // TODO: add action after update meeting password
     }
   }, {
     key: "meeting",
     get: function get() {
       return this._deps.genericMeeting.ready && this._deps.genericMeeting.meeting || {};
+    }
+  }, {
+    key: "personalMeetingSettings",
+    get: function get() {
+      return this._deps.genericMeeting.ready && this._deps.genericMeeting.personalMeetingSettings || {};
     }
   }, {
     key: "delegators",
@@ -297,6 +428,21 @@ var GenericMeetingUI = (_dec = (0, _di.Module)({
     get: function get() {
       return document.body.clientWidth < 290;
     }
+  }, {
+    key: "isRCM",
+    get: function get() {
+      return this._deps.genericMeeting.isRCM;
+    }
+  }, {
+    key: "isRCV",
+    get: function get() {
+      return this._deps.genericMeeting.isRCV;
+    }
+  }, {
+    key: "isUnavailable",
+    get: function get() {
+      return this._deps.genericMeeting.ready && this._deps.genericMeeting.isScheduling || this._deps.connectivityMonitor.ready && !this._deps.connectivityMonitor.connectivity || this._deps.rateLimiter.ready && this._deps.rateLimiter.throttling;
+    }
   }]);
   return GenericMeetingUI;
 }(_core.RcUIModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "isPmiChangeConfirmed", [_core.state], {
@@ -306,6 +452,6 @@ var GenericMeetingUI = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return false;
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "setIsPmiChangeConfirmed", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setIsPmiChangeConfirmed"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "setIsPmiChangeConfirmed", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setIsPmiChangeConfirmed"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "isRCM", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "isRCM"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "isRCV", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "isRCV"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "isUnavailable", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "isUnavailable"), _class2.prototype)), _class2)) || _class);
 exports.GenericMeetingUI = GenericMeetingUI;
 //# sourceMappingURL=GenericMeetingUI.js.map

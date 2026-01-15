@@ -1,38 +1,47 @@
+/* eslint-disable */
 export default {
-  inviteMeetingContent: "{accountName} 님이 {brandName} 모임에 회원님을 초대 중입니다.\n\nPC, Mac, iOS 또는 Android에서 참가: {joinUri}{passwordTpl}\n\n 또는 iPhone 한 번 탭:\n\t    {mobileDialingNumberTpl}\n\n    또는 전화:\n\t     전화 걸기:\n\t    {phoneDialingNumberTpl}\n\t     모임 ID: {meetingId}\n\t     사용 가능한 국제 번호: {teleconference} ",
-  conferenceLocationField: "전화 회의 모임, 전화 접속 번호: {dialInNumber}",
-  scheduleError: "죄송합니다. 문제가 발생했습니다. 다시 시도하세요.",
-  noMeetingPermission: "죄송합니다. {brandName} 모임 권한이 없습니다. 계속하려면 회사 관리자에게 문의하세요.",
-  noConferencePermission: "죄송합니다. {brandName} 전화 회의 권한이 없습니다. 계속하려면 회사 관리자에게 문의하세요.",
-  conferenceTitle: "{displayName}의 전화 회의 모임",
-  internationalNumber: "국제 전화 접속 번호:",
-  inviteText_att: "{brandName} 전화 회의에 참가하세요.\n\n전화 접속 번호: {formattedDialInNumber} \n{additionalNumbersSection} \n참가자 액세스: {participantCode} \n\n국제 전화 접속 전화번호가 필요하신가요? {dialInNumbersLink}을(를) 방문하세요. \n\n이 전화 회의는 {brandName} 전화 회의에서 제공됩니다",
-  inviteText_bt: "{brandName} 전화 회의에 참가하세요.\n\n전화 접속 번호: {formattedDialInNumber} \n{additionalNumbersSection} \n참가자 액세스: {participantCode} \n\n추가 전화 접속 번호{dialInNumbersLink} ",
-  inviteText_rc: "{brandName} 전화 회의에 참가하세요.\n\n전화 접속 번호: {formattedDialInNumber} \n{additionalNumbersSection} \n참가자 액세스: {participantCode} \n\n국제 전화 접속 전화번호가 필요하신가요? {dialInNumbersLink}을(를) 방문하세요. \n\n이 전화 회의는 {brandName} 전화 회의에서 제공됩니다",
-  inviteText_telus: "{brandName} 전화 회의에 참가하세요.\n\n전화 접속 번호: {formattedDialInNumber} \n{additionalNumbersSection} \n참가자 액세스: {participantCode} \n\n추가 전화 접속 번호{dialInNumbersLink} ",
-  conferenceCall: "{brandName} 전화 회의",
-  videoCall: "{brandName} Video Call",
-  addConferencingDetails: "전화 회의 세부 정보 추가",
-  updateConferencingDetails: "전화 회의 세부 정보 업데이트",
+  inviteMeetingContent:
+    '{accountName} 님이 {brandName} 모임에 회원님을 초대 중입니다.\n\nPC, Mac, iOS 또는 Android에서 참가: {joinUri}{passwordTpl}\n\n 또는 iPhone 한 번 탭:\n\t    {mobileDialingNumberTpl}\n\n    또는 전화:\n\t     전화 걸기:\n\t    {phoneDialingNumberTpl}\n\t     모임 ID: {meetingId}\n\t     사용 가능한 국제 번호: {teleconference} ',
+  conferenceLocationField: '전화 회의 모임, 전화 접속 번호: {dialInNumber}',
+  scheduleError: '죄송합니다. 문제가 발생했습니다. 다시 시도하세요.',
+  noMeetingPermission:
+    '죄송합니다. {brandName} 모임 권한이 없습니다. 계속하려면 회사 관리자에게 문의하세요.',
+  noConferencePermission:
+    '죄송합니다. {brandName} 전화 회의 권한이 없습니다. 계속하려면 회사 관리자에게 문의하세요.',
+  conferenceTitle: '{displayName}의 전화 회의 모임',
+  internationalNumber: '국제 전화 접속 번호:',
+  inviteText_att:
+    '{brandName} 전화 회의에 참가하세요.\n\n전화 접속 번호: {formattedDialInNumber} \n{additionalNumbersSection} \n참가자 액세스: {participantCode} \n\n국제 전화 접속 전화번호가 필요하신가요? {dialInNumbersLink}을(를) 방문하세요. \n\n이 전화 회의는 {brandName} 전화 회의에서 제공됩니다',
+  inviteText_bt:
+    '{brandName} 전화 회의에 참가하세요.\n\n전화 접속 번호: {formattedDialInNumber} \n{additionalNumbersSection} \n참가자 액세스: {participantCode} \n\n추가 전화 접속 번호{dialInNumbersLink} ',
+  inviteText_rc:
+    '{brandName} 전화 회의에 참가하세요.\n\n전화 접속 번호: {formattedDialInNumber} \n{additionalNumbersSection} \n참가자 액세스: {participantCode} \n\n국제 전화 접속 전화번호가 필요하신가요? {dialInNumbersLink}을(를) 방문하세요. \n\n이 전화 회의는 {brandName} 전화 회의에서 제공됩니다',
+  inviteText_telus:
+    '{brandName} 전화 회의에 참가하세요.\n\n전화 접속 번호: {formattedDialInNumber} \n{additionalNumbersSection} \n참가자 액세스: {participantCode} \n\n추가 전화 접속 번호{dialInNumbersLink} ',
+  conferenceCall: '{brandName} 전화 회의',
+  videoCall: '{brandName} Video Call',
+  addConferencingDetails: '전화 회의 세부 정보 추가',
+  updateConferencingDetails: '전화 회의 세부 정보 업데이트',
   // @ts-expect-error TS(1117): An object literal cannot have multiple properties ... Remove this comment to see the full error message
-  scheduleError: "죄송합니다. 문제가 발생했습니다. 다시 시도하세요.",
-  deleteBtn: "삭제",
-  settingsBtn: "설정",
-  saveAsDefaultAndNotShowAgain: "기본값으로 저장하고 다시 표시 안 함",
-  saveAsDefault: "기본값으로 저장",
-  done: "완료",
-  update: "업데이트",
-  conferenceSettingsTitle: "{brand} 전화 회의 설정",
-  videoSettingsTitle: "{brand} 모임 설정",
-  password: "비밀번호",
-  failedToRetrieveMeeting: "네트워크 연결이 끊어졌습니다. 이 모임을 삭제하고 나중에 다시 시도하세요.",
-  meetingSettingsTitle: "{brand} 모임 - 설정",
-  recurringMeeting: "되풀이 모임",
-  meetingOptions: "모임 옵션",
-  schedule: "예약",
+  scheduleError: '죄송합니다. 문제가 발생했습니다. 다시 시도하세요.',
+  deleteBtn: '삭제',
+  settingsBtn: '설정',
+  saveAsDefaultAndNotShowAgain: '기본값으로 저장하고 다시 표시 안 함',
+  saveAsDefault: '기본값으로 저장',
+  done: '완료',
+  update: '업데이트',
+  conferenceSettingsTitle: '{brand} 전화 회의 설정',
+  videoSettingsTitle: '{brand} 모임 설정',
+  password: '비밀번호',
+  failedToRetrieveMeeting:
+    '네트워크 연결이 끊어졌습니다. 이 모임을 삭제하고 나중에 다시 시도하세요.',
+  meetingSettingsTitle: '{brand} 모임 - 설정',
+  recurringMeeting: '되풀이 모임',
+  meetingOptions: '모임 옵션',
+  schedule: '예약',
   // @ts-expect-error TS(1117): An object literal cannot have multiple properties ... Remove this comment to see the full error message
-  settingsBtn: "설정"
-};
+  settingsBtn: '설정',
+} as const;
 
 // @key: @#@"inviteMeetingContent"@#@ @source: @#@"{accountName} is inviting you to a {brandName} meeting.\n\nJoin from PC, Mac, iOS or Android: {joinUri}{passwordTpl}\n\n Or iPhone one-tap:\n\t    {mobileDialingNumberTpl}\n\n    Or Telephone:\n\t     Dial:\n\t    {phoneDialingNumberTpl}\n\t     Meeting ID: {meetingId}\n\t     International numbers available: {teleconference} "@#@
 // @key: @#@"conferenceLocationField"@#@ @source: @#@"Conference Meeting, Dial-in Number: {dialInNumber}"@#@

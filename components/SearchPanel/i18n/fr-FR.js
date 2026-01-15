@@ -4,9 +4,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  noResultFoundFor: "Aucun résultat trouvé pour",
-  search: "Recherche"
+  noResultFoundFor: 'Aucun résultat trouvé pour',
+  search: 'Recherche'
 }; // @key: @#@"noResultFoundFor"@#@ @source: @#@"No result found for"@#@
 // @key: @#@"search"@#@ @source: @#@"Search"@#@
 exports["default"] = _default;

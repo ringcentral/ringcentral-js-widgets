@@ -1,14 +1,18 @@
+/* eslint-disable */
 import { meetingStatus } from '@ringcentral-integration/commons/modules/Meeting';
 export default {
   [meetingStatus.emptyTopic]: "Specifica l'argomento della riunione.",
-  [meetingStatus.noPassword]: "Fornisci la password della riunione.",
-  [meetingStatus.insufficientPermissions]: "{application} non dispone dell'autorizzazione {permissionName}.",
-  [meetingStatus.scheduledSuccess]: "Riunione aggiunta",
-  [meetingStatus.updatedSuccess]: "Riunione aggiornata",
-  [meetingStatus.meetingIsDeleted]: "La riunione è stata cancellata",
-  [meetingStatus.internalError]: "Si è verificato un problema nei nostri sistemi. Riprova più tardi.",
-  [meetingStatus.renderInviteError]: "Si è verificato un problema e non è stato possibile aggiungere l'invito alla riunione. Riprova più tardi."
-};
+  [meetingStatus.noPassword]: 'Fornisci la password della riunione.',
+  [meetingStatus.insufficientPermissions]:
+    "{application} non dispone dell'autorizzazione {permissionName}.",
+  [meetingStatus.scheduledSuccess]: 'Riunione aggiunta',
+  [meetingStatus.updatedSuccess]: 'Riunione aggiornata',
+  [meetingStatus.meetingIsDeleted]: 'La riunione è stata cancellata',
+  [meetingStatus.internalError]:
+    'Si è verificato un problema nei nostri sistemi. Riprova più tardi.',
+  [meetingStatus.renderInviteError]:
+    "Si è verificato un problema e non è stato possibile aggiungere l'invito alla riunione. Riprova più tardi.",
+} as const;
 
 // @key: @#@"[meetingStatus.emptyTopic]"@#@ @source: @#@"Please enter meeting topic."@#@
 // @key: @#@"[meetingStatus.noPassword]"@#@ @source: @#@"Please provide meeting password."@#@

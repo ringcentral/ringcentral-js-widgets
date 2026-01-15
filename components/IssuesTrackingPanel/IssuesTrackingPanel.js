@@ -37,7 +37,8 @@ var _IssuesTrackingPanel = function _IssuesTrackingPanel(_ref) {
   var initEnabledRef = (0, _react.useRef)(enabled);
   var downloadDisabled = !initEnabledRef.current || !enabled || downloading;
   (0, _react.useEffect)(function () {
-    // if log download failed, the button should be kept enabled.
+    // the behavior is make user need enter page again to enable
+    // so when become not enable, set the first time enable to false
     if (!enabled) {
       initEnabledRef.current = false;
     }
@@ -93,10 +94,12 @@ var _IssuesTrackingPanel = function _IssuesTrackingPanel(_ref) {
     "data-sign": "privacyNoticeDesc"
   }, _i18n["default"].getString('privacyNotice', currentLocale), /*#__PURE__*/_react["default"].createElement(_juno.RcLink, {
     href: "https://www.ringcentral.com/legal/last-update-september-1-2023/eulatos.html",
+    "data-sign": "privacyNoticeLink",
     target: "_blank",
     variant: "inherit"
   }, _i18n["default"].getString('privacyNoticeLink', currentLocale)), _i18n["default"].getString('and', currentLocale), /*#__PURE__*/_react["default"].createElement(_juno.RcLink, {
     href: "https://www.ringcentral.com/legal/privacy-notice.html",
+    "data-sign": "privacyNoticeEnd",
     target: "_blank",
     variant: "inherit"
   }, _i18n["default"].getString('privacyNoticeEnd', currentLocale))))), /*#__PURE__*/_react["default"].createElement(_IssuesTrackingConfirmPanel.IssuesTrackingCloseConfirmPanel, ConfirmPanelProps));

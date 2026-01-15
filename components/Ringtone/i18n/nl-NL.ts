@@ -1,13 +1,14 @@
+/* eslint-disable */
 export default {
-  ringtones: "Beltonen",
-  incomingRingtone: "Beltoon inkomende oproep",
-  outgoingRingtone: "Beltoon uitgaande oproep",
-  play: "Afspelen",
-  stop: "Stoppen",
-  upload: "Uploaden",
-  reset: "Resetten",
-  save: "Opslaan"
-};
+  ringtones: 'Beltonen',
+  incomingRingtone: 'Beltoon inkomende oproep',
+  outgoingRingtone: 'Beltoon uitgaande oproep',
+  play: 'Afspelen',
+  stop: 'Stoppen',
+  upload: 'Uploaden',
+  reset: 'Resetten',
+  save: 'Opslaan',
+} as const;
 
 // @key: @#@"ringtones"@#@ @source: @#@"Ringtones"@#@
 // @key: @#@"incomingRingtone"@#@ @source: @#@"Incoming Ringtone"@#@

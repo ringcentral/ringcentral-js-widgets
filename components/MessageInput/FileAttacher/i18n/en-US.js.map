@@ -1,0 +1,1 @@
+{"version":3,"file":"en-US.js","names":["attachFiles","exports","_default"],"sources":["components/MessageInput/FileAttacher/i18n/en-US.ts"],"sourcesContent":["export default {\n  attachFiles: 'Attach file',\n};\n"],"mappings":";;;;;;eAAe;EACbA,WAAW,EAAE;AACf,CAAC;AAAAC,OAAA,cAAAC,QAAA","ignoreList":[]}

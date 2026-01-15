@@ -4,12 +4,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  to: "宛先：",
-  transferTo: "転送先",
-  blindTransfer: "転送",
-  warmTransfer: "最初に聞く",
-  enterNameOrNumber: "番号を入力"
+  to: '宛先：',
+  transferTo: '転送先',
+  blindTransfer: '転送',
+  warmTransfer: '最初に聞く',
+  enterNameOrNumber: '番号を入力'
 }; // @key: @#@"to"@#@ @source: @#@"To:"@#@
 // @key: @#@"transferTo"@#@ @source: @#@"Transfer to"@#@
 // @key: @#@"blindTransfer"@#@ @source: @#@"Transfer"@#@

@@ -17,13 +17,13 @@ var _parseNumber = require("@ringcentral-integration/commons/lib/parseNumber");
 var _juno = require("@ringcentral/juno");
 var _clsx = _interopRequireDefault(require("clsx"));
 var _react = _interopRequireWildcard(require("react"));
+var _reactUse = require("react-use");
 var _checkShouldHideContactUser = require("../../lib/checkShouldHideContactUser");
 var _checkShouldHidePhoneNumber = require("../../lib/checkShouldHidePhoneNumber");
-var _usePromise = _interopRequireDefault(require("../../react-hooks/usePromise"));
 var _ActionMenu = _interopRequireDefault(require("../ActionMenu"));
 var _ContactDisplay = require("../ContactDisplay");
 var _CountdownTimer = require("../CountdownTimer");
-var _DurationCounter = _interopRequireDefault(require("../DurationCounter"));
+var _DurationCounter = require("../DurationCounter");
 var _CallIcon = require("./CallIcon");
 var _i18n = _interopRequireDefault(require("./i18n"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
@@ -44,9 +44,9 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _createForOfIteratorHelper(r, e) { var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (!t) { if (Array.isArray(r) || (t = _unsupportedIterableToArray(r)) || e && r && "number" == typeof r.length) { t && (r = t); var _n = 0, F = function F() {}; return { s: F, n: function n() { return _n >= r.length ? { done: !0 } : { done: !1, value: r[_n++] }; }, e: function e(r) { throw r; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var o, a = !0, u = !1; return { s: function s() { t = t.call(r); }, n: function n() { var r = t.next(); return a = r.done, r; }, e: function e(r) { u = !0, o = r; }, f: function f() { try { a || null == t["return"] || t["return"](); } finally { if (u) throw o; } } }; }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
-function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) { n[e] = r[e]; } return n; }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) { n[e] = r[e]; } return n; } /* eslint-disable jsx-a11y/no-static-element-interactions */ /* eslint-disable jsx-a11y/click-events-have-key-events */
 var CallItem = function CallItem(_ref) {
-  var _getSelectedContact$t, _getSelectedContact;
+  var _getSelectedContact$t, _getSelectedContact, _call$delegate;
   var _ref$currentSiteCode = _ref.currentSiteCode,
     currentSiteCode = _ref$currentSiteCode === void 0 ? '' : _ref$currentSiteCode,
     _ref$isMultipleSiteEn = _ref.isMultipleSiteEnabled,
@@ -110,6 +110,7 @@ var CallItem = function CallItem(_ref) {
     renderContactName = _ref.renderContactName,
     renderSubContactName = _ref.renderSubContactName,
     renderExtraButton = _ref.renderExtraButton,
+    isSyncingActivityMatcher = _ref.isSyncingActivityMatcher,
     contactDisplayStyle = _ref.contactDisplayStyle,
     externalViewEntityProp = _ref.externalViewEntity,
     externalHasEntity = _ref.externalHasEntity,
@@ -313,7 +314,7 @@ var CallItem = function CallItem(_ref) {
       }
     }
   };
-  var mounted = (0, _usePromise["default"])();
+  var mounted = (0, _reactUse.usePromise)();
   var _useState = (0, _react.useState)(getInitialContactIndex()),
     _useState2 = _slicedToArray(_useState, 2),
     selected = _useState2[0],
@@ -360,7 +361,7 @@ var CallItem = function CallItem(_ref) {
   });
   var isExtension = !parsedInfo.hasPlus && parsedInfo.number && parsedInfo.number.length <= maxExtensionNumberLength;
   var disableClickToSms = !(onClickToSms && (isExtension ? internalSmsPermission : outboundSmsPermission));
-  var durationEl = typeof duration === 'undefined' ? disableLinks ? _i18n["default"].getString('unavailable', currentLocale) : /*#__PURE__*/_react["default"].createElement(_DurationCounter["default"], {
+  var durationEl = typeof duration === 'undefined' ? disableLinks ? _i18n["default"].getString('unavailable', currentLocale) : /*#__PURE__*/_react["default"].createElement(_DurationCounter.DurationCounter, {
     startTime: startTime,
     offset: offset
   }) : (0, _formatDuration.formatDuration)(duration);
@@ -370,10 +371,12 @@ var CallItem = function CallItem(_ref) {
   var statusEl = active ? _i18n["default"].getString(result || telephonyStatus, currentLocale) : '';
   var contactName = renderContactName === null || renderContactName === void 0 ? void 0 : renderContactName(call);
   var subContactName = renderSubContactName === null || renderSubContactName === void 0 ? void 0 : renderSubContactName(call);
-  var extraButton = renderExtraButton === null || renderExtraButton === void 0 ? void 0 : renderExtraButton(call);
+  var extraButton = renderExtraButton === null || renderExtraButton === void 0 ? void 0 : renderExtraButton(call, isSyncingActivityMatcher);
   var menuExtended = extended;
   var selectedMatchContactType = (_getSelectedContact$t = (_getSelectedContact = getSelectedContact()) === null || _getSelectedContact === void 0 ? void 0 : _getSelectedContact.type) !== null && _getSelectedContact$t !== void 0 ? _getSelectedContact$t : '';
   var callerIdName = showCallerIdName ? (0, _callLogHelpers.getTelephoneDisplayName)(call) : undefined;
+  var isQueueCallAnsweredSomewhereElse = (call === null || call === void 0 ? void 0 : call.result) === 'Answered Elsewhere' && (call === null || call === void 0 ? void 0 : call.delegationType) === 'QueueForwarding';
+  var answeredBy = call === null || call === void 0 ? void 0 : (_call$delegate = call.delegate) === null || _call$delegate === void 0 ? void 0 : _call$delegate.name;
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].root,
     onClick: toggleExtended,
@@ -432,7 +435,9 @@ var CallItem = function CallItem(_ref) {
     "data-sign": "duration"
   }, durationEl), /*#__PURE__*/_react["default"].createElement("span", {
     "data-sign": "date"
-  }, " | ".concat(dateEl).concat(statusEl))), delayUpdatingStartTime && delayUpdatingMinutes && /*#__PURE__*/_react["default"].createElement(_CountdownTimer.CountdownTimer, {
+  }, " | ".concat(dateEl).concat(statusEl)), isQueueCallAnsweredSomewhereElse && answeredBy ? /*#__PURE__*/_react["default"].createElement("p", {
+    "data-sign": "answered-by"
+  }, _i18n["default"].getString('answeredBy', currentLocale), " ", answeredBy) : null), delayUpdatingStartTime && delayUpdatingMinutes && /*#__PURE__*/_react["default"].createElement(_CountdownTimer.CountdownTimer, {
     variant: "plain",
     currentLocale: currentLocale,
     creationTime: delayUpdatingStartTime,

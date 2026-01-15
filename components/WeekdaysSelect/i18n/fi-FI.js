@@ -4,14 +4,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  monday: "Ma",
-  tuesday: "Ti",
-  wednesday: "Ke",
-  thursday: "To",
-  friday: "Pe",
-  saturday: "La",
-  sunday: "Su"
+  monday: 'Ma',
+  tuesday: 'Ti',
+  wednesday: 'Ke',
+  thursday: 'To',
+  friday: 'Pe',
+  saturday: 'La',
+  sunday: 'Su'
 }; // @key: @#@"monday"@#@ @source: @#@"M"@#@
 // @key: @#@"tuesday"@#@ @source: @#@"T"@#@
 // @key: @#@"wednesday"@#@ @source: @#@"W"@#@

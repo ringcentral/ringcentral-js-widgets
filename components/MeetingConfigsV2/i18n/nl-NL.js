@@ -15,25 +15,25 @@ var _date$time$hours$minu;
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); } /* eslint-disable */
 var _default = (_date$time$hours$minu = {
-  date: "Datum",
-  time: "Tijd",
-  hours: "{howMany} uur",
-  minutes: "{howMany} min",
-  today: "Vandaag",
-  duration: "Duur",
-  topic: "Meetingtitel",
-  voIPOnly: "Alleen internetaudio",
-  telephonyOnly: "Alleen telefoon",
-  both: "Audio telefoon en internet",
-  thirdParty: "Audio derde partij",
-  meetingId: "Meeting-ID",
-  password: "Wachtwoord",
-  video: "Video",
-  audio: "Audio",
-  scheduleFor: "Plannen namens"
-}, _defineProperty(_date$time$hours$minu, _Meeting.ASSISTED_USERS_MYSELF, "Mijzelf"), _defineProperty(_date$time$hours$minu, "meetingOptions", "Meetingopties"), _defineProperty(_date$time$hours$minu, "meetingSettings", "Meetinginstellingen"), _defineProperty(_date$time$hours$minu, "rcMeetingSettings", "Instellingen videovergaderingen"), _defineProperty(_date$time$hours$minu, "audioOptions", "Audio-opties"), _defineProperty(_date$time$hours$minu, "recurringMeeting", "Terugkerende meeting"), _defineProperty(_date$time$hours$minu, "recurringNote", "Opmerking: schakel deze in bij het kiezen van 'Terugkerend'"), _defineProperty(_date$time$hours$minu, "joinBeforeHost", "Deelnemers toestaan voor de host binnen te komen"), _defineProperty(_date$time$hours$minu, "turnOffCamera", "Camera uitschakelen voor deelnemers"), _defineProperty(_date$time$hours$minu, "turnOffHostCamera", "Schakel camera uit voor host wanneer u deelneemt aan een meeting"), _defineProperty(_date$time$hours$minu, "requirePassword", "Wachtwoord vereisen"), _defineProperty(_date$time$hours$minu, "enterPassword", "Wachtwoord invoeren"), _defineProperty(_date$time$hours$minu, "setPassword", "Wachtwoord instellen *"), _defineProperty(_date$time$hours$minu, "passwordEmptyError", "Wachtwoord meeting vereist"), _defineProperty(_date$time$hours$minu, "rcmPasswordInvalidError", "Uw wachtwoord moet 1-10 tekens en cijfers lang zijn en mag geen symbolen bevatten, behalve @, * of -"), _defineProperty(_date$time$hours$minu, "rcmPasswordHintText", "Uw wachtwoord moet 1-10 tekens en cijfers lang zijn en mag geen symbolen bevatten, behalve @, * of -"), _defineProperty(_date$time$hours$minu, "usePersonalMeetingId", "Persoonlijke meeting-ID gebruiken"), _defineProperty(_date$time$hours$minu, "pmiChangeConfirm", "Als u wijzigingen wilt aanbrengen voor uw persoonlijke meeting, "), _defineProperty(_date$time$hours$minu, "changePmiSettings", "wijzigt u de PMI-instellingen"), _defineProperty(_date$time$hours$minu, "pmiSettingChangeAlert", "Als u de instellingen wijzigt en deze meetings plant, gebruiken alle meetings met persoonlijke meeting-ID dezelfde nieuwe instellingen."), _defineProperty(_date$time$hours$minu, "lockedTooltip", "Deze instelling wordt beheerd door uw bedrijfsbeheerder"), _defineProperty(_date$time$hours$minu, "when", "Wanneer"), _defineProperty(_date$time$hours$minu, "recurringDescribe", "Vergeet niet om terugkeren of herhaling aan te vinken in uw agenda-uitnodiging voor uw bezoekers."), _date$time$hours$minu); // @key: @#@"date"@#@ @source: @#@"Date"@#@
+  date: 'Datum',
+  time: 'Tijd',
+  hours: '{howMany} uur',
+  minutes: '{howMany} min',
+  today: 'Vandaag',
+  duration: 'Duur',
+  topic: 'Meetingtitel',
+  voIPOnly: 'Alleen internetaudio',
+  telephonyOnly: 'Alleen telefoon',
+  both: 'Audio telefoon en internet',
+  thirdParty: 'Audio derde partij',
+  meetingId: 'Meeting-ID',
+  password: 'Wachtwoord',
+  video: 'Video',
+  audio: 'Audio',
+  scheduleFor: 'Plannen namens'
+}, _defineProperty(_date$time$hours$minu, _Meeting.ASSISTED_USERS_MYSELF, 'Mijzelf'), _defineProperty(_date$time$hours$minu, "meetingOptions", 'Meetingopties'), _defineProperty(_date$time$hours$minu, "meetingSettings", 'Meetinginstellingen'), _defineProperty(_date$time$hours$minu, "rcMeetingSettings", 'Instellingen videovergaderingen'), _defineProperty(_date$time$hours$minu, "audioOptions", 'Audio-opties'), _defineProperty(_date$time$hours$minu, "recurringMeeting", 'Terugkerende meeting'), _defineProperty(_date$time$hours$minu, "recurringNote", "Opmerking: schakel deze in bij het kiezen van 'Terugkerend'"), _defineProperty(_date$time$hours$minu, "joinBeforeHost", 'Deelnemers toestaan voor de host binnen te komen'), _defineProperty(_date$time$hours$minu, "turnOffCamera", 'Camera uitschakelen voor deelnemers'), _defineProperty(_date$time$hours$minu, "turnOffHostCamera", 'Schakel camera uit voor host wanneer u deelneemt aan een meeting'), _defineProperty(_date$time$hours$minu, "requirePassword", 'Wachtwoord vereisen'), _defineProperty(_date$time$hours$minu, "enterPassword", 'Wachtwoord invoeren'), _defineProperty(_date$time$hours$minu, "setPassword", 'Wachtwoord instellen *'), _defineProperty(_date$time$hours$minu, "passwordEmptyError", 'Wachtwoord meeting vereist'), _defineProperty(_date$time$hours$minu, "rcmPasswordInvalidError", 'Uw wachtwoord moet 1-10 tekens en cijfers lang zijn en mag geen symbolen bevatten, behalve @, * of -'), _defineProperty(_date$time$hours$minu, "rcmPasswordHintText", 'Uw wachtwoord moet 1-10 tekens en cijfers lang zijn en mag geen symbolen bevatten, behalve @, * of -'), _defineProperty(_date$time$hours$minu, "usePersonalMeetingId", 'Persoonlijke meeting-ID gebruiken'), _defineProperty(_date$time$hours$minu, "pmiChangeConfirm", 'Als u wijzigingen wilt aanbrengen voor uw persoonlijke meeting, '), _defineProperty(_date$time$hours$minu, "changePmiSettings", 'wijzigt u de PMI-instellingen'), _defineProperty(_date$time$hours$minu, "pmiSettingChangeAlert", 'Als u de instellingen wijzigt en deze meetings plant, gebruiken alle meetings met persoonlijke meeting-ID dezelfde nieuwe instellingen.'), _defineProperty(_date$time$hours$minu, "lockedTooltip", 'Deze instelling wordt beheerd door uw bedrijfsbeheerder'), _defineProperty(_date$time$hours$minu, "when", 'Wanneer'), _defineProperty(_date$time$hours$minu, "recurringDescribe", 'Vergeet niet om terugkeren of herhaling aan te vinken in uw agenda-uitnodiging voor uw bezoekers.'), _date$time$hours$minu); // @key: @#@"date"@#@ @source: @#@"Date"@#@
 // @key: @#@"time"@#@ @source: @#@"Time"@#@
 // @key: @#@"hours"@#@ @source: @#@"{howMany} hr"@#@
 // @key: @#@"minutes"@#@ @source: @#@"{howMany} min"@#@

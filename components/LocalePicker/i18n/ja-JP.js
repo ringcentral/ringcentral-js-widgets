@@ -4,18 +4,19 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  en: "英語",
-  ja: "日本語",
-  fr: "フランス語",
-  de: "ドイツ語",
-  es: "スペイン語",
-  it: "イタリア語",
-  pt: "ポルトガル語",
-  zh: "中国語",
-  nl: "オランダ語",
-  ko: "韓国語",
-  fi: "フィンランド語"
+  en: '英語',
+  ja: '日本語',
+  fr: 'フランス語',
+  de: 'ドイツ語',
+  es: 'スペイン語',
+  it: 'イタリア語',
+  pt: 'ポルトガル語',
+  zh: '中国語',
+  nl: 'オランダ語',
+  ko: '韓国語',
+  fi: 'フィンランド語'
 }; // @key: @#@"en"@#@ @source: @#@"English"@#@
 // @key: @#@"ja"@#@ @source: @#@"Japanese"@#@
 // @key: @#@"fr"@#@ @source: @#@"French"@#@

@@ -1,14 +1,15 @@
+/* eslint-disable */
 export default {
-  removeParticipant: "参加者を削除",
-  confirmStr1: "この通話から削除しても",
-  confirmStr2: "よろしいですか？",
-  remove: "削除",
-  cancel: "キャンセル",
-  participants: "参加者",
-  participant: "参加者",
-  conferenceCall: "電話会議",
-  unknownNumber: "匿名"
-};
+  removeParticipant: '参加者を削除',
+  confirmStr1: 'この通話から削除しても',
+  confirmStr2: 'よろしいですか？',
+  remove: '削除',
+  cancel: 'キャンセル',
+  participants: '参加者',
+  participant: '参加者',
+  conferenceCall: '電話会議',
+  unknownNumber: '匿名',
+} as const;
 
 // @key: @#@"removeParticipant"@#@ @source: @#@"Remove Participant"@#@
 // @key: @#@"confirmStr1"@#@ @source: @#@"Are you sure you want to remove"@#@

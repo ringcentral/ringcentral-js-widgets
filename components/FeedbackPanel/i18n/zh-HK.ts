@@ -1,24 +1,26 @@
+/* eslint-disable */
 export default {
-  feedbackHeader: "提交意見回饋",
-  back: "返回",
-  revert: "回復",
-  instruction: "您的意見回饋對我們相當重要。若您在使用應用程式時有問題、想要求某項功能或是回報程式錯誤，我們非常樂意提供協助。",
-  fillForm: "請填寫以下表格並按一下 ",
-  useMailBox: " 或直接使用您的信箱，將要求寄至 ",
-  email: "您的電子郵件地址",
-  reply: "（以便我們連絡您）",
-  emailPlaceHolder: "ronald.app@ringcentral.com",
-  feedbackTopic: "意見回饋主題",
-  topicPlaceHolder: "請選擇一個選項",
-  bugReport: "錯誤回報",
-  featureRequest: "功能要求",
-  others: "其他",
-  subject: "主旨",
-  subjectPlaceHolder: "讓我們知道如何為您提供協助",
-  description: "完整說明",
-  descriptionPlaceHolder: "請盡可能列出最多資訊",
-  send: "傳送您的意見回饋"
-};
+  feedbackHeader: '提交意見回饋',
+  back: '返回',
+  revert: '回復',
+  instruction:
+    '您的意見回饋對我們相當重要。若您在使用應用程式時有問題、想要求某項功能或是回報程式錯誤，我們非常樂意提供協助。',
+  fillForm: '請填寫以下表格並按一下 ',
+  useMailBox: ' 或直接使用您的信箱，將要求寄至 ',
+  email: '您的電子郵件地址',
+  reply: '（以便我們連絡您）',
+  emailPlaceHolder: 'ronald.app@ringcentral.com',
+  feedbackTopic: '意見回饋主題',
+  topicPlaceHolder: '請選擇一個選項',
+  bugReport: '錯誤回報',
+  featureRequest: '功能要求',
+  others: '其他',
+  subject: '主旨',
+  subjectPlaceHolder: '讓我們知道如何為您提供協助',
+  description: '完整說明',
+  descriptionPlaceHolder: '請盡可能列出最多資訊',
+  send: '傳送您的意見回饋',
+} as const;
 
 // @key: @#@"feedbackHeader"@#@ @source: @#@"Submit Feedback"@#@
 // @key: @#@"back"@#@ @source: @#@"Back"@#@

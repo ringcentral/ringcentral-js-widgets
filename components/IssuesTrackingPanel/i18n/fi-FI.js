@@ -4,23 +4,24 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  header: "Onko ongelmia?",
-  toggleTitle: "1. Ota virheidenseurantatila käyttöön",
-  toggleDescription: "Tämä auttaa meitä paikantamaan ongelmasi mutta saattaa vaikuttaa jonkin verran sovelluksesi suorituskykyyn.",
-  downloadTitle: "2. Lataa virheloki, kun olet toistanut ongelman.",
-  downloadButton: "Lataa",
-  downloadDisabledTitle: "Ota virheidenseurantatila käyttöön, jotta voit ladata virhelokin.",
-  sendTitle: "3. Lähetä loki tukitiimille",
-  createSupportTicket: "Luo tukipyyntö,",
-  sendDescription: " jos haluat ottaa yhteyttä tukitiimiimme. Lähetä sitten loki tukitiimille vianmääritystä varten.",
-  privacyNotice: "Lataamalla ja lähettämällä lokin meille hyväksyt, että RingCentral käyttää tiettyjä lokeihin liittyviä tietoja vianetsintä- ja virheidenkäsittelytarkoituksiin. Lisätietoja siitä, miten RingCentral käsittelee henkilötietoja, saat tutustumalla ",
-  privacyNoticeLink: "käyttöehtoihin",
-  and: " ja ",
-  privacyNoticeEnd: "tietosuojailmoitukseen.",
-  needLeavePage: "Voit poistua tältä sivulta, kun virheiden seuranta on käynnissä. Kun olet toistanut ongelman, palaa tälle sivulle ja lataa lokitiedostot.",
-  downloading: "Ladataan"
-}; // @key: @#@"header"@#@ @source: @#@"Having issues?"@#@
+  header: 'Ota yhteyttä tukeen',
+  toggleTitle: '1. Ota virheidenseurantatila käyttöön',
+  toggleDescription: 'Tämä auttaa meitä paikantamaan ongelmasi mutta saattaa vaikuttaa jonkin verran sovelluksesi suorituskykyyn.',
+  downloadTitle: '2. Lataa virheloki, kun olet toistanut ongelman.',
+  downloadButton: 'Lataa',
+  downloadDisabledTitle: 'Ota virheidenseurantatila käyttöön, jotta voit ladata virhelokin.',
+  sendTitle: '3. Lähetä loki tukitiimille',
+  createSupportTicket: 'Luo tukipyyntö,',
+  sendDescription: ' jos haluat ottaa yhteyttä tukitiimiimme. Lähetä sitten loki tukitiimille vianmääritystä varten.',
+  privacyNotice: 'Lataamalla ja lähettämällä lokin meille hyväksyt, että RingCentral käyttää tiettyjä lokeihin liittyviä tietoja vianetsintä- ja virheidenkäsittelytarkoituksiin. Lisätietoja siitä, miten RingCentral käsittelee henkilötietoja, saat tutustumalla ',
+  privacyNoticeLink: 'käyttöehtoihin',
+  and: ' ja ',
+  privacyNoticeEnd: 'tietosuojailmoitukseen.',
+  needLeavePage: 'Voit poistua tältä sivulta, kun virheiden seuranta on käynnissä. Kun olet toistanut ongelman, palaa tälle sivulle ja lataa lokitiedostot.',
+  downloading: 'Ladataan'
+}; // @key: @#@"header"@#@ @source: @#@"Contact support"@#@
 // @key: @#@"toggleTitle"@#@ @source: @#@"1. Turn on error tracking mode"@#@
 // @key: @#@"toggleDescription"@#@ @source: @#@"This will help us locate your issues, but may slightly affect your app performance."@#@
 // @key: @#@"downloadTitle"@#@ @source: @#@"2. Download the error log when you have replicated the issue."@#@

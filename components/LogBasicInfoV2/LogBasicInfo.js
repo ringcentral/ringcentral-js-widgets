@@ -22,7 +22,7 @@ var _clsx = _interopRequireDefault(require("clsx"));
 var _ramda = require("ramda");
 var _react = _interopRequireDefault(require("react"));
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
-var _DurationCounter = _interopRequireDefault(require("../DurationCounter"));
+var _DurationCounter = require("../DurationCounter");
 var _RecordingIndicator = require("../RecordingIndicator");
 var _CallIcon = require("./CallIcon");
 var _ShinyBar = require("./ShinyBar");
@@ -55,16 +55,16 @@ var SubCallInfoSection = function SubCallInfoSection(_ref) {
     call = _ref$displayCallLog.call,
     logName = _ref$displayCallLog.logName,
     subContactNameDisplay = _ref$displayCallLog.subContactNameDisplay,
-    entityDetailLink = _ref$displayCallLog.entityDetailLink,
+    entityDetailLinkId = _ref$displayCallLog.entityDetailLinkId,
     disabledSwitchButton = _ref.disabledSwitchButton,
     currentLocale = _ref.currentLocale,
     disableLinks = _ref.disableLinks,
     isWide = _ref.isWide,
     showRecordingIndicator = _ref.showRecordingIndicator,
+    openEntityDetailLink = _ref.openEntityDetailLink,
     openEntityDetailLinkTrack = _ref.openEntityDetailLinkTrack,
     onSwitchWarmTransferSession = _ref.onSwitchWarmTransferSession;
   if (!call) return null;
-  // @ts-expect-error TS(2339): Property 'offset' does not exist on type 'Call'.
   var startTime = call.startTime,
     offset = call.offset,
     duration = call.duration,
@@ -76,10 +76,7 @@ var SubCallInfoSection = function SubCallInfoSection(_ref) {
       durationElement = disableLinks ?
       // TODO: should find what is that key, this unavailable is not exist
       // i18n.getString('unavailable', currentLocale)
-      'unavailable' :
-      /*#__PURE__*/
-      // @ts-expect-error TS(2322): Type 'number | undefined' is not assignable to typ... Remove this comment to see the full error message
-      _react["default"].createElement(_DurationCounter["default"], {
+      'unavailable' : /*#__PURE__*/_react["default"].createElement(_DurationCounter.DurationCounter, {
         startTime: startTime,
         offset: offset
       });
@@ -107,10 +104,10 @@ var SubCallInfoSection = function SubCallInfoSection(_ref) {
     className: _styles2["default"].logName,
     title: "".concat(subContactNameDisplay ? "".concat(logName, " ").concat(subContactNameDisplay) : logName),
     "data-sign": "subLogName"
-  }, entityDetailLink ? /*#__PURE__*/_react["default"].createElement(_juno.RcLink, {
+  }, entityDetailLinkId ? /*#__PURE__*/_react["default"].createElement(_juno.RcLink, {
     variant: "inherit",
     onClick: function onClick() {
-      window.open(entityDetailLink, '_blank');
+      openEntityDetailLink === null || openEntityDetailLink === void 0 ? void 0 : openEntityDetailLink(entityDetailLinkId);
       openEntityDetailLinkTrack === null || openEntityDetailLinkTrack === void 0 ? void 0 : openEntityDetailLinkTrack('call log page');
     }
   }, logName) : logName, subContactNameDisplay && /*#__PURE__*/_react["default"].createElement(_juno.RcText, {
@@ -142,7 +139,7 @@ var ActiveCallInfoSection = function ActiveCallInfoSection(_ref2) {
     call = _ref2$displayCallLog.call,
     logName = _ref2$displayCallLog.logName,
     subContactNameDisplay = _ref2$displayCallLog.subContactNameDisplay,
-    entityDetailLink = _ref2$displayCallLog.entityDetailLink,
+    entityDetailLinkId = _ref2$displayCallLog.entityDetailLinkId,
     formatPhone = _ref2.formatPhone,
     currentLocale = _ref2.currentLocale,
     dataSign = _ref2.dataSign,
@@ -152,6 +149,7 @@ var ActiveCallInfoSection = function ActiveCallInfoSection(_ref2) {
     className = _ref2.className,
     showRecordingIndicator = _ref2.showRecordingIndicator,
     openEntityDetailLinkTrack = _ref2.openEntityDetailLinkTrack,
+    openEntityDetailLink = _ref2.openEntityDetailLink,
     toggleConference = _ref2.toggleConference,
     conferenceParticipantsIsOpen = _ref2.conferenceParticipantsIsOpen;
   if (!call) return null;
@@ -172,10 +170,7 @@ var ActiveCallInfoSection = function ActiveCallInfoSection(_ref2) {
       durationElement = disableLinks ?
       // TODO: should find what is that key, this unavailable is not exist
       // i18n.getString('unavailable', currentLocale)
-      'unavailable' :
-      /*#__PURE__*/
-      // @ts-expect-error TS(2322): Type 'number | undefined' is not assignable to typ... Remove this comment to see the full error message
-      _react["default"].createElement(_DurationCounter["default"], {
+      'unavailable' : /*#__PURE__*/_react["default"].createElement(_DurationCounter.DurationCounter, {
         startTime: startTime,
         offset: offset
       });
@@ -215,10 +210,10 @@ var ActiveCallInfoSection = function ActiveCallInfoSection(_ref2) {
     className: _styles2["default"].logName,
     title: "".concat(subContactNameDisplay ? "".concat(logName, " ").concat(subContactNameDisplay) : logName),
     "data-sign": "logName"
-  }, entityDetailLink ? /*#__PURE__*/_react["default"].createElement(_juno.RcLink, {
+  }, entityDetailLinkId ? /*#__PURE__*/_react["default"].createElement(_juno.RcLink, {
     variant: "inherit",
     onClick: function onClick() {
-      window.open(entityDetailLink, '_blank');
+      openEntityDetailLink === null || openEntityDetailLink === void 0 ? void 0 : openEntityDetailLink(entityDetailLinkId);
       openEntityDetailLinkTrack === null || openEntityDetailLinkTrack === void 0 ? void 0 : openEntityDetailLinkTrack('call log page');
     }
   }, logName) : logName, subContactNameDisplay && /*#__PURE__*/_react["default"].createElement(_juno.RcText, {

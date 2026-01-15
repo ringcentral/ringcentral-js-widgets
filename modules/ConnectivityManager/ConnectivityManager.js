@@ -86,7 +86,9 @@ var ConnectivityManager = (_dec = (0, _di.Module)({
                 return _context.abrupt("return");
               case 2:
                 if (this._deps.audioSettings && this._deps.audioSettings.ready) {
-                  this._deps.audioSettings.checkAudioAvailable();
+                  this._deps.audioSettings.checkAudioAvailable({
+                    checkIfNoDevices: true
+                  });
                 }
                 if (this._deps.webphone && this._deps.webphone.ready) {
                   this._deps.webphone.connect({

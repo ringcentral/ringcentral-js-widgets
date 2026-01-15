@@ -21,15 +21,15 @@ var SelectDevice = function SelectDevice(_ref) {
   var children = _ref.children,
     label = _ref.label,
     props = _objectWithoutProperties(_ref, ["children", "label"]);
-  return /*#__PURE__*/_react["default"].createElement(_juno.RcSelect, _extends({
-    className: _styles["default"].select,
+  return /*#__PURE__*/_react["default"].createElement("div", {
+    className: _styles["default"].selectContainer
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcTypography, {
+    variant: "body2",
+    color: "neutral.f06"
+  }, label), /*#__PURE__*/_react["default"].createElement(_juno.RcSelect, _extends({
     variant: "box",
-    fullWidth: true,
-    label: /*#__PURE__*/_react["default"].createElement(_juno.RcTypography, {
-      variant: "body2",
-      color: "neutral.f06"
-    }, label)
-  }, props), children);
+    fullWidth: true
+  }, props), children));
 };
 exports.SelectDevice = SelectDevice;
 var getFallbackLabel = function getFallbackLabel(device) {

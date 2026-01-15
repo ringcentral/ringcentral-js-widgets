@@ -4,10 +4,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  contactDetails: "Detalles de contacto",
-  loadingContact: "Cargando contacto…",
-  contactNotFound: "No se pudo encontrar el contacto."
+  contactDetails: 'Detalles de contacto',
+  loadingContact: 'Cargando contacto…',
+  contactNotFound: 'No se pudo encontrar el contacto.'
 }; // @key: @#@"contactDetails"@#@ @source: @#@"Contact Details"@#@
 // @key: @#@"loadingContact"@#@ @source: @#@"Loading contact..."@#@
 // @key: @#@"contactNotFound"@#@ @source: @#@"Contact not found."@#@

@@ -4,15 +4,16 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  forward: "Reenc.",
-  ignore: "Ignorar",
-  toVoicemail: "Para correio de voz",
-  answer: "Atender",
-  endAndAnswer: "Term e atender",
-  holdAndAnswer: "Em espera e atender",
-  custom: "Personalizado",
-  more: "Mais"
+  forward: 'Reenc.',
+  ignore: 'Ignorar',
+  toVoicemail: 'Para correio de voz',
+  answer: 'Atender',
+  endAndAnswer: 'Terminar e atender',
+  holdAndAnswer: 'Em espera e atender',
+  custom: 'Personalizado',
+  more: 'Mais'
 }; // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
 // @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@
 // @key: @#@"toVoicemail"@#@ @source: @#@"To Voicemail"@#@

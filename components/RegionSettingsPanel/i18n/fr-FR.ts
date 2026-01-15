@@ -1,12 +1,16 @@
+/* eslint-disable */
 export default {
-  title: "Région",
-  NAOnlyMessage: "Veuillez saisir votre l’indicatif. Il sera utilisé pour la composition des numéros locaux.",
-  MultiWithNAMessage: "Veuillez saisir le pays ainsi que votre indicateur régional. Il sera utilisé pour la composition des numéros locaux et le formatage des numéros de téléphone.",
-  MultiWithoutNAMessage: "Veuillez sélectionner le pays correspondant à votre emplacement. Il sera utilisé pour la composition des numéros locaux et pour le formatage des numéros de téléphone.",
-  country: "Pays",
-  areaCode: "Indicatif",
-  areaCodePlaceholder: "Saisir l’indicatif"
-};
+  title: 'Région',
+  NAOnlyMessage:
+    'Veuillez saisir votre indicatif. Il sera utilisé pour la composition des numéros locaux.',
+  MultiWithNAMessage:
+    'Veuillez saisir le pays ainsi que votre indicateur régional. Il sera utilisé pour la composition des numéros locaux et le formatage des numéros de téléphone.',
+  MultiWithoutNAMessage:
+    'Veuillez sélectionner le pays correspondant à votre emplacement. Il sera utilisé pour la composition des numéros locaux et pour le formatage des numéros de téléphone.',
+  country: 'Pays',
+  areaCode: 'Indicatif',
+  areaCodePlaceholder: 'Saisir l’indicatif',
+} as const;
 
 // @key: @#@"title"@#@ @source: @#@"Region"@#@
 // @key: @#@"NAOnlyMessage"@#@ @source: @#@"Please set your area code. This will be used for local dialing."@#@

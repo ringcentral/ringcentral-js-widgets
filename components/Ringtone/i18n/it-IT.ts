@@ -1,13 +1,14 @@
+/* eslint-disable */
 export default {
-  ringtones: "Suonerie",
-  incomingRingtone: "Suoneria chiamata in entrata",
-  outgoingRingtone: "Suoneria chiamata in uscita",
-  play: "Riproduci",
-  stop: "Interrompi",
-  upload: "Carica",
-  reset: "Reimposta",
-  save: "Salva"
-};
+  ringtones: 'Suonerie',
+  incomingRingtone: 'Suoneria chiamata in entrata',
+  outgoingRingtone: 'Suoneria chiamata in uscita',
+  play: 'Riproduci',
+  stop: 'Interrompi',
+  upload: 'Carica',
+  reset: 'Reimposta',
+  save: 'Salva',
+} as const;
 
 // @key: @#@"ringtones"@#@ @source: @#@"Ringtones"@#@
 // @key: @#@"incomingRingtone"@#@ @source: @#@"Incoming Ringtone"@#@

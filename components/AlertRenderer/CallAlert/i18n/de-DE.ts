@@ -1,11 +1,8 @@
+/* eslint-disable */
 import { callErrors } from '@ringcentral-integration/commons/modules/Call';
-
 export default {
   [callErrors.emergencyNumber]:
     'Der Notruf ist nicht erreichbar. Bitte benutzen Sie ein anderes Telefon, um den Notdienst zu kontaktieren',
-  [callErrors.noInternational]:
-    'Sie verfügen nicht über die Berechtigung, internationale Anrufe zu tätigen. Wenden Sie sich an Ihren {brand}-Kontoadministrator, um ein Upgrade zu erhalten.',
-
   [callErrors.noToNumber]: 'Geben Sie eine gültige Telefonnummer ein.',
   [callErrors.noAreaCode]:
     'Legen Sie {areaCodeLink} fest, um lokale Telefonnummer mit 7 Ziffern verwenden zu können.',
@@ -13,18 +10,20 @@ export default {
     'Verbindungsaufbau fehlgeschlagen. Versuchen Sie es später noch einmal.',
   [callErrors.internalError]:
     'Herstellen der Verbindung aufgrund interner Fehler nicht möglich. Versuchen Sie es später noch einmal.',
-  [callErrors.notAnExtension]: 'Die Durchwahlnummer ist nicht vorhanden.',
+  [callErrors.notAnExtension]: 'Die Nebenstellennummer ist nicht vorhanden.',
   [callErrors.networkError]:
     'Verbindung aufgrund von Netzwerkproblemen fehlgeschlagen. Versuchen Sie es später noch einmal.',
+  [callErrors.noInternational]:
+    'Sie verfügen nicht über die Berechtigung, internationale Anrufe zu tätigen. Wenden Sie sich an Ihren {brand}-Kontoadministrator, um ein Upgrade zu erhalten.',
   [callErrors.noRingoutEnable]:
-    'Mit Ihrer Durchwahl können Anrufe mit Desktop-Apps getätigt werden.\n    Wenden Sie sich an Ihren Kontoadministrator für ein Upgrade,\n    wenn Sie zu anderen Anrufoptionen wechseln möchten.',
+    'Mit Ihrer Nebenstelle können Anrufe mit Desktop-Apps getätigt werden.\n    Wenden Sie sich an Ihren Kontoadministrator für ein Upgrade,\n    wenn Sie zu anderen Anrufoptionen wechseln möchten.',
   [callErrors.numberParseError]:
     'Leider ist bei uns ein Problem aufgetreten. Versuchen Sie es später erneut.',
   areaCode: 'Vorwahl',
   telus911: 'Notrufe werden nicht unterstützt.',
   [callErrors.fromAndToNumberIsSame]:
     'Die RingOut-Nummer und die Zielnummer dürfen nicht gleich sein. Aktualisieren Sie die Nummer, und versuchen Sie es erneut.',
-};
+} as const;
 
 // @key: @#@"[callErrors.emergencyNumber]"@#@ @source: @#@"Emergency calling is not available. Please use another phone to contact emergency services"@#@
 // @key: @#@"[callErrors.noToNumber]"@#@ @source: @#@"Please enter a valid phone number."@#@

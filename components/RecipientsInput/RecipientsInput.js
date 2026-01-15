@@ -12,7 +12,6 @@ require("core-js/modules/es.object.set-prototype-of");
 require("core-js/modules/es.regexp.exec");
 require("core-js/modules/es.string.replace");
 require("core-js/modules/es.string.trim");
-require("core-js/modules/web.timers");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -58,7 +57,6 @@ var RecipientsInput = /*#__PURE__*/function (_Component) {
     _this.handleHotKey = void 0;
     _this.listRef = void 0;
     _this.inputRef = void 0;
-    _this._focusTimeout = void 0;
     _this.onInputKeyUp = function (ev) {
       // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
       _this.props.searchContact(ev.currentTarget.value);
@@ -278,32 +276,20 @@ var RecipientsInput = /*#__PURE__*/function (_Component) {
   }, {
     key: "componentDidMount",
     value: function componentDidMount() {
-      var _this3 = this;
       // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
       this.props.searchContact(this.props.value);
       window.addEventListener('click', this.clickHandler);
-      if (this.props.autoFocus) {
-        this._focusTimeout = setTimeout(function () {
-          if (_this3.inputRef) {
-            _this3.inputRef.focus();
-          }
-        }, 300);
-      }
     } // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   }, {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
       window.removeEventListener('click', this.clickHandler);
-      if (this._focusTimeout) {
-        clearTimeout(this._focusTimeout);
-        this._focusTimeout = undefined;
-      }
     }
   }, {
     key: "render",
     // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
     value: function render() {
-      var _this4 = this;
+      var _this3 = this;
       var _this$props = this.props,
         className = _this$props.className,
         contactInfoRenderer = _this$props.contactInfoRenderer,
@@ -377,7 +363,7 @@ var RecipientsInput = /*#__PURE__*/function (_Component) {
       }), toNumberInput), /*#__PURE__*/_react["default"].createElement(_ContactDropdownList.ContactDropdownList, {
         currentLocale: currentLocale,
         listRef: function listRef(ref) {
-          _this4.listRef = ref;
+          _this3.listRef = ref;
         }
         // @ts-expect-error TS(2769): No overload matches this call.
         ,

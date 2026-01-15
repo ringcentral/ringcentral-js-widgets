@@ -4,25 +4,27 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  logging: "Kirjataan lokiin...",
-  logCall: "Kirjaa puhelu lokiin",
-  editLog: "Muokkaa lokia",
-  select: "Valitse vastaava tallenne",
-  OnHold: "Pidossa",
-  Ringing: "Soitetaan",
-  CallConnected: "Puhelu yhdistetty",
-  unknownUser: "Tuntematon käyttäjä",
-  unknownNumber: "Nimetön",
-  unavailable: "Ei käytettävissä",
-  viewDetails: "Näytä tiedot",
-  addEntity: "Luo uusi",
-  addLog: "Loki",
-  text: "Tekstiviesti",
-  call: "Soita",
-  missedCall: "Vastaamaton",
-  inboundCall: "Saapuva",
-  outboundCall: "Lähtevät"
+  logging: 'Kirjataan lokiin...',
+  logCall: 'Kirjaa puhelu lokiin',
+  editLog: 'Muokkaa lokia',
+  select: 'Valitse vastaava tallenne',
+  OnHold: 'Pidossa',
+  Ringing: 'Soitetaan',
+  CallConnected: 'Puhelu yhdistetty',
+  unknownUser: 'Tuntematon käyttäjä',
+  unknownNumber: 'Nimetön',
+  unavailable: 'Ei käytettävissä',
+  viewDetails: 'Näytä tiedot',
+  addEntity: 'Luo uusi',
+  addLog: 'Loki',
+  text: 'Tekstiviesti',
+  call: 'Soita',
+  missedCall: 'Vastaamaton',
+  inboundCall: 'Saapuva',
+  outboundCall: 'Lähtevät',
+  answeredBy: 'Vastannut'
 }; // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
@@ -41,5 +43,6 @@ var _default = {
 // @key: @#@"missedCall"@#@ @source: @#@"Missed"@#@
 // @key: @#@"inboundCall"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"outboundCall"@#@ @source: @#@"Outbound"@#@
+// @key: @#@"answeredBy"@#@ @source: @#@"Answered by"@#@
 exports["default"] = _default;
 //# sourceMappingURL=fi-FI.js.map

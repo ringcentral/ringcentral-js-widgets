@@ -1,24 +1,26 @@
+/* eslint-disable */
 export default {
-  feedbackHeader: "Lähetä palaute",
-  back: "Takaisin",
-  revert: "Palauta",
-  instruction: "Arvostamme palautettasi. Jos sovelluksen käytössä esiintyy ongelmia, haluat ehdottaa ominaisuutta tai ilmoittaa virheestä, autamme mielellämme.",
-  fillForm: "Täytä alla oleva lomake ja napsauta ",
-  useMailBox: " tai lähetä pyyntösi suoraan sähköpostilla osoitteeseen ",
-  email: "Oma sähköpostiosoite",
-  reply: "(jotta voimme vastata sinulle)",
-  emailPlaceHolder: "ronald.app@ringcentral.com",
-  feedbackTopic: "Palautteen aihe",
-  topicPlaceHolder: "Valitse vaihtoehto",
-  bugReport: "Virheraportti",
-  featureRequest: "Ominaisuusehdotus",
-  others: "Muut",
-  subject: "Aihe",
-  subjectPlaceHolder: "Kerro, miten voimme auttaa",
-  description: "Täysi kuvaus",
-  descriptionPlaceHolder: "Anna mahdollisimman paljon tietoja",
-  send: "Lähetä palautetta"
-};
+  feedbackHeader: 'Lähetä palaute',
+  back: 'Takaisin',
+  revert: 'Palauta',
+  instruction:
+    'Arvostamme palautettasi. Jos sovelluksen käytössä esiintyy ongelmia, haluat ehdottaa ominaisuutta tai ilmoittaa virheestä, autamme mielellämme.',
+  fillForm: 'Täytä alla oleva lomake ja napsauta ',
+  useMailBox: ' tai lähetä pyyntösi suoraan sähköpostilla osoitteeseen ',
+  email: 'Oma sähköpostiosoite',
+  reply: '(jotta voimme vastata sinulle)',
+  emailPlaceHolder: 'ronald.app@ringcentral.com',
+  feedbackTopic: 'Palautteen aihe',
+  topicPlaceHolder: 'Valitse vaihtoehto',
+  bugReport: 'Virheraportti',
+  featureRequest: 'Ominaisuusehdotus',
+  others: 'Muut',
+  subject: 'Aihe',
+  subjectPlaceHolder: 'Kerro, miten voimme auttaa',
+  description: 'Täysi kuvaus',
+  descriptionPlaceHolder: 'Anna mahdollisimman paljon tietoja',
+  send: 'Lähetä palautetta',
+} as const;
 
 // @key: @#@"feedbackHeader"@#@ @source: @#@"Submit Feedback"@#@
 // @key: @#@"back"@#@ @source: @#@"Back"@#@

@@ -1,15 +1,16 @@
+/* eslint-disable */
 import messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
 export default {
-  title: "Berichten",
-  search: "Zoeken...",
-  composeText: "Tekst opstellen",
-  noMessages: "Geen berichten",
-  noSearchResults: "Geen overeenkomende opnamen gevonden",
-  [messageTypes.all]: "Alles",
-  [messageTypes.voiceMail]: "Voice",
-  [messageTypes.text]: "Tekstbericht",
-  [messageTypes.fax]: "Fax"
-};
+  title: 'Berichten',
+  search: 'Zoeken...',
+  composeText: 'Tekst opstellen',
+  noMessages: 'Geen berichten',
+  noSearchResults: 'Geen overeenkomende opnamen gevonden',
+  [messageTypes.all]: 'Alles',
+  [messageTypes.voiceMail]: 'Voice',
+  [messageTypes.text]: 'Tekstbericht',
+  [messageTypes.fax]: 'Fax',
+} as const;
 
 // @key: @#@"title"@#@ @source: @#@"Messages"@#@
 // @key: @#@"search"@#@ @source: @#@"Search..."@#@

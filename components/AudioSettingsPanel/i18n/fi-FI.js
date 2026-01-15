@@ -4,23 +4,24 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  title: "Ääni",
-  dialButtonVolume: "Numeronvalintapainikkeen äänenvoimakkuus",
-  ringtoneVolume: "Soittoäänen voimakkuus",
-  callVolume: "Puhelun äänenvoimakkuus",
-  muteCalls: "Mykistä puhelut",
-  outputDevice: "Lähtölaite",
-  inputDevice: "Tulolaite",
-  micPermission: "Mikrofonin käyttölupa",
-  noDevice: "Ei laitteita",
-  checkMicPermission: "Tarkista käyttölupa",
-  micNoPermissionMessage: "Sovelluksella ei ole lupaa käyttää mikrofonia",
-  noLabel: "Tuntematon laite",
-  notSetSinkIdTip: "Selaimen nykyiset käyttöluvat eivät anna palvelumme käyttää äänen lähtölaitteita. Katso, miten voit muokata asetuksia {clickHereLink}.",
-  noLabelTip: "Selaimen nykyiset käyttöluvat eivät anna palvelumme käyttää äänen tulolaitteita.",
-  clickHere: "napsauttamalla tätä",
-  defaultOutputDevice: "Oletuslähtölaite"
+  title: 'Ääni',
+  dialButtonVolume: 'Numeronvalintapainikkeen äänenvoimakkuus',
+  ringtoneVolume: 'Soittoäänen voimakkuus',
+  callVolume: 'Puhelun äänenvoimakkuus',
+  muteCalls: 'Mykistä puhelut',
+  outputDevice: 'Lähtölaite',
+  inputDevice: 'Tulolaite',
+  micPermission: 'Mikrofonin käyttölupa',
+  noDevice: 'Ei laitteita',
+  checkMicPermission: 'Tarkista käyttölupa',
+  micNoPermissionMessage: 'Sovelluksella ei ole lupaa käyttää mikrofonia',
+  noLabel: 'Tuntematon laite',
+  notSetSinkIdTip: 'Selaimen nykyiset käyttöluvat eivät anna palvelumme käyttää äänen lähtölaitteita. Katso, miten voit muokata asetuksia {clickHereLink}.',
+  noLabelTip: 'Selaimen nykyiset käyttöluvat eivät anna palvelumme käyttää äänen tulolaitteita.',
+  clickHere: 'napsauttamalla tätä',
+  defaultOutputDevice: 'Oletuslähtölaite'
 }; // @key: @#@"title"@#@ @source: @#@"Audio"@#@
 // @key: @#@"dialButtonVolume"@#@ @source: @#@"Dial Button Volume"@#@
 // @key: @#@"ringtoneVolume"@#@ @source: @#@"Ringtone Volume"@#@

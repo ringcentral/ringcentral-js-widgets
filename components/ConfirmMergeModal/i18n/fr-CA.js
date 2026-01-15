@@ -4,11 +4,12 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  confirmation: "Confirmation",
-  confirmMergeToConference: "Ajouter à la téléconférence?",
-  mergeToConference: "Fusionner",
-  conferenceCall: "Téléconférence"
+  confirmation: 'Confirmation',
+  confirmMergeToConference: 'Ajouter à la téléconférence?',
+  mergeToConference: 'Fusionner',
+  conferenceCall: 'Téléconférence'
 }; // @key: @#@"confirmation"@#@ @source: @#@"Confirmation"@#@
 // @key: @#@"confirmMergeToConference"@#@ @source: @#@"Add to conference call?"@#@
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@

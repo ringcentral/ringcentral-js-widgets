@@ -17,3 +17,10 @@ export interface Deps extends BaseDeps {
   routerInteraction: RouterInteraction;
   oAuthOptions?: OAuthOptions;
 }
+
+export interface CombinedAuthState {
+  now: number;
+  uuid: string;
+  prefix?: string;
+  origin?: string;
+}

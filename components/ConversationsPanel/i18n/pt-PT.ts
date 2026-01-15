@@ -1,15 +1,16 @@
+/* eslint-disable */
 import messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
 export default {
-  title: "Mensagens",
-  search: "Pesquisar…",
-  composeText: "Compor texto",
-  noMessages: "Sem mensagens",
-  noSearchResults: "Não foram encontrados registos correspondentes",
-  [messageTypes.all]: "Tudo",
-  [messageTypes.voiceMail]: "Voz",
-  [messageTypes.text]: "SMS",
-  [messageTypes.fax]: "Fax"
-};
+  title: 'Mensagens',
+  search: 'Pesquisar…',
+  composeText: 'Compor SMS',
+  noMessages: 'Sem mensagens',
+  noSearchResults: 'Não foram encontrados registos correspondentes',
+  [messageTypes.all]: 'Tudo',
+  [messageTypes.voiceMail]: 'Voz',
+  [messageTypes.text]: 'SMS',
+  [messageTypes.fax]: 'Fax',
+} as const;
 
 // @key: @#@"title"@#@ @source: @#@"Messages"@#@
 // @key: @#@"search"@#@ @source: @#@"Search..."@#@

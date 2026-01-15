@@ -4,12 +4,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  recentActivities: "Attività recenti",
-  text: "SMS",
-  fax: "Fax",
-  voicemail: "Messaggio vocale",
-  call: "Chiamata"
+  recentActivities: 'Attività recenti',
+  text: 'SMS',
+  fax: 'Fax',
+  voicemail: 'Messaggio vocale',
+  call: 'Chiamata'
 }; // @key: @#@"recentActivities"@#@ @source: @#@"Recent Activities"@#@
 // @key: @#@"text"@#@ @source: @#@"Text"@#@
 // @key: @#@"fax"@#@ @source: @#@"Fax"@#@

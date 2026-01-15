@@ -8,6 +8,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.AudioSettingsPanel = void 0;
 var _VolumeInspector = require("@ringcentral-integration/commons/modules/VolumeInspector");
+var _webphoneHelper = require("@ringcentral-integration/commons/modules/Webphone/webphoneHelper");
+var _utils = require("@ringcentral-integration/utils");
 var _juno = require("@ringcentral/juno");
 var _clsx = _interopRequireDefault(require("clsx"));
 var _react = _interopRequireWildcard(require("react"));
@@ -45,7 +47,7 @@ var AudioSettingsPanel = function AudioSettingsPanel(_ref) {
     ringtoneDeviceId = _ref.ringtoneDeviceId,
     handleTestMicroClick = _ref.handleTestMicroClick,
     handleTestSpeakerClick = _ref.handleTestSpeakerClick,
-    showAlert = _ref.showAlert,
+    checkAudioAvailable = _ref.checkAudioAvailable,
     volumeTestData = _ref.volumeTestData,
     fullRingtoneList = _ref.fullRingtoneList,
     selectedRingtoneId = _ref.selectedRingtoneId,
@@ -55,8 +57,9 @@ var AudioSettingsPanel = function AudioSettingsPanel(_ref) {
     updateCurrentRingtone = _ref.updateCurrentRingtone,
     removeCustomRingtone = _ref.removeCustomRingtone;
   (0, _react.useEffect)(function () {
-    showAlert();
+    checkAudioAvailable();
   }, []);
+  var enableTestVolumeAndSource = !((0, _utils.isSafari)() || (0, _webphoneHelper.isFirefox)());
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _clsx["default"])(_styles["default"].root, className)
   }, /*#__PURE__*/_react["default"].createElement(_PageHeader.PageHeader, null, /*#__PURE__*/_react["default"].createElement(_PageHeader.PageHeaderBack, {
@@ -64,6 +67,7 @@ var AudioSettingsPanel = function AudioSettingsPanel(_ref) {
   }), /*#__PURE__*/_react["default"].createElement(_PageHeader.PageHeaderTitle, null, (0, _i18n.t)('title')), /*#__PURE__*/_react["default"].createElement(_PageHeader.PageHeaderRemain, null)), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].content
   }, /*#__PURE__*/_react["default"].createElement(_components.Section, {
+    show: enableTestVolumeAndSource,
     label: (0, _i18n.t)('input'),
     dataSign: "inputDeviceSection"
   }, /*#__PURE__*/_react["default"].createElement(_components.AudioDeviceSelect, {
@@ -87,9 +91,11 @@ var AudioSettingsPanel = function AudioSettingsPanel(_ref) {
     formControlLabelProps: {
       labelPlacement: 'start',
       style: {
+        alignItems: 'start',
         marginLeft: 0
       }
     },
+    "data-sign": "autoAdjustMicLevel",
     disabled: !hasUserMedia,
     className: _styles["default"]["switch"],
     label: /*#__PURE__*/_react["default"].createElement(_juno.RcTypography, {
@@ -104,7 +110,7 @@ var AudioSettingsPanel = function AudioSettingsPanel(_ref) {
   })), /*#__PURE__*/_react["default"].createElement(_components.Section, {
     label: (0, _i18n.t)('output'),
     dataSign: "outputDeviceSection"
-  }, /*#__PURE__*/_react["default"].createElement(_components.AudioDeviceSelect, {
+  }, enableTestVolumeAndSource && /*#__PURE__*/_react["default"].createElement(_components.AudioDeviceSelect, {
     dataSign: "speakerDeviceSelect",
     availableDevices: availableOutputDevices,
     isDisabled: outputDeviceDisabled,
@@ -115,7 +121,7 @@ var AudioSettingsPanel = function AudioSettingsPanel(_ref) {
       });
     },
     label: (0, _i18n.t)('speakerSource')
-  }), /*#__PURE__*/_react["default"].createElement(_components.VolumeTester, _extends({}, volumeTestData, {
+  }), enableTestVolumeAndSource && /*#__PURE__*/_react["default"].createElement(_components.VolumeTester, _extends({}, volumeTestData, {
     audioType: _VolumeInspector.TEST_TYPE.speaker,
     disabled: outputDeviceDisabled,
     handleButtonClick: function handleButtonClick() {
@@ -130,7 +136,7 @@ var AudioSettingsPanel = function AudioSettingsPanel(_ref) {
         callVolume: volume
       });
     }
-  }), /*#__PURE__*/_react["default"].createElement(_components.AudioDeviceSelect, {
+  }), enableTestVolumeAndSource && /*#__PURE__*/_react["default"].createElement(_components.AudioDeviceSelect, {
     dataSign: "ringtoneDeviceSelect",
     isDisabled: ringtoneSelectDisabled,
     availableDevices: availableRingtoneDevices,

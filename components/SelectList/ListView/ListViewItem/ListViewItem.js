@@ -72,6 +72,7 @@ var ListViewItem = function ListViewItem(_ref) {
         return onChange(isSelected ? {} : option);
       },
       "data-sign": "match".concat(index),
+      "data-selected": isSelected,
       selected: isSelected,
       disabled: disabled
     }, startAdornment === null || startAdornment === void 0 ? void 0 : startAdornment(type), multiple && /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, {

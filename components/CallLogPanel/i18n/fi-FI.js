@@ -4,10 +4,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  createCallLog: "Luo puheluloki",
-  viewInSalesforce: "Näytä Salesforcessa",
-  createLog: "Luo loki"
+  createCallLog: 'Luo puheluloki',
+  viewInSalesforce: 'Näytä Salesforcessa',
+  createLog: 'Luo loki'
 }; // @key: @#@"createCallLog"@#@ @source: @#@"Create call log"@#@
 // @key: @#@"viewInSalesforce"@#@ @source: @#@"View in Salesforce"@#@
 // @key: @#@"createLog"@#@ @source: @#@"Create log"@#@

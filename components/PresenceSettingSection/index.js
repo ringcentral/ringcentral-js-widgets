@@ -15,8 +15,9 @@ var _react = _interopRequireWildcard(require("react"));
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 var _getPresenceStatusName = require("../../lib/getPresenceStatusName");
 var _IconLine = _interopRequireDefault(require("../IconLine"));
+var _LinkLine = require("../LinkLine");
 var _usePresenceItems2 = require("../PresenceDropdown/usePresenceItems");
-var _Switch = _interopRequireDefault(require("../Switch"));
+var _SwitchLineItem = require("../SettingsPanel/SwitchLineItem");
 var _i18n = _interopRequireDefault(require("./i18n"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
@@ -58,7 +59,10 @@ var PresenceSettingSection = function PresenceSettingSection(_ref) {
     setAvailable = _ref.setAvailable,
     setBusy = _ref.setBusy,
     setDoNotDisturb = _ref.setDoNotDisturb,
-    setInvisible = _ref.setInvisible;
+    setInvisible = _ref.setInvisible,
+    _ref$enableAcceptQueu = _ref.enableAcceptQueueCallsControl,
+    enableAcceptQueueCallsControl = _ref$enableAcceptQueu === void 0 ? true : _ref$enableAcceptQueu,
+    onCallQueueManagementClick = _ref.onCallQueueManagementClick;
   var _useState = (0, _react.useState)(showPresenceSettings),
     _useState2 = _slicedToArray(_useState, 2),
     showSelects = _useState2[0],
@@ -72,14 +76,20 @@ var PresenceSettingSection = function PresenceSettingSection(_ref) {
     toggleAcceptCallQueueCalls();
   };
   var sectionClass = (0, _clsx["default"])(_styles["default"].section, showSelects ? _styles["default"].showDropdown : null);
-  var acceptQueueCalls = isCallQueueMember ? /*#__PURE__*/_react["default"].createElement(_IconLine["default"], {
+  var acceptQueueCalls = isCallQueueMember ? /*#__PURE__*/_react["default"].createElement(_SwitchLineItem.SwitchLineItem, {
     dataSign: "acceptQueueSwitch",
-    icon: /*#__PURE__*/_react["default"].createElement(_Switch["default"], {
-      disable: dndStatusProp === _Presence.dndStatus.doNotAcceptAnyCalls,
-      checked: dndStatusProp === _Presence.dndStatus.takeAllCalls,
-      onChange: onCallQueueChange
-    })
-  }, _i18n["default"].getString('acceptQueueCalls', currentLocale)) : null;
+    tooltip: !enableAcceptQueueCallsControl ? _i18n["default"].getString('callQueueDisabledReason', currentLocale) : undefined,
+    customTitle: _i18n["default"].getString('acceptQueueCalls', currentLocale),
+    show: true,
+    checked: dndStatusProp === _Presence.dndStatus.takeAllCalls,
+    onChange: onCallQueueChange,
+    disabled: dndStatusProp === _Presence.dndStatus.doNotAcceptAnyCalls || !enableAcceptQueueCallsControl
+  }) : null;
+  var showCallQueueManagement = enableAcceptQueueCallsControl && onCallQueueManagementClick && dndStatusProp !== _Presence.dndStatus.doNotAcceptAnyCalls && dndStatusProp !== _Presence.dndStatus.doNotAcceptDepartmentCalls;
+  var callQueueManagement = showCallQueueManagement ? /*#__PURE__*/_react["default"].createElement(_LinkLine.LinkLine, {
+    dataSign: "callQueueManagementSwitch",
+    onClick: onCallQueueManagementClick
+  }, _i18n["default"].getString('callQueueManagement', currentLocale)) : null;
   var currentStatus = (0, _getPresenceStatusName.getPresenceStatusName)(userStatus, dndStatusProp, currentLocale);
   var _usePresenceItems = (0, _usePresenceItems2.usePresenceItems)({
       currentLocale: currentLocale,
@@ -126,7 +136,7 @@ var PresenceSettingSection = function PresenceSettingSection(_ref) {
     type: selectedItem === null || selectedItem === void 0 ? void 0 : selectedItem.type
   }), /*#__PURE__*/_react["default"].createElement("span", null, currentStatus))), /*#__PURE__*/_react["default"].createElement(StyledList, {
     className: _styles["default"].presenceList
-  }, presenceElements), acceptQueueCalls);
+  }, presenceElements), acceptQueueCalls, callQueueManagement);
 };
 
 // export default class PresenceSettingSection extends Component<

@@ -1,14 +1,15 @@
+/* eslint-disable */
 export default {
-  removeParticipant: "Teilnehmer entfernen",
-  confirmStr1: "Möchten Sie wirklich",
-  confirmStr2: "aus diesem Anruf entfernen?",
-  remove: "Entfernen",
-  cancel: "Abbrechen",
-  participants: "Teilnehmer",
-  participant: "Teilnehmer",
-  conferenceCall: "Telefonkonferenz",
-  unknownNumber: "Anonym"
-};
+  removeParticipant: 'Teilnehmer entfernen',
+  confirmStr1: 'Möchten Sie wirklich',
+  confirmStr2: 'aus diesem Anruf entfernen?',
+  remove: 'Entfernen',
+  cancel: 'Abbrechen',
+  participants: 'Teilnehmer',
+  participant: 'Teilnehmer',
+  conferenceCall: 'Telefonkonferenz',
+  unknownNumber: 'Anonym',
+} as const;
 
 // @key: @#@"removeParticipant"@#@ @source: @#@"Remove Participant"@#@
 // @key: @#@"confirmStr1"@#@ @source: @#@"Are you sure you want to remove"@#@

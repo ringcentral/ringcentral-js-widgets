@@ -4,15 +4,16 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  forward: "転送",
-  ignore: "無視",
-  toVoicemail: "ボイスメールへ",
-  answer: "応答",
-  endAndAnswer: "終了/応答",
-  holdAndAnswer: "保留して応答",
-  custom: "カスタム",
-  more: "詳細"
+  forward: '転送',
+  ignore: '無視',
+  toVoicemail: 'ボイスメールへ',
+  answer: '応答',
+  endAndAnswer: '終了＆応答',
+  holdAndAnswer: '保留して応答',
+  custom: 'カスタム',
+  more: '詳細'
 }; // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
 // @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@
 // @key: @#@"toVoicemail"@#@ @source: @#@"To Voicemail"@#@

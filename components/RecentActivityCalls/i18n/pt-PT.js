@@ -4,11 +4,12 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  noRecords: "Não foram encontrados registos.",
-  inBound: "Recebida",
-  outBound: "Efetuada",
-  missed: "Chamada não atendida"
+  noRecords: 'Nenhum registo recente encontrado.',
+  inBound: 'Recebida',
+  outBound: 'Efetuada',
+  missed: 'Chamada não atendida'
 }; // @key: @#@"noRecords"@#@ @source: @#@"No recent records found."@#@
 // @key: @#@"inBound"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"outBound"@#@ @source: @#@"Outbound"@#@

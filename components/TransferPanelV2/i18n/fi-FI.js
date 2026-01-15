@@ -4,13 +4,14 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  to: "Vst.ot:",
-  transferTo: "Siirto kohteeseen",
-  blindTransfer: "Siirrä",
-  warmTransfer: "Kysy ensin",
-  enterNameOrNumber: "Anna numero",
-  toVoicemail: "Vastaajaan"
+  to: 'Vst.ot:',
+  transferTo: 'Siirto kohteeseen',
+  blindTransfer: 'Siirrä',
+  warmTransfer: 'Kysy ensin',
+  enterNameOrNumber: 'Anna numero',
+  toVoicemail: 'Vastaajaan'
 }; // @key: @#@"to"@#@ @source: @#@"To:"@#@
 // @key: @#@"transferTo"@#@ @source: @#@"Transfer to"@#@
 // @key: @#@"blindTransfer"@#@ @source: @#@"Transfer"@#@

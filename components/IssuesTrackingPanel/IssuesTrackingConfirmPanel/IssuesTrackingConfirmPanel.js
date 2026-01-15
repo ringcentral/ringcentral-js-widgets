@@ -37,28 +37,33 @@ var IssuesTrackingCloseConfirmPanel = function IssuesTrackingCloseConfirmPanel(_
     color: "action.grayDark",
     component: "h2",
     weight: "bold",
-    flexFull: true
+    flexFull: true,
+    "data-sign": "DialogTitle"
   }, (0, _i18n.t)('header')), /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
+    "data-sign": "DialogCloseButton",
     symbol: _junoIcon.Close,
     onClick: function onClick() {
       return onClose();
     }
   }))), /*#__PURE__*/_react["default"].createElement("main", null, /*#__PURE__*/_react["default"].createElement(_juno.RcTypography, {
-    color: "action.grayDark"
+    color: "action.grayDark",
+    "data-sign": "DialogContent"
   }, (0, _i18n.t)('content'))), /*#__PURE__*/_react["default"].createElement("footer", null, /*#__PURE__*/_react["default"].createElement(_juno.RcButton, {
     radius: "round",
     variant: "outlined",
     fullWidth: true,
     onClick: function onClick(e) {
       return onCancel();
-    }
+    },
+    "data-sign": "DialogCancelButton"
   }, (0, _i18n.t)('cancel')), /*#__PURE__*/_react["default"].createElement(_juno.RcButton, {
     radius: "round",
     onClick: function onClick(e) {
       return onConfirm();
     },
     variant: "contained",
-    fullWidth: true
+    fullWidth: true,
+    "data-sign": "DialogOKButton"
   }, (0, _i18n.t)('confirm'))));
 };
 exports.IssuesTrackingCloseConfirmPanel = IssuesTrackingCloseConfirmPanel;

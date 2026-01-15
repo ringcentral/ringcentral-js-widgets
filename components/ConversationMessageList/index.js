@@ -10,8 +10,6 @@ require("core-js/modules/es.function.bind");
 require("core-js/modules/es.function.name");
 require("core-js/modules/es.object.get-prototype-of");
 require("core-js/modules/es.object.set-prototype-of");
-require("core-js/modules/es.regexp.exec");
-require("core-js/modules/es.string.split");
 require("core-js/modules/es.string.big");
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -19,11 +17,11 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = exports.Message = void 0;
 require("regenerator-runtime/runtime");
 var _isBlank = require("@ringcentral-integration/commons/lib/isBlank");
-var _juno = require("@ringcentral/juno");
-var _junoIcon = require("@ringcentral/juno-icon");
 var _clsx = _interopRequireDefault(require("clsx"));
 var _propTypes = _interopRequireDefault(require("prop-types"));
 var _react = _interopRequireWildcard(require("react"));
+var _FileAttachmentRender = require("./FileAttachmentRender");
+var _ImageAttachmentRender = require("./ImageAttachmentRender");
 var _SubjectRender = require("./SubjectRender");
 var _i18n = _interopRequireDefault(require("./i18n"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
@@ -44,10 +42,6 @@ function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || 
 function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
 function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
 function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
-function getExtFromContentType(contentType) {
-  var ext = contentType.split('/');
-  return ext[1].split('+')[0];
-}
 var Message = function Message(_ref) {
   var subject = _ref.subject,
     time = _ref.time,
@@ -57,7 +51,8 @@ var Message = function Message(_ref) {
     mmsAttachments = _ref.mmsAttachments,
     currentLocale = _ref.currentLocale,
     onAttachmentDownload = _ref.onAttachmentDownload,
-    onLinkClick = _ref.onLinkClick;
+    onLinkClick = _ref.onLinkClick,
+    handleImageLoad = _ref.handleImageLoad;
   var subjectNode;
   if (subject && !(0, _isBlank.isBlank)(subject)) {
     var SubjectComp = SubjectRenderer || _SubjectRender.SubjectRender;
@@ -69,41 +64,24 @@ var Message = function Message(_ref) {
   var imageAttachments = mmsAttachments.filter(function (m) {
     return m.contentType.indexOf('image') > -1;
   }).map(function (attachment) {
-    return /*#__PURE__*/_react["default"].createElement("img", {
+    return /*#__PURE__*/_react["default"].createElement(_ImageAttachmentRender.ImageAttachmentRender, {
       key: attachment.id,
-      src: attachment.uri,
-      alt: "attachment".concat(attachment.id),
-      className: _styles["default"].picture
+      attachment: attachment,
+      handleImageLoad: handleImageLoad
     });
   });
   var otherAttachments = mmsAttachments.filter(function (m) {
     return m.contentType.indexOf('image') === -1;
   }).map(function (attachment) {
-    var fileName = attachment.fileName || "".concat(attachment.id, ".").concat(getExtFromContentType(attachment.contentType));
     return /*#__PURE__*/_react["default"].createElement("div", {
       key: attachment.id,
-      title: fileName,
-      className: _styles["default"].file
-    }, /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
-      size: "small",
-      symbol: _junoIcon.DefaultFile
-    }), /*#__PURE__*/_react["default"].createElement("span", {
-      className: _styles["default"].fileName
-    }, fileName), /*#__PURE__*/_react["default"].createElement("a", {
-      target: "_blank",
-      className: _styles["default"].download,
-      download: fileName,
-      onClick: function onClick(e) {
-        if (typeof onAttachmentDownload === 'function') {
-          onAttachmentDownload(attachment.uri, e);
-        }
-      },
-      title: _i18n["default"].getString('download', currentLocale),
-      href: "".concat(attachment.uri, "&contentDisposition=Attachment")
-    }, /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
-      size: "small",
-      symbol: _junoIcon.Download
-    })));
+      "data-sign": "".concat(direction, "Attachment"),
+      className: (0, _clsx["default"])(_styles["default"].messageBody, direction === 'Outbound' ? _styles["default"].outbound : _styles["default"].inbound)
+    }, /*#__PURE__*/_react["default"].createElement(_FileAttachmentRender.FileAttachmentRender, {
+      attachment: attachment,
+      currentLocale: currentLocale,
+      onLinkClick: onAttachmentDownload
+    }));
   });
   return /*#__PURE__*/_react["default"].createElement("div", {
     "data-sign": "message",
@@ -113,10 +91,13 @@ var Message = function Message(_ref) {
     "data-sign": "conversationSendTime"
   }, time) : null, sender && direction === 'Inbound' ? /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].sender
-  }, sender) : null, /*#__PURE__*/_react["default"].createElement("div", {
+  }, sender) : null, !(0, _isBlank.isBlank)(subject) && /*#__PURE__*/_react["default"].createElement("div", {
     "data-sign": "".concat(direction, "Text"),
     className: (0, _clsx["default"])(_styles["default"].messageBody, direction === 'Outbound' ? _styles["default"].outbound : _styles["default"].inbound, subject && subject.length > 500 && _styles["default"].big)
-  }, subjectNode, imageAttachments, otherAttachments), /*#__PURE__*/_react["default"].createElement("div", {
+  }, subjectNode), imageAttachments.length > 0 && /*#__PURE__*/_react["default"].createElement("div", {
+    "data-sign": "".concat(direction, "Image"),
+    className: (0, _clsx["default"])(_styles["default"].imageBody, direction === 'Outbound' ? _styles["default"].outbound : _styles["default"].inbound)
+  }, imageAttachments), otherAttachments.length > 0 && /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, otherAttachments), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].clear
   }));
 };
@@ -130,7 +111,8 @@ Message.propTypes = {
   mmsAttachments: _propTypes["default"].array,
   currentLocale: _propTypes["default"].string.isRequired,
   onAttachmentDownload: _propTypes["default"].func,
-  onLinkClick: _propTypes["default"].func
+  onLinkClick: _propTypes["default"].func,
+  handleImageLoad: _propTypes["default"].func
 };
 Message.defaultProps = {
   subject: '',
@@ -138,7 +120,8 @@ Message.defaultProps = {
   time: undefined,
   subjectRenderer: undefined,
   mmsAttachments: [],
-  onAttachmentDownload: undefined
+  onAttachmentDownload: undefined,
+  handleImageLoad: undefined
 };
 var ConversationMessageList = /*#__PURE__*/function (_Component) {
   _inherits(ConversationMessageList, _Component);
@@ -255,7 +238,12 @@ var ConversationMessageList = /*#__PURE__*/function (_Component) {
           mmsAttachments: message.mmsAttachments,
           currentLocale: currentLocale,
           onAttachmentDownload: onAttachmentDownload,
-          onLinkClick: onLinkClick
+          onLinkClick: onLinkClick,
+          handleImageLoad: function handleImageLoad() {
+            if (!_this2._scrollUp) {
+              _this2.scrollToLastMessage();
+            }
+          }
         });
       });
       var loading = loadingNextPage ? /*#__PURE__*/_react["default"].createElement("div", {

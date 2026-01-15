@@ -4,8 +4,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  doNotCall: "谢绝来电"
+  doNotCall: '谢绝来电'
 }; // @key: @#@"doNotCall"@#@ @source: @#@"Do Not Call"@#@
 exports["default"] = _default;
 //# sourceMappingURL=zh-CN.js.map

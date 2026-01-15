@@ -30,6 +30,7 @@ var _TextWithHighlight = require("../TextWithHighlight/TextWithHighlight");
 var _ContactSearchPanelEnum = require("./ContactSearchPanelEnum");
 var _DoNotCallIndicator = require("./DoNotCallIndicator");
 var _HelpTextSection = require("./HelpTextSection");
+var _helper2 = require("./helper");
 var _i18n = _interopRequireDefault(require("./i18n"));
 var _ContactSearchPanel = require("./styles/ContactSearchPanel");
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
@@ -40,22 +41,19 @@ function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i 
 function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) { if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } } return t; }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
 function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
-function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) { n[e] = r[e]; } return n; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0) { ; } } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
-var getCountsRes = function getCountsRes(counts) {
-  return counts > 99 ? "99+" : counts;
-};
 var PrimaryAvatar = function PrimaryAvatar(_ref) {
   var inOtherTab = _ref.inOtherTab,
     isDirectlyProceed = _ref.isDirectlyProceed,
@@ -151,39 +149,33 @@ var ContactSearchPanel = function ContactSearchPanel(_ref4) {
   var isAbleToSearch = userInput.length >= minimumSearchLength;
   var inThirdPartyTab = activeTab === _ContactSearchPanelEnum.TabsEnum.thirdParty;
   var isLoading = inThirdPartyTab && isAbleToSearch && isThirdPartySearching;
-  var getPrimaryCount = function getPrimaryCount(items) {
-    var count = items === null || items === void 0 ? void 0 : items.filter(function (i) {
-      return i.isPrimary;
-    }).length;
-    return getCountsRes(count);
-  };
   var _useMemo = (0, _react.useMemo)(function () {
-      var _ref5, _ref6;
-      var _optionsMap = showOtherContacts ? (_ref5 = {}, _defineProperty(_ref5, _ContactSearchPanelEnum.TabsEnum.thirdParty, !isAbleToSearch ? [] : thirdPartyContacts), _defineProperty(_ref5, _ContactSearchPanelEnum.TabsEnum.company, companyContacts), _defineProperty(_ref5, _ContactSearchPanelEnum.TabsEnum.personal, personalContacts), _defineProperty(_ref5, _ContactSearchPanelEnum.TabsEnum.other, otherContacts), _ref5) : (_ref6 = {}, _defineProperty(_ref6, _ContactSearchPanelEnum.TabsEnum.thirdParty, !isAbleToSearch ? [] : thirdPartyContacts), _defineProperty(_ref6, _ContactSearchPanelEnum.TabsEnum.company, companyContacts), _defineProperty(_ref6, _ContactSearchPanelEnum.TabsEnum.personal, personalContacts), _ref6);
-      var _tabItemsMap = [{
-        label: thirdPartySourceName,
-        value: _ContactSearchPanelEnum.TabsEnum.thirdParty,
-        count: isLoading ? 0 : getPrimaryCount(_optionsMap[_ContactSearchPanelEnum.TabsEnum.thirdParty])
-      }, {
-        label: _i18n["default"].getString('companyTabTitle', currentLocale),
-        value: _ContactSearchPanelEnum.TabsEnum.company,
-        count: getPrimaryCount(_optionsMap[_ContactSearchPanelEnum.TabsEnum.company])
-      }, {
-        label: _i18n["default"].getString('personalTabTitle', currentLocale),
-        value: _ContactSearchPanelEnum.TabsEnum.personal,
-        count: getPrimaryCount(_optionsMap[_ContactSearchPanelEnum.TabsEnum.personal])
-      }, {
-        label: _i18n["default"].getString('other', currentLocale),
-        value: _ContactSearchPanelEnum.TabsEnum.other,
-        count: getPrimaryCount(_optionsMap[_ContactSearchPanelEnum.TabsEnum.other])
-      }];
+      var _optionsMap = (0, _helper2.generateOptionsMap)({
+        showOtherContacts: showOtherContacts,
+        isAbleToSearch: isAbleToSearch,
+        companyContacts: companyContacts,
+        otherContacts: otherContacts,
+        personalContacts: personalContacts,
+        thirdPartyContacts: thirdPartyContacts
+      });
+      var _tabItemsMap = (0, _helper2.generateTabs)({
+        optionsMap: _optionsMap,
+        thirdPartySourceName: thirdPartySourceName,
+        currentLocale: currentLocale,
+        isLoading: isLoading
+      });
+      var _tabsKey = _tabItemsMap.map(function (tab) {
+        return tab.count;
+      }).join('-');
       return {
+        tabsKey: _tabsKey,
         optionsMap: _optionsMap,
         tabItemsMap: showOtherContacts ? _tabItemsMap : _tabItemsMap.slice(0, 2)
       };
     }, [isAbleToSearch, thirdPartyContacts, companyContacts, personalContacts, otherContacts, thirdPartySourceName, currentLocale, isLoading, showOtherContacts]),
     optionsMap = _useMemo.optionsMap,
-    tabItemsMap = _useMemo.tabItemsMap;
+    tabItemsMap = _useMemo.tabItemsMap,
+    tabsKey = _useMemo.tabsKey;
   var tabLabels = tabItemsMap.reduce(function (acc, tab) {
     acc[tab.value] = tab.label;
     return acc;
@@ -261,10 +253,10 @@ var ContactSearchPanel = function ContactSearchPanel(_ref4) {
   (0, _react.useImperativeHandle)(inputAriaPropsRef, function () {
     return getInputAriaProps();
   });
-  var getFormattedLabel = (0, _react.useCallback)(function (_ref7) {
-    var type = _ref7.type,
-      phoneType = _ref7.phoneType,
-      phoneNumber = _ref7.phoneNumber;
+  var getFormattedLabel = (0, _react.useCallback)(function (_ref5) {
+    var type = _ref5.type,
+      phoneType = _ref5.phoneType,
+      phoneNumber = _ref5.phoneNumber;
     var formattedPhoneType = phoneType;
     if (type === _ContactSearchPanelEnum.TabsEnum.personal) {
       formattedPhoneType = _i18n["default"].getString(phoneType, currentLocale);
@@ -286,6 +278,7 @@ var ContactSearchPanel = function ContactSearchPanel(_ref4) {
   return /*#__PURE__*/_react["default"].createElement(_ContactSearchPanel.StyledContactSearchPanel, {
     "data-sign": "contactSearchPanel"
   }, /*#__PURE__*/_react["default"].createElement(_ContactSearchPanel.StyledTabsWrapper, null, /*#__PURE__*/_react["default"].createElement(_juno.RcTabs, {
+    key: tabsKey,
     "data-sign": "contactTabsTitle",
     value: activeTab,
     onChange: function onChange(e, v) {
@@ -314,10 +307,10 @@ var ContactSearchPanel = function ContactSearchPanel(_ref4) {
         marginThreshold: 6
       }
     }
-  }, tabItemsMap.map(function (_ref8) {
-    var label = _ref8.label,
-      count = _ref8.count,
-      value = _ref8.value;
+  }, tabItemsMap.map(function (_ref6) {
+    var label = _ref6.label,
+      count = _ref6.count,
+      value = _ref6.value;
     var tabName = "".concat(label, " (").concat(count, ")");
     return /*#__PURE__*/_react["default"].createElement(_juno.RcTab, {
       style: {
@@ -363,9 +356,10 @@ var ContactSearchPanel = function ContactSearchPanel(_ref4) {
         profileImageUrl = _props$profileImageUr === void 0 ? '' : _props$profileImageUr,
         contact = props.contact,
         presenceStatus = props.presenceStatus,
+        accountName = props.accountName,
         entityType = props.entityType,
         resourceType = props.resourceType,
-        restProps = _objectWithoutProperties(props, ["name", "phoneNumber", "phoneType", "isPrimary", "type", "doNotCall", "isDirectlyProceed", "profileImageUrl", "contact", "presenceStatus", "entityType", "resourceType"]);
+        restProps = _objectWithoutProperties(props, ["name", "phoneNumber", "phoneType", "isPrimary", "type", "doNotCall", "isDirectlyProceed", "profileImageUrl", "contact", "presenceStatus", "accountName", "entityType", "resourceType"]);
       var needFetchPresence = !!(activeTab === _ContactSearchPanelEnum.TabsEnum.company && isPrimary && (contact === null || contact === void 0 ? void 0 : contact.id));
       var content = getFormattedLabel({
         phoneType: phoneType,
@@ -399,9 +393,15 @@ var ContactSearchPanel = function ContactSearchPanel(_ref4) {
         secondary: isDirectlyProceed ? /*#__PURE__*/_react["default"].createElement("span", {
           title: phoneNumber,
           "data-sign": "directlyProceedNumber"
-        }, phoneNumber) : /*#__PURE__*/_react["default"].createElement("span", {
+        }, phoneNumber) : /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement("span", {
           title: content
-        }, content)
+        }, content), ' ', accountName && /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement("br", null), /*#__PURE__*/_react["default"].createElement("span", {
+          title: accountName //todo: test account name once design is finalized
+          ,
+          style: {
+            color: 'gray'
+          }
+        }, accountName)), ' ')
       }), isDirectlyProceed && /*#__PURE__*/_react["default"].createElement(_juno.RcListItemSecondaryAction, {
         "data-sign": "dialIcon"
       }, /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
@@ -419,11 +419,11 @@ var ContactSearchPanel = function ContactSearchPanel(_ref4) {
     },
     itemsRendered: function itemsRendered(items) {
       if (activeTab !== _ContactSearchPanelEnum.TabsEnum.company) return;
-      var ids = items.filter(function (_ref9) {
-        var data = _ref9.data;
+      var ids = items.filter(function (_ref7) {
+        var data = _ref7.data;
         return data && data.isPrimary && data.id;
-      }).map(function (_ref10) {
-        var data = _ref10.data;
+      }).map(function (_ref8) {
+        var data = _ref8.data;
         return data.id;
       });
       if (ids.length > 0) {
@@ -433,4 +433,5 @@ var ContactSearchPanel = function ContactSearchPanel(_ref4) {
   }))));
 };
 exports.ContactSearchPanel = ContactSearchPanel;
+ContactSearchPanel.displayName = 'ContactSearchPanel';
 //# sourceMappingURL=ContactSearchPanel.js.map

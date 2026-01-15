@@ -4,16 +4,17 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  noActiveCalls: "Nenhuma chamada ativa",
-  currentCall: "Chamada atual",
-  ringCall: "Chamada sonora",
-  onHoldCall: "Chamada em espera",
-  otherDeviceCall: "Chamadas em andamento nos meus outros dispositivos",
-  confirmation: "Confirmação",
-  confirmMergeToConference: "Adicionar à chamada em conferência?",
-  mergeToConference: "Mesclar",
-  conferenceCall: "Chamada em conferência"
+  noActiveCalls: 'Nenhuma chamada ativa',
+  currentCall: 'Chamada atual',
+  ringCall: 'Chamada sonora',
+  onHoldCall: 'Chamada em espera',
+  otherDeviceCall: 'Chamadas em andamento nos meus outros dispositivos',
+  confirmation: 'Confirmação',
+  confirmMergeToConference: 'Adicionar à chamada em conferência?',
+  mergeToConference: 'Mesclar',
+  conferenceCall: 'Chamada em conferência'
 }; // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
 // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@
 // @key: @#@"ringCall"@#@ @source: @#@"Ringing Call"@#@

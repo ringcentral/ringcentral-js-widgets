@@ -17,12 +17,10 @@ var _di = require("@ringcentral-integration/commons/lib/di");
 var _proxify = require("@ringcentral-integration/commons/lib/proxy/proxify");
 var _core = require("@ringcentral-integration/core");
 var _utils = require("@ringcentral-integration/utils");
-var uuid = _interopRequireWildcard(require("uuid"));
+var _uuid = require("uuid");
 var _OAuthBase2 = require("../../lib/OAuthBase");
 var _popWindow = require("../../lib/popWindow");
 var _dec, _class, _class2;
-function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
-function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) { if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } } return n["default"] = e, t && t.set(e, n), n; }
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
@@ -76,7 +74,7 @@ var OAuth = (_dec = (0, _di.Module)({
         restrictSameOriginRedirectUri: restrictSameOriginRedirectUri
       }, restOAuthOptions)
     }));
-    _this._uuid = uuid.v4();
+    _this._uuid = (0, _uuid.v4)();
     _this._loginWindow = null;
     _this._redirectCheckTimeout = null;
     _this._isInElectron = (0, _utils.isElectron)();
@@ -85,6 +83,23 @@ var OAuth = (_dec = (0, _di.Module)({
 
   // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   _createClass(OAuth, [{
+    key: "combinedState",
+    value: function combinedState() {
+      var json = JSON.stringify({
+        now: Date.now(),
+        uuid: this._uuid,
+        prefix: this.prefix,
+        origin: window.origin
+      });
+      var encoded = window.btoa(json);
+      return encoded;
+    }
+  }, {
+    key: "prefixedUuidState",
+    value: function prefixedUuidState() {
+      return "".concat(this.prefix, "-").concat(encodeURIComponent(btoa(this._uuid)));
+    }
+  }, {
     key: "onInitOnce",
     value: function onInitOnce() {
       var _this2 = this;
@@ -99,6 +114,7 @@ var OAuth = (_dec = (0, _di.Module)({
           }
         }
       });
+
       // listen callback uri from redirect page, works with coss origin redirect page
       window.addEventListener('message', function (_ref2) {
         var _ref2$data = _ref2.data,
@@ -112,11 +128,13 @@ var OAuth = (_dec = (0, _di.Module)({
           _this2._handleCallbackUri(callbackUri);
         }
       });
+
       // listen callback uri from storage, works only with same origin
       window.addEventListener('storage', function (e) {
-        if (e.key === _this2.callbackUriStorageKey && e.newValue && e.newValue !== '') {
+        var callbackUriStorageKey = "".concat(_this2.prefixedUuidState(), "-callbackUri");
+        if (e.key === callbackUriStorageKey && e.newValue) {
           var callbackUri = e.newValue;
-          localStorage.removeItem(_this2.callbackUriStorageKey);
+          localStorage.removeItem(callbackUriStorageKey);
           _this2._clearRedirectCheckTimeout();
           _this2._handleCallbackUri(callbackUri);
         }
@@ -311,16 +329,11 @@ var OAuth = (_dec = (0, _di.Module)({
     key: "isRedirectUriSameOrigin",
     get: function get() {
       return this.restrictSameOriginRedirectUri ? this.redirectUri.indexOf(window.origin) === 0 : true;
-    } // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
+    }
   }, {
     key: "authState",
     get: function get() {
-      return "".concat(btoa("".concat(Date.now())), "-").concat(this.prefix, "-").concat(encodeURIComponent(btoa(this._uuid)));
-    }
-  }, {
-    key: "callbackUriStorageKey",
-    get: function get() {
-      return "".concat(this.prefix, "-").concat(encodeURIComponent(btoa(this._uuid)), "-callbackUri");
+      return "".concat(this.combinedState(), "-").concat(this.prefixedUuidState());
     }
   }]);
   return OAuth;

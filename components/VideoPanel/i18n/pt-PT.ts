@@ -1,44 +1,78 @@
+/* eslint-disable */
 import { ASSISTED_USERS_MYSELF } from '@ringcentral-integration/commons/modules/RcVideo';
 export default {
-  topic: "Título da reunião",
-  date: "Data",
-  startTime: "Hora",
-  duration: "Duração",
-  scheduleFor: "Agendar em nome de",
-  meetingSettings: "Definições da reunião",
-  [ASSISTED_USERS_MYSELF]: "Eu próprio",
-  joinBeforeHost: "Permitir que os participantes entrem antes do anfitrião",
-  enableWaitingRoom: "Ativar sala de espera",
-  waitingRoom: "Ativar sala de espera para",
-  waitingRoomNotCoworker: "Qq pessoa ext. à empresa",
-  waitingRoomGuest: "Qq pessoa s/ ses. iniciada",
-  waitingRoomAll: "Todos",
-  enterPassword: "Introduzir palavra-passe",
-  onlyJoinAfterMe: "Os participantes só podem entrar depois de mim",
-  onlyJoinAfterHost: "Os participantes só podem entrar após o anfitrião",
-  muteAudio: "Desativar o som dos participantes",
-  turnOffCamera: "Desativar a câmara dos participantes",
-  requirePassword: "Exigir palavra-passe",
-  useE2ee: "Utilizar encriptação ponto a ponto",
-  e2eeTooltip: "As reuniões com encriptação ponto a ponto são as mais privadas, mas certas funcionalidades, como entrar através do telemóvel, as legendas e a gravação, não estão disponíveis.",
-  setPassword: "Definir palavra-passe *",
-  setPasswordNotSymbol: "Definir palavra-passe",
-  passwordEmptyError: "Palavra-passe da reunião obrigatória",
-  passwordInvalidError: "A palavra-passe deve ter 1 a 10 letras e números e não pode conter símbolos",
-  passwordHintText: "A palavra-passe deve ter 1 a 10 letras e números, mas não pode conter símbolos",
-  usePersonalMeetingId: "Utilizar ID da reunião pessoal",
-  meetingSettingsSecurity: "Segurança",
-  onlyAuthUserJoin: "Apenas os utilizadores autenticados podem entrar",
-  signedInUsers: "Utilizadores com sessão iniciada",
-  signedInCoWorkers: "Colegas com sessão iniciada",
-  limitScreenSharing: "Apenas o anfitrião e os moderadores podem partilhar o ecrã",
-  lockTooltip: "Esta definição é gerida pelo administrador da empresa",
-  pmiSettingAlert: "Estas definições serão aplicadas a todas as reuniões criadas com o PMI",
-  today: "Hoje",
-  scheduleForGuidance: "Está a agendar para outra pessoa?\n1. Certifique-se de que se encontra no Calendário do Outlook dessa pessoa.\n2. No menu pendente, selecione a pessoa para a qual está a agendar.\n",
-  scheduleForGuidanceMore: "Obter detalhes",
-  changePmiSettings: "Alterar as definições da reunião pessoal"
-};
+  topic: 'Título da reunião',
+  date: 'Data',
+  startTime: 'Hora',
+  duration: 'Duração',
+  scheduleFor: 'Agendar em nome de',
+  meetingSettings: 'Definições da reunião',
+  meetingSettingsDescription:
+    'A atualização destas definições irá aplicar-se apenas à reunião atual.',
+  here: 'aqui',
+  [ASSISTED_USERS_MYSELF]: 'Eu',
+  joinBeforeHost: 'Permitir que os participantes entrem antes do anfitrião',
+  enableWaitingRoom: 'Ativar sala de espera',
+  waitingRoom: 'Ativar sala de espera para',
+  waitingRoomTitle: 'Sala de espera',
+  waitingRoomDescription:
+    'Mantenha as reuniões privadas até admitir participantes.',
+  waitingRoomNotCoworker: 'Qualquer pessoa exterior à minha empresa',
+  waitingRoomGuest: 'Qualquer pessoa sem sessão iniciada',
+  waitingRoomAll: 'Todos',
+  enterPassword: 'Introduzir palavra-passe',
+  onlyJoinAfterMe: 'Os participantes só podem entrar depois de mim',
+  onlyJoinAfterHost: 'Os participantes só podem entrar após o anfitrião',
+  allowJoinBeforeHostDescription:
+    'Mantenha a reunião segura e sem distrações até entrar.',
+  muteAudio: 'Desativar o som dos participantes',
+  turnOffCamera: 'Desativar a câmara dos participantes',
+  requirePassword: 'Exigir palavra-passe',
+  useE2ee: 'Utilizar encriptação ponto a ponto',
+  e2eeTooltip:
+    'As reuniões com encriptação ponto a ponto são as mais privadas, mas certas funcionalidades, como entrar através do telemóvel, as legendas e a gravação, não estão disponíveis.',
+  setPassword: 'Definir palavra-passe *',
+  setPasswordNotSymbol: 'Definir palavra-passe',
+  passwordEmptyError: 'Palavra-passe da reunião obrigatória',
+  passwordInvalidError:
+    'A palavra-passe deve ter 1 a 10 letras e números, mas não pode conter símbolos',
+  passwordHintText:
+    'A palavra-passe deve ter 1 a 10 letras e números, mas não pode conter símbolos',
+  usePersonalMeetingId: 'Utilizar ID da reunião pessoal',
+  usePersonalMeetingIdInstead: 'Utilizar antes reunião pessoal',
+  usePersonalMeetingName: 'Utilizar reunião pessoal:',
+  meetingSettingsSecurity: 'Segurança',
+  onlyAuthUserJoin: 'Apenas os utilizadores autenticados podem entrar',
+  signedInUsers: 'Utilizadores com sessão iniciada',
+  signedInCoWorkers: 'Colegas com sessão iniciada',
+  limitScreenSharing:
+    'Apenas o anfitrião e os moderadores podem partilhar o ecrã',
+  lockTooltip: 'Esta definição é gerida pelo administrador da empresa',
+  pmiSettingAlert:
+    'Estas definições serão aplicadas a todas as reuniões criadas com o PMI',
+  today: 'Hoje',
+  scheduleForGuidance:
+    'Está a agendar para outra pessoa?\n1. Certifique-se de que se encontra no Calendário do Outlook dessa pessoa.\n2. No menu pendente, selecione a pessoa para a qual está a agendar.\n',
+  scheduleForGuidanceMore: 'Obter detalhes',
+  changePmiSettings: 'Alterar as definições da reunião pessoal',
+  allowToRecording: 'Permitir início e paragem da gravação',
+  allowTranscribe: 'Permitir início e paragem da transcrição',
+  everyone: 'Todos',
+  onlyHostModerators: 'Só anfitrião e moderadores',
+  advancedSettings: 'Definições avançadas',
+  whoCanJoin: 'Quem pode entrar?',
+  requirePasswordDescription:
+    'Os participantes que entrem através da ligação da reunião não necessitam de introduzir a palavra-passe.',
+  password: 'Palavra-passe:',
+  passwordLabel: 'Palavra-passe',
+  edit: 'Editar',
+  changePassword: 'Alterar palavra-passe',
+  passwordRequired: 'A palavra-passe é obrigatória',
+  passwordLengthError: 'A palavra-passe deve ter 1 a 10 carateres',
+  passwordFormatError: 'A palavra-passe só pode conter letras e números',
+  passwordHint:
+    'A palavra-passe deve ter 1 a 10 letras e números, mas não pode conter símbolos.',
+} as const;
 
 // @key: @#@"topic"@#@ @source: @#@"Meeting title"@#@
 // @key: @#@"date"@#@ @source: @#@"Date"@#@
@@ -46,16 +80,21 @@ export default {
 // @key: @#@"duration"@#@ @source: @#@"Duration"@#@
 // @key: @#@"scheduleFor"@#@ @source: @#@"Schedule on behalf of"@#@
 // @key: @#@"meetingSettings"@#@ @source: @#@"Meeting settings"@#@
+// @key: @#@"meetingSettingsDescription"@#@ @source: @#@"Update these settings will apply to current meeting only."@#@
+// @key: @#@"here"@#@ @source: @#@"here"@#@
 // @key: @#@"ASSISTED_USERS_MYSELF"@#@ @source: @#@"Myself"@#@
 // @key: @#@"joinBeforeHost"@#@ @source: @#@"Allow participants to join before host"@#@
 // @key: @#@"enableWaitingRoom"@#@ @source: @#@"Enable waiting room"@#@
 // @key: @#@"waitingRoom"@#@ @source: @#@"Enable waiting room for"@#@
+// @key: @#@"waitingRoomTitle"@#@ @source: @#@"Waiting room"@#@
+// @key: @#@"waitingRoomDescription"@#@ @source: @#@"Keep meetings private until you admit participants."@#@
 // @key: @#@"waitingRoomNotCoworker"@#@ @source: @#@"Anyone outside my company"@#@
 // @key: @#@"waitingRoomGuest"@#@ @source: @#@"Anyone not signed in"@#@
 // @key: @#@"waitingRoomAll"@#@ @source: @#@"Everyone"@#@
 // @key: @#@"enterPassword"@#@ @source: @#@"Enter Password"@#@
 // @key: @#@"onlyJoinAfterMe"@#@ @source: @#@"Participants can only join after me"@#@
 // @key: @#@"onlyJoinAfterHost"@#@ @source: @#@"Participants can only join after host"@#@
+// @key: @#@"allowJoinBeforeHostDescription"@#@ @source: @#@"Keeps the meeting secure and distraction-free until you join."@#@
 // @key: @#@"muteAudio"@#@ @source: @#@"Mute audio for participants"@#@
 // @key: @#@"turnOffCamera"@#@ @source: @#@"Turn off camera for participants"@#@
 // @key: @#@"requirePassword"@#@ @source: @#@"Require password"@#@
@@ -67,6 +106,8 @@ export default {
 // @key: @#@"passwordInvalidError"@#@ @source: @#@"Your password must be 1-10 letters and numbers long but cannot contain symbols"@#@
 // @key: @#@"passwordHintText"@#@ @source: @#@"Your password should be 1-10 letters and numbers long but cannot contain symbols"@#@
 // @key: @#@"usePersonalMeetingId"@#@ @source: @#@"Use Personal Meeting ID"@#@
+// @key: @#@"usePersonalMeetingIdInstead"@#@ @source: @#@"Use personal meeting instead"@#@
+// @key: @#@"usePersonalMeetingName"@#@ @source: @#@"Use personal meeting:"@#@
 // @key: @#@"meetingSettingsSecurity"@#@ @source: @#@"Security"@#@
 // @key: @#@"onlyAuthUserJoin"@#@ @source: @#@"Only authenticated users can join"@#@
 // @key: @#@"signedInUsers"@#@ @source: @#@"Signed in users"@#@
@@ -78,3 +119,18 @@ export default {
 // @key: @#@"scheduleForGuidance"@#@ @source: @#@"Scheduling for someone else?\n1. Make sure you're on their Outlook calendar.\n2. From the dropdown, select the person you're scheduling for.\n"@#@
 // @key: @#@"scheduleForGuidanceMore"@#@ @source: @#@"Learn details"@#@
 // @key: @#@"changePmiSettings"@#@ @source: @#@"Change Personal Meeting settings"@#@
+// @key: @#@"allowToRecording"@#@ @source: @#@"Allow to start and stop recording"@#@
+// @key: @#@"allowTranscribe"@#@ @source: @#@"Allow to start and stop transcription"@#@
+// @key: @#@"everyone"@#@ @source: @#@"Everyone"@#@
+// @key: @#@"onlyHostModerators"@#@ @source: @#@"Only host and moderators"@#@
+// @key: @#@"advancedSettings"@#@ @source: @#@"Advanced settings"@#@
+// @key: @#@"whoCanJoin"@#@ @source: @#@"Who can join?"@#@
+// @key: @#@"requirePasswordDescription"@#@ @source: @#@"Participants who join via the meeting link won’t need to enter the password."@#@
+// @key: @#@"password"@#@ @source: @#@"Password:"@#@
+// @key: @#@"passwordLabel"@#@ @source: @#@"Password"@#@
+// @key: @#@"edit"@#@ @source: @#@"Edit"@#@
+// @key: @#@"changePassword"@#@ @source: @#@"Change Password"@#@
+// @key: @#@"passwordRequired"@#@ @source: @#@"Password is required"@#@
+// @key: @#@"passwordLengthError"@#@ @source: @#@"Password must be 1-10 characters long"@#@
+// @key: @#@"passwordFormatError"@#@ @source: @#@"Password can only contain letters and numbers"@#@
+// @key: @#@"passwordHint"@#@ @source: @#@"Your password should be 1-10 letters and numbers long, but can not contain symbols."@#@

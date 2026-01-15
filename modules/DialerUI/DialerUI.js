@@ -534,7 +534,9 @@ var DialerUI = (_dec = (0, _di.Module)({
     value: function getUIProps() {
       var _this$_deps$audioSett, _this$_deps$audioSett2, _this$_deps$audioSett3, _this$_deps$audioSett4, _this$_deps$dialerUIO2;
       var _ref5 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-        autoFocusToField = _ref5.autoFocusToField;
+        autoFocusToField = _ref5.autoFocusToField,
+        _ref5$showCustomPhone = _ref5.showCustomPhoneLabel,
+        showCustomPhoneLabel = _ref5$showCustomPhone === void 0 ? false : _ref5$showCustomPhone;
       return {
         currentLocale: this._deps.locale.currentLocale,
         // @ts-expect-error TS(2322): Type 'string | null' is not assignable to type 'st... Remove this comment to see the full error message
@@ -557,7 +559,8 @@ var DialerUI = (_dec = (0, _di.Module)({
         useV2: (_this$_deps$dialerUIO2 = this._deps.dialerUIOptions) === null || _this$_deps$dialerUIO2 === void 0 ? void 0 : _this$_deps$dialerUIO2.useV2,
         // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
         showAnonymous: this.isShowAnonymous,
-        autoFocus: autoFocusToField
+        autoFocus: autoFocusToField,
+        showCustomPhoneLabel: showCustomPhoneLabel
       };
     } // eslint-disable-next-line @typescript-eslint/no-unused-vars
   }, {

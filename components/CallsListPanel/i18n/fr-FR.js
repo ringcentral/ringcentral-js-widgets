@@ -4,15 +4,16 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  noActiveCalls: "Aucun appel actif",
-  noCalls: "Aucun résultat.",
-  currentCall: "Appel en cours",
-  ringCall: "Sonnerie en cours",
-  onHoldCall: "Appel en attente",
-  historyCalls: "Appels émis dans le passé",
-  otherDeviceCall: "Appels en cours sur mes autres terminaux",
-  searchPlaceholder: "Recherche…"
+  noActiveCalls: 'Aucun appel actif',
+  noCalls: 'Aucun résultat.',
+  currentCall: 'Appel en cours',
+  ringCall: 'Sonnerie en cours',
+  onHoldCall: 'Appel en attente',
+  historyCalls: 'Appels émis dans le passé',
+  otherDeviceCall: 'Appels en cours sur mes autres terminaux',
+  searchPlaceholder: 'Recherche…'
 }; // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
 // @key: @#@"noCalls"@#@ @source: @#@"No results found."@#@
 // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@

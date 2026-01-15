@@ -1,21 +1,25 @@
+/* eslint-disable */
 export default {
-  title: "Audio",
-  dialButtonVolume: "Volume du bouton de composition",
-  ringtoneVolume: "Volume de sonnerie",
-  callVolume: "Volume d’appel",
-  muteCalls: "Activer le mode muet pour les appels",
-  outputDevice: "Périphérique de sortie",
-  inputDevice: "Périphérique d’entrée",
-  micPermission: "Autorisation microphone",
-  noDevice: "Aucun terminal",
-  checkMicPermission: "Vérifier l’autorisation",
-  micNoPermissionMessage: "L’application n’est pas autorisée à utiliser le microphone",
-  noLabel: "Périphérique inconnu",
-  notSetSinkIdTip: "Désolé, vos autorisations de navigateur actuelles ne sont pas définies pour nous permettre d’accéder à vos périphériques de sortie audio. {clickHereLink} pour modifier les paramètres.",
-  noLabelTip: "Désolé, vos autorisations de navigateur actuelles ne sont pas définies pour nous permettre d’accéder à vos périphériques d’entrée audio.",
-  clickHere: "Cliquez ici",
-  defaultOutputDevice: "Périphérique de sortie par défaut"
-};
+  title: 'Audio',
+  dialButtonVolume: 'Volume du bouton de composition',
+  ringtoneVolume: 'Volume de sonnerie',
+  callVolume: 'Volume d’appel',
+  muteCalls: 'Activer le mode muet pour les appels',
+  outputDevice: 'Périphérique de sortie',
+  inputDevice: 'Périphérique d’entrée',
+  micPermission: 'Autorisation microphone',
+  noDevice: 'Aucun terminal',
+  checkMicPermission: 'Vérifier l’autorisation',
+  micNoPermissionMessage:
+    'L’application n’est pas autorisée à utiliser le microphone',
+  noLabel: 'Périphérique inconnu',
+  notSetSinkIdTip:
+    'Désolé, vos autorisations de navigateur actuelles ne sont pas définies pour nous permettre d’accéder à vos périphériques de sortie audio. {clickHereLink} pour modifier les paramètres.',
+  noLabelTip:
+    'Désolé, vos autorisations de navigateur actuelles ne sont pas définies pour nous permettre d’accéder à vos périphériques d’entrée audio.',
+  clickHere: 'Cliquez ici',
+  defaultOutputDevice: 'Périphérique de sortie par défaut',
+} as const;
 
 // @key: @#@"title"@#@ @source: @#@"Audio"@#@
 // @key: @#@"dialButtonVolume"@#@ @source: @#@"Dial Button Volume"@#@

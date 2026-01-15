@@ -4,15 +4,16 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  DirectNumber: "Directo",
-  MainCompanyNumber: "Principal",
-  CompanyNumber: "Empresa",
-  CompanyFaxNumber: "Fax",
-  Blocked: "Bloqueado",
-  AdditionalCompanyNumber: "Empresa",
-  ForwardedCompanyNumber: "Reenviado",
-  from: "Desde"
+  DirectNumber: 'Directo',
+  MainCompanyNumber: 'Principal',
+  CompanyNumber: 'Empresa',
+  CompanyFaxNumber: 'Fax',
+  Blocked: 'Bloqueado',
+  AdditionalCompanyNumber: 'Empresa',
+  ForwardedCompanyNumber: 'Reenviado',
+  from: 'Desde'
 }; // @key: @#@"DirectNumber"@#@ @source: @#@"Direct"@#@
 // @key: @#@"MainCompanyNumber"@#@ @source: @#@"Main"@#@
 // @key: @#@"CompanyNumber"@#@ @source: @#@"Company"@#@

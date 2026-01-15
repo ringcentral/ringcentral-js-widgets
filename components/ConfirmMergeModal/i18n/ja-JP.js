@@ -4,11 +4,12 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  confirmation: "確認",
-  confirmMergeToConference: "電話会議に追加しますか?",
-  mergeToConference: "マージ",
-  conferenceCall: "電話会議"
+  confirmation: '確認',
+  confirmMergeToConference: '電話会議に追加しますか?',
+  mergeToConference: 'マージ',
+  conferenceCall: '電話会議'
 }; // @key: @#@"confirmation"@#@ @source: @#@"Confirmation"@#@
 // @key: @#@"confirmMergeToConference"@#@ @source: @#@"Add to conference call?"@#@
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@

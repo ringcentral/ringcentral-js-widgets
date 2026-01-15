@@ -1,15 +1,23 @@
+/* eslint-disable */
 import { callingSettingsMessages } from '@ringcentral-integration/commons/modules/CallingSettings';
 export default {
-  [callingSettingsMessages.saveSuccess]: "Configurações salvas com sucesso.",
-  [callingSettingsMessages.saveSuccessWithSoftphone]: "Configurações salvas com sucesso. Verifique se o {brand} está instalado no computador.",
-  [callingSettingsMessages.permissionChanged]: "Suas permissões foram alteradas recentemente. Acesse {link} para verificar as opções de Chamada.",
-  [callingSettingsMessages.phoneNumberChanged]: "As informações de números de telefone foram alteradas recentemente. Acesse {link} para verificar as opções de Chamada.",
-  link: "Configurações > Chamada",
-  [callingSettingsMessages.webphonePermissionRemoved]: "Suas permissões foram alteradas e não é possível fazer chamadas com o Navegador. Para obter mais detalhes, entre em contato com o administrador da conta.",
-  [callingSettingsMessages.emergencyCallingNotAvailable]: "Não há suporte de discagem para números de emergência ou serviço especiais. Em uma emergência, use seu telefone fixo tradicional ou sem fio para fazer uma chamada para um número de emergência.",
-  [callingSettingsMessages.saveSuccessWithJupiter]: "Configurações salvas com sucesso. Verifique se o {brand} está instalado no computador.",
-  [callingSettingsMessages.disableEmergencyInJapan]: "O serviço de emergência não está disponível no Japão."
-};
+  [callingSettingsMessages.saveSuccess]: 'Configurações salvas com sucesso.',
+  [callingSettingsMessages.saveSuccessWithSoftphone]:
+    'Configurações salvas com sucesso. Verifique se o {brand} está instalado no computador.',
+  [callingSettingsMessages.permissionChanged]:
+    'Suas permissões foram alteradas recentemente. Acesse {link} para verificar as opções de Chamada.',
+  [callingSettingsMessages.phoneNumberChanged]:
+    'As informações de números de telefone foram alteradas recentemente. Acesse {link} para verificar as opções de Chamada.',
+  link: 'Configurações > Chamadas',
+  [callingSettingsMessages.webphonePermissionRemoved]:
+    'Suas permissões foram alteradas e não é possível fazer chamadas com o navegador. Para obter mais detalhes, entre em contato com o administrador da conta.',
+  [callingSettingsMessages.emergencyCallingNotAvailable]:
+    'Não há suporte de discagem para números de emergência ou serviço especiais. Em uma emergência, use seu telefone fixo tradicional ou sem fio para fazer uma chamada para um número de emergência.',
+  [callingSettingsMessages.saveSuccessWithJupiter]:
+    'Configurações salvas com sucesso. Verifique se o {brand} está instalado no computador.',
+  [callingSettingsMessages.disableEmergencyInJapan]:
+    'O serviço de emergência não está disponível no Japão.',
+} as const;
 
 // @key: @#@"[callingSettingsMessages.saveSuccess]"@#@ @source: @#@"Settings saved successfully."@#@
 // @key: @#@"[callingSettingsMessages.saveSuccessWithSoftphone]"@#@ @source: @#@"Settings saved successfully. Please make sure you have {brand} installed in your computer."@#@

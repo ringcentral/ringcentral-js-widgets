@@ -4,15 +4,16 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  ringtones: "铃声",
-  incomingRingtone: "呼入铃声",
-  outgoingRingtone: "呼出铃声",
-  play: "播放",
-  stop: "停止",
-  upload: "上传",
-  reset: "重置",
-  save: "保存"
+  ringtones: '铃声',
+  incomingRingtone: '呼入铃声',
+  outgoingRingtone: '呼出铃声',
+  play: '播放',
+  stop: '停止',
+  upload: '上传',
+  reset: '重置',
+  save: '保存'
 }; // @key: @#@"ringtones"@#@ @source: @#@"Ringtones"@#@
 // @key: @#@"incomingRingtone"@#@ @source: @#@"Incoming Ringtone"@#@
 // @key: @#@"outgoingRingtone"@#@ @source: @#@"Outgoing Ringtone"@#@

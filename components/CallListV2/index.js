@@ -66,11 +66,12 @@ var CallListV2 = /*#__PURE__*/function (_React$PureComponent) {
         rowHeight = _this$props$rowHeight === void 0 ? 65 : _this$props$rowHeight,
         callsDelaySavingState = _this$props.callsDelaySavingState;
       var call = calls[index];
+      var heightForAnsweredBy = call.result === 'Answered Elsewhere' && call.delegationType === 'QueueForwarding' ? 15 : 0;
       var isDelaySavingState = callsDelaySavingState && callsDelaySavingState[call.sessionId];
       var extendedIndex = _this.state.extendedIndex;
       var margin = index === calls.length - 1 ? 15 : 0;
       var delaySavingStateHeight = isDelaySavingState ? 13 : 0;
-      var height = index === extendedIndex ? extendedRowHeight : rowHeight + delaySavingStateHeight;
+      var height = index === extendedIndex ? extendedRowHeight : rowHeight + delaySavingStateHeight + heightForAnsweredBy;
       return height + margin;
     };
     _this._rowRender = function (_ref2) {
@@ -113,6 +114,7 @@ var CallListV2 = /*#__PURE__*/function (_React$PureComponent) {
         renderContactName = _this$props2.renderContactName,
         renderSubContactName = _this$props2.renderSubContactName,
         renderExtraButton = _this$props2.renderExtraButton,
+        isSyncingActivityMatcher = _this$props2.isSyncingActivityMatcher,
         contactDisplayStyle = _this$props2.contactDisplayStyle,
         externalViewEntity = _this$props2.externalViewEntity,
         externalHasEntity = _this$props2.externalHasEntity,
@@ -173,6 +175,7 @@ var CallListV2 = /*#__PURE__*/function (_React$PureComponent) {
           renderContactName: renderContactName,
           renderSubContactName: renderSubContactName,
           renderExtraButton: renderExtraButton,
+          isSyncingActivityMatcher: isSyncingActivityMatcher,
           contactDisplayStyle: contactDisplayStyle,
           externalViewEntity: externalViewEntity,
           externalHasEntity: externalHasEntity,
@@ -282,6 +285,7 @@ CallListV2.defaultProps = {
   renderContactName: undefined,
   renderSubContactName: undefined,
   renderExtraButton: undefined,
+  isSyncingActivityMatcher: false,
   contactDisplayStyle: undefined,
   externalViewEntity: undefined,
   externalHasEntity: undefined,

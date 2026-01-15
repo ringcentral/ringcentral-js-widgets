@@ -1,14 +1,18 @@
+/* eslint-disable */
 import { meetingStatus } from '@ringcentral-integration/commons/modules/Meeting';
 export default {
-  [meetingStatus.emptyTopic]: "Please enter meeting topic.",
-  [meetingStatus.noPassword]: "Veuillez fournir le mot de passe de la réunion.",
-  [meetingStatus.insufficientPermissions]: "{application} ne dispose pas de la permission {permissionName}.",
-  [meetingStatus.scheduledSuccess]: "Réunion ajoutée",
-  [meetingStatus.updatedSuccess]: "Réunion mise à jour",
-  [meetingStatus.meetingIsDeleted]: "La réunion a été supprimée",
-  [meetingStatus.internalError]: "Désolé, une erreur s’est produite de notre côté. Veuillez réessayer.",
-  [meetingStatus.renderInviteError]: "Une erreur s’est produite de notre côté et nous n’avons pas pu ajouter l’invitation à la réunion. Veuillez réessayer plus tard."
-};
+  [meetingStatus.emptyTopic]: 'Please enter meeting topic.',
+  [meetingStatus.noPassword]: 'Veuillez fournir le mot de passe de la réunion.',
+  [meetingStatus.insufficientPermissions]:
+    '{application} ne dispose pas de la permission {permissionName}.',
+  [meetingStatus.scheduledSuccess]: 'Réunion ajoutée',
+  [meetingStatus.updatedSuccess]: 'Réunion mise à jour',
+  [meetingStatus.meetingIsDeleted]: 'La réunion a été supprimée',
+  [meetingStatus.internalError]:
+    'Désolé, une erreur s’est produite de notre côté. Veuillez réessayer.',
+  [meetingStatus.renderInviteError]:
+    'Une erreur s’est produite de notre côté et nous n’avons pas pu ajouter l’invitation à la réunion. Veuillez réessayer plus tard.',
+} as const;
 
 // @key: @#@"[meetingStatus.emptyTopic]"@#@ @source: @#@"Please enter meeting topic."@#@
 // @key: @#@"[meetingStatus.noPassword]"@#@ @source: @#@"Please provide meeting password."@#@

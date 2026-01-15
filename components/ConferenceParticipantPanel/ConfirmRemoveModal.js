@@ -12,6 +12,7 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var ConfirmRemoveModal = function ConfirmRemoveModal(_ref) {
   var currentLocale = _ref.currentLocale,
+    showCallerIdName = _ref.showCallerIdName,
     show = _ref.show,
     onRemove = _ref.onRemove,
     onCancel = _ref.onCancel,
@@ -19,13 +20,13 @@ var ConfirmRemoveModal = function ConfirmRemoveModal(_ref) {
   if (!detail) {
     return null;
   }
-  var displayText =
-  // @ts-expect-error TS(2339): Property 'partyNumber' does not exist on type 'obj... Remove this comment to see the full error message
-  detail.partyNumber || _i18n["default"].getString('unknownNumber', currentLocale);
-  // @ts-expect-error TS(2339): Property 'partyName' does not exist on type 'objec... Remove this comment to see the full error message
+  var displayText = detail.partyNumber || _i18n["default"].getString('unknownNumber', currentLocale);
   if (detail.partyName && detail.calleeType === _calleeTypes["default"].contacts) {
     // means that matched a contact
-    // @ts-expect-error TS(2339): Property 'partyName' does not exist on type 'objec... Remove this comment to see the full error message
+    displayText = detail.partyName;
+  }
+  if (detail.partyName && detail.calleeType === _calleeTypes["default"].unknown && showCallerIdName) {
+    // means outside company call, show caller id name
     displayText = detail.partyName;
   }
   return /*#__PURE__*/_react["default"].createElement(_Modal["default"]

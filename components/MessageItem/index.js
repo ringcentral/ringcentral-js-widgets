@@ -2,9 +2,7 @@
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 require("core-js/modules/es.array.concat");
-require("core-js/modules/es.array.filter");
 require("core-js/modules/es.array.find-index");
-require("core-js/modules/es.array.index-of");
 require("core-js/modules/es.array.map");
 require("core-js/modules/es.function.bind");
 require("core-js/modules/es.function.name");
@@ -398,16 +396,12 @@ var MessageItem = /*#__PURE__*/function (_Component) {
         currentLocale = _this$props4.currentLocale;
       if ((0, _messageHelper.messageIsTextMessage)(conversation)) {
         if (conversation.mmsAttachments && conversation.mmsAttachments.length > 0) {
-          var imageCount = conversation.mmsAttachments.filter(function (m) {
-            return m.contentType.indexOf('image') > -1;
-          }).length;
-          if (imageCount > 0) {
-            return (0, _utils.format)(_i18n["default"].getString('imageAttachment', currentLocale), {
-              count: imageCount
-            });
+          var count = conversation.mmsAttachments.length;
+          if (count === 1) {
+            return (0, _utils.format)(_i18n["default"].getString('mmsWithOneAttachment', currentLocale));
           }
-          return (0, _utils.format)(_i18n["default"].getString('fileAttachment', currentLocale), {
-            count: conversation.mmsAttachments.length
+          return (0, _utils.format)(_i18n["default"].getString('mmsWithAttachments', currentLocale), {
+            count: count
           });
         }
         return conversation.subject;

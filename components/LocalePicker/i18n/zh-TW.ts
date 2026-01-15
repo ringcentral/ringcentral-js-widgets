@@ -1,16 +1,17 @@
+/* eslint-disable */
 export default {
-  en: "英文",
-  ja: "日文",
-  fr: "法文",
-  de: "德文",
-  es: "西班牙文",
-  it: "義大利文",
-  pt: "葡萄牙文",
-  zh: "中文",
-  nl: "荷蘭語",
-  ko: "韓文",
-  fi: "芬蘭文"
-};
+  en: '英文',
+  ja: '日文',
+  fr: '法文',
+  de: '德文',
+  es: '西班牙文',
+  it: '義大利文',
+  pt: '葡萄牙文',
+  zh: '中文',
+  nl: '荷蘭語',
+  ko: '韓文',
+  fi: '芬蘭文',
+} as const;
 
 // @key: @#@"en"@#@ @source: @#@"English"@#@
 // @key: @#@"ja"@#@ @source: @#@"Japanese"@#@

@@ -1,8 +1,9 @@
+/* eslint-disable */
 export default {
-  forward: "転送",
-  cancel: "キャンセル",
-  customNumber: "カスタム番号"
-};
+  forward: '転送',
+  cancel: 'キャンセル',
+  customNumber: 'カスタム番号',
+} as const;
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
 // @key: @#@"cancel"@#@ @source: @#@"Cancel"@#@

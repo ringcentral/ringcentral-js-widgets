@@ -1,44 +1,81 @@
+/* eslint-disable */
 import { ASSISTED_USERS_MYSELF } from '@ringcentral-integration/commons/modules/RcVideo';
 export default {
-  topic: "Titre de la réunion",
-  date: "Date",
-  startTime: "Heure",
-  duration: "Durée",
-  scheduleFor: "Planifier au nom de",
-  meetingSettings: "Paramètres de la réunion",
-  [ASSISTED_USERS_MYSELF]: "Moi-même",
-  joinBeforeHost: "Autoriser les participants à se connecter avant l’hôte",
-  enableWaitingRoom: "Activer la salle d’attente",
-  waitingRoom: "Mettre en place une salle d’attente pour",
-  waitingRoomNotCoworker: "Toute personne hors entreprise",
-  waitingRoomGuest: "Toute personne non inscrite",
-  waitingRoomAll: "Tout le monde",
-  enterPassword: "Saisir le mot de passe",
-  onlyJoinAfterMe: "Les participants ne peuvent rejoindre la réunion qu’après moi",
-  onlyJoinAfterHost: "Les participants peuvent uniquement rejoindre la réunion après l’hôte",
-  muteAudio: "Désactiver l’audio pour les participants",
-  turnOffCamera: "Désactiver la caméra pour les participants",
-  requirePassword: "Exiger un mot de passe",
-  useE2ee: "Utiliser le chiffrement de bout en bout",
-  e2eeTooltip: "Les réunions chiffrées de bout en bout sont les plus privées, mais des fonctions telles que rejoindre une réunion par téléphone, les sous-titres et l’enregistrement ne sont pas disponibles.",
-  setPassword: "Définir un mot de passe *",
-  setPasswordNotSymbol: "Définir un mot de passe",
-  passwordEmptyError: "Mot de passe de la réunion requis",
-  passwordInvalidError: "Votre mot de passe doit être composé de 1 à 10 lettres et chiffres et ne peut pas comporter de symboles",
-  passwordHintText: "Votre mot de passe doit être composé de 1 à 10 lettres et chiffres, mais ne doit pas contenir de symboles.",
-  usePersonalMeetingId: "Utiliser l’ID de réunion personnel",
-  meetingSettingsSecurity: "Sécurité",
-  onlyAuthUserJoin: "Seuls les utilisateurs authentifiés peuvent participer",
-  signedInUsers: "Utilisateurs connectés",
-  signedInCoWorkers: "Collaborateurs connectés",
-  limitScreenSharing: "Seuls l’hôte et les modérateurs peuvent partager l’écran",
-  lockTooltip: "Ce paramètre est géré par l’administrateur de votre entreprise",
-  pmiSettingAlert: "Ces paramètres s’appliquent à toutes les réunions créées avec les paramètres PMI",
-  today: "Aujourd’hui",
-  scheduleForGuidance: "Vous planifiez pour quelqu’un d’autre ?\n1. Assurez-vous d’être dans leur calendrier Outlook.\n2. À partir de la liste déroulante, sélectionner la personne pour qui vous planifiez.\n",
-  scheduleForGuidanceMore: "En savoir plus",
-  changePmiSettings: "Modifier les paramètres de réunion personnelle"
-};
+  topic: 'Titre de la réunion',
+  date: 'Date',
+  startTime: 'Heure',
+  duration: 'Durée',
+  scheduleFor: 'Planifier au nom de',
+  meetingSettings: 'Paramètres de la réunion',
+  meetingSettingsDescription:
+    'La mise à jour de ces paramètres ne s’appliquera qu’à la réunion en cours.',
+  here: 'ici',
+  [ASSISTED_USERS_MYSELF]: 'Moi-même',
+  joinBeforeHost: 'Autoriser les participants à se connecter avant l’hôte',
+  enableWaitingRoom: 'Activer la salle d’attente',
+  waitingRoom: 'Mettre en place une salle d’attente pour',
+  waitingRoomTitle: 'Salle d’attente',
+  waitingRoomDescription:
+    'La réunion reste privée tant que vous n’acceptez pas de participants.',
+  waitingRoomNotCoworker: 'Toute personne hors entreprise',
+  waitingRoomGuest: 'Toute personne non inscrite',
+  waitingRoomAll: 'Tout le monde',
+  enterPassword: 'Saisir le mot de passe',
+  onlyJoinAfterMe:
+    'Les participants ne peuvent rejoindre la réunion qu’après moi',
+  onlyJoinAfterHost:
+    'Les participants peuvent uniquement rejoindre la réunion après l’hôte',
+  allowJoinBeforeHostDescription:
+    'Permet de sécuriser la réunion et d’éviter les distractions jusqu’à votre arrivée.',
+  muteAudio: 'Désactiver l’audio pour les participants',
+  turnOffCamera: 'Désactiver la caméra pour les participants',
+  requirePassword: 'Exiger un mot de passe',
+  useE2ee: 'Utiliser le chiffrement de bout en bout',
+  e2eeTooltip:
+    'Les réunions chiffrées de bout en bout sont les plus privées, mais des fonctions telles que rejoindre une réunion par téléphone, les sous-titres et l’enregistrement ne sont pas disponibles.',
+  setPassword: 'Définir un mot de passe *',
+  setPasswordNotSymbol: 'Définir un mot de passe',
+  passwordEmptyError: 'Mot de passe de la réunion requis',
+  passwordInvalidError:
+    'Votre mot de passe doit être composé de 1 à 10 lettres et chiffres, et ne peut pas comporter de symboles',
+  passwordHintText:
+    'Votre mot de passe doit être composé de 1 à 10 lettres et chiffres, mais ne doit pas contenir de symboles.',
+  usePersonalMeetingId: 'Utiliser l’ID de réunion personnel',
+  usePersonalMeetingIdInstead: 'Utiliser plutôt la réunion personnelle',
+  usePersonalMeetingName: 'Utiliser la réunion personnelle :',
+  meetingSettingsSecurity: 'Sécurité',
+  onlyAuthUserJoin: 'Seuls les utilisateurs authentifiés peuvent participer',
+  signedInUsers: 'Utilisateurs connectés',
+  signedInCoWorkers: 'Collaborateurs connectés',
+  limitScreenSharing:
+    'Seuls l’hôte et les modérateurs peuvent partager l’écran',
+  lockTooltip: 'Ce paramètre est géré par l’administrateur de votre entreprise',
+  pmiSettingAlert:
+    'Ces paramètres s’appliquent à toutes les réunions créées avec les paramètres PMI',
+  today: 'Aujourd’hui',
+  scheduleForGuidance:
+    'Vous planifiez pour quelqu’un d’autre ?\n1. Assurez-vous d’être dans leur calendrier Outlook.\n2. À partir de la liste déroulante, sélectionner la personne pour qui vous planifiez.\n',
+  scheduleForGuidanceMore: 'En savoir plus',
+  changePmiSettings: 'Modifier les paramètres de réunion personnelle',
+  allowToRecording: 'Peut lancer et arrêter l’enregistrement',
+  allowTranscribe: 'Peut lancer et arrêter la transcription',
+  everyone: 'Tout le monde',
+  onlyHostModerators: 'Uniquement l’hôte et les modérateurs',
+  advancedSettings: 'Paramètres avancés',
+  whoCanJoin: 'Qui peut participer ?',
+  requirePasswordDescription:
+    'Les participants qui rejoignent la réunion via le lien n’auront pas besoin de saisir le mot de passe.',
+  password: 'Mot de passe :',
+  passwordLabel: 'Mot de passe',
+  edit: 'Modifier',
+  changePassword: 'Modifier le mot de passe',
+  passwordRequired: 'Le mot de passe est requis',
+  passwordLengthError: 'Le mot de passe doit être composé de 1 à 10 caractères',
+  passwordFormatError:
+    'Le mot de passe ne peut contenir que des lettres et des chiffres',
+  passwordHint:
+    'Votre mot de passe doit être composé de 1 à 10 lettres et chiffres, mais ne doit pas contenir de symboles.',
+} as const;
 
 // @key: @#@"topic"@#@ @source: @#@"Meeting title"@#@
 // @key: @#@"date"@#@ @source: @#@"Date"@#@
@@ -46,16 +83,21 @@ export default {
 // @key: @#@"duration"@#@ @source: @#@"Duration"@#@
 // @key: @#@"scheduleFor"@#@ @source: @#@"Schedule on behalf of"@#@
 // @key: @#@"meetingSettings"@#@ @source: @#@"Meeting settings"@#@
+// @key: @#@"meetingSettingsDescription"@#@ @source: @#@"Update these settings will apply to current meeting only."@#@
+// @key: @#@"here"@#@ @source: @#@"here"@#@
 // @key: @#@"ASSISTED_USERS_MYSELF"@#@ @source: @#@"Myself"@#@
 // @key: @#@"joinBeforeHost"@#@ @source: @#@"Allow participants to join before host"@#@
 // @key: @#@"enableWaitingRoom"@#@ @source: @#@"Enable waiting room"@#@
 // @key: @#@"waitingRoom"@#@ @source: @#@"Enable waiting room for"@#@
+// @key: @#@"waitingRoomTitle"@#@ @source: @#@"Waiting room"@#@
+// @key: @#@"waitingRoomDescription"@#@ @source: @#@"Keep meetings private until you admit participants."@#@
 // @key: @#@"waitingRoomNotCoworker"@#@ @source: @#@"Anyone outside my company"@#@
 // @key: @#@"waitingRoomGuest"@#@ @source: @#@"Anyone not signed in"@#@
 // @key: @#@"waitingRoomAll"@#@ @source: @#@"Everyone"@#@
 // @key: @#@"enterPassword"@#@ @source: @#@"Enter Password"@#@
 // @key: @#@"onlyJoinAfterMe"@#@ @source: @#@"Participants can only join after me"@#@
 // @key: @#@"onlyJoinAfterHost"@#@ @source: @#@"Participants can only join after host"@#@
+// @key: @#@"allowJoinBeforeHostDescription"@#@ @source: @#@"Keeps the meeting secure and distraction-free until you join."@#@
 // @key: @#@"muteAudio"@#@ @source: @#@"Mute audio for participants"@#@
 // @key: @#@"turnOffCamera"@#@ @source: @#@"Turn off camera for participants"@#@
 // @key: @#@"requirePassword"@#@ @source: @#@"Require password"@#@
@@ -67,6 +109,8 @@ export default {
 // @key: @#@"passwordInvalidError"@#@ @source: @#@"Your password must be 1-10 letters and numbers long but cannot contain symbols"@#@
 // @key: @#@"passwordHintText"@#@ @source: @#@"Your password should be 1-10 letters and numbers long but cannot contain symbols"@#@
 // @key: @#@"usePersonalMeetingId"@#@ @source: @#@"Use Personal Meeting ID"@#@
+// @key: @#@"usePersonalMeetingIdInstead"@#@ @source: @#@"Use personal meeting instead"@#@
+// @key: @#@"usePersonalMeetingName"@#@ @source: @#@"Use personal meeting:"@#@
 // @key: @#@"meetingSettingsSecurity"@#@ @source: @#@"Security"@#@
 // @key: @#@"onlyAuthUserJoin"@#@ @source: @#@"Only authenticated users can join"@#@
 // @key: @#@"signedInUsers"@#@ @source: @#@"Signed in users"@#@
@@ -78,3 +122,18 @@ export default {
 // @key: @#@"scheduleForGuidance"@#@ @source: @#@"Scheduling for someone else?\n1. Make sure you're on their Outlook calendar.\n2. From the dropdown, select the person you're scheduling for.\n"@#@
 // @key: @#@"scheduleForGuidanceMore"@#@ @source: @#@"Learn details"@#@
 // @key: @#@"changePmiSettings"@#@ @source: @#@"Change Personal Meeting settings"@#@
+// @key: @#@"allowToRecording"@#@ @source: @#@"Allow to start and stop recording"@#@
+// @key: @#@"allowTranscribe"@#@ @source: @#@"Allow to start and stop transcription"@#@
+// @key: @#@"everyone"@#@ @source: @#@"Everyone"@#@
+// @key: @#@"onlyHostModerators"@#@ @source: @#@"Only host and moderators"@#@
+// @key: @#@"advancedSettings"@#@ @source: @#@"Advanced settings"@#@
+// @key: @#@"whoCanJoin"@#@ @source: @#@"Who can join?"@#@
+// @key: @#@"requirePasswordDescription"@#@ @source: @#@"Participants who join via the meeting link won’t need to enter the password."@#@
+// @key: @#@"password"@#@ @source: @#@"Password:"@#@
+// @key: @#@"passwordLabel"@#@ @source: @#@"Password"@#@
+// @key: @#@"edit"@#@ @source: @#@"Edit"@#@
+// @key: @#@"changePassword"@#@ @source: @#@"Change Password"@#@
+// @key: @#@"passwordRequired"@#@ @source: @#@"Password is required"@#@
+// @key: @#@"passwordLengthError"@#@ @source: @#@"Password must be 1-10 characters long"@#@
+// @key: @#@"passwordFormatError"@#@ @source: @#@"Password can only contain letters and numbers"@#@
+// @key: @#@"passwordHint"@#@ @source: @#@"Your password should be 1-10 letters and numbers long, but can not contain symbols."@#@

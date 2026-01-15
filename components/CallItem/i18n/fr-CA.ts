@@ -1,23 +1,25 @@
+/* eslint-disable */
 export default {
-  logging: "Connexion…",
-  logCall: "Journal des appels",
-  editLog: "Modifier le journal",
-  select: "Sélectionner un enregistrement correspondant",
-  OnHold: "En attente",
-  Ringing: "Sonnerie en cours",
-  CallConnected: "Appel connecté",
-  unknownUser: "Utilisateur inconnu",
-  unknownNumber: "Anonyme",
-  unavailable: "Non disponible",
-  viewDetails: "Afficher les renseignements",
-  addEntity: "Créer",
-  addLog: "Liste",
-  text: "Texto",
-  call: "Appeler",
-  missedCall: "Manqué",
-  inboundCall: "Entrant",
-  outboundCall: "Sortant"
-};
+  logging: 'Connexion…',
+  logCall: 'Journal des appels',
+  editLog: 'Modifier le journal',
+  select: 'Sélectionner un enregistrement correspondant',
+  OnHold: 'En attente',
+  Ringing: 'Sonnerie en cours',
+  CallConnected: 'Appel connecté',
+  unknownUser: 'Utilisateur inconnu',
+  unknownNumber: 'Anonyme',
+  unavailable: 'Non disponible',
+  viewDetails: 'Afficher les renseignements',
+  addEntity: 'Créer',
+  addLog: 'Liste',
+  text: 'Texto',
+  call: 'Appeler',
+  missedCall: 'Manqué',
+  inboundCall: 'Entrant',
+  outboundCall: 'Sortant',
+  answeredBy: 'Répondu par',
+} as const;
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
@@ -37,3 +39,4 @@ export default {
 // @key: @#@"missedCall"@#@ @source: @#@"Missed"@#@
 // @key: @#@"inboundCall"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"outboundCall"@#@ @source: @#@"Outbound"@#@
+// @key: @#@"answeredBy"@#@ @source: @#@"Answered by"@#@

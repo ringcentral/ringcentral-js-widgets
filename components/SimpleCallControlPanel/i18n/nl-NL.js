@@ -4,10 +4,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  allCalls: "Alle oproepen",
-  Unknown: "Onbekend",
-  Multiple: "Meerdere"
+  allCalls: 'Alle oproepen',
+  Unknown: 'Onbekend',
+  Multiple: 'Meerdere'
 }; // @key: @#@"allCalls"@#@ @source: @#@"All calls"@#@
 // @key: @#@"Unknown"@#@ @source: @#@"Unknown"@#@
 // @key: @#@"Multiple"@#@ @source: @#@"Multiple"@#@

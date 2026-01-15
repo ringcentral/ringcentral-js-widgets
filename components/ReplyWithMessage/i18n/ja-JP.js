@@ -4,16 +4,17 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  cancel: "キャンセル",
-  reply: "返信",
-  onMyWay: "移動中です",
-  customMessage: "カスタムメッセージ",
-  callMeBackIn: "折り返しお電話ください",
-  willCallYouBackIn: "折り返しお電話します",
-  min: "分",
-  hours: "時間",
-  days: "日"
+  cancel: 'キャンセル',
+  reply: '返信',
+  onMyWay: '移動中です',
+  customMessage: 'カスタムメッセージ',
+  callMeBackIn: '折り返しお電話ください',
+  willCallYouBackIn: '折り返しお電話します',
+  min: '分',
+  hours: '時間',
+  days: '日'
 }; // @key: @#@"cancel"@#@ @source: @#@"Cancel"@#@
 // @key: @#@"reply"@#@ @source: @#@"Reply"@#@
 // @key: @#@"onMyWay"@#@ @source: @#@"On my way"@#@

@@ -1,17 +1,19 @@
+/* eslint-disable */
 export default {
-  logging: "Kirjataan lokiin...",
-  logCall: "Kirjaa puhelu lokiin",
-  editLog: "Muokkaa lokia",
-  select: "Valitse tallenne",
-  OnHold: "Pidossa",
-  Ringing: "Soitetaan",
-  CallConnected: "Puhelu yhdistetty",
-  unknownUser: "Tuntematon käyttäjä",
-  unknownNumber: "Nimetön",
-  unavailable: "Ei käytettävissä",
-  viewDetails: "Näytä tiedot",
-  conferenceCall: "Neuvottelupuhelu"
-};
+  logging: 'Kirjataan lokiin...',
+  logCall: 'Kirjaa puhelu lokiin',
+  editLog: 'Muokkaa lokia',
+  select: 'Valitse tallenne',
+  OnHold: 'Pidossa',
+  Ringing: 'Soitetaan',
+  CallConnected: 'Puhelu yhdistetty',
+  unknownUser: 'Tuntematon käyttäjä',
+  unknownNumber: 'Nimetön',
+  unavailable: 'Ei käytettävissä',
+  viewDetails: 'Näytä tiedot',
+  conferenceCall: 'Neuvottelupuhelu',
+  callerId: 'Soittajatunnus',
+} as const;
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
@@ -25,3 +27,4 @@ export default {
 // @key: @#@"unavailable"@#@ @source: @#@"Unavailable"@#@
 // @key: @#@"viewDetails"@#@ @source: @#@"View Details"@#@
 // @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@
+// @key: @#@"callerId"@#@ @source: @#@"Caller ID"@#@

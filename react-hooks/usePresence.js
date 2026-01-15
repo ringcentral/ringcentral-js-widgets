@@ -8,8 +8,7 @@ exports.usePresence = void 0;
 require("regenerator-runtime/runtime");
 var _juno = require("@ringcentral/juno");
 var _react = require("react");
-var _usePromise = _interopRequireDefault(require("./usePromise"));
-function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+var _reactUse = require("react-use");
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
@@ -34,7 +33,7 @@ var usePresence = function usePresence(contact, _ref) {
     _useState2 = _slicedToArray(_useState, 2),
     presence = _useState2[0],
     setPresence = _useState2[1];
-  var mounted = (0, _usePromise["default"])();
+  var mounted = (0, _reactUse.usePromise)();
   var _useSleep = (0, _juno.useSleep)(),
     sleep = _useSleep.sleep;
   (0, _react.useEffect)(function () {

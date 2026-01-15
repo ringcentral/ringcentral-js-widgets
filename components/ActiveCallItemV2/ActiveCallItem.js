@@ -37,7 +37,7 @@ var _i18n = _interopRequireWildcard(require("../ActiveCallItem/i18n"));
 var _CallIcon = _interopRequireDefault(require("../CallIcon"));
 var _CircleButton = _interopRequireDefault(require("../CircleButton"));
 var _ContactDisplay = _interopRequireDefault(require("../ContactDisplay"));
-var _DurationCounter = _interopRequireDefault(require("../DurationCounter"));
+var _DurationCounter = require("../DurationCounter");
 var _MediaObject = _interopRequireDefault(require("../MediaObject"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
@@ -99,7 +99,8 @@ var WebphoneButtons = function WebphoneButtons(_ref2) {
     showHoldAnswerBtn = _ref2.showHoldAnswerBtn,
     showIgnoreBtn = _ref2.showIgnoreBtn,
     _ref2$isConnecting = _ref2.isConnecting,
-    isConnecting = _ref2$isConnecting === void 0 ? false : _ref2$isConnecting;
+    isConnecting = _ref2$isConnecting === void 0 ? false : _ref2$isConnecting,
+    isCallQueueCall = _ref2.isCallQueueCall;
   if (!session) {
     return null;
   }
@@ -133,7 +134,7 @@ var WebphoneButtons = function WebphoneButtons(_ref2) {
     }, /*#__PURE__*/_react["default"].createElement(_HoldAnswer["default"], {
       className: _styles["default"].answerHoldButton
     })));
-    endBtn = /*#__PURE__*/_react["default"].createElement("span", {
+    endBtn = !isCallQueueCall && /*#__PURE__*/_react["default"].createElement("span", {
       title: _i18n["default"].getString('toVoicemail', currentLocale),
       className: _styles["default"].webphoneButton,
       "data-sign": "toVoiceMail"
@@ -246,9 +247,7 @@ var WebphoneButtons = function WebphoneButtons(_ref2) {
       disabled: disableMerge || disableLinks
     }));
   }
-  return /*#__PURE__*/_react["default"].createElement("div", {
-    className: _styles["default"].webphoneButtons
-  }, ignoreBtn, holdBtn, mergeBtn, endBtn, answerBtn);
+  return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, ignoreBtn, holdBtn, mergeBtn, endBtn, answerBtn);
 };
 var ActiveCallControlButtons = function ActiveCallControlButtons(_ref3) {
   var _ref3$session = _ref3.session,
@@ -605,14 +604,14 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
         return /*#__PURE__*/_react["default"].createElement("div", {
           className: _styles["default"].callDetail,
           "data-sign": "duration"
-        }, /*#__PURE__*/_react["default"].createElement(_DurationCounter["default"], {
+        }, /*#__PURE__*/_react["default"].createElement(_DurationCounter.DurationCounter, {
           startTime: startTime,
           offset: offset
         }));
       }
       return /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].callDetail
-      }, disableLinks ? _i18n["default"].getString('unavailable', currentLocale) : /*#__PURE__*/_react["default"].createElement(_DurationCounter["default"], {
+      }, disableLinks ? _i18n["default"].getString('unavailable', currentLocale) : /*#__PURE__*/_react["default"].createElement(_DurationCounter.DurationCounter, {
         startTime: startTime,
         offset: offset
       }), callStatusComp);
@@ -711,6 +710,10 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
       // real outbound call status
       var isConnecting = (telephonySession === null || telephonySession === void 0 ? void 0 : (_telephonySession$oth = telephonySession.otherParties[0]) === null || _telephonySession$oth === void 0 ? void 0 : (_telephonySession$oth2 = _telephonySession$oth.status) === null || _telephonySession$oth2 === void 0 ? void 0 : _telephonySession$oth2.code) === _telephonySessionStatus.telephonySessionStatus.proceeding;
       var callerIdName = showCallerIdName ? (0, _callLogHelpers.getWebphoneSessionDisplayName)(this.props.call.webphoneSession) : undefined;
+
+      // @ts-expect-error
+      var callQueueName = webphoneSession === null || webphoneSession === void 0 ? void 0 : webphoneSession.callQueueName;
+      var isCallQueueCall = !!callQueueName;
       return /*#__PURE__*/_react["default"].createElement("div", {
         "data-sign": "callItem",
         className: _styles["default"].callItemContainer
@@ -796,7 +799,8 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
           webphoneIgnore: webphoneIgnore,
           showIgnoreBtn: showIgnoreBtn,
           showHoldAnswerBtn: showHoldAnswerBtn,
-          disableLinks: disableLinks
+          disableLinks: disableLinks,
+          isCallQueueCall: isCallQueueCall
         }) : /*#__PURE__*/_react["default"].createElement(ActiveCallControlButtons, {
           session: telephonySession
           // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message

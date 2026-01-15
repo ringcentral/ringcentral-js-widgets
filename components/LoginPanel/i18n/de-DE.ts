@@ -1,8 +1,9 @@
+/* eslint-disable */
 export default {
-  loginButton: "Anmelden",
-  signupButton: "Neuer Benutzer? Registrieren Sie sich.",
-  version: "Version"
-};
+  loginButton: 'Anmelden',
+  signupButton: 'Neuer Benutzer? Registrieren Sie sich.',
+  version: 'Version',
+} as const;
 
 // @key: @#@"loginButton"@#@ @source: @#@"Sign In"@#@
 // @key: @#@"signupButton"@#@ @source: @#@"New user? Sign Up"@#@

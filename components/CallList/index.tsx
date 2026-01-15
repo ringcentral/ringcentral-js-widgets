@@ -31,6 +31,7 @@ type CallListProps = {
   autoLog?: boolean;
   showContactDisplayPlaceholder?: boolean;
   showCallerIdName?: boolean;
+  isSyncingActivityMatcher?: boolean;
   sourceIcons?: object;
   phoneTypeRenderer?: (...args: any[]) => any;
   phoneSourceNameRenderer?: (...args: any[]) => any;
@@ -74,6 +75,7 @@ const CallList: React.FC<CallListProps> = ({
   shouldHideEntityButton,
   maxExtensionNumberLength,
   currentSiteCode = '',
+  isSyncingActivityMatcher = false,
   isMultipleSiteEnabled = false,
   active = false,
   disableLinks = false,
@@ -120,6 +122,7 @@ const CallList: React.FC<CallListProps> = ({
             isLogging={!!loggingMap[call.sessionId]}
             enableContactFallback={enableContactFallback}
             autoLog={autoLog}
+            isSyncingActivityMatcher={isSyncingActivityMatcher}
             showContactDisplayPlaceholder={showContactDisplayPlaceholder}
             sourceIcons={sourceIcons}
             phoneTypeRenderer={phoneTypeRenderer}

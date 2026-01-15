@@ -1,10 +1,11 @@
+/* eslint-disable */
 export default {
-  to: "Vst.ot:",
-  transferTo: "Siirto kohteeseen",
-  blindTransfer: "Siirrä",
-  warmTransfer: "Kysy ensin",
-  enterNameOrNumber: "Anna numero"
-};
+  to: 'Vst.ot:',
+  transferTo: 'Siirto kohteeseen',
+  blindTransfer: 'Siirrä',
+  warmTransfer: 'Kysy ensin',
+  enterNameOrNumber: 'Anna numero',
+} as const;
 
 // @key: @#@"to"@#@ @source: @#@"To:"@#@
 // @key: @#@"transferTo"@#@ @source: @#@"Transfer to"@#@

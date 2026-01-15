@@ -28,7 +28,10 @@ var _default = {
   completeTransfer: 'Complete transfer',
   reply: 'Reply',
   add: 'Add',
-  mergeCall: 'Merge with active call'
+  mergeCall: 'Merge with active call',
+  endCallForEveryone: 'End call for everyone',
+  leaveCall: 'Leave call',
+  leaveOrEndCall: 'Leave or end call?'
 };
 exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

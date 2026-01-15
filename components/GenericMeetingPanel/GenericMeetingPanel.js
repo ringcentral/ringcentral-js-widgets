@@ -16,8 +16,9 @@ var _utils = require("@ringcentral-integration/utils");
 var _react = _interopRequireWildcard(require("react"));
 var _InnerTopic = require("../InnerTopic");
 var _MeetingConfigsV = require("../MeetingConfigsV2");
+var _SchedulerMeetingPanel = require("../SchedulerMeetingPanel");
 var _SpinnerOverlay = require("../SpinnerOverlay");
-var _VideoConfig = require("../VideoPanel/VideoConfig");
+var _VideoPanel = require("../VideoPanel");
 var _styles = _interopRequireDefault(require("./styles.scss"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
@@ -25,6 +26,7 @@ function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) { ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } } return n; }, _extends.apply(null, arguments); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -70,9 +72,11 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
     showWaitingRoom = props.showWaitingRoom,
     showE2EE = props.showE2EE,
     isE2EEDisabled = props.isE2EEDisabled,
+    showAllowAnyoneRecord = props.showAllowAnyoneRecord,
+    showAllowAnyoneTranscribe = props.showAllowAnyoneTranscribe,
     personalMeetingId = props.personalMeetingId,
+    personalMeetingName = props.personalMeetingName,
     switchUsePersonalMeetingId = props.switchUsePersonalMeetingId,
-    updateHasSettingsChanged = props.updateHasSettingsChanged,
     trackSettingChanges = props.trackSettingChanges,
     e2eeInteractFunc = props.e2eeInteractFunc,
     showScheduleOnBehalf = props.showScheduleOnBehalf,
@@ -80,6 +84,9 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
     joinBeforeHostLabel = props.joinBeforeHostLabel,
     authUserTypeValue = props.authUserTypeValue,
     isJoinBeforeHostDisabled = props.isJoinBeforeHostDisabled,
+    isPasswordFieldDisabled = props.isPasswordFieldDisabled,
+    isAllowToRecordDisabled = props.isAllowToRecordDisabled,
+    isAllowAnyoneTranscribeDisabled = props.isAllowAnyoneTranscribeDisabled,
     isMuteAudioDisabled = props.isMuteAudioDisabled,
     isTurnOffCameraDisabled = props.isTurnOffCameraDisabled,
     isAllowScreenSharingDisabled = props.isAllowScreenSharingDisabled,
@@ -88,11 +95,8 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
     isWaitingRoomDisabled = props.isWaitingRoomDisabled,
     isWaitingRoomNotCoworkerDisabled = props.isWaitingRoomNotCoworkerDisabled,
     isWaitingRoomGuestDisabled = props.isWaitingRoomGuestDisabled,
-    isWaitingRoomAllDisabled = props.isWaitingRoomAllDisabled,
     isAuthUserTypeDisabled = props.isAuthUserTypeDisabled,
     isWaitingRoomTypeDisabled = props.isWaitingRoomTypeDisabled,
-    isSignedInUsersDisabled = props.isSignedInUsersDisabled,
-    isSignedInCoWorkersDisabled = props.isSignedInCoWorkersDisabled,
     updateScheduleFor = props.updateScheduleFor,
     labelPlacement = props.labelPlacement,
     showSpinnerInConfigPanel = props.showSpinnerInConfigPanel,
@@ -102,13 +106,16 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
     isPersonalMeetingDisabled = props.isPersonalMeetingDisabled,
     showMigrationAlert = props.showMigrationAlert,
     showRemoveMeetingWarning = props.showRemoveMeetingWarning,
-    brandConfig = props.brandConfig;
+    brandConfig = props.brandConfig,
+    useSimpleRcv = props.useSimpleRcv;
   if (showSpinner) {
     return /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null);
   }
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].wrapper
-  }, isRCM && /*#__PURE__*/_react["default"].createElement(_MeetingConfigsV.MeetingConfigs
+  }, showRemoveMeetingWarning && /*#__PURE__*/_react["default"].createElement("div", {
+    className: _styles["default"].mask
+  }), isRCM && /*#__PURE__*/_react["default"].createElement(_MeetingConfigsV.MeetingConfigs
   // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
   , {
     disabled: configDisabled,
@@ -153,10 +160,10 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
     currentLocale: currentLocale,
     ref: topicRef,
     defaultTopic: defaultTopic
-  })), isRCV && /*#__PURE__*/_react["default"].createElement(_VideoConfig.VideoConfig, {
-    disabled: configDisabled
-    // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
-    ,
+  })), isRCV && !useSimpleRcv && /*#__PURE__*/_react["default"].createElement(_VideoPanel.VideoConfig, {
+    disabled: configDisabled,
+    showAllowAnyoneRecord: showAllowAnyoneRecord,
+    showAllowAnyoneTranscribe: showAllowAnyoneTranscribe,
     isPersonalMeetingDisabled: isPersonalMeetingDisabled,
     currentLocale: currentLocale,
     labelPlacement: labelPlacement,
@@ -179,16 +186,13 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
     isE2EEDisabled: isE2EEDisabled,
     isWaitingRoomNotCoworkerDisabled: isWaitingRoomNotCoworkerDisabled,
     isWaitingRoomGuestDisabled: isWaitingRoomGuestDisabled,
-    isWaitingRoomAllDisabled: isWaitingRoomAllDisabled,
     isAuthUserTypeDisabled: isAuthUserTypeDisabled,
     isWaitingRoomTypeDisabled: isWaitingRoomTypeDisabled,
-    isSignedInUsersDisabled: isSignedInUsersDisabled,
-    isSignedInCoWorkersDisabled: isSignedInCoWorkersDisabled,
     enablePersonalMeeting: enablePersonalMeeting,
     isPmiChangeConfirmed: isPmiChangeConfirmed,
     personalMeetingId: personalMeetingId,
+    personalMeetingName: personalMeetingName,
     switchUsePersonalMeetingId: switchUsePersonalMeetingId,
-    updateHasSettingsChanged: updateHasSettingsChanged,
     trackSettingChanges: trackSettingChanges,
     onPmiChangeClick: onPmiChangeClick,
     showScheduleOnBehalf: showScheduleOnBehalf,
@@ -197,6 +201,9 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
     joinBeforeHostLabel: joinBeforeHostLabel,
     authUserTypeValue: authUserTypeValue,
     isJoinBeforeHostDisabled: isJoinBeforeHostDisabled,
+    isPasswordFieldDisabled: isPasswordFieldDisabled,
+    isAllowToRecordDisabled: isAllowToRecordDisabled,
+    isAllowAnyoneTranscribeDisabled: isAllowAnyoneTranscribeDisabled,
     isMuteAudioDisabled: isMuteAudioDisabled,
     isTurnOffCameraDisabled: isTurnOffCameraDisabled,
     isAllowScreenSharingDisabled: isAllowScreenSharingDisabled,
@@ -216,6 +223,10 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
     currentLocale: currentLocale,
     ref: topicRef,
     defaultTopic: defaultTopic
+  })), isRCV && useSimpleRcv && /*#__PURE__*/_react["default"].createElement(_SchedulerMeetingPanel.SchedulerMeetingPanel, _extends({}, props, {
+    disabled: configDisabled,
+    meeting: meeting,
+    personalMeeting: props.personalMeeting
   })), (isRCM || isRCV) && ScheduleButton && /*#__PURE__*/_react["default"].createElement(ScheduleButton, {
     currentLocale: currentLocale,
     disabled: disabled,
@@ -285,11 +296,8 @@ GenericMeetingPanel.defaultProps = {
   isE2EEDisabled: false,
   isWaitingRoomNotCoworkerDisabled: false,
   isWaitingRoomGuestDisabled: false,
-  isWaitingRoomAllDisabled: false,
   isAuthUserTypeDisabled: false,
   isWaitingRoomTypeDisabled: false,
-  isSignedInUsersDisabled: false,
-  isSignedInCoWorkersDisabled: false,
   enablePersonalMeeting: false,
   isPmiChangeConfirmed: false,
   showSaveAsDefault: true,
@@ -298,6 +306,7 @@ GenericMeetingPanel.defaultProps = {
   appCode: '',
   scheduleButtonLabel: '',
   personalMeetingId: undefined,
+  personalMeetingName: undefined,
   showSpinner: false,
   labelPlacement: 'start',
   enableServiceWebSettings: false,

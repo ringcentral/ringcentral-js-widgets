@@ -11,7 +11,10 @@ function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default":
 function Section(_ref) {
   var label = _ref.label,
     children = _ref.children,
-    dataSign = _ref.dataSign;
+    dataSign = _ref.dataSign,
+    _ref$show = _ref.show,
+    show = _ref$show === void 0 ? true : _ref$show;
+  if (!show) return null;
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].section,
     "data-sign": dataSign

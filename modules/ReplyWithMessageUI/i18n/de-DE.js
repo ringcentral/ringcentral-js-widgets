@@ -4,13 +4,14 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  inAMeeting: "In einer Besprechung",
-  onMyWay: "Bin unterwegs",
-  callMeBackIn: "Rufen Sie mich zurück in …",
-  willCallYouBackIn: "Ich rufe Sie zurück in …",
-  hour: "Stunde",
-  min: "Min."
+  inAMeeting: 'In einer Besprechung',
+  onMyWay: 'Bin unterwegs',
+  callMeBackIn: 'Rufen Sie mich zurück in …',
+  willCallYouBackIn: 'Ich rufe Sie zurück in …',
+  hour: 'Stunde',
+  min: 'Min.'
 }; // @key: @#@"inAMeeting"@#@ @source: @#@"In a meeting"@#@
 // @key: @#@"onMyWay"@#@ @source: @#@"On my way"@#@
 // @key: @#@"callMeBackIn"@#@ @source: @#@"Call me back in..."@#@

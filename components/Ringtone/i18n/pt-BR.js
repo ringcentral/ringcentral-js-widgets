@@ -4,15 +4,16 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  ringtones: "Toques",
-  incomingRingtone: "Toque de chamada recebida",
-  outgoingRingtone: "Toque de chamada realizada",
-  play: "Reproduzir",
-  stop: "Parar",
-  upload: "Carregar",
-  reset: "Restaurar",
-  save: "Salvar"
+  ringtones: 'Toques',
+  incomingRingtone: 'Toque de chamada recebida',
+  outgoingRingtone: 'Toque de chamada realizada',
+  play: 'Reproduzir',
+  stop: 'Parar',
+  upload: 'Carregar',
+  reset: 'Restaurar',
+  save: 'Salvar'
 }; // @key: @#@"ringtones"@#@ @source: @#@"Ringtones"@#@
 // @key: @#@"incomingRingtone"@#@ @source: @#@"Incoming Ringtone"@#@
 // @key: @#@"outgoingRingtone"@#@ @source: @#@"Outgoing Ringtone"@#@

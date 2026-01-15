@@ -4,10 +4,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  createCallLog: "Créer journ. d’appels",
-  viewInSalesforce: "Afficher dans Salesforce",
-  createLog: "Créer un journal"
+  createCallLog: 'Créer journ. d’appels',
+  viewInSalesforce: 'Afficher dans Salesforce',
+  createLog: 'Créer un journal'
 }; // @key: @#@"createCallLog"@#@ @source: @#@"Create call log"@#@
 // @key: @#@"viewInSalesforce"@#@ @source: @#@"View in Salesforce"@#@
 // @key: @#@"createLog"@#@ @source: @#@"Create log"@#@

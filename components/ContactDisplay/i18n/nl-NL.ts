@@ -1,17 +1,19 @@
+/* eslint-disable */
 export default {
-  logging: "Wordt gelogd...",
-  logCall: "Oproep loggen",
-  editLog: "Lijst bewerken",
-  select: "Record select.",
-  OnHold: "In de wacht",
-  Ringing: "Gaat over",
-  CallConnected: "Oproep verbonden",
-  unknownUser: "Onbekende gebruiker",
-  unknownNumber: "Anoniem",
-  unavailable: "Niet beschikbaar",
-  viewDetails: "Details weergeven",
-  conferenceCall: "Conference call"
-};
+  logging: 'Wordt gelogd...',
+  logCall: 'Oproep loggen',
+  editLog: 'Lijst bewerken',
+  select: 'Record select.',
+  OnHold: 'In de wacht',
+  Ringing: 'Gaat over',
+  CallConnected: 'Oproep verbonden',
+  unknownUser: 'Onbekende gebruiker',
+  unknownNumber: 'Anoniem',
+  unavailable: 'Niet beschikbaar',
+  viewDetails: 'Details weergeven',
+  conferenceCall: 'Conference call',
+  callerId: 'Beller-ID',
+} as const;
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
@@ -25,3 +27,4 @@ export default {
 // @key: @#@"unavailable"@#@ @source: @#@"Unavailable"@#@
 // @key: @#@"viewDetails"@#@ @source: @#@"View Details"@#@
 // @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@
+// @key: @#@"callerId"@#@ @source: @#@"Caller ID"@#@

@@ -10,6 +10,7 @@ var _default = {
   save: 'Save',
   saving: 'Saving',
   saved: 'Saved',
+  view: 'View',
   creatingFailed: 'Creating failed.',
   savingFailed: 'Saving failed.'
 };

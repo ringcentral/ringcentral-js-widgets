@@ -84,9 +84,13 @@ var ComposeTextUI = (_dec = (0, _module["default"])({
     value: function getUIProps(_ref) {
       var inputExpandable = _ref.inputExpandable,
         supportAttachment = _ref.supportAttachment,
+        _ref$supportEmoji = _ref.supportEmoji,
+        supportEmoji = _ref$supportEmoji === void 0 ? false : _ref$supportEmoji,
         _ref$useRecipientsInp = _ref.useRecipientsInputV2,
         useRecipientsInputV2 = _ref$useRecipientsInp === void 0 ? false : _ref$useRecipientsInp,
-        autoFocusToField = _ref.autoFocusToField;
+        autoFocusToField = _ref.autoFocusToField,
+        _ref$showCustomPhoneL = _ref.showCustomPhoneLabel,
+        showCustomPhoneLabel = _ref$showCustomPhoneL === void 0 ? false : _ref$showCustomPhoneL;
       var isContentEmpty = this._deps.composeText.messageText.length === 0 && (!this._deps.composeText.attachments || this._deps.composeText.attachments.length === 0);
       return {
         brand: this._deps.brand.name,
@@ -103,9 +107,11 @@ var ComposeTextUI = (_dec = (0, _module["default"])({
         showSpinner: !(this._deps.composeText.ready && this._deps.locale.ready && this._deps.messageSender.ready && this._deps.appFeatures.ready && this._deps.contactSearch.ready),
         inputExpandable: inputExpandable,
         attachments: this._deps.composeText.attachments,
-        supportAttachment: supportAttachment,
+        supportAttachment: supportAttachment && this._deps.appFeatures.hasSendMMSPermission,
+        supportEmoji: supportEmoji,
         useRecipientsInputV2: useRecipientsInputV2,
-        autoFocus: autoFocusToField
+        autoFocus: autoFocusToField,
+        showCustomPhoneLabel: showCustomPhoneLabel
       };
     }
   }, {
@@ -297,10 +303,12 @@ var ComposeTextUI = (_dec = (0, _module["default"])({
         phoneSourceNameRenderer: phoneSourceNameRenderer,
         recipientsContactInfoRenderer: recipientsContactInfoRenderer,
         recipientsContactPhoneRenderer: recipientsContactPhoneRenderer,
-        // @ts-expect-error TS(2556): A spread argument must either have a tuple type or... Remove this comment to see the full error message
-        addAttachment: function addAttachment() {
+        addAttachments: function addAttachments() {
           var _this$_deps$composeTe6;
-          return (_this$_deps$composeTe6 = _this._deps.composeText).addAttachment.apply(_this$_deps$composeTe6, arguments);
+          return (
+            // @ts-expect-error TS(2556): A spread argument must either have a tuple type or... Remove this comment to see the full error message
+            (_this$_deps$composeTe6 = _this._deps.composeText).addAttachments.apply(_this$_deps$composeTe6, arguments)
+          );
         },
         removeAttachment: function removeAttachment() {
           var _this$_deps$composeTe7;

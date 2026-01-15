@@ -52,6 +52,7 @@ import type { TabsEnumType } from './ContactSearchPanelEnum';
 import { TabsEnum } from './ContactSearchPanelEnum';
 import { DoNotCallIndicator } from './DoNotCallIndicator';
 import { HelpTextSection } from './HelpTextSection';
+import { generateOptionsMap, generateTabs } from './helper';
 import i18n, { type I18nKey } from './i18n';
 import {
   CallQueueIcon,
@@ -63,8 +64,6 @@ import {
   StyledTabsWrapper,
   TabText,
 } from './styles/ContactSearchPanel';
-
-const getCountsRes = (counts: number) => (counts > 99 ? `99+` : counts);
 
 const PrimaryAvatar = ({
   inOtherTab,
@@ -183,50 +182,27 @@ export const ContactSearchPanel: FunctionComponent<ContactSearchPanelProps> = ({
   const inThirdPartyTab = activeTab === TabsEnum.thirdParty;
   const isLoading = inThirdPartyTab && isAbleToSearch && isThirdPartySearching;
 
-  const getPrimaryCount = (items: any) => {
-    const count = items?.filter((i: any) => i.isPrimary).length;
-    return getCountsRes(count);
-  };
+  const { optionsMap, tabItemsMap, tabsKey } = useMemo(() => {
+    const _optionsMap = generateOptionsMap({
+      showOtherContacts,
+      isAbleToSearch,
+      companyContacts,
+      otherContacts,
+      personalContacts,
+      thirdPartyContacts,
+    });
 
-  const { optionsMap, tabItemsMap } = useMemo(() => {
-    const _optionsMap = showOtherContacts
-      ? {
-          [TabsEnum.thirdParty]: !isAbleToSearch ? [] : thirdPartyContacts,
-          [TabsEnum.company]: companyContacts,
-          [TabsEnum.personal]: personalContacts,
-          [TabsEnum.other]: otherContacts,
-        }
-      : {
-          [TabsEnum.thirdParty]: !isAbleToSearch ? [] : thirdPartyContacts,
-          [TabsEnum.company]: companyContacts,
-          [TabsEnum.personal]: personalContacts,
-        };
-    const _tabItemsMap = [
-      {
-        label: thirdPartySourceName,
-        value: TabsEnum.thirdParty,
-        count: isLoading
-          ? 0
-          : getPrimaryCount(_optionsMap[TabsEnum.thirdParty]),
-      },
-      {
-        label: i18n.getString('companyTabTitle', currentLocale),
-        value: TabsEnum.company,
-        count: getPrimaryCount(_optionsMap[TabsEnum.company]),
-      },
-      {
-        label: i18n.getString('personalTabTitle', currentLocale),
-        value: TabsEnum.personal,
-        count: getPrimaryCount(_optionsMap[TabsEnum.personal]),
-      },
-      {
-        label: i18n.getString('other', currentLocale),
-        value: TabsEnum.other,
-        count: getPrimaryCount(_optionsMap[TabsEnum.other]),
-      },
-    ];
+    const _tabItemsMap = generateTabs({
+      optionsMap: _optionsMap,
+      thirdPartySourceName,
+      currentLocale,
+      isLoading,
+    });
+
+    const _tabsKey = _tabItemsMap.map((tab) => tab.count).join('-');
 
     return {
+      tabsKey: _tabsKey,
       optionsMap: _optionsMap,
       tabItemsMap: showOtherContacts ? _tabItemsMap : _tabItemsMap.slice(0, 2),
     };
@@ -370,10 +346,12 @@ export const ContactSearchPanel: FunctionComponent<ContactSearchPanelProps> = ({
     additionProps.initialItemCount = optionItems.length;
     additionProps.key = optionItems.length;
   }
+
   return (
     <StyledContactSearchPanel data-sign="contactSearchPanel">
       <StyledTabsWrapper>
         <RcTabs
+          key={tabsKey}
           data-sign="contactTabsTitle"
           value={activeTab}
           onChange={(e, v) => {
@@ -458,6 +436,7 @@ export const ContactSearchPanel: FunctionComponent<ContactSearchPanelProps> = ({
                 profileImageUrl = '',
                 contact,
                 presenceStatus,
+                accountName,
                 // @ts-ignore
                 entityType,
                 // @ts-ignore
@@ -528,7 +507,20 @@ export const ContactSearchPanel: FunctionComponent<ContactSearchPanelProps> = ({
                           {phoneNumber}
                         </span>
                       ) : (
-                        <span title={content}>{content}</span>
+                        <>
+                          <span title={content}>{content}</span>{' '}
+                          {accountName && (
+                            <>
+                              <br />
+                              <span
+                                title={accountName} //todo: test account name once design is finalized
+                                style={{ color: 'gray' }}
+                              >
+                                {accountName}
+                              </span>
+                            </>
+                          )}{' '}
+                        </>
                       )
                     }
                   />
@@ -570,3 +562,5 @@ export const ContactSearchPanel: FunctionComponent<ContactSearchPanelProps> = ({
     </StyledContactSearchPanel>
   );
 };
+
+ContactSearchPanel.displayName = 'ContactSearchPanel';

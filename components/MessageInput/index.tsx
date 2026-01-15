@@ -1,18 +1,26 @@
 import { debounce } from '@ringcentral-integration/commons/lib/debounce-throttle/debounce';
-import { RcIconButton } from '@ringcentral/juno';
-import {
-  Attachment as attachmentSvg,
-  Close as removeSvg,
-} from '@ringcentral/juno-icon';
+import { fileToBase64 } from '@ringcentral-integration/utils';
+import { RcIconButton, setSelectionPosition } from '@ringcentral/juno';
+import { SendFilled } from '@ringcentral/juno-icon';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
+import { EmojiMenu } from './EmojiMenu';
+import {
+  AttachButton,
+  AttachmentList,
+  FileItem,
+  SUPPORTED_MMS_MIME_TYPES_IN_LOWERCASE,
+} from './FileAttacher';
 import i18n from './i18n';
 import styles from './styles.scss';
+import { getTextFieldInsertResult, setNativeValue } from './utils';
 
-const UIHeightOffset = 23;
-// the extra height of the entire field with paddings and borders
+export const UIHeightOffset = 10;
+// display up to preview 3 items in view
+export const MAX_PREVIEW_ATTACHMENT_SIZE = 2.5;
+const SMS_ACCEPT_TYPES = SUPPORTED_MMS_MIME_TYPES_IN_LOWERCASE.join();
 
 class MessageInput extends Component {
   static propTypes = {
@@ -28,8 +36,9 @@ class MessageInput extends Component {
     onHeightChange: PropTypes.func,
     inputExpandable: PropTypes.bool,
     supportAttachment: PropTypes.bool,
+    supportEmoji: PropTypes.bool,
     attachments: PropTypes.array,
-    addAttachment: PropTypes.func,
+    addAttachments: PropTypes.func,
     removeAttachment: PropTypes.func,
   };
 
@@ -39,28 +48,30 @@ class MessageInput extends Component {
     onSend: undefined,
     onChange: undefined,
     onHeightChange: undefined,
-    minHeight: 63,
+    minHeight: 41,
     maxHeight: 300,
     maxLength: 1000,
     inputExpandable: true,
     supportAttachment: false,
+    supportEmoji: false,
     attachments: [],
-    addAttachment: undefined,
+    addAttachments: undefined,
     removeAttachment: undefined,
   };
 
-  _fileInputRef: any;
   _lastValueChange: any;
   textArea: any;
+  emojiActionRef: any;
 
   constructor(props: any, context: any) {
     super(props, context);
     this.state = {
       value: props.value,
       height: props.minHeight,
+      attachmentsLength: 0,
     };
     this._lastValueChange = 0;
-    this._fileInputRef = React.createRef();
+    this.emojiActionRef = React.createRef();
   }
 
   // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
@@ -73,33 +84,78 @@ class MessageInput extends Component {
       // where value pushed back to background and back takes longer
       Date.now() - this._lastValueChange > 300
     ) {
-      // use setState(updater, callback) to recaculate height after value has been update to DOM
+      // use setState(updater, callback) to recalculate height after value has been update to DOM
       this.setState(
         () => ({
           value: nextProps.value,
         }),
         () => {
-          const newHeight = this.calculateNewHeight();
-          // @ts-expect-error TS(2339): Property 'height' does not exist on type 'Readonly... Remove this comment to see the full error message
-          if (newHeight !== this.state.height) {
-            // @ts-expect-error TS(2339): Property 'onHeightChange' does not exist on type '... Remove this comment to see the full error message
-            if (typeof this.props.onHeightChange === 'function') {
-              // @ts-expect-error TS(2339): Property 'onHeightChange' does not exist on type '... Remove this comment to see the full error message
-              this.props.onHeightChange(newHeight);
-            }
-            this.setState({
-              height: newHeight,
-            });
-          }
+          this.setNewHeight();
         },
       );
+    }
+    const newAttachmentsLength = nextProps.attachments?.length;
+    if (
+      // @ts-expect-error TS(2339): Property 'value' does not exist on type 'Readonly<... Remove this comment to see the full error message
+      newAttachmentsLength !== this.state.attachmentsLength &&
+      nextProps.supportAttachment
+    ) {
+      this.setState({
+        attachmentsLength: newAttachmentsLength,
+      });
+      // need to pass latest attachments length to calculate new height
+      this.setNewHeight(newAttachmentsLength);
     }
   }
 
   // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentDidMount() {
     // do a initial size check in case the component is mounted with multi line value
-    const newHeight = this.calculateNewHeight();
+    this.setNewHeight();
+  }
+
+  calculateNewHeight(attachmentsLength?: number) {
+    // @ts-expect-error TS(2339): Property 'inputExpandable' does not exist on type ... Remove this comment to see the full error message
+    if (!this.props.inputExpandable) {
+      // @ts-expect-error TS(2339): Property 'minHeight' does not exist on type 'Reado... Remove this comment to see the full error message
+      return this.props.minHeight;
+    }
+    // temporarily set height to 0 to check scrollHeight
+    this.textArea.style.height = 0;
+    const newHeight = this.textArea.scrollHeight + UIHeightOffset;
+    // set height back to original to avoid messing with react
+    // @ts-expect-error TS(2339): Property 'height' does not exist on type 'Readonly... Remove this comment to see the full error message
+    this.textArea.style.height = `${this.state.height - UIHeightOffset}px`;
+    const {
+      // @ts-expect-error TS(2339): Property 'minHeight' does not exist on type 'Reado... Remove this comment to see the full error message
+      minHeight,
+      // @ts-expect-error TS(2339): Property 'maxHeight' does not exist on type 'Reado... Remove this comment to see the full error message
+      maxHeight,
+      // @ts-expect-error TS(2339): Property 'attachments' does not exist on type 'Reado... Remove this comment to see the full error message
+      attachments,
+      // @ts-expect-error TS(2339): Property 'supportAttachment' does not exist on type 'Reado... Remove this comment to see the full error message
+      supportAttachment,
+      // @ts-expect-error TS(2339): Property 'supportEmoji' does not exist on type 'Reado... Remove this comment to see the full error message
+      supportEmoji,
+    } = this.props;
+    const mmsLength = attachmentsLength ?? attachments.length;
+    const attachmentsHeight =
+      (mmsLength > MAX_PREVIEW_ATTACHMENT_SIZE
+        ? MAX_PREVIEW_ATTACHMENT_SIZE
+        : mmsLength) * 50;
+    const inputToolBarHeight = supportAttachment || supportEmoji ? 40 : 0;
+    const othersHeight = attachmentsHeight + inputToolBarHeight;
+    if (newHeight < minHeight) {
+      return minHeight;
+    }
+    if (newHeight > maxHeight - othersHeight) {
+      return maxHeight - othersHeight;
+    }
+    return newHeight;
+  }
+
+  setNewHeight(attachmentsLength?: number) {
+    const newHeight = this.calculateNewHeight(attachmentsLength);
     // @ts-expect-error TS(2339): Property 'height' does not exist on type 'Readonly... Remove this comment to see the full error message
     if (newHeight !== this.state.height) {
       // @ts-expect-error TS(2339): Property 'onHeightChange' does not exist on type '... Remove this comment to see the full error message
@@ -111,29 +167,6 @@ class MessageInput extends Component {
         height: newHeight,
       });
     }
-  }
-
-  calculateNewHeight() {
-    // @ts-expect-error TS(2339): Property 'inputExpandable' does not exist on type ... Remove this comment to see the full error message
-    if (!this.props.inputExpandable) {
-      // @ts-expect-error TS(2339): Property 'minHeight' does not exist on type 'Reado... Remove this comment to see the full error message
-      return this.props.minHeight;
-    }
-    // temperarily set height to 0 to check scrollHeight
-    this.textArea.style.height = 0;
-    const newHeight = this.textArea.scrollHeight + 10 + UIHeightOffset;
-    // set height back to original to avoid messing with react
-    // @ts-expect-error TS(2339): Property 'height' does not exist on type 'Readonly... Remove this comment to see the full error message
-    this.textArea.style.height = `${this.state.height - UIHeightOffset}px`;
-    // @ts-expect-error TS(2339): Property 'minHeight' does not exist on type 'Reado... Remove this comment to see the full error message
-    const { minHeight, maxHeight } = this.props;
-    if (newHeight < minHeight) {
-      return minHeight;
-    }
-    if (newHeight > maxHeight) {
-      return maxHeight;
-    }
-    return newHeight;
   }
 
   onChange = (e: any) => {
@@ -189,30 +222,6 @@ class MessageInput extends Component {
     }
   };
 
-  onAttachmentIconClick = () => {
-    this._fileInputRef.current.click();
-  };
-
-  onSelectAttachment = ({ currentTarget }: any) => {
-    if (currentTarget.files.length === 0) {
-      return;
-    }
-    // @ts-expect-error TS(2339): Property 'addAttachment' does not exist on type 'R... Remove this comment to see the full error message
-    const { addAttachment } = this.props;
-    let file = currentTarget.files[0];
-    if (
-      (file.name.endsWith('.vcard') || file.name.endsWith('.vcf')) &&
-      file.type !== 'text/vcard'
-    ) {
-      file = new File([file], file.name, { type: 'text/vcard' });
-    }
-    addAttachment({
-      name: file.name,
-      size: file.size,
-      file,
-    });
-  };
-
   // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const {
@@ -226,39 +235,90 @@ class MessageInput extends Component {
       maxLength,
       // @ts-expect-error TS(2339): Property 'supportAttachment' does not exist on typ... Remove this comment to see the full error message
       supportAttachment,
+      // @ts-expect-error TS(2339): Property 'supportEmoji' does not exist on typ... Remove this comment to see the full error message
+      supportEmoji,
       // @ts-expect-error TS(2339): Property 'attachments' does not exist on type 'Rea... Remove this comment to see the full error message
       attachments,
       // @ts-expect-error TS(2339): Property 'removeAttachment' does not exist on type... Remove this comment to see the full error message
       removeAttachment,
+      // @ts-expect-error TS(2339): Property 'addAttachments' does not exist on type... Remove this comment to see the full error message
+      addAttachments,
     } = this.props;
     // @ts-expect-error TS(2339): Property 'value' does not exist on type 'Readonly<... Remove this comment to see the full error message
     const { value, height } = this.state;
     const inputHeight = height - UIHeightOffset;
+    const hasToolBar = supportEmoji || supportAttachment;
     return (
-      <div
-        className={clsx(
-          styles.root,
-          supportAttachment && styles.supportAttachment,
+      <div className={clsx(styles.root)}>
+        {hasToolBar && (
+          <div>
+            {supportAttachment && (
+              <AttachButton
+                multiple
+                currentLocale={currentLocale}
+                acceptTypes={SMS_ACCEPT_TYPES}
+                onUpload={async (data) => {
+                  // when upload be trigger also close popup
+                  this.emojiActionRef.current?.close();
+                  if (data?.length) {
+                    const files = await Promise.all(
+                      data.map(async (file) => {
+                        const { name, size } = file;
+                        const base64Url = await fileToBase64(file);
+                        return {
+                          name,
+                          size,
+                          file,
+                          base64Url,
+                        };
+                      }),
+                    );
+                    addAttachments?.(files);
+                  }
+                }}
+              />
+            )}
+            {supportEmoji && (
+              <EmojiMenu
+                data-sign="emojiButton"
+                action={this.emojiActionRef}
+                currentLocale={currentLocale}
+                getInputElement={() => this.textArea!}
+                onSelect={(data, position) => {
+                  if (!this.textArea) return;
+
+                  const emoji = data.native;
+
+                  const result = getTextFieldInsertResult({
+                    input: this.textArea,
+                    insertValue: emoji,
+                    sourcePosition: position,
+                  });
+
+                  const nextPositionInfo = result.start;
+
+                  if (nextPositionInfo) {
+                    requestAnimationFrame(() => {
+                      setSelectionPosition(this.textArea, {
+                        start: nextPositionInfo,
+                        end: nextPositionInfo,
+                      });
+                    });
+                  }
+
+                  setNativeValue(this.textArea, result.value);
+                  this.textArea.focus();
+                }}
+              />
+            )}
+          </div>
         )}
-      >
-        <div className={styles.attachmentIcon}>
-          <RcIconButton
-            variant="round"
-            size="small"
-            symbol={attachmentSvg}
-            onClick={this.onAttachmentIconClick}
-            disabled={disabled}
-          />
-          <input
-            type="file"
-            accept="image/tiff,image/gif,image/jpeg,image/bmp,image/png,image/svg+xml,text/vcard,application/rtf,video/mpeg,audio/mpeg,video/mp4,application/zip"
-            style={{ display: 'none' }}
-            ref={this._fileInputRef}
-            onChange={this.onSelectAttachment}
-            disabled={disabled}
-          />
-        </div>
-        <div className={styles.textField}>
+        <div
+          className={clsx(
+            styles.textField,
+            !hasToolBar ? styles.textFieldMargin : null,
+          )}
+        >
           <textarea
             data-sign="messageInput"
             ref={(target) => {
@@ -269,45 +329,36 @@ class MessageInput extends Component {
             maxLength={maxLength}
             onChange={this.onChange}
             onKeyPressCapture={this.onKeyDown}
+            onKeyDown={(e) => {
+              if (e.key === 'Escape') {
+                this.emojiActionRef.current?.close();
+              }
+            }}
             style={{
               height: inputHeight,
             }}
             disabled={disabled}
           />
+          <div className={styles.submitField}>
+            <RcIconButton
+              size="small"
+              data-sign="messageButton"
+              disabled={disabled || sendButtonDisabled}
+              symbol={SendFilled}
+              color="action.primary"
+              onClick={this.onSend}
+            />
+          </div>
         </div>
-        <div className={styles.submitField}>
-          <input
-            data-sign="messageButton"
-            type="button"
-            value={i18n.getString('send', currentLocale)}
-            onClick={this.onSend}
-            className={styles.sendButton}
-            disabled={disabled || sendButtonDisabled}
-          />
-        </div>
-        <div className={styles.attachments}>
-          {attachments.map((attachment: any) => {
-            return (
-              <div
-                className={styles.attachmentItem}
-                key={attachment.name}
-                title={attachment.name}
-              >
-                {attachment.name}
-                <div className={styles.attachmentRemoveIcon}>
-                  <RcIconButton
-                    size="small"
-                    symbol={removeSvg}
-                    disabled={disabled}
-                    onClick={() => {
-                      removeAttachment(attachment);
-                    }}
-                  />
-                </div>
-              </div>
-            );
-          })}
-        </div>
+        {supportAttachment && attachments?.length > 0 && (
+          <div className={styles.attachments}>
+            <AttachmentList
+              files={attachments as FileItem[]}
+              onRemoveAttachment={removeAttachment}
+              data-sign="textAttachmentsList"
+            />
+          </div>
+        )}
       </div>
     );
   }

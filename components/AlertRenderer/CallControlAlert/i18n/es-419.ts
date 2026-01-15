@@ -1,9 +1,10 @@
-import { callControlAlerts, callControlError } from '@ringcentral-integration/commons/modules/ActiveCallControl';
-const {
-  callsMerged,
-  somethingWentWrong,
-  tooManyParticipants
-} = callControlAlerts;
+/* eslint-disable */
+import {
+  callControlAlerts,
+  callControlError,
+} from '@ringcentral-integration/commons/modules/ActiveCallControl';
+const { callsMerged, somethingWentWrong, tooManyParticipants } =
+  callControlAlerts;
 const {
   holdConflictError,
   unHoldConflictError,
@@ -12,21 +13,26 @@ const {
   generalError,
   forwardSuccess,
   transferCompleted,
-  replyCompleted
+  replyCompleted,
 } = callControlError;
 export default {
-  [callsMerged]: "Las llamadas se combinaron",
-  [somethingWentWrong]: "Se ha producido un error. Vuelva a intentarlo.",
-  [tooManyParticipants]: "Se alcanzó el número máximo de participantes.",
-  [muteConflictError]: "Esta llamada se había silenciado en otro dispositivo. Desactive el silencio de la llamada antes de empezar a utilizar la aplicación.",
-  [unHoldConflictError]: "Esta llamada se había puesto en espera en otro dispositivo. Reanude la llamada antes de empezar a utilizar la aplicación.",
-  [unMuteConflictError]: "El audio de esta llamada se había activado en otro dispositivo. Silencie la llamada antes de empezar a utilizar la aplicación.",
-  [holdConflictError]: "Esta llamada se había reanudado en otro dispositivo. Ponga la llamada en espera antes de empezar a utilizar la aplicación.",
-  [generalError]: "Error en el servidor. Inténtelo de nuevo más tarde.",
-  [forwardSuccess]: "Llamada desviada",
-  [transferCompleted]: "Llamada transferida",
-  [replyCompleted]: "Mensaje de voz enviado."
-};
+  [callsMerged]: 'Las llamadas se combinaron',
+  [somethingWentWrong]: 'Se ha producido un error. Vuelva a intentarlo.',
+  [tooManyParticipants]: 'Se alcanzó el número máximo de participantes.',
+  [muteConflictError]:
+    'Esta llamada se había silenciado en otro dispositivo. Active el audio de la llamada antes de empezar a utilizar la aplicación.',
+  [unHoldConflictError]:
+    'Esta llamada se había puesto en espera en otro dispositivo. Reanude la llamada antes de empezar a controlar en esta aplicación.',
+  [unMuteConflictError]:
+    'El audio de esta llamada se había activado en otro dispositivo. Silencie la llamada antes de controlar en esta aplicación.',
+  [holdConflictError]:
+    'Esta llamada se había reanudado en otro dispositivo. Ponga la llamada en espera antes de controlar en esta aplicación.',
+  [generalError]:
+    'Error inesperado del servidor. Inténtelo de nuevo más tarde.',
+  [forwardSuccess]: 'Llamada desviada',
+  [transferCompleted]: 'Llamada transferida',
+  [replyCompleted]: 'Mensaje de voz enviado.',
+} as const;
 
 // @key: @#@"callsMerged"@#@ @source: @#@"Calls merged"@#@
 // @key: @#@"somethingWentWrong"@#@ @source: @#@"Something went wrong. Please try again."@#@

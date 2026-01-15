@@ -47,7 +47,7 @@ var RingtoneUploadButton = function RingtoneUploadButton(_ref) {
     symbol: _junoIcon.ZoomIn,
     size: "small"
   }), /*#__PURE__*/_react["default"].createElement(_juno.RcText, {
-    titleWhenOverflow: true,
+    title: (0, _i18n.t)('add'),
     flexFull: true
   }, (0, _i18n.t)('add')), /*#__PURE__*/_react["default"].createElement("input", {
     ref: inputElRef,

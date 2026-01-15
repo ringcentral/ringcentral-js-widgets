@@ -1,12 +1,15 @@
+/* eslint-disable */
 export default {
-  title: "Alue",
-  NAOnlyMessage: "Anna suuntanumerosi. Sitä käytetään paikallispuheluissa.",
-  MultiWithNAMessage: "Anna alueesi maakoodi ja suuntanumero. Tätä käytetään paikallispuheluihin sekä puhelinnumeron muotoiluun.",
-  MultiWithoutNAMessage: "Valitse maa, jossa oleskelet. Tätä käytetään paikallispuheluihin sekä puhelinnumeron muotoiluun.",
-  country: "Maa",
-  areaCode: "Suuntanumero",
-  areaCodePlaceholder: "Anna suuntanumero"
-};
+  title: 'Alue',
+  NAOnlyMessage: 'Anna suuntanumerosi. Sitä käytetään paikallispuheluissa.',
+  MultiWithNAMessage:
+    'Anna alueesi maakoodi ja suuntanumero. Tätä käytetään paikallispuheluihin sekä puhelinnumeron muotoiluun.',
+  MultiWithoutNAMessage:
+    'Valitse maa, jossa oleskelet. Tätä käytetään paikallispuheluihin sekä puhelinnumeron muotoiluun.',
+  country: 'Maa',
+  areaCode: 'Suuntanumero',
+  areaCodePlaceholder: 'Anna suuntanumero',
+} as const;
 
 // @key: @#@"title"@#@ @source: @#@"Region"@#@
 // @key: @#@"NAOnlyMessage"@#@ @source: @#@"Please set your area code. This will be used for local dialing."@#@

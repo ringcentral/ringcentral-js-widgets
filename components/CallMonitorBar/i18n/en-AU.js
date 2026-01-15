@@ -4,16 +4,17 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  currentCall: "Current Call",
-  viewCalls: "View calls",
-  view: "View",
-  incomingCall: "{numberOf} incoming call",
-  incomingCalls: "{numberOf} incoming calls",
-  callOnHold: "{numberOf} call on hold",
-  callsOnHold: "{numberOf} calls on hold",
-  otherDeviceCall: "{numberOf} Call on other devices",
-  otherDeviceCalls: "{numberOf} Calls on other devices"
+  currentCall: 'Current Call',
+  viewCalls: 'View calls',
+  view: 'View',
+  incomingCall: '{numberOf} incoming call',
+  incomingCalls: '{numberOf} incoming calls',
+  callOnHold: '{numberOf} call on hold',
+  callsOnHold: '{numberOf} calls on hold',
+  otherDeviceCall: '{numberOf} Call on other devices',
+  otherDeviceCalls: '{numberOf} Calls on other devices'
 }; // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@
 // @key: @#@"viewCalls"@#@ @source: @#@"View Calls"@#@
 // @key: @#@"view"@#@ @source: @#@"View"@#@

@@ -2,7 +2,7 @@ import background from '@ringcentral-integration/commons/lib/background';
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { proxify } from '@ringcentral-integration/commons/lib/proxy/proxify';
 import { action, state, watch } from '@ringcentral-integration/core';
-import * as uuid from 'uuid';
+import { v4 } from 'uuid';
 
 import { OAuthBase } from '../../lib/OAuthBase';
 
@@ -29,7 +29,7 @@ export class ProxyFrameOAuth<T extends Deps = Deps> extends OAuthBase<T> {
   // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Timeout'.
   private _implicitRefreshTimeoutId: ReturnType<typeof setTimeout> = null;
 
-  private _uuid = uuid.v4();
+  private _uuid = v4();
   // @ts-expect-error TS(2564): Property '_proxyFrame' has no initializer and is n... Remove this comment to see the full error message
   private _proxyFrame: HTMLIFrameElement;
   // @ts-expect-error TS(2564): Property '_implicitRefreshFrame' has no initialize... Remove this comment to see the full error message
@@ -133,10 +133,8 @@ export class ProxyFrameOAuth<T extends Deps = Deps> extends OAuthBase<T> {
     // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
     const prefix = encodeURIComponent(this.prefix);
 
-    const proxyUri = new URL(
-      this._deps.oAuthOptions?.proxyUri!,
-      window.location.href,
-    ).href;
+    const proxyUri = new URL(this._deps.oAuthOptions?.proxyUri!, location.href)
+      .href;
 
     const hash = encodeURIComponent(btoa(this._uuid));
 

@@ -4,8 +4,7 @@ import type {
 } from '@ringcentral-integration/commons/interfaces/Contact.model';
 import { useSleep } from '@ringcentral/juno';
 import { useEffect, useState } from 'react';
-
-import usePromise from './usePromise';
+import { usePromise } from 'react-use';
 
 export type GetPresenceFn = (
   contact: IContact,

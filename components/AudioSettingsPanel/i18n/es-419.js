@@ -4,23 +4,24 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  title: "Audio",
-  dialButtonVolume: "Volumen del botón \"Marcar\"",
-  ringtoneVolume: "Volumen del tono de llamada",
-  callVolume: "Volumen de llamadas",
-  muteCalls: "Silenciar llamadas",
-  outputDevice: "Dispositivo de salida",
-  inputDevice: "Dispositivo de entrada",
-  micPermission: "Permiso para el micrófono",
-  noDevice: "No hay dispositivo",
-  checkMicPermission: "Comprobar permiso",
-  micNoPermissionMessage: "La aplicación no tiene permiso para utilizar el micrófono",
-  noLabel: "Dispositivo desconocido",
-  notSetSinkIdTip: "Lo sentimos, los permisos del navegador actual no están configurados para permitir que accedamos a sus dispositivos de salida de audio. {clickHereLink} para ver cómo configurarlos.",
-  noLabelTip: "Lo sentimos, los permisos del navegador actual no están configurados para permitir que accedamos a sus dispositivos de entrada de audio.",
-  clickHere: "Haga clic aquí",
-  defaultOutputDevice: "Dispositivo de salida predeterminado"
+  title: 'Audio',
+  dialButtonVolume: 'Volumen del botón "Marcar"',
+  ringtoneVolume: 'Volumen del tono de llamada',
+  callVolume: 'Volumen de llamadas',
+  muteCalls: 'Silenciar llamadas',
+  outputDevice: 'Dispositivo de salida',
+  inputDevice: 'Dispositivo de entrada',
+  micPermission: 'Permiso para el micrófono',
+  noDevice: 'No hay dispositivo',
+  checkMicPermission: 'Comprobar permiso',
+  micNoPermissionMessage: 'La aplicación no tiene permiso para utilizar el micrófono',
+  noLabel: 'Dispositivo desconocido',
+  notSetSinkIdTip: 'Lo sentimos, los permisos del navegador actual no están configurados para permitir que accedamos a sus dispositivos de salida de audio. {clickHereLink} para ver cómo configurarlos.',
+  noLabelTip: 'Lo sentimos, los permisos del navegador actual no están configurados para permitir que accedamos a sus dispositivos de entrada de audio.',
+  clickHere: 'Haga clic aquí',
+  defaultOutputDevice: 'Dispositivo de salida predeterminado'
 }; // @key: @#@"title"@#@ @source: @#@"Audio"@#@
 // @key: @#@"dialButtonVolume"@#@ @source: @#@"Dial Button Volume"@#@
 // @key: @#@"ringtoneVolume"@#@ @source: @#@"Ringtone Volume"@#@

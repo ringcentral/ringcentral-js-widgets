@@ -1,13 +1,14 @@
+/* eslint-disable */
 export default {
-  DirectNumber: "Direkt",
-  MainCompanyNumber: "Haupt",
-  CompanyNumber: "Unternehmen",
-  CompanyFaxNumber: "Fax",
-  Blocked: "Rufnummernunterdrückung",
-  AdditionalCompanyNumber: "Unternehmen",
-  ForwardedCompanyNumber: "Weitergeleitet",
-  from: "Von"
-};
+  DirectNumber: 'Direkt',
+  MainCompanyNumber: 'Haupt',
+  CompanyNumber: 'Unternehmen',
+  CompanyFaxNumber: 'Fax',
+  Blocked: 'Rufnummernunterdrückung',
+  AdditionalCompanyNumber: 'Unternehmen',
+  ForwardedCompanyNumber: 'Weitergeleitet',
+  from: 'Von',
+} as const;
 
 // @key: @#@"DirectNumber"@#@ @source: @#@"Direct"@#@
 // @key: @#@"MainCompanyNumber"@#@ @source: @#@"Main"@#@

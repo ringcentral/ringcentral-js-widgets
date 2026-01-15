@@ -39,11 +39,13 @@ export interface ComposeTextPanelProps {
   autoFocus?: boolean;
   inputExpandable?: boolean;
   supportAttachment?: boolean;
+  supportEmoji?: boolean;
   attachments?: {
     name: string;
     size: number;
+    file: File;
   }[];
-  addAttachment?: (...args: any[]) => any;
+  addAttachments?: (...args: any[]) => any;
   removeAttachment?: (...args: any[]) => any;
   hintInfo?: JSX.Element;
   // TODO: fix type
@@ -63,8 +65,9 @@ export const ComposeTextPanel: FunctionComponent<ComposeTextPanelProps> = ({
   inputExpandable,
   attachments,
   supportAttachment,
+  supportEmoji,
   removeAttachment,
-  addAttachment,
+  addAttachments,
 
   typingToNumber,
   updateTypingToNumber,
@@ -141,7 +144,8 @@ export const ComposeTextPanel: FunctionComponent<ComposeTextPanelProps> = ({
           inputExpandable={inputExpandable}
           attachments={attachments}
           supportAttachment={supportAttachment}
-          addAttachment={addAttachment}
+          supportEmoji={supportEmoji}
+          addAttachments={addAttachments}
           removeAttachment={removeAttachment}
         />
       </CommunicationSetupPanel>

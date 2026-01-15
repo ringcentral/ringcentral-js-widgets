@@ -4,8 +4,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  activeCall: "Active Call"
+  activeCall: 'Active Call'
 }; // @key: @#@"activeCall"@#@ @source: @#@"Active Call"@#@
 exports["default"] = _default;
 //# sourceMappingURL=en-GB.js.map

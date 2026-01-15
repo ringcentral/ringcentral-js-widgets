@@ -4,10 +4,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  Home: "Inicio",
-  Mobile: "Móvil",
-  Work: "Trabajo"
+  Home: 'Inicio',
+  Mobile: 'Móvil',
+  Work: 'Trabajo'
 }; // @key: @#@"Home"@#@ @source: @#@"Home"@#@
 // @key: @#@"Mobile"@#@ @source: @#@"Mobile"@#@
 // @key: @#@"Work"@#@ @source: @#@"Work"@#@

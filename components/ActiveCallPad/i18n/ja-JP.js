@@ -4,22 +4,23 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  unmute: "ミュート解除",
-  mute: "ミュート",
-  keypad: "キーパッド",
-  hold: "保留",
-  onHold: "保留中",
-  park: "パーク",
-  stopRecord: "停止",
-  record: "レコーディング",
-  add: "追加",
-  transfer: "転送",
-  flip: "フリップ",
-  more: "通話アクション",
-  mergeToConference: "マージ",
-  end: "終了",
-  completeTransfer: "転送を\n完了"
+  unmute: 'ミュート解除',
+  mute: 'ミュート',
+  keypad: 'キーパッド',
+  hold: '保留',
+  onHold: '保留中',
+  park: 'パーク',
+  stopRecord: '停止',
+  record: 'レコーディング',
+  add: '追加',
+  transfer: '転送',
+  flip: 'フリップ',
+  more: '通話アクション',
+  mergeToConference: 'マージ',
+  end: '終了',
+  completeTransfer: '転送を\n完了'
 }; // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
 // @key: @#@"keypad"@#@ @source: @#@"Keypad"@#@

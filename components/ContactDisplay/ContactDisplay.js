@@ -301,8 +301,7 @@ var ContactDisplay = function ContactDisplay(_ref3) {
             e.stopPropagation();
           }
           handleClose();
-        },
-        "aria-label": "choice a presence state"
+        }
       }, items.map(function (entity, i) {
         var title = entity ? (0, _displayFormatter.displayFormatter)({
           entityName: entity.name,

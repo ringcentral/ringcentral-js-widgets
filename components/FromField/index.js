@@ -23,11 +23,12 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
 var PhoneNumber = function PhoneNumber(_ref) {
   var formatPhone = _ref.formatPhone,
     usageType = _ref.usageType,
+    label = _ref.label,
     currentLocale = _ref.currentLocale,
     phoneNumber = _ref.phoneNumber;
-  var usageTypeDom = usageType ? /*#__PURE__*/_react["default"].createElement("span", {
+  var usageTypeDom = label || usageType ? /*#__PURE__*/_react["default"].createElement("span", {
     className: _styles["default"].usageType
-  }, _i18n["default"].getString(usageType, currentLocale)) : null;
+  }, label || _i18n["default"].getString(usageType, currentLocale)) : null;
   return /*#__PURE__*/_react["default"].createElement("span", {
     className: _styles["default"].phoneNumber
   }, usageTypeDom, /*#__PURE__*/_react["default"].createElement("span", {
@@ -38,6 +39,7 @@ PhoneNumber.propTypes = {
   formatPhone: _propTypes["default"].func.isRequired,
   phoneNumber: _propTypes["default"].string,
   usageType: _propTypes["default"].string,
+  label: _propTypes["default"].string,
   currentLocale: _propTypes["default"].string.isRequired
 };
 PhoneNumber.defaultProps = {
@@ -55,7 +57,8 @@ var FromField = /*#__PURE__*/(0, _react.memo)(function FromField(_ref2) {
     hidden = _ref2.hidden,
     disabled = _ref2.disabled,
     showAnonymous = _ref2.showAnonymous,
-    currentLocale = _ref2.currentLocale;
+    currentLocale = _ref2.currentLocale,
+    showCustomPhoneLabel = _ref2.showCustomPhoneLabel;
   if (hidden) {
     return null;
   }
@@ -94,6 +97,7 @@ var FromField = /*#__PURE__*/(0, _react.memo)(function FromField(_ref2) {
         formatPhone: formatPhone,
         phoneNumber: option.phoneNumber,
         usageType: option.usageType,
+        label: showCustomPhoneLabel ? option.label : undefined,
         currentLocale: currentLocale
       });
     }

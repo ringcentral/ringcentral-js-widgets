@@ -1,7 +1,8 @@
+/* eslint-disable */
 export default {
-  callerCall: "Anrufer",
-  transferCall: "Weiterleitung"
-};
+  callerCall: 'Anrufer',
+  transferCall: 'Weiterleiten',
+} as const;
 
 // @key: @#@"callerCall"@#@ @source: @#@"Caller"@#@
 // @key: @#@"transferCall"@#@ @source: @#@"Transfer"@#@

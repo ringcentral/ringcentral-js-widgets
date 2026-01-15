@@ -1,4 +1,8 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import callDirections from '@ringcentral-integration/commons/enums/callDirections';
+import { CallResultsValue } from '@ringcentral-integration/commons/enums/callResults';
 import type { Call } from '@ringcentral-integration/commons/interfaces/Call.interface';
 import {
   getTelephoneDisplayName,
@@ -12,14 +16,14 @@ import { parseNumber } from '@ringcentral-integration/commons/lib/parseNumber';
 import { useEventCallback, usePrevious } from '@ringcentral/juno';
 import clsx from 'clsx';
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
+import { usePromise } from 'react-use';
 
 import { checkShouldHideContactUser } from '../../lib/checkShouldHideContactUser';
 import { checkShouldHidePhoneNumber } from '../../lib/checkShouldHidePhoneNumber';
-import usePromise from '../../react-hooks/usePromise';
 import ActionMenu from '../ActionMenu';
 import { ContactDisplay } from '../ContactDisplay';
 import { CountdownTimer } from '../CountdownTimer';
-import DurationCounter from '../DurationCounter';
+import { DurationCounter } from '../DurationCounter';
 
 import { CallIcon } from './CallIcon';
 import i18n from './i18n';
@@ -49,6 +53,7 @@ type CallItemProps = {
   disableClickToDial?: boolean;
   outboundSmsPermission?: boolean;
   internalSmsPermission?: boolean;
+  isSyncingActivityMatcher?: boolean;
   active: boolean;
   dateTimeFormatter: (...args: any[]) => any;
   isLogging?: boolean;
@@ -120,6 +125,7 @@ export const CallItem: FunctionComponent<CallItemProps> = ({
   renderContactName,
   renderSubContactName,
   renderExtraButton,
+  isSyncingActivityMatcher,
   contactDisplayStyle,
   externalViewEntity: externalViewEntityProp,
   externalHasEntity,
@@ -371,13 +377,18 @@ export const CallItem: FunctionComponent<CallItemProps> = ({
 
   const contactName = renderContactName?.(call);
   const subContactName = renderSubContactName?.(call);
-  const extraButton = renderExtraButton?.(call);
+  const extraButton = renderExtraButton?.(call, isSyncingActivityMatcher);
 
   const menuExtended = extended;
   const selectedMatchContactType = getSelectedContact()?.type ?? '';
   const callerIdName = showCallerIdName
     ? getTelephoneDisplayName(call)
     : undefined;
+
+  const isQueueCallAnsweredSomewhereElse =
+    call?.result === ('Answered Elsewhere' as CallResultsValue) &&
+    call?.delegationType === 'QueueForwarding';
+  const answeredBy = call?.delegate?.name;
 
   return (
     <div
@@ -441,7 +452,13 @@ export const CallItem: FunctionComponent<CallItemProps> = ({
           <div className={styles.details}>
             <span data-sign="duration">{durationEl}</span>
             <span data-sign="date">{` | ${dateEl}${statusEl}`}</span>
+            {isQueueCallAnsweredSomewhereElse && answeredBy ? (
+              <p data-sign="answered-by">
+                {i18n.getString('answeredBy', currentLocale)} {answeredBy}
+              </p>
+            ) : null}
           </div>
+
           {delayUpdatingStartTime && delayUpdatingMinutes && (
             <CountdownTimer
               variant="plain"

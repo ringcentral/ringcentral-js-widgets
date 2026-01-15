@@ -1,7 +1,8 @@
 import type { ToNumber as Recipient } from '@ringcentral-integration/commons/modules/ComposeText';
+import { usePageAutoFocus } from '@ringcentral-integration/react-hooks';
 import clsx from 'clsx';
 import type { FunctionComponent } from 'react';
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 
 import AnswerIcon from '../../assets/images/Answer.svg';
 import CircleButton from '../CircleButton';
@@ -32,6 +33,7 @@ export interface DialerPanelProps {
   showSpinner?: boolean;
   callVolume?: number;
   searchContact: (...args: any[]) => any;
+  handlerFocus?: (callback: () => void) => () => void;
   searchContactList: {
     name: string;
     entityType: string;
@@ -47,6 +49,11 @@ export interface DialerPanelProps {
   phoneSourceNameRenderer?: (...args: any[]) => any;
   recipientsContactInfoRenderer?: (...args: any[]) => any;
   recipientsContactPhoneRenderer?: (...args: any[]) => any;
+  /**
+   * autoFocus on input field
+   *
+   * # should never change that value after component mounted, only work when keep it as a constant
+   */
   autoFocus?: boolean;
   showFromField?: boolean;
   disableFromField?: boolean;
@@ -55,6 +62,7 @@ export interface DialerPanelProps {
   isLastInputFromDialpad?: boolean;
   useV2?: boolean;
   showAnonymous?: boolean;
+  showCustomPhoneLabel?: boolean;
 }
 const DialerPanel: FunctionComponent<DialerPanelProps> = ({
   currentLocale,
@@ -92,15 +100,24 @@ const DialerPanel: FunctionComponent<DialerPanelProps> = ({
   isLastInputFromDialpad,
   showAnonymous,
   useV2,
+  showCustomPhoneLabel,
 }) => {
   const inputEl = useRef(null);
-  useEffect(() => {
-    if (useV2 && autoFocus && inputEl.current) {
-      // @ts-expect-error TS(2339): Property 'focus' does not exist on type 'never'.
-      inputEl.current.focus();
+  const autoFocusRef = useRef(autoFocus);
+
+  if (process.env.NODE_ENV !== 'production') {
+    if (typeof autoFocus === 'boolean' && autoFocus !== autoFocusRef.current) {
+      console.warn(
+        'DialerPanel: autoFocus should never change after component mounted, only work when keep it as a constant',
+      );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }
+
+  if (autoFocusRef.current) {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    usePageAutoFocus(inputEl);
+  }
+
   const input = useV2 ? (
     <RecipientsInputV2
       ref={inputEl}
@@ -148,7 +165,6 @@ const DialerPanel: FunctionComponent<DialerPanelProps> = ({
       contactPhoneRenderer={recipientsContactPhoneRenderer}
       isLastInputFromDialpad={isLastInputFromDialpad}
       titleEnabled
-      autoFocus={autoFocus}
       // @ts-expect-error TS(2322): Type 'string | null' is not assignable to type 'st... Remove this comment to see the full error message
       className={
         !showFromField ? clsx(styles.inputField, styles.recipientsField) : null
@@ -174,6 +190,7 @@ const DialerPanel: FunctionComponent<DialerPanelProps> = ({
             currentLocale={currentLocale}
             hidden={!isWebphoneMode}
             disabled={disableFromField}
+            showCustomPhoneLabel={showCustomPhoneLabel}
           />
         </div>
       ) : null}

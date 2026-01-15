@@ -1,16 +1,17 @@
+/* eslint-disable */
 import { phoneTypes } from '@ringcentral-integration/commons/enums/phoneTypes';
 export default {
-  [phoneTypes.business]: "商务电话",
-  [phoneTypes.extension]: "分机号",
-  [phoneTypes.home]: "住宅号码",
-  [phoneTypes.mobile]: "移动电话",
-  [phoneTypes.phone]: "电话",
-  [phoneTypes.unknown]: "未知电话类型",
-  [phoneTypes.company]: "公司号码",
-  [phoneTypes.direct]: "直拨号码",
-  [phoneTypes.contact]: "联系电话",
-  [phoneTypes.fax]: "传真",
-  [phoneTypes.other]: "其他"
+  [phoneTypes.business]: '商务电话',
+  [phoneTypes.extension]: '分机号',
+  [phoneTypes.home]: '住宅号码',
+  [phoneTypes.mobile]: '移动电话',
+  [phoneTypes.phone]: '电话',
+  [phoneTypes.unknown]: '未知电话类型',
+  [phoneTypes.company]: '公司号码',
+  [phoneTypes.direct]: '直拨号码',
+  [phoneTypes.contact]: '联系电话',
+  [phoneTypes.fax]: '传真',
+  [phoneTypes.other]: '其他',
 };
 
 // @key: @#@"[phoneTypes.business]"@#@ @source: @#@"Business Phone"@#@

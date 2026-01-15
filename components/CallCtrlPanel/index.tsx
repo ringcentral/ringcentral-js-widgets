@@ -64,6 +64,7 @@ type CallCtrlPanelProps = {
   actions?: any[];
   controlBusy?: boolean;
   callerIdName?: string;
+  showCallerIdName?: boolean;
   callQueueName?: string;
   showPark?: boolean;
   onCompleteTransfer?: (...args: any[]) => any;
@@ -176,6 +177,7 @@ class CallCtrlPanel extends Component<CallCtrlPanelProps, CallCtrlPanelState> {
       conferenceCallEquipped,
       conferenceCallParties,
       controlBusy,
+      showCallerIdName,
       callerIdName,
       countryCode,
       currentLocale,
@@ -234,6 +236,7 @@ class CallCtrlPanel extends Component<CallCtrlPanelProps, CallCtrlPanelState> {
     }
     return (
       <ActiveCallPanel
+        showCallerIdName={showCallerIdName}
         callerIdName={callerIdName}
         showBackButton={showBackButton}
         backButtonLabel={backButtonLabel}
@@ -360,5 +363,6 @@ CallCtrlPanel.defaultProps = {
   isOnWaitingTransfer: false,
   isOnTransfer: false,
   callerIdName: undefined,
+  showCallerIdName: false,
 };
 export default memo(CallCtrlPanel);

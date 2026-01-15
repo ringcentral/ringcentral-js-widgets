@@ -1,11 +1,17 @@
+/* eslint-disable */
 import { conferenceCallErrors } from '@ringcentral-integration/commons/modules/ConferenceCall';
 export default {
-  [conferenceCallErrors.bringInFailed]: "Impossibile unire le chiamate a causa di errori imprevisti. Riprova più tardi.",
-  [conferenceCallErrors.makeConferenceFailed]: "Impossibile unire le chiamate a causa di errori imprevisti. Riprova più tardi.",
-  [conferenceCallErrors.terminateConferenceFailed]: "Impossibile chiudere la conferenza a causa di errori imprevisti. Riprova più tardi.",
-  [conferenceCallErrors.removeFromConferenceFailed]: "Impossibile rimuovere il partecipante a causa di errori imprevisti. Riprova più tardi.",
-  [conferenceCallErrors.callIsRecording]: "Registrazione chiamata in corso. Interrompi la registrazione e riprova."
-};
+  [conferenceCallErrors.bringInFailed]:
+    'Impossibile unire le chiamate a causa di errori imprevisti. Riprova più tardi.',
+  [conferenceCallErrors.makeConferenceFailed]:
+    'Impossibile unire le chiamate a causa di errori imprevisti. Riprova più tardi.',
+  [conferenceCallErrors.terminateConferenceFailed]:
+    'Impossibile chiudere la conferenza a causa di errori imprevisti. Riprova più tardi.',
+  [conferenceCallErrors.removeFromConferenceFailed]:
+    'Impossibile rimuovere il partecipante a causa di errori imprevisti. Riprova più tardi.',
+  [conferenceCallErrors.callIsRecording]:
+    'Registrazione chiamata in corso. Interrompi la registrazione e riprova.',
+} as const;
 
 // @key: @#@"[conferenceCallErrors.bringInFailed]"@#@ @source: @#@"Failed to merge the calls due to unexpected errors. Please try again later."@#@
 // @key: @#@"[conferenceCallErrors.makeConferenceFailed]"@#@ @source: @#@"Failed to merge the calls due to unexpected errors. Please try again later."@#@

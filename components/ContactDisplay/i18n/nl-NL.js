@@ -4,19 +4,21 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  logging: "Wordt gelogd...",
-  logCall: "Oproep loggen",
-  editLog: "Lijst bewerken",
-  select: "Record select.",
-  OnHold: "In de wacht",
-  Ringing: "Gaat over",
-  CallConnected: "Oproep verbonden",
-  unknownUser: "Onbekende gebruiker",
-  unknownNumber: "Anoniem",
-  unavailable: "Niet beschikbaar",
-  viewDetails: "Details weergeven",
-  conferenceCall: "Conference call"
+  logging: 'Wordt gelogd...',
+  logCall: 'Oproep loggen',
+  editLog: 'Lijst bewerken',
+  select: 'Record select.',
+  OnHold: 'In de wacht',
+  Ringing: 'Gaat over',
+  CallConnected: 'Oproep verbonden',
+  unknownUser: 'Onbekende gebruiker',
+  unknownNumber: 'Anoniem',
+  unavailable: 'Niet beschikbaar',
+  viewDetails: 'Details weergeven',
+  conferenceCall: 'Conference call',
+  callerId: 'Beller-ID'
 }; // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
@@ -29,5 +31,6 @@ var _default = {
 // @key: @#@"unavailable"@#@ @source: @#@"Unavailable"@#@
 // @key: @#@"viewDetails"@#@ @source: @#@"View Details"@#@
 // @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@
+// @key: @#@"callerId"@#@ @source: @#@"Caller ID"@#@
 exports["default"] = _default;
 //# sourceMappingURL=nl-NL.js.map

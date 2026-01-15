@@ -4,15 +4,16 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  Inbound: "Entrant",
-  Outbound: "Sortant",
-  log: "Journal",
-  save: "Enregistrer et nouveau",
-  discard: "Ignorer et nouveau",
-  hangup: "Raccrocher",
-  reject: "Vers la messagerie vocale",
-  saveDraftAndCreateNewLog: "Enregistrer le brouillon et créer un nouveau journal d’appels"
+  Inbound: 'Entrant',
+  Outbound: 'Sortant',
+  log: 'Journal',
+  save: 'Enregistrer et nouveau',
+  discard: 'Ignorer et nouveau',
+  hangup: 'Raccrocher',
+  reject: 'Vers la messagerie vocale',
+  saveDraftAndCreateNewLog: 'Enregistrer le brouillon et créer un nouveau journal d’appels'
 }; // @key: @#@"Inbound"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"Outbound"@#@ @source: @#@"Outbound"@#@
 // @key: @#@"log"@#@ @source: @#@"Log"@#@

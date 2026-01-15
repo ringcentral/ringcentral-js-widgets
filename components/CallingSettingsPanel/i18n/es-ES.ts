@@ -1,19 +1,26 @@
+/* eslint-disable */
 import { callingOptions } from '@ringcentral-integration/commons/modules/CallingSettings';
 export default {
-  title: "Llamando",
-  [callingOptions.softphone]: "{brand} for Desktop",
-  [callingOptions.browser]: "Navegador",
-  [callingOptions.jupiter]: "{brand}",
-  makeCallsWith: "Realizar las llamadas con",
-  ringoutHint: "Llamar primero a mi ubicación y conectar después con la parte que llama",
-  myLocationLabel: "Mi ubicación",
-  press1ToStartCallLabel: "Avisarme de que marque 1 para conectar la llamada",
-  [`${callingOptions.browser}Tooltip`]: "Utilice esta opción para hacer y recibir llamadas con el micrófono y los altavoces de su equipo.",
-  [`${callingOptions.softphone}Tooltip`]: "Utilice esta opción para hacer y recibir llamadas usando su {brand}.",
-  [`${callingOptions.ringout}Tooltip`]: "Use esta opción para hacer llamadas con el número de teléfono seleccionado o introducido.",
-  [`${callingOptions.ringout}Tooltip1`]: "Cuando haga una llamada, primero sonará este teléfono y, a continuación, la parte a la que llama.",
-  [`${callingOptions.jupiter}Tooltip`]: "Utilice esta opción para hacer y recibir llamadas usando su {brand}."
-};
+  title: 'Llamadas',
+  [callingOptions.softphone]: '{brand}for Desktop',
+  [callingOptions.browser]: 'Navegador',
+  [callingOptions.jupiter]: '{brand}',
+  makeCallsWith: 'Realizar las llamadas con',
+  ringoutHint:
+    'Llamar primero a mi ubicación y conectar después con la parte que llama',
+  myLocationLabel: 'Mi ubicación',
+  press1ToStartCallLabel: 'Avisarme de que marque 1 para conectar la llamada',
+  [`${callingOptions.browser}Tooltip`]:
+    'Utilice esta opción para hacer y recibir llamadas con el micrófono y los altavoces de su equipo.',
+  [`${callingOptions.softphone}Tooltip`]:
+    'Utilice esta opción para hacer y recibir llamadas usando su{brand}.',
+  [`${callingOptions.ringout}Tooltip`]:
+    'Use esta opción para hacer llamadas con el número de teléfono seleccionado o introducido.',
+  [`${callingOptions.ringout}Tooltip1`]:
+    'Cuando haga una llamada, primero sonará este teléfono y, a continuación, la parte a la que llama.',
+  [`${callingOptions.jupiter}Tooltip`]:
+    'Utilice esta opción para hacer y recibir llamadas usando su{brand}.',
+} as const;
 
 // @key: @#@"title"@#@ @source: @#@"Calling"@#@
 // @key: @#@"[callingOptions.softphone]"@#@ @source: @#@"{brand} for Desktop"@#@

@@ -3,12 +3,12 @@ import { Module } from '@ringcentral-integration/commons/lib/di';
 import { proxify } from '@ringcentral-integration/commons/lib/proxy/proxify';
 import { watch } from '@ringcentral-integration/core';
 import { isElectron } from '@ringcentral-integration/utils';
-import * as uuid from 'uuid';
+import { v4 } from 'uuid';
 
 import { OAuthBase } from '../../lib/OAuthBase';
 import { popWindow } from '../../lib/popWindow';
 
-import type { Deps } from './OAuth.interface';
+import type { CombinedAuthState, Deps } from './OAuth.interface';
 
 @Module({
   name: 'OAuth',
@@ -19,7 +19,7 @@ import type { Deps } from './OAuth.interface';
   ],
 })
 export class OAuth<T extends Deps = Deps> extends OAuthBase<T> {
-  private _uuid = uuid.v4();
+  private _uuid = v4();
 
   private _loginWindow: Window | null = null;
   private _redirectCheckTimeout: ReturnType<typeof setTimeout> | null = null;
@@ -65,15 +65,23 @@ export class OAuth<T extends Deps = Deps> extends OAuthBase<T> {
       : true;
   }
 
-  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
-  get authState() {
-    return `${btoa(`${Date.now()}`)}-${this.prefix}-${encodeURIComponent(
-      btoa(this._uuid),
-    )}`;
+  protected combinedState() {
+    const json = JSON.stringify({
+      now: Date.now(),
+      uuid: this._uuid,
+      prefix: this.prefix,
+      origin: window.origin,
+    } satisfies CombinedAuthState);
+    const encoded = window.btoa(json);
+    return encoded;
   }
 
-  get callbackUriStorageKey() {
-    return `${this.prefix}-${encodeURIComponent(btoa(this._uuid))}-callbackUri`;
+  protected prefixedUuidState() {
+    return `${this.prefix}-${encodeURIComponent(btoa(this._uuid))}`;
+  }
+
+  override get authState() {
+    return `${this.combinedState()}-${this.prefixedUuidState()}`;
   }
 
   override onInitOnce() {
@@ -88,6 +96,7 @@ export class OAuth<T extends Deps = Deps> extends OAuthBase<T> {
         }
       }
     });
+
     // listen callback uri from redirect page, works with coss origin redirect page
     window.addEventListener('message', ({ data = {} }) => {
       if (!data) {
@@ -99,15 +108,13 @@ export class OAuth<T extends Deps = Deps> extends OAuthBase<T> {
         this._handleCallbackUri(callbackUri);
       }
     });
+
     // listen callback uri from storage, works only with same origin
     window.addEventListener('storage', (e) => {
-      if (
-        e.key === this.callbackUriStorageKey &&
-        e.newValue &&
-        e.newValue !== ''
-      ) {
+      const callbackUriStorageKey = `${this.prefixedUuidState()}-callbackUri`;
+      if (e.key === callbackUriStorageKey && e.newValue) {
         const callbackUri = e.newValue;
-        localStorage.removeItem(this.callbackUriStorageKey);
+        localStorage.removeItem(callbackUriStorageKey);
         this._clearRedirectCheckTimeout();
         this._handleCallbackUri(callbackUri);
       }

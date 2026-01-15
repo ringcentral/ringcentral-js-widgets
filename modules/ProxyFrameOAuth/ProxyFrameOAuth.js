@@ -23,11 +23,9 @@ var _background = _interopRequireDefault(require("@ringcentral-integration/commo
 var _di = require("@ringcentral-integration/commons/lib/di");
 var _proxify = require("@ringcentral-integration/commons/lib/proxy/proxify");
 var _core = require("@ringcentral-integration/core");
-var uuid = _interopRequireWildcard(require("uuid"));
+var _uuid = require("uuid");
 var _OAuthBase2 = require("../../lib/OAuthBase");
 var _dec, _class, _class2, _descriptor;
-function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
-function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) { if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } } return n["default"] = e, t && t.set(e, n), n; }
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
@@ -90,7 +88,7 @@ var ProxyFrameOAuth = (_dec = (0, _di.Module)({
     _this._retryTimeoutId = null;
     // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Timeout'.
     _this._implicitRefreshTimeoutId = null;
-    _this._uuid = uuid.v4();
+    _this._uuid = (0, _uuid.v4)();
     // @ts-expect-error TS(2564): Property '_proxyFrame' has no initializer and is n... Remove this comment to see the full error message
     _this._proxyFrame = void 0;
     // @ts-expect-error TS(2564): Property '_implicitRefreshFrame' has no initialize... Remove this comment to see the full error message
@@ -415,7 +413,7 @@ var ProxyFrameOAuth = (_dec = (0, _di.Module)({
       var _this$_deps$oAuthOpti3;
       // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
       var prefix = encodeURIComponent(this.prefix);
-      var proxyUri = new URL((_this$_deps$oAuthOpti3 = this._deps.oAuthOptions) === null || _this$_deps$oAuthOpti3 === void 0 ? void 0 : _this$_deps$oAuthOpti3.proxyUri, window.location.href).href;
+      var proxyUri = new URL((_this$_deps$oAuthOpti3 = this._deps.oAuthOptions) === null || _this$_deps$oAuthOpti3 === void 0 ? void 0 : _this$_deps$oAuthOpti3.proxyUri, location.href).href;
       var hash = encodeURIComponent(btoa(this._uuid));
       return "".concat(proxyUri, "?hash=").concat(hash, "&prefix=").concat(prefix);
     }

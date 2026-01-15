@@ -1,11 +1,12 @@
+/* eslint-disable */
 import { connectivityTypes } from '../../../modules/ConnectivityManager';
 export default {
-  [connectivityTypes.webphoneUnavailable]: "Telefone da web indisponível",
-  [connectivityTypes.offline]: "Offline",
-  [connectivityTypes.voipOnly]: "Apenas VoIP",
-  [connectivityTypes.survival]: "Modo limitado",
-  [connectivityTypes.connecting]: "A ligar"
-};
+  [connectivityTypes.webphoneUnavailable]: 'Telefone da web indisponível',
+  [connectivityTypes.offline]: 'Offline',
+  [connectivityTypes.voipOnly]: 'Apenas VoIP',
+  [connectivityTypes.survival]: 'Modo limitado',
+  [connectivityTypes.connecting]: 'A ligar',
+} as const;
 
 // @key: @#@"[connectivityTypes.webphoneUnavailable]"@#@ @source: @#@"Web Phone Unavailable"@#@
 // @key: @#@"[connectivityTypes.offline]"@#@ @source: @#@"Offline"@#@

@@ -1,13 +1,14 @@
+/* eslint-disable */
 export default {
-  noActiveCalls: "無使用中通話",
-  noCalls: "找不到結果。",
-  currentCall: "目前通話",
-  ringCall: "撥打中通話",
-  onHoldCall: "通話保留",
-  historyCalls: "過去的通話",
-  otherDeviceCall: "我的其他裝置上仍有進行中通話",
-  searchPlaceholder: "搜尋..."
-};
+  noActiveCalls: '無使用中通話',
+  noCalls: '找不到結果。',
+  currentCall: '目前通話',
+  ringCall: '撥打中通話',
+  onHoldCall: '通話保留',
+  historyCalls: '過去的通話',
+  otherDeviceCall: '我的其他裝置上仍有進行中通話',
+  searchPlaceholder: '搜尋...',
+} as const;
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
 // @key: @#@"noCalls"@#@ @source: @#@"No results found."@#@

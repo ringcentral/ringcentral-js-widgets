@@ -5,10 +5,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  pmiChangeCancel: 'Cancel',
+  cancel: 'Cancel',
   pmiChangeConfirmed: 'Change',
   pmiChangeConfirmTitle: 'Change Personal Meeting settings?',
-  pmiChangeConfirmContext: "Changing these settings will affect all meetings that use your personal meeting ID or name, including those you've already scheduled"
+  pmiChangeConfirmContext: "Changing these settings will affect all meetings that use your personal meeting ID or name, including those you've already scheduled",
+  updatePassword: 'Update password'
 };
 exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

@@ -7,13 +7,16 @@ export interface ConferenceCallParticipantsProps {
   participants?: ActiveCallControlSessionData['conferenceParticipants'];
   currentLocale: string;
   toggleConference: (open: boolean) => void;
+  openEntityDetailLink?: (id: string) => void;
   getContactNameInfo: (
     sessionId: string,
     isHost?: boolean,
   ) => {
     logName?: string;
+    subContactNameDisplay?: string;
     entityDetailLink?: string;
-    displayEntity?: IContact;
+    entityDetailLinkId?: string;
+    displayEntity?: any;
     entityType?: string;
   };
   onRemoveParticipant: (

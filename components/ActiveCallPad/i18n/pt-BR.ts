@@ -1,20 +1,21 @@
+/* eslint-disable */
 export default {
-  unmute: "Desativar mudo",
-  mute: "Ativar mudo",
-  keypad: "Teclado numérico",
-  hold: "Colocar em espera",
-  onHold: "Em espera",
-  park: "Estacionar",
-  stopRecord: "Parar",
-  record: "Gravar",
-  add: "Adicionar",
-  transfer: "Transferir",
-  flip: "Transferência dinâmica",
-  more: "Ações da chamada",
-  mergeToConference: "Mesclar",
-  end: "Encerrar",
-  completeTransfer: "Concluir\na transferência"
-};
+  unmute: 'Desativar mudo',
+  mute: 'Ativar mudo',
+  keypad: 'Teclado numérico',
+  hold: 'Colocar em espera',
+  onHold: 'Em espera',
+  park: 'Estacionar',
+  stopRecord: 'Parar',
+  record: 'Gravar',
+  add: 'Adicionar',
+  transfer: 'Transferir',
+  flip: 'Transferência dinâmica',
+  more: 'Ações da chamada',
+  mergeToConference: 'Mesclar',
+  end: 'Encerrar',
+  completeTransfer: 'Concluir\na transferência',
+} as const;
 
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@

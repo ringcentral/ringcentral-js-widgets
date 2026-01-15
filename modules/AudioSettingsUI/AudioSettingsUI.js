@@ -1,16 +1,13 @@
 "use strict";
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-require("core-js/modules/es.array.find");
+require("core-js/modules/es.array.every");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.AudioSettingsUI = void 0;
 var _di = require("@ringcentral-integration/commons/lib/di");
-var _AudioSettings = require("@ringcentral-integration/commons/modules/AudioSettings");
 var _CallingSettings = require("@ringcentral-integration/commons/modules/CallingSettings");
-var _RingtoneConfiguration = require("@ringcentral-integration/commons/modules/RingtoneConfiguration");
-var _VolumeInspector = require("@ringcentral-integration/commons/modules/VolumeInspector");
 var _core = require("@ringcentral-integration/core");
 var _uuid = require("uuid");
 var _dec, _class;
@@ -35,9 +32,6 @@ var AudioSettingsUI = (_dec = (0, _di.Module)({
     dep: 'VolumeInspector',
     optional: true
   }, {
-    dep: 'Alert',
-    optional: true
-  }, {
     dep: 'Webphone',
     optional: true
   }, {
@@ -54,9 +48,16 @@ var AudioSettingsUI = (_dec = (0, _di.Module)({
     });
   }
   _createClass(AudioSettingsUI, [{
+    key: "checkAllDevicesAreEmpty",
+    value: function checkAllDevicesAreEmpty(devices) {
+      return devices.every(function (item) {
+        return item.label === '' && item.deviceId === '' || item.label === '' && item.deviceId === 'off';
+      });
+    }
+  }, {
     key: "getUIProps",
     value: function getUIProps() {
-      var _this$_deps$audioSett, _this$_deps$audioSett2, _this$_deps$ringtoneC, _this$_deps$ringtoneC2, _this$_deps$ringtoneC3, _this$_deps$ringtoneC4, _this$_deps$ringtoneC5, _this$_deps$ringtoneC6;
+      var _this$_deps$audioSett, _this$_deps$audioSett2, _this$_deps$volumeIns, _this$_deps$ringtoneC, _this$_deps$ringtoneC2, _this$_deps$ringtoneC3, _this$_deps$ringtoneC4;
       var isHavingCall = !!(this._deps.webphone && this._deps.webphone.sessions.length > 0 || this._deps.callMonitor.useTelephonySession && this._deps.callMonitor.activeRingCalls.length + this._deps.callMonitor.activeOnHoldCalls.length + this._deps.callMonitor.activeCurrentCalls.length > 0);
       return {
         currentLocale: this._deps.locale.currentLocale,
@@ -74,22 +75,16 @@ var AudioSettingsUI = (_dec = (0, _di.Module)({
         supportDevices: this._deps.audioSettings.supportDevices,
         userMedia: this._deps.audioSettings.userMedia,
         isWebRTC: this._deps.callingSettings.callWith === _CallingSettings.callingOptions.browser,
-        outputDeviceDisabled: !this._deps.audioSettings.availableOutputDevices.length,
-        inputDeviceDisabled: !!(!this._deps.audioSettings.availableInputDevices.length || isHavingCall),
+        outputDeviceDisabled: !this._deps.audioSettings.availableOutputDevices.length || this.checkAllDevicesAreEmpty(this._deps.audioSettings.availableOutputDevices),
+        inputDeviceDisabled: !!(!this._deps.audioSettings.availableInputDevices.length || isHavingCall || this.checkAllDevicesAreEmpty(this._deps.audioSettings.availableInputDevices)),
         ringtoneSelectDisabled: isHavingCall,
         showCallVolume: (_this$_deps$audioSett = this._deps.audioSettingsUIOptions) === null || _this$_deps$audioSett === void 0 ? void 0 : _this$_deps$audioSett.showCallVolume,
         showRingToneVolume: (_this$_deps$audioSett2 = this._deps.audioSettingsUIOptions) === null || _this$_deps$audioSett2 === void 0 ? void 0 : _this$_deps$audioSett2.showRingToneVolume,
-        volumeTestData: this._deps.volumeInspector ? {
-          volume: this._deps.volumeInspector.volume,
-          countDown: this._deps.volumeInspector.countDown,
-          testState: this._deps.volumeInspector.testState,
-          isRecording: this._deps.volumeInspector.testState === _VolumeInspector.TEST_STATE.RECORDS_AUDIO,
-          type: this._deps.volumeInspector.type
-        } : undefined,
+        volumeTestData: (_this$_deps$volumeIns = this._deps.volumeInspector) === null || _this$_deps$volumeIns === void 0 ? void 0 : _this$_deps$volumeIns.data,
         selectedRingtoneId: (_this$_deps$ringtoneC = this._deps.ringtoneConfiguration) === null || _this$_deps$ringtoneC === void 0 ? void 0 : _this$_deps$ringtoneC.selectedRingtoneId,
         fullRingtoneList: ((_this$_deps$ringtoneC2 = this._deps.ringtoneConfiguration) === null || _this$_deps$ringtoneC2 === void 0 ? void 0 : _this$_deps$ringtoneC2.fullRingtoneList) || [],
-        isUploadRingtoneDisabled: ((_this$_deps$ringtoneC3 = this._deps.ringtoneConfiguration) === null || _this$_deps$ringtoneC3 === void 0 ? void 0 : _this$_deps$ringtoneC3.customRingtoneList) && ((_this$_deps$ringtoneC4 = this._deps.ringtoneConfiguration) === null || _this$_deps$ringtoneC4 === void 0 ? void 0 : (_this$_deps$ringtoneC5 = _this$_deps$ringtoneC4.customRingtoneList) === null || _this$_deps$ringtoneC5 === void 0 ? void 0 : _this$_deps$ringtoneC5.length) >= _RingtoneConfiguration.MAX_CUSTOM_RINGTONE_COUNT,
-        enableCustomRingtone: (_this$_deps$ringtoneC6 = this._deps.ringtoneConfiguration) === null || _this$_deps$ringtoneC6 === void 0 ? void 0 : _this$_deps$ringtoneC6.enableCustomRingtone
+        isUploadRingtoneDisabled: (_this$_deps$ringtoneC3 = this._deps.ringtoneConfiguration) === null || _this$_deps$ringtoneC3 === void 0 ? void 0 : _this$_deps$ringtoneC3.isUploadRingtoneDisabled,
+        enableCustomRingtone: (_this$_deps$ringtoneC4 = this._deps.ringtoneConfiguration) === null || _this$_deps$ringtoneC4 === void 0 ? void 0 : _this$_deps$ringtoneC4.enableCustomRingtone
       };
     }
   }, {
@@ -106,61 +101,30 @@ var AudioSettingsUI = (_dec = (0, _di.Module)({
         checkUserMedia: function checkUserMedia() {
           return _this._deps.audioSettings.getUserMedia();
         },
-        showAlert: function showAlert() {
-          return _this._deps.audioSettings.showAlert();
+        checkAudioAvailable: function checkAudioAvailable() {
+          return _this._deps.audioSettings.checkAudioAvailable({
+            checkIfNoDevices: false
+          });
         },
         handleTestMicroClick: function handleTestMicroClick(testState) {
-          var _this$_deps$volumeIns, _this$_deps$volumeIns2, _this$_deps$volumeIns3;
-          switch (testState) {
-            case _VolumeInspector.TEST_STATE.IDLE:
-              (_this$_deps$volumeIns = _this._deps.volumeInspector) === null || _this$_deps$volumeIns === void 0 ? void 0 : _this$_deps$volumeIns.startRecording();
-              break;
-            case _VolumeInspector.TEST_STATE.RECORDS_AUDIO:
-              (_this$_deps$volumeIns2 = _this._deps.volumeInspector) === null || _this$_deps$volumeIns2 === void 0 ? void 0 : _this$_deps$volumeIns2.stopRecording();
-              break;
-            case _VolumeInspector.TEST_STATE.PLAYS_AUDIO:
-              (_this$_deps$volumeIns3 = _this._deps.volumeInspector) === null || _this$_deps$volumeIns3 === void 0 ? void 0 : _this$_deps$volumeIns3.completeTest();
-              break;
-          }
+          var _this$_deps$volumeIns2;
+          (_this$_deps$volumeIns2 = _this._deps.volumeInspector) === null || _this$_deps$volumeIns2 === void 0 ? void 0 : _this$_deps$volumeIns2.handleTestMicroClick(testState);
         },
         handleTestSpeakerClick: function handleTestSpeakerClick(testState) {
-          var _this$_deps$volumeIns4, _this$_deps$volumeIns5;
-          switch (testState) {
-            case _VolumeInspector.TEST_STATE.IDLE:
-              (_this$_deps$volumeIns4 = _this._deps.volumeInspector) === null || _this$_deps$volumeIns4 === void 0 ? void 0 : _this$_deps$volumeIns4.startPlaySampleAudio();
-              break;
-            case _VolumeInspector.TEST_STATE.PLAYS_AUDIO:
-              (_this$_deps$volumeIns5 = _this._deps.volumeInspector) === null || _this$_deps$volumeIns5 === void 0 ? void 0 : _this$_deps$volumeIns5.completeTest();
-              break;
-          }
+          var _this$_deps$volumeIns3;
+          (_this$_deps$volumeIns3 = _this._deps.volumeInspector) === null || _this$_deps$volumeIns3 === void 0 ? void 0 : _this$_deps$volumeIns3.handleTestSpeakerClick(testState);
         },
         updateCurrentRingtone: function updateCurrentRingtone(id) {
-          var _this$_deps$ringtoneC7, _this$_deps$ringtoneC8;
-          (_this$_deps$ringtoneC7 = _this._deps.ringtoneConfiguration) === null || _this$_deps$ringtoneC7 === void 0 ? void 0 : _this$_deps$ringtoneC7.setSelectedRingtoneId(id);
-          (_this$_deps$ringtoneC8 = _this._deps.ringtoneConfiguration) === null || _this$_deps$ringtoneC8 === void 0 ? void 0 : _this$_deps$ringtoneC8.updateIncomingRingtone();
+          _this.selectToRingtone(id);
         },
         removeCustomRingtone: function removeCustomRingtone(id) {
-          var _this$_deps$ringtoneC9, _this$_deps$ringtoneC10, _this$_deps$ringtoneC11;
-          var hasCustomRingtone = (_this$_deps$ringtoneC9 = _this._deps.ringtoneConfiguration) === null || _this$_deps$ringtoneC9 === void 0 ? void 0 : _this$_deps$ringtoneC9.customRingtoneList.find(function (ringtone) {
-            return ringtone.id === id;
-          });
-          if (!id || !hasCustomRingtone) {
-            var _this$_deps$alert;
-            (_this$_deps$alert = _this._deps.alert) === null || _this$_deps$alert === void 0 ? void 0 : _this$_deps$alert.danger({
-              message: _AudioSettings.audioSettingsErrors.deleteRingtoneFailed
-            });
-          }
-          (_this$_deps$ringtoneC10 = _this._deps.ringtoneConfiguration) === null || _this$_deps$ringtoneC10 === void 0 ? void 0 : _this$_deps$ringtoneC10.removeCustomRingtone(id);
-          // if the remove one the selected ringtone, set the first default ringtone as selected
-          if (id === ((_this$_deps$ringtoneC11 = _this._deps.ringtoneConfiguration) === null || _this$_deps$ringtoneC11 === void 0 ? void 0 : _this$_deps$ringtoneC11.selectedRingtoneId)) {
-            var _this$_deps$ringtoneC12;
-            _this.selectToRingtone((_this$_deps$ringtoneC12 = _this._deps.ringtoneConfiguration) === null || _this$_deps$ringtoneC12 === void 0 ? void 0 : _this$_deps$ringtoneC12.defaultRingtoneList[0].id);
-          }
+          var _this$_deps$ringtoneC5;
+          (_this$_deps$ringtoneC5 = _this._deps.ringtoneConfiguration) === null || _this$_deps$ringtoneC5 === void 0 ? void 0 : _this$_deps$ringtoneC5.removeCustomRingtone(id);
         },
         uploadCustomRingtone: function uploadCustomRingtone(audioInfo) {
-          var _this$_deps$ringtoneC13;
+          var _this$_deps$ringtoneC6;
           var id = "custom-".concat((0, _uuid.v4)());
-          (_this$_deps$ringtoneC13 = _this._deps.ringtoneConfiguration) === null || _this$_deps$ringtoneC13 === void 0 ? void 0 : _this$_deps$ringtoneC13.uploadCustomRingtone({
+          (_this$_deps$ringtoneC6 = _this._deps.ringtoneConfiguration) === null || _this$_deps$ringtoneC6 === void 0 ? void 0 : _this$_deps$ringtoneC6.uploadCustomRingtone({
             id: id,
             name: audioInfo.fileName,
             url: audioInfo.dataUrl,
@@ -169,21 +133,17 @@ var AudioSettingsUI = (_dec = (0, _di.Module)({
           _this.selectToRingtone(id);
         },
         showDangerAlert: function showDangerAlert(message) {
-          if (message) {
-            var _this$_deps$alert2;
-            (_this$_deps$alert2 = _this._deps.alert) === null || _this$_deps$alert2 === void 0 ? void 0 : _this$_deps$alert2.danger({
-              message: message
-            });
-          }
+          var _this$_deps$ringtoneC7;
+          (_this$_deps$ringtoneC7 = _this._deps.ringtoneConfiguration) === null || _this$_deps$ringtoneC7 === void 0 ? void 0 : _this$_deps$ringtoneC7.showDangerAlert(message);
         }
       };
     }
   }, {
     key: "selectToRingtone",
     value: function selectToRingtone(id) {
-      var _this$_deps$ringtoneC14, _this$_deps$ringtoneC15;
-      (_this$_deps$ringtoneC14 = this._deps.ringtoneConfiguration) === null || _this$_deps$ringtoneC14 === void 0 ? void 0 : _this$_deps$ringtoneC14.setSelectedRingtoneId(id);
-      (_this$_deps$ringtoneC15 = this._deps.ringtoneConfiguration) === null || _this$_deps$ringtoneC15 === void 0 ? void 0 : _this$_deps$ringtoneC15.updateIncomingRingtone();
+      if (!this._deps.ringtoneConfiguration) return;
+      this._deps.ringtoneConfiguration.setSelectedRingtoneId(id);
+      this._deps.ringtoneConfiguration.updateIncomingRingtone();
     }
   }]);
   return AudioSettingsUI;

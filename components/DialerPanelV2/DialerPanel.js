@@ -19,8 +19,15 @@ function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return 
 function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) { if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } } return n["default"] = e, t && t.set(e, n), n; }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
-function _templateObject4() {
+function _templateObject5() {
   var data = _taggedTemplateLiteral(["\n  flex: 1 1 auto;\n  margin: ", ";\n  display: flex;\n  justify-content: center;\n  flex-direction: column;\n  [sf-classic] & {\n    height: 70%;\n    margin-left: 10px;\n    margin-right: 10px;\n  }\n"]);
+  _templateObject5 = function _templateObject5() {
+    return data;
+  };
+  return data;
+}
+function _templateObject4() {
+  var data = _taggedTemplateLiteral(["\n  ", ";\n  display: flex;\n  flex-direction: column;\n"]);
   _templateObject4 = function _templateObject4() {
     return data;
   };
@@ -48,12 +55,15 @@ function _templateObject() {
   return data;
 }
 function _taggedTemplateLiteral(e, t) { return t || (t = e.slice(0)), Object.freeze(Object.defineProperties(e, { raw: { value: Object.freeze(t) } })); }
+// copy from import type { ContactSearchEntity } from '@ringcentral-integration/micro-contacts/src/app/services'; widget should not import from next arch
+
 var DialerPanelContainer = _juno.styled.div(_templateObject(), _commonStyles.fullSizeStyle, (0, _juno.palette2)('neutral', 'f01'));
 var BodyBottom = _juno.styled.div(_templateObject2(), _juno.flexCenterStyle, (0, _juno.spacing)(7));
 var StyledRcDialPad = (0, _juno.styled)(_juno.RcDialPad)(_templateObject3());
+var FlexWrapper = _juno.styled.div(_templateObject4(), _commonStyles.fullSizeStyle);
 
 // TODO: check withTabs
-var DialerWrapper = _juno.styled.div(_templateObject4(), function (_ref) {
+var DialerWrapper = _juno.styled.div(_templateObject5(), function (_ref) {
   var withTabs = _ref.withTabs;
   return withTabs ? (0, _juno.spacing)(0, 11) : (0, _juno.spacing)(2, 11);
 });
@@ -129,7 +139,7 @@ var DialerPanel = function DialerPanel(props) {
     // Common
     ,
     currentLocale: currentLocale
-  }, /*#__PURE__*/_react["default"].createElement(DialerWrapper, {
+  }, /*#__PURE__*/_react["default"].createElement(FlexWrapper, null, /*#__PURE__*/_react["default"].createElement(DialerWrapper, {
     withTabs: withTabs
   }, /*#__PURE__*/_react["default"].createElement(StyledRcDialPad, {
     "data-sign": "dialPad",
@@ -160,7 +170,7 @@ var DialerPanel = function DialerPanel(props) {
       });
     },
     disabled: callButtonDisabled
-  })), showSpinner ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null) : null, children));
+  })), showSpinner ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null) : null, children)));
 };
 exports.DialerPanel = DialerPanel;
 var Empty = function Empty() {

@@ -30,17 +30,14 @@ var FullSelectField = function FullSelectField(_ref) {
     value: value,
     disabled: disabled,
     helperText: helperText,
-    label: title
-    // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
-    ,
+    label: title,
     onClick: function onClick() {
-      return onFullSelectFieldClick(field);
+      return onFullSelectFieldClick === null || onFullSelectFieldClick === void 0 ? void 0 : onFullSelectFieldClick(field);
     }
   }));
 };
 exports.FullSelectField = FullSelectField;
 FullSelectField.defaultProps = {
-  TextFieldProps: {},
-  onFullSelectFieldClick: function onFullSelectFieldClick() {}
+  TextFieldProps: {}
 };
 //# sourceMappingURL=FullSelectField.js.map

@@ -27,7 +27,7 @@ var ActiveCallButton = function ActiveCallButton(props) {
   });
   var buttonSize = 383.8;
   return /*#__PURE__*/_react["default"].createElement("svg", {
-    className: className,
+    className: (0, _clsx["default"])(_styles["default"].svg, className),
     viewBox: "0 0 500 600",
     width: props.width,
     height: props.height,

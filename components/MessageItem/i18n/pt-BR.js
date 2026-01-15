@@ -16,18 +16,18 @@ function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default":
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); } /* eslint-disable */
 var _default = (_addLog$editLog$viewD = {
-  addLog: "Log",
-  editLog: "Editar log",
-  viewDetails: "Exibir detalhes",
-  addEntity: "Criar novo",
-  call: "Chamada",
-  text: "Texto",
-  conversation: "Conversa",
-  groupConversation: "Conversa em grupo",
-  voiceMessage: "Mensagem de voz"
-}, _defineProperty(_addLog$editLog$viewD, _messageTypes["default"].voiceMail, "Correio de voz"), _defineProperty(_addLog$editLog$viewD, _messageTypes["default"].fax, "Fax"), _defineProperty(_addLog$editLog$viewD, "mark", "Marcar como não lido"), _defineProperty(_addLog$editLog$viewD, "unmark", "Marcar como lido"), _defineProperty(_addLog$editLog$viewD, "delete", "Excluir"), _defineProperty(_addLog$editLog$viewD, "faxSent", "Fax enviado"), _defineProperty(_addLog$editLog$viewD, "faxReceived", "Fax recebido"), _defineProperty(_addLog$editLog$viewD, "pages", "páginas"), _defineProperty(_addLog$editLog$viewD, "page", "página"), _defineProperty(_addLog$editLog$viewD, "preview", "Exibir"), _defineProperty(_addLog$editLog$viewD, "download", "Baixar"), _defineProperty(_addLog$editLog$viewD, "imageAttachment", "Anexo: {count} imagem"), _defineProperty(_addLog$editLog$viewD, "fileAttachment", "Anexo: {count} arquivo"), _addLog$editLog$viewD); // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
+  addLog: 'Log',
+  editLog: 'Editar log',
+  viewDetails: 'Exibir detalhes',
+  addEntity: 'Criar novo',
+  call: 'Chamada',
+  text: 'Texto',
+  conversation: 'Conversa',
+  groupConversation: 'Conversa em grupo',
+  voiceMessage: 'Mensagem de voz'
+}, _defineProperty(_addLog$editLog$viewD, _messageTypes["default"].voiceMail, 'Correio de voz'), _defineProperty(_addLog$editLog$viewD, _messageTypes["default"].fax, 'Fax'), _defineProperty(_addLog$editLog$viewD, "mark", 'Marcar como não lido'), _defineProperty(_addLog$editLog$viewD, "unmark", 'Marcar como lido'), _defineProperty(_addLog$editLog$viewD, "delete", 'Excluir'), _defineProperty(_addLog$editLog$viewD, "faxSent", 'Fax enviado'), _defineProperty(_addLog$editLog$viewD, "faxReceived", 'Fax recebido'), _defineProperty(_addLog$editLog$viewD, "pages", 'páginas'), _defineProperty(_addLog$editLog$viewD, "page", 'página'), _defineProperty(_addLog$editLog$viewD, "preview", 'Exibir'), _defineProperty(_addLog$editLog$viewD, "download", 'Baixar'), _defineProperty(_addLog$editLog$viewD, "mmsWithOneAttachment", 'MMS com 1 anexo'), _defineProperty(_addLog$editLog$viewD, "mmsWithAttachments", 'MMS com {count} anexos'), _addLog$editLog$viewD); // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
 // @key: @#@"viewDetails"@#@ @source: @#@"View Details"@#@
 // @key: @#@"addEntity"@#@ @source: @#@"Create New"@#@
@@ -47,7 +47,7 @@ var _default = (_addLog$editLog$viewD = {
 // @key: @#@"page"@#@ @source: @#@"page"@#@
 // @key: @#@"preview"@#@ @source: @#@"View"@#@
 // @key: @#@"download"@#@ @source: @#@"Download"@#@
-// @key: @#@"imageAttachment"@#@ @source: @#@"Attachment: {count} image"@#@
-// @key: @#@"fileAttachment"@#@ @source: @#@"Attachment: {count} file"@#@
+// @key: @#@"mmsWithOneAttachment"@#@ @source: @#@"MMS with 1 attachment"@#@
+// @key: @#@"mmsWithAttachments"@#@ @source: @#@"MMS with {count} attachments"@#@
 exports["default"] = _default;
 //# sourceMappingURL=pt-BR.js.map

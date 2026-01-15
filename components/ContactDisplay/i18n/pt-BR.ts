@@ -1,17 +1,19 @@
+/* eslint-disable */
 export default {
-  logging: "Registrando...",
-  logCall: "Registrar chamada",
-  editLog: "Editar log",
-  select: "Selecionar registro",
-  OnHold: "Em espera",
-  Ringing: "Chamando",
-  CallConnected: "Chamada conectada",
-  unknownUser: "Usuário desconhecido",
-  unknownNumber: "Anônimo",
-  unavailable: "Indisponível",
-  viewDetails: "Exibir detalhes",
-  conferenceCall: "Chamada em conferência"
-};
+  logging: 'Registrando...',
+  logCall: 'Registrar chamada',
+  editLog: 'Editar log',
+  select: 'Selecionar registro',
+  OnHold: 'Em espera',
+  Ringing: 'Chamando',
+  CallConnected: 'Chamada conectada',
+  unknownUser: 'Usuário desconhecido',
+  unknownNumber: 'Anônimo',
+  unavailable: 'Indisponível',
+  viewDetails: 'Exibir detalhes',
+  conferenceCall: 'Chamada em conferência',
+  callerId: 'ID da chamada',
+} as const;
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
@@ -25,3 +27,4 @@ export default {
 // @key: @#@"unavailable"@#@ @source: @#@"Unavailable"@#@
 // @key: @#@"viewDetails"@#@ @source: @#@"View Details"@#@
 // @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@
+// @key: @#@"callerId"@#@ @source: @#@"Caller ID"@#@

@@ -6,6 +6,7 @@ import type {
 } from '@ringcentral-integration/commons/modules/Meeting';
 import type {
   AUTH_USER,
+  ALLOW_MEETING_ACCESS,
   RcvDelegator,
   RcvItemType,
 } from '@ringcentral-integration/commons/modules/RcVideo';
@@ -34,7 +35,6 @@ export interface ScheduleButtonProps {
 export interface CommonProps {
   scheduleButton?: FunctionComponent<ScheduleButtonProps>;
   invite?: (meeting: any, opener: any) => any;
-  showSpinner: boolean;
   showScheduleOnBehalf?: boolean;
   showTopic?: boolean;
   showWhen?: boolean;
@@ -50,27 +50,44 @@ export interface CommonProps {
   schedule?: (meeting: any, opener: any) => any;
   enablePersonalMeeting?: boolean;
   hasSettingsChanged?: boolean;
-  personalMeetingId: string;
+  personalMeetingId?: string;
+  personalMeetingName?: string;
   switchUsePersonalMeetingId: (usePersonalMeetingId: boolean) => any;
-  defaultTopic: string;
 }
 
 export interface VideoPanelProps extends CommonProps {
+  showRemoveMeetingWarning: boolean;
+  meeting: RcVMeetingModel;
+  personalMeeting?: RcVMeetingModel | null;
+  labelPlacement?: 'end' | 'start' | 'top' | 'bottom';
+  onCloseMigrationAlert?: () => void;
+  updateScheduleFor: (userExtensionId: string) => any;
+  showSpinnerInConfigPanel: boolean;
+  recipientsSection?: React.ReactNode;
+  showMigrationAlert?: boolean;
+  brandConfig: BrandConfig;
   // TODO: any is reserved for RcM
   updateMeetingSettings: (meeting: RcVMeetingModel | any) => void;
+  updatePersonalMeetingSettings?: (meeting: RcVMeetingModel | any) => void;
   trackSettingChanges?: (itemName: RcvItemType | RcmItemType) => void;
-  validatePasswordSettings: (password: string, isSecret: boolean) => boolean;
+  validatePasswordSettings?: (password: string, isSecret: boolean) => boolean;
   e2eeInteractFunc: (e2eeValue: boolean) => void;
   onPmiChangeClick: () => void;
+  onPasswordChangeClick?: () => void;
   datePickerSize?: RcDatePickerSize;
   timePickerSize?: RcTimePickerSize;
   checkboxSize?: RcCheckboxProps['size'];
   showRcvAdminLock?: boolean;
   showPmiConfirm?: boolean;
+  showAllowAnyoneRecord?: boolean;
+  showAllowAnyoneTranscribe?: boolean;
   delegators?: RcvDelegator[];
   joinBeforeHostLabel: string;
   authUserTypeValue: AUTH_USER;
   isJoinBeforeHostDisabled: boolean;
+  isPasswordFieldDisabled: boolean;
+  isAllowToRecordDisabled: boolean;
+  isAllowAnyoneTranscribeDisabled: boolean;
   isMuteAudioDisabled: boolean;
   isTurnOffCameraDisabled: boolean;
   isAllowScreenSharingDisabled: boolean;
@@ -79,23 +96,29 @@ export interface VideoPanelProps extends CommonProps {
   isRequirePasswordDisabled: boolean;
   isWaitingRoomNotCoworkerDisabled: boolean;
   isWaitingRoomGuestDisabled: boolean;
-  isWaitingRoomAllDisabled: boolean;
   isAuthUserTypeDisabled: boolean;
   isWaitingRoomTypeDisabled: boolean;
-  isSignedInUsersDisabled: boolean;
-  isSignedInCoWorkersDisabled: boolean;
   showWaitingRoom?: boolean;
   showE2EE?: boolean;
   isE2EEDisabled?: boolean;
   isPersonalMeetingDisabled?: boolean;
   isPmiChangeConfirmed?: boolean;
+  personalMeetingName?: string;
+  personalMeetingLink?: string;
+  useSimpleRcv?: boolean;
 }
 
 export interface MeetingPanelProps extends CommonProps {
+  showRemoveMeetingWarning: boolean;
+  meeting: RcMMeetingModel;
+  personalMeeting?: RcMMeetingModel;
+  labelPlacement?: 'end' | 'start' | 'top' | 'bottom';
+  showSpinnerInConfigPanel: boolean;
+  onCloseMigrationAlert?: () => void;
   audioOptionToggle?: boolean;
   meetingOptionToggle?: boolean;
   showRecurringMeeting?: boolean;
-  recipientsSection: React.ReactNode;
+  recipientsSection?: React.ReactNode;
   passwordPlaceholderEnable?: boolean;
   launchMeeting?: () => any;
   showLaunchMeetingBtn: boolean;
@@ -107,21 +130,20 @@ export interface MeetingPanelProps extends CommonProps {
   enableServiceWebSettings?: boolean;
   delegators?: RcvDelegator[];
   showMigrationAlert?: boolean;
+  brandConfig: BrandConfig;
   appName?: string;
 }
 
 export interface GenericMeetingPanelProps
-  extends VideoPanelProps,
-    MeetingPanelProps {
-  meeting: RcMMeetingModel | Partial<RcVMeetingModel>;
+  extends Omit<VideoPanelProps, 'meeting' | 'personalMeeting'>,
+    Omit<MeetingPanelProps, 'meeting' | 'personalMeeting'> {
   isRCM: boolean;
   isRCV: boolean;
-  showSpinnerInConfigPanel: boolean;
+  meeting: Partial<RcVMeetingModel> | RcMMeetingModel | null;
+  personalMeeting?: Partial<RcVMeetingModel> | RcMMeetingModel | null;
   brandName: string;
-  labelPlacement?: 'end' | 'start' | 'top' | 'bottom';
-  showRemoveMeetingWarning: boolean;
-  brandConfig: BrandConfig;
-  onCloseMigrationAlert?: () => void;
+  showSpinner: boolean;
+  defaultTopic: string;
 }
 
 export interface GenericMeetingPanelState {}

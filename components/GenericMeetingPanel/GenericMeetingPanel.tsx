@@ -6,8 +6,9 @@ import React, { useRef } from 'react';
 import type { TopicRef } from '../InnerTopic';
 import { Topic } from '../InnerTopic';
 import { MeetingConfigs as MeetingConfigsV2 } from '../MeetingConfigsV2';
+import { SchedulerMeetingPanel } from '../SchedulerMeetingPanel';
 import { SpinnerOverlay } from '../SpinnerOverlay';
-import { VideoConfig } from '../VideoPanel/VideoConfig';
+import { VideoConfig } from '../VideoPanel';
 
 import type { GenericMeetingPanelProps } from './interface';
 import styles from './styles.scss';
@@ -56,10 +57,11 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
     showWaitingRoom,
     showE2EE,
     isE2EEDisabled,
+    showAllowAnyoneRecord,
+    showAllowAnyoneTranscribe,
     personalMeetingId,
+    personalMeetingName,
     switchUsePersonalMeetingId,
-    // @ts-expect-error TS(2339): Property 'updateHasSettingsChanged' does not exist... Remove this comment to see the full error message
-    updateHasSettingsChanged,
     trackSettingChanges,
     e2eeInteractFunc,
     showScheduleOnBehalf,
@@ -67,6 +69,9 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
     joinBeforeHostLabel,
     authUserTypeValue,
     isJoinBeforeHostDisabled,
+    isPasswordFieldDisabled,
+    isAllowToRecordDisabled,
+    isAllowAnyoneTranscribeDisabled,
     isMuteAudioDisabled,
     isTurnOffCameraDisabled,
     isAllowScreenSharingDisabled,
@@ -75,11 +80,8 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
     isWaitingRoomDisabled,
     isWaitingRoomNotCoworkerDisabled,
     isWaitingRoomGuestDisabled,
-    isWaitingRoomAllDisabled,
     isAuthUserTypeDisabled,
     isWaitingRoomTypeDisabled,
-    isSignedInUsersDisabled,
-    isSignedInCoWorkersDisabled,
     updateScheduleFor,
     labelPlacement,
     showSpinnerInConfigPanel,
@@ -90,13 +92,16 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
     showMigrationAlert,
     showRemoveMeetingWarning,
     brandConfig,
+    useSimpleRcv,
   } = props;
 
   if (showSpinner) {
     return <SpinnerOverlay />;
   }
+
   return (
     <div className={styles.wrapper}>
+      {showRemoveMeetingWarning && <div className={styles.mask} />}
       {isRCM && (
         <MeetingConfigsV2
           // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
@@ -145,10 +150,11 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
           )}
         </MeetingConfigsV2>
       )}
-      {isRCV && (
+      {isRCV && !useSimpleRcv && (
         <VideoConfig
           disabled={configDisabled}
-          // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
+          showAllowAnyoneRecord={showAllowAnyoneRecord}
+          showAllowAnyoneTranscribe={showAllowAnyoneTranscribe}
           isPersonalMeetingDisabled={isPersonalMeetingDisabled}
           currentLocale={currentLocale}
           labelPlacement={labelPlacement}
@@ -171,16 +177,13 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
           isE2EEDisabled={isE2EEDisabled}
           isWaitingRoomNotCoworkerDisabled={isWaitingRoomNotCoworkerDisabled}
           isWaitingRoomGuestDisabled={isWaitingRoomGuestDisabled}
-          isWaitingRoomAllDisabled={isWaitingRoomAllDisabled}
           isAuthUserTypeDisabled={isAuthUserTypeDisabled}
           isWaitingRoomTypeDisabled={isWaitingRoomTypeDisabled}
-          isSignedInUsersDisabled={isSignedInUsersDisabled}
-          isSignedInCoWorkersDisabled={isSignedInCoWorkersDisabled}
           enablePersonalMeeting={enablePersonalMeeting}
           isPmiChangeConfirmed={isPmiChangeConfirmed}
           personalMeetingId={personalMeetingId}
+          personalMeetingName={personalMeetingName}
           switchUsePersonalMeetingId={switchUsePersonalMeetingId}
-          updateHasSettingsChanged={updateHasSettingsChanged}
           trackSettingChanges={trackSettingChanges}
           onPmiChangeClick={onPmiChangeClick}
           showScheduleOnBehalf={showScheduleOnBehalf}
@@ -189,6 +192,9 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
           joinBeforeHostLabel={joinBeforeHostLabel}
           authUserTypeValue={authUserTypeValue}
           isJoinBeforeHostDisabled={isJoinBeforeHostDisabled}
+          isPasswordFieldDisabled={isPasswordFieldDisabled}
+          isAllowToRecordDisabled={isAllowToRecordDisabled}
+          isAllowAnyoneTranscribeDisabled={isAllowAnyoneTranscribeDisabled}
           isMuteAudioDisabled={isMuteAudioDisabled}
           isTurnOffCameraDisabled={isTurnOffCameraDisabled}
           isAllowScreenSharingDisabled={isAllowScreenSharingDisabled}
@@ -211,6 +217,14 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
             />
           )}
         </VideoConfig>
+      )}
+      {isRCV && useSimpleRcv && (
+        <SchedulerMeetingPanel
+          {...props}
+          disabled={configDisabled}
+          meeting={meeting as RcVMeetingModel}
+          personalMeeting={props.personalMeeting as RcVMeetingModel | null}
+        />
       )}
       {(isRCM || isRCV) && ScheduleButton && (
         <ScheduleButton
@@ -272,11 +286,8 @@ GenericMeetingPanel.defaultProps = {
   isE2EEDisabled: false,
   isWaitingRoomNotCoworkerDisabled: false,
   isWaitingRoomGuestDisabled: false,
-  isWaitingRoomAllDisabled: false,
   isAuthUserTypeDisabled: false,
   isWaitingRoomTypeDisabled: false,
-  isSignedInUsersDisabled: false,
-  isSignedInCoWorkersDisabled: false,
   enablePersonalMeeting: false,
   isPmiChangeConfirmed: false,
   showSaveAsDefault: true,
@@ -285,6 +296,7 @@ GenericMeetingPanel.defaultProps = {
   appCode: '',
   scheduleButtonLabel: '',
   personalMeetingId: undefined,
+  personalMeetingName: undefined,
   showSpinner: false,
   labelPlacement: 'start',
   enableServiceWebSettings: false,

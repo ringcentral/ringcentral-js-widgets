@@ -1,12 +1,16 @@
+/* eslint-disable */
 export default {
-  title: "Região",
-  NAOnlyMessage: "Defina o indicativo de zona. Este será utilizado para marcação local.",
-  MultiWithNAMessage: "Defina o país e o indicativo de zona da sua região. Será utilizado para a marcação local e para a formatação do número de telefone.",
-  MultiWithoutNAMessage: "Selecione o país onde se encontra. Será utilizado para a marcação local e para a formatação do número de telefone.",
-  country: "País",
-  areaCode: "Indicativo de zona",
-  areaCodePlaceholder: "Introduzir indicativo de zona"
-};
+  title: 'Região',
+  NAOnlyMessage:
+    'Defina o indicativo de zona. Este será utilizado para marcação local.',
+  MultiWithNAMessage:
+    'Defina o país e o indicativo de zona da sua região. Será utilizado para a marcação local e para a formatação do número de telefone.',
+  MultiWithoutNAMessage:
+    'Selecione o país onde se encontra. Será utilizado para a marcação local e para a formatação do número de telefone.',
+  country: 'País',
+  areaCode: 'Indicativo de zona',
+  areaCodePlaceholder: 'Introduzir indicativo de zona',
+} as const;
 
 // @key: @#@"title"@#@ @source: @#@"Region"@#@
 // @key: @#@"NAOnlyMessage"@#@ @source: @#@"Please set your area code. This will be used for local dialing."@#@

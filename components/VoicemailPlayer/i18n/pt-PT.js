@@ -4,10 +4,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  download: "Transferir",
-  play: "Reproduzir",
-  pause: "Pausar"
+  download: 'Transferir',
+  play: 'Reproduzir',
+  pause: 'Pausar'
 }; // @key: @#@"download"@#@ @source: @#@"Download"@#@
 // @key: @#@"play"@#@ @source: @#@"Play"@#@
 // @key: @#@"pause"@#@ @source: @#@"Pause"@#@

@@ -4,26 +4,27 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  feedbackHeader: "Enviar feedback",
-  back: "Voltar",
-  revert: "Reverter",
-  instruction: "Os seus comentários são importantes para nós. Caso tenha problemas ao utilizar a aplicação, pretenda solicitar uma funcionalidade ou comunicar um erro, teremos todo o prazer em ajudar.",
-  fillForm: "Preencha o formulário abaixo e clique em ",
-  useMailBox: " ou utilize diretamente a caixa de correio e envie o pedido para ",
-  email: "O seu endereço de e-mail",
-  reply: "(para que possamos responder)",
-  emailPlaceHolder: "ronald.app@ringcentral.com",
-  feedbackTopic: "Tópico de feedback",
-  topicPlaceHolder: "Selecione uma opção",
-  bugReport: "Relatório de erros",
-  featureRequest: "Solicitar funcionalidade",
-  others: "Outros",
-  subject: "Assunto",
-  subjectPlaceHolder: "Diga-nos como podemos ajudá-lo",
-  description: "Descrição completa",
-  descriptionPlaceHolder: "Inclua o máximo de informações possível",
-  send: "Envie o seu feedback"
+  feedbackHeader: 'Enviar feedback',
+  back: 'Voltar',
+  revert: 'Reverter',
+  instruction: 'Os seus comentários são importantes para nós. Caso tenha problemas ao utilizar a aplicação, pretenda solicitar uma funcionalidade ou comunicar um erro, teremos todo o prazer em ajudar.',
+  fillForm: 'Preencha o formulário abaixo e clique em ',
+  useMailBox: ' ou utilize diretamente a caixa de correio e envie o pedido para ',
+  email: 'O seu endereço de e-mail',
+  reply: '(para que possamos responder)',
+  emailPlaceHolder: 'ronald.app@ringcentral.com',
+  feedbackTopic: 'Tópico de feedback',
+  topicPlaceHolder: 'Selecione uma opção',
+  bugReport: 'Relatório de erros',
+  featureRequest: 'Solicitar funcionalidade',
+  others: 'Outros',
+  subject: 'Assunto',
+  subjectPlaceHolder: 'Diga-nos como podemos ajudá-lo',
+  description: 'Descrição completa',
+  descriptionPlaceHolder: 'Inclua o máximo de informações possível',
+  send: 'Envie o seu feedback'
 }; // @key: @#@"feedbackHeader"@#@ @source: @#@"Submit Feedback"@#@
 // @key: @#@"back"@#@ @source: @#@"Back"@#@
 // @key: @#@"revert"@#@ @source: @#@"Revert"@#@

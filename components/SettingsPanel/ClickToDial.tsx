@@ -38,9 +38,6 @@ export const ClickToDial: FunctionComponent<ClickToDialProps> = ({
           />
         }
         title={clickToDialTitle}
-        hintText={
-          clickToDialEnabled ? undefined : t('selectToDialHint', currentLocale)
-        }
       >
         {displayText}
       </IconLine>

@@ -28,7 +28,7 @@ var _ActionMenu = _interopRequireDefault(require("../ActionMenu"));
 var _CallIcon = _interopRequireDefault(require("../CallIcon"));
 var _CircleButton = _interopRequireDefault(require("../CircleButton"));
 var _ContactDisplay = _interopRequireDefault(require("../ContactDisplay"));
-var _DurationCounter = _interopRequireDefault(require("../DurationCounter"));
+var _DurationCounter = require("../DurationCounter");
 var _i18n = _interopRequireDefault(require("./i18n"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
@@ -359,7 +359,7 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
       var telephonyStatusInfo = _i18n["default"].getString(telephonyStatus, currentLocale);
       return /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].callDetail
-      }, disableLinks ? _i18n["default"].getString('unavailable', currentLocale) : /*#__PURE__*/_react["default"].createElement(_DurationCounter["default"], {
+      }, disableLinks ? _i18n["default"].getString('unavailable', currentLocale) : /*#__PURE__*/_react["default"].createElement(_DurationCounter.DurationCounter, {
         startTime: startTime,
         offset: offset
       }), /*#__PURE__*/_react["default"].createElement("span", {
@@ -477,102 +477,106 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
       var extraButton = typeof renderExtraButton === 'function' ?
       // @ts-expect-error TS(2339): Property 'call' does not exist on type 'Readonly<{... Remove this comment to see the full error message
       renderExtraButton(this.props.call) : undefined;
-      return /*#__PURE__*/_react["default"].createElement("div", {
-        className: _styles["default"].root,
-        onClick: this.toggleExtended
-      }, /*#__PURE__*/_react["default"].createElement("div", {
-        className: _styles["default"].wrapper
-      }, /*#__PURE__*/_react["default"].createElement(_CallIcon["default"], {
-        direction: direction,
-        ringing: ringing
-        // @ts-expect-error TS(2322): Type '{ direction: any; ringing: boolean; active: ... Remove this comment to see the full error message
-        ,
-        active: true,
-        missed: false,
-        inboundTitle: _i18n["default"].getString('inboundCall', currentLocale),
-        outboundTitle: _i18n["default"].getString('outboundCall', currentLocale),
-        missedTitle: _i18n["default"].getString('missedCall', currentLocale),
-        isOnConferenceCall: isOnConferenceCall,
-        showAvatar: showAvatar,
-        avatarUrl: avatarUrl
-      }), /*#__PURE__*/_react["default"].createElement("div", {
-        className: _styles["default"].infoWrapper
-      }, /*#__PURE__*/_react["default"].createElement(_ContactDisplay["default"], {
-        formatPhone: formatPhone,
-        isOnConferenceCall: isOnConferenceCall,
-        contactName: contactName,
-        className: isOnConferenceCall ? (0, _clsx["default"])(_styles["default"].conferenceContactDisplay) : (0, _clsx["default"])(_styles["default"].contactDisplay, contactDisplayStyle),
-        contactMatches: contactMatches
-        // @ts-expect-error TS(2339): Property 'selected' does not exist on type 'Readon... Remove this comment to see the full error message
-        ,
-        selected: this.state.selected,
-        onSelectContact: this.onSelectContact,
-        disabled: disableLinks
-        // @ts-expect-error TS(2339): Property 'isLogging' does not exist on type 'Reado... Remove this comment to see the full error message
-        ,
-        isLogging: isLogging || this.state.isLogging,
-        fallBackName: fallbackContactName,
-        enableContactFallback: enableContactFallback,
-        areaCode: areaCode,
-        countryCode: countryCode,
-        phoneNumber: phoneNumber,
-        currentLocale: currentLocale,
-        brand: brand,
-        showPlaceholder: showContactDisplayPlaceholder,
-        showType: false,
-        sourceIcons: sourceIcons
-        // @ts-expect-error TS(2322): Type '{ formatPhone: any; isOnConferenceCall: any;... Remove this comment to see the full error message
-        ,
-        phoneTypeRenderer: phoneTypeRenderer,
-        phoneSourceNameRenderer: phoneSourceNameRenderer,
-        stopPropagation: true
-      }), isOnConferenceCall ? null : callDetail), /*#__PURE__*/_react["default"].createElement(WebphoneButtons, {
-        session: webphoneSession,
-        webphoneAnswer: webphoneAnswer,
-        webphoneReject: this.webphoneToVoicemail,
-        webphoneHangup: webphoneHangup,
-        webphoneResume: webphoneResume,
-        currentLocale: currentLocale,
-        showAnswer: showAnswer
-      }), extraButton), hasActionMenu ? /*#__PURE__*/_react["default"].createElement(_ActionMenu["default"]
-      // @ts-expect-error TS(2339): Property 'extended' does not exist on type 'Readon... Remove this comment to see the full error message
-      , {
-        extended: this.state.extended,
-        onToggle: this.toggleExtended,
-        currentLocale: currentLocale,
-        disableLinks: disableLinks,
-        phoneNumber: phoneNumber,
-        onClickToSms: readTextPermission ?
-        // @ts-expect-error TS(2554): Expected 0 arguments, but got 1.
-        function () {
-          return _this2.clickToSms({
-            countryCode: countryCode,
-            areaCode: areaCode
-          });
-        } : undefined,
-        hasEntity: !!contactMatches.length,
-        onViewEntity: onViewContact && this.viewSelectedContact,
-        onCreateEntity: onCreateContact && this.createSelectedContact,
-        createEntityTypes: createEntityTypes,
-        textTitle: _i18n["default"].getString('text', currentLocale),
-        onLog: onLogCall
-        // @ts-expect-error TS(2339): Property 'isLogging' does not exist on type 'Reado... Remove this comment to see the full error message
-        ,
-        isLogging: isLogging || this.state.isLogging,
-        isLogged: activityMatches.length > 0
-        // @ts-expect-error TS(2339): Property 'isCreating' does not exist on type 'Read... Remove this comment to see the full error message
-        ,
-        isCreating: this.state.isCreating,
-        addLogTitle: _i18n["default"].getString('addLog', currentLocale),
-        editLogTitle: _i18n["default"].getString('editLog', currentLocale),
-        createEntityTitle: _i18n["default"].getString('addEntity', currentLocale),
-        viewEntityTitle: _i18n["default"].getString('viewDetails', currentLocale),
-        externalViewEntity: externalViewEntity && this.externalViewEntity,
-        externalHasEntity:
-        // @ts-expect-error TS(2339): Property 'call' does not exist on type 'Readonly<{... Remove this comment to see the full error message
-        externalHasEntity && externalHasEntity(this.props.call),
-        disableClickToSms: disableClickToSms
-      }) : null);
+      return (
+        /*#__PURE__*/
+        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
+        _react["default"].createElement("div", {
+          className: _styles["default"].root,
+          onClick: this.toggleExtended
+        }, /*#__PURE__*/_react["default"].createElement("div", {
+          className: _styles["default"].wrapper
+        }, /*#__PURE__*/_react["default"].createElement(_CallIcon["default"], {
+          direction: direction,
+          ringing: ringing
+          // @ts-expect-error TS(2322): Type '{ direction: any; ringing: boolean; active: ... Remove this comment to see the full error message
+          ,
+          active: true,
+          missed: false,
+          inboundTitle: _i18n["default"].getString('inboundCall', currentLocale),
+          outboundTitle: _i18n["default"].getString('outboundCall', currentLocale),
+          missedTitle: _i18n["default"].getString('missedCall', currentLocale),
+          isOnConferenceCall: isOnConferenceCall,
+          showAvatar: showAvatar,
+          avatarUrl: avatarUrl
+        }), /*#__PURE__*/_react["default"].createElement("div", {
+          className: _styles["default"].infoWrapper
+        }, /*#__PURE__*/_react["default"].createElement(_ContactDisplay["default"], {
+          formatPhone: formatPhone,
+          isOnConferenceCall: isOnConferenceCall,
+          contactName: contactName,
+          className: isOnConferenceCall ? (0, _clsx["default"])(_styles["default"].conferenceContactDisplay) : (0, _clsx["default"])(_styles["default"].contactDisplay, contactDisplayStyle),
+          contactMatches: contactMatches
+          // @ts-expect-error TS(2339): Property 'selected' does not exist on type 'Readon... Remove this comment to see the full error message
+          ,
+          selected: this.state.selected,
+          onSelectContact: this.onSelectContact,
+          disabled: disableLinks
+          // @ts-expect-error TS(2339): Property 'isLogging' does not exist on type 'Reado... Remove this comment to see the full error message
+          ,
+          isLogging: isLogging || this.state.isLogging,
+          fallBackName: fallbackContactName,
+          enableContactFallback: enableContactFallback,
+          areaCode: areaCode,
+          countryCode: countryCode,
+          phoneNumber: phoneNumber,
+          currentLocale: currentLocale,
+          brand: brand,
+          showPlaceholder: showContactDisplayPlaceholder,
+          showType: false,
+          sourceIcons: sourceIcons
+          // @ts-expect-error TS(2322): Type '{ formatPhone: any; isOnConferenceCall: any;... Remove this comment to see the full error message
+          ,
+          phoneTypeRenderer: phoneTypeRenderer,
+          phoneSourceNameRenderer: phoneSourceNameRenderer,
+          stopPropagation: true
+        }), isOnConferenceCall ? null : callDetail), /*#__PURE__*/_react["default"].createElement(WebphoneButtons, {
+          session: webphoneSession,
+          webphoneAnswer: webphoneAnswer,
+          webphoneReject: this.webphoneToVoicemail,
+          webphoneHangup: webphoneHangup,
+          webphoneResume: webphoneResume,
+          currentLocale: currentLocale,
+          showAnswer: showAnswer
+        }), extraButton), hasActionMenu ? /*#__PURE__*/_react["default"].createElement(_ActionMenu["default"]
+        // @ts-expect-error TS(2339): Property 'extended' does not exist on type 'Readon... Remove this comment to see the full error message
+        , {
+          extended: this.state.extended,
+          onToggle: this.toggleExtended,
+          currentLocale: currentLocale,
+          disableLinks: disableLinks,
+          phoneNumber: phoneNumber,
+          onClickToSms: readTextPermission ?
+          // @ts-expect-error TS(2554): Expected 0 arguments, but got 1.
+          function () {
+            return _this2.clickToSms({
+              countryCode: countryCode,
+              areaCode: areaCode
+            });
+          } : undefined,
+          hasEntity: !!contactMatches.length,
+          onViewEntity: onViewContact && this.viewSelectedContact,
+          onCreateEntity: onCreateContact && this.createSelectedContact,
+          createEntityTypes: createEntityTypes,
+          textTitle: _i18n["default"].getString('text', currentLocale),
+          onLog: onLogCall
+          // @ts-expect-error TS(2339): Property 'isLogging' does not exist on type 'Reado... Remove this comment to see the full error message
+          ,
+          isLogging: isLogging || this.state.isLogging,
+          isLogged: activityMatches.length > 0
+          // @ts-expect-error TS(2339): Property 'isCreating' does not exist on type 'Read... Remove this comment to see the full error message
+          ,
+          isCreating: this.state.isCreating,
+          addLogTitle: _i18n["default"].getString('addLog', currentLocale),
+          editLogTitle: _i18n["default"].getString('editLog', currentLocale),
+          createEntityTitle: _i18n["default"].getString('addEntity', currentLocale),
+          viewEntityTitle: _i18n["default"].getString('viewDetails', currentLocale),
+          externalViewEntity: externalViewEntity && this.externalViewEntity,
+          externalHasEntity:
+          // @ts-expect-error TS(2339): Property 'call' does not exist on type 'Readonly<{... Remove this comment to see the full error message
+          externalHasEntity && externalHasEntity(this.props.call),
+          disableClickToSms: disableClickToSms
+        }) : null)
+      );
     }
   }]);
   return ActiveCallItem;

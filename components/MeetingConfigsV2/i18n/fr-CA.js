@@ -15,25 +15,25 @@ var _date$time$hours$minu;
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); } /* eslint-disable */
 var _default = (_date$time$hours$minu = {
-  date: "Date",
-  time: "Heure",
-  hours: "{howMany} h",
-  minutes: "{howMany}  min",
-  today: "Aujourd’hui",
-  duration: "Durée",
-  topic: "Titre de la réunion",
-  voIPOnly: "Son par Internet seulement",
-  telephonyOnly: "Téléphone seulement",
-  both: "Son du téléphone et par Internet",
-  thirdParty: "Son d’un tiers",
-  meetingId: "Code de réunion",
-  password: "Mot de passe",
-  video: "Vidéo",
-  audio: "Son",
-  scheduleFor: "Planifier au nom de"
-}, _defineProperty(_date$time$hours$minu, _Meeting.ASSISTED_USERS_MYSELF, "Moi-même"), _defineProperty(_date$time$hours$minu, "meetingOptions", "Options de réunion"), _defineProperty(_date$time$hours$minu, "meetingSettings", "Paramètres de la réunion"), _defineProperty(_date$time$hours$minu, "rcMeetingSettings", "Paramètres de la vidéoconférence"), _defineProperty(_date$time$hours$minu, "audioOptions", "Options du son"), _defineProperty(_date$time$hours$minu, "recurringMeeting", "Réunion récurrente"), _defineProperty(_date$time$hours$minu, "recurringNote", "Remarque : Activez cette option lorsque vous choisissiez « Récurrence »"), _defineProperty(_date$time$hours$minu, "joinBeforeHost", "Autoriser les participants à se joindre à la réunion avant l’animateur"), _defineProperty(_date$time$hours$minu, "turnOffCamera", "Désactiver la caméra des participants"), _defineProperty(_date$time$hours$minu, "turnOffHostCamera", "Désactiver la caméra de l’animateur lorsqu’il se joint à la réunion"), _defineProperty(_date$time$hours$minu, "requirePassword", "Exiger un mot de passe"), _defineProperty(_date$time$hours$minu, "enterPassword", "Entrez le mot de passe"), _defineProperty(_date$time$hours$minu, "setPassword", "Définir le mot de passe*"), _defineProperty(_date$time$hours$minu, "passwordEmptyError", "Mot de passe de la réunion obligatoire"), _defineProperty(_date$time$hours$minu, "rcmPasswordInvalidError", "Votre mot de passe doit contenir de 1 à 10 caractères, être composé de chiffres et ne peut pas comporter de symboles autres que @, * ou -"), _defineProperty(_date$time$hours$minu, "rcmPasswordHintText", "Votre mot de passe devrait contenir de 1 à 10 caractères, être composé de chiffres et ne peut pas comporter de symboles autres que @, * ou -"), _defineProperty(_date$time$hours$minu, "usePersonalMeetingId", "Utiliser le code de réunion personnelle"), _defineProperty(_date$time$hours$minu, "pmiChangeConfirm", "Pour apporter des changements à votre réunion personnelle, "), _defineProperty(_date$time$hours$minu, "changePmiSettings", "changez les paramètres du code de réunion personnelle"), _defineProperty(_date$time$hours$minu, "pmiSettingChangeAlert", "Si vous changez les paramètres et planifiez cette réunion, toutes les réunions avec le même code de réunion personnelle utiliseront ces paramètres."), _defineProperty(_date$time$hours$minu, "lockedTooltip", "Ce paramètre est géré par l’administrateur de votre entreprise"), _defineProperty(_date$time$hours$minu, "when", "Quand"), _defineProperty(_date$time$hours$minu, "recurringDescribe", "N’oubliez pas de vérifier la périodicité ou la répétition dans l’invitation envoyée à vos participants."), _date$time$hours$minu); // @key: @#@"date"@#@ @source: @#@"Date"@#@
+  date: 'Date',
+  time: 'Heure',
+  hours: '{howMany} h',
+  minutes: '{howMany}  min',
+  today: 'Aujourd’hui',
+  duration: 'Durée',
+  topic: 'Titre de la réunion',
+  voIPOnly: 'Son par Internet seulement',
+  telephonyOnly: 'Téléphone seulement',
+  both: 'Son du téléphone et par Internet',
+  thirdParty: 'Son d’un tiers',
+  meetingId: 'Code de réunion',
+  password: 'Mot de passe',
+  video: 'Vidéo',
+  audio: 'Son',
+  scheduleFor: 'Planifier au nom de'
+}, _defineProperty(_date$time$hours$minu, _Meeting.ASSISTED_USERS_MYSELF, 'Moi-même'), _defineProperty(_date$time$hours$minu, "meetingOptions", 'Options de réunion'), _defineProperty(_date$time$hours$minu, "meetingSettings", 'Paramètres de la réunion'), _defineProperty(_date$time$hours$minu, "rcMeetingSettings", 'Paramètres de la vidéoconférence'), _defineProperty(_date$time$hours$minu, "audioOptions", 'Options du son'), _defineProperty(_date$time$hours$minu, "recurringMeeting", 'Réunion récurrente'), _defineProperty(_date$time$hours$minu, "recurringNote", 'Remarque : Activez cette option lorsque vous choisissiez « Récurrence »'), _defineProperty(_date$time$hours$minu, "joinBeforeHost", 'Autoriser les participants à se joindre à la réunion avant l’animateur'), _defineProperty(_date$time$hours$minu, "turnOffCamera", 'Désactiver la caméra des participants'), _defineProperty(_date$time$hours$minu, "turnOffHostCamera", 'Désactiver la caméra de l’animateur lorsqu’il se joint à la réunion'), _defineProperty(_date$time$hours$minu, "requirePassword", 'Exiger un mot de passe'), _defineProperty(_date$time$hours$minu, "enterPassword", 'Saisir le mot de passe'), _defineProperty(_date$time$hours$minu, "setPassword", 'Définir le mot de passe*'), _defineProperty(_date$time$hours$minu, "passwordEmptyError", 'Mot de passe de la réunion obligatoire'), _defineProperty(_date$time$hours$minu, "rcmPasswordInvalidError", 'Votre mot de passe doit contenir de 1 à 10 caractères, être composé de chiffres et ne peut pas comporter de symboles autres que @, * ou -'), _defineProperty(_date$time$hours$minu, "rcmPasswordHintText", 'Votre mot de passe devrait contenir de 1 à 10 caractères, être composé de chiffres et ne peut pas comporter de symboles autres que @, * ou -'), _defineProperty(_date$time$hours$minu, "usePersonalMeetingId", 'Utiliser le code de réunion personnelle'), _defineProperty(_date$time$hours$minu, "pmiChangeConfirm", 'Pour apporter des changements à votre réunion personnelle, '), _defineProperty(_date$time$hours$minu, "changePmiSettings", 'changez les paramètres du code de réunion personnelle'), _defineProperty(_date$time$hours$minu, "pmiSettingChangeAlert", 'Si vous changez les paramètres et planifiez cette réunion, toutes les réunions avec le même code de réunion personnelle utiliseront ces paramètres.'), _defineProperty(_date$time$hours$minu, "lockedTooltip", 'Ce paramètre est géré par l’administrateur de votre entreprise'), _defineProperty(_date$time$hours$minu, "when", 'Quand'), _defineProperty(_date$time$hours$minu, "recurringDescribe", 'N’oubliez pas de vérifier la périodicité ou la répétition dans l’invitation envoyée à vos participants.'), _date$time$hours$minu); // @key: @#@"date"@#@ @source: @#@"Date"@#@
 // @key: @#@"time"@#@ @source: @#@"Time"@#@
 // @key: @#@"hours"@#@ @source: @#@"{howMany} hr"@#@
 // @key: @#@"minutes"@#@ @source: @#@"{howMany} min"@#@

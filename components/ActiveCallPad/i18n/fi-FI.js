@@ -4,22 +4,23 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  unmute: "Poista mykistys",
-  mute: "Mykistä",
-  keypad: "Näppäimistö",
-  hold: "Pito",
-  onHold: "Pidossa",
-  park: "Säilytyksessä",
-  stopRecord: "Lopeta",
-  record: "Tallenna",
-  add: "Lisää",
-  transfer: "Siirrä",
-  flip: "Käännä",
-  more: "Puhelutoiminnot",
-  mergeToConference: "Yhdistä",
-  end: "Lopeta",
-  completeTransfer: "Suorita\nsiirto"
+  unmute: 'Poista mykistys',
+  mute: 'Mykistä',
+  keypad: 'Näppäimistö',
+  hold: 'Pito',
+  onHold: 'Pidossa',
+  park: 'Säilytyksessä',
+  stopRecord: 'Lopeta',
+  record: 'Tallenna',
+  add: 'Lisää',
+  transfer: 'Siirrä',
+  flip: 'Käännä',
+  more: 'Puhelutoiminnot',
+  mergeToConference: 'Yhdistä',
+  end: 'Lopeta',
+  completeTransfer: 'Suorita\nsiirto'
 }; // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
 // @key: @#@"keypad"@#@ @source: @#@"Keypad"@#@

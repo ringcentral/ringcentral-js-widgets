@@ -4,23 +4,24 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  title: "Audio",
-  dialButtonVolume: "Kiestoetsvolume",
-  ringtoneVolume: "Beltoonvolume",
-  callVolume: "Oproepvolume",
-  muteCalls: "Oproepen dempen",
-  outputDevice: "Output-apparaat",
-  inputDevice: "Input-apparaat",
-  micPermission: "Machtiging microfoon",
-  noDevice: "Geen apparaat",
-  checkMicPermission: "Machtigingen controleren",
-  micNoPermissionMessage: "De app is niet gemachtigd om microfoon te gebruiken",
-  noLabel: "Onbekend apparaat",
-  notSetSinkIdTip: "Uw huidige browsermachtigingen zijn niet ingesteld om ons toegang te geven tot uw audio-output-apparaten. {clickHereLink} om te zien hoe u dit kunt instellen.",
-  noLabelTip: "Uw huidige browsermachtigingen zijn niet ingesteld om ons toegang te geven tot uw audio-input-apparaten.",
-  clickHere: "Klik hier",
-  defaultOutputDevice: "Standaard output-apparaat"
+  title: 'Audio',
+  dialButtonVolume: 'Kiestoetsvolume',
+  ringtoneVolume: 'Beltoonvolume',
+  callVolume: 'Oproepvolume',
+  muteCalls: 'Oproepen dempen',
+  outputDevice: 'Output-apparaat',
+  inputDevice: 'Input-apparaat',
+  micPermission: 'Machtiging microfoon',
+  noDevice: 'Geen apparaat',
+  checkMicPermission: 'Machtigingen controleren',
+  micNoPermissionMessage: 'De app is niet gemachtigd om microfoon te gebruiken',
+  noLabel: 'Onbekend apparaat',
+  notSetSinkIdTip: 'Uw huidige browsermachtigingen zijn niet ingesteld om ons toegang te geven tot uw audio-output-apparaten. {clickHereLink} om te zien hoe u dit kunt instellen.',
+  noLabelTip: 'Uw huidige browsermachtigingen zijn niet ingesteld om ons toegang te geven tot uw audio-input-apparaten.',
+  clickHere: 'Klik hier',
+  defaultOutputDevice: 'Standaard output-apparaat'
 }; // @key: @#@"title"@#@ @source: @#@"Audio"@#@
 // @key: @#@"dialButtonVolume"@#@ @source: @#@"Dial Button Volume"@#@
 // @key: @#@"ringtoneVolume"@#@ @source: @#@"Ringtone Volume"@#@

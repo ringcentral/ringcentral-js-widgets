@@ -4,15 +4,16 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  noActiveCalls: "No active calls",
-  noCalls: "No results found.",
-  currentCall: "Current Call",
-  ringCall: "Ringing call",
-  onHoldCall: "Call on Hold",
-  historyCalls: "Past calls",
-  otherDeviceCall: "Ongoing calls on my other devices",
-  searchPlaceholder: "Search..."
+  noActiveCalls: 'No active calls',
+  noCalls: 'No results found.',
+  currentCall: 'Current Call',
+  ringCall: 'Ringing call',
+  onHoldCall: 'Call on Hold',
+  historyCalls: 'Past calls',
+  otherDeviceCall: 'Ongoing calls on my other devices',
+  searchPlaceholder: 'Search...'
 }; // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
 // @key: @#@"noCalls"@#@ @source: @#@"No results found."@#@
 // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@

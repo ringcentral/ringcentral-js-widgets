@@ -4,15 +4,16 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  noActiveCalls: "Keine aktiven Anrufe",
-  noCalls: "Keine Treffer gefunden.",
-  currentCall: "Aktueller Anruf",
-  ringCall: "Anruf wird getätigt",
-  onHoldCall: "Anruf wird gehalten",
-  historyCalls: "Vergangene Anrufe",
-  otherDeviceCall: "Aktuelle Gespräche auf meinen anderen Geräten",
-  searchPlaceholder: "Suchen..."
+  noActiveCalls: 'Keine aktiven Anrufe',
+  noCalls: 'Keine Treffer gefunden.',
+  currentCall: 'Aktueller Anruf',
+  ringCall: 'Anruf wird getätigt',
+  onHoldCall: 'Anruf wird gehalten',
+  historyCalls: 'Vergangene Anrufe',
+  otherDeviceCall: 'Aktuelle Gespräche auf meinen anderen Geräten',
+  searchPlaceholder: 'Suchen...'
 }; // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
 // @key: @#@"noCalls"@#@ @source: @#@"No results found."@#@
 // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@

@@ -77,6 +77,8 @@ var ConversationUI = (_dec = (0, _di.Module)({
         showGroupNumberName = _ref$showGroupNumberN === void 0 ? false : _ref$showGroupNumberN,
         _ref$supportAttachmen = _ref.supportAttachment,
         supportAttachment = _ref$supportAttachmen === void 0 ? false : _ref$supportAttachmen,
+        _ref$supportEmoji = _ref.supportEmoji,
+        supportEmoji = _ref$supportEmoji === void 0 ? false : _ref$supportEmoji,
         _ref$perPage = _ref.perPage,
         perPage = _ref$perPage === void 0 ? 20 : _ref$perPage,
         inputExpandable = _ref.inputExpandable;
@@ -90,7 +92,8 @@ var ConversationUI = (_dec = (0, _di.Module)({
         brand: this._deps.brand.name,
         enableContactFallback: enableContactFallback,
         showGroupNumberName: showGroupNumberName,
-        supportAttachment: supportAttachment,
+        supportAttachment: this._deps.appFeatures.hasSendMMSPermission && supportAttachment,
+        supportEmoji: supportEmoji,
         currentLocale: this._deps.locale.currentLocale,
         conversationId: params.conversationId,
         sendButtonDisabled: this._deps.conversations.pushing || disableLinks || !hasInputContent || showSpinner,
@@ -176,8 +179,8 @@ var ConversationUI = (_dec = (0, _di.Module)({
             _this._deps.conversations.updateMessageText(text)
           );
         },
-        addAttachment: function addAttachment(attachment) {
-          return _this._deps.conversations.addAttachment(attachment);
+        addAttachments: function addAttachments(attachment) {
+          return _this._deps.conversations.addAttachments(attachment);
         },
         removeAttachment: function removeAttachment(attachment) {
           return _this._deps.conversations.removeAttachment(attachment);

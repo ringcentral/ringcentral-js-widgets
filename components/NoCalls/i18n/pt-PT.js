@@ -4,9 +4,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  noActiveCalls: "Sem chamadas ativas",
-  noRecords: "Não foram encontrados resultados."
+  noActiveCalls: 'Sem chamadas ativas',
+  noRecords: 'Não foram encontrados resultados.'
 }; // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
 // @key: @#@"noRecords"@#@ @source: @#@"No results found."@#@
 exports["default"] = _default;

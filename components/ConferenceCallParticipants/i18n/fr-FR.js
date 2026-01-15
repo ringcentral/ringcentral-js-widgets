@@ -4,14 +4,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  participants: "Participants",
-  host: "(Hôte)",
-  removeParticipant: "Retirer un participant",
-  removeTitle: "Retirer un participant",
-  removeDescription: "Retirer {name} de cette conférence ?",
-  confirmButtonText: "Supprimer",
-  cancelButtonText: "Annuler"
+  participants: 'Participants',
+  host: '(Hôte)',
+  removeParticipant: 'Retirer un participant',
+  removeTitle: 'Retirer un participant',
+  removeDescription: 'Retirer {name} de cette conférence ?',
+  confirmButtonText: 'Retirer',
+  cancelButtonText: 'Annuler'
 }; // @key: @#@"participants"@#@ @source: @#@"Participants"@#@
 // @key: @#@"host"@#@ @source: @#@"(Host)"@#@
 // @key: @#@"removeParticipant"@#@ @source: @#@"Remove participant"@#@

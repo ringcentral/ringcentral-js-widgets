@@ -4,31 +4,35 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  mute: "Disatt. audio",
-  unmute: "Riattiva audio",
-  hangup: "Riaggancia",
-  reject: "Rifiuta",
-  hold: "Metti in attesa",
-  onHold: "In attesa",
-  transfer: "Trasferisci",
-  more: "Altro",
-  stopRecord: "Interrompi registrazione",
-  record: "Registra",
-  showKeypad: "Tastiera",
-  hideKeypad: "Nascondi tastiera",
+  mute: 'Disatt. audio',
+  unmute: 'Riattiva audio',
+  hangup: 'Riaggancia',
+  reject: 'Rifiuta',
+  hold: 'Metti in attesa',
+  onHold: 'In attesa',
+  transfer: 'Trasferisci',
+  more: 'Altro',
+  stopRecord: 'Interrompi registrazione',
+  record: 'Registra',
+  showKeypad: 'Tastiera',
+  hideKeypad: 'Nascondi tastiera',
   unHold: "Interrompi l'attesa",
-  forward: "Inoltra",
-  ignore: "Ignora",
-  voicemail: "Alla segreteria telefonica",
-  custom: "Personalizza",
-  answerAndEnd: "Rispondi e termina",
-  answerAndHold: "Rispondi e attesa",
-  answer: "Rispondi",
-  completeTransfer: "Completa trasferimento",
-  reply: "Rispondi",
-  add: "Aggiungi",
-  mergeCall: "Unisci a chiamata attiva"
+  forward: 'Inoltra',
+  ignore: 'Ignora',
+  voicemail: 'Alla segreteria telefonica',
+  custom: 'Personalizza',
+  answerAndEnd: 'Rispondi e termina',
+  answerAndHold: 'Rispondi e attesa',
+  answer: 'Rispondi',
+  completeTransfer: 'Completa trasferimento',
+  reply: 'Rispondi',
+  add: 'Aggiungi',
+  mergeCall: 'Unisci a chiamata attiva',
+  endCallForEveryone: 'Termina la chiamata per tutti',
+  leaveCall: 'Esci dalla chiamata',
+  leaveOrEndCall: 'Abbandonare o terminare la chiamata?'
 }; // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
 // @key: @#@"hangup"@#@ @source: @#@"Hang up"@#@
@@ -53,5 +57,8 @@ var _default = {
 // @key: @#@"reply"@#@ @source: @#@"Reply"@#@
 // @key: @#@"add"@#@ @source: @#@"Add"@#@
 // @key: @#@"mergeCall"@#@ @source: @#@"Merge with active call"@#@
+// @key: @#@"endCallForEveryone"@#@ @source: @#@"End call for everyone"@#@
+// @key: @#@"leaveCall"@#@ @source: @#@"Leave call"@#@
+// @key: @#@"leaveOrEndCall"@#@ @source: @#@"Leave or end call?"@#@
 exports["default"] = _default;
 //# sourceMappingURL=it-IT.js.map

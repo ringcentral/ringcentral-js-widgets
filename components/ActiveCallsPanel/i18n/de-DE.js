@@ -4,16 +4,17 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  noActiveCalls: "Keine aktiven Anrufe",
-  currentCall: "Aktueller Anruf",
-  ringCall: "Anruf wird getätigt",
-  onHoldCall: "Anruf wird gehalten",
-  otherDeviceCall: "Aktuelle Gespräche auf meinen anderen Geräten",
-  confirmation: "Bestätigung",
-  confirmMergeToConference: "Zur Telefonkonferenz hinzufügen?",
-  mergeToConference: "Zusammenführen",
-  conferenceCall: "Telefonkonferenz"
+  noActiveCalls: 'Keine aktiven Anrufe',
+  currentCall: 'Aktueller Anruf',
+  ringCall: 'Anruf wird getätigt',
+  onHoldCall: 'Anruf wird gehalten',
+  otherDeviceCall: 'Aktuelle Gespräche auf meinen anderen Geräten',
+  confirmation: 'Bestätigung',
+  confirmMergeToConference: 'Zur Telefonkonferenz hinzufügen?',
+  mergeToConference: 'Zusammenführen',
+  conferenceCall: 'Telefonkonferenz'
 }; // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
 // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@
 // @key: @#@"ringCall"@#@ @source: @#@"Ringing Call"@#@

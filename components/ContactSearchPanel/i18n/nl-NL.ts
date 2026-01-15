@@ -1,30 +1,33 @@
+/* eslint-disable */
 import { HintsType } from '../ContactSearchPanelEnum';
 export default {
-  [HintsType.thirdPartyNoRecordsContent]: "Voer minstens {minimumLength} tekens of cijfers in om alle {sourceName}-records te doorzoeken.",
-  [HintsType.noFilterOrSearchRecordsTitle]: "Geen resultaten gevonden",
-  [HintsType.noFilterOrSearchRecordsContent]: "Controleer de resultaten van andere bronnen of wijzig uw trefwoord.",
-  [HintsType.searching]: "Zoeken...",
-  companyTabTitle: "Bedrijf",
-  personalTabTitle: "Persoonlijk",
-  direct: "Direct",
-  extension: "Ext.",
-  contact: "Contactpersoon",
-  mobile: "Mobiel",
-  company: "Bedrijf",
-  home: "Thuis",
-  home2: "Thuis",
-  other: "Overig",
-  business: "Zakelijk",
-  business2: "Zakelijk",
-  car: "Auto",
-  fax: "Fax",
-  assistant: "Assistant",
-  callback: "Call-back",
-  MobileNumber: "Mobiel nummer",
-  ContactNumber: "Nummer contactpersoon",
-  DirectNumber: "Direct nummer",
-  doNotCall: "Niet bellen"
-};
+  [HintsType.thirdPartyNoRecordsContent]:
+    'Voer minstens {minimumLength} tekens of cijfers in om alle {sourceName}-records te doorzoeken.',
+  [HintsType.noFilterOrSearchRecordsTitle]: 'Geen resultaten gevonden',
+  [HintsType.noFilterOrSearchRecordsContent]:
+    'Controleer de resultaten van andere bronnen of wijzig uw trefwoord.',
+  [HintsType.searching]: 'Zoeken...',
+  companyTabTitle: 'Bedrijf',
+  personalTabTitle: 'Persoonlijk',
+  direct: 'Direct',
+  extension: 'Ext.',
+  contact: 'Contactpersoon',
+  mobile: 'Mobiel',
+  company: 'Bedrijf',
+  home: 'Thuis',
+  home2: 'Thuis',
+  other: 'Overig',
+  business: 'Zakelijk',
+  business2: 'Zakelijk',
+  car: 'Auto',
+  fax: 'Fax',
+  assistant: 'Assistant',
+  callback: 'Call-back',
+  MobileNumber: 'Mobiel nummer',
+  ContactNumber: 'Nummer contactpersoon',
+  DirectNumber: 'Direct nummer',
+  doNotCall: 'Niet bellen',
+} as const;
 
 // @key: @#@"[HintsType.thirdPartyNoRecordsContent]"@#@ @source: @#@"Enter at least {minimumLength} characters or digits to search all {sourceName} records."@#@
 // @key: @#@"[HintsType.noFilterOrSearchRecordsTitle]"@#@ @source: @#@"No results found"@#@

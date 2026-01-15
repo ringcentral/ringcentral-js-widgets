@@ -406,16 +406,12 @@ class MessageItem extends Component<MessageItemProps, MessageItemState> {
         conversation.mmsAttachments &&
         conversation.mmsAttachments.length > 0
       ) {
-        const imageCount = conversation.mmsAttachments.filter(
-          (m) => m.contentType.indexOf('image') > -1,
-        ).length;
-        if (imageCount > 0) {
-          return format(i18n.getString('imageAttachment', currentLocale), {
-            count: imageCount,
-          });
+        const count = conversation.mmsAttachments.length;
+        if (count === 1) {
+          return format(i18n.getString('mmsWithOneAttachment', currentLocale));
         }
-        return format(i18n.getString('fileAttachment', currentLocale), {
-          count: conversation.mmsAttachments.length,
+        return format(i18n.getString('mmsWithAttachments', currentLocale), {
+          count,
         });
       }
       return conversation.subject;

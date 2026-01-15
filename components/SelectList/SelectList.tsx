@@ -1,18 +1,17 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import type { ComponentProps, FunctionComponent } from 'react';
 import React, { useEffect, useState } from 'react';
 
-import type { SelectListBasicProps } from '../SelectListBasic';
-import { SelectListBasic } from '../SelectListBasic';
+import { SelectListBasic, type SelectListBasicProps } from '../SelectListBasic';
 
-import type { ListViewProps } from './ListView';
-import { ListView } from './ListView';
+import { ListView, type ListViewProps } from './ListView';
 import { WithScrollCheck } from './WithScrollCheck';
 import styles from './styles.scss';
 
-const SelectListBasicWithScrollCheck: FunctionComponent<SelectListBasicProps> =
+export const SelectListBasicWithScrollCheck: FunctionComponent<SelectListBasicProps> =
   WithScrollCheck(SelectListBasic);
-
-export { SelectListBasicWithScrollCheck };
 
 export type SelectListProps = {
   title: string;
@@ -49,7 +48,13 @@ export type SelectListProps = {
 > &
   Pick<
     SelectListBasicProps,
-    'foundFromServerEntities' | 'foundFromServerTitle' | 'showFoundFromServer'
+    | 'foundFromServerEntities'
+    | 'foundFromServerTitle'
+    | 'showFoundFromServer'
+    | 'serverEntitiesClientFilter'
+    | 'showRecentlySection'
+    | 'recentlyEntities'
+    | 'recentlyTitle'
   >;
 
 export type RenderListView = ComponentProps<
@@ -135,6 +140,7 @@ export const SelectList: FunctionComponent<SelectListProps> = (props) => {
       <SelectListBasicWithScrollCheck
         {...props}
         matchedTitle={matchedTitle}
+        data-sign={`select-list-panel-${field}`}
         otherTitle={otherTitle}
         associatedTitle={associatedTitle}
         foundFromServerTitle={foundFromServerTitle}
@@ -146,6 +152,7 @@ export const SelectList: FunctionComponent<SelectListProps> = (props) => {
     </div>
   );
 };
+
 SelectList.defaultProps = {
   options: [],
   otherOptions: [],
@@ -165,13 +172,11 @@ SelectList.defaultProps = {
   onSelectViewVisible() {},
   // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   backHeaderClassName: null,
-  // @ts-expect-error TS(2322): Type 'null' is not assignable to type '((...args: ... Remove this comment to see the full error message
-  contactSearch: null,
-  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
-  appName: null,
+  contactSearch: undefined,
+  appName: undefined,
   showFoundFromServer: false,
-  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
-  foundFromServerTitle: null,
+  serverEntitiesClientFilter: undefined,
+  foundFromServerTitle: undefined,
   foundFromServerEntities: [],
   autoClose: true,
   onBackClick() {},

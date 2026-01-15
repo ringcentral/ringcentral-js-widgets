@@ -4,12 +4,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  to: "至：",
-  transferTo: "转接至",
-  blindTransfer: "转接",
-  warmTransfer: "首先询问",
-  enterNameOrNumber: "输入号码"
+  to: '至：',
+  transferTo: '转接至',
+  blindTransfer: '转接',
+  warmTransfer: '首先询问',
+  enterNameOrNumber: '输入号码'
 }; // @key: @#@"to"@#@ @source: @#@"To:"@#@
 // @key: @#@"transferTo"@#@ @source: @#@"Transfer to"@#@
 // @key: @#@"blindTransfer"@#@ @source: @#@"Transfer"@#@

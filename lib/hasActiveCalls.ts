@@ -17,7 +17,13 @@ function hasActiveCalls({
       webphone?.sessions.length || callMonitor?.otherDeviceCalls.length
     );
   }
-  return !!callMonitor?.calls.length;
+
+  // This file use both next projects and old projects, so we need to check the callMonitor.calls first
+  if (callMonitor?.calls) {
+    return !!callMonitor?.calls.length;
+  }
+
+  return !!callMonitor?.allCalls.length;
 }
 
 export { hasActiveCalls as default, hasActiveCalls };

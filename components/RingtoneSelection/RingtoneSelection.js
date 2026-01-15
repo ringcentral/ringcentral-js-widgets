@@ -221,24 +221,22 @@ var RingtoneSelection = function RingtoneSelection(_ref) {
                   }
                   return _context.abrupt("return");
                 case 5:
-                  if (id !== playingId) {
-                    audio.src = url;
-                    setAudioUrl(url);
-                    setPlayingId(id);
-                  }
+                  setPlayingId(id);
+                  audio.src = url;
+                  setAudioUrl(url);
                   audio.play();
-                  _context.next = 12;
+                  _context.next = 14;
                   break;
-                case 9:
-                  _context.prev = 9;
+                case 11:
+                  _context.prev = 11;
                   _context.t0 = _context["catch"](1);
                   console.log(_context.t0);
-                case 12:
+                case 14:
                 case "end":
                   return _context.stop();
               }
             }
-          }, _callee, null, [[1, 9]]);
+          }, _callee, null, [[1, 11]]);
         }));
         return function (_x) {
           return _ref2.apply(this, arguments);

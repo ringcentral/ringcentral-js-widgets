@@ -6,15 +6,20 @@ require("core-js/modules/es.symbol.iterator");
 require("core-js/modules/es.array.concat");
 require("core-js/modules/es.array.find");
 require("core-js/modules/es.array.includes");
+require("core-js/modules/es.array.is-array");
 require("core-js/modules/es.array.iterator");
+require("core-js/modules/es.array.join");
 require("core-js/modules/es.array.map");
 require("core-js/modules/es.array.reduce");
 require("core-js/modules/es.date.to-string");
 require("core-js/modules/es.function.name");
+require("core-js/modules/es.number.constructor");
 require("core-js/modules/es.object.to-string");
+require("core-js/modules/es.regexp.exec");
 require("core-js/modules/es.regexp.to-string");
 require("core-js/modules/es.string.includes");
 require("core-js/modules/es.string.iterator");
+require("core-js/modules/es.string.split");
 require("core-js/modules/web.dom-collections.iterator");
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -27,6 +32,7 @@ var _timeFormatHelper = require("../../../lib/timeFormatHelper");
 var _InputSelect = _interopRequireDefault(require("../../InputSelect"));
 var _FullSelectField = require("./FullSelectField");
 var _LogFieldsInput = require("./LogFieldsInput");
+var _MultiSelectField = require("./MultiSelectField");
 var _RadioField = require("./RadioField");
 var _SelectField = require("./SelectField");
 var _styles = _interopRequireDefault(require("./styles.scss"));
@@ -91,9 +97,10 @@ var FieldItem = /*#__PURE__*/function (_Component) {
         onlyShowInMultipleMatches = _this$props$fieldOpti.onlyShowInMultipleMatches,
         showOtherSection = _this$props$fieldOpti.showOtherSection,
         showFoundFromServer = _this$props$fieldOpti.showFoundFromServer,
+        foundFromServerTitle = _this$props$fieldOpti.foundFromServerTitle,
+        serverEntitiesClientFilter = _this$props$fieldOpti.serverEntitiesClientFilter,
         onSave = _this$props.onSave,
         onSelectViewVisible = _this$props.onSelectViewVisible,
-        contactSearch = _this$props.contactSearch,
         onFullSelectFieldClick = _this$props.onFullSelectFieldClick,
         currentLog = _this$props.currentLog,
         startAdornmentRender = _this$props.startAdornmentRender,
@@ -204,8 +211,9 @@ var FieldItem = /*#__PURE__*/function (_Component) {
         disabled: disabledReference,
         currentLocale: currentLocale,
         foundFromServerEntities: foundFromServerEntities,
-        contactSearch: contactSearch,
+        serverEntitiesClientFilter: serverEntitiesClientFilter,
         showFoundFromServer: showFoundFromServer,
+        foundFromServerTitle: foundFromServerTitle,
         TextFieldProps: {
           helperText: disableReason,
           value: currentValue
@@ -330,26 +338,29 @@ var FieldItem = /*#__PURE__*/function (_Component) {
       });
     };
     _this.renderSelectMenu = function () {
+      var _this$currentValue2;
+      var isMultiSelect = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
       var _this$props7 = _this.props,
         _this$props7$fieldOpt = _this$props7.fieldOption,
         label = _this$props7$fieldOpt.label,
         fieldValue = _this$props7$fieldOpt.value,
-        picklistOptions = _this$props7$fieldOpt.picklistOptions,
+        _this$props7$fieldOpt2 = _this$props7$fieldOpt.picklistOptions,
+        picklistOptions = _this$props7$fieldOpt2 === void 0 ? [] : _this$props7$fieldOpt2,
         required = _this$props7$fieldOpt.required,
         helperText = _this$props7$fieldOpt.helperText,
         error = _this$props7$fieldOpt.error,
         onChange = _this$props7$fieldOpt.onChange,
-        _this$props7$fieldOpt2 = _this$props7$fieldOpt.disabled,
-        propsDisabled = _this$props7$fieldOpt2 === void 0 ? false : _this$props7$fieldOpt2,
+        _this$props7$fieldOpt3 = _this$props7$fieldOpt.disabled,
+        propsDisabled = _this$props7$fieldOpt3 === void 0 ? false : _this$props7$fieldOpt3,
         placeholder = _this$props7$fieldOpt.placeholder,
         controller = _this$props7$fieldOpt.controller,
         currentLog = _this$props7.currentLog,
         onSave = _this$props7.onSave,
         _this$props7$onSelect = _this$props7.onSelectListOpen,
         onSelectListOpen = _this$props7$onSelect === void 0 ? function () {} : _this$props7$onSelect;
+      var uiValue = isMultiSelect ? (Array.isArray(_this.currentValue) ? _this.currentValue : (_this$currentValue2 = _this.currentValue) === null || _this$currentValue2 === void 0 ? void 0 : _this$currentValue2.split(';')) || [] : _this.currentValue;
       var selectList = (picklistOptions || []).reduce(function (acc, item) {
         if (item && _typeof(item) === 'object' && controller && (currentLog === null || currentLog === void 0 ? void 0 : currentLog.task) && item.validFor) {
-          // check for field dependency and filter out options that are not valid
           if (!item.validFor.includes(currentLog.task[controller])) {
             return acc;
           }
@@ -361,8 +372,7 @@ var FieldItem = /*#__PURE__*/function (_Component) {
         if (item instanceof Object) {
           value = item.value;
           label = item.label;
-          // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
-          disabled = item.disabled;
+          disabled = item.disabled || false;
           title = item === null || item === void 0 ? void 0 : item.title;
         }
         acc.push({
@@ -373,6 +383,46 @@ var FieldItem = /*#__PURE__*/function (_Component) {
         });
         return acc;
       }, []);
+      var handleSelectChange = /*#__PURE__*/function () {
+        var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(selectedValues) {
+          var updatedValue;
+          return regeneratorRuntime.wrap(function _callee3$(_context3) {
+            while (1) {
+              switch (_context3.prev = _context3.next) {
+                case 0:
+                  updatedValue = isMultiSelect ? selectedValues.join(';') : selectedValues;
+                  _this.onInputSelectChange(fieldValue)(updatedValue);
+                  if (onChange) onChange(updatedValue);
+                  _context3.next = 5;
+                  return onSave();
+                case 5:
+                case "end":
+                  return _context3.stop();
+              }
+            }
+          }, _callee3);
+        }));
+        return function handleSelectChange(_x3) {
+          return _ref3.apply(this, arguments);
+        };
+      }();
+      if (isMultiSelect) {
+        return /*#__PURE__*/_react["default"].createElement(_MultiSelectField.MultiSelectField, {
+          "data-sign": fieldValue,
+          label: label,
+          options: selectList,
+          value: uiValue,
+          onChange: handleSelectChange,
+          disabled: propsDisabled,
+          placeholder: placeholder,
+          helperText: helperText,
+          error: error,
+          required: required,
+          onOpen: function onOpen() {
+            return onSelectListOpen(fieldValue);
+          }
+        });
+      }
       return /*#__PURE__*/_react["default"].createElement(_SelectField.SelectField, {
         "data-sign": fieldValue,
         labelClassName: _styles["default"].selectLabel,
@@ -385,35 +435,32 @@ var FieldItem = /*#__PURE__*/function (_Component) {
         label: label,
         value: _this.currentValue,
         onChange: ( /*#__PURE__*/function () {
-          var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(_ref3) {
+          var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(_ref4) {
             var value;
-            return regeneratorRuntime.wrap(function _callee3$(_context3) {
+            return regeneratorRuntime.wrap(function _callee4$(_context4) {
               while (1) {
-                switch (_context3.prev = _context3.next) {
+                switch (_context4.prev = _context4.next) {
                   case 0:
-                    value = _ref3.target.value;
-                    if (Object.prototype.toString.call(picklistOptions) === '[object Object]' &&
-                    // @ts-expect-error TS(2538): Type 'unknown' cannot be used as an index type.
-                    picklistOptions[value]) {
-                      // @ts-expect-error TS(2538): Type 'unknown' cannot be used as an index type.
+                    value = _ref4.target.value;
+                    if (Object.prototype.toString.call(picklistOptions) === '[object Object]' && typeof value === 'string' && picklistOptions[value]) {
                       value = picklistOptions[value].value;
                     }
-                    _context3.next = 4;
+                    _context4.next = 4;
                     return _this.onInputSelectChange(fieldValue)(value);
                   case 4:
-                    _context3.next = 6;
+                    _context4.next = 6;
                     return onSave();
                   case 6:
                     if (onChange) onChange(value);
                   case 7:
                   case "end":
-                    return _context3.stop();
+                    return _context4.stop();
                 }
               }
-            }, _callee3);
+            }, _callee4);
           }));
-          return function (_x3) {
-            return _ref4.apply(this, arguments);
+          return function (_x4) {
+            return _ref5.apply(this, arguments);
           };
         }()),
         options: selectList,
@@ -464,16 +511,16 @@ var FieldItem = /*#__PURE__*/function (_Component) {
       }));
     };
     _this.onRadioChange = /*#__PURE__*/function () {
-      var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(event, value) {
+      var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(event, value) {
         var _task$tickets$;
         var _this$props9, currentLog, onUpdateCallLog, currentSessionId, _currentLog$task, task;
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 _this$props9 = _this.props, currentLog = _this$props9.currentLog, onUpdateCallLog = _this$props9.onUpdateCallLog; // @ts-expect-error TS(2339): Property 'currentSessionId' does not exist on type... Remove this comment to see the full error message
                 currentSessionId = currentLog.currentSessionId, _currentLog$task = currentLog.task, task = _currentLog$task === void 0 ? {} : _currentLog$task; // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
-                _context4.next = 4;
+                _context5.next = 4;
                 return onUpdateCallLog(_objectSpread(_objectSpread({}, currentLog), {}, {
                   task: _objectSpread(_objectSpread({}, task), {}, {
                     option: value,
@@ -482,13 +529,13 @@ var FieldItem = /*#__PURE__*/function (_Component) {
                 }), currentSessionId);
               case 4:
               case "end":
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4);
+        }, _callee5);
       }));
-      return function (_x4, _x5) {
-        return _ref5.apply(this, arguments);
+      return function (_x5, _x6) {
+        return _ref6.apply(this, arguments);
       };
     }();
     _this.renderAlert = function () {
@@ -522,9 +569,7 @@ var FieldItem = /*#__PURE__*/function (_Component) {
           title: "#".concat(ticket.id, " ").concat(ticket.subject)
         };
       }) : [];
-      return /*#__PURE__*/_react["default"].createElement("div", {
-        className: _styles["default"].ticketSelectList
-      }, /*#__PURE__*/_react["default"].createElement(_SelectField.SelectField, {
+      return /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement(_SelectField.SelectField, {
         labelClassName: _styles["default"].selectLabel,
         options: options,
         fullWidth: true,
@@ -536,29 +581,105 @@ var FieldItem = /*#__PURE__*/function (_Component) {
         }
       }));
     };
-    _this.onSelectChange = function (event) {
-      var value = event.target.value;
+    // Logic to render the Zendesk Ticket Status select list
+    _this.renderTicketStatusSelectList = function () {
+      var _task$ticketStatuses, _task$ticketStatuses2, _task$ticketStatus;
       var _this$props12 = _this.props,
         currentLog = _this$props12.currentLog,
-        onUpdateCallLog = _this$props12.onUpdateCallLog; // @ts-expect-error TS(2339): Property 'currentSessionId' does not exist on type... Remove this comment to see the full error message
+        fieldOption = _this$props12.fieldOption,
+        disableAllFields = _this$props12.disabled; // @ts-expect-error TS(2339): Property 'task' does not exist on type 'CallLog | ... Remove this comment to see the full error message
+      var task = currentLog.task,
+        disableSaveLog = currentLog.disableSaveLog;
+      var label = fieldOption.label,
+        helperText = fieldOption.helperText,
+        placeholder = fieldOption.placeholder; // Render only if the Auto-log call toggle is enabled on CTI
+      if (!task.shouldShowTicketStatusesDropDown) {
+        return null;
+      }
+      var options = task.ticketStatuses && ((_task$ticketStatuses = task.ticketStatuses) === null || _task$ticketStatuses === void 0 ? void 0 : _task$ticketStatuses.length) > 0 ? task.ticketStatuses.map(function (zendeskTicketStatus) {
+        return {
+          value: zendeskTicketStatus.id,
+          label: zendeskTicketStatus.label,
+          title: zendeskTicketStatus.label
+        };
+      }) : [];
+      var disabled = disableAllFields || disableSaveLog || (task === null || task === void 0 ? void 0 : task.isLogged) || !((_task$ticketStatuses2 = task.ticketStatuses) === null || _task$ticketStatuses2 === void 0 ? void 0 : _task$ticketStatuses2.length);
+      var isError = (task === null || task === void 0 ? void 0 : (_task$ticketStatus = task.ticketStatus) === null || _task$ticketStatus === void 0 ? void 0 : _task$ticketStatus.label) === 'Solved';
+      return /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement(_SelectField.SelectField, {
+        "data-sign": 'zendesk-ticket-status',
+        error: isError,
+        helperText: isError && helperText,
+        placeholder: placeholder,
+        labelClassName: _styles["default"].selectLabel,
+        options: options,
+        disabled: disabled,
+        fullWidth: true,
+        value: task.ticketStatusId,
+        label: label,
+        onChange: function onChange(event) {
+          return _this.onSelectChange(event, 'ticketStatusSelectList');
+        }
+      }));
+    };
+    _this.renderWarningText = function () {
+      var _this$props13 = _this.props,
+        value = _this$props13.fieldOption.value,
+        currentLog = _this$props13.currentLog;
+      var task = (currentLog === null || currentLog === void 0 ? void 0 : currentLog.task) || {};
+      if (!task.showPermissionWarning) {
+        return null;
+      }
+
+      // Use the value from field option as the text content
+      var warningText = value;
+
+      // Create a warning box with styling similar to the one in the Figma design
+      return /*#__PURE__*/_react["default"].createElement(_juno.RcAlert, {
+        severity: "warning",
+        style: {
+          padding: '12px 16px'
+        }
+      }, warningText);
+    };
+    _this.onSelectChange = function (event, source) {
+      var value = event.target.value;
+      var _this$props14 = _this.props,
+        currentLog = _this$props14.currentLog,
+        onUpdateCallLog = _this$props14.onUpdateCallLog; // @ts-expect-error TS(2339): Property 'currentSessionId' does not exist on type... Remove this comment to see the full error message
       var currentSessionId = currentLog.currentSessionId,
         _currentLog$task2 = currentLog.task,
-        task = _currentLog$task2 === void 0 ? {} : _currentLog$task2; // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
-      onUpdateCallLog(_objectSpread(_objectSpread({}, currentLog), {}, {
-        task: _objectSpread(_objectSpread({}, task), {}, {
-          ticketId: value
-        })
-      }), currentSessionId);
+        task = _currentLog$task2 === void 0 ? {} : _currentLog$task2;
+      if (source && source === 'ticketStatusSelectList') {
+        var ticketStatusId = Number(value);
+        var zendeskTicketStatuses = task.ticketStatuses;
+        var ticketStatus = zendeskTicketStatuses.find(function (ticketStatus) {
+          return ticketStatus.id === ticketStatusId;
+        });
+        // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
+        onUpdateCallLog(_objectSpread(_objectSpread({}, currentLog), {}, {
+          task: _objectSpread(_objectSpread({}, task), {}, {
+            ticketStatusId: ticketStatusId,
+            ticketStatus: ticketStatus
+          })
+        }), currentSessionId);
+      } else {
+        // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
+        onUpdateCallLog(_objectSpread(_objectSpread({}, currentLog), {}, {
+          task: _objectSpread(_objectSpread({}, task), {}, {
+            ticketId: value
+          })
+        }), currentSessionId);
+      }
     };
     _this.onInputSelectChange = function (value) {
       return /*#__PURE__*/function () {
-        var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(item) {
-          var _this$props13, _this$props13$current, currentSessionId, _this$props13$current2, task, onUpdateCallLog, customInputDataStruct, defaultLogData, logData;
-          return regeneratorRuntime.wrap(function _callee5$(_context5) {
+        var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(item) {
+          var _this$props15, _this$props15$current, currentSessionId, _this$props15$current2, task, onUpdateCallLog, customInputDataStruct, defaultLogData, logData;
+          return regeneratorRuntime.wrap(function _callee6$(_context6) {
             while (1) {
-              switch (_context5.prev = _context5.next) {
+              switch (_context6.prev = _context6.next) {
                 case 0:
-                  _this$props13 = _this.props, _this$props13$current = _this$props13.currentLog, currentSessionId = _this$props13$current.currentSessionId, _this$props13$current2 = _this$props13$current.task, task = _this$props13$current2 === void 0 ? {} : _this$props13$current2, onUpdateCallLog = _this$props13.onUpdateCallLog, customInputDataStruct = _this$props13.customInputDataStruct;
+                  _this$props15 = _this.props, _this$props15$current = _this$props15.currentLog, currentSessionId = _this$props15$current.currentSessionId, _this$props15$current2 = _this$props15$current.task, task = _this$props15$current2 === void 0 ? {} : _this$props15$current2, onUpdateCallLog = _this$props15.onUpdateCallLog, customInputDataStruct = _this$props15.customInputDataStruct;
                   defaultLogData = {
                     isSaved: false,
                     task: _defineProperty({}, value, item)
@@ -569,24 +690,23 @@ var FieldItem = /*#__PURE__*/function (_Component) {
                     task: task,
                     currentSessionId: currentSessionId
                   }) || defaultLogData; // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
-                  _context5.next = 5;
+                  _context6.next = 5;
                   return onUpdateCallLog(logData, currentSessionId);
                 case 5:
                 case "end":
-                  return _context5.stop();
+                  return _context6.stop();
               }
             }
-          }, _callee5);
+          }, _callee6);
         }));
-        return function (_x6) {
-          return _ref6.apply(this, arguments);
+        return function (_x7) {
+          return _ref7.apply(this, arguments);
         };
       }();
     };
     _this.fieldsRenderMap = {
       // @ts-expect-error TS(2322): Type '() => JSX.Element | undefined' is not assign... Remove this comment to see the full error message
       reference: _this.renderReference,
-      picklist: _this.renderSelectMenu,
       textarea: _this.renderTextArea,
       date: _this.renderDatePicker,
       string: _this.renderInput,
@@ -597,7 +717,15 @@ var FieldItem = /*#__PURE__*/function (_Component) {
       radio: _this.renderRadio,
       alert: _this.renderAlert,
       // @ts-expect-error TS(2322): Type '() => JSX.Element | null' is not assignable ... Remove this comment to see the full error message
-      ticketSelectList: _this.renderTicketSelectList
+      ticketSelectList: _this.renderTicketSelectList,
+      picklist: function picklist() {
+        return _this.renderSelectMenu(false);
+      },
+      multipicklist: function multipicklist() {
+        return _this.renderSelectMenu(true);
+      },
+      ticketStatusSelectList: _this.renderTicketStatusSelectList,
+      warningText: _this.renderWarningText
     };
     return _this;
   }
@@ -612,13 +740,13 @@ var FieldItem = /*#__PURE__*/function (_Component) {
     key: "render",
     // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
     value: function render() {
-      var _this$props14 = this.props,
-        _this$props14$fieldOp = _this$props14.fieldOption,
-        value = _this$props14$fieldOp.value,
-        type = _this$props14$fieldOp.type,
-        error = _this$props14$fieldOp.error,
-        enableScrollError = _this$props14$fieldOp.enableScrollError,
-        editSectionScrollBy = _this$props14.editSectionScrollBy;
+      var _this$props16 = this.props,
+        _this$props16$fieldOp = _this$props16.fieldOption,
+        value = _this$props16$fieldOp.value,
+        type = _this$props16$fieldOp.type,
+        error = _this$props16$fieldOp.error,
+        enableScrollError = _this$props16$fieldOp.enableScrollError,
+        editSectionScrollBy = _this$props16.editSectionScrollBy;
       if (this.fieldsRenderMap[type] && this.fieldsRenderMap[type]()) {
         if (error && enableScrollError && this.fieldItemRef.current) {
           // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message

@@ -11,6 +11,7 @@ import styles from './styles.scss';
 
 type ParticipantsContainerProps = {
   currentLocale: string;
+  showCallerIdName?: boolean;
   removeFunc?: (...args: any[]) => any;
   participants: object[];
   onBackButtonClick?: (...args: any[]) => any;
@@ -82,8 +83,13 @@ class ParticipantsContainer extends Component<
   }
   // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
-    const { participants, currentLocale, removeFunc, onBackButtonClick } =
-      this.props;
+    const {
+      showCallerIdName,
+      participants,
+      currentLocale,
+      removeFunc,
+      onBackButtonClick,
+    } = this.props;
     const { detail, showModal } = this.state;
     const backHeader = (
       <BackHeader
@@ -120,6 +126,14 @@ class ParticipantsContainer extends Component<
                 // means that matched a contact
                 displayText = partyName;
               }
+              if (
+                partyName &&
+                calleeType === calleeTypes.unknown &&
+                showCallerIdName
+              ) {
+                // means outside company call, show caller id name
+                displayText = partyName;
+              }
               return (
                 <ParticipantItem
                   key={id}
@@ -136,6 +150,7 @@ class ParticipantsContainer extends Component<
           show={showModal}
           // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'object | un... Remove this comment to see the full error message
           detail={detail}
+          showCallerIdName={showCallerIdName}
           onCancel={this.onCancel}
           currentLocale={currentLocale}
           onRemove={() =>

@@ -4,23 +4,24 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  title: "Áudio",
-  dialButtonVolume: "Volume do botão de discagem",
-  ringtoneVolume: "Volume do toque",
-  callVolume: "Volume da chamada",
-  muteCalls: "Ativar mudo de chamadas",
-  outputDevice: "Dispositivo de saída",
-  inputDevice: "Dispositivo de entrada",
-  micPermission: "Permissão de microfone",
-  noDevice: "Nenhum dispositivo",
-  checkMicPermission: "Verificar permissão",
-  micNoPermissionMessage: "O aplicativo não tem permissão para usar o microfone",
-  noLabel: "Dispositivo desconhecido",
-  notSetSinkIdTip: "As permissões atuais do navegador não estão configuradas para nos permitir o acesso aos seus dispositivos de saída de áudio. {clickHereLink} para ver como configurar.",
-  noLabelTip: "As permissões atuais do navegador não estão configuradas para nos permitir o acesso aos seus dispositivos de entrada de áudio.",
-  clickHere: "Clique aqui",
-  defaultOutputDevice: "Dispositivo de saída padrão"
+  title: 'Áudio',
+  dialButtonVolume: 'Volume do botão de discagem',
+  ringtoneVolume: 'Volume do toque',
+  callVolume: 'Volume da chamada',
+  muteCalls: 'Ativar mudo de chamadas',
+  outputDevice: 'Dispositivo de saída',
+  inputDevice: 'Dispositivo de entrada',
+  micPermission: 'Permissão de microfone',
+  noDevice: 'Nenhum dispositivo',
+  checkMicPermission: 'Verificar permissão',
+  micNoPermissionMessage: 'O aplicativo não tem permissão para usar o microfone',
+  noLabel: 'Dispositivo desconhecido',
+  notSetSinkIdTip: 'As permissões atuais do navegador não estão configuradas para nos permitir o acesso aos seus dispositivos de saída de áudio. {clickHereLink} para ver como configurar.',
+  noLabelTip: 'As permissões atuais do navegador não estão configuradas para nos permitir o acesso aos seus dispositivos de entrada de áudio.',
+  clickHere: 'Clique aqui',
+  defaultOutputDevice: 'Dispositivo de saída padrão'
 }; // @key: @#@"title"@#@ @source: @#@"Audio"@#@
 // @key: @#@"dialButtonVolume"@#@ @source: @#@"Dial Button Volume"@#@
 // @key: @#@"ringtoneVolume"@#@ @source: @#@"Ringtone Volume"@#@

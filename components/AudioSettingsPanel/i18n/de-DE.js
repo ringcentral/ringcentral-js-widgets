@@ -4,23 +4,24 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  title: "Audio",
-  dialButtonVolume: "Lautstärke Wahltaste",
-  ringtoneVolume: "Lautstärke Klingelton",
-  callVolume: "Anruflautstärke",
-  muteCalls: "Anrufe stummschalten",
-  outputDevice: "Ausgabegerät",
-  inputDevice: "Eingabegerät",
-  micPermission: "Mikrofonberechtigung",
-  noDevice: "Kein Gerät",
-  checkMicPermission: "Berechtigung überprüfen",
-  micNoPermissionMessage: "Die App ist nicht berechtigt, ein Mikrofon zu verwenden",
-  noLabel: "Unbekanntes Gerät",
-  notSetSinkIdTip: "Leider sind Ihre aktuellen Browser-Berechtigungen nicht so eingestellt, dass wir auf Ihre Audio-Ausgabegeräte zugreifen können. {clickHereLink}, um Informationen zum Einrichten anzuzeigen.",
-  noLabelTip: "Leider sind Ihre aktuellen Browser-Berechtigungen nicht so eingestellt, dass wir auf Ihre Audio-Eingabegeräte zugreifen können.",
-  clickHere: "Klicken Sie hier",
-  defaultOutputDevice: "Standardausgabegerät"
+  title: 'Audio',
+  dialButtonVolume: 'Lautstärke Wahltaste',
+  ringtoneVolume: 'Lautstärke Klingelton',
+  callVolume: 'Anruflautstärke',
+  muteCalls: 'Anrufe stummschalten',
+  outputDevice: 'Ausgabegerät',
+  inputDevice: 'Eingabegerät',
+  micPermission: 'Mikrofonberechtigung',
+  noDevice: 'Kein Gerät',
+  checkMicPermission: 'Berechtigung überprüfen',
+  micNoPermissionMessage: 'Die App ist nicht berechtigt, ein Mikrofon zu verwenden',
+  noLabel: 'Unbekanntes Gerät',
+  notSetSinkIdTip: 'Leider sind Ihre aktuellen Browser-Berechtigungen nicht so eingestellt, dass wir auf Ihre Audio-Ausgabegeräte zugreifen können. {clickHereLink}, um Informationen zum Einrichten anzuzeigen.',
+  noLabelTip: 'Leider sind Ihre aktuellen Browser-Berechtigungen nicht so eingestellt, dass wir auf Ihre Audio-Eingabegeräte zugreifen können.',
+  clickHere: 'Klicken Sie hier',
+  defaultOutputDevice: 'Standardausgabegerät'
 }; // @key: @#@"title"@#@ @source: @#@"Audio"@#@
 // @key: @#@"dialButtonVolume"@#@ @source: @#@"Dial Button Volume"@#@
 // @key: @#@"ringtoneVolume"@#@ @source: @#@"Ringtone Volume"@#@

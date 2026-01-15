@@ -4,14 +4,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  forward: "착신 전환",
-  reply: "회신",
-  ignore: "무시",
-  toVoicemail: "음성 사서함에 보내기",
-  answer: "응답",
-  answerAndEnd: "응답 후 종료",
-  answerAndHold: "응답 후 대기"
+  forward: '착신 전환',
+  reply: '회신',
+  ignore: '무시',
+  toVoicemail: '음성 사서함에 보내기',
+  answer: '응답',
+  answerAndEnd: '응답 후 종료',
+  answerAndHold: '응답 후 대기'
 }; // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
 // @key: @#@"reply"@#@ @source: @#@"Reply"@#@
 // @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@

@@ -21,7 +21,7 @@ var _checkShouldHidePhoneNumber = require("../../lib/checkShouldHidePhoneNumber"
 var _ContactDisplay = _interopRequireDefault(require("../ContactDisplay"));
 var _ConversationMessageList = _interopRequireDefault(require("../ConversationMessageList"));
 var _LogButton = _interopRequireDefault(require("../LogButton"));
-var _MessageInput = _interopRequireDefault(require("../MessageInput"));
+var _MessageInput = _interopRequireWildcard(require("../MessageInput"));
 var _SpinnerOverlay = require("../SpinnerOverlay");
 var _i18n = _interopRequireDefault(require("./i18n"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
@@ -41,7 +41,7 @@ function _createSuper(t) { var r = _isNativeReflectConstruct(); return function 
 function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
 function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
 function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
-function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); } /* eslint-disable jsx-a11y/no-static-element-interactions */ /* eslint-disable jsx-a11y/click-events-have-key-events */
 var ConversationPanel = /*#__PURE__*/function (_Component) {
   _inherits(ConversationPanel, _Component);
   var _super = _createSuper(ConversationPanel);
@@ -104,7 +104,7 @@ var ConversationPanel = /*#__PURE__*/function (_Component) {
     _this.state = {
       selected: _this.getInitialContactIndex(),
       isLogging: false,
-      inputHeight: 63,
+      inputHeight: 41,
       loaded: false,
       alertHeight: 46
     };
@@ -169,25 +169,39 @@ var ConversationPanel = /*#__PURE__*/function (_Component) {
   }, {
     key: "getMessageListHeight",
     value: function getMessageListHeight() {
-      // @ts-expect-error TS(2339): Property 'restrictSendMessage' does not exist on t... Remove this comment to see the full error message
       var _this$props2 = this.props,
         restrictSendMessage = _this$props2.restrictSendMessage,
         renderLogInfoSection = _this$props2.renderLogInfoSection,
-        isWide = _this$props2.isWide; // @ts-expect-error TS(2339): Property 'alertHeight' does not exist on type 'Rea... Remove this comment to see the full error message
+        isWide = _this$props2.isWide,
+        supportAttachment = _this$props2.supportAttachment,
+        supportEmoji = _this$props2.supportEmoji,
+        attachments = _this$props2.attachments; // @ts-expect-error TS(2339): Property 'alertHeight' does not exist on type 'Rea... Remove this comment to see the full error message
       var _this$state = this.state,
         alertHeight = _this$state.alertHeight,
         inputHeight = _this$state.inputHeight;
       var headerHeight = 41;
       var alertMargin = 12;
       var logInfoHeight = isWide ? 60 : 100;
+      var inputToolBarHeight = 40;
+      var attachmentItemHeight = 50;
       var extraHeight = 0;
       if (restrictSendMessage === null || restrictSendMessage === void 0 ? void 0 : restrictSendMessage(this.getSelectedContact())) {
         extraHeight = alertHeight + alertMargin + headerHeight;
       } else {
-        extraHeight = inputHeight + headerHeight;
+        // padding 2px and border 1px
+        extraHeight = inputHeight + headerHeight + 3;
       }
       if (typeof renderLogInfoSection === 'function') {
         extraHeight += logInfoHeight;
+      }
+      if (supportAttachment || supportEmoji) {
+        extraHeight += inputToolBarHeight;
+      } else {
+        // default UI top offset for input
+        extraHeight += 10;
+      }
+      if (supportAttachment && (attachments === null || attachments === void 0 ? void 0 : attachments.length)) {
+        extraHeight += (attachments.length > _MessageInput.MAX_PREVIEW_ATTACHMENT_SIZE ? _MessageInput.MAX_PREVIEW_ATTACHMENT_SIZE : attachments.length) * attachmentItemHeight;
       }
       return "calc(100% - ".concat(extraHeight, "px)");
     }
@@ -534,9 +548,12 @@ var ConversationPanel = /*#__PURE__*/function (_Component) {
         // @ts-expect-error TS(2339): Property 'supportAttachment' does not exist on typ... Remove this comment to see the full error message
         ,
         supportAttachment: this.props.supportAttachment
-        // @ts-expect-error TS(2339): Property 'addAttachment' does not exist on type 'R... Remove this comment to see the full error message
+        // @ts-expect-error TS(2339): Property 'supportEmoji' does not exist on typ... Remove this comment to see the full error message
         ,
-        addAttachment: this.props.addAttachment
+        supportEmoji: this.props.supportEmoji
+        // @ts-expect-error TS(2339): Property 'addAttachments' does not exist on type 'R... Remove this comment to see the full error message
+        ,
+        addAttachments: this.props.addAttachments
         // @ts-expect-error TS(2339): Property 'removeAttachment' does not exist on type... Remove this comment to see the full error message
         ,
         removeAttachment: this.props.removeAttachment
@@ -592,7 +609,8 @@ ConversationPanel.propTypes = {
     name: _propTypes["default"].string
   })),
   supportAttachment: _propTypes["default"].bool,
-  addAttachment: _propTypes["default"].func,
+  supportEmoji: _propTypes["default"].bool,
+  addAttachments: _propTypes["default"].func,
   removeAttachment: _propTypes["default"].func,
   onAttachmentDownload: _propTypes["default"].func,
   restrictSendMessage: _propTypes["default"].func,
@@ -634,7 +652,8 @@ ConversationPanel.defaultProps = {
   inputExpandable: undefined,
   attachments: [],
   supportAttachment: false,
-  addAttachment: function addAttachment() {
+  supportEmoji: false,
+  addAttachments: function addAttachments() {
     return null;
   },
   removeAttachment: function removeAttachment() {

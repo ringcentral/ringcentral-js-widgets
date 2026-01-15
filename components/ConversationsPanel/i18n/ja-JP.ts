@@ -1,15 +1,16 @@
+/* eslint-disable */
 import messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
 export default {
-  title: "メッセージ",
-  search: "検索...",
-  composeText: "テキストを作成",
-  noMessages: "メッセージなし",
-  noSearchResults: "一致する記録が見つかりません",
-  [messageTypes.all]: "すべて",
-  [messageTypes.voiceMail]: "音声",
-  [messageTypes.text]: "テキスト",
-  [messageTypes.fax]: "FAX"
-};
+  title: 'メッセージ',
+  search: '検索...',
+  composeText: 'テキストを作成',
+  noMessages: 'メッセージなし',
+  noSearchResults: '一致する記録が見つかりません',
+  [messageTypes.all]: 'すべて',
+  [messageTypes.voiceMail]: '音声',
+  [messageTypes.text]: 'テキスト',
+  [messageTypes.fax]: 'FAX',
+} as const;
 
 // @key: @#@"title"@#@ @source: @#@"Messages"@#@
 // @key: @#@"search"@#@ @source: @#@"Search..."@#@

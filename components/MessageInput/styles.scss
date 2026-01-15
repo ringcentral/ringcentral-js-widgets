@@ -1,3 +1,4 @@
+
 @import '../../lib/commonStyles/colors';
 @import '../../lib/commonStyles/full-size';
 @import '../../lib/commonStyles/text-ellipsis';
@@ -12,26 +13,24 @@
   border-top: 1px solid #e3e3e5;
   box-sizing: border-box;
   background-color: white;
-
-  .attachmentIcon {
-    display: none;
-  }
-
-  .attachments {
-    display: none;
-  }
+  z-index: 20;
 }
 
 .textField {
-  margin-right: 115px;
-  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  margin: 0 10px 10px;
+  // padding: 10px 10px 0;
+  border: 1px solid rgba(229, 229, 229, 1);
+  border-radius: 5px;
 
   textarea {
     background: transparent;
-    font-size: 13px;
+    padding: 10px 24px 10px 10px;
+    font-size: 14px;
     line-height: 18px;
     width: 100%;
-    margin: 10px 0 10px 10px;
     resize: none;
     border: none;
     outline: medium none !important;
@@ -43,90 +42,49 @@
   }
 }
 
+.textFieldMargin {
+  margin: 10px;
+}
+
 .submitField {
   position: absolute;
-  top: 50%;
   right: 0;
-  width: 115px;
-  margin-top: -18px;
-  margin-right: 2px;
+  bottom: 2px;
 }
 
-.sendButton {
-  display: block;
-  margin: 0 auto;
-  width: 73px;
-  height: 36px;
-  box-sizing: border-box;
-  font-size: 13px;
-  line-height: 18px;
-  padding: 7px;
-  border-radius: 18px;
-  outline: medium none !important;
-  color: #fff;
-  background-color: $primary-color;
-  border-style: none;
+.attachments{
+  max-height: 125px;
+  overflow-y: auto;
 }
 
-.sendButton:hover {
-  background-color: $primary-color-highlight;
-  color: #fff;
+.emojiPopper {
+  z-index: 1500 !important;
+  width: 100%;
+  overflow-x: auto;
 }
 
-.sendButton:disabled,
-.sendButton:disabled:hover {
-  background-color: #fff !important;
-  border: #c9c9c9 1px solid;
-  color: #a9a9a9;
-  cursor: not-allowed;
+:global #emoji-menu > div > div > em-emoji-picker {
+  max-height: 300px;
 }
 
-.supportAttachment {
-  .textField {
-    margin-left: 37px;
+.attachmentItem {
+  display: flex;
+  align-items: center;
+  padding: 0 10px 8px;
+}
 
-    textarea {
-      margin-left: 0;
-    }
-  }
-
-  .submitField {
-    top: 30px;
-  }
-
-  .attachmentIcon {
-    display: block;
-    position: absolute;
-    left: 5px;
-    top: 5px;
-  }
-
-  .attachments {
-    display: block;
-    padding: 0 10px;
-    max-height: 250px;
-    overflow-y: auto;
-  }
-
-  .attachmentItem {
-    display: inline-block;
-    color: $night;
-    font-size: 13px;
-    border: solid 1px $smoke;
-    border-radius: 4px;
-    max-width: 250px;
-    position: relative;
-    padding-right: 32px;
-    padding-left: 10px;
-    line-height: 40px;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    @include text-ellipsis;
-  }
-
-  .attachmentRemoveIcon {
-    position: absolute;
-    top: 0;
-    right: 0;
+.fileInfoItem {
+  display: flex;
+  align-items: center;
+  height: 42px;
+  padding: 10px;
+  width: 100%;
+  gap: 8px;
+  border-radius: 4px;
+  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+  .fileNameWrapper {
+    overflow: hidden;
+    flex: 1 1 auto;
   }
 }

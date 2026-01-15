@@ -4,14 +4,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  forward: "Doorverbinden",
-  reply: "Beantwoorden",
-  ignore: "Negeren",
-  toVoicemail: "Naar voicemail",
-  answer: "Beantwoorden",
-  answerAndEnd: "Beantwoorden en beëindigen",
-  answerAndHold: "Beantwoorden en in de wacht zetten"
+  forward: 'Doorverbinden',
+  reply: 'Beantwoorden',
+  ignore: 'Negeren',
+  toVoicemail: 'Naar voicemail',
+  answer: 'Beantwoorden',
+  answerAndEnd: 'Beantwoorden en beëindigen',
+  answerAndHold: 'Beantwoorden en in de wacht zetten'
 }; // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
 // @key: @#@"reply"@#@ @source: @#@"Reply"@#@
 // @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@

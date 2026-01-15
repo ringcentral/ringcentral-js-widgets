@@ -206,7 +206,6 @@ export abstract class CallLogUIBase<T extends Deps = Deps>
         this._deps.routerInteraction.push(
           `/replyWithMessage/${telephonySessionId}/active`,
         );
-        this.replyWithMessageEntranceTrack();
       },
       endAndAnswer: (telephonySessionId) => {
         this._deps.activeCallControl.answerAndEnd?.(telephonySessionId);
@@ -230,12 +229,6 @@ export abstract class CallLogUIBase<T extends Deps = Deps>
         this._deps.activeCallControl.openEntityDetailLinkTrack?.(path),
     };
   }
-
-  @track(() => [
-    trackEvents.clickReplyWithMessage,
-    { entry: 'Inbound call notification page' },
-  ])
-  replyWithMessageEntranceTrack() {}
 }
 
 // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.

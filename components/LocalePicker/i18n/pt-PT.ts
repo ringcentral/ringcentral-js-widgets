@@ -1,16 +1,17 @@
+/* eslint-disable */
 export default {
-  en: "Inglês",
-  ja: "Japonês",
-  fr: "Francês",
-  de: "Alemão",
-  es: "Espanhol",
-  it: "Italiano",
-  pt: "Português",
-  zh: "Chinês",
-  nl: "Neerlandês",
-  ko: "Coreano",
-  fi: "Suomi"
-};
+  en: 'Inglês',
+  ja: 'Japonês',
+  fr: 'Francês',
+  de: 'Alemão',
+  es: 'Espanhol',
+  it: 'Italiano',
+  pt: 'Português',
+  zh: 'Chinês',
+  nl: 'Neerlandês',
+  ko: 'Coreano',
+  fi: 'Suomi',
+} as const;
 
 // @key: @#@"en"@#@ @source: @#@"English"@#@
 // @key: @#@"ja"@#@ @source: @#@"Japanese"@#@

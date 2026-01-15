@@ -1,38 +1,46 @@
+/* eslint-disable */
 export default {
-  inviteMeetingContent: "{accountName} 正在邀请您加入 {brandName} 会议。\n\n从电脑、Mac、iOS 或 Android 加入：{joinUri}{passwordTpl}\n\n 或者从 iPhone 一键加入：\n\t    {mobileDialingNumberTpl}\n\n    或者从电话加入：\n\t     拨号：\n\t    {phoneDialingNumberTpl}\n\t     会议 ID：{meetingId}\n\t     可用的国际号码： {teleconference} ",
-  conferenceLocationField: "电话会议，拨入号码：{dialInNumber}",
-  scheduleError: "抱歉，出现问题，请重试。",
-  noMeetingPermission: "对不起，您没有使用 {brandName} Meetings 的权限。请联系您的公司管理员以继续。",
-  noConferencePermission: "对不起，您没有使用 {brandName} 电话会议的权限。请联系您的公司管理员以继续。",
-  conferenceTitle: "{displayName}的电话会议",
-  internationalNumber: "国际拨入号码：",
-  inviteText_att: "请加入 {brandName} 会议。\n\n拨入号码：{formattedDialInNumber} \n{additionalNumbersSection} \n参与者访问码：{participantCode} \n\n需要国际拨入电话号码？请访问 {dialInNumbersLink} \n\n此电话会议由 {brandName} Conferencing 提供。",
-  inviteText_bt: "请加入 {brandName} 会议。\n\n拨入号码：{formattedDialInNumber} \n{additionalNumbersSection} \n参与者访问码：{participantCode} \n\n附加拨入号码：{dialInNumbersLink} ",
-  inviteText_rc: "请加入 {brandName} 会议。\n\n拨入号码：{formattedDialInNumber} \n{additionalNumbersSection} \n参与者访问码：{participantCode} \n\n需要国际拨入电话号码？请访问 {dialInNumbersLink} \n\n此电话会议由 {brandName} Conferencing 提供。",
-  inviteText_telus: "请加入 {brandName} 会议。\n\n拨入号码：{formattedDialInNumber} \n{additionalNumbersSection} \n参与者访问码：{participantCode} \n\n附加拨入号码：{dialInNumbersLink} ",
-  conferenceCall: "{brandName} 电话会议",
-  videoCall: "{brandName} 视频会议",
-  addConferencingDetails: "添加电话会议详细信息",
-  updateConferencingDetails: "更新电话会议详细信息",
+  inviteMeetingContent:
+    '{accountName} 正在邀请您加入 {brandName} 会议。\n\n从电脑、Mac、iOS 或 Android 加入：{joinUri}{passwordTpl}\n\n 或者从 iPhone 一键加入：\n\t    {mobileDialingNumberTpl}\n\n    或者从电话加入：\n\t     拨号：\n\t    {phoneDialingNumberTpl}\n\t     会议 ID：{meetingId}\n\t     可用的国际号码： {teleconference} ',
+  conferenceLocationField: '电话会议，拨入号码：{dialInNumber}',
+  scheduleError: '抱歉，出现问题，请重试。',
+  noMeetingPermission:
+    '对不起，您没有使用 {brandName} Meetings 的权限。请联系您的公司管理员以继续。',
+  noConferencePermission:
+    '对不起，您没有使用 {brandName} 电话会议的权限。请联系您的公司管理员以继续。',
+  conferenceTitle: '{displayName}的电话会议',
+  internationalNumber: '国际拨入号码：',
+  inviteText_att:
+    '请加入 {brandName} 会议。\n\n拨入号码：{formattedDialInNumber} \n{additionalNumbersSection} \n参与者访问码：{participantCode} \n\n需要国际拨入电话号码？请访问 {dialInNumbersLink} \n\n此电话会议由 {brandName} Conferencing 提供。',
+  inviteText_bt:
+    '请加入 {brandName} 会议。\n\n拨入号码：{formattedDialInNumber} \n{additionalNumbersSection} \n参与者访问码：{participantCode} \n\n附加拨入号码：{dialInNumbersLink} ',
+  inviteText_rc:
+    '请加入 {brandName} 会议。\n\n拨入号码：{formattedDialInNumber} \n{additionalNumbersSection} \n参与者访问码：{participantCode} \n\n需要国际拨入电话号码？请访问 {dialInNumbersLink} \n\n此电话会议由 {brandName} Conferencing 提供。',
+  inviteText_telus:
+    '请加入 {brandName} 会议。\n\n拨入号码：{formattedDialInNumber} \n{additionalNumbersSection} \n参与者访问码：{participantCode} \n\n附加拨入号码：{dialInNumbersLink} ',
+  conferenceCall: '{brandName} 电话会议',
+  videoCall: '{brandName} 视频会议',
+  addConferencingDetails: '添加电话会议详细信息',
+  updateConferencingDetails: '更新电话会议详细信息',
   // @ts-expect-error TS(1117): An object literal cannot have multiple properties ... Remove this comment to see the full error message
-  scheduleError: "抱歉，出现问题，请重试。",
-  deleteBtn: "删除",
-  settingsBtn: "设置",
-  saveAsDefaultAndNotShowAgain: "保存为默认值且不再显示",
-  saveAsDefault: "另存为默认值",
-  done: "完成",
-  update: "更新",
-  conferenceSettingsTitle: "{brand} 电话会议设置",
-  videoSettingsTitle: "{brand} Meetings 设置",
-  password: "密码",
-  failedToRetrieveMeeting: "网络连接中断。请删除此会议，然后再重试。",
-  meetingSettingsTitle: "{brand} 会议 - 设置",
-  recurringMeeting: "定期会议",
-  meetingOptions: "会议选项",
-  schedule: "安排",
+  scheduleError: '抱歉，出现问题，请重试。',
+  deleteBtn: '删除',
+  settingsBtn: '设置',
+  saveAsDefaultAndNotShowAgain: '保存为默认值且不再显示',
+  saveAsDefault: '另存为默认值',
+  done: '完成',
+  update: '更新',
+  conferenceSettingsTitle: '{brand} 电话会议设置',
+  videoSettingsTitle: '{brand} Meetings 设置',
+  password: '密码',
+  failedToRetrieveMeeting: '网络连接中断。请删除此会议，然后再重试。',
+  meetingSettingsTitle: '{brand} 会议 - 设置',
+  recurringMeeting: '定期会议',
+  meetingOptions: '会议选项',
+  schedule: '安排',
   // @ts-expect-error TS(1117): An object literal cannot have multiple properties ... Remove this comment to see the full error message
-  settingsBtn: "设置"
-};
+  settingsBtn: '设置',
+} as const;
 
 // @key: @#@"inviteMeetingContent"@#@ @source: @#@"{accountName} is inviting you to a {brandName} meeting.\n\nJoin from PC, Mac, iOS or Android: {joinUri}{passwordTpl}\n\n Or iPhone one-tap:\n\t    {mobileDialingNumberTpl}\n\n    Or Telephone:\n\t     Dial:\n\t    {phoneDialingNumberTpl}\n\t     Meeting ID: {meetingId}\n\t     International numbers available: {teleconference} "@#@
 // @key: @#@"conferenceLocationField"@#@ @source: @#@"Conference Meeting, Dial-in Number: {dialInNumber}"@#@

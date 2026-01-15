@@ -3,10 +3,12 @@
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 require("core-js/modules/es.array.concat");
 require("core-js/modules/es.array.find");
+require("core-js/modules/es.array.includes");
 require("core-js/modules/es.function.bind");
 require("core-js/modules/es.object.get-prototype-of");
 require("core-js/modules/es.object.set-prototype-of");
 require("core-js/modules/es.regexp.exec");
+require("core-js/modules/es.string.includes");
 require("core-js/modules/es.string.replace");
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -40,6 +42,9 @@ function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError(
 function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
 function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
 function formatCountryDisplay(callingCode, countryName) {
+  if (callingCode.includes('+')) {
+    return "(".concat(callingCode, ") ").concat(countryName);
+  }
   return "(+".concat(callingCode, ") ").concat(countryName);
 }
 var RegionSettings = /*#__PURE__*/function (_Component) {

@@ -4,8 +4,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  topic: "会議タイトル"
+  topic: '会議タイトル'
 }; // @key: @#@"topic"@#@ @source: @#@"Meeting title"@#@
 exports["default"] = _default;
 //# sourceMappingURL=ja-JP.js.map

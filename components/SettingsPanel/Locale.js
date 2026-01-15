@@ -13,7 +13,7 @@ var Locale = function Locale(_ref) {
   var supportedLocales = _ref.supportedLocales,
     savedLocale = _ref.savedLocale,
     saveLocale = _ref.saveLocale;
-  if (supportedLocales && supportedLocales.length > 1) {
+  if (savedLocale && saveLocale && supportedLocales && supportedLocales.length > 1) {
     return /*#__PURE__*/_react["default"].createElement(_InputLine["default"], {
       label: (0, _i18n.t)('language')
     }, /*#__PURE__*/_react["default"].createElement(_LocalePicker["default"], {

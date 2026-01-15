@@ -42,6 +42,7 @@ export class ConversationUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
     enableContactFallback = false,
     showGroupNumberName = false,
     supportAttachment = false,
+    supportEmoji = false,
     perPage = 20,
     inputExpandable,
   }: ConversationContainerProps): UIProps<ConversationPanelProps> {
@@ -67,7 +68,9 @@ export class ConversationUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
       brand: this._deps.brand.name,
       enableContactFallback,
       showGroupNumberName,
-      supportAttachment,
+      supportAttachment:
+        this._deps.appFeatures.hasSendMMSPermission && supportAttachment,
+      supportEmoji,
       currentLocale: this._deps.locale.currentLocale,
       conversationId: params.conversationId,
       sendButtonDisabled:
@@ -144,8 +147,8 @@ export class ConversationUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
       updateMessageText: (text) =>
         // @ts-expect-error TS(2322): Type 'Promise<boolean | undefined>' is not assigna... Remove this comment to see the full error message
         this._deps.conversations.updateMessageText(text),
-      addAttachment: (attachment) =>
-        this._deps.conversations.addAttachment(attachment),
+      addAttachments: (attachment) =>
+        this._deps.conversations.addAttachments(attachment),
       removeAttachment: (attachment) =>
         this._deps.conversations.removeAttachment(attachment),
       // @ts-expect-error TS(2322): Type '(options: Partial<FormatDateTimeOptions>) =>... Remove this comment to see the full error message

@@ -4,11 +4,12 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  unknown: "Unbekannt",
-  multipleMatches: "Mehrfa. Übereins.",
-  anonymous: "Anonym",
-  none: "Kein"
+  unknown: 'Unbekannt',
+  multipleMatches: 'Mehrfa. Übereins.',
+  anonymous: 'Anonym',
+  none: 'Kein'
 }; // @key: @#@"unknown"@#@ @source: @#@"Unknown"@#@
 // @key: @#@"multipleMatches"@#@ @source: @#@"Multiple matches"@#@
 // @key: @#@"anonymous"@#@ @source: @#@"Anonymous"@#@

@@ -4,10 +4,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  unknown: "Unbekannt",
-  anonymous: "Anonym",
-  activeCalls: "Alle Anrufe"
+  unknown: 'Unbekannt',
+  anonymous: 'Anonym',
+  activeCalls: 'Alle Anrufe'
 }; // @key: @#@"unknown"@#@ @source: @#@"Unknown"@#@
 // @key: @#@"anonymous"@#@ @source: @#@"Anonymous"@#@
 // @key: @#@"activeCalls"@#@ @source: @#@"All Calls"@#@

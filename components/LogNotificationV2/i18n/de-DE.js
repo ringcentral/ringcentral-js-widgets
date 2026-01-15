@@ -4,15 +4,16 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  Inbound: "Eingehend",
-  Outbound: "Ausgehend",
-  log: "Protokoll",
-  save: "Speichern und neu",
-  discard: "Verwerfen und neu",
-  hangup: "Auflegen",
-  reject: "An Voicemail",
-  saveDraftAndCreateNewLog: "Entwurf speichern und neues Anrufprotokoll erstellen"
+  Inbound: 'Eingehend',
+  Outbound: 'Ausgehend',
+  log: 'Protokoll',
+  save: 'Speichern und neu',
+  discard: 'Verwerfen und neu',
+  hangup: 'Auflegen',
+  reject: 'An Voicemail',
+  saveDraftAndCreateNewLog: 'Entwurf speichern und neues Anrufprotokoll erstellen'
 }; // @key: @#@"Inbound"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"Outbound"@#@ @source: @#@"Outbound"@#@
 // @key: @#@"log"@#@ @source: @#@"Log"@#@

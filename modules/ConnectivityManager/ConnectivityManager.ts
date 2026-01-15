@@ -50,7 +50,9 @@ class ConnectivityManager extends RcModuleV2<Deps> {
       return;
     }
     if (this._deps.audioSettings && this._deps.audioSettings.ready) {
-      this._deps.audioSettings.checkAudioAvailable();
+      this._deps.audioSettings.checkAudioAvailable({
+        checkIfNoDevices: true,
+      });
     }
     if (this._deps.webphone && this._deps.webphone.ready) {
       this._deps.webphone.connect({ force: true, skipConnectDelay: true });

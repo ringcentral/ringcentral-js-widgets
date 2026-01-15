@@ -4,23 +4,24 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  header: "遇到问题？",
-  toggleTitle: "1. 开启错误跟踪模式",
-  toggleDescription: "这有助于我们定位问题，但可能会对应用性能产生些许影响。",
-  downloadTitle: "2. 问题复现时，下载错误日志。",
-  downloadButton: "下载",
-  downloadDisabledTitle: "请先开启错误跟踪模式，然后才能下载错误日志。",
-  sendTitle: "3. 将日志发送给支持团队",
-  createSupportTicket: "创建支持请求",
-  sendDescription: " 联系我们的支持团队。然后将日志发送给支持团队进行故障排查。",
-  privacyNotice: "下载日志并发送给我们，即表示您同意 RingCentral 访问某些日志相关信息，以便进行故障排查和错误处理。有关 RingCentral 如何处理个人数据的更多信息，请查看我们的 ",
-  privacyNoticeLink: "服务条款",
-  and: " 和 ",
-  privacyNoticeEnd: "隐私声明。",
-  needLeavePage: "错误跟踪运行期间，您可以暂时离开此页面。复现问题后，请返回此页面下载日志文件。",
-  downloading: "正在下载"
-}; // @key: @#@"header"@#@ @source: @#@"Having issues?"@#@
+  header: '联系支持人员',
+  toggleTitle: '1. 开启错误跟踪模式',
+  toggleDescription: '这有助于我们定位问题，但可能会对应用性能产生些许影响。',
+  downloadTitle: '2. 问题复现时，下载错误日志。',
+  downloadButton: '下载',
+  downloadDisabledTitle: '请先开启错误跟踪模式，然后才能下载错误日志。',
+  sendTitle: '3. 将日志发送给支持团队',
+  createSupportTicket: '创建支持请求',
+  sendDescription: ' 联系我们的支持团队。然后将日志发送给支持团队进行故障排查。',
+  privacyNotice: '下载日志并发送给我们，即表示您同意 RingCentral 访问某些日志相关信息，以便进行故障排查和错误处理。有关 RingCentral 如何处理个人数据的更多信息，请查看我们的 ',
+  privacyNoticeLink: '服务条款',
+  and: ' 和 ',
+  privacyNoticeEnd: '隐私声明。',
+  needLeavePage: '错误跟踪运行期间，您可以暂时离开此页面。复现问题后，请返回此页面下载日志文件。',
+  downloading: '正在下载'
+}; // @key: @#@"header"@#@ @source: @#@"Contact support"@#@
 // @key: @#@"toggleTitle"@#@ @source: @#@"1. Turn on error tracking mode"@#@
 // @key: @#@"toggleDescription"@#@ @source: @#@"This will help us locate your issues, but may slightly affect your app performance."@#@
 // @key: @#@"downloadTitle"@#@ @source: @#@"2. Download the error log when you have replicated the issue."@#@

@@ -1,11 +1,12 @@
+/* eslint-disable */
 import { connectivityTypes } from '../../../modules/ConnectivityManager';
 export default {
-  [connectivityTypes.webphoneUnavailable]: "網路電話不可用",
-  [connectivityTypes.offline]: "離線",
-  [connectivityTypes.voipOnly]: "僅 VoIP",
-  [connectivityTypes.survival]: "限制模式",
-  [connectivityTypes.connecting]: "連線中"
-};
+  [connectivityTypes.webphoneUnavailable]: '網路電話不可用',
+  [connectivityTypes.offline]: '離線',
+  [connectivityTypes.voipOnly]: '僅 VoIP',
+  [connectivityTypes.survival]: '限制模式',
+  [connectivityTypes.connecting]: '正在連線',
+} as const;
 
 // @key: @#@"[connectivityTypes.webphoneUnavailable]"@#@ @source: @#@"Web Phone Unavailable"@#@
 // @key: @#@"[connectivityTypes.offline]"@#@ @source: @#@"Offline"@#@

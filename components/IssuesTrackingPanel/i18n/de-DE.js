@@ -4,23 +4,24 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  header: "Treten Probleme auf?",
-  toggleTitle: "1. Aktivieren Sie den Fehlerverfolgungsmodus.",
-  toggleDescription: "Dies hilft uns, Ihre Probleme zu lokalisieren, beeinträchtigt jedoch möglicherweise geringfügig die Leistung der App.",
-  downloadTitle: "2. Laden Sie das Fehlerprotokoll herunter, wenn Sie das Problem nachgebildet haben.",
-  downloadButton: "Herunterladen",
-  downloadDisabledTitle: "Aktivieren Sie den Fehlerverfolgungsmodus, bevor Sie das Fehlerprotokoll herunterladen.",
-  sendTitle: "3. Senden Sie das Protokoll an das Support-Team.",
-  createSupportTicket: "Erstellen Sie ein Support-Ticket,",
-  sendDescription: " um das Support-Team zu kontaktieren. Senden Sie das Protokoll zur Fehlerbehebung an das Support-Team.",
-  privacyNotice: "Durch das Herunterladen und Senden des Protokolls stimmen Sie zu, dass RingCentral auf bestimmte protokollbezogene Informationen für die Fehlerbehebung und Fehlerbehandlung zugreifen darf. Weitere Informationen zur Verarbeitung personenbezogener Daten durch RingCentral finden Sie in unseren ",
-  privacyNoticeLink: "Nutzungsbedingungen",
-  and: " und den ",
-  privacyNoticeEnd: "Datenschutzhinweisen.",
-  needLeavePage: "Sie können diese Seite verlassen, während die Fehlerverfolgung ausgeführt wird. Wenn Sie das Problem nachgebildet haben, kehren Sie zu dieser Seite zurück und laden Sie die Protokolldateien herunter.",
-  downloading: "Wird heruntergeladen"
-}; // @key: @#@"header"@#@ @source: @#@"Having issues?"@#@
+  header: 'Support kontaktieren',
+  toggleTitle: '1. Aktivieren Sie den Fehlerverfolgungsmodus.',
+  toggleDescription: 'Dies hilft uns, Ihre Probleme zu lokalisieren, beeinträchtigt jedoch möglicherweise geringfügig die Leistung der App.',
+  downloadTitle: '2. Laden Sie das Fehlerprotokoll herunter, wenn Sie das Problem nachgebildet haben.',
+  downloadButton: 'Herunterladen',
+  downloadDisabledTitle: 'Aktivieren Sie den Fehlerverfolgungsmodus, bevor Sie das Fehlerprotokoll herunterladen.',
+  sendTitle: '3. Senden Sie das Protokoll an das Support-Team.',
+  createSupportTicket: 'Erstellen Sie ein Support-Ticket,',
+  sendDescription: ' um das Support-Team zu kontaktieren. Senden Sie das Protokoll zur Fehlerbehebung an das Support-Team.',
+  privacyNotice: 'Durch das Herunterladen und Senden des Protokolls stimmen Sie zu, dass RingCentral auf bestimmte protokollbezogene Informationen für die Fehlerbehebung und Fehlerbehandlung zugreifen darf. Weitere Informationen zur Verarbeitung personenbezogener Daten durch RingCentral finden Sie in unseren ',
+  privacyNoticeLink: 'Nutzungsbedingungen',
+  and: ' und den ',
+  privacyNoticeEnd: 'Datenschutzhinweisen.',
+  needLeavePage: 'Sie können diese Seite verlassen, während die Fehlerverfolgung ausgeführt wird. Wenn Sie das Problem nachgebildet haben, kehren Sie zu dieser Seite zurück und laden Sie die Protokolldateien herunter.',
+  downloading: 'Wird heruntergeladen'
+}; // @key: @#@"header"@#@ @source: @#@"Contact support"@#@
 // @key: @#@"toggleTitle"@#@ @source: @#@"1. Turn on error tracking mode"@#@
 // @key: @#@"toggleDescription"@#@ @source: @#@"This will help us locate your issues, but may slightly affect your app performance."@#@
 // @key: @#@"downloadTitle"@#@ @source: @#@"2. Download the error log when you have replicated the issue."@#@

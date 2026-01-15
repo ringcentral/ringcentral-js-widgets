@@ -17,6 +17,7 @@ var IconLine = function IconLine(props) {
     noBorder: props.noBorder
   }, /*#__PURE__*/_react["default"].createElement(_IconField["default"], {
     className: props.className,
+    iconClassName: props.iconClassName,
     icon: props.icon,
     title: props.title
   }, props.children), props.hintText && /*#__PURE__*/_react["default"].createElement(_juno.RcText, {

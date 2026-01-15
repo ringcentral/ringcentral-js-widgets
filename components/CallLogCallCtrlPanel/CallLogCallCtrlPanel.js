@@ -39,7 +39,8 @@ var CallLogCallCtrlPanel = function CallLogCallCtrlPanel(props) {
     allowPickupCall = props.allowPickupCall,
     showConferenceCall = props.showConferenceCall,
     isCurrentCall = props.isCurrentCall,
-    onMergeCall = props.onMergeCall;
+    onMergeCall = props.onMergeCall,
+    isCallQueueCall = props.isCallQueueCall;
   if (!currentSession) {
     return null;
   }
@@ -281,7 +282,8 @@ var CallLogCallCtrlPanel = function CallLogCallCtrlPanel(props) {
     allowPickupCall: allowPickupCall,
     showConferenceCall: showConferenceCall,
     isCurrentCall: isCurrentCall,
-    onMergeCall: onMergeCall
+    onMergeCall: onMergeCall,
+    isCallQueueCall: isCallQueueCall
   });
 };
 exports.CallLogCallCtrlPanel = CallLogCallCtrlPanel;

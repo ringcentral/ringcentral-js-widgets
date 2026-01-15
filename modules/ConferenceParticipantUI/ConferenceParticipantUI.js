@@ -42,13 +42,16 @@ var ConferenceParticipantUI = (_dec = (0, _di.Module)({
   }
   _createClass(ConferenceParticipantUI, [{
     key: "getUIProps",
-    value: function getUIProps() {
+    value: function getUIProps(_ref) {
+      var _ref$showCallerIdName = _ref.showCallerIdName,
+        showCallerIdName = _ref$showCallerIdName === void 0 ? false : _ref$showCallerIdName;
       var participants = this._deps.conferenceCall.partyProfiles;
       var sessionCount = this._deps.webphone.sessions && this._deps.webphone.sessions.length || 0;
       return {
         currentLocale: this._deps.locale.currentLocale,
         participants: participants,
-        sessionCount: sessionCount
+        sessionCount: sessionCount,
+        showCallerIdName: showCallerIdName
       };
     }
   }, {

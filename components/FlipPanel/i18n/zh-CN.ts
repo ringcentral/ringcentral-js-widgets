@@ -1,8 +1,9 @@
+/* eslint-disable */
 export default {
-  flipHeader: "将呼叫切换至…",
-  flip: "切换",
-  complete: "完成切换"
-};
+  flipHeader: '将呼叫切换至…',
+  flip: '切换',
+  complete: '完成切换',
+} as const;
 
 // @key: @#@"flipHeader"@#@ @source: @#@"Flip Call to..."@#@
 // @key: @#@"flip"@#@ @source: @#@"Flip"@#@

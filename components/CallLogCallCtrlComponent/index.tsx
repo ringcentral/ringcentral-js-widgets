@@ -82,6 +82,7 @@ type CallLogCallCtrlComponentProps = {
   showConferenceCall?: boolean;
   isCurrentCall?: boolean;
   onMergeCall: () => Promise<void>;
+  isCallQueueCall?: boolean;
 };
 const CallLogCallCtrlComponent: React.FC<CallLogCallCtrlComponentProps> = (
   props,
@@ -127,6 +128,7 @@ const CallLogCallCtrlComponent: React.FC<CallLogCallCtrlComponentProps> = (
     showConferenceCall,
     isCurrentCall,
     onMergeCall,
+    isCallQueueCall,
   } = props;
 
   // reject conditions: call direction is inbound & call status is ringing
@@ -526,23 +528,25 @@ const CallLogCallCtrlComponent: React.FC<CallLogCallCtrlComponentProps> = (
           disabled={disableLinks || !isWebRTCCall}
           onClick={ignore}
         />
-        <CircleButtonWithTitle
-          title={i18n.getString('voicemail', currentLocale)}
-          dataSign="toVoiceMail"
-          showBorder={false}
-          icon={VoicemailIcon}
-          iconWidth={250}
-          iconHeight={250}
-          iconX={125}
-          iconY={125}
-          onClick={endAction}
-          className={clsx({
-            [styles.hangup]: true,
-            [styles.button]: true,
-            [styles.buttonDisabled]: disableLinks,
-          })}
-          disabled={disableLinks}
-        />
+        {!isCallQueueCall && (
+          <CircleButtonWithTitle
+            title={i18n.getString('voicemail', currentLocale)}
+            dataSign="toVoiceMail"
+            showBorder={false}
+            icon={VoicemailIcon}
+            iconWidth={250}
+            iconHeight={250}
+            iconX={125}
+            iconY={125}
+            onClick={endAction}
+            className={clsx({
+              [styles.hangup]: true,
+              [styles.button]: true,
+              [styles.buttonDisabled]: disableLinks,
+            })}
+            disabled={disableLinks}
+          />
+        )}
         <CircleButtonWithTitle
           title={i18n.getString('answer', currentLocale)}
           dataSign="answer"
@@ -590,23 +594,25 @@ const CallLogCallCtrlComponent: React.FC<CallLogCallCtrlComponentProps> = (
         >
           <EndAnswerIcon />
         </span>
-        <CircleButtonWithTitle
-          title={i18n.getString('voicemail', currentLocale)}
-          dataSign="voicemail"
-          showBorder={false}
-          icon={VoicemailIcon}
-          iconWidth={250}
-          iconHeight={250}
-          iconX={125}
-          iconY={125}
-          onClick={endAction}
-          className={clsx({
-            [styles.hangup]: true,
-            [styles.button]: true,
-            [styles.buttonDisabled]: disableLinks,
-          })}
-          disabled={disableLinks}
-        />
+        {!isCallQueueCall && (
+          <CircleButtonWithTitle
+            title={i18n.getString('voicemail', currentLocale)}
+            dataSign="voicemail"
+            showBorder={false}
+            icon={VoicemailIcon}
+            iconWidth={250}
+            iconHeight={250}
+            iconX={125}
+            iconY={125}
+            onClick={endAction}
+            className={clsx({
+              [styles.hangup]: true,
+              [styles.button]: true,
+              [styles.buttonDisabled]: disableLinks,
+            })}
+            disabled={disableLinks}
+          />
+        )}
         <span
           data-sign="holdAndAnswer"
           title={i18n.getString('answerAndHold', currentLocale)}

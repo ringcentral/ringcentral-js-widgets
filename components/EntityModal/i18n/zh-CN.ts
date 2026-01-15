@@ -1,12 +1,13 @@
+/* eslint-disable */
 export default {
-  account: "帐户",
-  contact: "联系人",
-  lead: "潜在客户",
-  opportunity: "业务机会",
-  case: "案例",
-  chooseEntity: "请选择实体类型",
-  create: "创建"
-};
+  account: '帐户',
+  contact: '联系人',
+  lead: '潜在客户',
+  opportunity: '业务机会',
+  case: '案例',
+  chooseEntity: '请选择实体类型',
+  create: '创建',
+} as const;
 
 // @key: @#@"account"@#@ @source: @#@"Account"@#@
 // @key: @#@"contact"@#@ @source: @#@"Contact"@#@

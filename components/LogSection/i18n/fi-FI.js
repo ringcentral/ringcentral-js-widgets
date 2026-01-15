@@ -4,8 +4,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  saveLog: "Tallenna"
+  saveLog: 'Tallenna'
 }; // @key: @#@"saveLog"@#@ @source: @#@"Save"@#@
 exports["default"] = _default;
 //# sourceMappingURL=fi-FI.js.map

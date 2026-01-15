@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
   // logging: 'Logging...',
   // logCall: 'Log Call',
@@ -21,9 +22,10 @@ var _default = {
   // text: 'Text',
   // call: 'Call',
   // addContact: 'Add Contact',
-  missedCall: "Gemist",
-  inboundCall: "Inkomend",
-  outboundCall: "Uitgaand" // from: 'From',
+  missedCall: 'Gemist',
+  inboundCall: 'Inkomend',
+  outboundCall: 'Uitgaand'
+  // from: 'From',
   // to: 'To',
   // hangup: 'Hangup',
   // accept: 'Accept',

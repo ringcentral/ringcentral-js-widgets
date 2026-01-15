@@ -21,6 +21,40 @@ function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; 
 function loadLocale(locale) {
   return locale === 'en' || locale === 'en-US' ? Promise.resolve().then(function () {
     return _interopRequireWildcard(require('./en-US'));
+  }) : locale === 'en-GB' ? Promise.resolve().then(function () {
+    return _interopRequireWildcard(require('./en-GB'));
+  }) : locale === 'en-AU' ? Promise.resolve().then(function () {
+    return _interopRequireWildcard(require('./en-AU'));
+  }) : locale === 'fr' || locale === 'fr-FR' ? Promise.resolve().then(function () {
+    return _interopRequireWildcard(require('./fr-FR'));
+  }) : locale === 'fr-CA' ? Promise.resolve().then(function () {
+    return _interopRequireWildcard(require('./fr-CA'));
+  }) : locale === 'de' || locale === 'de-DE' ? Promise.resolve().then(function () {
+    return _interopRequireWildcard(require('./de-DE'));
+  }) : locale === 'it' || locale === 'it-IT' ? Promise.resolve().then(function () {
+    return _interopRequireWildcard(require('./it-IT'));
+  }) : locale === 'es' || locale === 'es-419' ? Promise.resolve().then(function () {
+    return _interopRequireWildcard(require('./es-419'));
+  }) : locale === 'es-ES' ? Promise.resolve().then(function () {
+    return _interopRequireWildcard(require('./es-ES'));
+  }) : locale === 'ja' || locale === 'ja-JP' ? Promise.resolve().then(function () {
+    return _interopRequireWildcard(require('./ja-JP'));
+  }) : locale === 'pt' || locale === 'pt-PT' ? Promise.resolve().then(function () {
+    return _interopRequireWildcard(require('./pt-PT'));
+  }) : locale === 'pt-BR' ? Promise.resolve().then(function () {
+    return _interopRequireWildcard(require('./pt-BR'));
+  }) : locale === 'zh' || locale === 'zh-CN' ? Promise.resolve().then(function () {
+    return _interopRequireWildcard(require('./zh-CN'));
+  }) : locale === 'zh-TW' ? Promise.resolve().then(function () {
+    return _interopRequireWildcard(require('./zh-TW'));
+  }) : locale === 'zh-HK' ? Promise.resolve().then(function () {
+    return _interopRequireWildcard(require('./zh-HK'));
+  }) : locale === 'nl' || locale === 'nl-NL' ? Promise.resolve().then(function () {
+    return _interopRequireWildcard(require('./nl-NL'));
+  }) : locale === 'ko' || locale === 'ko-KR' ? Promise.resolve().then(function () {
+    return _interopRequireWildcard(require('./ko-KR'));
+  }) : locale === 'fi' || locale === 'fi-FI' ? Promise.resolve().then(function () {
+    return _interopRequireWildcard(require('./fi-FI'));
   }) : null;
 }
 //# sourceMappingURL=loadLocale.js.map

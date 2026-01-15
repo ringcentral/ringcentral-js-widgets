@@ -4,14 +4,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  account: "Conta",
-  contact: "Contacto",
-  lead: "Cliente potencial",
-  opportunity: "Oportunidade",
-  "case": "Caso",
-  chooseEntity: "Selec. o tipo de entidade",
-  create: "Criar"
+  account: 'Conta',
+  contact: 'Contacto',
+  lead: 'Cliente potencial',
+  opportunity: 'Oportunidade',
+  "case": 'Caso',
+  chooseEntity: 'Selecione o tipo de entidade',
+  create: 'Criar'
 }; // @key: @#@"account"@#@ @source: @#@"Account"@#@
 // @key: @#@"contact"@#@ @source: @#@"Contact"@#@
 // @key: @#@"lead"@#@ @source: @#@"Lead"@#@

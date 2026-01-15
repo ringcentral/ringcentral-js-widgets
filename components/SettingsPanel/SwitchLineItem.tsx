@@ -23,6 +23,7 @@ export const SwitchLineItem: FunctionComponent<SwitchLineItemProps> = ({
   checked,
   onChange,
   tooltip,
+  children,
 }) => {
   if (!show) {
     return null;
@@ -57,6 +58,7 @@ export const SwitchLineItem: FunctionComponent<SwitchLineItemProps> = ({
           </>
         ) : null}
       </span>
+      {children}
     </IconLine>
   );
 };

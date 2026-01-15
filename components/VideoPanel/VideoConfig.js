@@ -7,6 +7,8 @@ require("core-js/modules/es.date.to-string");
 require("core-js/modules/es.function.name");
 require("core-js/modules/es.object.define-properties");
 require("core-js/modules/es.object.freeze");
+require("core-js/modules/es.object.to-string");
+require("core-js/modules/es.regexp.to-string");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -27,6 +29,7 @@ var _VideoSecuritySettingItem = require("./VideoSecuritySettingItem");
 var _constants = require("./constants");
 var _i18n = _interopRequireDefault(require("./i18n"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
+var _utils = require("./utils");
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
 function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) { if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } } return n["default"] = e, t && t.set(e, n), n; }
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
@@ -49,25 +52,9 @@ function _templateObject() {
   return data;
 }
 function _taggedTemplateLiteral(e, t) { return t || (t = e.slice(0)), Object.freeze(Object.defineProperties(e, { raw: { value: Object.freeze(t) } })); }
-function getHelperTextForPasswordField(meeting, currentLocale, isPasswordFocus) {
-  if (!meeting.meetingPassword) {
-    return _i18n["default"].getString('passwordEmptyError', currentLocale);
-  }
-  if (!meeting.isMeetingPasswordValid) {
-    return _i18n["default"].getString('passwordInvalidError', currentLocale);
-  }
-  if (isPasswordFocus) {
-    return _i18n["default"].getString('passwordHintText', currentLocale);
-  }
-  // when correct input without focus, show nothing
-  return '';
-}
-
-// TODO: integrate with VideoPanelProps from 'GenericMeetingPanel/interface'
-
 var PanelRoot = _juno.styled.div(_templateObject(), _juno.RcCheckbox, (0, _juno.spacing)(2));
 var VideoConfig = function VideoConfig(props) {
-  var _meeting$settingLock, _meeting$settingLock2, _meeting$settingLock3, _meeting$settingLock4, _meeting$settingLock5, _meeting$settingLock6;
+  var _meeting$settingLock, _meeting$settingLock2, _meeting$settingLock3, _meeting$settingLock4, _meeting$settingLock5, _meeting$settingLock6, _meeting$settingLock7, _meeting$allowAnyoneR, _meeting$settingLock8, _meeting$allowAnyoneT;
   var disabled = props.disabled,
     currentLocale = props.currentLocale,
     meeting = props.meeting,
@@ -79,6 +66,8 @@ var VideoConfig = function VideoConfig(props) {
     showDuration = props.showDuration,
     showRcvAdminLock = props.showRcvAdminLock,
     showPmiConfirm = props.showPmiConfirm,
+    showAllowAnyoneRecord = props.showAllowAnyoneRecord,
+    showAllowAnyoneTranscribe = props.showAllowAnyoneTranscribe,
     showWaitingRoom = props.showWaitingRoom,
     showE2EE = props.showE2EE,
     isE2EEDisabled = props.isE2EEDisabled,
@@ -86,6 +75,7 @@ var VideoConfig = function VideoConfig(props) {
     isPmiChangeConfirmed = props.isPmiChangeConfirmed,
     isPersonalMeetingDisabled = props.isPersonalMeetingDisabled,
     personalMeetingId = props.personalMeetingId,
+    personalMeetingName = props.personalMeetingName,
     switchUsePersonalMeetingId = props.switchUsePersonalMeetingId,
     trackSettingChanges = props.trackSettingChanges,
     e2eeInteractFunc = props.e2eeInteractFunc,
@@ -102,23 +92,22 @@ var VideoConfig = function VideoConfig(props) {
     joinBeforeHostLabel = props.joinBeforeHostLabel,
     authUserTypeValue = props.authUserTypeValue,
     isJoinBeforeHostDisabled = props.isJoinBeforeHostDisabled,
+    isPasswordFieldDisabled = props.isPasswordFieldDisabled,
+    isAllowToRecordDisabled = props.isAllowToRecordDisabled,
+    isAllowAnyoneTranscribeDisabled = props.isAllowAnyoneTranscribeDisabled,
     isMuteAudioDisabled = props.isMuteAudioDisabled,
     isTurnOffCameraDisabled = props.isTurnOffCameraDisabled,
     isAllowScreenSharingDisabled = props.isAllowScreenSharingDisabled,
     isAuthenticatedCanJoinDisabled = props.isAuthenticatedCanJoinDisabled,
     isAuthUserTypeDisabled = props.isAuthUserTypeDisabled,
     isWaitingRoomTypeDisabled = props.isWaitingRoomTypeDisabled,
-    isSignedInUsersDisabled = props.isSignedInUsersDisabled,
-    isSignedInCoWorkersDisabled = props.isSignedInCoWorkersDisabled,
     isWaitingRoomDisabled = props.isWaitingRoomDisabled,
     isRequirePasswordDisabled = props.isRequirePasswordDisabled,
     isWaitingRoomNotCoworkerDisabled = props.isWaitingRoomNotCoworkerDisabled,
     isWaitingRoomGuestDisabled = props.isWaitingRoomGuestDisabled,
-    isWaitingRoomAllDisabled = props.isWaitingRoomAllDisabled,
     showRemoveMeetingWarning = props.showRemoveMeetingWarning,
     brandConfig = props.brandConfig,
     showMigrationAlert = props.showMigrationAlert;
-  var settingsGroupExpandable = false;
   var hoursList = (0, _MeetingHelper.getHoursList)(_MeetingHelper.HOUR_SCALE, currentLocale);
   var minutesList = (0, _MeetingHelper.getMinutesList)(_MeetingHelper.MINUTE_SCALE, currentLocale);
   (0, _react.useEffect)(function () {
@@ -151,6 +140,30 @@ var VideoConfig = function VideoConfig(props) {
     // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     configRef.current.scrollHeight > configRef.current.clientHeight);
   }, []);
+  var showPMI = (0, _react.useMemo)(function () {
+    return enablePersonalMeeting && (personalMeetingId || personalMeetingName);
+  }, [enablePersonalMeeting, personalMeetingId, personalMeetingName]);
+  var getPMILabel = (0, _react.useCallback)(function () {
+    if (personalMeetingName) {
+      return /*#__PURE__*/_react["default"].createElement("div", {
+        className: _styles["default"].pmiLabel
+      }, /*#__PURE__*/_react["default"].createElement("span", {
+        className: _styles["default"].text
+      }, _i18n["default"].getString('usePersonalMeetingName', currentLocale)), "\xA0", /*#__PURE__*/_react["default"].createElement("span", {
+        "data-sign": "personalMeetingName",
+        title: personalMeetingName
+      }, personalMeetingName));
+    }
+    var pmiId = (0, _MeetingCalendarHelper.formatMeetingId)(personalMeetingId, '-');
+    return /*#__PURE__*/_react["default"].createElement("div", {
+      className: _styles["default"].pmiLabel
+    }, /*#__PURE__*/_react["default"].createElement("span", {
+      className: _styles["default"].text
+    }, _i18n["default"].getString('usePersonalMeetingId', currentLocale)), "\xA0", /*#__PURE__*/_react["default"].createElement("span", {
+      "data-sign": "personalMeetingId",
+      title: pmiId
+    }, pmiId));
+  }, [personalMeetingId, personalMeetingName, currentLocale]);
   return (
     /*#__PURE__*/
     // @ts-expect-error TS(2322): Type '{ children: Element; ref: MutableRefObject<H... Remove this comment to see the full error message
@@ -161,12 +174,11 @@ var VideoConfig = function VideoConfig(props) {
     }, /*#__PURE__*/_react["default"].createElement("div", {
       className: _styles["default"].meetingContent
     }, showSpinnerInConfigPanel ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null) : null, showRemoveMeetingWarning && /*#__PURE__*/_react["default"].createElement(_SettingGroup.SettingGroup, {
-      dataSign: "removeMeetingWarningPanel",
-      expandable: false
+      dataSign: "removeMeetingWarningPanel"
     }, /*#__PURE__*/_react["default"].createElement(_MeetingAlert.RemoveMeetingWarn, {
       brandConfig: brandConfig,
       currentLocale: currentLocale
-    })), showMigrationAlert && /*#__PURE__*/_react["default"].createElement(_MeetingAlert.MigrateToPluginAlert, {
+    })), showMigrationAlert && brandConfig.substituteName && /*#__PURE__*/_react["default"].createElement(_MeetingAlert.MigrateToPluginAlert, {
       currentLocale: currentLocale,
       substituteName: brandConfig.substituteName,
       onCloseAlert: onCloseMigrationAlert
@@ -271,7 +283,6 @@ var VideoConfig = function VideoConfig(props) {
       }, item !== null ? item.text : 'defaultValue');
     })))) : null, showScheduleOnBehalf ? /*#__PURE__*/_react["default"].createElement(_SettingGroup.SettingGroup, {
       dataSign: "scheduleOnBehalfPanel",
-      expandable: settingsGroupExpandable,
       summary: /*#__PURE__*/_react["default"].createElement("span", {
         className: _styles["default"].flexVertical
       }, _i18n["default"].getString('scheduleFor', currentLocale), /*#__PURE__*/_react["default"].createElement(_ExtendedTooltip.ExtendedTooltip, {
@@ -329,19 +340,14 @@ var VideoConfig = function VideoConfig(props) {
       }, userName);
     })))) : null, /*#__PURE__*/_react["default"].createElement(_SettingGroup.SettingGroup, {
       dataSign: "settingsPanel",
-      expandable: settingsGroupExpandable,
       summary: _i18n["default"].getString('meetingSettings', currentLocale)
-    }, enablePersonalMeeting && personalMeetingId && /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_VideoSecuritySettingItem.VideoSecuritySettingItem, {
+    }, showPMI && /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_VideoSecuritySettingItem.VideoSecuritySettingItem, {
       labelPlacement: labelPlacement,
       dataSign: "usePersonalMeetingIdWrapper",
       hasScrollBar: hasScrollBar,
       isDisabled: isPersonalMeetingDisabled,
       currentLocale: currentLocale,
-      label: /*#__PURE__*/_react["default"].createElement("div", {
-        className: _styles["default"].pmiLabel
-      }, _i18n["default"].getString('usePersonalMeetingId', currentLocale), "\xA0", /*#__PURE__*/_react["default"].createElement("span", {
-        "data-sign": "personalMeetingId"
-      }, (0, _MeetingCalendarHelper.formatMeetingId)(personalMeetingId, '-')))
+      label: getPMILabel()
     }, /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, {
       "data-sign": "usePersonalMeetingId",
       disabled: isPersonalMeetingDisabled || disabled,
@@ -393,7 +399,6 @@ var VideoConfig = function VideoConfig(props) {
       }
     }))), /*#__PURE__*/_react["default"].createElement(_SettingGroup.SettingGroup, {
       dataSign: "securityPanel",
-      expandable: settingsGroupExpandable,
       summary: _i18n["default"].getString('meetingSettingsSecurity', currentLocale)
     }, showE2EE ? /*#__PURE__*/_react["default"].createElement(_VideoSecuritySettingItem.VideoSecuritySettingItem, {
       labelPlacement: labelPlacement,
@@ -447,11 +452,11 @@ var VideoConfig = function VideoConfig(props) {
     }, /*#__PURE__*/_react["default"].createElement(_juno.RcTextField, {
       variant: "outline",
       fullWidth: true,
-      disabled: disabled,
+      disabled: isPasswordFieldDisabled,
       size: "small",
       placeholder: _i18n["default"].getString('enterPassword', currentLocale),
       error: !meeting.isMeetingPasswordValid,
-      helperText: getHelperTextForPasswordField(meeting, currentLocale, isPasswordFocus),
+      helperText: (0, _utils.getHelperTextForPasswordField)(meeting.meetingPassword || '', meeting.isMeetingPasswordValid || false, currentLocale, isPasswordFocus),
       InputLabelProps: {
         className: _styles["default"].passwordLabel
       },
@@ -494,7 +499,7 @@ var VideoConfig = function VideoConfig(props) {
       }
     })), showWaitingRoom ? /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_VideoSecuritySettingItem.VideoSecuritySettingItem, {
       labelPlacement: labelPlacement,
-      dataSign: "isWaitingRoomWrapper",
+      dataSign: "waitingRoomField",
       hasScrollBar: hasScrollBar,
       isLock: showRcvAdminLock && ((_meeting$settingLock4 = meeting.settingLock) === null || _meeting$settingLock4 === void 0 ? void 0 : _meeting$settingLock4.waitingRoomMode),
       currentLocale: currentLocale,
@@ -525,6 +530,11 @@ var VideoConfig = function VideoConfig(props) {
       },
       value: meeting.waitingRoomMode
     }, /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
+      "data-sign": "waitingRoomAll",
+      value: _RcVideo.RCV_WAITING_ROOM_MODE.all,
+      className: _styles["default"].boxSelectMenuItem,
+      title: _i18n["default"].getString('waitingRoomAll', currentLocale)
+    }, _i18n["default"].getString('waitingRoomAll', currentLocale)), /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
       "data-sign": "waitingRoomNotCoworker",
       disabled: isWaitingRoomNotCoworkerDisabled,
       value: _RcVideo.RCV_WAITING_ROOM_MODE.notcoworker,
@@ -536,13 +546,7 @@ var VideoConfig = function VideoConfig(props) {
       value: _RcVideo.RCV_WAITING_ROOM_MODE.guests,
       className: _styles["default"].boxSelectMenuItem,
       title: _i18n["default"].getString('waitingRoomGuest', currentLocale)
-    }, _i18n["default"].getString('waitingRoomGuest', currentLocale)), /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
-      "data-sign": "waitingRoomAll",
-      disabled: isWaitingRoomAllDisabled,
-      value: _RcVideo.RCV_WAITING_ROOM_MODE.all,
-      className: _styles["default"].boxSelectMenuItem,
-      title: _i18n["default"].getString('waitingRoomAll', currentLocale)
-    }, _i18n["default"].getString('waitingRoomAll', currentLocale)))) : null) : null, /*#__PURE__*/_react["default"].createElement(_VideoSecuritySettingItem.VideoSecuritySettingItem, {
+    }, _i18n["default"].getString('waitingRoomGuest', currentLocale)))) : null) : null, /*#__PURE__*/_react["default"].createElement(_VideoSecuritySettingItem.VideoSecuritySettingItem, {
       labelPlacement: labelPlacement,
       dataSign: "isOnlyAuthUserJoinWrapper",
       hasScrollBar: hasScrollBar,
@@ -576,11 +580,9 @@ var VideoConfig = function VideoConfig(props) {
       },
       value: authUserTypeValue
     }, /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
-      disabled: isSignedInUsersDisabled,
       value: _RcVideo.AUTH_USER_TYPE.SIGNED_IN_USERS,
       title: _i18n["default"].getString('signedInUsers', currentLocale)
     }, _i18n["default"].getString('signedInUsers', currentLocale)), /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
-      disabled: isSignedInCoWorkersDisabled,
       value: _RcVideo.AUTH_USER_TYPE.SIGNED_IN_CO_WORKERS,
       title: _i18n["default"].getString('signedInCoWorkers', currentLocale)
     }, _i18n["default"].getString('signedInCoWorkers', currentLocale)))) : null, /*#__PURE__*/_react["default"].createElement(_VideoSecuritySettingItem.VideoSecuritySettingItem, {
@@ -600,7 +602,67 @@ var VideoConfig = function VideoConfig(props) {
           allowScreenSharing: !meeting.allowScreenSharing
         }, _RcVideo.RCV_ITEM_NAME.allowScreenSharing);
       }
-    })))))
+    })), showAllowAnyoneRecord && /*#__PURE__*/_react["default"].createElement(_VideoSecuritySettingItem.VideoSecuritySettingItem, {
+      labelPlacement: "top",
+      dataSign: "allowToRecording",
+      hasScrollBar: hasScrollBar,
+      isLock: showRcvAdminLock && ((_meeting$settingLock7 = meeting.settingLock) === null || _meeting$settingLock7 === void 0 ? void 0 : _meeting$settingLock7.allowAnyoneRecord),
+      currentLocale: currentLocale,
+      label: _i18n["default"].getString('allowToRecording', currentLocale)
+    }, /*#__PURE__*/_react["default"].createElement(_juno.RcSelect, {
+      variant: "box",
+      "data-sign": "selectAllowToRecord",
+      "data-test-automation-id": "selectAllowToRecord",
+      className: _styles["default"].boxSelect,
+      fullWidth: true,
+      disabled: isAllowToRecordDisabled,
+      onChange: function onChange(e) {
+        update({
+          allowAnyoneRecord: e.target.value === 'true'
+        }, _RcVideo.RCV_ITEM_NAME.allowAnyoneRecord);
+      },
+      value: (_meeting$allowAnyoneR = meeting.allowAnyoneRecord) === null || _meeting$allowAnyoneR === void 0 ? void 0 : _meeting$allowAnyoneR.toString()
+    }, /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
+      "data-sign": "everyone",
+      value: "true",
+      className: _styles["default"].boxSelectMenuItem,
+      title: _i18n["default"].getString('everyone', currentLocale)
+    }, _i18n["default"].getString('everyone', currentLocale)), /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
+      "data-sign": "onlyHostModerators",
+      value: "false",
+      className: _styles["default"].boxSelectMenuItem,
+      title: _i18n["default"].getString('onlyHostModerators', currentLocale)
+    }, _i18n["default"].getString('onlyHostModerators', currentLocale)))), showAllowAnyoneTranscribe && /*#__PURE__*/_react["default"].createElement(_VideoSecuritySettingItem.VideoSecuritySettingItem, {
+      labelPlacement: "top",
+      dataSign: "allowTranscribe",
+      hasScrollBar: hasScrollBar,
+      isLock: showRcvAdminLock && ((_meeting$settingLock8 = meeting.settingLock) === null || _meeting$settingLock8 === void 0 ? void 0 : _meeting$settingLock8.allowAnyoneTranscribe),
+      currentLocale: currentLocale,
+      label: _i18n["default"].getString('allowTranscribe', currentLocale)
+    }, /*#__PURE__*/_react["default"].createElement(_juno.RcSelect, {
+      variant: "box",
+      "data-sign": "selectAllowTranscribe",
+      "data-test-automation-id": "selectAllowTranscribe",
+      className: _styles["default"].boxSelect,
+      disabled: isAllowAnyoneTranscribeDisabled,
+      fullWidth: true,
+      onChange: function onChange(e) {
+        update({
+          allowAnyoneTranscribe: e.target.value === 'true'
+        }, _RcVideo.RCV_ITEM_NAME.allowAnyoneTranscribe);
+      },
+      value: (_meeting$allowAnyoneT = meeting.allowAnyoneTranscribe) === null || _meeting$allowAnyoneT === void 0 ? void 0 : _meeting$allowAnyoneT.toString()
+    }, /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
+      "data-sign": "everyone",
+      value: "true",
+      className: _styles["default"].boxSelectMenuItem,
+      title: _i18n["default"].getString('everyone', currentLocale)
+    }, _i18n["default"].getString('everyone', currentLocale)), /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
+      "data-sign": "onlyHostModerators",
+      value: "false",
+      className: _styles["default"].boxSelectMenuItem,
+      title: _i18n["default"].getString('onlyHostModerators', currentLocale)
+    }, _i18n["default"].getString('onlyHostModerators', currentLocale)))))))
   );
 };
 exports.VideoConfig = VideoConfig;

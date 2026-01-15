@@ -1,13 +1,14 @@
+/* eslint-disable */
 export default {
-  forward: "Encaminhar",
-  ignore: "Ignorar",
-  toVoicemail: "Para caixa postal",
-  answer: "Atender",
-  endAndAnswer: "Term. e resp.",
-  holdAndAnswer: "Colocar em espera e atender",
-  custom: "Personalizada",
-  more: "Mais"
-};
+  forward: 'Encaminhar',
+  ignore: 'Ignorar',
+  toVoicemail: 'Para caixa postal',
+  answer: 'Atender',
+  endAndAnswer: 'Encerrar e atender',
+  holdAndAnswer: 'Colocar em espera e atender',
+  custom: 'Personalizada',
+  more: 'Mais',
+} as const;
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
 // @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@

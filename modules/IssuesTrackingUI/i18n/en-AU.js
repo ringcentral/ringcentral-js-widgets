@@ -4,10 +4,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  downloadSuccess: "Log downloaded. Error tracking mode is turned off now.",
-  downloadFail: "Error log download failed. Please try again."
-}; // @key: @#@"downloadSuccess"@#@ @source: @#@"Log downloaded. Error tracking mode is turned off now."@#@
+  downloadSuccess: 'Log downloaded.',
+  downloadFail: 'Error log download failed. Please try again.'
+}; // @key: @#@"downloadSuccess"@#@ @source: @#@"Log downloaded."@#@
 // @key: @#@"downloadFail"@#@ @source: @#@"Error log download failed. Please try again."@#@
 exports["default"] = _default;
 //# sourceMappingURL=en-AU.js.map

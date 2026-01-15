@@ -1,11 +1,11 @@
+/* eslint-disable */
 import { callErrors } from '@ringcentral-integration/commons/modules/Call';
-
 export default {
   [callErrors.emergencyNumber]:
     'Las llamadas de emergencia no están disponibles. Use otro teléfono para ponerse en contacto con los servicios de emergencia.',
   [callErrors.noToNumber]: 'Indique un número de teléfono válido.',
   [callErrors.noAreaCode]:
-    'Establezca {areaCodeLink} para usar los números de teléfono locales de 7 dígitos.',
+    'Establezca{areaCodeLink}para usar los números de teléfono locales de 7 dígitos.',
   [callErrors.connectFailed]:
     'Error de conexión. Inténtelo de nuevo más tarde.',
   [callErrors.internalError]:
@@ -14,16 +14,16 @@ export default {
   [callErrors.networkError]:
     'No se puede conectar debido a problemas de red. Inténtelo de nuevo más tarde.',
   [callErrors.noInternational]:
-    'No tiene permisos suficientes para hacer esta llamada internacional. Póngase en contacto con el administrador de su cuenta de {brand} para conseguir una actualización.',
+    'No tiene permisos suficientes para hacer esta llamada internacional. Contacte con el administrador de su cuenta de{brand}para conseguir esta función.',
   [callErrors.noRingoutEnable]:
-    'Su extensión puede hacer llamadas con la app de escritorio.\n    Si desea acceder a otras opciones\n    póngase en contacto con el administrador de su cuenta para la actualización.',
+    'Su extensión puede hacer llamadas con la aplicación de escritorio.\n    Si desea acceder a otras opciones\n    póngase en contacto con el administrador de su cuenta para la actualización.',
   [callErrors.numberParseError]:
     'Lo sentimos, se ha producido un error. Inténtelo de nuevo más tarde.',
   areaCode: 'prefijo',
   telus911: 'No se pueden hacer llamadas de emergencia.',
   [callErrors.fromAndToNumberIsSame]:
-    'El número de RingOut y el número de destino no pueden ser el mismo. Actualice el número e inténtelo de nuevo.',
-};
+    'El número de RingOut y el número de destino no pueden ser iguales. Actualice el número e inténtelo de nuevo.',
+} as const;
 
 // @key: @#@"[callErrors.emergencyNumber]"@#@ @source: @#@"Emergency calling is not available. Please use another phone to contact emergency services"@#@
 // @key: @#@"[callErrors.noToNumber]"@#@ @source: @#@"Please enter a valid phone number."@#@

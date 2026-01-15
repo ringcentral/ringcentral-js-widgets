@@ -4,14 +4,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  conferenceCall: "Conférence téléphonique",
-  onHold: "En attente",
-  ongoing: "En cours",
-  unknown: "Inconnu",
-  disconnected: "Déconnecté",
-  loading: "Chargement…",
-  loadingTimeout: "Délai d’expiration du chargement."
+  conferenceCall: 'Conférence téléphonique',
+  onHold: 'En attente',
+  ongoing: 'En cours',
+  unknown: 'Inconnu',
+  disconnected: 'Déconnecté',
+  loading: 'Chargement…',
+  loadingTimeout: 'Délai d’expiration du chargement.'
 }; // @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@
 // @key: @#@"onHold"@#@ @source: @#@"On Hold"@#@
 // @key: @#@"ongoing"@#@ @source: @#@"Ongoing"@#@

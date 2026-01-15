@@ -1,12 +1,13 @@
+/* eslint-disable */
 export default {
-  forward: "転送",
-  reply: "返信",
-  ignore: "無視",
-  toVoicemail: "ボイスメールへ",
-  answer: "応答",
-  answerAndEnd: "応答して終了",
-  answerAndHold: "応答/保留"
-};
+  forward: '転送',
+  reply: '返信',
+  ignore: '無視',
+  toVoicemail: 'ボイスメールへ',
+  answer: '応答',
+  answerAndEnd: '応答して終了',
+  answerAndHold: '応答/保留',
+} as const;
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
 // @key: @#@"reply"@#@ @source: @#@"Reply"@#@

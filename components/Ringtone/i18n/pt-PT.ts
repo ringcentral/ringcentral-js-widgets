@@ -1,13 +1,14 @@
+/* eslint-disable */
 export default {
-  ringtones: "Toques",
-  incomingRingtone: "Toque de entrada",
-  outgoingRingtone: "Toque de saída",
-  play: "Reproduzir",
-  stop: "Parar",
-  upload: "Carregar",
-  reset: "Repor",
-  save: "Guardar"
-};
+  ringtones: 'Toques',
+  incomingRingtone: 'Toque de entrada',
+  outgoingRingtone: 'Toque de saída',
+  play: 'Reproduzir',
+  stop: 'Parar',
+  upload: 'Carregar',
+  reset: 'Repor',
+  save: 'Guardar',
+} as const;
 
 // @key: @#@"ringtones"@#@ @source: @#@"Ringtones"@#@
 // @key: @#@"incomingRingtone"@#@ @source: @#@"Incoming Ringtone"@#@

@@ -7,9 +7,16 @@ interface SectionProps {
   label: string;
   dataSign: string;
   children: React.ReactNode;
+  show?: boolean;
 }
 
-export function Section({ label, children, dataSign }: SectionProps) {
+export function Section({
+  label,
+  children,
+  dataSign,
+  show = true,
+}: SectionProps) {
+  if (!show) return null;
   return (
     <div className={styles.section} data-sign={dataSign}>
       <RcTypography

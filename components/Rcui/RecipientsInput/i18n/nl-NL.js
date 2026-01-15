@@ -4,8 +4,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  dialPlaceholder: "Naam of nummer invoeren"
+  dialPlaceholder: 'Naam of nummer invoeren'
 }; // @key: @#@"dialPlaceholder"@#@ @source: @#@"Enter name or number"@#@
 exports["default"] = _default;
 //# sourceMappingURL=nl-NL.js.map

@@ -4,15 +4,16 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  DirectNumber: "Direct",
-  MainCompanyNumber: "Main",
-  CompanyNumber: "Company",
-  CompanyFaxNumber: "Fax",
-  Blocked: "Blocked",
-  AdditionalCompanyNumber: "Company",
-  ForwardedCompanyNumber: "Forwarded",
-  from: "From"
+  DirectNumber: 'Direct',
+  MainCompanyNumber: 'Main',
+  CompanyNumber: 'Company',
+  CompanyFaxNumber: 'Fax',
+  Blocked: 'Blocked',
+  AdditionalCompanyNumber: 'Company',
+  ForwardedCompanyNumber: 'Forwarded',
+  from: 'From'
 }; // @key: @#@"DirectNumber"@#@ @source: @#@"Direct"@#@
 // @key: @#@"MainCompanyNumber"@#@ @source: @#@"Main"@#@
 // @key: @#@"CompanyNumber"@#@ @source: @#@"Company"@#@

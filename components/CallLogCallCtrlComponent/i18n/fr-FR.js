@@ -4,31 +4,35 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  mute: "Désactiver le micro",
-  unmute: "Réactiver le micro",
-  hangup: "Raccrocher",
-  reject: "Rejeter",
-  hold: "Mettre en attente",
-  onHold: "En attente",
-  transfer: "Transférer",
-  more: "Plus",
-  stopRecord: "Arrêter d’enregistrer",
-  record: "Enregistrer",
-  showKeypad: "Clavier",
-  hideKeypad: "Cacher le clavier",
-  unHold: "Reprendre l’appel",
-  forward: "Renvoyer",
-  ignore: "Ignorer",
-  voicemail: "Vers la messagerie vocale",
-  custom: "Personnaliser",
-  answerAndEnd: "Répondre et terminer",
-  answerAndHold: "Répondre et mettre en attente",
-  answer: "Répondre",
-  completeTransfer: "Effectuer le transfert",
-  reply: "Répondre",
-  add: "Ajouter",
-  mergeCall: "Fusionner avec l’appel actif"
+  mute: 'Désactiver le micro',
+  unmute: 'Réactiver le micro',
+  hangup: 'Raccrocher',
+  reject: 'Rejeter',
+  hold: 'Mettre en attente',
+  onHold: 'En attente',
+  transfer: 'Transférer',
+  more: 'Plus',
+  stopRecord: 'Arrêter d’enregistrer',
+  record: 'Enregistrer',
+  showKeypad: 'Clavier',
+  hideKeypad: 'Cacher le clavier',
+  unHold: 'Reprendre l’appel',
+  forward: 'Renvoyer',
+  ignore: 'Ignorer',
+  voicemail: 'Vers la messagerie vocale',
+  custom: 'Personnaliser',
+  answerAndEnd: 'Rép et racc.',
+  answerAndHold: 'Répondre et mettre en attente',
+  answer: 'Répondre',
+  completeTransfer: 'Effectuer le transfert',
+  reply: 'Répondre',
+  add: 'Ajouter',
+  mergeCall: 'Fusionner avec l’appel actif',
+  endCallForEveryone: 'Terminer l’appel pour tous les utilisateurs',
+  leaveCall: 'Quitter l’appel',
+  leaveOrEndCall: 'Quitter ou terminer l’appel ?'
 }; // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
 // @key: @#@"hangup"@#@ @source: @#@"Hang up"@#@
@@ -53,5 +57,8 @@ var _default = {
 // @key: @#@"reply"@#@ @source: @#@"Reply"@#@
 // @key: @#@"add"@#@ @source: @#@"Add"@#@
 // @key: @#@"mergeCall"@#@ @source: @#@"Merge with active call"@#@
+// @key: @#@"endCallForEveryone"@#@ @source: @#@"End call for everyone"@#@
+// @key: @#@"leaveCall"@#@ @source: @#@"Leave call"@#@
+// @key: @#@"leaveOrEndCall"@#@ @source: @#@"Leave or end call?"@#@
 exports["default"] = _default;
 //# sourceMappingURL=fr-FR.js.map

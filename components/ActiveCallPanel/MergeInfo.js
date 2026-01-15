@@ -101,6 +101,7 @@ var MergeInfo = /*#__PURE__*/function (_Component) {
         lastCallInfo = _this$props2.lastCallInfo,
         currentCallTitle = _this$props2.currentCallTitle,
         currentCallAvatarUrl = _this$props2.currentCallAvatarUrl,
+        showCallerIdName = _this$props2.showCallerIdName,
         formatPhone = _this$props2.formatPhone;
       if (!lastCallInfo) {
         return /*#__PURE__*/_react["default"].createElement("div", {
@@ -116,7 +117,7 @@ var MergeInfo = /*#__PURE__*/function (_Component) {
       var isOnConferenceCall = !!(lastCallInfo && lastCallInfo.calleeType === _calleeTypes["default"].conference);
       var isContacts = !!(lastCallInfo && lastCallInfo.calleeType === _calleeTypes["default"].contacts);
       var isUnknown = !!(lastCallInfo && lastCallInfo.calleeType === _calleeTypes["default"].unknown);
-      var calleeName = isContacts ? lastCallInfo.name : isUnknown && lastCallInfo.name ? lastCallInfo.name :
+      var calleeName = isContacts ? lastCallInfo.name : showCallerIdName && isUnknown && lastCallInfo.name ? lastCallInfo.name :
       // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
       formatPhone(lastCallInfo.phoneNumber);
       var loadingText = _i18n["default"].getString('loading');

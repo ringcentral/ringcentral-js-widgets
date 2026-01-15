@@ -1,8 +1,9 @@
+/* eslint-disable */
 export default {
-  logged: "Connesso",
-  unlogged: "Non elaborato",
-  faxNotSupported: "Registro fax non supportato."
-};
+  logged: 'Connesso',
+  unlogged: 'Non elaborato',
+  faxNotSupported: 'Registro fax non supportato.',
+} as const;
 
 // @key: @#@"logged"@#@ @source: @#@"Logged"@#@
 // @key: @#@"unlogged"@#@ @source: @#@"Unworked"@#@

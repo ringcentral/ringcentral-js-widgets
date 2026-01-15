@@ -147,7 +147,7 @@ var ComposeTextPanel = /*#__PURE__*/function (_Component) {
         messageText = _this$props3.messageText,
         showSpinner = _this$props3.showSpinner,
         senderNumber = _this$props3.senderNumber,
-        addAttachment = _this$props3.addAttachment,
+        addAttachments = _this$props3.addAttachments,
         currentLocale = _this$props3.currentLocale,
         searchContact = _this$props3.searchContact,
         senderNumbers = _this$props3.senderNumbers,
@@ -157,12 +157,14 @@ var ComposeTextPanel = /*#__PURE__*/function (_Component) {
         phoneTypeRenderer = _this$props3.phoneTypeRenderer,
         searchContactList = _this$props3.searchContactList,
         supportAttachment = _this$props3.supportAttachment,
+        supportEmoji = _this$props3.supportEmoji,
         updateMessageText = _this$props3.updateMessageText,
         detectPhoneNumbers = _this$props3.detectPhoneNumbers,
         formatContactPhone = _this$props3.formatContactPhone,
         sendButtonDisabled = _this$props3.sendButtonDisabled,
         updateTypingToNumber = _this$props3.updateTypingToNumber,
         useRecipientsInputV2 = _this$props3.useRecipientsInputV2,
+        showCustomPhoneLabel = _this$props3.showCustomPhoneLabel,
         phoneSourceNameRenderer = _this$props3.phoneSourceNameRenderer,
         recipientsContactInfoRenderer = _this$props3.recipientsContactInfoRenderer,
         recipientsContactPhoneRenderer = _this$props3.recipientsContactPhoneRenderer;
@@ -207,7 +209,9 @@ var ComposeTextPanel = /*#__PURE__*/function (_Component) {
         phoneSourceNameRenderer: phoneSourceNameRenderer,
         contactInfoRenderer: recipientsContactInfoRenderer,
         contactPhoneRenderer: recipientsContactPhoneRenderer,
-        titleEnabled: true,
+        titleEnabled: true
+        // eslint-disable-next-line jsx-a11y/no-autofocus
+        ,
         autoFocus: autoFocus,
         multiple: true
       }), /*#__PURE__*/_react["default"].createElement("div", {
@@ -219,6 +223,7 @@ var ComposeTextPanel = /*#__PURE__*/function (_Component) {
         formatPhone: formatPhone,
         onChange: this.onSenderChange,
         hidden: !this.hasSenderNumbers(),
+        showCustomPhoneLabel: showCustomPhoneLabel,
         showAnonymous: false
       })), /*#__PURE__*/_react["default"].createElement(_MessageInput["default"], {
         value: messageText,
@@ -229,7 +234,8 @@ var ComposeTextPanel = /*#__PURE__*/function (_Component) {
         inputExpandable: inputExpandable,
         attachments: attachments,
         supportAttachment: supportAttachment,
-        addAttachment: addAttachment,
+        supportEmoji: supportEmoji,
+        addAttachments: addAttachments,
         removeAttachment: removeAttachment
       }));
     }

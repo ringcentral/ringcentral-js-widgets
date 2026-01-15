@@ -1,13 +1,14 @@
+/* eslint-disable */
 export default {
-  noActiveCalls: "Nenhuma chamada ativa",
-  noCalls: "Nenhum resultado encontrado.",
-  currentCall: "Chamada atual",
-  ringCall: "Chamada sonora",
-  onHoldCall: "Chamada em espera",
-  historyCalls: "Chamadas anteriores",
-  otherDeviceCall: "Chamadas em andamento nos meus outros dispositivos",
-  searchPlaceholder: "Pesquisar..."
-};
+  noActiveCalls: 'Nenhuma chamada ativa',
+  noCalls: 'Nenhum resultado encontrado.',
+  currentCall: 'Chamada atual',
+  ringCall: 'Chamada sonora',
+  onHoldCall: 'Chamada em espera',
+  historyCalls: 'Chamadas anteriores',
+  otherDeviceCall: 'Chamadas em andamento nos meus outros dispositivos',
+  searchPlaceholder: 'Pesquisar...',
+} as const;
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
 // @key: @#@"noCalls"@#@ @source: @#@"No results found."@#@

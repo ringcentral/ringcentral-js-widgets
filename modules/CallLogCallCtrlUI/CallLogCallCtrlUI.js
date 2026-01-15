@@ -13,7 +13,7 @@ var _trackEvents = require("@ringcentral-integration/commons/enums/trackEvents")
 var _di = require("@ringcentral-integration/commons/lib/di");
 var _CallingSettings = require("@ringcentral-integration/commons/modules/CallingSettings");
 var _core = require("@ringcentral-integration/core");
-var _dec, _dec2, _dec3, _class, _class2;
+var _dec, _dec2, _class, _class2;
 function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
 function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
 function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
@@ -30,11 +30,7 @@ function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.ke
 var CallLogCallCtrlUI = (_dec = (0, _di.Module)({
   name: 'CallLogCallCtrlUI',
   deps: ['ActiveCallControl', 'ConnectivityMonitor', 'RateLimiter', 'RouterInteraction', 'CallingSettings', 'ForwardingNumber', 'CallMonitor', 'ExtensionFeatures']
-}), _dec2 = (0, _core.track)(function () {
-  return [_trackEvents.trackEvents.clickReplyWithMessage, {
-    entry: 'Call log  page'
-  }];
-}), _dec3 = (0, _core.track)(_trackEvents.trackEvents.completeWarmTransfer), _dec(_class = (_class2 = /*#__PURE__*/function (_RcUIModuleV) {
+}), _dec2 = (0, _core.track)(_trackEvents.trackEvents.completeWarmTransfer), _dec(_class = (_class2 = /*#__PURE__*/function (_RcUIModuleV) {
   _inherits(CallLogCallCtrlUI, _RcUIModuleV);
   var _super = _createSuper(CallLogCallCtrlUI);
   function CallLogCallCtrlUI(deps) {
@@ -111,7 +107,6 @@ var CallLogCallCtrlUI = (_dec = (0, _di.Module)({
         },
         reply: function reply(telephonySessionId) {
           _this2._deps.routerInteraction.push("/replyWithMessage/".concat(telephonySessionId, "/active"));
-          _this2.replyWithMessageEntranceTrack();
         },
         ignore: this._deps.activeCallControl.ignore.bind(this._deps.activeCallControl),
         answerAndHold: this._deps.activeCallControl.answerAndHold.bind(this._deps.activeCallControl),
@@ -127,13 +122,10 @@ var CallLogCallCtrlUI = (_dec = (0, _di.Module)({
       };
     }
   }, {
-    key: "replyWithMessageEntranceTrack",
-    value: function replyWithMessageEntranceTrack() {}
-  }, {
     key: "completeWarmTransferTrack",
     value: function completeWarmTransferTrack() {}
   }]);
   return CallLogCallCtrlUI;
-}(_core.RcUIModuleV2), (_applyDecoratedDescriptor(_class2.prototype, "replyWithMessageEntranceTrack", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "replyWithMessageEntranceTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "completeWarmTransferTrack", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "completeWarmTransferTrack"), _class2.prototype)), _class2)) || _class);
+}(_core.RcUIModuleV2), (_applyDecoratedDescriptor(_class2.prototype, "completeWarmTransferTrack", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "completeWarmTransferTrack"), _class2.prototype)), _class2)) || _class);
 exports.CallLogCallCtrlUI = CallLogCallCtrlUI;
 //# sourceMappingURL=CallLogCallCtrlUI.js.map

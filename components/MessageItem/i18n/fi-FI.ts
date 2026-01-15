@@ -1,28 +1,29 @@
+/* eslint-disable */
 import messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
 export default {
-  addLog: "Loki",
-  editLog: "Muokkaa lokia",
-  viewDetails: "Näytä tiedot",
-  addEntity: "Luo uusi",
-  call: "Soita",
-  text: "Tekstiviesti",
-  conversation: "Keskustelu",
-  groupConversation: "Ryhmäkeskustelu",
-  voiceMessage: "Ääniviesti",
-  [messageTypes.voiceMail]: "Vastaajaviesti",
-  [messageTypes.fax]: "Faksi",
-  mark: "Merkitse lukemattomaksi",
-  unmark: "Merkitse luetuksi",
-  delete: "Poista",
-  faxSent: "Faksi lähetetty",
-  faxReceived: "Faksi vastaanotettu",
-  pages: "sivua",
-  page: "sivu",
-  preview: "Näytä",
-  download: "Lataa",
-  imageAttachment: "Liite: kuva ({count})",
-  fileAttachment: "Liite: tiedosto ({count})"
-};
+  addLog: 'Loki',
+  editLog: 'Muokkaa lokia',
+  viewDetails: 'Näytä tiedot',
+  addEntity: 'Luo uusi',
+  call: 'Soita',
+  text: 'Tekstiviesti',
+  conversation: 'Keskustelu',
+  groupConversation: 'Ryhmäkeskustelu',
+  voiceMessage: 'Ääniviesti',
+  [messageTypes.voiceMail]: 'Vastaajaviesti',
+  [messageTypes.fax]: 'Faksi',
+  mark: 'Merkitse lukemattomaksi',
+  unmark: 'Merkitse luetuksi',
+  delete: 'Poista',
+  faxSent: 'Faksi lähetetty',
+  faxReceived: 'Faksi vastaanotettu',
+  pages: 'sivua',
+  page: 'sivu',
+  preview: 'Näytä',
+  download: 'Lataa',
+  mmsWithOneAttachment: 'Multimediaviesti ja 1 liite',
+  mmsWithAttachments: 'Multimediaviesti ja {count} liitettä',
+} as const;
 
 // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
@@ -44,5 +45,5 @@ export default {
 // @key: @#@"page"@#@ @source: @#@"page"@#@
 // @key: @#@"preview"@#@ @source: @#@"View"@#@
 // @key: @#@"download"@#@ @source: @#@"Download"@#@
-// @key: @#@"imageAttachment"@#@ @source: @#@"Attachment: {count} image"@#@
-// @key: @#@"fileAttachment"@#@ @source: @#@"Attachment: {count} file"@#@
+// @key: @#@"mmsWithOneAttachment"@#@ @source: @#@"MMS with 1 attachment"@#@
+// @key: @#@"mmsWithAttachments"@#@ @source: @#@"MMS with {count} attachments"@#@

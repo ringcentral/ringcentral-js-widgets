@@ -1,14 +1,15 @@
+/* eslint-disable */
 export default {
-  noActiveCalls: "Keine aktiven Anrufe",
-  currentCall: "Aktueller Anruf",
-  ringCall: "Anruf wird getätigt",
-  onHoldCall: "Anruf wird gehalten",
-  otherDeviceCall: "Aktuelle Gespräche auf meinen anderen Geräten",
-  confirmation: "Bestätigung",
-  confirmMergeToConference: "Zur Telefonkonferenz hinzufügen?",
-  mergeToConference: "Zusammenführen",
-  conferenceCall: "Telefonkonferenz"
-};
+  noActiveCalls: 'Keine aktiven Anrufe',
+  currentCall: 'Aktueller Anruf',
+  ringCall: 'Anruf wird getätigt',
+  onHoldCall: 'Anruf wird gehalten',
+  otherDeviceCall: 'Aktuelle Gespräche auf meinen anderen Geräten',
+  confirmation: 'Bestätigung',
+  confirmMergeToConference: 'Zur Telefonkonferenz hinzufügen?',
+  mergeToConference: 'Zusammenführen',
+  conferenceCall: 'Telefonkonferenz',
+} as const;
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
 // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@

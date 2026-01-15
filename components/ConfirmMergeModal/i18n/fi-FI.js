@@ -4,11 +4,12 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  confirmation: "Vahvistus",
-  confirmMergeToConference: "Lisätäänkö neuvottelupuheluun?",
-  mergeToConference: "Yhdistä",
-  conferenceCall: "Neuvottelupuhelu"
+  confirmation: 'Vahvistus',
+  confirmMergeToConference: 'Lisätäänkö neuvottelupuheluun?',
+  mergeToConference: 'Yhdistä',
+  conferenceCall: 'Neuvottelupuhelu'
 }; // @key: @#@"confirmation"@#@ @source: @#@"Confirmation"@#@
 // @key: @#@"confirmMergeToConference"@#@ @source: @#@"Add to conference call?"@#@
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@

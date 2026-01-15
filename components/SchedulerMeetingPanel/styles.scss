@@ -1,0 +1,82 @@
+@use 'sass:math';
+
+@import '../../lib/commonStyles/colors';
+@import '../../lib/commonStyles/buttons';
+@import '../../lib/commonStyles/fonts';
+@import '../../lib/commonStyles/variable';
+
+$content-padding: 16px;
+
+.videoConfig {
+  height: 100%;
+  overflow-y: auto;
+  font-family: $juno-font-family;
+  padding: $content-padding;
+}
+
+.meetingContent {
+  padding: 0 0 $content-padding;
+}
+
+.scheduleOnBehalf {
+  padding-bottom: $content-padding;
+  margin-bottom: $content-padding;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.scheduleForAlert {
+  padding: 12px 16px !important;
+  margin-bottom: 16px;
+}
+
+.flexVertical {
+  display: flex;
+  align-items: center;
+  & > span {
+    margin-left: 4px;
+  }
+}
+
+.preLine {
+  white-space: pre-line;
+}
+
+.allowCursor {
+  pointer-events: all !important;
+}
+
+.boxSelect {
+  margin-top: 8px;
+  max-width: 100% !important;
+  & > div {
+    margin-top: 0 !important;
+    & > div {
+      display: block !important;
+      font-size: $primary-font-size !important;
+    }
+  }
+}
+
+.boxSelectMenuItem {
+  display: block !important;
+  line-height: 22px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.pmiLink {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.backButton {
+  margin-right: 4px;
+}
+
+.title {
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

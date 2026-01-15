@@ -176,15 +176,16 @@ var IssuesTrackingUI = (_dec = (0, _di.Module)({
                   message: _issueTrackingMessages.issueTrackingMessages.downloadSuccess
                 });
                 this._deps.browserLogger.disable();
-                _context5.next = 10;
+                _context5.next = 11;
                 break;
               case 7:
                 _context5.prev = 7;
                 _context5.t0 = _context5["catch"](0);
+                console.log('downloadLog error:', _context5.t0);
                 this._deps.alert.danger({
                   message: _issueTrackingMessages.issueTrackingMessages.downloadFail
                 });
-              case 10:
+              case 11:
               case "end":
                 return _context5.stop();
             }

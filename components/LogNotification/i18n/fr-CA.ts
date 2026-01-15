@@ -1,10 +1,12 @@
+/* eslint-disable */
 export default {
-  confirmationInfo: "Vos modifications non enregistrées de l’appel précédent seront perdues. Voulez-vous vraiment travailler sur le nouvel appel?",
-  log: "Journal",
-  save: "Enregistrer et travailler sur nouveau",
-  discard: "Annuler et travailler sur nouveau",
-  stay: "Rester sur travail précédent"
-};
+  confirmationInfo:
+    'Vos modifications non enregistrées de l’appel précédent seront perdues. Voulez-vous vraiment travailler sur le nouvel appel?',
+  log: 'Journal',
+  save: 'Enregistrer et travailler sur nouveau',
+  discard: 'Annuler et travailler sur nouveau',
+  stay: 'Rester sur travail précédent',
+} as const;
 
 // @key: @#@"confirmationInfo"@#@ @source: @#@"Your unsaved edits on the previous call will be lost, are you sure you want to work on the new call?"@#@
 // @key: @#@"log"@#@ @source: @#@"Log"@#@

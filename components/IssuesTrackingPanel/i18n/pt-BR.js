@@ -4,23 +4,24 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  header: "Está com problemas?",
-  toggleTitle: "1. Ative o modo de rastreamento de erros",
-  toggleDescription: "Isso nos ajudará a localizar os problemas, mas pode afetar um pouco o desempenho do aplicativo.",
-  downloadTitle: "2. Baixe o registro de erros depois de reproduzir o problema.",
-  downloadButton: "Baixar",
-  downloadDisabledTitle: "Ative o modo de rastreamento de erros antes de baixar o registro de erros.",
-  sendTitle: "3. Envie o registro para a equipe de suporte",
-  createSupportTicket: "Crie um tíquete de suporte",
-  sendDescription: " para entrar em contato com a nossa equipe de suporte. Em seguida, envie o registro para a equipe de suporte para solucionar o problema.",
-  privacyNotice: "Ao baixar e nos enviar o registro, você permite que o RingCentral acesse determinadas informações relacionadas a registros para solucionar problemas e corrigir erros. Para saber mais sobre como a RingCentral processa dados pessoais, veja nossos ",
-  privacyNoticeLink: "Termos de serviço",
-  and: " e ",
-  privacyNoticeEnd: "Aviso de privacidade.",
-  needLeavePage: "Você pode sair desta página durante a execução do rastreamento de erros. Depois de reproduzir o problema, retorne a esta página e baixe os arquivos de registro.",
-  downloading: "Baixando"
-}; // @key: @#@"header"@#@ @source: @#@"Having issues?"@#@
+  header: 'Entrar em contato com o suporte',
+  toggleTitle: '1. Ative o modo de rastreamento de erros',
+  toggleDescription: 'Isso nos ajudará a localizar os problemas, mas pode afetar um pouco o desempenho do aplicativo.',
+  downloadTitle: '2. Baixe o registro de erros depois de reproduzir o problema.',
+  downloadButton: 'Baixar',
+  downloadDisabledTitle: 'Ative o modo de rastreamento de erros antes de baixar o registro de erros.',
+  sendTitle: '3. Envie o registro para a equipe de suporte',
+  createSupportTicket: 'Crie um tíquete de suporte',
+  sendDescription: ' para entrar em contato com a nossa equipe de suporte. Em seguida, envie o registro para a equipe de suporte para solucionar o problema.',
+  privacyNotice: 'Ao baixar e nos enviar o registro, você permite que o RingCentral acesse determinadas informações relacionadas a registros para solucionar problemas e corrigir erros. Para saber mais sobre como a RingCentral processa dados pessoais, veja nossos ',
+  privacyNoticeLink: 'Termos de serviço',
+  and: ' e ',
+  privacyNoticeEnd: 'Aviso de privacidade.',
+  needLeavePage: 'Você pode sair desta página durante a execução do rastreamento de erros. Depois de reproduzir o problema, retorne a esta página e baixe os arquivos de registro.',
+  downloading: 'Baixando'
+}; // @key: @#@"header"@#@ @source: @#@"Contact support"@#@
 // @key: @#@"toggleTitle"@#@ @source: @#@"1. Turn on error tracking mode"@#@
 // @key: @#@"toggleDescription"@#@ @source: @#@"This will help us locate your issues, but may slightly affect your app performance."@#@
 // @key: @#@"downloadTitle"@#@ @source: @#@"2. Download the error log when you have replicated the issue."@#@

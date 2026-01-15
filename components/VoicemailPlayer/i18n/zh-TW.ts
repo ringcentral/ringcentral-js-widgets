@@ -1,8 +1,9 @@
+/* eslint-disable */
 export default {
-  download: "下載",
-  play: "播放",
-  pause: "暫停"
-};
+  download: '下載',
+  play: '播放',
+  pause: '暫停',
+} as const;
 
 // @key: @#@"download"@#@ @source: @#@"Download"@#@
 // @key: @#@"play"@#@ @source: @#@"Play"@#@

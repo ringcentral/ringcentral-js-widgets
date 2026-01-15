@@ -3,7 +3,7 @@ import simpleHash from '../simpleHash';
 
 let loginWindow: any = null;
 
-const urlSearchParams = new URLSearchParams(window.location.search);
+const urlSearchParams = new URLSearchParams(location.search);
 const prefix = urlSearchParams.get('prefix') || 'rc';
 const hash = urlSearchParams.get('hash') || simpleHash();
 

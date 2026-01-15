@@ -16,18 +16,18 @@ function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default":
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); } /* eslint-disable */
 var _default = (_addLog$editLog$viewD = {
-  addLog: "记录",
-  editLog: "编辑记录",
-  viewDetails: "查看详细信息",
-  addEntity: "新建",
-  call: "电话",
-  text: "短信",
-  conversation: "对话",
-  groupConversation: "群组对话",
-  voiceMessage: "语音消息"
-}, _defineProperty(_addLog$editLog$viewD, _messageTypes["default"].voiceMail, "语音邮件"), _defineProperty(_addLog$editLog$viewD, _messageTypes["default"].fax, "传真"), _defineProperty(_addLog$editLog$viewD, "mark", "标记为未读"), _defineProperty(_addLog$editLog$viewD, "unmark", "标记为已读"), _defineProperty(_addLog$editLog$viewD, "delete", "删除"), _defineProperty(_addLog$editLog$viewD, "faxSent", "传真已发送"), _defineProperty(_addLog$editLog$viewD, "faxReceived", "传真已接收"), _defineProperty(_addLog$editLog$viewD, "pages", "页"), _defineProperty(_addLog$editLog$viewD, "page", "页"), _defineProperty(_addLog$editLog$viewD, "preview", "查看"), _defineProperty(_addLog$editLog$viewD, "download", "下载"), _defineProperty(_addLog$editLog$viewD, "imageAttachment", "附件：{count} 张图片"), _defineProperty(_addLog$editLog$viewD, "fileAttachment", "附件：{count} 文件"), _addLog$editLog$viewD); // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
+  addLog: '记录',
+  editLog: '编辑记录',
+  viewDetails: '查看详细信息',
+  addEntity: '新建',
+  call: '电话',
+  text: '短信',
+  conversation: '对话',
+  groupConversation: '群组对话',
+  voiceMessage: '语音消息'
+}, _defineProperty(_addLog$editLog$viewD, _messageTypes["default"].voiceMail, '语音邮件'), _defineProperty(_addLog$editLog$viewD, _messageTypes["default"].fax, '传真'), _defineProperty(_addLog$editLog$viewD, "mark", '标记为未读'), _defineProperty(_addLog$editLog$viewD, "unmark", '标记为已读'), _defineProperty(_addLog$editLog$viewD, "delete", '删除'), _defineProperty(_addLog$editLog$viewD, "faxSent", '传真已发送'), _defineProperty(_addLog$editLog$viewD, "faxReceived", '传真已接收'), _defineProperty(_addLog$editLog$viewD, "pages", '页'), _defineProperty(_addLog$editLog$viewD, "page", '页'), _defineProperty(_addLog$editLog$viewD, "preview", '查看'), _defineProperty(_addLog$editLog$viewD, "download", '下载'), _defineProperty(_addLog$editLog$viewD, "mmsWithOneAttachment", '带 1 个附件的彩信'), _defineProperty(_addLog$editLog$viewD, "mmsWithAttachments", '带 {count} 个附件的彩信'), _addLog$editLog$viewD); // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
 // @key: @#@"viewDetails"@#@ @source: @#@"View Details"@#@
 // @key: @#@"addEntity"@#@ @source: @#@"Create New"@#@
@@ -47,7 +47,7 @@ var _default = (_addLog$editLog$viewD = {
 // @key: @#@"page"@#@ @source: @#@"page"@#@
 // @key: @#@"preview"@#@ @source: @#@"View"@#@
 // @key: @#@"download"@#@ @source: @#@"Download"@#@
-// @key: @#@"imageAttachment"@#@ @source: @#@"Attachment: {count} image"@#@
-// @key: @#@"fileAttachment"@#@ @source: @#@"Attachment: {count} file"@#@
+// @key: @#@"mmsWithOneAttachment"@#@ @source: @#@"MMS with 1 attachment"@#@
+// @key: @#@"mmsWithAttachments"@#@ @source: @#@"MMS with {count} attachments"@#@
 exports["default"] = _default;
 //# sourceMappingURL=zh-CN.js.map

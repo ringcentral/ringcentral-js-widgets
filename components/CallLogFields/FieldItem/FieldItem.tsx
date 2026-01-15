@@ -1,3 +1,4 @@
+import { ZendeskTicketStatus } from '@ringcentral-integration/micro-generic-widget/src/app/services/ZendeskUIFAPI/models/ticket-status';
 import { RcAlert, RcDatePicker, RcTypography } from '@ringcentral/juno';
 import React, { Component } from 'react';
 
@@ -15,6 +16,7 @@ import type {
 } from './FieldItem.interface';
 import { FullSelectField } from './FullSelectField';
 import { LogFieldsInput } from './LogFieldsInput';
+import { MultiSelectField } from './MultiSelectField';
 import { RadioField } from './RadioField';
 import { SelectField } from './SelectField';
 import styles from './styles.scss';
@@ -61,10 +63,11 @@ export class FieldItem extends Component<FieldItemProps, {}> {
         onlyShowInMultipleMatches,
         showOtherSection,
         showFoundFromServer,
+        foundFromServerTitle,
+        serverEntitiesClientFilter,
       },
       onSave,
       onSelectViewVisible,
-      contactSearch,
       onFullSelectFieldClick,
       currentLog,
       startAdornmentRender,
@@ -181,8 +184,9 @@ export class FieldItem extends Component<FieldItemProps, {}> {
         disabled={disabledReference}
         currentLocale={currentLocale}
         foundFromServerEntities={foundFromServerEntities}
-        contactSearch={contactSearch}
+        serverEntitiesClientFilter={serverEntitiesClientFilter}
         showFoundFromServer={showFoundFromServer}
+        foundFromServerTitle={foundFromServerTitle}
         TextFieldProps={{
           helperText: disableReason,
           value: currentValue,
@@ -296,12 +300,12 @@ export class FieldItem extends Component<FieldItemProps, {}> {
     );
   };
 
-  private renderSelectMenu = () => {
+  private renderSelectMenu = (isMultiSelect: boolean = false) => {
     const {
       fieldOption: {
         label,
         value: fieldValue,
-        picklistOptions,
+        picklistOptions = [],
         required,
         helperText,
         error,
@@ -315,6 +319,12 @@ export class FieldItem extends Component<FieldItemProps, {}> {
       onSelectListOpen = () => {},
     } = this.props;
 
+    const uiValue = isMultiSelect
+      ? (Array.isArray(this.currentValue)
+          ? this.currentValue
+          : this.currentValue?.split(';')) || []
+      : this.currentValue;
+
     const selectList = (picklistOptions || []).reduce<PickListOption[]>(
       (acc, item) => {
         if (
@@ -324,7 +334,6 @@ export class FieldItem extends Component<FieldItemProps, {}> {
           currentLog?.task &&
           item.validFor
         ) {
-          // check for field dependency and filter out options that are not valid
           if (!item.validFor.includes(currentLog.task[controller] as string)) {
             return acc;
           }
@@ -338,8 +347,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
         if (item instanceof Object) {
           value = item.value;
           label = item.label;
-          // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
-          disabled = item.disabled;
+          disabled = item.disabled || false;
           title = item?.title;
         }
         acc.push({
@@ -353,6 +361,35 @@ export class FieldItem extends Component<FieldItemProps, {}> {
       },
       [],
     );
+
+    const handleSelectChange = async (selectedValues: any) => {
+      const updatedValue = isMultiSelect
+        ? selectedValues.join(';')
+        : selectedValues;
+
+      this.onInputSelectChange(fieldValue)(updatedValue);
+
+      if (onChange) onChange(updatedValue);
+      await onSave();
+    };
+
+    if (isMultiSelect) {
+      return (
+        <MultiSelectField
+          data-sign={fieldValue}
+          label={label}
+          options={selectList}
+          value={uiValue}
+          onChange={handleSelectChange}
+          disabled={propsDisabled}
+          placeholder={placeholder}
+          helperText={helperText}
+          error={error}
+          required={required}
+          onOpen={() => onSelectListOpen(fieldValue)}
+        />
+      );
+    }
 
     return (
       <SelectField
@@ -370,10 +407,9 @@ export class FieldItem extends Component<FieldItemProps, {}> {
           if (
             Object.prototype.toString.call(picklistOptions) ===
               '[object Object]' &&
-            // @ts-expect-error TS(2538): Type 'unknown' cannot be used as an index type.
+            typeof value === 'string' &&
             (picklistOptions as any)[value]
           ) {
-            // @ts-expect-error TS(2538): Type 'unknown' cannot be used as an index type.
             value = (picklistOptions as any)[value].value;
           }
           await this.onInputSelectChange(fieldValue)(value);
@@ -494,7 +530,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
           })
         : [];
     return (
-      <div className={styles.ticketSelectList}>
+      <div>
         <SelectField
           labelClassName={styles.selectLabel}
           options={options}
@@ -512,18 +548,106 @@ export class FieldItem extends Component<FieldItemProps, {}> {
     );
   };
 
+  // Logic to render the Zendesk Ticket Status select list
+  private renderTicketStatusSelectList = () => {
+    const { currentLog, fieldOption, disabled: disableAllFields } = this.props;
+    // @ts-expect-error TS(2339): Property 'task' does not exist on type 'CallLog | ... Remove this comment to see the full error message
+    const { task, disableSaveLog } = currentLog;
+    const { label, helperText, placeholder } = fieldOption;
+    // Render only if the Auto-log call toggle is enabled on CTI
+    if (!task.shouldShowTicketStatusesDropDown) {
+      return null;
+    }
+    const options =
+      task.ticketStatuses && task.ticketStatuses?.length > 0
+        ? task.ticketStatuses.map(
+            (zendeskTicketStatus: ZendeskTicketStatus) => {
+              return {
+                value: zendeskTicketStatus.id,
+                label: zendeskTicketStatus.label,
+                title: zendeskTicketStatus.label,
+              };
+            },
+          )
+        : [];
+    const disabled =
+      disableAllFields ||
+      disableSaveLog ||
+      task?.isLogged ||
+      !task.ticketStatuses?.length;
+    const isError = task?.ticketStatus?.label === 'Solved';
+    return (
+      <div>
+        <SelectField
+          data-sign={'zendesk-ticket-status'}
+          error={isError}
+          helperText={isError && helperText}
+          placeholder={placeholder}
+          labelClassName={styles.selectLabel}
+          options={options}
+          disabled={disabled}
+          fullWidth
+          value={task.ticketStatusId}
+          label={label}
+          onChange={(
+            event: React.ChangeEvent<{ name?: string; value: unknown }>,
+          ) => this.onSelectChange(event, 'ticketStatusSelectList')}
+        />
+      </div>
+    );
+  };
+
+  private renderWarningText = () => {
+    const {
+      fieldOption: { value },
+      currentLog,
+    } = this.props;
+
+    const task = currentLog?.task || {};
+
+    if (!task.showPermissionWarning) {
+      return null;
+    }
+
+    // Use the value from field option as the text content
+    const warningText = value;
+
+    // Create a warning box with styling similar to the one in the Figma design
+    return (
+      <RcAlert severity="warning" style={{ padding: '12px 16px' }}>
+        {warningText}
+      </RcAlert>
+    );
+  };
+
   private onSelectChange = (
     event: React.ChangeEvent<{ name?: string; value: unknown }>,
+    source?: string,
   ) => {
     const { value } = event.target;
     const { currentLog, onUpdateCallLog } = this.props;
     // @ts-expect-error TS(2339): Property 'currentSessionId' does not exist on type... Remove this comment to see the full error message
     const { currentSessionId, task = {} } = currentLog;
-    // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
-    onUpdateCallLog(
-      { ...currentLog, task: { ...task, ticketId: value } },
-      currentSessionId,
-    );
+
+    if (source && source === 'ticketStatusSelectList') {
+      const ticketStatusId = Number(value);
+      const zendeskTicketStatuses =
+        task.ticketStatuses as ZendeskTicketStatus[];
+      const ticketStatus = zendeskTicketStatuses.find(
+        (ticketStatus) => ticketStatus.id === ticketStatusId,
+      );
+      // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
+      onUpdateCallLog(
+        { ...currentLog, task: { ...task, ticketStatusId, ticketStatus } },
+        currentSessionId,
+      );
+    } else {
+      // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
+      onUpdateCallLog(
+        { ...currentLog, task: { ...task, ticketId: value } },
+        currentSessionId,
+      );
+    }
   };
 
   private onInputSelectChange = (value: string) => async (item: any) => {
@@ -561,7 +685,6 @@ export class FieldItem extends Component<FieldItemProps, {}> {
   private fieldsRenderMap: FieldsMap = {
     // @ts-expect-error TS(2322): Type '() => JSX.Element | undefined' is not assign... Remove this comment to see the full error message
     reference: this.renderReference,
-    picklist: this.renderSelectMenu,
     textarea: this.renderTextArea,
     date: this.renderDatePicker,
     string: this.renderInput,
@@ -573,6 +696,10 @@ export class FieldItem extends Component<FieldItemProps, {}> {
     alert: this.renderAlert,
     // @ts-expect-error TS(2322): Type '() => JSX.Element | null' is not assignable ... Remove this comment to see the full error message
     ticketSelectList: this.renderTicketSelectList,
+    picklist: () => this.renderSelectMenu(false),
+    multipicklist: () => this.renderSelectMenu(true),
+    ticketStatusSelectList: this.renderTicketStatusSelectList,
+    warningText: this.renderWarningText,
   };
 
   // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message

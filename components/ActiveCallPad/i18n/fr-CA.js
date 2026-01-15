@@ -4,22 +4,23 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+/* eslint-disable */
 var _default = {
-  unmute: "Activer le micro",
-  mute: "Désactiver le micro",
-  keypad: "Clavier téléphonique",
-  hold: "Mettre en attente",
-  onHold: "En attente",
-  park: "Garde",
-  stopRecord: "Arrêter",
-  record: "Enregistrer",
-  add: "Ajouter",
-  transfer: "Transférer",
-  flip: "Renvoi",
-  more: "Actions d’appel",
-  mergeToConference: "Fusionner",
-  end: "Raccrocher",
-  completeTransfer: "Effectuer\nle transfert"
+  unmute: 'Activer le micro',
+  mute: 'Désactiver le micro',
+  keypad: 'Clavier téléphonique',
+  hold: 'Mettre en attente',
+  onHold: 'En attente',
+  park: 'Garde',
+  stopRecord: 'Arrêter',
+  record: 'Enregistrer',
+  add: 'Ajouter',
+  transfer: 'Transférer',
+  flip: 'Renvoi',
+  more: 'Actions d’appel',
+  mergeToConference: 'Fusionner',
+  end: 'Raccrocher',
+  completeTransfer: 'Effectuer\nle transfert'
 }; // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
 // @key: @#@"keypad"@#@ @source: @#@"Keypad"@#@

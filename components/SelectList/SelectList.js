@@ -20,7 +20,7 @@ function _nonIterableRest() { throw new TypeError("Invalid attempt to destructur
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) { n[e] = r[e]; } return n; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0) { ; } } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; } /* eslint-disable jsx-a11y/no-static-element-interactions */ /* eslint-disable jsx-a11y/click-events-have-key-events */
 var SelectListBasicWithScrollCheck = (0, _WithScrollCheck.WithScrollCheck)(_SelectListBasic.SelectListBasic);
 exports.SelectListBasicWithScrollCheck = SelectListBasicWithScrollCheck;
 var SelectList = function SelectList(props) {
@@ -96,6 +96,7 @@ var SelectList = function SelectList(props) {
     }
   }, children), /*#__PURE__*/_react["default"].createElement(SelectListBasicWithScrollCheck, _extends({}, props, {
     matchedTitle: matchedTitle,
+    "data-sign": "select-list-panel-".concat(field),
     otherTitle: otherTitle,
     associatedTitle: associatedTitle,
     foundFromServerTitle: foundFromServerTitle,
@@ -125,13 +126,11 @@ SelectList.defaultProps = {
   onSelectViewVisible: function onSelectViewVisible() {},
   // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   backHeaderClassName: null,
-  // @ts-expect-error TS(2322): Type 'null' is not assignable to type '((...args: ... Remove this comment to see the full error message
-  contactSearch: null,
-  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
-  appName: null,
+  contactSearch: undefined,
+  appName: undefined,
   showFoundFromServer: false,
-  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
-  foundFromServerTitle: null,
+  serverEntitiesClientFilter: undefined,
+  foundFromServerTitle: undefined,
   foundFromServerEntities: [],
   autoClose: true,
   onBackClick: function onBackClick() {}
