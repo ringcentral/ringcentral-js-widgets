@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -13,7 +14,7 @@ var _Line = _interopRequireDefault(require("../Line"));
 var _i18n = _interopRequireDefault(require("./i18n"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var Footer = function Footer(_ref) {
+var Footer = exports.Footer = function Footer(_ref) {
   var loginNumber = _ref.loginNumber,
     currentLocale = _ref.currentLocale,
     version = _ref.version,
@@ -66,5 +67,4 @@ var Footer = function Footer(_ref) {
     className: _styles["default"].loginNumber
   }, loginNumber)))), versionArea);
 };
-exports.Footer = Footer;
 //# sourceMappingURL=Footer.js.map

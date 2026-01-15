@@ -1,11 +1,16 @@
 "use strict";
 
-require("core-js/modules/es.array.concat");
-require("core-js/modules/es.array.map");
+require("core-js/modules/es.array.iterator.js");
+require("core-js/modules/es.array.reduce.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/web.dom-collections.iterator.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.PhoneSection = void 0;
+require("core-js/modules/es.array.concat.js");
+require("core-js/modules/es.array.map.js");
+require("core-js/modules/es.object.to-string.js");
 var _phoneTypeHelper = require("@ringcentral-integration/commons/lib/phoneTypeHelper");
 var _clsx = _interopRequireDefault(require("clsx"));
 var _ramda = require("ramda");
@@ -85,7 +90,7 @@ var PhoneListItem = function PhoneListItem(_ref2) {
     className: _DynamicsFont["default"].composeText
   })) : null));
 };
-var PhoneSection = function PhoneSection(_ref3) {
+var PhoneSection = exports.PhoneSection = function PhoneSection(_ref3) {
   var contact = _ref3.contact,
     currentLocale = _ref3.currentLocale,
     disableLinks = _ref3.disableLinks,
@@ -143,5 +148,4 @@ var PhoneSection = function PhoneSection(_ref3) {
   }
   return null;
 };
-exports.PhoneSection = PhoneSection;
 //# sourceMappingURL=PhoneSection.js.map

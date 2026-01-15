@@ -1,11 +1,13 @@
 "use strict";
 
-require("core-js/modules/es.array.filter");
-require("core-js/modules/es.function.name");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+require("core-js/modules/es.array.filter.js");
+require("core-js/modules/es.function.name.js");
+require("core-js/modules/es.object.to-string.js");
 var _webphoneErrors = _interopRequireDefault(require("@ringcentral-integration/commons/modules/Webphone/webphoneErrors"));
 var _webphoneMessages = _interopRequireDefault(require("@ringcentral-integration/commons/modules/Webphone/webphoneMessages"));
 var _react = _interopRequireDefault(require("react"));
@@ -19,9 +21,9 @@ var WebphoneAlert = function WebphoneAlert(props) {
   // Handle call record error
   if (message === _webphoneErrors["default"].recordError) {
     // @ts-expect-error TS(2339): Property 'payload' does not exist on type '{ messa... Remove this comment to see the full error message
-    var _props$message$payloa = props.message.payload;
-    _props$message$payloa = _props$message$payloa === void 0 ? {} : _props$message$payloa;
-    var errorCode = _props$message$payloa.errorCode;
+    var _props$message$payloa = props.message.payload,
+      _props$message$payloa2 = _props$message$payloa === void 0 ? {} : _props$message$payloa,
+      errorCode = _props$message$payloa2.errorCode;
     view = /*#__PURE__*/_react["default"].createElement(_FormattedMessage["default"], {
       message: _i18n["default"].getString(message, props.currentLocale),
       values: {
@@ -30,11 +32,12 @@ var WebphoneAlert = function WebphoneAlert(props) {
     });
   } else if (message === _webphoneErrors["default"].sipProvisionError || message === _webphoneErrors["default"].webphoneForbidden || message === _webphoneErrors["default"].requestTimeout || message === _webphoneErrors["default"].serverTimeout || message === _webphoneErrors["default"].internalServerError || message === _webphoneErrors["default"].unknownError) {
     // @ts-expect-error TS(2339): Property 'payload' does not exist on type '{ messa... Remove this comment to see the full error message
-    var _props$message$payloa2 = props.message.payload;
-    _props$message$payloa2 = _props$message$payloa2 === void 0 ? {} : _props$message$payloa2;
-    var statusCode = _props$message$payloa2.statusCode,
-      _props$message$payloa3 = _props$message$payloa2.isConnecting,
-      isConnecting = _props$message$payloa3 === void 0 ? false : _props$message$payloa3; // sipProvisionError does not have statusCode
+    var _props$message$payloa3 = props.message.payload,
+      _props$message$payloa4 = _props$message$payloa3 === void 0 ? {} : _props$message$payloa3,
+      statusCode = _props$message$payloa4.statusCode,
+      _props$message$payloa5 = _props$message$payloa4.isConnecting,
+      isConnecting = _props$message$payloa5 === void 0 ? false : _props$message$payloa5;
+    // sipProvisionError does not have statusCode
     if (statusCode && isConnecting) {
       view = /*#__PURE__*/_react["default"].createElement(_FormattedMessage["default"], {
         message: _i18n["default"].getString('registeringWithStatusCode', props.currentLocale)
@@ -85,9 +88,9 @@ var WebphoneAlert = function WebphoneAlert(props) {
     });
   } else if (message === _webphoneMessages["default"].parked) {
     // @ts-expect-error TS(2339): Property 'payload' does not exist on type '{ messa... Remove this comment to see the full error message
-    var _props$message$payloa4 = props.message.payload;
-    _props$message$payloa4 = _props$message$payloa4 === void 0 ? {} : _props$message$payloa4;
-    var parkedNumber = _props$message$payloa4.parkedNumber;
+    var _props$message$payloa6 = props.message.payload,
+      _props$message$payloa7 = _props$message$payloa6 === void 0 ? {} : _props$message$payloa6,
+      parkedNumber = _props$message$payloa7.parkedNumber;
     view = /*#__PURE__*/_react["default"].createElement(_FormattedMessage["default"], {
       message: _i18n["default"].getString(message, props.currentLocale),
       values: {
@@ -104,6 +107,5 @@ WebphoneAlert.handleMessage = function (_ref) {
     return err === message;
   }).length > 0;
 };
-var _default = WebphoneAlert;
-exports["default"] = _default;
+var _default = exports["default"] = WebphoneAlert;
 //# sourceMappingURL=index.js.map

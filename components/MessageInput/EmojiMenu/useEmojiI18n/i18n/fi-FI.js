@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -7,7 +8,7 @@ exports["default"] = void 0;
 /* eslint-disable */
 /* eslint-disable quotes */
 // ref: https://github.com/missive/emoji-mart/blob/main/packages/emoji-mart-data/i18n/en.json
-var _default = {
+var _default = exports["default"] = {
   search: 'Haku',
   search_no_results_1: 'Harmi!',
   search_no_results_2: 'Emojia ei löytynyt',
@@ -54,5 +55,4 @@ var _default = {
 // @key: @#@"skins_4"@#@ @source: @#@"Medium"@#@
 // @key: @#@"skins_5"@#@ @source: @#@"Medium-Dark"@#@
 // @key: @#@"skins_6"@#@ @source: @#@"Dark"@#@
-exports["default"] = _default;
 //# sourceMappingURL=fi-FI.js.map

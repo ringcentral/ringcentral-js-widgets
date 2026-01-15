@@ -1,11 +1,12 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 /* eslint-disable */
-var _default = {
+var _default = exports["default"] = {
   schedule: 'Programar reunión',
   prompt: 'Autorice a RingCentral a acceder a la información de cuenta.',
   saveAsDefault: 'Guardar como predeterminado',
@@ -14,5 +15,4 @@ var _default = {
 // @key: @#@"prompt"@#@ @source: @#@"Please authorize RingCentral to access your account information."@#@
 // @key: @#@"saveAsDefault"@#@ @source: @#@"Save as default"@#@
 // @key: @#@"launchMeeting"@#@ @source: @#@"Launch Meeting"@#@
-exports["default"] = _default;
 //# sourceMappingURL=es-ES.js.map

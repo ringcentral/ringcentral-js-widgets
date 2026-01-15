@@ -1,10 +1,11 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-var _default = {
+var _default = exports["default"] = {
   title: 'Region',
   NAOnlyMessage: 'Please set your area code. This will be used for local dialing.',
   MultiWithNAMessage: 'Please set the country and area code for your region. This will be used for local dialing and phone number formatting.',
@@ -13,5 +14,4 @@ var _default = {
   areaCode: 'Area Code',
   areaCodePlaceholder: 'Enter Area Code'
 };
-exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

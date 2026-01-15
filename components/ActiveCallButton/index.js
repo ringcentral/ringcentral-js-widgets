@@ -1,14 +1,16 @@
 "use strict";
 
-require("core-js/modules/es.array.map");
-require("core-js/modules/es.object.to-string");
-require("core-js/modules/es.regexp.exec");
-require("core-js/modules/es.string.replace");
-require("core-js/modules/es.string.split");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+require("core-js/modules/es.array.map.js");
+require("core-js/modules/es.date.to-string.js");
+require("core-js/modules/es.object.to-string.js");
+require("core-js/modules/es.regexp.exec.js");
+require("core-js/modules/es.regexp.to-string.js");
+require("core-js/modules/es.string.replace.js");
 var _clsx = _interopRequireDefault(require("clsx"));
 var _react = _interopRequireDefault(require("react"));
 var _CircleButton = _interopRequireDefault(require("../CircleButton"));
@@ -75,6 +77,5 @@ ActiveCallButton.defaultProps = {
   iconY: undefined,
   showRipple: false
 };
-var _default = ActiveCallButton;
-exports["default"] = _default;
+var _default = exports["default"] = ActiveCallButton;
 //# sourceMappingURL=index.js.map

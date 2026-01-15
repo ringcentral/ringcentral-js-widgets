@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -7,7 +8,7 @@ exports.PresenceSetting = void 0;
 var _react = _interopRequireDefault(require("react"));
 var _PresenceSettingSection = require("../PresenceSettingSection");
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var PresenceSetting = function PresenceSetting(_ref) {
+var PresenceSetting = exports.PresenceSetting = function PresenceSetting(_ref) {
   var showPresenceSettings = _ref.showPresenceSettings,
     dndStatus = _ref.dndStatus,
     userStatus = _ref.userStatus,
@@ -50,5 +51,4 @@ var PresenceSetting = function PresenceSetting(_ref) {
     onCallQueueManagementClick: onCallQueueManagementClick
   }) : null;
 };
-exports.PresenceSetting = PresenceSetting;
 //# sourceMappingURL=PresenceSetting.js.map

@@ -1,11 +1,12 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 /* eslint-disable */
-var _default = {
+var _default = exports["default"] = {
   header: 'Comuníquese con servicio al cliente',
   toggleTitle: '1. Active el modo de registro de errores.',
   toggleDescription: 'Esto nos ayudará a localizar sus problemas, pero puede afectar ligeramente el rendimiento de la aplicación.',
@@ -36,5 +37,4 @@ var _default = {
 // @key: @#@"privacyNoticeEnd"@#@ @source: @#@"Privacy Notice."@#@
 // @key: @#@"needLeavePage"@#@ @source: @#@"You may leave this page while error tracking is running. When you have replicated the issue, return to this page and download the log files."@#@
 // @key: @#@"downloading"@#@ @source: @#@"Downloading"@#@
-exports["default"] = _default;
 //# sourceMappingURL=es-419.js.map

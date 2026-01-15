@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -8,7 +9,7 @@ var _phoneSources = require("@ringcentral-integration/commons/enums/phoneSources
 var _react = _interopRequireDefault(require("react"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var ContactDisplayItem = function ContactDisplayItem(_ref) {
+var ContactDisplayItem = exports.ContactDisplayItem = function ContactDisplayItem(_ref) {
   var entityName = _ref.entityName,
     entityType = _ref.entityType,
     phoneNumber = _ref.phoneNumber,
@@ -50,5 +51,4 @@ var ContactDisplayItem = function ContactDisplayItem(_ref) {
   }
   return null;
 };
-exports.ContactDisplayItem = ContactDisplayItem;
 //# sourceMappingURL=ContactDisplayItem.js.map

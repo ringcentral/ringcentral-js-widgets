@@ -1,10 +1,11 @@
 "use strict";
 
-require("core-js/modules/es.function.name");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.Profile = void 0;
+require("core-js/modules/es.function.name.js");
 var _extensionStatusTypes = require("@ringcentral-integration/commons/enums/extensionStatusTypes");
 var _clsx = _interopRequireDefault(require("clsx"));
 var _react = _interopRequireDefault(require("react"));
@@ -57,7 +58,7 @@ var Name = function Name(_ref2) {
     "data-inactive": inactive
   }, name);
 };
-var Profile = function Profile(_ref3) {
+var Profile = exports.Profile = function Profile(_ref3) {
   var contact = _ref3.contact,
     sourceNodeRenderer = _ref3.sourceNodeRenderer,
     currentLocale = _ref3.currentLocale,
@@ -67,7 +68,8 @@ var Profile = function Profile(_ref3) {
     profileImageUrl = contact.profileImageUrl,
     status = contact.status,
     site = contact.site,
-    type = contact.type; // @ts-ignore
+    type = contact.type;
+  // @ts-ignore
   var presence = (0, _usePresence.usePresence)(contact, {
     fetch: getPresence
   });
@@ -103,7 +105,6 @@ var Profile = function Profile(_ref3) {
     className: _styles["default"].content
   }, site.name)));
 };
-exports.Profile = Profile;
 Profile.defaultProps = {
   sourceNodeRenderer: function sourceNodeRenderer() {
     return null;

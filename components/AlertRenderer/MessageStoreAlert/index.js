@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -25,6 +26,5 @@ MessageStoreAlert.handleMessage = function (_ref) {
   var message = _ref.message;
   return message === _MessageStore.messageStoreErrors.deleteFailed;
 };
-var _default = MessageStoreAlert;
-exports["default"] = _default;
+var _default = exports["default"] = MessageStoreAlert;
 //# sourceMappingURL=index.js.map

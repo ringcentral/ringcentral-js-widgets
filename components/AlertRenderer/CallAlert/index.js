@@ -1,18 +1,19 @@
 "use strict";
 
-require("core-js/modules/es.function.name");
-require("core-js/modules/es.string.link");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = exports.CallAlert = void 0;
+require("core-js/modules/es.function.name.js");
+require("core-js/modules/es.string.link.js");
 var _Call = require("@ringcentral-integration/commons/modules/Call");
 var _react = _interopRequireDefault(require("react"));
 var _FormattedMessage = _interopRequireDefault(require("../../FormattedMessage"));
 var _i18n = _interopRequireDefault(require("./i18n"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var CallAlert = function CallAlert(_ref) {
+var CallAlert = exports.CallAlert = function CallAlert(_ref) {
   var _ref$message = _ref.message,
     id = _ref$message.id,
     message = _ref$message.message,
@@ -51,7 +52,6 @@ var CallAlert = function CallAlert(_ref) {
   }
   return /*#__PURE__*/_react["default"].createElement("span", null, _i18n["default"].getString(message, currentLocale));
 };
-exports.CallAlert = CallAlert;
 CallAlert.defaultProps = {
   onAreaCodeLinkClick: undefined
 };
@@ -60,6 +60,5 @@ CallAlert.handleMessage = function (_ref2) {
   var message = _ref2.message;
   return message === _Call.callErrors.emergencyNumber || message === _Call.callErrors.noToNumber || message === _Call.callErrors.noAreaCode || message === _Call.callErrors.connectFailed || message === _Call.callErrors.internalError || message === _Call.callErrors.notAnExtension || message === _Call.callErrors.networkError || message === _Call.callErrors.noInternational || message === _Call.callErrors.noRingoutEnable || message === _Call.callErrors.numberParseError || message === _Call.callErrors.fromAndToNumberIsSame;
 };
-var _default = CallAlert;
-exports["default"] = _default;
+var _default = exports["default"] = CallAlert;
 //# sourceMappingURL=index.js.map

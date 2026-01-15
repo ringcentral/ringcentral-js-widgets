@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -8,7 +9,7 @@ var _juno = require("@ringcentral/juno");
 var _react = _interopRequireDefault(require("react"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var SettingGroup = function SettingGroup(_ref) {
+var SettingGroup = exports.SettingGroup = function SettingGroup(_ref) {
   var dataSign = _ref.dataSign,
     summary = _ref.summary,
     _ref$defaultExpanded = _ref.defaultExpanded,
@@ -37,5 +38,4 @@ var SettingGroup = function SettingGroup(_ref) {
     }
   }, children)));
 };
-exports.SettingGroup = SettingGroup;
 //# sourceMappingURL=SettingGroup.js.map

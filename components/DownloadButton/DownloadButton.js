@@ -1,17 +1,18 @@
 "use strict";
 
-require("core-js/modules/es.function.name");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.DownloadButton = void 0;
+require("core-js/modules/es.function.name.js");
 var _utils = require("@ringcentral-integration/utils");
 var _juno = require("@ringcentral/juno");
 var _junoIcon = require("@ringcentral/juno-icon");
 var _react = _interopRequireDefault(require("react"));
 var _i18n = require("./i18n");
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var DownloadButton = function DownloadButton(_ref) {
+var DownloadButton = exports.DownloadButton = function DownloadButton(_ref) {
   var url = _ref.url,
     name = _ref.name,
     _onClick = _ref.onClick,
@@ -33,5 +34,4 @@ var DownloadButton = function DownloadButton(_ref) {
     }
   });
 };
-exports.DownloadButton = DownloadButton;
 //# sourceMappingURL=DownloadButton.js.map

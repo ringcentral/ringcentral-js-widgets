@@ -1,1 +1,1 @@
-{"version":3,"file":"en-US.js","names":["notActivated","exports","_default"],"sources":["components/ContactItem/i18n/en-US.ts"],"sourcesContent":["export default {\n  notActivated: 'Inactive',\n} as const;\n"],"mappings":";;;;;;eAAe;EACbA,YAAY,EAAE;AAChB,CAAC;AAAAC,OAAA,cAAAC,QAAA","ignoreList":[]}
+{"version":3,"file":"en-US.js","names":["notActivated"],"sources":["components/ContactItem/i18n/en-US.ts"],"sourcesContent":["export default {\n  notActivated: 'Inactive',\n} as const;\n"],"mappings":";;;;;;;oCAAe;EACbA,YAAY,EAAE;AAChB,CAAC","ignoreList":[]}

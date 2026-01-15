@@ -1,11 +1,12 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 /* eslint-disable */
-var _default = {
+var _default = exports["default"] = {
   participants: '参加者',
   host: '(ホスト)',
   removeParticipant: '参加者を削除',
@@ -20,5 +21,4 @@ var _default = {
 // @key: @#@"removeDescription"@#@ @source: @#@"Remove {name} from this conference?"@#@
 // @key: @#@"confirmButtonText"@#@ @source: @#@"Remove"@#@
 // @key: @#@"cancelButtonText"@#@ @source: @#@"Cancel"@#@
-exports["default"] = _default;
 //# sourceMappingURL=ja-JP.js.map

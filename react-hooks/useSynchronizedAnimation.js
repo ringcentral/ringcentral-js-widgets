@@ -1,18 +1,20 @@
 "use strict";
 
-require("core-js/modules/es.array.filter");
-require("core-js/modules/es.array.flat");
-require("core-js/modules/es.array.for-each");
-require("core-js/modules/es.array.from");
-require("core-js/modules/es.array.map");
-require("core-js/modules/es.array.slice");
-require("core-js/modules/es.array.unscopables.flat");
-require("core-js/modules/es.string.iterator");
-require("core-js/modules/web.dom-collections.for-each");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.useSynchronizedAnimation = useSynchronizedAnimation;
+require("core-js/modules/es.array.filter.js");
+require("core-js/modules/es.array.flat.js");
+require("core-js/modules/es.array.for-each.js");
+require("core-js/modules/es.array.from.js");
+require("core-js/modules/es.array.map.js");
+require("core-js/modules/es.array.slice.js");
+require("core-js/modules/es.array.unscopables.flat.js");
+require("core-js/modules/es.object.to-string.js");
+require("core-js/modules/es.string.iterator.js");
+require("core-js/modules/web.dom-collections.for-each.js");
 var _react = require("react");
 /**
  * A hook that synchronizes the animation of all elements matching a given selector

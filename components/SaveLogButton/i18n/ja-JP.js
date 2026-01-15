@@ -1,11 +1,12 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 /* eslint-disable */
-var _default = {
+var _default = exports["default"] = {
   createLog: 'ログを作成',
   creating: '作成中',
   save: '保存',
@@ -22,5 +23,4 @@ var _default = {
 // @key: @#@"view"@#@ @source: @#@"View"@#@
 // @key: @#@"creatingFailed"@#@ @source: @#@"Creating failed."@#@
 // @key: @#@"savingFailed"@#@ @source: @#@"Saving failed."@#@
-exports["default"] = _default;
 //# sourceMappingURL=ja-JP.js.map

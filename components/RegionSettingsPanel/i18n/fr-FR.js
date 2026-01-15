@@ -1,11 +1,12 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 /* eslint-disable */
-var _default = {
+var _default = exports["default"] = {
   title: 'Région',
   NAOnlyMessage: 'Veuillez saisir votre indicatif. Il sera utilisé pour la composition des numéros locaux.',
   MultiWithNAMessage: 'Veuillez saisir le pays ainsi que votre indicateur régional. Il sera utilisé pour la composition des numéros locaux et le formatage des numéros de téléphone.',
@@ -20,5 +21,4 @@ var _default = {
 // @key: @#@"country"@#@ @source: @#@"Country"@#@
 // @key: @#@"areaCode"@#@ @source: @#@"Area Code"@#@
 // @key: @#@"areaCodePlaceholder"@#@ @source: @#@"Enter Area Code"@#@
-exports["default"] = _default;
 //# sourceMappingURL=fr-FR.js.map

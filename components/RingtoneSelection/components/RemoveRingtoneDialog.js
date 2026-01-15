@@ -1,15 +1,16 @@
 "use strict";
 
-require("core-js/modules/es.function.name");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.RemoveRingtoneDialog = void 0;
+require("core-js/modules/es.function.name.js");
 var _juno = require("@ringcentral/juno");
 var _react = _interopRequireDefault(require("react"));
 var _i18n = require("../i18n");
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var RemoveRingtoneDialog = function RemoveRingtoneDialog(_ref) {
+var RemoveRingtoneDialog = exports.RemoveRingtoneDialog = function RemoveRingtoneDialog(_ref) {
   var name = _ref.name,
     open = _ref.open,
     onConfirm = _ref.onConfirm,
@@ -32,5 +33,4 @@ var RemoveRingtoneDialog = function RemoveRingtoneDialog(_ref) {
     onClick: onConfirm
   }, (0, _i18n.t)('delete'))));
 };
-exports.RemoveRingtoneDialog = RemoveRingtoneDialog;
 //# sourceMappingURL=RemoveRingtoneDialog.js.map

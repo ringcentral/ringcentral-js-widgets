@@ -1,56 +1,72 @@
 "use strict";
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-require("core-js/modules/es.array.every");
-require("core-js/modules/es.array.find-index");
-require("core-js/modules/es.array.for-each");
-require("core-js/modules/es.array.includes");
-require("core-js/modules/es.array.is-array");
-require("core-js/modules/es.array.iterator");
-require("core-js/modules/es.array.reverse");
-require("core-js/modules/es.function.bind");
-require("core-js/modules/es.object.get-prototype-of");
-require("core-js/modules/es.object.set-prototype-of");
-require("core-js/modules/es.object.to-string");
-require("core-js/modules/es.set");
-require("core-js/modules/es.string.includes");
-require("core-js/modules/es.string.iterator");
-require("core-js/modules/web.dom-collections.for-each");
-require("core-js/modules/web.dom-collections.iterator");
+require("core-js/modules/es.symbol.js");
+require("core-js/modules/es.symbol.description.js");
+require("core-js/modules/es.symbol.iterator.js");
+require("core-js/modules/es.symbol.to-primitive.js");
+require("core-js/modules/es.array.filter.js");
+require("core-js/modules/es.array.index-of.js");
+require("core-js/modules/es.date.to-primitive.js");
+require("core-js/modules/es.number.constructor.js");
+require("core-js/modules/es.object.create.js");
+require("core-js/modules/es.object.define-properties.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/es.object.get-own-property-descriptor.js");
+require("core-js/modules/es.object.get-own-property-descriptors.js");
+require("core-js/modules/es.object.get-prototype-of.js");
+require("core-js/modules/es.object.keys.js");
+require("core-js/modules/es.reflect.construct.js");
+require("core-js/modules/es.reflect.get.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.StickyVirtualizedList = void 0;
+require("core-js/modules/es.array.every.js");
+require("core-js/modules/es.array.find-index.js");
+require("core-js/modules/es.array.for-each.js");
+require("core-js/modules/es.array.includes.js");
+require("core-js/modules/es.array.is-array.js");
+require("core-js/modules/es.array.iterator.js");
+require("core-js/modules/es.array.reverse.js");
+require("core-js/modules/es.function.bind.js");
+require("core-js/modules/es.object.set-prototype-of.js");
+require("core-js/modules/es.object.to-string.js");
+require("core-js/modules/es.set.js");
+require("core-js/modules/es.string.includes.js");
+require("core-js/modules/es.string.iterator.js");
+require("core-js/modules/web.dom-collections.for-each.js");
+require("core-js/modules/web.dom-collections.iterator.js");
 var _react = _interopRequireDefault(require("react"));
-var _StickyVirtualizedList = require("./StickyVirtualizedList.interface");
+var _StickyVirtualizedList2 = require("./StickyVirtualizedList.interface");
+var _excluded = ["id", "isSticky", "stickyTop", "zIndex"];
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) { o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } } return i; }
-function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) { if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } } return t; }
+function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
 function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
 function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _get() { return _get = "undefined" != typeof Reflect && Reflect.get ? Reflect.get.bind() : function (e, t, r) { var p = _superPropBase(e, t); if (p) { var n = Object.getOwnPropertyDescriptor(p, t); return n.get ? n.get.call(arguments.length < 3 ? e : r) : n.value; } }, _get.apply(null, arguments); }
-function _superPropBase(t, o) { for (; !{}.hasOwnProperty.call(t, o) && null !== (t = _getPrototypeOf(t));) { ; } return t; }
-function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
-function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
-function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _callSuper(t, o, e) { return o = _getPrototypeOf(o), _possibleConstructorReturn(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor) : o.apply(t, e)); }
 function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
 function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
 function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
-function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); } /* eslint-disable*/ // Original Library: react-virtualized-sticky-tree
+function _superPropGet(t, o, e, r) { var p = _get(_getPrototypeOf(1 & r ? t.prototype : t), o, e); return 2 & r && "function" == typeof p ? function (t) { return p.apply(e, t); } : p; }
+function _get() { return _get = "undefined" != typeof Reflect && Reflect.get ? Reflect.get.bind() : function (e, t, r) { var p = _superPropBase(e, t); if (p) { var n = Object.getOwnPropertyDescriptor(p, t); return n.get ? n.get.call(arguments.length < 3 ? e : r) : n.value; } }, _get.apply(null, arguments); }
+function _superPropBase(t, o) { for (; !{}.hasOwnProperty.call(t, o) && null !== (t = _getPrototypeOf(t));); return t; }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); } /* eslint-disable*/ // Original Library: react-virtualized-sticky-tree
 // Ref: https://github.com/marchaos/react-virtualized-sticky-tree
-var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
-  _inherits(StickyVirtualizedList, _React$PureComponent);
-  var _super = _createSuper(StickyVirtualizedList);
+var StickyVirtualizedList = exports.StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
   function StickyVirtualizedList(props) {
     var _this;
     _classCallCheck(this, StickyVirtualizedList);
-    _this = _super.call(this, props);
+    _this = _callSuper(this, StickyVirtualizedList, [props]);
     _this.nodes = void 0;
     _this.getChildrenCache = void 0;
     _this.rowRenderCache = void 0;
@@ -63,7 +79,7 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
     _this.pendingScrollTop = void 0;
     // @ts-expect-error TS(2564): Property 'treeToRender' has no initializer and is ... Remove this comment to see the full error message
     _this.treeToRender = void 0;
-    _this.onScroll = _this.onScroll.bind(_assertThisInitialized(_this));
+    _this.onScroll = _this.onScroll.bind(_this);
     _this.state = {
       scrollTop: 0,
       currNodePos: 0,
@@ -76,7 +92,8 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
     _this.rowRenderRange = undefined;
     return _this;
   }
-  _createClass(StickyVirtualizedList, [{
+  _inherits(StickyVirtualizedList, _React$PureComponent);
+  return _createClass(StickyVirtualizedList, [{
     key: "flattenTree",
     value: function flattenTree(node) {
       var _this2 = this;
@@ -98,7 +115,7 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
         stickyTop = _node$stickyTop === void 0 ? 0 : _node$stickyTop,
         _node$zIndex = node.zIndex,
         zIndex = _node$zIndex === void 0 ? 0 : _node$zIndex,
-        rest = _objectWithoutProperties(node, ["id", "isSticky", "stickyTop", "zIndex"]);
+        rest = _objectWithoutProperties(node, _excluded);
       var nodeInfo = _objectSpread(_objectSpread({
         id: id,
         isSticky: isSticky,
@@ -174,7 +191,9 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
         _this3.getBranchChildrenIds(_this3.getChildrenCache[child.id], arr);
       });
       return arr;
-    } // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
+    }
+
+    // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   }, {
     key: "UNSAFE_componentWillMount",
     value: function UNSAFE_componentWillMount() {
@@ -185,7 +204,9 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
     key: "treeDataUpdated",
     value: function treeDataUpdated(newProps) {
       return newProps.root !== this.props.root || newProps.getChildren !== this.props.getChildren || newProps.defaultRowHeight !== this.props.defaultRowHeight;
-    } // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
+    }
+
+    // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   }, {
     key: "UNSAFE_componentWillReceiveProps",
     value: function UNSAFE_componentWillReceiveProps(newProps) {
@@ -196,7 +217,9 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
       if (newProps.scrollIndex !== undefined && newProps.scrollIndex >= 0) {
         this.scrollIndexIntoView(newProps.scrollIndex);
       }
-    } // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
+    }
+
+    // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   }, {
     key: "UNSAFE_componentWillUpdate",
     value: function UNSAFE_componentWillUpdate(newProps, newState) {
@@ -204,6 +227,7 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
         this.storeRenderTree(newProps, newState);
       }
     }
+
     /**
      * Returns the index of the node in a flat list tree (post-order traversal).
      *
@@ -217,6 +241,7 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
         return node.id === nodeId;
       });
     }
+
     /**
      * Returns the node that appears higher than this node (either a parent, sibling or child of the sibling above).
      * @param nodeId The node to get the previous node of.
@@ -234,6 +259,7 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
       }
       return undefined;
     }
+
     /**
      * Returns the node that appears lower than this node (sibling or sibling of the node's parent).
      * @param nodeId The node to get the next node of.
@@ -251,6 +277,7 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
       }
       return undefined;
     }
+
     /**
      * Returns true if the node is completely visible and is not obscured.
      * This will return false when the node is partially obscured.
@@ -265,6 +292,7 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
       var includeObscured = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
       return this.isIndexVisible(this.getNodeIndex(nodeId), includeObscured);
     }
+
     /**
      * Returns true if the node is completely visible and is not obscured, unless includeObscured is specified.
      * This will return false when the node is partially obscured, unless includeObscured is set to true.
@@ -362,7 +390,7 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
     key: "setScrollTop",
     value: function setScrollTop(scrollTop) {
       if (!isNaN(scrollTop)) {
-        this.setScrollTopAndClosestNode(scrollTop, this.state.currNodePos, _StickyVirtualizedList.scrollReasons.requested);
+        this.setScrollTopAndClosestNode(scrollTop, this.state.currNodePos, _StickyVirtualizedList2.scrollReasons.requested);
       }
     }
   }, {
@@ -404,11 +432,13 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
         // @ts-expect-error TS(2345): Argument of type 'number | undefined' is not assig... Remove this comment to see the full error message
         this.setScrollTop(scrollTop);
       }
-    } // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
+    }
+
+    // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(prevProps, prevState) {
-      if (this.state.scrollReason === _StickyVirtualizedList.scrollReasons.requested) {
+      if (this.state.scrollReason === _StickyVirtualizedList2.scrollReasons.requested) {
         if (this.state.scrollTop >= 0 && this.state.scrollTop !== this.elem.scrollTop) {
           this.elem.scrollTop = this.state.scrollTop;
         }
@@ -438,7 +468,7 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
         if (this.elem) {
           // We need to find the the closest node to where we are scrolled to since the structure of the
           // the tree probably has changed.
-          this.setScrollTopAndClosestNode(this.pendingScrollTop || this.elem.scrollTop, 0, _StickyVirtualizedList.scrollReasons.requested);
+          this.setScrollTopAndClosestNode(this.pendingScrollTop || this.elem.scrollTop, 0, _StickyVirtualizedList2.scrollReasons.requested);
         }
       }
     }
@@ -454,14 +484,16 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
     key: "storeRenderTree",
     value: function storeRenderTree(props, state) {
       this.treeToRender = this.renderParentTree(props, state);
-    } // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
+    }
+
+    // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   }, {
     key: "forceUpdate",
     value: function forceUpdate() {
       this.getChildrenCache = {};
       this.rowRenderCache = {};
       this.storeRenderTree(this.props, this.state);
-      _get(_getPrototypeOf(StickyVirtualizedList.prototype), "forceUpdate", this).call(this);
+      _superPropGet(StickyVirtualizedList, "forceUpdate", this, 3)([]);
     }
   }, {
     key: "renderParentTree",
@@ -564,7 +596,7 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
             // Sticky nodes will need a container so that their top is correct. The sticky node itself will have a top
             // of the offset where it should stick, which would conflict with the absolute position of the node.
             if (child.isSticky || props.wrapAllLeafNodes) {
-              nodes.push( /*#__PURE__*/_react["default"].createElement("div", {
+              nodes.push(/*#__PURE__*/_react["default"].createElement("div", {
                 className: "rv-sticky-leaf-node",
                 key: "rv-node-".concat(child.id),
                 style: _this4.getChildContainerStyle(child, top)
@@ -600,6 +632,7 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
       }
       return renderedRow;
     }
+
     /**
      * Determines the start and end number of the range to be rendered.
      * @returns {{start: number, end: number}} Indexes within nodes
@@ -707,7 +740,7 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
       var _ref = e.target,
         scrollTop = _ref.scrollTop,
         scrollLeft = _ref.scrollLeft;
-      var scrollReason = this.state.scrollReason || _StickyVirtualizedList.scrollReasons.requested;
+      var scrollReason = this.state.scrollReason || _StickyVirtualizedList2.scrollReasons.requested;
       this.setScrollTopAndClosestNode(scrollTop, this.state.currNodePos, scrollReason);
       if (this.props.onScroll !== undefined) {
         this.props.onScroll({
@@ -720,7 +753,9 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
         scrollTick: !this.state.scrollTick,
         scrollReason: undefined
       });
-    } // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
+    }
+
+    // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   }, {
     key: "render",
     value: function render() {
@@ -746,9 +781,7 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
       }, this.treeToRender);
     }
   }]);
-  return StickyVirtualizedList;
 }(_react["default"].PureComponent);
-exports.StickyVirtualizedList = StickyVirtualizedList;
 StickyVirtualizedList.defaultProps = {
   overscanRowCount: 10,
   renderRoot: false,

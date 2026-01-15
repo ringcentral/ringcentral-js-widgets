@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -35,6 +36,5 @@ IconLine.defaultProps = {
   dataSign: undefined,
   title: undefined
 };
-var _default = IconLine;
-exports["default"] = _default;
+var _default = exports["default"] = IconLine;
 //# sourceMappingURL=index.js.map

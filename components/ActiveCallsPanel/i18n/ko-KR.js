@@ -1,11 +1,12 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 /* eslint-disable */
-var _default = {
+var _default = exports["default"] = {
   noActiveCalls: '활성 통화 없음',
   currentCall: '현재 통화',
   ringCall: '연결 중인 통화',
@@ -24,5 +25,4 @@ var _default = {
 // @key: @#@"confirmMergeToConference"@#@ @source: @#@"Add to conference call?"@#@
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
 // @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@
-exports["default"] = _default;
 //# sourceMappingURL=ko-KR.js.map

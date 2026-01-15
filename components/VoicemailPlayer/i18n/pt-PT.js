@@ -1,16 +1,16 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 /* eslint-disable */
-var _default = {
+var _default = exports["default"] = {
   download: 'Transferir',
   play: 'Reproduzir',
   pause: 'Pausar'
 }; // @key: @#@"download"@#@ @source: @#@"Download"@#@
 // @key: @#@"play"@#@ @source: @#@"Play"@#@
 // @key: @#@"pause"@#@ @source: @#@"Pause"@#@
-exports["default"] = _default;
 //# sourceMappingURL=pt-PT.js.map

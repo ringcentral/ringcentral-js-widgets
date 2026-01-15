@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -9,7 +10,7 @@ var _react = _interopRequireDefault(require("react"));
 var _Search = _interopRequireDefault(require("../../assets/images/Search.svg"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var SearchInput = function SearchInput(_ref) {
+var SearchInput = exports.SearchInput = function SearchInput(_ref) {
   var dataSign = _ref.dataSign,
     className = _ref.className,
     value = _ref.value,
@@ -36,7 +37,6 @@ var SearchInput = function SearchInput(_ref) {
     disabled: disabled
   }));
 };
-exports.SearchInput = SearchInput;
 SearchInput.defaultProps = {
   // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   className: null,

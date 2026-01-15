@@ -1,10 +1,11 @@
 "use strict";
 
-require("core-js/modules/es.function.name");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+require("core-js/modules/es.function.name.js");
 var _issueTrackingMessages = require("@ringcentral-integration/commons/enums/issueTrackingMessages");
 var _react = _interopRequireDefault(require("react"));
 var _FormattedMessage = _interopRequireDefault(require("../../FormattedMessage"));
@@ -28,6 +29,5 @@ IssueTracking.handleMessage = function (_ref2) {
   var message = _ref2.message;
   return message === _issueTrackingMessages.issueTrackingMessages.downloadFail || message === _issueTrackingMessages.issueTrackingMessages.downloadSuccess;
 };
-var _default = IssueTracking;
-exports["default"] = _default;
+var _default = exports["default"] = IssueTracking;
 //# sourceMappingURL=index.js.map

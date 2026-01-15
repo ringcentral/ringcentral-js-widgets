@@ -1,16 +1,17 @@
 "use strict";
 
-require("core-js/modules/es.function.name");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.CallInfo = void 0;
+require("core-js/modules/es.function.name.js");
 var _react = _interopRequireDefault(require("react"));
 var _toolTipDelayTime = require("../../../lib/toolTipDelayTime");
 var _Tooltip = require("../../Rcui/Tooltip");
 var _styles = _interopRequireDefault(require("./styles.scss"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var CallInfo = function CallInfo(_ref) {
+var CallInfo = exports.CallInfo = function CallInfo(_ref) {
   var name = _ref.name,
     content = _ref.content;
   return /*#__PURE__*/_react["default"].createElement("div", {
@@ -28,5 +29,4 @@ var CallInfo = function CallInfo(_ref) {
     className: _styles["default"].content
   }, content)));
 };
-exports.CallInfo = CallInfo;
 //# sourceMappingURL=CallInfo.js.map

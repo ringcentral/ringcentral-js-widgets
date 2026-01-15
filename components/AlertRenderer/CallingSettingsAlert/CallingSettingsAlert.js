@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -9,7 +10,7 @@ var _react = _interopRequireDefault(require("react"));
 var _FormattedMessage = _interopRequireDefault(require("../../FormattedMessage"));
 var _i18n = _interopRequireDefault(require("./i18n"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var CallingSettingsAlert = function CallingSettingsAlert(_ref) {
+var CallingSettingsAlert = exports.CallingSettingsAlert = function CallingSettingsAlert(_ref) {
   var message = _ref.message.message,
     currentLocale = _ref.currentLocale,
     brandName = _ref.brandName,
@@ -57,7 +58,6 @@ var CallingSettingsAlert = function CallingSettingsAlert(_ref) {
       return null;
   }
 };
-exports.CallingSettingsAlert = CallingSettingsAlert;
 CallingSettingsAlert.handleMessage = function (_ref2) {
   var message = _ref2.message;
   return message === _CallingSettings.callingSettingsMessages.saveSuccess || message === _CallingSettings.callingSettingsMessages.saveSuccessWithSoftphone || message === _CallingSettings.callingSettingsMessages.permissionChanged || message === _CallingSettings.callingSettingsMessages.webphonePermissionRemoved || message === _CallingSettings.callingSettingsMessages.phoneNumberChanged || message === _CallingSettings.callingSettingsMessages.emergencyCallingNotAvailable || message === _CallingSettings.callingSettingsMessages.saveSuccessWithJupiter || message === _CallingSettings.callingSettingsMessages.disableEmergencyInJapan;

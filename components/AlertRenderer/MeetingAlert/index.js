@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -43,6 +44,5 @@ MeetingAlert.handleMessage = function (_ref2) {
   var message = _ref2.message;
   return message === _Meeting.meetingStatus.emptyTopic || message === _Meeting.meetingStatus.noPassword || message === _Meeting.meetingStatus.insufficientPermissions || message === _Meeting.meetingStatus.scheduledSuccess || message === _Meeting.meetingStatus.updatedSuccess || message === _Meeting.meetingStatus.meetingIsDeleted || message === _Meeting.meetingStatus.renderInviteError || message === _Meeting.meetingStatus.internalError;
 };
-var _default = MeetingAlert;
-exports["default"] = _default;
+var _default = exports["default"] = MeetingAlert;
 //# sourceMappingURL=index.js.map

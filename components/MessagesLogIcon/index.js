@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -32,6 +33,5 @@ MessagesLogIcon.defaultProps = {
   disabled: false,
   onClick: function onClick() {}
 };
-var _default = MessagesLogIcon;
-exports["default"] = _default;
+var _default = exports["default"] = MessagesLogIcon;
 //# sourceMappingURL=index.js.map

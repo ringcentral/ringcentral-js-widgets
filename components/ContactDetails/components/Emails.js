@@ -1,5 +1,8 @@
 "use strict";
 
+require("core-js/modules/es.array.map.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/es.object.to-string.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -10,7 +13,7 @@ var _react = _interopRequireDefault(require("react"));
 var _i18n = _interopRequireDefault(require("../i18n"));
 var _styles = _interopRequireDefault(require("../styles.scss"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var Emails = function Emails(_ref) {
+var Emails = exports.Emails = function Emails(_ref) {
   var currentLocale = _ref.currentLocale,
     onClickMailTo = _ref.onClickMailTo,
     emails = _ref.emails,
@@ -40,5 +43,4 @@ var Emails = function Emails(_ref) {
   }
   return null;
 };
-exports.Emails = Emails;
 //# sourceMappingURL=Emails.js.map

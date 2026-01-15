@@ -1,10 +1,11 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-var _default = {
+var _default = exports["default"] = {
   currentCall: 'Current Call',
   viewCalls: 'View Calls',
   view: 'View',
@@ -15,5 +16,4 @@ var _default = {
   otherDeviceCall: '{numberOf} Call on other devices',
   otherDeviceCalls: '{numberOf} Calls on other devices'
 };
-exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

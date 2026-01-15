@@ -1,10 +1,12 @@
 "use strict";
 
-require("core-js/modules/es.array.map");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+require("core-js/modules/es.array.map.js");
+require("core-js/modules/es.object.to-string.js");
 var _utils = require("@ringcentral-integration/utils");
 var _clsx = _interopRequireDefault(require("clsx"));
 var _react = _interopRequireDefault(require("react"));
@@ -44,6 +46,5 @@ var AlertDisplay = function AlertDisplay(_ref) {
     });
   }));
 };
-var _default = AlertDisplay;
-exports["default"] = _default;
+var _default = exports["default"] = AlertDisplay;
 //# sourceMappingURL=AlertDisplay.js.map

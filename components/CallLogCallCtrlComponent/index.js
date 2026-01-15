@@ -1,22 +1,45 @@
 "use strict";
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-require("core-js/modules/es.array.concat");
-require("core-js/modules/es.array.is-array");
-require("core-js/modules/es.array.map");
-require("core-js/modules/web.timers");
+require("core-js/modules/es.symbol.js");
+require("core-js/modules/es.symbol.description.js");
+require("core-js/modules/es.symbol.iterator.js");
+require("core-js/modules/es.symbol.to-primitive.js");
+require("core-js/modules/es.array.from.js");
+require("core-js/modules/es.array.iterator.js");
+require("core-js/modules/es.array.slice.js");
+require("core-js/modules/es.date.to-primitive.js");
+require("core-js/modules/es.date.to-string.js");
+require("core-js/modules/es.function.bind.js");
+require("core-js/modules/es.function.name.js");
+require("core-js/modules/es.number.constructor.js");
+require("core-js/modules/es.object.create.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/es.object.get-own-property-descriptor.js");
+require("core-js/modules/es.object.get-prototype-of.js");
+require("core-js/modules/es.object.set-prototype-of.js");
+require("core-js/modules/es.promise.js");
+require("core-js/modules/es.regexp.exec.js");
+require("core-js/modules/es.regexp.to-string.js");
+require("core-js/modules/es.string.iterator.js");
+require("core-js/modules/es.weak-map.js");
+require("core-js/modules/web.dom-collections.iterator.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-require("regenerator-runtime/runtime");
+require("core-js/modules/es.array.concat.js");
+require("core-js/modules/es.array.is-array.js");
+require("core-js/modules/es.array.map.js");
+require("core-js/modules/es.object.to-string.js");
+require("core-js/modules/web.timers.js");
 var _callDirections = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callDirections"));
 var _telephonySessionStatus = require("@ringcentral-integration/commons/enums/telephonySessionStatus");
 var _telephonyStatus = _interopRequireDefault(require("@ringcentral-integration/commons/enums/telephonyStatus"));
 var _recordStatus = _interopRequireDefault(require("@ringcentral-integration/commons/modules/Webphone/recordStatus"));
 var _juno = require("@ringcentral/juno");
 var _junoIcon = require("@ringcentral/juno-icon");
-var _clsx23 = _interopRequireDefault(require("clsx"));
+var _clsx21 = _interopRequireDefault(require("clsx"));
 var _react = _interopRequireWildcard(require("react"));
 var _Answer = _interopRequireDefault(require("../../assets/images/Answer.svg"));
 var _Dialpad = _interopRequireDefault(require("../../assets/images/Dialpad.svg"));
@@ -39,23 +62,23 @@ var _MoreActionWithIncomingCall = require("./MoreActionWithIncomingCall");
 var _i18n = _interopRequireDefault(require("./i18n"));
 var _style = require("./style");
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
-function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) { if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } } return n["default"] = e, t && t.set(e, n), n; }
+function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, "default": e }; if (null === e || "object" != _typeof(e) && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
+function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
-function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) { n[e] = r[e]; } return n; }
-function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0) { ; } } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; } /* eslint-disable jsx-a11y/no-static-element-interactions */ /* eslint-disable jsx-a11y/click-events-have-key-events */
 var recodingVoiceTime = 6781;
 var CallLogCallCtrlComponent = function CallLogCallCtrlComponent(props) {
-  var _clsx19, _clsx20, _clsx21, _clsx22;
   var onMute = props.onMute,
     onUnmute = props.onUnmute,
     onHangup = props.onHangup,
@@ -96,7 +119,9 @@ var CallLogCallCtrlComponent = function CallLogCallCtrlComponent(props) {
     showConferenceCall = props.showConferenceCall,
     isCurrentCall = props.isCurrentCall,
     onMergeCall = props.onMergeCall,
-    isCallQueueCall = props.isCallQueueCall; // reject conditions: call direction is inbound & call status is ringing
+    isCallQueueCall = props.isCallQueueCall;
+
+  // reject conditions: call direction is inbound & call status is ringing
   var isInComingCall = _callDirections["default"].inbound === callDirection && _telephonyStatus["default"].ringing === callStatus;
   // real outbound call status
   var isOutboundCallConnecting = realOutboundCallStatus === _telephonySessionStatus.telephonySessionStatus.proceeding;
@@ -129,27 +154,24 @@ var CallLogCallCtrlComponent = function CallLogCallCtrlComponent(props) {
     setRecordPendingState = _useState6[1];
   var timer;
   var startRecordAction = /*#__PURE__*/function () {
-    var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+    var _ref = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
       var res,
         _args = arguments;
-      return regeneratorRuntime.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              _context.next = 2;
-              return startRecord.apply(void 0, _args);
-            case 2:
-              res = _context.sent;
-              if (res) {
-                setRecordPendingState(true);
-                timer = setTimeout(function () {
-                  setRecordPendingState(false);
-                }, recodingVoiceTime);
-              }
-            case 4:
-            case "end":
-              return _context.stop();
-          }
+      return _regenerator().w(function (_context) {
+        while (1) switch (_context.n) {
+          case 0:
+            _context.n = 1;
+            return startRecord.apply(void 0, _args);
+          case 1:
+            res = _context.v;
+            if (res) {
+              setRecordPendingState(true);
+              timer = setTimeout(function () {
+                setRecordPendingState(false);
+              }, recodingVoiceTime);
+            }
+          case 2:
+            return _context.a(2);
         }
       }, _callee);
     }));
@@ -175,7 +197,6 @@ var CallLogCallCtrlComponent = function CallLogCallCtrlComponent(props) {
   var warmTransferCall = !!warmTransferActiveTelephonySessionId;
   var showExtraCallControl = warmTransferCall || isWebRTCCall;
   if (showExtraCallControl && _callDirections["default"].outbound === callDirection || showExtraCallControl && _callDirections["default"].inbound === callDirection && callStatus !== _telephonyStatus["default"].ringing) {
-    var _clsx, _clsx2, _clsx3, _clsx4, _clsx5, _clsx8, _clsx9, _clsx11, _clsx12, _clsx13, _clsx14;
     var isRecording = recordStatus === _recordStatus["default"].recording;
     var recordingText = isRecording ? 'stopRecord' : 'record';
     var recordAction = isRecording ? stopRecord : startRecordAction;
@@ -187,7 +208,7 @@ var CallLogCallCtrlComponent = function CallLogCallCtrlComponent(props) {
       icon: muteIcon,
       key: muteTitle,
       onClick: muteAction,
-      iconClassName: (0, _clsx23["default"])((_clsx = {}, _defineProperty(_clsx, _styles["default"].moreActionIcon, true), _defineProperty(_clsx, _styles["default"].buttonDisabled, disableLinks || disabledCtrl), _defineProperty(_clsx, _styles["default"].moreActionIconActive, isOnMute), _clsx)),
+      iconClassName: (0, _clsx21["default"])(_defineProperty(_defineProperty(_defineProperty({}, _styles["default"].moreActionIcon, true), _styles["default"].buttonDisabled, disableLinks || disabledCtrl), _styles["default"].moreActionIconActive, isOnMute)),
       disabled: disableLinks || disabledCtrl,
       text: _i18n["default"].getString(muteTitle, currentLocale)
     }, {
@@ -197,21 +218,21 @@ var CallLogCallCtrlComponent = function CallLogCallCtrlComponent(props) {
         handleClose();
         toggleDialpadShow();
       },
-      iconClassName: (0, _clsx23["default"])((_clsx2 = {}, _defineProperty(_clsx2, _styles["default"].moreActionIcon, true), _defineProperty(_clsx2, _styles["default"].buttonDisabled, isInComingCall || disableLinks), _defineProperty(_clsx2, _styles["default"].moreActionIconActive, dialpadShow), _clsx2)),
+      iconClassName: (0, _clsx21["default"])(_defineProperty(_defineProperty(_defineProperty({}, _styles["default"].moreActionIcon, true), _styles["default"].buttonDisabled, isInComingCall || disableLinks), _styles["default"].moreActionIconActive, dialpadShow)),
       disabled: disableLinks || isInComingCall,
       text: _i18n["default"].getString(keypadText, currentLocale)
     }, {
       icon: _junoIcon.Hold,
       key: onHoldText,
       onClick: holdAction,
-      iconClassName: (0, _clsx23["default"])((_clsx3 = {}, _defineProperty(_clsx3, _styles["default"].moreActionIcon, true), _defineProperty(_clsx3, _styles["default"].holdActive, isOnHold), _clsx3)),
+      iconClassName: (0, _clsx21["default"])(_defineProperty(_defineProperty({}, _styles["default"].moreActionIcon, true), _styles["default"].holdActive, isOnHold)),
       disabled: holdDisabled,
       text: _i18n["default"].getString(onHoldText, currentLocale)
     }, {
       icon: isRecording ? _RecordOn["default"] : _RecordOff["default"],
       key: recordingText,
       onClick: recordAction,
-      iconClassName: (0, _clsx23["default"])((_clsx4 = {}, _defineProperty(_clsx4, _styles["default"].moreActionIcon, true), _defineProperty(_clsx4, _styles["default"].recordingIcon, true), _defineProperty(_clsx4, _styles["default"].recordingDisabled, recordPendingState), _clsx4)),
+      iconClassName: (0, _clsx21["default"])(_defineProperty(_defineProperty(_defineProperty({}, _styles["default"].moreActionIcon, true), _styles["default"].recordingIcon, true), _styles["default"].recordingDisabled, recordPendingState)),
       disabled: recordDisabled,
       text: _i18n["default"].getString(recordingText, currentLocale)
     }, {
@@ -221,7 +242,7 @@ var CallLogCallCtrlComponent = function CallLogCallCtrlComponent(props) {
         handleClose();
         endAction === null || endAction === void 0 ? void 0 : endAction();
       },
-      iconClassName: (0, _clsx23["default"])((_clsx5 = {}, _defineProperty(_clsx5, _styles["default"].buttonDisabled, disableLinks), _defineProperty(_clsx5, _styles["default"].endIcon, true), _clsx5)),
+      iconClassName: (0, _clsx21["default"])(_defineProperty(_defineProperty({}, _styles["default"].buttonDisabled, disableLinks), _styles["default"].endIcon, true)),
       disabled: disableLinks,
       text: _i18n["default"].getString(endTitle, currentLocale)
     }];
@@ -229,27 +250,27 @@ var CallLogCallCtrlComponent = function CallLogCallCtrlComponent(props) {
       icon: _junoIcon.CallAdd,
       key: 'add',
       onClick: onAddCall,
-      iconClassName: (0, _clsx23["default"])(_defineProperty({}, _styles["default"].moreActionIcon, true)),
+      iconClassName: (0, _clsx21["default"])(_defineProperty({}, _styles["default"].moreActionIcon, true)),
       text: _i18n["default"].getString('add', currentLocale)
     }] : [];
     var moreActions = [].concat(conferenceItem, [{
       icon: _junoIcon.TransferCall,
       key: 'transfer',
       onClick: onTransfer,
-      iconClassName: (0, _clsx23["default"])(_defineProperty({}, _styles["default"].moreActionIcon, true)),
+      iconClassName: (0, _clsx21["default"])(_defineProperty({}, _styles["default"].moreActionIcon, true)),
       text: _i18n["default"].getString('transfer', currentLocale)
     }, {
       icon: _junoIcon.Hold,
       key: onHoldText,
       onClick: holdAction,
-      iconClassName: (0, _clsx23["default"])((_clsx8 = {}, _defineProperty(_clsx8, _styles["default"].moreActionIcon, true), _defineProperty(_clsx8, _styles["default"].holdActive, isOnHold), _clsx8)),
+      iconClassName: (0, _clsx21["default"])(_defineProperty(_defineProperty({}, _styles["default"].moreActionIcon, true), _styles["default"].holdActive, isOnHold)),
       disabled: holdDisabled,
       text: _i18n["default"].getString(onHoldText, currentLocale)
     }, {
       icon: isRecording ? _RecordOn["default"] : _RecordOff["default"],
       key: recordingText,
       onClick: recordAction,
-      iconClassName: (0, _clsx23["default"])((_clsx9 = {}, _defineProperty(_clsx9, _styles["default"].moreActionIcon, true), _defineProperty(_clsx9, _styles["default"].recordingIcon, true), _defineProperty(_clsx9, _styles["default"].recordingDisabled, recordPendingState), _clsx9)),
+      iconClassName: (0, _clsx21["default"])(_defineProperty(_defineProperty(_defineProperty({}, _styles["default"].moreActionIcon, true), _styles["default"].recordingIcon, true), _styles["default"].recordingDisabled, recordPendingState)),
       disabled: recordDisabled,
       text: _i18n["default"].getString(recordingText, currentLocale)
     }]);
@@ -259,7 +280,7 @@ var CallLogCallCtrlComponent = function CallLogCallCtrlComponent(props) {
       tooltip: _i18n["default"].getString('more', currentLocale)
     };
     var DialPadCom = dialpadShow && /*#__PURE__*/_react["default"].createElement(_CallLogDialpad.CallLogDialpad, {
-      className: (0, _clsx23["default"])(_styles["default"].smallDialpad, _defineProperty({}, _styles["default"].smallDiapadShow, dialpadShow)),
+      className: (0, _clsx21["default"])(_styles["default"].smallDialpad, _defineProperty({}, _styles["default"].smallDiapadShow, dialpadShow)),
       onChange: function onChange(e) {
         // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
         sendDTMF(e);
@@ -270,7 +291,7 @@ var CallLogCallCtrlComponent = function CallLogCallCtrlComponent(props) {
     if (warmTransferActiveTelephonySessionId) {
       return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_juno.RcIconButtonGroup, {
         "data-sign": "warmTransferControlButtonsWrap",
-        className: (0, _clsx23["default"])(!isWide ? _styles["default"].classic : null, _styles["default"].root)
+        className: (0, _clsx21["default"])(!isWide ? _styles["default"].classic : null, _styles["default"].root)
       }, /*#__PURE__*/_react["default"].createElement(_style.CompleteTransferButton, {
         $isWide: isWide,
         "data-sign": "completeTransfer",
@@ -301,26 +322,26 @@ var CallLogCallCtrlComponent = function CallLogCallCtrlComponent(props) {
       })), DialPadCom);
     }
     return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement("div", {
-      className: (0, _clsx23["default"])(!isWide ? _styles["default"].classic : null, _styles["default"].root)
+      className: (0, _clsx21["default"])(!isWide ? _styles["default"].classic : null, _styles["default"].root)
     }, showConferenceCall && isWide && !isCurrentCall && /*#__PURE__*/_react["default"].createElement(_CircleButton.CircleButtonWithTitle, {
       title: _i18n["default"].getString('mergeCall', currentLocale),
       dataSign: "mergeCall",
       icon: _MergeIntoConferenceIcon["default"],
       onClick: onMergeCall,
-      className: (0, _clsx23["default"])((_clsx11 = {}, _defineProperty(_clsx11, _styles["default"].button, true), _defineProperty(_clsx11, _styles["default"].buttonDisabled, disableLinks || disabledCtrl), _clsx11)),
+      className: (0, _clsx21["default"])(_defineProperty(_defineProperty({}, _styles["default"].button, true), _styles["default"].buttonDisabled, disableLinks || disabledCtrl)),
       disabled: disableLinks || disabledCtrl
     }), /*#__PURE__*/_react["default"].createElement(_CircleButton.CircleButtonWithTitle, {
       title: _i18n["default"].getString(muteTitle, currentLocale),
       dataSign: muteTitle,
       icon: muteIcon,
       onClick: muteAction,
-      className: (0, _clsx23["default"])((_clsx12 = {}, _defineProperty(_clsx12, _styles["default"].button, true), _defineProperty(_clsx12, _styles["default"].buttonDisabled, disableLinks || disabledCtrl), _clsx12)),
+      className: (0, _clsx21["default"])(_defineProperty(_defineProperty({}, _styles["default"].button, true), _styles["default"].buttonDisabled, disableLinks || disabledCtrl)),
       disabled: disableLinks || disabledCtrl
     }), /*#__PURE__*/_react["default"].createElement(_CircleButton.CircleButtonWithTitle, {
       title: _i18n["default"].getString(keypadText, currentLocale),
       dataSign: keypadText,
       icon: _Dialpad["default"],
-      className: (0, _clsx23["default"])((_clsx13 = {}, _defineProperty(_clsx13, _styles["default"].button, true), _defineProperty(_clsx13, _styles["default"].buttonDisabled, isInComingCall || disableLinks), _defineProperty(_clsx13, _styles["default"].dialpadIconActive, dialpadShow), _clsx13)),
+      className: (0, _clsx21["default"])(_defineProperty(_defineProperty(_defineProperty({}, _styles["default"].button, true), _styles["default"].buttonDisabled, isInComingCall || disableLinks), _styles["default"].dialpadIconActive, dialpadShow)),
       disabled: disableLinks || isInComingCall,
       onClick: toggleDialpadShow
     }), /*#__PURE__*/_react["default"].createElement(_MoreActionComponent.MoreActionComponent, {
@@ -346,12 +367,11 @@ var CallLogCallCtrlComponent = function CallLogCallCtrlComponent(props) {
       showBorder: false,
       icon: _End["default"],
       onClick: endAction,
-      className: (0, _clsx23["default"])((_clsx14 = {}, _defineProperty(_clsx14, _styles["default"].hangup, true), _defineProperty(_clsx14, _styles["default"].button, true), _defineProperty(_clsx14, _styles["default"].buttonDisabled, disableLinks), _clsx14)),
+      className: (0, _clsx21["default"])(_defineProperty(_defineProperty(_defineProperty({}, _styles["default"].hangup, true), _styles["default"].button, true), _styles["default"].buttonDisabled, disableLinks)),
       disabled: disableLinks
     })), DialPadCom);
   }
   if ((allowPickupCall || isWebRTCCall) && isInComingCall && !onGoingActiveCalls) {
-    var _clsx15, _clsx16, _clsx17;
     var forwardTitle = _i18n["default"].getString('forward', currentLocale);
     var onForward = function onForward(e) {
       e.stopPropagation();
@@ -384,7 +404,7 @@ var CallLogCallCtrlComponent = function CallLogCallCtrlComponent(props) {
       tooltip: forwardTitle
     };
     return /*#__PURE__*/_react["default"].createElement("div", {
-      className: (0, _clsx23["default"])(!isWide ? _styles["default"].classic : null, _styles["default"].root)
+      className: (0, _clsx21["default"])(!isWide ? _styles["default"].classic : null, _styles["default"].root)
     }, enableReply ? /*#__PURE__*/_react["default"].createElement(_MoreActionWithIncomingCall.MoreActionWithIncomingCall
     // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
     , {
@@ -436,7 +456,7 @@ var CallLogCallCtrlComponent = function CallLogCallCtrlComponent(props) {
       iconHeight: 250,
       iconX: 125,
       iconY: 125,
-      className: (0, _clsx23["default"])((_clsx15 = {}, _defineProperty(_clsx15, _styles["default"].button, true), _defineProperty(_clsx15, _styles["default"].buttonDisabled, disableLinks || !isWebRTCCall), _clsx15)),
+      className: (0, _clsx21["default"])(_defineProperty(_defineProperty({}, _styles["default"].button, true), _styles["default"].buttonDisabled, disableLinks || !isWebRTCCall)),
       disabled: disableLinks || !isWebRTCCall,
       onClick: ignore
     }), !isCallQueueCall && /*#__PURE__*/_react["default"].createElement(_CircleButton.CircleButtonWithTitle, {
@@ -449,7 +469,7 @@ var CallLogCallCtrlComponent = function CallLogCallCtrlComponent(props) {
       iconX: 125,
       iconY: 125,
       onClick: endAction,
-      className: (0, _clsx23["default"])((_clsx16 = {}, _defineProperty(_clsx16, _styles["default"].hangup, true), _defineProperty(_clsx16, _styles["default"].button, true), _defineProperty(_clsx16, _styles["default"].buttonDisabled, disableLinks), _clsx16)),
+      className: (0, _clsx21["default"])(_defineProperty(_defineProperty(_defineProperty({}, _styles["default"].hangup, true), _styles["default"].button, true), _styles["default"].buttonDisabled, disableLinks)),
       disabled: disableLinks
     }), /*#__PURE__*/_react["default"].createElement(_CircleButton.CircleButtonWithTitle, {
       title: _i18n["default"].getString('answer', currentLocale),
@@ -457,14 +477,13 @@ var CallLogCallCtrlComponent = function CallLogCallCtrlComponent(props) {
       showBorder: false,
       icon: _Answer["default"],
       onClick: answer,
-      className: (0, _clsx23["default"])((_clsx17 = {}, _defineProperty(_clsx17, _styles["default"].button, true), _defineProperty(_clsx17, _styles["default"].answer, true), _defineProperty(_clsx17, _styles["default"].buttonDisabled, disableLinks), _clsx17)),
+      className: (0, _clsx21["default"])(_defineProperty(_defineProperty(_defineProperty({}, _styles["default"].button, true), _styles["default"].answer, true), _styles["default"].buttonDisabled, disableLinks)),
       disabled: disableLinks
     }));
   }
   if ((allowPickupCall || isWebRTCCall) && isInComingCall && onGoingActiveCalls) {
-    var _clsx18;
     return /*#__PURE__*/_react["default"].createElement("div", {
-      className: (0, _clsx23["default"])(!isWide ? _styles["default"].classic : null, _styles["default"].root)
+      className: (0, _clsx21["default"])(!isWide ? _styles["default"].classic : null, _styles["default"].root)
     }, /*#__PURE__*/_react["default"].createElement(_MoreActionWithIncomingCall.MoreActionWithIncomingCall, {
       disableIgnore: !isWebRTCCall
       // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
@@ -500,7 +519,7 @@ var CallLogCallCtrlComponent = function CallLogCallCtrlComponent(props) {
       iconX: 125,
       iconY: 125,
       onClick: endAction,
-      className: (0, _clsx23["default"])((_clsx18 = {}, _defineProperty(_clsx18, _styles["default"].hangup, true), _defineProperty(_clsx18, _styles["default"].button, true), _defineProperty(_clsx18, _styles["default"].buttonDisabled, disableLinks), _clsx18)),
+      className: (0, _clsx21["default"])(_defineProperty(_defineProperty(_defineProperty({}, _styles["default"].hangup, true), _styles["default"].button, true), _styles["default"].buttonDisabled, disableLinks)),
       disabled: disableLinks
     }), /*#__PURE__*/_react["default"].createElement("span", {
       "data-sign": "holdAndAnswer",
@@ -510,13 +529,13 @@ var CallLogCallCtrlComponent = function CallLogCallCtrlComponent(props) {
     }, /*#__PURE__*/_react["default"].createElement(_HoldAnswer["default"], null)));
   }
   return /*#__PURE__*/_react["default"].createElement("div", {
-    className: (0, _clsx23["default"])(!isWide ? _styles["default"].classic : null, _styles["default"].root)
+    className: (0, _clsx21["default"])(!isWide ? _styles["default"].classic : null, _styles["default"].root)
   }, /*#__PURE__*/_react["default"].createElement(_CircleButton.CircleButtonWithTitle, {
     title: _i18n["default"].getString(muteTitle, currentLocale),
     dataSign: muteTitle,
     icon: muteIcon,
     onClick: muteAction,
-    className: (0, _clsx23["default"])((_clsx19 = {}, _defineProperty(_clsx19, _styles["default"].button, true), _defineProperty(_clsx19, _styles["default"].buttonDisabled, disableLinks || disabledCtrl), _clsx19)),
+    className: (0, _clsx21["default"])(_defineProperty(_defineProperty({}, _styles["default"].button, true), _styles["default"].buttonDisabled, disableLinks || disabledCtrl)),
     disabled: disableLinks || disabledCtrl
   }), /*#__PURE__*/_react["default"].createElement(_CircleButton.CircleButtonWithTitle, {
     ref: transferRef,
@@ -524,14 +543,14 @@ var CallLogCallCtrlComponent = function CallLogCallCtrlComponent(props) {
     dataSign: "transfer",
     icon: _Transfer["default"],
     onClick: onTransfer,
-    className: (0, _clsx23["default"])((_clsx20 = {}, _defineProperty(_clsx20, _styles["default"].button, true), _defineProperty(_clsx20, _styles["default"].buttonActive, isOnTransfer), _defineProperty(_clsx20, _styles["default"].buttonDisabled, disableLinks || isInComingCall), _clsx20)),
+    className: (0, _clsx21["default"])(_defineProperty(_defineProperty(_defineProperty({}, _styles["default"].button, true), _styles["default"].buttonActive, isOnTransfer), _styles["default"].buttonDisabled, disableLinks || isInComingCall)),
     disabled: disableLinks || isInComingCall
   }), /*#__PURE__*/_react["default"].createElement(_CircleButton.CircleButtonWithTitle, {
     title: _i18n["default"].getString(holdTitle, currentLocale),
     dataSign: holdTitle,
     icon: _Hold["default"],
     onClick: holdAction,
-    className: (0, _clsx23["default"])((_clsx21 = {}, _defineProperty(_clsx21, _styles["default"].button, true), _defineProperty(_clsx21, _styles["default"].buttonActive, isOnHold), _defineProperty(_clsx21, _styles["default"].buttonDisabled, isInComingCall || disableLinks || isOutboundCallConnecting), _clsx21)),
+    className: (0, _clsx21["default"])(_defineProperty(_defineProperty(_defineProperty({}, _styles["default"].button, true), _styles["default"].buttonActive, isOnHold), _styles["default"].buttonDisabled, isInComingCall || disableLinks || isOutboundCallConnecting)),
     disabled: disableLinks || isInComingCall || isOutboundCallConnecting
   }), /*#__PURE__*/_react["default"].createElement(_CircleButton.CircleButtonWithTitle, {
     title: _i18n["default"].getString(endTitle, currentLocale),
@@ -539,7 +558,7 @@ var CallLogCallCtrlComponent = function CallLogCallCtrlComponent(props) {
     showBorder: false,
     icon: _End["default"],
     onClick: endAction,
-    className: (0, _clsx23["default"])((_clsx22 = {}, _defineProperty(_clsx22, _styles["default"].hangup, true), _defineProperty(_clsx22, _styles["default"].button, true), _defineProperty(_clsx22, _styles["default"].buttonDisabled, disableLinks), _clsx22)),
+    className: (0, _clsx21["default"])(_defineProperty(_defineProperty(_defineProperty({}, _styles["default"].hangup, true), _styles["default"].button, true), _styles["default"].buttonDisabled, disableLinks)),
     disabled: disableLinks
   }));
 };
@@ -573,6 +592,5 @@ CallLogCallCtrlComponent.defaultProps = {
   clickForwardTrack: function clickForwardTrack() {},
   realOutboundCallStatus: ''
 };
-var _default = CallLogCallCtrlComponent;
-exports["default"] = _default;
+var _default = exports["default"] = CallLogCallCtrlComponent;
 //# sourceMappingURL=index.js.map

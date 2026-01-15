@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -33,6 +34,5 @@ PresenceStatusIcon.defaultProps = {
   // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   presenceStatus: null
 };
-var _default = PresenceStatusIcon;
-exports["default"] = _default;
+var _default = exports["default"] = PresenceStatusIcon;
 //# sourceMappingURL=index.js.map

@@ -1,11 +1,12 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 /* eslint-disable */
-var _default = {
+var _default = exports["default"] = {
   account: '帳戶',
   contact: '連絡人',
   lead: '潛在客戶',
@@ -20,5 +21,4 @@ var _default = {
 // @key: @#@"case"@#@ @source: @#@"Case"@#@
 // @key: @#@"chooseEntity"@#@ @source: @#@"Please select entity type"@#@
 // @key: @#@"create"@#@ @source: @#@"Create"@#@
-exports["default"] = _default;
 //# sourceMappingURL=zh-TW.js.map

@@ -1,11 +1,12 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 /* eslint-disable */
-var _default = {
+var _default = exports["default"] = {
   title: 'Region',
   NAOnlyMessage: 'Legen Sie Ihre Vorwahl fest. Diese Information wird für Ortsgespräche verwendet.',
   MultiWithNAMessage: 'Legen Sie das Land und die Vorwahl Ihrer Region fest. Diese Information wird für Ortsgespräche und die Formatierung der Telefonnummer verwendet.',
@@ -20,5 +21,4 @@ var _default = {
 // @key: @#@"country"@#@ @source: @#@"Country"@#@
 // @key: @#@"areaCode"@#@ @source: @#@"Area Code"@#@
 // @key: @#@"areaCodePlaceholder"@#@ @source: @#@"Enter Area Code"@#@
-exports["default"] = _default;
 //# sourceMappingURL=de-DE.js.map

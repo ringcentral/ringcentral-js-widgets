@@ -1,19 +1,21 @@
 "use strict";
 
-require("core-js/modules/es.array.map");
-require("core-js/modules/es.function.bind");
-require("core-js/modules/es.object.assign");
+require("core-js/modules/es.function.bind.js");
+require("core-js/modules/es.object.assign.js");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.usePresenceItems = void 0;
+require("core-js/modules/es.array.map.js");
+require("core-js/modules/es.object.to-string.js");
 var _presenceStatus = require("@ringcentral-integration/commons/enums/presenceStatus.enum");
 var _Presence = require("@ringcentral-integration/commons/modules/Presence");
 var _react = _interopRequireDefault(require("react"));
 var _PresenceItem = require("../PresenceItem");
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) { ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } } return n; }, _extends.apply(null, arguments); }
-var usePresenceItems = function usePresenceItems(_ref) {
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
+var usePresenceItems = exports.usePresenceItems = function usePresenceItems(_ref) {
   var onChange = _ref.onChange,
     currentLocale = _ref.currentLocale,
     userStatus = _ref.userStatus,
@@ -57,5 +59,4 @@ var usePresenceItems = function usePresenceItems(_ref) {
     elements: elements
   };
 };
-exports.usePresenceItems = usePresenceItems;
 //# sourceMappingURL=usePresenceItems.js.map

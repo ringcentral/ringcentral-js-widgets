@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -11,7 +12,7 @@ var _CallSubject = require("../CallSubject");
 var _FollowInfo = require("../FollowInfo");
 var _styles = _interopRequireDefault(require("../styles.scss"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var BasicCallInfoMain = function BasicCallInfoMain(_ref) {
+var BasicCallInfoMain = exports.BasicCallInfoMain = function BasicCallInfoMain(_ref) {
   var onClick = _ref.onClick,
     children = _ref.children,
     isInbound = _ref.isInbound,
@@ -32,5 +33,4 @@ var BasicCallInfoMain = function BasicCallInfoMain(_ref) {
     splitSign: "|"
   })), children);
 };
-exports.BasicCallInfoMain = BasicCallInfoMain;
 //# sourceMappingURL=BasicCallInfoMain.js.map

@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -63,6 +64,5 @@ CallInfo.defaultProps = {
   showContactDisplayPlaceholder: true,
   callerIdName: undefined
 };
-var _default = CallInfo;
-exports["default"] = _default;
+var _default = exports["default"] = CallInfo;
 //# sourceMappingURL=CallInfo.js.map

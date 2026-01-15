@@ -1,17 +1,18 @@
 "use strict";
 
-require("core-js/modules/es.function.name");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.Avatar = void 0;
+require("core-js/modules/es.function.name.js");
 var _clsx = _interopRequireDefault(require("clsx"));
 var _react = _interopRequireDefault(require("react"));
 var _DefaultAvatar = _interopRequireDefault(require("../../../assets/images/DefaultAvatar.svg"));
 var _PlaceholderImage = _interopRequireDefault(require("../../PlaceholderImage"));
 var _styles = _interopRequireDefault(require("../styles.scss"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var Avatar = function Avatar(_ref) {
+var Avatar = exports.Avatar = function Avatar(_ref) {
   var name = _ref.name,
     avatarUrl = _ref.avatarUrl,
     inactive = _ref.inactive,
@@ -35,7 +36,6 @@ var Avatar = function Avatar(_ref) {
     })
   }), sourceNode);
 };
-exports.Avatar = Avatar;
 Avatar.defaultProps = {
   inactive: false
 };

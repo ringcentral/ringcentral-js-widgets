@@ -1,36 +1,39 @@
 "use strict";
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-require("core-js/modules/es.array.is-array");
-require("core-js/modules/es.array.map");
-require("core-js/modules/es.array.slice");
-require("core-js/modules/es.object.define-properties");
-require("core-js/modules/es.object.freeze");
+require("core-js/modules/es.symbol.js");
+require("core-js/modules/es.symbol.description.js");
+require("core-js/modules/es.symbol.iterator.js");
+require("core-js/modules/es.symbol.to-primitive.js");
+require("core-js/modules/es.array.iterator.js");
+require("core-js/modules/es.array.slice.js");
+require("core-js/modules/es.date.to-primitive.js");
+require("core-js/modules/es.number.constructor.js");
+require("core-js/modules/es.object.define-properties.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/es.object.freeze.js");
+require("core-js/modules/es.string.iterator.js");
+require("core-js/modules/web.dom-collections.iterator.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.StyledMenuItem = exports.MoreActionComponent = void 0;
+require("core-js/modules/es.array.is-array.js");
+require("core-js/modules/es.array.map.js");
+require("core-js/modules/es.object.to-string.js");
 var _juno = require("@ringcentral/juno");
 var _clsx3 = _interopRequireDefault(require("clsx"));
 var _react = _interopRequireDefault(require("react"));
 var _CircleButton = require("../CircleButton");
 var _styles = _interopRequireDefault(require("./styles.scss"));
+var _templateObject;
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n  max-width: 170px;\n"]);
-  _templateObject = function _templateObject() {
-    return data;
-  };
-  return data;
-}
 function _taggedTemplateLiteral(e, t) { return t || (t = e.slice(0)), Object.freeze(Object.defineProperties(e, { raw: { value: Object.freeze(t) } })); }
-var StyledMenuItem = (0, _juno.styled)(_juno.RcMenuItem)(_templateObject());
-exports.StyledMenuItem = StyledMenuItem;
-var MoreActionComponent = function MoreActionComponent(_ref) {
-  var _clsx;
+var StyledMenuItem = exports.StyledMenuItem = (0, _juno.styled)(_juno.RcMenuItem)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n  max-width: 170px;\n"])));
+var MoreActionComponent = exports.MoreActionComponent = function MoreActionComponent(_ref) {
   var actionsList = _ref.actionsList,
     _ref$disabled = _ref.disabled,
     disabled = _ref$disabled === void 0 ? false : _ref$disabled,
@@ -51,7 +54,7 @@ var MoreActionComponent = function MoreActionComponent(_ref) {
     dataSign: dataSign,
     icon: rootButtonProps.icon,
     onClick: handleClick,
-    className: (0, _clsx3["default"])(rootButtonProps.className, _styles["default"].button, (_clsx = {}, _defineProperty(_clsx, _styles["default"].buttonDisabled, disabled), _defineProperty(_clsx, _styles["default"].rootButtonActive, !!anchorEl), _clsx)),
+    className: (0, _clsx3["default"])(rootButtonProps.className, _styles["default"].button, _defineProperty(_defineProperty({}, _styles["default"].buttonDisabled, disabled), _styles["default"].rootButtonActive, !!anchorEl)),
     disabled: false
   }) : /*#__PURE__*/_react["default"].createElement("span", {
     title: rootButtonProps.tooltip
@@ -109,5 +112,4 @@ var MoreActionComponent = function MoreActionComponent(_ref) {
     }, subText, " ")));
   })))));
 };
-exports.MoreActionComponent = MoreActionComponent;
 //# sourceMappingURL=MoreActionComponent.js.map

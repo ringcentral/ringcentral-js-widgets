@@ -1,48 +1,18 @@
 "use strict";
 
-require("core-js/modules/es.array.slice");
-require("core-js/modules/es.object.define-properties");
-require("core-js/modules/es.object.freeze");
+require("core-js/modules/es.array.slice.js");
+require("core-js/modules/es.object.define-properties.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/es.object.freeze.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.StyledReplyIcon = exports.StyledMenuList = exports.StyledArrowIcon = exports.StyledActionIcon = void 0;
 var _juno = require("@ringcentral/juno");
-function _templateObject4() {
-  var data = _taggedTemplateLiteral(["\n  position: absolute;\n  right: 8px;\n"]);
-  _templateObject4 = function _templateObject4() {
-    return data;
-  };
-  return data;
-}
-function _templateObject3() {
-  var data = _taggedTemplateLiteral(["\n  ", " {\n    width: 124px;\n  }\n"]);
-  _templateObject3 = function _templateObject3() {
-    return data;
-  };
-  return data;
-}
-function _templateObject2() {
-  var data = _taggedTemplateLiteral(["\n  transform: rotateY(180deg);\n"]);
-  _templateObject2 = function _templateObject2() {
-    return data;
-  };
-  return data;
-}
-function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n  margin-right: ", ";\n"]);
-  _templateObject = function _templateObject() {
-    return data;
-  };
-  return data;
-}
+var _templateObject, _templateObject2, _templateObject3, _templateObject4;
 function _taggedTemplateLiteral(e, t) { return t || (t = e.slice(0)), Object.freeze(Object.defineProperties(e, { raw: { value: Object.freeze(t) } })); }
-var StyledActionIcon = (0, _juno.styled)(_juno.RcIcon)(_templateObject(), (0, _juno.spacing)(2));
-exports.StyledActionIcon = StyledActionIcon;
-var StyledReplyIcon = (0, _juno.styled)(StyledActionIcon)(_templateObject2());
-exports.StyledReplyIcon = StyledReplyIcon;
-var StyledMenuList = (0, _juno.styled)(_juno.RcMenuList)(_templateObject3(), _juno.RcMenuItem);
-exports.StyledMenuList = StyledMenuList;
-var StyledArrowIcon = (0, _juno.styled)(_juno.RcIconButton)(_templateObject4());
-exports.StyledArrowIcon = StyledArrowIcon;
+var StyledActionIcon = exports.StyledActionIcon = (0, _juno.styled)(_juno.RcIcon)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n  margin-right: ", ";\n"])), (0, _juno.spacing)(2));
+var StyledReplyIcon = exports.StyledReplyIcon = (0, _juno.styled)(StyledActionIcon)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n  transform: rotateY(180deg);\n"])));
+var StyledMenuList = exports.StyledMenuList = (0, _juno.styled)(_juno.RcMenuList)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n  ", " {\n    width: 124px;\n  }\n"])), _juno.RcMenuItem);
+var StyledArrowIcon = exports.StyledArrowIcon = (0, _juno.styled)(_juno.RcIconButton)(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n  position: absolute;\n  right: 8px;\n"])));
 //# sourceMappingURL=StyledMoreAction.js.map

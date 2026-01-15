@@ -1,11 +1,12 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 /* eslint-disable */
-var _default = {
+var _default = exports["default"] = {
   header: '지원팀에 문의',
   toggleTitle: '1. 오류 추적 모드를 켭니다.',
   toggleDescription: '오류 추적 모드를 켜면 문제를 찾는 데 도움이 되지만 앱 성능에 약간의 영향이 있을 수 있습니다.',
@@ -36,5 +37,4 @@ var _default = {
 // @key: @#@"privacyNoticeEnd"@#@ @source: @#@"Privacy Notice."@#@
 // @key: @#@"needLeavePage"@#@ @source: @#@"You may leave this page while error tracking is running. When you have replicated the issue, return to this page and download the log files."@#@
 // @key: @#@"downloading"@#@ @source: @#@"Downloading"@#@
-exports["default"] = _default;
 //# sourceMappingURL=ko-KR.js.map

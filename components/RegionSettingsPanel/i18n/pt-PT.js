@@ -1,11 +1,12 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 /* eslint-disable */
-var _default = {
+var _default = exports["default"] = {
   title: 'Região',
   NAOnlyMessage: 'Defina o indicativo de zona. Este será utilizado para marcação local.',
   MultiWithNAMessage: 'Defina o país e o indicativo de zona da sua região. Será utilizado para a marcação local e para a formatação do número de telefone.',
@@ -20,5 +21,4 @@ var _default = {
 // @key: @#@"country"@#@ @source: @#@"Country"@#@
 // @key: @#@"areaCode"@#@ @source: @#@"Area Code"@#@
 // @key: @#@"areaCodePlaceholder"@#@ @source: @#@"Enter Area Code"@#@
-exports["default"] = _default;
 //# sourceMappingURL=pt-PT.js.map

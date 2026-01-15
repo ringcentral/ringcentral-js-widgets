@@ -1,16 +1,18 @@
 "use strict";
 
-require("core-js/modules/es.array.every");
-require("core-js/modules/es.array.filter");
-require("core-js/modules/es.object.keys");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.pickFallBackInfo = exports.pickEleByProps = void 0;
+require("core-js/modules/es.array.every.js");
+require("core-js/modules/es.array.filter.js");
+require("core-js/modules/es.object.keys.js");
+require("core-js/modules/es.object.to-string.js");
 var _callDirections = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callDirections"));
 var _i18n = _interopRequireDefault(require("./i18n"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var pickEleByProps = function pickEleByProps() {
+var pickEleByProps = exports.pickEleByProps = function pickEleByProps() {
   var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var list = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
   var keys = Object.keys(props);
@@ -23,8 +25,7 @@ var pickEleByProps = function pickEleByProps() {
   });
   return result;
 };
-exports.pickEleByProps = pickEleByProps;
-var pickFallBackInfo = function pickFallBackInfo(call, contactName, currentLocale) {
+var pickFallBackInfo = exports.pickFallBackInfo = function pickFallBackInfo(call, contactName, currentLocale) {
   var direction = call === null || call === void 0 ? void 0 : call.direction;
   var fallBackName = contactName;
   var fallBackNumber = '';
@@ -65,5 +66,4 @@ var pickFallBackInfo = function pickFallBackInfo(call, contactName, currentLocal
     fallBackNumber: fallBackNumber
   };
 };
-exports.pickFallBackInfo = pickFallBackInfo;
 //# sourceMappingURL=utils.js.map

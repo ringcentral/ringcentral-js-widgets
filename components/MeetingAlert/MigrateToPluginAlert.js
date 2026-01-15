@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -11,7 +12,7 @@ var _FormattedMessage = _interopRequireDefault(require("../FormattedMessage"));
 var _i18n = _interopRequireDefault(require("./i18n"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var MigrateToPluginAlert = function MigrateToPluginAlert(_ref) {
+var MigrateToPluginAlert = exports.MigrateToPluginAlert = function MigrateToPluginAlert(_ref) {
   var substituteName = _ref.substituteName,
     currentLocale = _ref.currentLocale,
     onCloseAlert = _ref.onCloseAlert;
@@ -44,5 +45,4 @@ var MigrateToPluginAlert = function MigrateToPluginAlert(_ref) {
     onClick: onCloseAlert
   }))));
 };
-exports.MigrateToPluginAlert = MigrateToPluginAlert;
 //# sourceMappingURL=MigrateToPluginAlert.js.map

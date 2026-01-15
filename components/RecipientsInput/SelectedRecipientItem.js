@@ -1,15 +1,16 @@
 "use strict";
 
-require("core-js/modules/es.function.name");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.SelectedRecipientItem = void 0;
+require("core-js/modules/es.function.name.js");
 var _react = _interopRequireDefault(require("react"));
 var _RemoveButton = require("../RemoveButton");
 var _styles = _interopRequireDefault(require("./styles.scss"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var SelectedRecipientItem = function SelectedRecipientItem(_ref) {
+var SelectedRecipientItem = exports.SelectedRecipientItem = function SelectedRecipientItem(_ref) {
   var phoneNumber = _ref.phoneNumber,
     _ref$isWarning = _ref.isWarning,
     isWarning = _ref$isWarning === void 0 ? false : _ref$isWarning,
@@ -31,5 +32,4 @@ var SelectedRecipientItem = function SelectedRecipientItem(_ref) {
     showWarningIcon: isWarning
   }));
 };
-exports.SelectedRecipientItem = SelectedRecipientItem;
 //# sourceMappingURL=SelectedRecipientItem.js.map

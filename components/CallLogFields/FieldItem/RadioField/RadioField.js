@@ -1,14 +1,16 @@
 "use strict";
 
-require("core-js/modules/es.array.map");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.RadioField = void 0;
+require("core-js/modules/es.array.map.js");
+require("core-js/modules/es.object.to-string.js");
 var _juno = require("@ringcentral/juno");
 var _react = _interopRequireDefault(require("react"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var RadioField = function RadioField(_ref) {
+var RadioField = exports.RadioField = function RadioField(_ref) {
   var value = _ref.value,
     options = _ref.options,
     classes = _ref.classes,
@@ -30,5 +32,4 @@ var RadioField = function RadioField(_ref) {
     });
   }));
 };
-exports.RadioField = RadioField;
 //# sourceMappingURL=RadioField.js.map

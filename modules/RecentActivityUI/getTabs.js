@@ -1,11 +1,13 @@
 "use strict";
 
-require("core-js/modules/es.array.concat");
-require("core-js/modules/es.array.filter");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.trackTabsMap = exports.getTabs = void 0;
+require("core-js/modules/es.array.concat.js");
+require("core-js/modules/es.array.filter.js");
+require("core-js/modules/es.object.to-string.js");
 var _trackEvents = require("@ringcentral-integration/commons/enums/trackEvents");
 var _react = _interopRequireDefault(require("react"));
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
@@ -15,14 +17,13 @@ var _RecentActivityCalls = _interopRequireDefault(require("../../components/Rece
 var _RecentActivityMessages = _interopRequireDefault(require("../../components/RecentActivityMessages"));
 var _i18n = _interopRequireDefault(require("./i18n"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var trackTabsMap = {
+var trackTabsMap = exports.trackTabsMap = {
   recentCalls: _trackEvents.trackEvents.clickRecentActivityCall,
   faxes: _trackEvents.trackEvents.clickRecentActivityFaxes,
   recentMessages: _trackEvents.trackEvents.clickRecentActivitySms,
   voicemails: _trackEvents.trackEvents.clickRecentActivityVoicemails
 };
-exports.trackTabsMap = trackTabsMap;
-var getTabs = function getTabs(_ref) {
+var getTabs = exports.getTabs = function getTabs(_ref) {
   var ready = _ref.ready,
     currentLocale = _ref.currentLocale,
     dateTimeFormatter = _ref.dateTimeFormatter,
@@ -137,5 +138,4 @@ var getTabs = function getTabs(_ref) {
     return item !== null;
   });
 };
-exports.getTabs = getTabs;
 //# sourceMappingURL=getTabs.js.map

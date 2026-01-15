@@ -1,15 +1,16 @@
 "use strict";
 
-require("core-js/modules/es.array.concat");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.RecipientPhone = void 0;
+require("core-js/modules/es.array.concat.js");
 var _react = _interopRequireDefault(require("react"));
 var _phoneTypeNames = _interopRequireDefault(require("../../lib/phoneTypeNames"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var RecipientPhone = function RecipientPhone(_ref) {
+var RecipientPhone = exports.RecipientPhone = function RecipientPhone(_ref) {
   var currentLocale = _ref.currentLocale,
     formatContactPhone = _ref.formatContactPhone,
     phoneNumber = _ref.phoneNumber,
@@ -32,5 +33,4 @@ var RecipientPhone = function RecipientPhone(_ref) {
     className: _styles["default"].label
   }, phoneTypeName));
 };
-exports.RecipientPhone = RecipientPhone;
 //# sourceMappingURL=RecipientPhone.js.map

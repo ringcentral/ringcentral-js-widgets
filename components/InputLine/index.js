@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -19,6 +20,5 @@ var InputLine = function InputLine(props) {
     className: _styles["default"].inputHolder
   }, props.children));
 };
-var _default = InputLine;
-exports["default"] = _default;
+var _default = exports["default"] = InputLine;
 //# sourceMappingURL=index.js.map

@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -11,8 +12,6 @@ function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default":
 // @ts-expect-error
 
 var i18n = new _i18n["default"](_loadLocale["default"]);
-var t = (0, _utils.getTranslateFn)(i18n);
-exports.t = t;
-var _default = i18n;
-exports["default"] = _default;
+var t = exports.t = (0, _utils.getTranslateFn)(i18n);
+var _default = exports["default"] = i18n;
 //# sourceMappingURL=index.js.map

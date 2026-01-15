@@ -1,8 +1,9 @@
 "use strict";
 
-require("core-js/modules/es.array.slice");
-require("core-js/modules/es.object.define-properties");
-require("core-js/modules/es.object.freeze");
+require("core-js/modules/es.array.slice.js");
+require("core-js/modules/es.object.define-properties.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/es.object.freeze.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -11,20 +12,14 @@ var _juno = require("@ringcentral/juno");
 var _junoIcon = require("@ringcentral/juno-icon");
 var _react = _interopRequireDefault(require("react"));
 var _i18n = require("./i18n");
+var _templateObject;
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n  .", " {\n    margin: ", ";\n    width: 100%;\n\n    header {\n      display: flex;\n      justify-content: space-between;\n      align-items: center;\n      margin: ", ";\n    }\n\n    main {\n      margin: ", ";\n    }\n\n    footer {\n      display: flex;\n      justify-content: space-between;\n      align-items: center;\n      margin: ", ";\n      gap: ", ";\n    }\n  }\n"]);
-  _templateObject = function _templateObject() {
-    return data;
-  };
-  return data;
-}
 function _taggedTemplateLiteral(e, t) { return t || (t = e.slice(0)), Object.freeze(Object.defineProperties(e, { raw: { value: Object.freeze(t) } })); }
 var modalClasses = {
   paper: 'issues-tracking-dialog-paper'
 };
-var IssuesTrackingGlobalStyle = (0, _juno.createGlobalStyle)(_templateObject(), modalClasses.paper, (0, _juno.spacing)(4), (0, _juno.spacing)(2, 2, 0, 4), (0, _juno.spacing)(2, 4), (0, _juno.spacing)(4), (0, _juno.spacing)(4));
-var IssuesTrackingCloseConfirmPanel = function IssuesTrackingCloseConfirmPanel(_ref) {
+var IssuesTrackingGlobalStyle = (0, _juno.createGlobalStyle)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n  .", " {\n    margin: ", ";\n    width: 100%;\n\n    header {\n      display: flex;\n      justify-content: space-between;\n      align-items: center;\n      margin: ", ";\n    }\n\n    main {\n      margin: ", ";\n    }\n\n    footer {\n      display: flex;\n      justify-content: space-between;\n      align-items: center;\n      margin: ", ";\n      gap: ", ";\n    }\n  }\n"])), modalClasses.paper, (0, _juno.spacing)(4), (0, _juno.spacing)(2, 2, 0, 4), (0, _juno.spacing)(2, 4), (0, _juno.spacing)(4), (0, _juno.spacing)(4));
+var IssuesTrackingCloseConfirmPanel = exports.IssuesTrackingCloseConfirmPanel = function IssuesTrackingCloseConfirmPanel(_ref) {
   var open = _ref.open,
     onClose = _ref.onClose,
     onCancel = _ref.onCancel,
@@ -66,5 +61,4 @@ var IssuesTrackingCloseConfirmPanel = function IssuesTrackingCloseConfirmPanel(_
     "data-sign": "DialogOKButton"
   }, (0, _i18n.t)('confirm'))));
 };
-exports.IssuesTrackingCloseConfirmPanel = IssuesTrackingCloseConfirmPanel;
 //# sourceMappingURL=IssuesTrackingConfirmPanel.js.map

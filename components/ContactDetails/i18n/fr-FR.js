@@ -1,15 +1,20 @@
 "use strict";
 
-require("core-js/modules/es.symbol");
-require("core-js/modules/es.symbol.description");
-require("core-js/modules/es.symbol.to-primitive");
-require("core-js/modules/es.date.to-primitive");
-require("core-js/modules/es.number.constructor");
-require("core-js/modules/es.object.to-string");
+require("core-js/modules/es.symbol.js");
+require("core-js/modules/es.symbol.description.js");
+require("core-js/modules/es.symbol.iterator.js");
+require("core-js/modules/es.array.iterator.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/es.object.to-string.js");
+require("core-js/modules/es.string.iterator.js");
+require("core-js/modules/web.dom-collections.iterator.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+require("core-js/modules/es.symbol.to-primitive.js");
+require("core-js/modules/es.date.to-primitive.js");
+require("core-js/modules/es.number.constructor.js");
 var _phoneTypes = require("@ringcentral-integration/commons/enums/phoneTypes");
 var _presenceStatus = require("@ringcentral-integration/commons/enums/presenceStatus.enum");
 var _Presence = require("@ringcentral-integration/commons/modules/Presence");
@@ -18,7 +23,7 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); } /* eslint-disable */
-var _default = (_phoneTypes$extension = {}, _defineProperty(_phoneTypes$extension, _phoneTypes.phoneTypes.extension, 'Ext.'), _defineProperty(_phoneTypes$extension, _phoneTypes.phoneTypes.direct, 'Direct'), _defineProperty(_phoneTypes$extension, _phoneTypes.phoneTypes.mobile, 'Mobile'), _defineProperty(_phoneTypes$extension, _phoneTypes.phoneTypes.contact, 'Contact téléphonique'), _defineProperty(_phoneTypes$extension, _phoneTypes.phoneTypes.home, 'Domicile'), _defineProperty(_phoneTypes$extension, _phoneTypes.phoneTypes.business, 'Bureau'), _defineProperty(_phoneTypes$extension, _phoneTypes.phoneTypes.fax, 'Fax'), _defineProperty(_phoneTypes$extension, _phoneTypes.phoneTypes.company, 'Entreprise'), _defineProperty(_phoneTypes$extension, _phoneTypes.phoneTypes.other, 'Autre'), _defineProperty(_phoneTypes$extension, "emailLabel", 'Adresse e-mail'), _defineProperty(_phoneTypes$extension, "call", 'Appel'), _defineProperty(_phoneTypes$extension, "text", 'SMS'), _defineProperty(_phoneTypes$extension, _presenceStatus.presenceStatus.available, 'Disponible'), _defineProperty(_phoneTypes$extension, _presenceStatus.presenceStatus.offline, 'Invisible'), _defineProperty(_phoneTypes$extension, _presenceStatus.presenceStatus.busy, 'Occupés'), _defineProperty(_phoneTypes$extension, _Presence.dndStatus.doNotAcceptAnyCalls, 'Ne pas déranger'), _defineProperty(_phoneTypes$extension, "notActivated", 'Inactif'), _defineProperty(_phoneTypes$extension, "jobTitle", 'Titre'), _defineProperty(_phoneTypes$extension, "site", 'Site'), _phoneTypes$extension); // @key: @#@"[phoneTypes.extension]"@#@ @source: @#@"Ext."@#@
+var _default = exports["default"] = (_phoneTypes$extension = {}, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_phoneTypes$extension, _phoneTypes.phoneTypes.extension, 'Ext.'), _phoneTypes.phoneTypes.direct, 'Direct'), _phoneTypes.phoneTypes.mobile, 'Mobile'), _phoneTypes.phoneTypes.contact, 'Contact téléphonique'), _phoneTypes.phoneTypes.home, 'Domicile'), _phoneTypes.phoneTypes.business, 'Bureau'), _phoneTypes.phoneTypes.fax, 'Fax'), _phoneTypes.phoneTypes.company, 'Entreprise'), _phoneTypes.phoneTypes.other, 'Autre'), "emailLabel", 'Adresse e-mail'), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_phoneTypes$extension, "call", 'Appel'), "text", 'SMS'), _presenceStatus.presenceStatus.available, 'Disponible'), _presenceStatus.presenceStatus.offline, 'Invisible'), _presenceStatus.presenceStatus.busy, 'Occupés'), _Presence.dndStatus.doNotAcceptAnyCalls, 'Ne pas déranger'), "notActivated", 'Inactif'), "jobTitle", 'Titre'), "site", 'Site')); // @key: @#@"[phoneTypes.extension]"@#@ @source: @#@"Ext."@#@
 // @key: @#@"[phoneTypes.direct]"@#@ @source: @#@"Direct"@#@
 // @key: @#@"[phoneTypes.mobile]"@#@ @source: @#@"Mobile"@#@
 // @key: @#@"[phoneTypes.contact]"@#@ @source: @#@"Contact phone"@#@
@@ -37,5 +42,4 @@ var _default = (_phoneTypes$extension = {}, _defineProperty(_phoneTypes$extensio
 // @key: @#@"notActivated"@#@ @source: @#@"Inactive"@#@
 // @key: @#@"jobTitle"@#@ @source: @#@"Title"@#@
 // @key: @#@"site"@#@ @source: @#@"Site"@#@
-exports["default"] = _default;
 //# sourceMappingURL=fr-FR.js.map

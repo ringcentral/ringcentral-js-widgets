@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -26,6 +27,5 @@ BackButton.defaultProps = {
   label: undefined,
   showIcon: true
 };
-var _default = BackButton;
-exports["default"] = _default;
+var _default = exports["default"] = BackButton;
 //# sourceMappingURL=index.js.map

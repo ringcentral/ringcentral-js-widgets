@@ -1,15 +1,22 @@
 "use strict";
 
-require("core-js/modules/es.symbol");
-require("core-js/modules/es.symbol.description");
-require("core-js/modules/es.symbol.to-primitive");
-require("core-js/modules/es.date.to-primitive");
-require("core-js/modules/es.number.constructor");
-require("core-js/modules/es.object.to-string");
+require("core-js/modules/es.symbol.js");
+require("core-js/modules/es.symbol.description.js");
+require("core-js/modules/es.symbol.iterator.js");
+require("core-js/modules/es.array.includes.js");
+require("core-js/modules/es.array.iterator.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/es.object.to-string.js");
+require("core-js/modules/es.string.includes.js");
+require("core-js/modules/es.string.iterator.js");
+require("core-js/modules/web.dom-collections.iterator.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+require("core-js/modules/es.symbol.to-primitive.js");
+require("core-js/modules/es.date.to-primitive.js");
+require("core-js/modules/es.number.constructor.js");
 var _callDirections = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callDirections"));
 var _callResults = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callResults"));
 var _telephonyStatus = _interopRequireDefault(require("@ringcentral-integration/commons/enums/telephonyStatus"));
@@ -21,7 +28,6 @@ var _react = _interopRequireDefault(require("react"));
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 var _i18n = _interopRequireDefault(require("./i18n"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
-var _callIconMap;
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -45,7 +51,7 @@ CallIcon.propTypes = {
 CallIcon.defaultProps = {
   title: ''
 };
-var callIconMap = (_callIconMap = {}, _defineProperty(_callIconMap, _callResults["default"].missed, _DynamicsFont["default"].missed), _defineProperty(_callIconMap, _callDirections["default"].inbound, _DynamicsFont["default"].inbound), _defineProperty(_callIconMap, _callDirections["default"].outbound, _DynamicsFont["default"].outbound), _defineProperty(_callIconMap, _telephonyStatus["default"].ringing, _DynamicsFont["default"].callHover), _callIconMap);
+var callIconMap = _defineProperty(_defineProperty(_defineProperty(_defineProperty({}, _callResults["default"].missed, _DynamicsFont["default"].missed), _callDirections["default"].inbound, _DynamicsFont["default"].inbound), _callDirections["default"].outbound, _DynamicsFont["default"].outbound), _telephonyStatus["default"].ringing, _DynamicsFont["default"].callHover);
 var colorStatusMap = {
   green: [_telephonyStatus["default"].callConnected, _telephonyStatus["default"].ringing, _callResults["default"].callAccepted, _callResults["default"].accepted],
   red: [_callResults["default"].missed, _callResults["default"].voicemail, _callResults["default"].rejected, _callResults["default"].blocked, _callResults["default"].noAnswer, _callResults["default"].busy, _callResults["default"].hangUp, _callResults["default"].HangUp, _callResults["default"].declined],
@@ -133,6 +139,5 @@ LogBasicInfo.defaultProps = {
   onClick: function onClick() {},
   dataSign: undefined
 };
-var _default = LogBasicInfo;
-exports["default"] = _default;
+var _default = exports["default"] = LogBasicInfo;
 //# sourceMappingURL=index.js.map

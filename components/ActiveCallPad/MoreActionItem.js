@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -32,6 +33,5 @@ var MoreActionItem = function MoreActionItem(_ref) {
 MoreActionItem.defaultProps = {
   dataSign: ''
 };
-var _default = MoreActionItem;
-exports["default"] = _default;
+var _default = exports["default"] = MoreActionItem;
 //# sourceMappingURL=MoreActionItem.js.map

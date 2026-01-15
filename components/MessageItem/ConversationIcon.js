@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -15,7 +16,7 @@ var _VoicemailIcon = _interopRequireDefault(require("../../assets/images/Voicema
 var _i18n = _interopRequireDefault(require("./i18n"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var ConversationIcon = function ConversationIcon(_ref) {
+var ConversationIcon = exports.ConversationIcon = function ConversationIcon(_ref) {
   var group = _ref.group,
     type = _ref.type,
     currentLocale = _ref.currentLocale,
@@ -56,7 +57,6 @@ var ConversationIcon = function ConversationIcon(_ref) {
     title: title
   }, icon));
 };
-exports.ConversationIcon = ConversationIcon;
 ConversationIcon.defaultProps = {
   group: false,
   type: undefined,

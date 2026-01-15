@@ -1,10 +1,11 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-var _default = {
+var _default = exports["default"] = {
   participants: 'Participants',
   host: '(Host)',
   removeParticipant: 'Remove participant',
@@ -13,5 +14,4 @@ var _default = {
   confirmButtonText: 'Remove',
   cancelButtonText: 'Cancel'
 };
-exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

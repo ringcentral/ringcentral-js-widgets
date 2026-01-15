@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -15,6 +16,5 @@ var NoCalls = function NoCalls(_ref) {
     className: _styles["default"].noCalls
   }, _i18n["default"].getString(active ? 'noActiveCalls' : 'noRecords', currentLocale));
 };
-var _default = NoCalls;
-exports["default"] = _default;
+var _default = exports["default"] = NoCalls;
 //# sourceMappingURL=index.js.map

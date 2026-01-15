@@ -1,11 +1,13 @@
 "use strict";
 
-require("core-js/modules/es.array.map");
-require("core-js/modules/es.function.name");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.SelectLineItem = void 0;
+require("core-js/modules/es.array.map.js");
+require("core-js/modules/es.function.name.js");
+require("core-js/modules/es.object.to-string.js");
 var _juno = require("@ringcentral/juno");
 var _clsx = _interopRequireDefault(require("clsx"));
 var _react = _interopRequireDefault(require("react"));
@@ -13,7 +15,7 @@ var _Line = _interopRequireDefault(require("../Line"));
 var _i18n = _interopRequireDefault(require("./i18n"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var SelectLineItem = function SelectLineItem(_ref) {
+var SelectLineItem = exports.SelectLineItem = function SelectLineItem(_ref) {
   var show = _ref.show,
     name = _ref.name,
     customTitle = _ref.customTitle,
@@ -47,5 +49,4 @@ var SelectLineItem = function SelectLineItem(_ref) {
     }, _i18n["default"].getString(label, currentLocale));
   })));
 };
-exports.SelectLineItem = SelectLineItem;
 //# sourceMappingURL=SelectLineItem.js.map

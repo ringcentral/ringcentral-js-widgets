@@ -1,15 +1,20 @@
 "use strict";
 
-require("core-js/modules/es.symbol");
-require("core-js/modules/es.symbol.description");
-require("core-js/modules/es.symbol.to-primitive");
-require("core-js/modules/es.date.to-primitive");
-require("core-js/modules/es.number.constructor");
-require("core-js/modules/es.object.to-string");
+require("core-js/modules/es.symbol.js");
+require("core-js/modules/es.symbol.description.js");
+require("core-js/modules/es.symbol.iterator.js");
+require("core-js/modules/es.array.iterator.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/es.object.to-string.js");
+require("core-js/modules/es.string.iterator.js");
+require("core-js/modules/web.dom-collections.iterator.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+require("core-js/modules/es.symbol.to-primitive.js");
+require("core-js/modules/es.date.to-primitive.js");
+require("core-js/modules/es.number.constructor.js");
 var _ActiveCallControl = require("@ringcentral-integration/commons/modules/ActiveCallControl");
 var _callsMerged$somethin;
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
@@ -27,7 +32,7 @@ var holdConflictError = _ActiveCallControl.callControlError.holdConflictError,
   forwardSuccess = _ActiveCallControl.callControlError.forwardSuccess,
   transferCompleted = _ActiveCallControl.callControlError.transferCompleted,
   replyCompleted = _ActiveCallControl.callControlError.replyCompleted;
-var _default = (_callsMerged$somethin = {}, _defineProperty(_callsMerged$somethin, callsMerged, 'Chamadas mescladas'), _defineProperty(_callsMerged$somethin, somethingWentWrong, 'Ocorreu um problema. Tente novamente.'), _defineProperty(_callsMerged$somethin, tooManyParticipants, 'O número máximo de participantes foi atingido.'), _defineProperty(_callsMerged$somethin, muteConflictError, 'Esta chamada foi silenciada em outro dispositivo. Ative o som da chamada antes de executar uma operação neste aplicativo.'), _defineProperty(_callsMerged$somethin, unHoldConflictError, 'Esta chamada foi colocada em espera em outro dispositivo. Libere a chamada antes da sua operação neste aplicativo.'), _defineProperty(_callsMerged$somethin, unMuteConflictError, 'O som desta chamada foi ativado em outro dispositivo. Desative o som da chamada antes de executar uma operação neste aplicativo.'), _defineProperty(_callsMerged$somethin, holdConflictError, 'Esta chamada foi retomada em outro dispositivo. Coloque a chamada em espera antes de executar uma operação neste aplicativo.'), _defineProperty(_callsMerged$somethin, generalError, 'Erro inesperado do servidor. Tente novamente mais tarde.'), _defineProperty(_callsMerged$somethin, forwardSuccess, 'Chamada encaminhada'), _defineProperty(_callsMerged$somethin, transferCompleted, 'Chamada transferida'), _defineProperty(_callsMerged$somethin, replyCompleted, 'Mensagem de voz enviada.'), _callsMerged$somethin); // @key: @#@"callsMerged"@#@ @source: @#@"Calls merged"@#@
+var _default = exports["default"] = (_callsMerged$somethin = {}, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_callsMerged$somethin, callsMerged, 'Chamadas mescladas'), somethingWentWrong, 'Ocorreu um problema. Tente novamente.'), tooManyParticipants, 'O número máximo de participantes foi atingido.'), muteConflictError, 'Esta chamada foi silenciada em outro dispositivo. Ative o som da chamada antes de executar uma operação neste aplicativo.'), unHoldConflictError, 'Esta chamada foi colocada em espera em outro dispositivo. Libere a chamada antes da sua operação neste aplicativo.'), unMuteConflictError, 'O som desta chamada foi ativado em outro dispositivo. Desative o som da chamada antes de executar uma operação neste aplicativo.'), holdConflictError, 'Esta chamada foi retomada em outro dispositivo. Coloque a chamada em espera antes de executar uma operação neste aplicativo.'), generalError, 'Erro inesperado do servidor. Tente novamente mais tarde.'), forwardSuccess, 'Chamada encaminhada'), transferCompleted, 'Chamada transferida'), _defineProperty(_callsMerged$somethin, replyCompleted, 'Mensagem de voz enviada.')); // @key: @#@"callsMerged"@#@ @source: @#@"Calls merged"@#@
 // @key: @#@"somethingWentWrong"@#@ @source: @#@"Something went wrong. Please try again."@#@
 // @key: @#@"tooManyParticipants"@#@ @source: @#@"Maximum number of participants is reached."@#@
 // @key: @#@"muteConflictError"@#@ @source: @#@"This call had been muted on other device. Please unmute the call before you control in this App."@#@
@@ -38,5 +43,4 @@ var _default = (_callsMerged$somethin = {}, _defineProperty(_callsMerged$somethi
 // @key: @#@"forwardSuccess"@#@ @source: @#@"Call forwarded"@#@
 // @key: @#@"transferCompleted"@#@ @source: @#@"Call transferred"@#@
 // @key: @#@"replyCompleted"@#@ @source: @#@"Voice message sent."@#@
-exports["default"] = _default;
 //# sourceMappingURL=pt-BR.js.map

@@ -1,17 +1,18 @@
 "use strict";
 
-require("core-js/modules/es.array.concat");
-require("core-js/modules/es.function.name");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.RecipientInfo = void 0;
+require("core-js/modules/es.array.concat.js");
+require("core-js/modules/es.function.name.js");
 var _react = _interopRequireDefault(require("react"));
 var _phoneSources = require("../../enums/phoneSources");
 var _phoneSourceNames = _interopRequireDefault(require("../../lib/phoneSourceNames"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var RecipientInfo = function RecipientInfo(_ref) {
+var RecipientInfo = exports.RecipientInfo = function RecipientInfo(_ref) {
   var currentLocale = _ref.currentLocale,
     name = _ref.name,
     entityType = _ref.entityType,
@@ -39,5 +40,4 @@ var RecipientInfo = function RecipientInfo(_ref) {
     className: _styles["default"].phoneSourceLabel
   }, phoneSourceName));
 };
-exports.RecipientInfo = RecipientInfo;
 //# sourceMappingURL=RecipientInfo.js.map

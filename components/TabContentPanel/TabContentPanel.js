@@ -1,10 +1,12 @@
 "use strict";
 
-require("core-js/modules/es.array.map");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+require("core-js/modules/es.array.map.js");
+require("core-js/modules/es.object.to-string.js");
 var _clsx = _interopRequireDefault(require("clsx"));
 var _react = _interopRequireDefault(require("react"));
 var _MessageTabButton = require("../MessageTabButton");
@@ -60,6 +62,5 @@ var TabContentPanel = function TabContentPanel(_ref) {
 TabContentPanel.defaultProps = {
   showTabs: false
 };
-var _default = TabContentPanel;
-exports["default"] = _default;
+var _default = exports["default"] = TabContentPanel;
 //# sourceMappingURL=TabContentPanel.js.map

@@ -1,10 +1,12 @@
 "use strict";
 
-require("core-js/modules/es.array.map");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+require("core-js/modules/es.array.map.js");
+require("core-js/modules/es.object.to-string.js");
 var _react = _interopRequireDefault(require("react"));
 var _MergeIntoConferenceIcon = _interopRequireDefault(require("../../assets/images/MergeIntoConferenceIcon.svg"));
 var _CallAvatar = _interopRequireDefault(require("../CallAvatar"));
@@ -69,6 +71,5 @@ ConfirmMergeModal.defaultProps = {
   onCancel: function onCancel() {},
   partyProfiles: []
 };
-var _default = ConfirmMergeModal;
-exports["default"] = _default;
+var _default = exports["default"] = ConfirmMergeModal;
 //# sourceMappingURL=index.js.map

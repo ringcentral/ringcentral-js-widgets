@@ -1,13 +1,14 @@
 "use strict";
 
-require("core-js/modules/es.array.slice");
-require("core-js/modules/es.function.name");
-require("core-js/modules/es.object.define-properties");
-require("core-js/modules/es.object.freeze");
+require("core-js/modules/es.array.slice.js");
+require("core-js/modules/es.object.define-properties.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/es.object.freeze.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.CallHistoryItem = void 0;
+require("core-js/modules/es.function.name.js");
 var _callDirections = require("@ringcentral-integration/commons/enums/callDirections");
 var _juno = require("@ringcentral/juno");
 var _clsx = _interopRequireDefault(require("clsx"));
@@ -15,20 +16,14 @@ var _react = _interopRequireDefault(require("react"));
 var _CallHistoryActions = require("../CallHistoryActions");
 var _CallIcon = require("../CallIcon");
 var _styles = _interopRequireDefault(require("./styles.scss"));
+var _templateObject;
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  height: 64px;\n  box-sizing: border-box;\n  padding: ", ";\n  border-bottom: 1px solid ", ";\n"]);
-  _templateObject = function _templateObject() {
-    return data;
-  };
-  return data;
-}
 function _taggedTemplateLiteral(e, t) { return t || (t = e.slice(0)), Object.freeze(Object.defineProperties(e, { raw: { value: Object.freeze(t) } })); }
-var Item = _juno.styled.div(_templateObject(), function (_ref) {
+var Item = _juno.styled.div(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  height: 64px;\n  box-sizing: border-box;\n  padding: ", ";\n  border-bottom: 1px solid ", ";\n"])), function (_ref) {
   var isWide = _ref.isWide;
   return isWide ? (0, _juno.spacing)(3, 4) : (0, _juno.spacing)(3);
 }, (0, _juno.palette2)('neutral', 'l02'));
-var CallHistoryItem = function CallHistoryItem(_ref2) {
+var CallHistoryItem = exports.CallHistoryItem = function CallHistoryItem(_ref2) {
   var call = _ref2.call,
     actionMenu = _ref2.actionMenu,
     _ref2$isWide = _ref2.isWide,
@@ -59,5 +54,4 @@ var CallHistoryItem = function CallHistoryItem(_ref2) {
     isWide: isWide
   })));
 };
-exports.CallHistoryItem = CallHistoryItem;
 //# sourceMappingURL=CallHistoryItem.js.map

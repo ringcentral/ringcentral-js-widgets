@@ -1,17 +1,18 @@
 "use strict";
 
-require("core-js/modules/es.array.concat");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.RemoveMeetingWarn = void 0;
+require("core-js/modules/es.array.concat.js");
 var _juno = require("@ringcentral/juno");
 var _react = _interopRequireDefault(require("react"));
 var _FormattedMessage = _interopRequireDefault(require("../FormattedMessage"));
 var _i18n = _interopRequireDefault(require("./i18n"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var RemoveMeetingWarn = function RemoveMeetingWarn(_ref) {
+var RemoveMeetingWarn = exports.RemoveMeetingWarn = function RemoveMeetingWarn(_ref) {
   var currentLocale = _ref.currentLocale,
     brandConfig = _ref.brandConfig,
     _ref$hasRemoved = _ref.hasRemoved,
@@ -38,5 +39,4 @@ var RemoveMeetingWarn = function RemoveMeetingWarn(_ref) {
     }
   })));
 };
-exports.RemoveMeetingWarn = RemoveMeetingWarn;
 //# sourceMappingURL=RemoveMeetingWarn.js.map

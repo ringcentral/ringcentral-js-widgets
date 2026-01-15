@@ -1,11 +1,12 @@
 "use strict";
 
-require("core-js/modules/es.array.index-of");
-require("core-js/modules/es.string.link");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+require("core-js/modules/es.array.index-of.js");
+require("core-js/modules/es.string.link.js");
 var _MessageSender = require("@ringcentral-integration/commons/modules/MessageSender");
 var _react = _interopRequireDefault(require("react"));
 var _FormattedMessage = _interopRequireDefault(require("../../FormattedMessage"));
@@ -56,6 +57,5 @@ MessageSenderAlert.handleMessage = function (_ref2) {
   var message = _ref2.message;
   return message === _MessageSender.messageSenderMessages.sendSuccess || message === _MessageSender.messageSenderMessages.sendError || message === _MessageSender.messageSenderMessages.numberValidateError || message === _MessageSender.messageSenderMessages.textEmpty || message === _MessageSender.messageSenderMessages.noPermission || message === _MessageSender.messageSenderMessages.senderEmpty || message === _MessageSender.messageSenderMessages.noToNumber || message === _MessageSender.messageSenderMessages.recipientsEmpty || message === _MessageSender.messageSenderMessages.textTooLong || message === _MessageSender.messageSenderMessages.multipartTextTooLong || message === _MessageSender.messageSenderMessages.recipientNumberInvalids || message === _MessageSender.messageSenderMessages.noAreaCode || message === _MessageSender.messageSenderMessages.specialNumber || message === _MessageSender.messageSenderMessages.connectFailed || message === _MessageSender.messageSenderMessages.internalError || message === _MessageSender.messageSenderMessages.notAnExtension || message === _MessageSender.messageSenderMessages.networkError || message === _MessageSender.messageSenderMessages.notSmsToExtension || message === _MessageSender.messageSenderMessages.senderNumberInvalid || message === _MessageSender.messageSenderMessages.internationalSMSNotSupported || message === _MessageSender.messageSenderMessages.noInternalSMSPermission || message === _MessageSender.messageSenderMessages.noSMSPermission || message === _MessageSender.messageSenderMessages.attachmentCountLimitation || message === _MessageSender.messageSenderMessages.attachmentSizeLimitation || message === _MessageSender.messageSenderMessages.noAttachmentToExtension || message === _MessageSender.messageSenderMessages.sending || message === _MessageSender.messageSenderMessages.shortNumbersNotAvailable;
 };
-var _default = MessageSenderAlert;
-exports["default"] = _default;
+var _default = exports["default"] = MessageSenderAlert;
 //# sourceMappingURL=index.js.map

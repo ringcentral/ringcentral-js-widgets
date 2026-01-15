@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -12,8 +13,7 @@ Object.defineProperty(exports, "CallCtrlContainer", {
 exports["default"] = void 0;
 var _CallCtrlContainer = require("../../components/CallCtrlContainer");
 var _phoneContext = require("../../lib/phoneContext");
-var CallCtrlPage = (0, _phoneContext.connectModule)(function (phone) {
+var CallCtrlPage = exports["default"] = (0, _phoneContext.connectModule)(function (phone) {
   return phone.callControlUI;
 })(_CallCtrlContainer.CallCtrlContainer);
-exports["default"] = CallCtrlPage;
 //# sourceMappingURL=index.js.map

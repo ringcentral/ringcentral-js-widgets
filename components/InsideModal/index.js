@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -51,6 +52,5 @@ InsideModal.defaultProps = {
   modalStyles: undefined,
   contentStyle: undefined
 };
-var _default = InsideModal;
-exports["default"] = _default;
+var _default = exports["default"] = InsideModal;
 //# sourceMappingURL=index.js.map

@@ -1,11 +1,12 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 /* eslint-disable */
-var _default = {
+var _default = exports["default"] = {
   title: '地区',
   NAOnlyMessage: '请设置您的区号。此信息将用于本地拨号。',
   MultiWithNAMessage: '请为您的地区设置国家代码和区号。此信息将用于本地拨号和电话号码格式。',
@@ -20,5 +21,4 @@ var _default = {
 // @key: @#@"country"@#@ @source: @#@"Country"@#@
 // @key: @#@"areaCode"@#@ @source: @#@"Area Code"@#@
 // @key: @#@"areaCodePlaceholder"@#@ @source: @#@"Enter Area Code"@#@
-exports["default"] = _default;
 //# sourceMappingURL=zh-CN.js.map

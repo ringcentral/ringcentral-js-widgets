@@ -1,10 +1,11 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-var _default = {
+var _default = exports["default"] = {
   forward: 'Forward',
   reply: 'Reply',
   ignore: 'Ignore',
@@ -13,5 +14,4 @@ var _default = {
   answerAndEnd: 'Answer & End',
   answerAndHold: 'Answer & Hold'
 };
-exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

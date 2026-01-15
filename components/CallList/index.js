@@ -1,10 +1,12 @@
 "use strict";
 
-require("core-js/modules/es.array.map");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+require("core-js/modules/es.array.map.js");
+require("core-js/modules/es.object.to-string.js");
 var _react = _interopRequireDefault(require("react"));
 var _CallItem = _interopRequireDefault(require("../CallItem"));
 var _NoCalls = _interopRequireDefault(require("../NoCalls"));
@@ -122,6 +124,5 @@ var CallList = function CallList(_ref) {
     active: !!active
   }));
 };
-var _default = CallList;
-exports["default"] = _default;
+var _default = exports["default"] = CallList;
 //# sourceMappingURL=index.js.map

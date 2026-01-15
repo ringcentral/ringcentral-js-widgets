@@ -1,11 +1,12 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 /* eslint-disable */
-var _default = {
+var _default = exports["default"] = {
   header: 'Ota yhteyttä tukeen',
   toggleTitle: '1. Ota virheidenseurantatila käyttöön',
   toggleDescription: 'Tämä auttaa meitä paikantamaan ongelmasi mutta saattaa vaikuttaa jonkin verran sovelluksesi suorituskykyyn.',
@@ -36,5 +37,4 @@ var _default = {
 // @key: @#@"privacyNoticeEnd"@#@ @source: @#@"Privacy Notice."@#@
 // @key: @#@"needLeavePage"@#@ @source: @#@"You may leave this page while error tracking is running. When you have replicated the issue, return to this page and download the log files."@#@
 // @key: @#@"downloading"@#@ @source: @#@"Downloading"@#@
-exports["default"] = _default;
 //# sourceMappingURL=fi-FI.js.map

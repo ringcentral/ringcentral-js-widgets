@@ -1,11 +1,13 @@
 "use strict";
 
-require("core-js/modules/es.array.map");
-require("core-js/modules/es.function.name");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.SelectedRecipients = void 0;
+require("core-js/modules/es.array.map.js");
+require("core-js/modules/es.function.name.js");
+require("core-js/modules/es.object.to-string.js");
 var _clsx = _interopRequireDefault(require("clsx"));
 var _react = _interopRequireDefault(require("react"));
 var _RemoveButton = require("../RemoveButton");
@@ -33,7 +35,7 @@ var Recipient = function Recipient(_ref) {
     showWarningIcon: isWarning
   }));
 };
-var SelectedRecipients = function SelectedRecipients(_ref2) {
+var SelectedRecipients = exports.SelectedRecipients = function SelectedRecipients(_ref2) {
   var recipients = _ref2.recipients,
     _onRemove = _ref2.onRemove,
     className = _ref2.className;
@@ -54,5 +56,4 @@ var SelectedRecipients = function SelectedRecipients(_ref2) {
   }
   return null;
 };
-exports.SelectedRecipients = SelectedRecipients;
 //# sourceMappingURL=SelectedRecipients.js.map

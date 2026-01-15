@@ -1,29 +1,34 @@
 "use strict";
 
-require("core-js/modules/es.symbol");
-require("core-js/modules/es.symbol.description");
-require("core-js/modules/es.symbol.to-primitive");
-require("core-js/modules/es.date.to-primitive");
-require("core-js/modules/es.number.constructor");
-require("core-js/modules/es.object.to-string");
+require("core-js/modules/es.symbol.js");
+require("core-js/modules/es.symbol.description.js");
+require("core-js/modules/es.symbol.iterator.js");
+require("core-js/modules/es.array.iterator.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/es.object.to-string.js");
+require("core-js/modules/es.string.iterator.js");
+require("core-js/modules/web.dom-collections.iterator.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+require("core-js/modules/es.symbol.to-primitive.js");
+require("core-js/modules/es.date.to-primitive.js");
+require("core-js/modules/es.number.constructor.js");
 var _RcVideo = require("@ringcentral-integration/commons/modules/RcVideo");
 var _scheduleFor$schedule;
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); } /* eslint-disable */
-var _default = (_scheduleFor$schedule = {
+var _default = exports["default"] = (_scheduleFor$schedule = {
   scheduleFor: 'Ansetzen im Namen von',
   scheduleForAssistedUser: 'Aktualisieren Sie die Besprechungseinstellungen im Namen von {userName}.',
   scheduleForGuidance: 'Planen Sie einen Termin für jemand anderen?\n1. Stellen Sie sicher, dass Sie in ihrem Outlook-Kalender eingetragen sind.\n2. Wählen Sie in der Dropdown-Liste die Person aus, für die Sie den Termin planen möchten.\n',
   scheduleForGuidanceMore: 'Details erfahren.',
   meetingSettings: 'Besprechungseinstellungen',
   meetingSettingsDescription: 'Die Updates werden nur auf diese Besprechung angewendet.'
-}, _defineProperty(_scheduleFor$schedule, _RcVideo.ASSISTED_USERS_MYSELF, 'Ich'), _defineProperty(_scheduleFor$schedule, "waitingRoomTitle", 'Wartebereich verwenden'), _defineProperty(_scheduleFor$schedule, "waitingRoomDescription", 'Die Teilnehmer warten, bis Sie sie einlassen. Ideal für Vorstellungsgespräche oder externe Teilnehmer.'), _defineProperty(_scheduleFor$schedule, "waitingRoomNotCoworker", 'Für jeden außerhalb meines Unternehmens'), _defineProperty(_scheduleFor$schedule, "waitingRoomGuest", 'Für jeden, der nicht angemeldet ist'), _defineProperty(_scheduleFor$schedule, "waitingRoomAll", 'Für alle Teilnehmer'), _defineProperty(_scheduleFor$schedule, "enterPassword", 'Kennwort eingeben'), _defineProperty(_scheduleFor$schedule, "onlyJoinAfterMe", 'Besprechung nach Ihrem Beitritt starten'), _defineProperty(_scheduleFor$schedule, "allowJoinBeforeHostDescription", 'Die Besprechung beginnt erst nach Ihrem Beitritt, um vorzeitige Konversationen zu vermeiden.'), _defineProperty(_scheduleFor$schedule, "requirePassword", 'Kennwort anfordern'), _defineProperty(_scheduleFor$schedule, "requirePasswordDescription", 'Schützen Sie Ihre Besprechung. Jeder, der den Link verwendet, wird nicht zur Eingabe eines Kennworts aufgefordert.'), _defineProperty(_scheduleFor$schedule, "password", 'Kennwort:'), _defineProperty(_scheduleFor$schedule, "passwordEmptyError", 'Besprechungskennwort erforderlich'), _defineProperty(_scheduleFor$schedule, "passwordInvalidError", 'Ihr Kennwort muss 1–10 Buchstaben und Ziffern lang sein und darf keine Symbole enthalten'), _defineProperty(_scheduleFor$schedule, "passwordHintText", 'Ihr Kennwort muss 1–10 Buchstaben und Ziffern lang sein und darf keine Symbole enthalten.'), _defineProperty(_scheduleFor$schedule, "usePersonalMeetingIdInstead", 'Persönlichen Besprechungslink verwenden'), _defineProperty(_scheduleFor$schedule, "allowMeetingAccess", 'Verwalten, wer beitreten kann'), _defineProperty(_scheduleFor$schedule, "anyoneWithLink", 'Alle mit Link'), _defineProperty(_scheduleFor$schedule, "signedInUsers", 'Nur {shortName}-Konten'), _defineProperty(_scheduleFor$schedule, "signedInCoWorkers", 'Nur meine Kollegen'), _defineProperty(_scheduleFor$schedule, "passwordLabel", 'Kennwort'), _defineProperty(_scheduleFor$schedule, "edit", 'Bearbeiten'), _defineProperty(_scheduleFor$schedule, "editSettings", 'Einstellungen bearbeiten'), _defineProperty(_scheduleFor$schedule, "lockTooltip", 'Diese Einstellung wird von Ihrem Unternehmensadministrator verwaltet.'), _defineProperty(_scheduleFor$schedule, "cancel", 'Abbrechen'), _defineProperty(_scheduleFor$schedule, "update", 'Aktualisieren'), _defineProperty(_scheduleFor$schedule, "pmiSettingsTitle", 'Persönliche Besprechungseinstellungen'), _defineProperty(_scheduleFor$schedule, "pmiSettingsDescription", 'Legen Sie für den persönlichen Besprechungslink fest, wer wie teilnehmen kann.'), _scheduleFor$schedule); // @key: @#@"scheduleFor"@#@ @source: @#@"Schedule on behalf of"@#@
+}, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_scheduleFor$schedule, _RcVideo.ASSISTED_USERS_MYSELF, 'Ich'), "waitingRoomTitle", 'Wartebereich verwenden'), "waitingRoomDescription", 'Die Teilnehmer warten, bis Sie sie einlassen. Ideal für Vorstellungsgespräche oder externe Teilnehmer.'), "waitingRoomNotCoworker", 'Für jeden außerhalb meines Unternehmens'), "waitingRoomGuest", 'Für jeden, der nicht angemeldet ist'), "waitingRoomAll", 'Für alle Teilnehmer'), "enterPassword", 'Kennwort eingeben'), "onlyJoinAfterMe", 'Besprechung nach Ihrem Beitritt starten'), "allowJoinBeforeHostDescription", 'Die Besprechung beginnt erst nach Ihrem Beitritt, um vorzeitige Konversationen zu vermeiden.'), "requirePassword", 'Kennwort anfordern'), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_scheduleFor$schedule, "requirePasswordDescription", 'Schützen Sie Ihre Besprechung. Jeder, der den Link verwendet, wird nicht zur Eingabe eines Kennworts aufgefordert.'), "password", 'Kennwort:'), "passwordEmptyError", 'Besprechungskennwort erforderlich'), "passwordInvalidError", 'Ihr Kennwort muss 1–10 Buchstaben und Ziffern lang sein und darf keine Symbole enthalten'), "passwordHintText", 'Ihr Kennwort muss 1–10 Buchstaben und Ziffern lang sein und darf keine Symbole enthalten.'), "usePersonalMeetingIdInstead", 'Persönlichen Besprechungslink verwenden'), "allowMeetingAccess", 'Verwalten, wer beitreten kann'), "anyoneWithLink", 'Alle mit Link'), "signedInUsers", 'Nur {shortName}-Konten'), "signedInCoWorkers", 'Nur meine Kollegen'), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_scheduleFor$schedule, "passwordLabel", 'Kennwort'), "edit", 'Bearbeiten'), "editSettings", 'Einstellungen bearbeiten'), "lockTooltip", 'Diese Einstellung wird von Ihrem Unternehmensadministrator verwaltet.'), "cancel", 'Abbrechen'), "update", 'Aktualisieren'), "pmiSettingsTitle", 'Persönliche Besprechungseinstellungen'), "pmiSettingsDescription", 'Legen Sie für den persönlichen Besprechungslink fest, wer wie teilnehmen kann.')); // @key: @#@"scheduleFor"@#@ @source: @#@"Schedule on behalf of"@#@
 // @key: @#@"scheduleForAssistedUser"@#@ @source: @#@"Update meetings settings on behalf of {userName}."@#@
 // @key: @#@"scheduleForGuidance"@#@ @source: @#@"Scheduling for someone else?\n1. Make sure you're on their Outlook calendar.\n2. From the dropdown, select the person you're scheduling for.\n"@#@
 // @key: @#@"scheduleForGuidanceMore"@#@ @source: @#@"Learn details"@#@
@@ -57,5 +62,4 @@ var _default = (_scheduleFor$schedule = {
 // @key: @#@"update"@#@ @source: @#@"Update"@#@
 // @key: @#@"pmiSettingsTitle"@#@ @source: @#@"Personal meeting settings"@#@
 // @key: @#@"pmiSettingsDescription"@#@ @source: @#@"Set who can join and how for your personal meeting link."@#@
-exports["default"] = _default;
 //# sourceMappingURL=de-DE.js.map

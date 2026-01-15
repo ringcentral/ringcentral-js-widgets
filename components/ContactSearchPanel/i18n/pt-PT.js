@@ -1,22 +1,27 @@
 "use strict";
 
-require("core-js/modules/es.symbol");
-require("core-js/modules/es.symbol.description");
-require("core-js/modules/es.symbol.to-primitive");
-require("core-js/modules/es.date.to-primitive");
-require("core-js/modules/es.number.constructor");
-require("core-js/modules/es.object.to-string");
+require("core-js/modules/es.symbol.js");
+require("core-js/modules/es.symbol.description.js");
+require("core-js/modules/es.symbol.iterator.js");
+require("core-js/modules/es.array.iterator.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/es.object.to-string.js");
+require("core-js/modules/es.string.iterator.js");
+require("core-js/modules/web.dom-collections.iterator.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+require("core-js/modules/es.symbol.to-primitive.js");
+require("core-js/modules/es.date.to-primitive.js");
+require("core-js/modules/es.number.constructor.js");
 var _ContactSearchPanelEnum = require("../ContactSearchPanelEnum");
 var _HintsType$thirdParty;
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); } /* eslint-disable */
-var _default = (_HintsType$thirdParty = {}, _defineProperty(_HintsType$thirdParty, _ContactSearchPanelEnum.HintsType.thirdPartyNoRecordsContent, 'Introduza, pelo menos, {minimumLength} carateres ou dígitos para pesquisar todos os registos {sourceName}.'), _defineProperty(_HintsType$thirdParty, _ContactSearchPanelEnum.HintsType.noFilterOrSearchRecordsTitle, 'Não foram encontrados resultados'), _defineProperty(_HintsType$thirdParty, _ContactSearchPanelEnum.HintsType.noFilterOrSearchRecordsContent, 'Verifique os resultados de outras origens ou altere a palavra-chave.'), _defineProperty(_HintsType$thirdParty, _ContactSearchPanelEnum.HintsType.searching, 'A pesquisar…'), _defineProperty(_HintsType$thirdParty, "companyTabTitle", 'Empresa'), _defineProperty(_HintsType$thirdParty, "personalTabTitle", 'Pessoal'), _defineProperty(_HintsType$thirdParty, "direct", 'Direto'), _defineProperty(_HintsType$thirdParty, "extension", 'Ext.'), _defineProperty(_HintsType$thirdParty, "contact", 'Contacto'), _defineProperty(_HintsType$thirdParty, "mobile", 'Telemóvel'), _defineProperty(_HintsType$thirdParty, "company", 'Empresa'), _defineProperty(_HintsType$thirdParty, "home", 'Casa'), _defineProperty(_HintsType$thirdParty, "home2", 'Casa'), _defineProperty(_HintsType$thirdParty, "other", 'Outros'), _defineProperty(_HintsType$thirdParty, "business", 'Profissional'), _defineProperty(_HintsType$thirdParty, "business2", 'Profissional'), _defineProperty(_HintsType$thirdParty, "car", 'Carro'), _defineProperty(_HintsType$thirdParty, "fax", 'Fax'), _defineProperty(_HintsType$thirdParty, "assistant", 'Assistente'), _defineProperty(_HintsType$thirdParty, "callback", 'Chamada de retorno'), _defineProperty(_HintsType$thirdParty, "MobileNumber", 'Número de telemóvel'), _defineProperty(_HintsType$thirdParty, "ContactNumber", 'Número de contacto'), _defineProperty(_HintsType$thirdParty, "DirectNumber", 'Número direto'), _defineProperty(_HintsType$thirdParty, "doNotCall", 'Não ligar'), _HintsType$thirdParty); // @key: @#@"[HintsType.thirdPartyNoRecordsContent]"@#@ @source: @#@"Enter at least {minimumLength} characters or digits to search all {sourceName} records."@#@
+var _default = exports["default"] = (_HintsType$thirdParty = {}, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_HintsType$thirdParty, _ContactSearchPanelEnum.HintsType.thirdPartyNoRecordsContent, 'Introduza, pelo menos, {minimumLength} carateres ou dígitos para pesquisar todos os registos {sourceName}.'), _ContactSearchPanelEnum.HintsType.noFilterOrSearchRecordsTitle, 'Não foram encontrados resultados'), _ContactSearchPanelEnum.HintsType.noFilterOrSearchRecordsContent, 'Verifique os resultados de outras origens ou altere a palavra-chave.'), _ContactSearchPanelEnum.HintsType.searching, 'A pesquisar…'), "companyTabTitle", 'Empresa'), "personalTabTitle", 'Pessoal'), "direct", 'Direto'), "extension", 'Ext.'), "contact", 'Contacto'), "mobile", 'Telemóvel'), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_HintsType$thirdParty, "company", 'Empresa'), "home", 'Casa'), "home2", 'Casa'), "other", 'Outros'), "business", 'Profissional'), "business2", 'Profissional'), "car", 'Carro'), "fax", 'Fax'), "assistant", 'Assistente'), "callback", 'Chamada de retorno'), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_HintsType$thirdParty, "MobileNumber", 'Número de telemóvel'), "ContactNumber", 'Número de contacto'), "DirectNumber", 'Número direto'), "doNotCall", 'Não ligar')); // @key: @#@"[HintsType.thirdPartyNoRecordsContent]"@#@ @source: @#@"Enter at least {minimumLength} characters or digits to search all {sourceName} records."@#@
 // @key: @#@"[HintsType.noFilterOrSearchRecordsTitle]"@#@ @source: @#@"No results found"@#@
 // @key: @#@"[HintsType.noFilterOrSearchRecordsContent]"@#@ @source: @#@"Check results from other sources or change your keyword."@#@
 // @key: @#@"[HintsType.searching]"@#@ @source: @#@"Searching..."@#@
@@ -40,5 +45,4 @@ var _default = (_HintsType$thirdParty = {}, _defineProperty(_HintsType$thirdPart
 // @key: @#@"ContactNumber"@#@ @source: @#@"Contact Number"@#@
 // @key: @#@"DirectNumber"@#@ @source: @#@"Direct Number"@#@
 // @key: @#@"doNotCall"@#@ @source: @#@"Do Not Call"@#@
-exports["default"] = _default;
 //# sourceMappingURL=pt-PT.js.map

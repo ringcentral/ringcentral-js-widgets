@@ -1,12 +1,34 @@
 "use strict";
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-require("core-js/modules/es.function.name");
-require("core-js/modules/es.object.get-own-property-descriptor");
+require("core-js/modules/es.symbol.js");
+require("core-js/modules/es.symbol.description.js");
+require("core-js/modules/es.symbol.iterator.js");
+require("core-js/modules/es.symbol.to-primitive.js");
+require("core-js/modules/es.array.for-each.js");
+require("core-js/modules/es.array.iterator.js");
+require("core-js/modules/es.array.reduce.js");
+require("core-js/modules/es.array.reverse.js");
+require("core-js/modules/es.array.slice.js");
+require("core-js/modules/es.date.to-primitive.js");
+require("core-js/modules/es.function.bind.js");
+require("core-js/modules/es.number.constructor.js");
+require("core-js/modules/es.object.create.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/es.object.get-prototype-of.js");
+require("core-js/modules/es.object.keys.js");
+require("core-js/modules/es.object.set-prototype-of.js");
+require("core-js/modules/es.object.to-string.js");
+require("core-js/modules/es.reflect.construct.js");
+require("core-js/modules/es.string.iterator.js");
+require("core-js/modules/web.dom-collections.for-each.js");
+require("core-js/modules/web.dom-collections.iterator.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.IncomingCallUI = void 0;
+require("core-js/modules/es.function.name.js");
+require("core-js/modules/es.object.get-own-property-descriptor.js");
 var _callDirections = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callDirections"));
 var _callLogHelpers = require("@ringcentral-integration/commons/lib/callLogHelpers");
 var _di = require("@ringcentral-integration/commons/lib/di");
@@ -20,15 +42,15 @@ function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = 
 function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
-function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
-function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _callSuper(t, o, e) { return o = _getPrototypeOf(o), _possibleConstructorReturn(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor) : o.apply(t, e)); }
 function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
 function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
 function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
 function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
 function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
-var IncomingCallUI = (_dec = (0, _di.Module)({
+var IncomingCallUI = exports.IncomingCallUI = (_dec = (0, _di.Module)({
   name: 'IncomingCallUI',
   deps: ['Webphone', 'Locale', 'ContactSearch', 'RegionSettings', 'ForwardingNumber', 'Brand', 'ExtensionInfo', 'AppFeatures', 'AccountInfo', {
     dep: 'ConferenceCall',
@@ -49,15 +71,52 @@ var IncomingCallUI = (_dec = (0, _di.Module)({
   var _that$_deps$contactMa2;
   return [that.currentSession.to, (_that$_deps$contactMa2 = that._deps.contactMatcher) === null || _that$_deps$contactMa2 === void 0 ? void 0 : _that$_deps$contactMa2.dataMapping];
 }), _dec(_class = (_class2 = /*#__PURE__*/function (_RcUIModuleV) {
-  _inherits(IncomingCallUI, _RcUIModuleV);
-  var _super = _createSuper(IncomingCallUI);
   function IncomingCallUI(deps) {
     _classCallCheck(this, IncomingCallUI);
-    return _super.call(this, {
+    return _callSuper(this, IncomingCallUI, [{
       deps: deps
-    });
+    }]);
   }
-  _createClass(IncomingCallUI, [{
+  _inherits(IncomingCallUI, _RcUIModuleV);
+  return _createClass(IncomingCallUI, [{
+    key: "currentSession",
+    get: function get() {
+      var _this$_deps$webphone$;
+      return (_this$_deps$webphone$ = this._deps.webphone.ringingCallOnView) !== null && _this$_deps$webphone$ !== void 0 ? _this$_deps$webphone$ : {};
+    }
+  }, {
+    key: "fromMatches",
+    get: function get() {
+      var _this$_deps$contactMa, _this$_deps$contactMa2;
+      return (_this$_deps$contactMa = (_this$_deps$contactMa2 = this._deps.contactMatcher) === null || _this$_deps$contactMa2 === void 0 ? void 0 : _this$_deps$contactMa2.dataMapping[this.currentSession.from]) !== null && _this$_deps$contactMa !== void 0 ? _this$_deps$contactMa : [];
+    }
+  }, {
+    key: "toMatches",
+    get: function get() {
+      var _this$_deps$contactMa3, _this$_deps$contactMa4;
+      return (_this$_deps$contactMa3 = (_this$_deps$contactMa4 = this._deps.contactMatcher) === null || _this$_deps$contactMa4 === void 0 ? void 0 : _this$_deps$contactMa4.dataMapping[this.currentSession.to]) !== null && _this$_deps$contactMa3 !== void 0 ? _this$_deps$contactMa3 : [];
+    }
+  }, {
+    key: "nameMatches",
+    get: function get() {
+      var nameMatches = this.currentSession.direction === _callDirections["default"].outbound ? this.toMatches : this.fromMatches;
+      return nameMatches;
+    }
+  }, {
+    key: "phoneNumber",
+    get: function get() {
+      var phoneNumber = this.currentSession.direction === _callDirections["default"].outbound ? this.currentSession.to : this.currentSession.from;
+      if (this._deps.appFeatures.isCDCEnabled && (0, _checkShouldHidePhoneNumber.checkShouldHidePhoneNumber)(phoneNumber, this.nameMatches)) {
+        return null;
+      }
+      return phoneNumber;
+    }
+  }, {
+    key: "callerIdName",
+    get: function get() {
+      return (0, _callLogHelpers.getWebphoneSessionDisplayName)(this.currentSession);
+    }
+  }, {
     key: "getUIProps",
     value: function getUIProps(_ref) {
       var _ref$showContactDispl = _ref.showContactDisplayPlaceholder,
@@ -147,46 +206,6 @@ var IncomingCallUI = (_dec = (0, _di.Module)({
         }
       };
     }
-  }, {
-    key: "currentSession",
-    get: function get() {
-      var _this$_deps$webphone$;
-      return (_this$_deps$webphone$ = this._deps.webphone.ringingCallOnView) !== null && _this$_deps$webphone$ !== void 0 ? _this$_deps$webphone$ : {};
-    }
-  }, {
-    key: "fromMatches",
-    get: function get() {
-      var _this$_deps$contactMa, _this$_deps$contactMa2;
-      return (_this$_deps$contactMa = (_this$_deps$contactMa2 = this._deps.contactMatcher) === null || _this$_deps$contactMa2 === void 0 ? void 0 : _this$_deps$contactMa2.dataMapping[this.currentSession.from]) !== null && _this$_deps$contactMa !== void 0 ? _this$_deps$contactMa : [];
-    }
-  }, {
-    key: "toMatches",
-    get: function get() {
-      var _this$_deps$contactMa3, _this$_deps$contactMa4;
-      return (_this$_deps$contactMa3 = (_this$_deps$contactMa4 = this._deps.contactMatcher) === null || _this$_deps$contactMa4 === void 0 ? void 0 : _this$_deps$contactMa4.dataMapping[this.currentSession.to]) !== null && _this$_deps$contactMa3 !== void 0 ? _this$_deps$contactMa3 : [];
-    }
-  }, {
-    key: "nameMatches",
-    get: function get() {
-      var nameMatches = this.currentSession.direction === _callDirections["default"].outbound ? this.toMatches : this.fromMatches;
-      return nameMatches;
-    }
-  }, {
-    key: "phoneNumber",
-    get: function get() {
-      var phoneNumber = this.currentSession.direction === _callDirections["default"].outbound ? this.currentSession.to : this.currentSession.from;
-      if (this._deps.appFeatures.isCDCEnabled && (0, _checkShouldHidePhoneNumber.checkShouldHidePhoneNumber)(phoneNumber, this.nameMatches)) {
-        return null;
-      }
-      return phoneNumber;
-    }
-  }, {
-    key: "callerIdName",
-    get: function get() {
-      return (0, _callLogHelpers.getWebphoneSessionDisplayName)(this.currentSession);
-    }
   }]);
-  return IncomingCallUI;
-}(_core.RcUIModuleV2), (_applyDecoratedDescriptor(_class2.prototype, "currentSession", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "currentSession"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fromMatches", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "fromMatches"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "toMatches", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "toMatches"), _class2.prototype)), _class2)) || _class);
-exports.IncomingCallUI = IncomingCallUI;
+}(_core.RcUIModuleV2), _applyDecoratedDescriptor(_class2.prototype, "currentSession", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "currentSession"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fromMatches", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "fromMatches"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "toMatches", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "toMatches"), _class2.prototype), _class2)) || _class);
 //# sourceMappingURL=IncomingCallUI.js.map

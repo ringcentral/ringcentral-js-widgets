@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -26,6 +27,5 @@ var Message = function Message(_ref) {
     className: _DynamicsFont["default"].close
   }))));
 };
-var _default = Message;
-exports["default"] = _default;
+var _default = exports["default"] = Message;
 //# sourceMappingURL=Message.js.map

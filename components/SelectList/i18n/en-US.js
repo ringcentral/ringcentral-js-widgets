@@ -1,10 +1,11 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-var _default = {
+var _default = exports["default"] = {
   matched: 'Matched',
   other: 'Other',
   associated: 'Associated',
@@ -14,5 +15,4 @@ var _default = {
   additionalLabelContact: 'Contact: {displayName}',
   notFound: 'N/A'
 };
-exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

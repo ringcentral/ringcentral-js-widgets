@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -23,7 +24,8 @@ var SmCallControl = function SmCallControl(props) {
     isOnMute = props.isOnMute,
     callStatus = props.callStatus,
     currentLocale = props.currentLocale,
-    callDirection = props.callDirection; // reject conditions: call direction is inbound & call status is ringing
+    callDirection = props.callDirection;
+  // reject conditions: call direction is inbound & call status is ringing
   function canRejectCall() {
     return _callDirections["default"].inbound === callDirection && _telephonyStatus["default"].ringing === callStatus;
   }
@@ -62,6 +64,5 @@ SmCallControl.defaultProps = {
   callStatus: 'CallConnected',
   currentLocale: 'en-US'
 };
-var _default = SmCallControl;
-exports["default"] = _default;
+var _default = exports["default"] = SmCallControl;
 //# sourceMappingURL=index.js.map

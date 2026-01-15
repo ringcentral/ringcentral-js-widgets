@@ -1,14 +1,15 @@
 "use strict";
 
-require("core-js/modules/es.array.concat");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.displayFormatter = void 0;
+require("core-js/modules/es.array.concat.js");
 var _utils = require("@ringcentral-integration/utils");
 var _phoneSourceNames = _interopRequireDefault(require("../../lib/phoneSourceNames"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var displayFormatter = function displayFormatter(_ref) {
+var displayFormatter = exports.displayFormatter = function displayFormatter(_ref) {
   var entityName = _ref.entityName,
     entityType = _ref.entityType,
     phoneNumber = _ref.phoneNumber,
@@ -35,5 +36,4 @@ var displayFormatter = function displayFormatter(_ref) {
   }
   return '';
 };
-exports.displayFormatter = displayFormatter;
 //# sourceMappingURL=displayFormatter.js.map

@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -8,7 +9,7 @@ var _juno = require("@ringcentral/juno");
 var _react = _interopRequireDefault(require("react"));
 var _i18n = _interopRequireDefault(require("./i18n"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var LeaveConferenceCall = function LeaveConferenceCall(props) {
+var LeaveConferenceCall = exports.LeaveConferenceCall = function LeaveConferenceCall(props) {
   var currentLocale = props.currentLocale,
     onLeaveCall = props.onLeaveCall,
     onEndCallForEveryOne = props.onEndCallForEveryOne;
@@ -35,5 +36,4 @@ var LeaveConferenceCall = function LeaveConferenceCall(props) {
     onClick: onEndCallForEveryOne
   }, _i18n["default"].getString('endCallForEveryone', currentLocale))));
 };
-exports.LeaveConferenceCall = LeaveConferenceCall;
 //# sourceMappingURL=LeaveConferenceCall.js.map

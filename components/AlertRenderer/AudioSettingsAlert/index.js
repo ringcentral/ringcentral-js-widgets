@@ -1,5 +1,8 @@
 "use strict";
 
+require("core-js/modules/es.array.includes.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/es.string.includes.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -30,6 +33,5 @@ AudioSettingsAlert.handleMessage = function (_ref2) {
   var message = _ref2.message;
   return (0, _ramda.includes)(message, [_AudioSettings.audioSettingsErrors.userMediaPermission, _AudioSettings.audioSettingsErrors.ringtoneSizeOverLimit, _AudioSettings.audioSettingsErrors.duplicateRingtone, _AudioSettings.audioSettingsErrors.uploadRingtoneFailed, _AudioSettings.audioSettingsErrors.deleteRingtoneFailed, _AudioSettings.audioSettingsErrors.checkMediaPermission]);
 };
-var _default = AudioSettingsAlert;
-exports["default"] = _default;
+var _default = exports["default"] = AudioSettingsAlert;
 //# sourceMappingURL=index.js.map

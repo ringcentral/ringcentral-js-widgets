@@ -1,1 +1,1 @@
-{"version":3,"file":"en-US.js","names":["title","exports","_default"],"sources":["modules/CallHistoryUI/i18n/en-US.ts"],"sourcesContent":["export default {\n  title: 'History',\n} as const;\n"],"mappings":";;;;;;eAAe;EACbA,KAAK,EAAE;AACT,CAAC;AAAAC,OAAA,cAAAC,QAAA","ignoreList":[]}
+{"version":3,"file":"en-US.js","names":["title"],"sources":["modules/CallHistoryUI/i18n/en-US.ts"],"sourcesContent":["export default {\n  title: 'History',\n} as const;\n"],"mappings":";;;;;;;oCAAe;EACbA,KAAK,EAAE;AACT,CAAC","ignoreList":[]}

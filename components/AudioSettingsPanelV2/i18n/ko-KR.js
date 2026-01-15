@@ -1,11 +1,12 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 /* eslint-disable */
-var _default = {
+var _default = exports["default"] = {
   title: '오디오',
   input: '입력',
   microphone: '마이크',
@@ -46,5 +47,4 @@ var _default = {
 // @key: @#@"stopPlaybackButton"@#@ @source: @#@"Stop test"@#@
 // @key: @#@"startTestButton"@#@ @source: @#@"Test speaker"@#@
 // @key: @#@"stopTestDescription"@#@ @source: @#@"Playing sample sound..."@#@
-exports["default"] = _default;
 //# sourceMappingURL=ko-KR.js.map

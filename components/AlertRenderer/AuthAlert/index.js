@@ -1,5 +1,8 @@
 "use strict";
 
+require("core-js/modules/es.array.includes.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/es.string.includes.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -18,6 +21,5 @@ AuthAlert.handleMessage = function (_ref) {
   var message = _ref.message;
   return (0, _ramda.includes)(message, [_Auth.authMessages.accessDenied, _Auth.authMessages.internalError, _Auth.authMessages.sessionExpired, _Auth.authMessages.beforeLogoutError, _Auth.authMessages.logoutError, _Auth.authMessages.siteAccessForbidden]);
 };
-var _default = AuthAlert;
-exports["default"] = _default;
+var _default = exports["default"] = AuthAlert;
 //# sourceMappingURL=index.js.map

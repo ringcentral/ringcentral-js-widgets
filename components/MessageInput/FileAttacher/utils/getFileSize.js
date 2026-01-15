@@ -1,13 +1,14 @@
 "use strict";
 
-require("core-js/modules/es.number.to-fixed");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getFileSize = void 0;
+require("core-js/modules/es.number.to-fixed.js");
 // refer from J: project/common/ui/common/src/helper/helper.ts
 
-var getFileSize = function getFileSize(bytes) {
+var getFileSize = exports.getFileSize = function getFileSize(bytes) {
   if (typeof bytes !== 'number') {
     return '0 B';
   }
@@ -22,5 +23,4 @@ var getFileSize = function getFileSize(bytes) {
   }
   return "".concat((bytes / 1024 / 1024 / 1024).toFixed(1), " GB");
 };
-exports.getFileSize = getFileSize;
 //# sourceMappingURL=getFileSize.js.map

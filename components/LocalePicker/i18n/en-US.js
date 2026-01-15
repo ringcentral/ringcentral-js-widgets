@@ -1,10 +1,11 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-var _default = {
+var _default = exports["default"] = {
   en: 'English',
   ja: 'Japanese',
   fr: 'French',
@@ -17,5 +18,4 @@ var _default = {
   ko: 'Korean',
   fi: 'Suomi'
 };
-exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

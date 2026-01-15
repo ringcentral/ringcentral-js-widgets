@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -10,7 +11,7 @@ var _DeleteCircle = _interopRequireDefault(require("../../assets/images/DeleteCi
 var _RemoveIcon = _interopRequireDefault(require("../../assets/images/RemoveIcon.svg"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var RemoveButton = function RemoveButton(_ref) {
+var RemoveButton = exports.RemoveButton = function RemoveButton(_ref) {
   var className = _ref.className,
     onClick = _ref.onClick,
     visibility = _ref.visibility,
@@ -28,7 +29,6 @@ var RemoveButton = function RemoveButton(_ref) {
     className: _styles["default"].icon
   }));
 };
-exports.RemoveButton = RemoveButton;
 RemoveButton.defaultProps = {
   // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   className: null,

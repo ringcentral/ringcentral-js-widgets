@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -38,6 +39,5 @@ BackHeader.defaultProps = {
   backButton: undefined,
   onBackClick: undefined
 };
-var _default = BackHeader;
-exports["default"] = _default;
+var _default = exports["default"] = BackHeader;
 //# sourceMappingURL=index.js.map

@@ -1,11 +1,12 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 /* eslint-disable */
-var _default = {
+var _default = exports["default"] = {
   removeParticipant: 'Supprimer le participant',
   confirmStr1: 'Êtes-vous sûr de vouloir supprimer',
   confirmStr2: 'de cet appel ?',
@@ -24,5 +25,4 @@ var _default = {
 // @key: @#@"participant"@#@ @source: @#@"Participant"@#@
 // @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@
 // @key: @#@"unknownNumber"@#@ @source: @#@"Anonymous"@#@
-exports["default"] = _default;
 //# sourceMappingURL=fr-FR.js.map

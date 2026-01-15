@@ -1,11 +1,12 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 /* eslint-disable */
-var _default = {
+var _default = exports["default"] = {
   title: '지역',
   NAOnlyMessage: '지역 코드를 설정하세요. 이는 지역 전화 걸기에 사용됩니다.',
   MultiWithNAMessage: '사용자 지역의 국가 및 지역 코드를 설정하세요. 이는 지역 전화 걸기와 전화번호 서식에 사용됩니다.',
@@ -20,5 +21,4 @@ var _default = {
 // @key: @#@"country"@#@ @source: @#@"Country"@#@
 // @key: @#@"areaCode"@#@ @source: @#@"Area Code"@#@
 // @key: @#@"areaCodePlaceholder"@#@ @source: @#@"Enter Area Code"@#@
-exports["default"] = _default;
 //# sourceMappingURL=ko-KR.js.map

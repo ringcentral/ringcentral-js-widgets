@@ -1,15 +1,20 @@
 "use strict";
 
-require("core-js/modules/es.symbol");
-require("core-js/modules/es.symbol.description");
-require("core-js/modules/es.symbol.to-primitive");
-require("core-js/modules/es.date.to-primitive");
-require("core-js/modules/es.number.constructor");
-require("core-js/modules/es.object.to-string");
+require("core-js/modules/es.symbol.js");
+require("core-js/modules/es.symbol.description.js");
+require("core-js/modules/es.symbol.iterator.js");
+require("core-js/modules/es.array.iterator.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/es.object.to-string.js");
+require("core-js/modules/es.string.iterator.js");
+require("core-js/modules/web.dom-collections.iterator.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+require("core-js/modules/es.symbol.to-primitive.js");
+require("core-js/modules/es.date.to-primitive.js");
+require("core-js/modules/es.number.constructor.js");
 var _callDirections = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callDirections"));
 var _telephonyStatus = _interopRequireDefault(require("@ringcentral-integration/commons/enums/telephonyStatus"));
 var _juno = require("@ringcentral/juno");
@@ -24,7 +29,6 @@ var _VoicemailRed = _interopRequireDefault(require("../../assets/images/Voicemai
 var _Button = require("../Button");
 var _i18n = _interopRequireDefault(require("./i18n"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
-var _callIconMap;
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -46,7 +50,7 @@ CallIcon.defaultProps = {
   title: '',
   iconClassName: ''
 };
-var callIconMap = (_callIconMap = {}, _defineProperty(_callIconMap, _callDirections["default"].inbound, _DynamicsFont["default"].inbound), _defineProperty(_callIconMap, _callDirections["default"].outbound, _DynamicsFont["default"].outbound), _callIconMap);
+var callIconMap = _defineProperty(_defineProperty({}, _callDirections["default"].inbound, _DynamicsFont["default"].inbound), _callDirections["default"].outbound, _DynamicsFont["default"].outbound);
 var LogNotification = function LogNotification(_ref2) {
   var formatPhone = _ref2.formatPhone,
     currentLog = _ref2.currentLog,
@@ -197,6 +201,5 @@ LogNotification.defaultProps = {
   showEndButton: false,
   shrinkNotification: undefined
 };
-var _default = LogNotification;
-exports["default"] = _default;
+var _default = exports["default"] = LogNotification;
 //# sourceMappingURL=index.js.map

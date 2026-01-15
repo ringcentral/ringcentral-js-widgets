@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -28,6 +29,5 @@ Spinner.defaultProps = {
   className: null,
   ringWidth: 8
 };
-var _default = Spinner;
-exports["default"] = _default;
+var _default = exports["default"] = Spinner;
 //# sourceMappingURL=index.js.map

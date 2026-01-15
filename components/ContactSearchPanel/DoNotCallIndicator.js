@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -11,7 +12,7 @@ var _Tooltip = require("../Rcui/Tooltip");
 var _i18n = _interopRequireDefault(require("./i18n"));
 var _DoNotCallIndicator = require("./styles/DoNotCallIndicator");
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var DoNotCallIndicator = function DoNotCallIndicator(_ref) {
+var DoNotCallIndicator = exports.DoNotCallIndicator = function DoNotCallIndicator(_ref) {
   var currentLocale = _ref.currentLocale;
   return /*#__PURE__*/_react["default"].createElement(_Tooltip.Tooltip, {
     title: _i18n["default"].getString('doNotCall', currentLocale)
@@ -23,5 +24,4 @@ var DoNotCallIndicator = function DoNotCallIndicator(_ref) {
     size: "xsmall"
   })));
 };
-exports.DoNotCallIndicator = DoNotCallIndicator;
 //# sourceMappingURL=DoNotCallIndicator.js.map

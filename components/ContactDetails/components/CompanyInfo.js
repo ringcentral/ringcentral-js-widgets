@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -9,7 +10,7 @@ var _react = _interopRequireDefault(require("react"));
 var _i18n = _interopRequireDefault(require("../i18n"));
 var _styles = _interopRequireDefault(require("../styles.scss"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var CompanyInfoItem = function CompanyInfoItem(_ref) {
+var CompanyInfoItem = exports.CompanyInfoItem = function CompanyInfoItem(_ref) {
   var label = _ref.label,
     value = _ref.value;
   return /*#__PURE__*/_react["default"].createElement("div", {
@@ -22,21 +23,20 @@ var CompanyInfoItem = function CompanyInfoItem(_ref) {
     className: _styles["default"].text
   }, value)));
 };
-exports.CompanyInfoItem = CompanyInfoItem;
-var CompanyInfo = function CompanyInfo(_ref2) {
+var CompanyInfo = exports.CompanyInfo = function CompanyInfo(_ref2) {
   var currentLocale = _ref2.currentLocale,
     company = _ref2.company,
     jobTitle = _ref2.jobTitle;
   var content = [];
   if (company) {
-    content.push( /*#__PURE__*/_react["default"].createElement(CompanyInfoItem, {
+    content.push(/*#__PURE__*/_react["default"].createElement(CompanyInfoItem, {
       key: "company",
       label: _i18n["default"].getString('company', currentLocale),
       value: company
     }));
   }
   if (jobTitle) {
-    content.push( /*#__PURE__*/_react["default"].createElement(CompanyInfoItem, {
+    content.push(/*#__PURE__*/_react["default"].createElement(CompanyInfoItem, {
       key: "jobTitle",
       label: _i18n["default"].getString('jobTitle', currentLocale),
       value: jobTitle
@@ -49,5 +49,4 @@ var CompanyInfo = function CompanyInfo(_ref2) {
   }
   return null;
 };
-exports.CompanyInfo = CompanyInfo;
 //# sourceMappingURL=CompanyInfo.js.map

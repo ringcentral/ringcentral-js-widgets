@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -9,7 +10,7 @@ var _react = _interopRequireDefault(require("react"));
 var _Tooltip = require("../Rcui/Tooltip");
 var _styles = _interopRequireDefault(require("./styles.scss"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var NavigationButton = function NavigationButton(_ref) {
+var NavigationButton = exports.NavigationButton = function NavigationButton(_ref) {
   var active = _ref.active,
     activeIcon = _ref.activeIcon,
     icon = _ref.icon,
@@ -57,11 +58,9 @@ var NavigationButton = function NavigationButton(_ref) {
     className: (0, _clsx["default"])(_styles["default"].icon, !keepStyle ? _styles["default"].iconStyles : null, className, active ? activeClassName : inActiveClassName)
   }, active ? activeIcon : icon), notice)));
 };
-exports.NavigationButton = NavigationButton;
 NavigationButton.defaultProps = {
   active: false,
   keepStyle: false
 };
-var _default = NavigationButton;
-exports["default"] = _default;
+var _default = exports["default"] = NavigationButton;
 //# sourceMappingURL=index.js.map

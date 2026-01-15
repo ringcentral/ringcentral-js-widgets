@@ -1,8 +1,9 @@
 "use strict";
 
-require("core-js/modules/es.array.slice");
-require("core-js/modules/es.object.define-properties");
-require("core-js/modules/es.object.freeze");
+require("core-js/modules/es.array.slice.js");
+require("core-js/modules/es.object.define-properties.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/es.object.freeze.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -11,28 +12,14 @@ var _juno = require("@ringcentral/juno");
 var _clsx = _interopRequireDefault(require("clsx"));
 var _react = _interopRequireDefault(require("react"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
+var _templateObject, _templateObject2;
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-function _templateObject2() {
-  var data = _taggedTemplateLiteral(["\n      color: ", ";\n      border-bottom: 1px solid ", ";\n    "]);
-  _templateObject2 = function _templateObject2() {
-    return data;
-  };
-  return data;
-}
-function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n  ", ";\n"]);
-  _templateObject = function _templateObject() {
-    return data;
-  };
-  return data;
-}
 function _taggedTemplateLiteral(e, t) { return t || (t = e.slice(0)), Object.freeze(Object.defineProperties(e, { raw: { value: Object.freeze(t) } })); }
 var tabColor = (0, _juno.palette2)('tab', 'selected');
-var StyledTab = _juno.styled.div(_templateObject(), function (_ref) {
+var StyledTab = exports.StyledTab = _juno.styled.div(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n  ", ";\n"])), function (_ref) {
   var $active = _ref.$active;
-  return $active && (0, _juno.css)(_templateObject2(), tabColor, tabColor);
+  return $active && (0, _juno.css)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n      color: ", ";\n      border-bottom: 1px solid ", ";\n    "])), tabColor, tabColor);
 });
-exports.StyledTab = StyledTab;
 var NavigationButton = function NavigationButton(_ref2) {
   var active = _ref2.active,
     icon = _ref2.icon,
@@ -77,6 +64,5 @@ NavigationButton.defaultProps = {
   onClick: undefined,
   fullSizeInk: true
 };
-var _default = NavigationButton;
-exports["default"] = _default;
+var _default = exports["default"] = NavigationButton;
 //# sourceMappingURL=MessageTabButton.js.map

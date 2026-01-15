@@ -1,14 +1,27 @@
 "use strict";
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-require("core-js/modules/es.array.map");
-require("core-js/modules/es.function.bind");
-require("core-js/modules/es.object.get-prototype-of");
-require("core-js/modules/es.object.set-prototype-of");
+require("core-js/modules/es.symbol.js");
+require("core-js/modules/es.symbol.description.js");
+require("core-js/modules/es.symbol.iterator.js");
+require("core-js/modules/es.symbol.to-primitive.js");
+require("core-js/modules/es.array.iterator.js");
+require("core-js/modules/es.date.to-primitive.js");
+require("core-js/modules/es.function.bind.js");
+require("core-js/modules/es.number.constructor.js");
+require("core-js/modules/es.object.create.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/es.object.get-prototype-of.js");
+require("core-js/modules/es.object.set-prototype-of.js");
+require("core-js/modules/es.reflect.construct.js");
+require("core-js/modules/es.string.iterator.js");
+require("core-js/modules/web.dom-collections.iterator.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+require("core-js/modules/es.array.map.js");
+require("core-js/modules/es.object.to-string.js");
 var _debounce = _interopRequireDefault(require("@ringcentral-integration/commons/lib/debounce"));
 var _clsx = _interopRequireDefault(require("clsx"));
 var _propTypes = _interopRequireDefault(require("prop-types"));
@@ -29,13 +42,13 @@ function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = 
 function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
-function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
-function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _callSuper(t, o, e) { return o = _getPrototypeOf(o), _possibleConstructorReturn(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor) : o.apply(t, e)); }
 function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
 function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
 function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
 function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
 // TODO: it is ActiveCallsPanel's function is the same, and remove ActiveCallsPanel after migration.
 
 var SEARCH_BAR_HEIGHT = 51;
@@ -198,12 +211,10 @@ ActiveCallList.defaultProps = {
   readTextPermission: true
 };
 var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
-  _inherits(CallsListPanel, _React$PureComponent);
-  var _super = _createSuper(CallsListPanel);
   function CallsListPanel(props) {
     var _this;
     _classCallCheck(this, CallsListPanel);
-    _this = _super.call(this, props);
+    _this = _callSuper(this, CallsListPanel, [props]);
     _this._listWrapper = void 0;
     _this._mounted = void 0;
     _this._root = void 0;
@@ -222,7 +233,8 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
   }
 
   // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
-  _createClass(CallsListPanel, [{
+  _inherits(CallsListPanel, _React$PureComponent);
+  return _createClass(CallsListPanel, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       // @ts-expect-error TS(2339): Property 'adaptive' does not exist on type 'Readon... Remove this comment to see the full error message
@@ -237,7 +249,9 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
         // @ts-expect-error TS(2339): Property 'onCallsEmpty' does not exist on type 'Re... Remove this comment to see the full error message
         this.props.onCallsEmpty();
       }
-    } // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
+    }
+
+    // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   }, {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
@@ -264,7 +278,9 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
         contentHeight: 0,
         contentWidth: 0
       });
-    } // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
+    }
+
+    // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   }, {
     key: "UNSAFE_componentWillReceiveProps",
     value: function UNSAFE_componentWillReceiveProps(nextProps) {
@@ -354,7 +370,9 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
         onDiscard: onDiscardNotification,
         onStay: onCloseNotification
       })) : null);
-    } // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
+    }
+
+    // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   }, {
     key: "render",
     value: function render() {
@@ -434,7 +452,9 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
         showChooseEntityModal = _this$props2.showChooseEntityModal,
         enableCDC = _this$props2.enableCDC,
         maxExtensionLength = _this$props2.maxExtensionLength,
-        callsDelaySavingState = _this$props2.callsDelaySavingState; // @ts-expect-error TS(2339): Property 'contentWidth' does not exist on type 'Re... Remove this comment to see the full error message
+        callsDelaySavingState = _this$props2.callsDelaySavingState;
+
+      // @ts-expect-error TS(2339): Property 'contentWidth' does not exist on type 'Re... Remove this comment to see the full error message
       var _this$state = this.state,
         contentWidth = _this$state.contentWidth,
         contentHeight = _this$state.contentHeight;
@@ -590,7 +610,6 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
       }, onlyHistory || getCallList(activeRingCalls, _i18n["default"].getString('ringCall', currentLocale)), onlyHistory || getCallList(activeCurrentCalls, _i18n["default"].getString('currentCall', currentLocale)), onlyHistory || getCallList(activeOnHoldCalls, _i18n["default"].getString('onHoldCall', currentLocale)), onlyHistory || getCallList(otherDeviceCalls, _i18n["default"].getString('otherDeviceCall', currentLocale)), calls.length > 0 ? historyCall : noCalls), this.renderLogSection());
     }
   }]);
-  return CallsListPanel;
 }(_react["default"].PureComponent); // @ts-expect-error TS(2339): Property 'propTypes' does not exist on type 'typeo... Remove this comment to see the full error message
 CallsListPanel.propTypes = {
   useNewList: _propTypes["default"].bool,
@@ -738,6 +757,5 @@ CallsListPanel.defaultProps = {
   callsDelaySavingState: undefined,
   isSyncingActivityMatcher: false
 };
-var _default = CallsListPanel;
-exports["default"] = _default;
+var _default = exports["default"] = CallsListPanel;
 //# sourceMappingURL=index.js.map

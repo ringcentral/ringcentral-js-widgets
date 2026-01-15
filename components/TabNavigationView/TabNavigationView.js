@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -64,6 +65,5 @@ TabNavigationView.defaultProps = {
   holdReady: false,
   onLoading: false
 };
-var _default = TabNavigationView;
-exports["default"] = _default;
+var _default = exports["default"] = TabNavigationView;
 //# sourceMappingURL=TabNavigationView.js.map

@@ -1,22 +1,27 @@
 "use strict";
 
-require("core-js/modules/es.symbol");
-require("core-js/modules/es.symbol.description");
-require("core-js/modules/es.symbol.to-primitive");
-require("core-js/modules/es.date.to-primitive");
-require("core-js/modules/es.number.constructor");
-require("core-js/modules/es.object.to-string");
+require("core-js/modules/es.symbol.js");
+require("core-js/modules/es.symbol.description.js");
+require("core-js/modules/es.symbol.iterator.js");
+require("core-js/modules/es.array.iterator.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/es.object.to-string.js");
+require("core-js/modules/es.string.iterator.js");
+require("core-js/modules/web.dom-collections.iterator.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+require("core-js/modules/es.symbol.to-primitive.js");
+require("core-js/modules/es.date.to-primitive.js");
+require("core-js/modules/es.number.constructor.js");
 var _Meeting = require("@ringcentral-integration/commons/modules/Meeting");
 var _date$time$hours$minu;
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); } /* eslint-disable */
-var _default = (_date$time$hours$minu = {
+var _default = exports["default"] = (_date$time$hours$minu = {
   date: 'Data',
   time: 'Hora',
   hours: '{howMany} h',
@@ -33,7 +38,7 @@ var _default = (_date$time$hours$minu = {
   video: 'Vídeo',
   audio: 'Áudio',
   scheduleFor: 'Agendar em nome de'
-}, _defineProperty(_date$time$hours$minu, _Meeting.ASSISTED_USERS_MYSELF, 'Eu'), _defineProperty(_date$time$hours$minu, "meetingOptions", 'Opções da reunião'), _defineProperty(_date$time$hours$minu, "meetingSettings", 'Definições da reunião'), _defineProperty(_date$time$hours$minu, "rcMeetingSettings", 'Definições de videoconferência'), _defineProperty(_date$time$hours$minu, "audioOptions", 'Opções de áudio'), _defineProperty(_date$time$hours$minu, "recurringMeeting", 'Reunião periódica'), _defineProperty(_date$time$hours$minu, "recurringNote", 'Nota: ativar este ao selecionar “Periodicidade”'), _defineProperty(_date$time$hours$minu, "joinBeforeHost", 'Permitir que os participantes entrem antes do anfitrião'), _defineProperty(_date$time$hours$minu, "turnOffCamera", 'Desativar a câmara dos participantes'), _defineProperty(_date$time$hours$minu, "turnOffHostCamera", 'Desativar a câmara do anfitrião ao entrar na reunião'), _defineProperty(_date$time$hours$minu, "requirePassword", 'Exigir palavra-passe'), _defineProperty(_date$time$hours$minu, "enterPassword", 'Introduzir palavra-passe'), _defineProperty(_date$time$hours$minu, "setPassword", 'Definir palavra-passe *'), _defineProperty(_date$time$hours$minu, "passwordEmptyError", 'Palavra-passe da reunião obrigatória'), _defineProperty(_date$time$hours$minu, "rcmPasswordInvalidError", 'A palavra-passe tem de ter 1–10 carateres e números e não pode conter símbolos, exceto @, * ou -'), _defineProperty(_date$time$hours$minu, "rcmPasswordHintText", 'A palavra-passe deve ter 1–10 carateres e números e não pode conter símbolos, exceto @, * ou -'), _defineProperty(_date$time$hours$minu, "usePersonalMeetingId", 'Utilizar ID da reunião pessoal'), _defineProperty(_date$time$hours$minu, "pmiChangeConfirm", 'Caso pretenda efetuar alterações na sua reunião pessoal, '), _defineProperty(_date$time$hours$minu, "changePmiSettings", 'altere as definições do PMI'), _defineProperty(_date$time$hours$minu, "pmiSettingChangeAlert", 'Se alterar as definições e agendar esta reunião, todas as reuniões com ID da reunião pessoal irão utilizar as definições mais recentes.'), _defineProperty(_date$time$hours$minu, "lockedTooltip", 'Esta definição é gerida pelo administrador da empresa'), _defineProperty(_date$time$hours$minu, "when", 'Quando'), _defineProperty(_date$time$hours$minu, "recurringDescribe", 'Lembre-se de verificar a recorrência ou repetição no convite de calendário enviado aos participantes.'), _date$time$hours$minu); // @key: @#@"date"@#@ @source: @#@"Date"@#@
+}, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_date$time$hours$minu, _Meeting.ASSISTED_USERS_MYSELF, 'Eu'), "meetingOptions", 'Opções da reunião'), "meetingSettings", 'Definições da reunião'), "rcMeetingSettings", 'Definições de videoconferência'), "audioOptions", 'Opções de áudio'), "recurringMeeting", 'Reunião periódica'), "recurringNote", 'Nota: ativar este ao selecionar “Periodicidade”'), "joinBeforeHost", 'Permitir que os participantes entrem antes do anfitrião'), "turnOffCamera", 'Desativar a câmara dos participantes'), "turnOffHostCamera", 'Desativar a câmara do anfitrião ao entrar na reunião'), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_date$time$hours$minu, "requirePassword", 'Exigir palavra-passe'), "enterPassword", 'Introduzir palavra-passe'), "setPassword", 'Definir palavra-passe *'), "passwordEmptyError", 'Palavra-passe da reunião obrigatória'), "rcmPasswordInvalidError", 'A palavra-passe tem de ter 1–10 carateres e números e não pode conter símbolos, exceto @, * ou -'), "rcmPasswordHintText", 'A palavra-passe deve ter 1–10 carateres e números e não pode conter símbolos, exceto @, * ou -'), "usePersonalMeetingId", 'Utilizar ID da reunião pessoal'), "pmiChangeConfirm", 'Caso pretenda efetuar alterações na sua reunião pessoal, '), "changePmiSettings", 'altere as definições do PMI'), "pmiSettingChangeAlert", 'Se alterar as definições e agendar esta reunião, todas as reuniões com ID da reunião pessoal irão utilizar as definições mais recentes.'), _defineProperty(_defineProperty(_defineProperty(_date$time$hours$minu, "lockedTooltip", 'Esta definição é gerida pelo administrador da empresa'), "when", 'Quando'), "recurringDescribe", 'Lembre-se de verificar a recorrência ou repetição no convite de calendário enviado aos participantes.')); // @key: @#@"date"@#@ @source: @#@"Date"@#@
 // @key: @#@"time"@#@ @source: @#@"Time"@#@
 // @key: @#@"hours"@#@ @source: @#@"{howMany} hr"@#@
 // @key: @#@"minutes"@#@ @source: @#@"{howMany} min"@#@
@@ -72,5 +77,4 @@ var _default = (_date$time$hours$minu = {
 // @key: @#@"lockedTooltip"@#@ @source: @#@"This setting is managed by your company admin"@#@
 // @key: @#@"when"@#@ @source: @#@"When"@#@
 // @key: @#@"recurringDescribe"@#@ @source: @#@"Please remember to check recurrence or repeat in your calendar invitation to your attendees."@#@
-exports["default"] = _default;
 //# sourceMappingURL=pt-PT.js.map

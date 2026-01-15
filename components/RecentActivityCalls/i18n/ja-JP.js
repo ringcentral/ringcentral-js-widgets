@@ -1,11 +1,12 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 /* eslint-disable */
-var _default = {
+var _default = exports["default"] = {
   noRecords: '最近の記録が見つかりません。',
   inBound: '着信',
   outBound: '発信',
@@ -14,5 +15,4 @@ var _default = {
 // @key: @#@"inBound"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"outBound"@#@ @source: @#@"Outbound"@#@
 // @key: @#@"missed"@#@ @source: @#@"Missed Call"@#@
-exports["default"] = _default;
 //# sourceMappingURL=ja-JP.js.map

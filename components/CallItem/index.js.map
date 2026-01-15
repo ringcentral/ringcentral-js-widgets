@@ -1,1 +1,1 @@
-{"version":3,"file":"index.js","names":["_CallItem","require"],"sources":["components/CallItem/index.ts"],"sourcesContent":["export { CallItem as default } from './CallItem';\n"],"mappings":";;;;;;;;;;;AAAA,IAAAA,SAAA,GAAAC,OAAA","ignoreList":[]}
+{"version":3,"file":"index.js","names":["_CallItem","require"],"sources":["components/CallItem/index.ts"],"sourcesContent":["export { CallItem as default } from './CallItem';\n"],"mappings":";;;;;;;;;;;;AAAA,IAAAA,SAAA,GAAAC,OAAA","ignoreList":[]}

@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -10,7 +11,7 @@ var _react = _interopRequireDefault(require("react"));
 var _i18n = require("./i18n");
 var _styles = _interopRequireDefault(require("./styles.scss"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var AdaptiveTypography = function AdaptiveTypography(_ref) {
+var AdaptiveTypography = exports.AdaptiveTypography = function AdaptiveTypography(_ref) {
   var _ref$isLock = _ref.isLock,
     isLock = _ref$isLock === void 0 ? false : _ref$isLock,
     title = _ref.title;
@@ -39,5 +40,4 @@ var AdaptiveTypography = function AdaptiveTypography(_ref) {
     }
   }))));
 };
-exports.AdaptiveTypography = AdaptiveTypography;
 //# sourceMappingURL=AdaptiveTypography.js.map

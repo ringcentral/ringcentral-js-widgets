@@ -1,30 +1,25 @@
 "use strict";
 
-require("core-js/modules/es.array.slice");
-require("core-js/modules/es.function.name");
-require("core-js/modules/es.object.define-properties");
-require("core-js/modules/es.object.freeze");
+require("core-js/modules/es.array.slice.js");
+require("core-js/modules/es.object.define-properties.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/es.object.freeze.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.ContactItem = void 0;
+require("core-js/modules/es.function.name.js");
 var _juno = require("@ringcentral/juno");
 var _react = _interopRequireDefault(require("react"));
 var _ContactInfo = require("./ContactInfo");
 var _ContactPhone = require("./ContactPhone");
 var _DoNotCallIndicator = require("./DoNotCallIndicator");
 var _styles = _interopRequireDefault(require("./styles.scss"));
+var _templateObject;
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n  color: ", ";\n  font-size: 13px;\n"]);
-  _templateObject = function _templateObject() {
-    return data;
-  };
-  return data;
-}
 function _taggedTemplateLiteral(e, t) { return t || (t = e.slice(0)), Object.freeze(Object.defineProperties(e, { raw: { value: Object.freeze(t) } })); }
-var StyledListItem = (0, _juno.styled)(_juno.RcListItem)(_templateObject(), (0, _juno.palette2)('neutral', 'f04'));
-var ContactItem = function ContactItem(_ref) {
+var StyledListItem = (0, _juno.styled)(_juno.RcListItem)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n  color: ", ";\n  font-size: 13px;\n"])), (0, _juno.palette2)('neutral', 'f04'));
+var ContactItem = exports.ContactItem = function ContactItem(_ref) {
   var currentLocale = _ref.currentLocale,
     active = _ref.active,
     onHover = _ref.onHover,
@@ -80,7 +75,6 @@ var ContactItem = function ContactItem(_ref) {
     titleEnabled: titleEnabled
   })));
 };
-exports.ContactItem = ContactItem;
 ContactItem.defaultProps = {
   titleEnabled: undefined,
   phoneTypeRenderer: undefined,

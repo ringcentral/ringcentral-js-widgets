@@ -1,8 +1,9 @@
 "use strict";
 
-require("core-js/modules/es.array.slice");
-require("core-js/modules/es.object.define-properties");
-require("core-js/modules/es.object.freeze");
+require("core-js/modules/es.array.slice.js");
+require("core-js/modules/es.object.define-properties.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/es.object.freeze.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -11,28 +12,19 @@ var _juno = require("@ringcentral/juno");
 var _react = _interopRequireDefault(require("react"));
 var _i18n = _interopRequireDefault(require("./i18n"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
+var _templateObject;
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n  && {\n    box-shadow: none;\n  }\n"]);
-  _templateObject = function _templateObject() {
-    return data;
-  };
-  return data;
-}
 function _taggedTemplateLiteral(e, t) { return t || (t = e.slice(0)), Object.freeze(Object.defineProperties(e, { raw: { value: Object.freeze(t) } })); }
-var MINS = 0;
-exports.MINS = MINS;
-var HOURS = 1;
-exports.HOURS = HOURS;
-var DAYS = 2;
-exports.DAYS = DAYS;
-var TimeButton = (0, _juno.styled)(_juno.RcButton)(_templateObject());
+var MINS = exports.MINS = 0;
+var HOURS = exports.HOURS = 1;
+var DAYS = exports.DAYS = 2;
+var TimeButton = (0, _juno.styled)(_juno.RcButton)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n  && {\n    box-shadow: none;\n  }\n"])));
 TimeButton.defaultProps = {
   size: 'xsmall',
   radius: 'round',
   keepElevation: false
 };
-var TimeInput = function TimeInput(_ref) {
+var TimeInput = exports.TimeInput = function TimeInput(_ref) {
   var timeValue = _ref.timeValue,
     onTimeValueChange = _ref.onTimeValueChange,
     inputRef = _ref.inputRef,
@@ -75,7 +67,6 @@ var TimeInput = function TimeInput(_ref) {
     }
   }, _i18n["default"].getString('days', currentLocale)));
 };
-exports.TimeInput = TimeInput;
 TimeInput.defaultProps = {
   timeValue: '',
   timeUnit: MINS

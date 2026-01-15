@@ -1,10 +1,12 @@
 "use strict";
 
-require("core-js/modules/es.array.reduce");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.pickElements = pickElements;
+require("core-js/modules/es.array.reduce.js");
+require("core-js/modules/es.object.to-string.js");
 /**
  * @file utils for active call pad
  */

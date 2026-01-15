@@ -1,15 +1,16 @@
 "use strict";
 
-require("core-js/modules/web.timers");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.focusCampo = void 0;
+require("core-js/modules/web.timers.js");
 /**
  * Set mouse focus and move cursor to end of input
  * @param {HTMLElement} inputField
  */
-var focusCampo = function focusCampo(inputField) {
+var focusCampo = exports.focusCampo = function focusCampo(inputField) {
   inputField.blur();
   if (inputField && inputField.value.length !== 0) {
     if (inputField.createTextRange) {
@@ -27,5 +28,4 @@ var focusCampo = function focusCampo(inputField) {
     inputField.focus();
   }, 0);
 };
-exports.focusCampo = focusCampo;
 //# sourceMappingURL=focusCampo.js.map

@@ -1,11 +1,12 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 /* eslint-disable */
-var _default = {
+var _default = exports["default"] = {
   monday: '月',
   tuesday: '火',
   wednesday: '水',
@@ -20,5 +21,4 @@ var _default = {
 // @key: @#@"friday"@#@ @source: @#@"F"@#@
 // @key: @#@"saturday"@#@ @source: @#@"S"@#@
 // @key: @#@"sunday"@#@ @source: @#@"S"@#@
-exports["default"] = _default;
 //# sourceMappingURL=ja-JP.js.map

@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -25,6 +26,5 @@ IconField.defaultProps = {
   // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   title: null
 };
-var _default = IconField;
-exports["default"] = _default;
+var _default = exports["default"] = IconField;
 //# sourceMappingURL=index.js.map

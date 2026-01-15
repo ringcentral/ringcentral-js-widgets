@@ -1,10 +1,10 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.contactReadyStates = void 0;
 var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
-var contactReadyStates = _ObjectMap.ObjectMap.prefixKeys(['pending', 'loading', 'loaded'], 'contactReadyStates');
-exports.contactReadyStates = contactReadyStates;
+var contactReadyStates = exports.contactReadyStates = _ObjectMap.ObjectMap.prefixKeys(['pending', 'loading', 'loaded'], 'contactReadyStates');
 //# sourceMappingURL=contactReadyStates.js.map

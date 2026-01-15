@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -9,7 +10,7 @@ var _IconLine = _interopRequireDefault(require("../IconLine"));
 var _Switch = _interopRequireDefault(require("../Switch"));
 var _i18n = require("./i18n");
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var ClickToDial = function ClickToDial(_ref) {
+var ClickToDial = exports.ClickToDial = function ClickToDial(_ref) {
   var currentLocale = _ref.currentLocale,
     showClickToDial = _ref.showClickToDial,
     clickToTextPermission = _ref.outboundSMS,
@@ -40,5 +41,4 @@ var ClickToDial = function ClickToDial(_ref) {
   }
   return null;
 };
-exports.ClickToDial = ClickToDial;
 //# sourceMappingURL=ClickToDial.js.map

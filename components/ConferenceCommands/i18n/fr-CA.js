@@ -1,10 +1,11 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-var _default = {
+var _default = exports["default"] = {
   title: 'Commandes de téléconférence',
   starSharp2Title: 'Nombre d’appelants',
   starSharp2Body: 'Effectuer le suivi du nombre de participants à l’appel',
@@ -39,5 +40,4 @@ var _default = {
 // @key: @#@"starSharp8Body"@#@ @source: @#@"Press 1x: Turns OFF sound\nPress 2x: Enter tone is ON Exit tone is OFF\nPress 3x: Enter tone is OFF Exit tone is ON\nPress 4x: Turns ON sound"@#@
 // @key: @#@"star9Title"@#@ @source: @#@"Record your conference"@#@
 // @key: @#@"star9Body"@#@ @source: @#@"Press once to START recording\nPress again to STOP recording"@#@
-exports["default"] = _default;
 //# sourceMappingURL=fr-CA.js.map

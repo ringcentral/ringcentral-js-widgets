@@ -1,16 +1,16 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 /* eslint-disable */
-var _default = {
+var _default = exports["default"] = {
   all: 'Kaikki',
   company: 'Yritys',
   personal: 'Henkilökohtainen'
 }; // @key: @#@"all"@#@ @source: @#@"All"@#@
 // @key: @#@"company"@#@ @source: @#@"Company"@#@
 // @key: @#@"personal"@#@ @source: @#@"Personal"@#@
-exports["default"] = _default;
 //# sourceMappingURL=fi-FI.js.map

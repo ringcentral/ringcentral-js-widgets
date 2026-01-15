@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -52,6 +53,5 @@ DropdownNavigationItem.defaultProps = {
   onClick: undefined,
   keepStyle: false
 };
-var _default = DropdownNavigationItem;
-exports["default"] = _default;
+var _default = exports["default"] = DropdownNavigationItem;
 //# sourceMappingURL=index.js.map

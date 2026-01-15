@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -9,7 +10,7 @@ var _react = _interopRequireDefault(require("react"));
 var _FormattedMessage = _interopRequireDefault(require("../../FormattedMessage"));
 var _i18n = _interopRequireDefault(require("./i18n"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var PermissionsAlert = function PermissionsAlert(_ref) {
+var PermissionsAlert = exports.PermissionsAlert = function PermissionsAlert(_ref) {
   var message = _ref.message.message,
     currentLocale = _ref.currentLocale,
     brand = _ref.brand,
@@ -31,7 +32,6 @@ var PermissionsAlert = function PermissionsAlert(_ref) {
   }
   return /*#__PURE__*/_react["default"].createElement("div", null, msg);
 };
-exports.PermissionsAlert = PermissionsAlert;
 PermissionsAlert.defaultProps = {
   application: undefined
 };
@@ -40,6 +40,5 @@ PermissionsAlert.handleMessage = function (_ref2) {
   var message = _ref2.message;
   return message === _permissionsMessages.permissionsMessages.invalidTier || message === _permissionsMessages.permissionsMessages.insufficientPrivilege;
 };
-var _default = PermissionsAlert;
-exports["default"] = _default;
+var _default = exports["default"] = PermissionsAlert;
 //# sourceMappingURL=index.js.map

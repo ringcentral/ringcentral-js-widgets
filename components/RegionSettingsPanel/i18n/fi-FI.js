@@ -1,11 +1,12 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 /* eslint-disable */
-var _default = {
+var _default = exports["default"] = {
   title: 'Alue',
   NAOnlyMessage: 'Anna suuntanumerosi. Sitä käytetään paikallispuheluissa.',
   MultiWithNAMessage: 'Anna alueesi maakoodi ja suuntanumero. Tätä käytetään paikallispuheluihin sekä puhelinnumeron muotoiluun.',
@@ -20,5 +21,4 @@ var _default = {
 // @key: @#@"country"@#@ @source: @#@"Country"@#@
 // @key: @#@"areaCode"@#@ @source: @#@"Area Code"@#@
 // @key: @#@"areaCodePlaceholder"@#@ @source: @#@"Enter Area Code"@#@
-exports["default"] = _default;
 //# sourceMappingURL=fi-FI.js.map

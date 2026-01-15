@@ -1,17 +1,19 @@
 "use strict";
 
-require("core-js/modules/es.array.filter");
-require("core-js/modules/es.array.map");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.FollowInfo = void 0;
+require("core-js/modules/es.array.filter.js");
+require("core-js/modules/es.array.map.js");
+require("core-js/modules/es.object.to-string.js");
 var _react = _interopRequireDefault(require("react"));
 var _toolTipDelayTime = require("../../../lib/toolTipDelayTime");
 var _Tooltip = require("../../Rcui/Tooltip");
 var _styles = _interopRequireDefault(require("./styles.scss"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var FollowInfo = function FollowInfo(_ref) {
+var FollowInfo = exports.FollowInfo = function FollowInfo(_ref) {
   var infoList = _ref.infoList,
     splitSign = _ref.splitSign;
   if (!infoList || infoList.length === 0) return null;
@@ -32,5 +34,4 @@ var FollowInfo = function FollowInfo(_ref) {
     }, splitSign));
   }));
 };
-exports.FollowInfo = FollowInfo;
 //# sourceMappingURL=FollowInfo.js.map

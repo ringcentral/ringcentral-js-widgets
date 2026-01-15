@@ -1,11 +1,12 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 /* eslint-disable */
-var _default = {
+var _default = exports["default"] = {
   from: 'From',
   to: 'To',
   enterNameOrNumber: 'Enter number or name...',
@@ -18,5 +19,4 @@ var _default = {
 // @key: @#@"typeMessage"@#@ @source: @#@"Type message..."@#@
 // @key: @#@"send"@#@ @source: @#@"Send"@#@
 // @key: @#@"emoji"@#@ @source: @#@"Emoji"@#@
-exports["default"] = _default;
 //# sourceMappingURL=en-GB.js.map

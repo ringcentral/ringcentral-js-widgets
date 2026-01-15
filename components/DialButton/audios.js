@@ -1,10 +1,10 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 var _juno = require("@ringcentral/juno");
-var _default = _juno.RcDialerPadSoundsMPEG;
-exports["default"] = _default;
+var _default = exports["default"] = _juno.RcDialerPadSoundsMPEG;
 //# sourceMappingURL=audios.js.map

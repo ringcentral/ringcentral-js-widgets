@@ -1,12 +1,14 @@
 "use strict";
 
-require("core-js/modules/es.array.find");
-require("core-js/modules/es.array.is-array");
-require("core-js/modules/es.array.map");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+require("core-js/modules/es.array.find.js");
+require("core-js/modules/es.array.is-array.js");
+require("core-js/modules/es.array.map.js");
+require("core-js/modules/es.object.to-string.js");
 var _clsx = _interopRequireDefault(require("clsx"));
 var _react = _interopRequireDefault(require("react"));
 var _ActiveCallItem = _interopRequireDefault(require("../ActiveCallItem"));
@@ -103,6 +105,7 @@ var ActiveCallList = function ActiveCallList(_ref) {
     var isOnConferenceCall = (_call$isConferenceCal = call.isConferenceCall) !== null && _call$isConferenceCal !== void 0 ? _call$isConferenceCal : call.webphoneSession ?
     // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
     isSessionAConferenceCall(call.webphoneSession.id) : isConferenceCall(call); // in case it's an other device call
+
     var warmTransferInfo = call.warmTransferInfo;
     var warmTransferRole;
     var originalCall;
@@ -280,6 +283,5 @@ ActiveCallList.defaultProps = {
   newCallIcon: false,
   clickSwitchTrack: function clickSwitchTrack() {}
 };
-var _default = ActiveCallList;
-exports["default"] = _default;
+var _default = exports["default"] = ActiveCallList;
 //# sourceMappingURL=index.js.map

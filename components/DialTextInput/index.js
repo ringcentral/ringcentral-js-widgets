@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -39,6 +40,5 @@ var DialTextInput = function DialTextInput(_ref) {
     onClick: onDelete
   }));
 };
-var _default = DialTextInput;
-exports["default"] = _default;
+var _default = exports["default"] = DialTextInput;
 //# sourceMappingURL=index.js.map

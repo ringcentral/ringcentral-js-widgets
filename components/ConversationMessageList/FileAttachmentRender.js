@@ -1,10 +1,11 @@
 "use strict";
 
-require("core-js/modules/es.array.concat");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.FileAttachmentRender = void 0;
+require("core-js/modules/es.array.concat.js");
 var _constant = require("@ringcentral-integration/utils/src/utils/fileHandler/constant");
 var _juno = require("@ringcentral/juno");
 var _junoIcon = require("@ringcentral/juno-icon");
@@ -15,7 +16,7 @@ var _DownloadButton = require("../DownloadButton");
 var _getFileSize = require("../MessageInput/FileAttacher/utils/getFileSize");
 var _styles = _interopRequireDefault(require("./styles.scss"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var FileAttachmentRender = function FileAttachmentRender(_ref) {
+var FileAttachmentRender = exports.FileAttachmentRender = function FileAttachmentRender(_ref) {
   var attachment = _ref.attachment,
     onLinkClick = _ref.onLinkClick;
   var fileName = attachment.fileName ? (0, _fileHandler.removeExtension)(attachment.fileName) : attachment.id;
@@ -46,5 +47,4 @@ var FileAttachmentRender = function FileAttachmentRender(_ref) {
     onClick: onLinkClick
   })));
 };
-exports.FileAttachmentRender = FileAttachmentRender;
 //# sourceMappingURL=FileAttachmentRender.js.map

@@ -1,15 +1,20 @@
 "use strict";
 
-require("core-js/modules/es.symbol");
-require("core-js/modules/es.symbol.description");
-require("core-js/modules/es.symbol.to-primitive");
-require("core-js/modules/es.date.to-primitive");
-require("core-js/modules/es.number.constructor");
-require("core-js/modules/es.object.to-string");
+require("core-js/modules/es.symbol.js");
+require("core-js/modules/es.symbol.description.js");
+require("core-js/modules/es.symbol.iterator.js");
+require("core-js/modules/es.array.iterator.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/es.object.to-string.js");
+require("core-js/modules/es.string.iterator.js");
+require("core-js/modules/web.dom-collections.iterator.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+require("core-js/modules/es.symbol.to-primitive.js");
+require("core-js/modules/es.date.to-primitive.js");
+require("core-js/modules/es.number.constructor.js");
 var _callDirections = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callDirections"));
 var _telephonyStatus = _interopRequireDefault(require("@ringcentral-integration/commons/enums/telephonyStatus"));
 var _clsx2 = _interopRequireDefault(require("clsx"));
@@ -45,7 +50,6 @@ var LogNotification = function LogNotification(_ref) {
   if (showEndButton && showLogButton) {
     var endButton = null;
     if (currentSession) {
-      var _clsx;
       // @ts-expect-error TS(2339): Property 'callStatus' does not exist on type '{}'.
       var callStatus = currentSession.callStatus,
         direction = currentSession.direction;
@@ -59,7 +63,7 @@ var LogNotification = function LogNotification(_ref) {
         showBorder: false,
         icon: _End["default"],
         onClick: endAction,
-        className: (0, _clsx2["default"])((_clsx = {}, _defineProperty(_clsx, _styles["default"].hangup, true), _defineProperty(_clsx, _styles["default"].endButton, true), _defineProperty(_clsx, _styles["default"].buttonDisabled, disableLinks), _clsx)),
+        className: (0, _clsx2["default"])(_defineProperty(_defineProperty(_defineProperty({}, _styles["default"].hangup, true), _styles["default"].endButton, true), _styles["default"].buttonDisabled, disableLinks)),
         disabled: disableLinks
       }));
     }
@@ -144,6 +148,5 @@ LogNotification.defaultProps = {
   showEndButton: false,
   disableLinks: false
 };
-var _default = LogNotification;
-exports["default"] = _default;
+var _default = exports["default"] = LogNotification;
 //# sourceMappingURL=index.js.map

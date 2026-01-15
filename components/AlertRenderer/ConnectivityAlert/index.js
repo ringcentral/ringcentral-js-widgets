@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -18,6 +19,5 @@ ConnectivityAlert.handleMessage = function (_ref2) {
   var message = _ref2.message;
   return message === _ConnectivityManager.connectivityTypes.networkLoss || message === _ConnectivityManager.connectivityTypes.offline || message === _ConnectivityManager.connectivityTypes.serverUnavailable || message === _ConnectivityManager.connectivityTypes.voipOnly || message === _ConnectivityManager.connectivityTypes.survival || message === _ConnectivityManager.connectivityTypes.webphoneUnavailable;
 };
-var _default = ConnectivityAlert;
-exports["default"] = _default;
+var _default = exports["default"] = ConnectivityAlert;
 //# sourceMappingURL=index.js.map

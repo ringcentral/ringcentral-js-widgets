@@ -1,11 +1,12 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 /* eslint-disable */
-var _default = {
+var _default = exports["default"] = {
   inAMeeting: '모임 중',
   onMyWay: '가는 중',
   callMeBackIn: '다음 이후 다시 전화해 주세요...',
@@ -18,5 +19,4 @@ var _default = {
 // @key: @#@"willCallYouBackIn"@#@ @source: @#@"Will call you back in..."@#@
 // @key: @#@"hour"@#@ @source: @#@"hour"@#@
 // @key: @#@"min"@#@ @source: @#@"min"@#@
-exports["default"] = _default;
 //# sourceMappingURL=ko-KR.js.map

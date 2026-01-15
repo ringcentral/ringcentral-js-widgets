@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -37,6 +38,5 @@ LogLinkButton.defaultProps = {
   onClick: function onClick() {},
   disabled: true
 };
-var _default = LogLinkButton;
-exports["default"] = _default;
+var _default = exports["default"] = LogLinkButton;
 //# sourceMappingURL=LogLinkButton.js.map

@@ -1,29 +1,34 @@
 "use strict";
 
-require("core-js/modules/es.symbol");
-require("core-js/modules/es.symbol.description");
-require("core-js/modules/es.symbol.to-primitive");
-require("core-js/modules/es.date.to-primitive");
-require("core-js/modules/es.number.constructor");
-require("core-js/modules/es.object.to-string");
+require("core-js/modules/es.symbol.js");
+require("core-js/modules/es.symbol.description.js");
+require("core-js/modules/es.symbol.iterator.js");
+require("core-js/modules/es.array.iterator.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/es.object.to-string.js");
+require("core-js/modules/es.string.iterator.js");
+require("core-js/modules/web.dom-collections.iterator.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+require("core-js/modules/es.symbol.to-primitive.js");
+require("core-js/modules/es.date.to-primitive.js");
+require("core-js/modules/es.number.constructor.js");
 var _RcVideo = require("@ringcentral-integration/commons/modules/RcVideo");
 var _scheduleFor$schedule;
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); } /* eslint-disable */
-var _default = (_scheduleFor$schedule = {
+var _default = exports["default"] = (_scheduleFor$schedule = {
   scheduleFor: 'Planifier au nom de',
   scheduleForAssistedUser: 'Mettre à jour les paramètres de réunion au nom de {userName}.',
   scheduleForGuidance: 'Vous planifiez pour quelqu’un d’autre ?\n1. Assurez-vous d’être dans leur calendrier Outlook.\n2. À partir de la liste déroulante, sélectionner la personne pour qui vous planifiez.\n',
   scheduleForGuidanceMore: 'En savoir plus',
   meetingSettings: 'Paramètres de réunion',
   meetingSettingsDescription: 'Les mises à jour s’appliqueront à cette réunion uniquement.'
-}, _defineProperty(_scheduleFor$schedule, _RcVideo.ASSISTED_USERS_MYSELF, 'Moi-même'), _defineProperty(_scheduleFor$schedule, "waitingRoomTitle", 'Utiliser la salle d’attente'), _defineProperty(_scheduleFor$schedule, "waitingRoomDescription", 'Les participants attendent jusqu’à ce que vous les acceptiez. Idéal pour les entretiens ou les participants extérieurs.'), _defineProperty(_scheduleFor$schedule, "waitingRoomNotCoworker", 'Pour toute personne n’appartenant pas à mon entreprise'), _defineProperty(_scheduleFor$schedule, "waitingRoomGuest", 'Pour toute personne non connectée'), _defineProperty(_scheduleFor$schedule, "waitingRoomAll", 'Pour tous les participants'), _defineProperty(_scheduleFor$schedule, "enterPassword", 'Saisir le mot de passe'), _defineProperty(_scheduleFor$schedule, "onlyJoinAfterMe", 'Démarrer une réunion après l’avoir rejointe'), _defineProperty(_scheduleFor$schedule, "allowJoinBeforeHostDescription", 'La réunion commencera une fois que vous l’aurez rejointe pour éviter les conversations précoces.'), _defineProperty(_scheduleFor$schedule, "requirePassword", 'Exiger un mot de passe'), _defineProperty(_scheduleFor$schedule, "requirePasswordDescription", 'Sécurisez votre réunion. Toute personne utilisant le lien ne sera pas invitée à saisir un mot de passe.'), _defineProperty(_scheduleFor$schedule, "password", 'Mot de passe :'), _defineProperty(_scheduleFor$schedule, "passwordEmptyError", 'Mot de passe de la réunion requis'), _defineProperty(_scheduleFor$schedule, "passwordInvalidError", 'Votre mot de passe doit être composé de 1 à 10 lettres et chiffres, et ne peut pas comporter de symboles'), _defineProperty(_scheduleFor$schedule, "passwordHintText", 'Votre mot de passe doit être composé de 1 à 10 lettres et chiffres, mais ne doit pas contenir de symboles.'), _defineProperty(_scheduleFor$schedule, "usePersonalMeetingIdInstead", 'Utiliser un lien de réunion personnelle'), _defineProperty(_scheduleFor$schedule, "allowMeetingAccess", 'Gérer les participants'), _defineProperty(_scheduleFor$schedule, "anyoneWithLink", 'Toute personne disposant du lien'), _defineProperty(_scheduleFor$schedule, "signedInUsers", 'Comptes {shortName} uniquement'), _defineProperty(_scheduleFor$schedule, "signedInCoWorkers", 'Mes collaborateurs uniquement'), _defineProperty(_scheduleFor$schedule, "passwordLabel", 'Mot de passe'), _defineProperty(_scheduleFor$schedule, "edit", 'Modifier'), _defineProperty(_scheduleFor$schedule, "editSettings", 'Modifier les paramètres'), _defineProperty(_scheduleFor$schedule, "lockTooltip", 'Ce paramètre est géré par l’administrateur de votre entreprise'), _defineProperty(_scheduleFor$schedule, "cancel", 'Annuler'), _defineProperty(_scheduleFor$schedule, "update", 'Mettre à jour'), _defineProperty(_scheduleFor$schedule, "pmiSettingsTitle", 'Paramètres de réunion personnelle'), _defineProperty(_scheduleFor$schedule, "pmiSettingsDescription", 'Définissez qui peut participer et comment utiliser votre lien de réunion personnelle.'), _scheduleFor$schedule); // @key: @#@"scheduleFor"@#@ @source: @#@"Schedule on behalf of"@#@
+}, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_scheduleFor$schedule, _RcVideo.ASSISTED_USERS_MYSELF, 'Moi-même'), "waitingRoomTitle", 'Utiliser la salle d’attente'), "waitingRoomDescription", 'Les participants attendent jusqu’à ce que vous les acceptiez. Idéal pour les entretiens ou les participants extérieurs.'), "waitingRoomNotCoworker", 'Pour toute personne n’appartenant pas à mon entreprise'), "waitingRoomGuest", 'Pour toute personne non connectée'), "waitingRoomAll", 'Pour tous les participants'), "enterPassword", 'Saisir le mot de passe'), "onlyJoinAfterMe", 'Démarrer une réunion après l’avoir rejointe'), "allowJoinBeforeHostDescription", 'La réunion commencera une fois que vous l’aurez rejointe pour éviter les conversations précoces.'), "requirePassword", 'Exiger un mot de passe'), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_scheduleFor$schedule, "requirePasswordDescription", 'Sécurisez votre réunion. Toute personne utilisant le lien ne sera pas invitée à saisir un mot de passe.'), "password", 'Mot de passe :'), "passwordEmptyError", 'Mot de passe de la réunion requis'), "passwordInvalidError", 'Votre mot de passe doit être composé de 1 à 10 lettres et chiffres, et ne peut pas comporter de symboles'), "passwordHintText", 'Votre mot de passe doit être composé de 1 à 10 lettres et chiffres, mais ne doit pas contenir de symboles.'), "usePersonalMeetingIdInstead", 'Utiliser un lien de réunion personnelle'), "allowMeetingAccess", 'Gérer les participants'), "anyoneWithLink", 'Toute personne disposant du lien'), "signedInUsers", 'Comptes {shortName} uniquement'), "signedInCoWorkers", 'Mes collaborateurs uniquement'), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_scheduleFor$schedule, "passwordLabel", 'Mot de passe'), "edit", 'Modifier'), "editSettings", 'Modifier les paramètres'), "lockTooltip", 'Ce paramètre est géré par l’administrateur de votre entreprise'), "cancel", 'Annuler'), "update", 'Mettre à jour'), "pmiSettingsTitle", 'Paramètres de réunion personnelle'), "pmiSettingsDescription", 'Définissez qui peut participer et comment utiliser votre lien de réunion personnelle.')); // @key: @#@"scheduleFor"@#@ @source: @#@"Schedule on behalf of"@#@
 // @key: @#@"scheduleForAssistedUser"@#@ @source: @#@"Update meetings settings on behalf of {userName}."@#@
 // @key: @#@"scheduleForGuidance"@#@ @source: @#@"Scheduling for someone else?\n1. Make sure you're on their Outlook calendar.\n2. From the dropdown, select the person you're scheduling for.\n"@#@
 // @key: @#@"scheduleForGuidanceMore"@#@ @source: @#@"Learn details"@#@
@@ -57,5 +62,4 @@ var _default = (_scheduleFor$schedule = {
 // @key: @#@"update"@#@ @source: @#@"Update"@#@
 // @key: @#@"pmiSettingsTitle"@#@ @source: @#@"Personal meeting settings"@#@
 // @key: @#@"pmiSettingsDescription"@#@ @source: @#@"Set who can join and how for your personal meeting link."@#@
-exports["default"] = _default;
 //# sourceMappingURL=fr-FR.js.map

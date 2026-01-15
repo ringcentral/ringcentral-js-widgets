@@ -1,5 +1,10 @@
 "use strict";
 
+require("core-js/modules/es.array.for-each.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/es.object.keys.js");
+require("core-js/modules/es.object.to-string.js");
+require("core-js/modules/web.dom-collections.for-each.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -18,6 +23,5 @@ Object.keys(_WebRTCNotificationSection2).forEach(function (key) {
     }
   });
 });
-var _default = _WebRTCNotificationSection.WebRTCNotificationSection;
-exports["default"] = _default;
+var _default = exports["default"] = _WebRTCNotificationSection.WebRTCNotificationSection;
 //# sourceMappingURL=index.js.map

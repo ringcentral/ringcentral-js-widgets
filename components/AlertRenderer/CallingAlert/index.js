@@ -1,10 +1,11 @@
 "use strict";
 
-require("core-js/modules/es.function.name");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+require("core-js/modules/es.function.name.js");
 var _permissionsMessages = require("@ringcentral-integration/commons/enums/permissionsMessages");
 var _react = _interopRequireDefault(require("react"));
 var _FormattedMessage = _interopRequireDefault(require("../../FormattedMessage"));
@@ -28,6 +29,5 @@ CallInfo.handleMessage = function (_ref2) {
   var message = _ref2.message;
   return message === _permissionsMessages.permissionsMessages.callingDisable;
 };
-var _default = CallInfo;
-exports["default"] = _default;
+var _default = exports["default"] = CallInfo;
 //# sourceMappingURL=index.js.map

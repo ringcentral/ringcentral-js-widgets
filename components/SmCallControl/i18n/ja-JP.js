@@ -1,11 +1,12 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 /* eslint-disable */
-var _default = {
+var _default = exports["default"] = {
   mute: 'ミュート',
   unmute: 'ミュート解除',
   hangup: '通話を終了',
@@ -14,5 +15,4 @@ var _default = {
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
 // @key: @#@"hangup"@#@ @source: @#@"Hang up"@#@
 // @key: @#@"reject"@#@ @source: @#@"Reject"@#@
-exports["default"] = _default;
 //# sourceMappingURL=ja-JP.js.map

@@ -1,13 +1,14 @@
 "use strict";
 
-require("core-js/modules/es.array.map");
-require("core-js/modules/es.regexp.exec");
-require("core-js/modules/es.string.replace");
-require("core-js/modules/es.string.split");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+require("core-js/modules/es.array.map.js");
+require("core-js/modules/es.object.to-string.js");
+require("core-js/modules/es.regexp.exec.js");
+require("core-js/modules/es.string.replace.js");
 var _clsx = _interopRequireDefault(require("clsx"));
 var _react = _interopRequireDefault(require("react"));
 var _Answer = _interopRequireDefault(require("../../assets/images/Answer.svg"));
@@ -70,6 +71,5 @@ MultiCallAnswerButton.defaultProps = {
   x: 0,
   y: 0
 };
-var _default = MultiCallAnswerButton;
-exports["default"] = _default;
+var _default = exports["default"] = MultiCallAnswerButton;
 //# sourceMappingURL=index.js.map

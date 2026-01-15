@@ -1,11 +1,12 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 /* eslint-disable */
-var _default = {
+var _default = exports["default"] = {
   recentActivities: '最近のアクティビティ',
   text: 'テキスト',
   fax: 'FAX',
@@ -16,5 +17,4 @@ var _default = {
 // @key: @#@"fax"@#@ @source: @#@"Fax"@#@
 // @key: @#@"voicemail"@#@ @source: @#@"Voicemail"@#@
 // @key: @#@"call"@#@ @source: @#@"Call"@#@
-exports["default"] = _default;
 //# sourceMappingURL=ja-JP.js.map

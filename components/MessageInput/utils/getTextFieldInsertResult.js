@@ -1,13 +1,14 @@
 "use strict";
 
-require("core-js/modules/es.array.flat");
-require("core-js/modules/es.array.join");
-require("core-js/modules/es.array.slice");
-require("core-js/modules/es.array.unscopables.flat");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getTextFieldInsertResult = void 0;
+require("core-js/modules/es.array.flat.js");
+require("core-js/modules/es.array.join.js");
+require("core-js/modules/es.array.slice.js");
+require("core-js/modules/es.array.unscopables.flat.js");
 var _juno = require("@ringcentral/juno");
 var _runes = _interopRequireDefault(require("runes"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
@@ -16,7 +17,7 @@ function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default":
 /**
  * handle emoji with textfield selection insert logic
  */
-var getTextFieldInsertResult = function getTextFieldInsertResult(_ref) {
+var getTextFieldInsertResult = exports.getTextFieldInsertResult = function getTextFieldInsertResult(_ref) {
   var input = _ref.input,
     insertValue = _ref.insertValue,
     sourcePosition = _ref.sourcePosition;
@@ -54,5 +55,4 @@ var getTextFieldInsertResult = function getTextFieldInsertResult(_ref) {
     value: [emojiAsOneCharArr.slice(0, start), insertValue, emojiAsOneCharArr.slice(end)].flat().join('')
   };
 };
-exports.getTextFieldInsertResult = getTextFieldInsertResult;
 //# sourceMappingURL=getTextFieldInsertResult.js.map

@@ -1,10 +1,12 @@
 "use strict";
 
-require("core-js/modules/es.array.map");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+require("core-js/modules/es.array.map.js");
+require("core-js/modules/es.object.to-string.js");
 var _react = _interopRequireDefault(require("react"));
 var _Combine = _interopRequireDefault(require("../../assets/images/Combine.svg"));
 var _ActiveCallItemV = require("../ActiveCallItemV2");
@@ -123,6 +125,5 @@ CallsOnholdContainer.defaultProps = {
     return i;
   }
 };
-var _default = CallsOnholdContainer;
-exports["default"] = _default;
+var _default = exports["default"] = CallsOnholdContainer;
 //# sourceMappingURL=index.js.map

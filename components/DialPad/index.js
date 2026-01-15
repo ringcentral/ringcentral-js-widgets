@@ -1,10 +1,12 @@
 "use strict";
 
-require("core-js/modules/es.array.map");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+require("core-js/modules/es.array.map.js");
+require("core-js/modules/es.object.to-string.js");
 var _clsx = _interopRequireDefault(require("clsx"));
 var _react = _interopRequireDefault(require("react"));
 var _DialButton = _interopRequireDefault(require("../DialButton"));
@@ -101,6 +103,5 @@ DialPad.defaultProps = {
   dialButtonVolume: 1,
   dataSign: undefined
 };
-var _default = DialPad;
-exports["default"] = _default;
+var _default = exports["default"] = DialPad;
 //# sourceMappingURL=index.js.map

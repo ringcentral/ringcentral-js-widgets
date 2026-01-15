@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -13,6 +14,5 @@ var Footer = function Footer(props) {
     className: (0, _clsx["default"])(_styles["default"].root, props.className)
   }, props.children);
 };
-var _default = Footer;
-exports["default"] = _default;
+var _default = exports["default"] = Footer;
 //# sourceMappingURL=index.js.map

@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -14,6 +15,5 @@ var NoMessages = function NoMessages(_ref) {
     className: _style["default"].noMessages
   }, placeholder);
 };
-var _default = NoMessages;
-exports["default"] = _default;
+var _default = exports["default"] = NoMessages;
 //# sourceMappingURL=index.js.map

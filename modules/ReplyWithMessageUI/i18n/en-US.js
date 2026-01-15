@@ -1,10 +1,11 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-var _default = {
+var _default = exports["default"] = {
   inAMeeting: 'In a meeting',
   onMyWay: 'On my way',
   callMeBackIn: 'Call me back in...',
@@ -12,5 +13,4 @@ var _default = {
   hour: 'hour',
   min: 'min'
 };
-exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

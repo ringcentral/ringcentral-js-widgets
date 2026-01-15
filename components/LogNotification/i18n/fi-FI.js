@@ -1,11 +1,12 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 /* eslint-disable */
-var _default = {
+var _default = exports["default"] = {
   confirmationInfo: 'Aiemman puhelusi tallentamattomat muokkaukset menetetään. Oletko varma, että haluat työstää uutta puhelua?',
   log: 'Loki',
   save: 'Tallenna ja työstä uutta',
@@ -16,5 +17,4 @@ var _default = {
 // @key: @#@"save"@#@ @source: @#@"Save & Work on New"@#@
 // @key: @#@"discard"@#@ @source: @#@"Discard & Work on New"@#@
 // @key: @#@"stay"@#@ @source: @#@"Stay on Previous Work"@#@
-exports["default"] = _default;
 //# sourceMappingURL=fi-FI.js.map

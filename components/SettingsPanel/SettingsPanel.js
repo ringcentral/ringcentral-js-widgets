@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -18,7 +19,7 @@ function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default":
 var Empty = function Empty() {
   return null;
 };
-var SettingsPanel = function SettingsPanel(_ref) {
+var SettingsPanel = exports.SettingsPanel = function SettingsPanel(_ref) {
   var _ref$enableAcceptQueu = _ref.enableAcceptQueueCallsControl,
     enableAcceptQueueCallsControl = _ref$enableAcceptQueu === void 0 ? true : _ref$enableAcceptQueu,
     additional = _ref.additional,
@@ -335,5 +336,4 @@ var SettingsPanel = function SettingsPanel(_ref) {
     onClick: onReportIssueClick
   }));
 };
-exports.SettingsPanel = SettingsPanel;
 //# sourceMappingURL=SettingsPanel.js.map

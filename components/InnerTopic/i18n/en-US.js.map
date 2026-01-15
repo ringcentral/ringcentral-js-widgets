@@ -1,1 +1,1 @@
-{"version":3,"file":"en-US.js","names":["topic","exports","_default"],"sources":["components/InnerTopic/i18n/en-US.ts"],"sourcesContent":["export default {\n  topic: 'Meeting title',\n} as const;\n"],"mappings":";;;;;;eAAe;EACbA,KAAK,EAAE;AACT,CAAC;AAAAC,OAAA,cAAAC,QAAA","ignoreList":[]}
+{"version":3,"file":"en-US.js","names":["topic"],"sources":["components/InnerTopic/i18n/en-US.ts"],"sourcesContent":["export default {\n  topic: 'Meeting title',\n} as const;\n"],"mappings":";;;;;;;oCAAe;EACbA,KAAK,EAAE;AACT,CAAC","ignoreList":[]}

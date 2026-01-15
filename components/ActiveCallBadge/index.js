@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -29,6 +30,5 @@ var ActiveCallBadge = function ActiveCallBadge(props) {
 ActiveCallBadge.defaultProps = {
   title: 'Active Call'
 };
-var _default = ActiveCallBadge;
-exports["default"] = _default;
+var _default = exports["default"] = ActiveCallBadge;
 //# sourceMappingURL=index.js.map

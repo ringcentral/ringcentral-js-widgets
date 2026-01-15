@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -9,7 +10,7 @@ var _juno = require("@ringcentral/juno");
 var _junoIcon = require("@ringcentral/juno-icon");
 var _react = _interopRequireDefault(require("react"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var CallIcon = function CallIcon(_ref) {
+var CallIcon = exports.CallIcon = function CallIcon(_ref) {
   var direction = _ref.direction,
     active = _ref.active,
     missed = _ref.missed,
@@ -46,5 +47,4 @@ var CallIcon = function CallIcon(_ref) {
     color: color
   });
 };
-exports.CallIcon = CallIcon;
 //# sourceMappingURL=CallIcon.js.map

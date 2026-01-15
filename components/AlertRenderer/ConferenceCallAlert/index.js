@@ -1,5 +1,8 @@
 "use strict";
 
+require("core-js/modules/es.array.includes.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/es.string.includes.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -18,6 +21,5 @@ ConferenceCallAlert.handleMessage = function (_ref) {
   var message = _ref.message;
   return (0, _ramda.includes)(message, [_ConferenceCall.conferenceCallErrors.bringInFailed, _ConferenceCall.conferenceCallErrors.makeConferenceFailed, _ConferenceCall.conferenceCallErrors.terminateConferenceFailed, _ConferenceCall.conferenceCallErrors.removeFromConferenceFailed, _ConferenceCall.conferenceCallErrors.callIsRecording]);
 };
-var _default = ConferenceCallAlert;
-exports["default"] = _default;
+var _default = exports["default"] = ConferenceCallAlert;
 //# sourceMappingURL=index.js.map

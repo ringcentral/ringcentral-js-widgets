@@ -1,10 +1,11 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.ReplyWithPattern = void 0;
-var ReplyWithPattern = /*#__PURE__*/function (ReplyWithPattern) {
+var ReplyWithPattern = exports.ReplyWithPattern = /*#__PURE__*/function (ReplyWithPattern) {
   ReplyWithPattern["willCallYouBack"] = "WillCallYouBack";
   ReplyWithPattern["callMeBack"] = "CallMeBack";
   ReplyWithPattern["onMyWay"] = "OnMyWay";
@@ -15,5 +16,4 @@ var ReplyWithPattern = /*#__PURE__*/function (ReplyWithPattern) {
   ReplyWithPattern["onTheOtherLineNoCall"] = "OnTheOtherLineNoCall";
   return ReplyWithPattern;
 }({});
-exports.ReplyWithPattern = ReplyWithPattern;
 //# sourceMappingURL=ReplyWithMessageUI.interface.js.map

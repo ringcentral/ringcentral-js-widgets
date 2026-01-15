@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -8,7 +9,7 @@ var _clsx = _interopRequireDefault(require("clsx"));
 var _react = _interopRequireDefault(require("react"));
 var _ShinyBar = _interopRequireDefault(require("./ShinyBar.scss"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var ShinyBar = function ShinyBar(_ref) {
+var ShinyBar = exports.ShinyBar = function ShinyBar(_ref) {
   var isRinging = _ref.isRinging,
     className = _ref.className,
     _ref$status = _ref.status,
@@ -18,7 +19,6 @@ var ShinyBar = function ShinyBar(_ref) {
     "data-sign": "shinyBar-".concat(status)
   }, /*#__PURE__*/_react["default"].createElement("div", null));
 };
-exports.ShinyBar = ShinyBar;
 ShinyBar.defaultProps = {
   isRinging: false
 };

@@ -1,11 +1,12 @@
 "use strict";
 
-require("core-js/modules/es.object.get-own-property-descriptor");
-require("core-js/modules/es.object.get-prototype-of");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.setNativeValue = setNativeValue;
+require("core-js/modules/es.object.get-own-property-descriptor.js");
+require("core-js/modules/es.object.get-prototype-of.js");
 /**
  * using native value to set to trigger native onChange and input event
 

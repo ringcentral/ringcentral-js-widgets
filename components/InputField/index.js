@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -28,6 +29,5 @@ InputField.defaultProps = {
   className: undefined,
   dataSign: undefined
 };
-var _default = InputField;
-exports["default"] = _default;
+var _default = exports["default"] = InputField;
 //# sourceMappingURL=index.js.map

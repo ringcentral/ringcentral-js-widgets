@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -9,7 +10,7 @@ var _react = _interopRequireDefault(require("react"));
 var _Button = require("../Button");
 var _styles = _interopRequireDefault(require("./styles.scss"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var SaveButton = function SaveButton(_ref) {
+var SaveButton = exports.SaveButton = function SaveButton(_ref) {
   var _ref$isSaving = _ref.isSaving,
     isSaving = _ref$isSaving === void 0 ? false : _ref$isSaving,
     _ref$onClick = _ref.onClick,
@@ -28,5 +29,4 @@ var SaveButton = function SaveButton(_ref) {
     onClick: onClick
   }, children));
 };
-exports.SaveButton = SaveButton;
 //# sourceMappingURL=SaveButton.js.map

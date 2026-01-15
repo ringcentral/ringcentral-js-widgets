@@ -1,10 +1,11 @@
 "use strict";
 
-require("core-js/modules/es.function.name");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getLastCallInfoFromWebphoneSession = getLastCallInfoFromWebphoneSession;
+require("core-js/modules/es.function.name.js");
 var _callDirections = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callDirections"));
 var _calleeTypes = _interopRequireDefault(require("@ringcentral-integration/commons/enums/calleeTypes"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }

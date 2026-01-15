@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -12,7 +13,7 @@ var _Switch = _interopRequireDefault(require("../Switch"));
 var _i18n = require("./i18n");
 var _styles = _interopRequireDefault(require("./styles.scss"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var SelectToDial = function SelectToDial(_ref) {
+var SelectToDial = exports.SelectToDial = function SelectToDial(_ref) {
   var currentLocale = _ref.currentLocale,
     showSelectToDial = _ref.showSelectToDial,
     smsPermission = _ref.smsPermission,
@@ -50,5 +51,4 @@ var SelectToDial = function SelectToDial(_ref) {
   }
   return null;
 };
-exports.SelectToDial = SelectToDial;
 //# sourceMappingURL=SelectToDial.js.map

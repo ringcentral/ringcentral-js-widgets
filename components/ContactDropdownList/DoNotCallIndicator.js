@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -14,7 +15,7 @@ function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default":
 /**
  * @deprecated please use ringcentral-js-widgets/ringcentral-widgets/components/ContactSearchPanel/DoNotCallIndicator.tsx
  */
-var DoNotCallIndicator = function DoNotCallIndicator(_ref) {
+var DoNotCallIndicator = exports.DoNotCallIndicator = function DoNotCallIndicator(_ref) {
   var doNotCall = _ref.doNotCall,
     currentLocale = _ref.currentLocale;
   if (!doNotCall) return null;
@@ -29,7 +30,6 @@ var DoNotCallIndicator = function DoNotCallIndicator(_ref) {
     size: "xsmall"
   })));
 };
-exports.DoNotCallIndicator = DoNotCallIndicator;
 DoNotCallIndicator.defaultProps = {
   doNotCall: false
 };

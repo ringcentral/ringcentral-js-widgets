@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -9,7 +10,7 @@ var _Button = require("../Button");
 var _i18n = _interopRequireDefault(require("./i18n"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var CallInfoBar = function CallInfoBar(_ref) {
+var CallInfoBar = exports.CallInfoBar = function CallInfoBar(_ref) {
   var _ref$label = _ref.label,
     label = _ref$label === void 0 ? '' : _ref$label,
     onClick = _ref.onClick,
@@ -36,5 +37,4 @@ var CallInfoBar = function CallInfoBar(_ref) {
     dataSign: "viewCalls"
   }, _i18n["default"].getString(buttonText, currentLocale)) : null);
 };
-exports.CallInfoBar = CallInfoBar;
 //# sourceMappingURL=CallInfoBar.js.map

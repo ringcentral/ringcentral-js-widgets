@@ -1,11 +1,12 @@
 "use strict";
 
-require("core-js/modules/es.array.includes");
-require("core-js/modules/es.string.includes");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.VideoSecuritySettingItem = void 0;
+require("core-js/modules/es.array.includes.js");
+require("core-js/modules/es.string.includes.js");
 var _juno = require("@ringcentral/juno");
 var _junoIcon = require("@ringcentral/juno-icon");
 var _react = _interopRequireDefault(require("react"));
@@ -29,7 +30,7 @@ function generateLockIcon(isLock, currentLocale, hasScrollBar) {
     symbol: _junoIcon.LockBorder
   })) : null;
 }
-var VideoSecuritySettingItem = function VideoSecuritySettingItem(_ref) {
+var VideoSecuritySettingItem = exports.VideoSecuritySettingItem = function VideoSecuritySettingItem(_ref) {
   var dataSign = _ref.dataSign,
     label = _ref.label,
     _ref$isLock = _ref.isLock,
@@ -72,5 +73,4 @@ var VideoSecuritySettingItem = function VideoSecuritySettingItem(_ref) {
     }
   });
 };
-exports.VideoSecuritySettingItem = VideoSecuritySettingItem;
 //# sourceMappingURL=VideoSecuritySettingItem.js.map

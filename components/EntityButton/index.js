@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -49,6 +50,5 @@ EntityButton.defaultProps = {
   viewEntityTitle: undefined,
   createEntityTitle: undefined
 };
-var _default = EntityButton;
-exports["default"] = _default;
+var _default = exports["default"] = EntityButton;
 //# sourceMappingURL=index.js.map

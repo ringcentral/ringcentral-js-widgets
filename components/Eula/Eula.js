@@ -1,15 +1,16 @@
 "use strict";
 
-require("core-js/modules/es.string.link");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.Eula = void 0;
+require("core-js/modules/es.string.link.js");
 var _juno = require("@ringcentral/juno");
 var _react = _interopRequireDefault(require("react"));
 var _i18n = _interopRequireDefault(require("./i18n"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var Eula = function Eula(_ref) {
+var Eula = exports.Eula = function Eula(_ref) {
   var currentLocale = _ref.currentLocale,
     className = _ref.className,
     _ref$link = _ref.link,
@@ -36,5 +37,4 @@ var Eula = function Eula(_ref) {
     "data-sign": dataSign
   }, label !== null && label !== void 0 ? label : _i18n["default"].getString(useShortLabel ? 'eulaAbbr' : 'eula', currentLocale));
 };
-exports.Eula = Eula;
 //# sourceMappingURL=Eula.js.map

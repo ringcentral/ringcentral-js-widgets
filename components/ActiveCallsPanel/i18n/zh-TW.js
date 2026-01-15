@@ -1,11 +1,12 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 /* eslint-disable */
-var _default = {
+var _default = exports["default"] = {
   noActiveCalls: '沒有正在進行的通話',
   currentCall: '目前通話',
   ringCall: '撥打中通話',
@@ -24,5 +25,4 @@ var _default = {
 // @key: @#@"confirmMergeToConference"@#@ @source: @#@"Add to conference call?"@#@
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
 // @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@
-exports["default"] = _default;
 //# sourceMappingURL=zh-TW.js.map

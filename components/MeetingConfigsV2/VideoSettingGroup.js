@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -9,7 +10,7 @@ var _junoIcon = require("@ringcentral/juno-icon");
 var _react = _interopRequireDefault(require("react"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var VideoSettingGroup = function VideoSettingGroup(_ref) {
+var VideoSettingGroup = exports.VideoSettingGroup = function VideoSettingGroup(_ref) {
   var dataSign = _ref.dataSign,
     summary = _ref.summary,
     expandable = _ref.expandable,
@@ -41,5 +42,4 @@ var VideoSettingGroup = function VideoSettingGroup(_ref) {
     }
   }, children)));
 };
-exports.VideoSettingGroup = VideoSettingGroup;
 //# sourceMappingURL=VideoSettingGroup.js.map

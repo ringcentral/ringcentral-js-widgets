@@ -1,11 +1,12 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 /* eslint-disable */
-var _default = {
+var _default = exports["default"] = {
   forward: '轉接',
   ignore: '忽略',
   toVoicemail: '至語音信箱',
@@ -22,5 +23,4 @@ var _default = {
 // @key: @#@"holdAndAnswer"@#@ @source: @#@"Hold & Answer"@#@
 // @key: @#@"custom"@#@ @source: @#@"Custom"@#@
 // @key: @#@"more"@#@ @source: @#@"More"@#@
-exports["default"] = _default;
 //# sourceMappingURL=zh-TW.js.map

@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -21,6 +22,5 @@ var Line = function Line(_ref) {
     onClick: onClick
   }, children);
 };
-var _default = Line;
-exports["default"] = _default;
+var _default = exports["default"] = Line;
 //# sourceMappingURL=index.js.map

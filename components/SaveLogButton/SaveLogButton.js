@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -69,6 +70,5 @@ SaveLogButton.defaultProps = {
   isWide: true,
   disabled: false
 };
-var _default = SaveLogButton;
-exports["default"] = _default;
+var _default = exports["default"] = SaveLogButton;
 //# sourceMappingURL=SaveLogButton.js.map

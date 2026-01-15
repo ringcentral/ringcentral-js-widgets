@@ -1,16 +1,18 @@
 "use strict";
 
-require("core-js/modules/es.array.for-each");
-require("core-js/modules/es.array.includes");
-require("core-js/modules/es.function.name");
-require("core-js/modules/es.string.includes");
-require("core-js/modules/web.dom-collections.for-each");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getRcFilteredContacts = exports.getPresenceStatus = void 0;
+require("core-js/modules/es.array.for-each.js");
+require("core-js/modules/es.array.includes.js");
+require("core-js/modules/es.function.name.js");
+require("core-js/modules/es.object.to-string.js");
+require("core-js/modules/es.string.includes.js");
+require("core-js/modules/web.dom-collections.for-each.js");
 var MaximizeDisplayLength = 100;
-var getPresenceStatus = function getPresenceStatus(presence) {
+var getPresenceStatus = exports.getPresenceStatus = function getPresenceStatus(presence) {
   if (!presence) {
     return;
   }
@@ -22,8 +24,7 @@ var getPresenceStatus = function getPresenceStatus(presence) {
   }
   return (presenceStatus || userStatus || '').toLowerCase();
 };
-exports.getPresenceStatus = getPresenceStatus;
-var getRcFilteredContacts = function getRcFilteredContacts(_ref) {
+var getRcFilteredContacts = exports.getRcFilteredContacts = function getRcFilteredContacts(_ref) {
   var lowCaseString = _ref.lowCaseString,
     contacts = _ref.contacts;
   var len = contacts.length;
@@ -67,13 +68,11 @@ var getRcFilteredContacts = function getRcFilteredContacts(_ref) {
         }
       }
     });
-    if (resultCount === MaximizeDisplayLength) return "break";
+    if (resultCount === MaximizeDisplayLength) return 1; // break
   };
   for (var i = 0; i < len; i++) {
-    var _ret = _loop(i);
-    if (_ret === "break") break;
+    if (_loop(i)) break;
   }
   return result;
 };
-exports.getRcFilteredContacts = getRcFilteredContacts;
 //# sourceMappingURL=ContactSearchHelper.js.map

@@ -1,10 +1,11 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-var _default = {
+var _default = exports["default"] = {
   logging: 'Logging...',
   logCall: 'Log Call',
   editLog: 'Edit Log',
@@ -19,5 +20,4 @@ var _default = {
   conferenceCall: 'Conference Call',
   callerId: 'Caller ID'
 };
-exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

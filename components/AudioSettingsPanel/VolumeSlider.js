@@ -1,8 +1,9 @@
 "use strict";
 
-require("core-js/modules/es.array.slice");
-require("core-js/modules/es.object.define-properties");
-require("core-js/modules/es.object.freeze");
+require("core-js/modules/es.array.slice.js");
+require("core-js/modules/es.object.define-properties.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/es.object.freeze.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -10,39 +11,19 @@ exports.VolumeSlider = void 0;
 var _juno = require("@ringcentral/juno");
 var _junoIcon = require("@ringcentral/juno-icon");
 var _react = _interopRequireDefault(require("react"));
+var _templateObject, _templateObject2, _templateObject3;
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-function _templateObject3() {
-  var data = _taggedTemplateLiteral(["\n  margin: 0 16px;\n"]);
-  _templateObject3 = function _templateObject3() {
-    return data;
-  };
-  return data;
-}
-function _templateObject2() {
-  var data = _taggedTemplateLiteral(["\n  display: flex;\n  justify-content: center;\n  align-items: center;\n"]);
-  _templateObject2 = function _templateObject2() {
-    return data;
-  };
-  return data;
-}
-function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n  display: flex;\n  flex-direction: row;\n"]);
-  _templateObject = function _templateObject() {
-    return data;
-  };
-  return data;
-}
 function _taggedTemplateLiteral(e, t) { return t || (t = e.slice(0)), Object.freeze(Object.defineProperties(e, { raw: { value: Object.freeze(t) } })); }
-var Container = _juno.styled.div(_templateObject());
-var VolumeIconContainer = _juno.styled.div(_templateObject2());
-var PaddedSlider = (0, _juno.styled)(_juno.RcSlider)(_templateObject3());
+var Container = _juno.styled.div(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n  display: flex;\n  flex-direction: row;\n"])));
+var VolumeIconContainer = _juno.styled.div(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n  display: flex;\n  justify-content: center;\n  align-items: center;\n"])));
+var PaddedSlider = (0, _juno.styled)(_juno.RcSlider)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n  margin: 0 16px;\n"])));
 function toPercentValue(value) {
   return Math.floor(value * 100);
 }
 function toValue(percent) {
   return percent / 100;
 }
-var VolumeSlider = function VolumeSlider(_ref) {
+var VolumeSlider = exports.VolumeSlider = function VolumeSlider(_ref) {
   var className = _ref.className,
     volume = _ref.volume,
     _ref$minVolume = _ref.minVolume,
@@ -68,5 +49,4 @@ var VolumeSlider = function VolumeSlider(_ref) {
     symbol: _junoIcon.Audio
   })));
 };
-exports.VolumeSlider = VolumeSlider;
 //# sourceMappingURL=VolumeSlider.js.map

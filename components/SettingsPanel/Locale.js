@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -9,7 +10,7 @@ var _InputLine = _interopRequireDefault(require("../InputLine"));
 var _LocalePicker = _interopRequireDefault(require("../LocalePicker"));
 var _i18n = require("./i18n");
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var Locale = function Locale(_ref) {
+var Locale = exports.Locale = function Locale(_ref) {
   var supportedLocales = _ref.supportedLocales,
     savedLocale = _ref.savedLocale,
     saveLocale = _ref.saveLocale;
@@ -24,5 +25,4 @@ var Locale = function Locale(_ref) {
   }
   return null;
 };
-exports.Locale = Locale;
 //# sourceMappingURL=Locale.js.map

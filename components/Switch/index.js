@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -40,6 +41,5 @@ Switch.defaultProps = {
   dataSign: undefined,
   className: undefined
 };
-var _default = Switch;
-exports["default"] = _default;
+var _default = exports["default"] = Switch;
 //# sourceMappingURL=index.js.map

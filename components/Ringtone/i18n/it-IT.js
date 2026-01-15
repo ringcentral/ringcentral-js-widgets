@@ -1,11 +1,12 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 /* eslint-disable */
-var _default = {
+var _default = exports["default"] = {
   ringtones: 'Suonerie',
   incomingRingtone: 'Suoneria chiamata in entrata',
   outgoingRingtone: 'Suoneria chiamata in uscita',
@@ -22,5 +23,4 @@ var _default = {
 // @key: @#@"upload"@#@ @source: @#@"Upload"@#@
 // @key: @#@"reset"@#@ @source: @#@"Reset"@#@
 // @key: @#@"save"@#@ @source: @#@"Save"@#@
-exports["default"] = _default;
 //# sourceMappingURL=it-IT.js.map

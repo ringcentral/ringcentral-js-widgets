@@ -1,22 +1,27 @@
 "use strict";
 
-require("core-js/modules/es.symbol");
-require("core-js/modules/es.symbol.description");
-require("core-js/modules/es.symbol.to-primitive");
-require("core-js/modules/es.date.to-primitive");
-require("core-js/modules/es.number.constructor");
-require("core-js/modules/es.object.to-string");
+require("core-js/modules/es.symbol.js");
+require("core-js/modules/es.symbol.description.js");
+require("core-js/modules/es.symbol.iterator.js");
+require("core-js/modules/es.array.iterator.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/es.object.to-string.js");
+require("core-js/modules/es.string.iterator.js");
+require("core-js/modules/web.dom-collections.iterator.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+require("core-js/modules/es.symbol.to-primitive.js");
+require("core-js/modules/es.date.to-primitive.js");
+require("core-js/modules/es.number.constructor.js");
 var _const = require("@ringcentral-integration/commons/modules/RingtoneConfiguration/const");
 var _RINGS_TYPE$Phone_Rin;
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); } /* eslint-disable */
-var _default = (_RINGS_TYPE$Phone_Rin = {}, _defineProperty(_RINGS_TYPE$Phone_Rin, _const.RINGS_TYPE.Phone_Ring1, 'Sonido del teléfono 1'), _defineProperty(_RINGS_TYPE$Phone_Rin, _const.RINGS_TYPE.Phone_Ring2, 'Sonido del teléfono 2'), _defineProperty(_RINGS_TYPE$Phone_Rin, _const.RINGS_TYPE.Acoustic_Dreams, 'Sueños acústicos'), _defineProperty(_RINGS_TYPE$Phone_Rin, _const.RINGS_TYPE.Air_Raid, 'Ataque aéreo'), _defineProperty(_RINGS_TYPE$Phone_Rin, _const.RINGS_TYPE.Allusive, 'Alusivo'), _defineProperty(_RINGS_TYPE$Phone_Rin, _const.RINGS_TYPE.Attention, 'Atención'), _defineProperty(_RINGS_TYPE$Phone_Rin, _const.RINGS_TYPE.Blub_Blub, 'Blub Blub'), _defineProperty(_RINGS_TYPE$Phone_Rin, _const.RINGS_TYPE.Buzzy, 'Buzzy'), _defineProperty(_RINGS_TYPE$Phone_Rin, _const.RINGS_TYPE.Channel_Open, 'Canal abierto'), _defineProperty(_RINGS_TYPE$Phone_Rin, _const.RINGS_TYPE.Contemplation, 'Contemplación'), _defineProperty(_RINGS_TYPE$Phone_Rin, _const.RINGS_TYPE.Crystal_Ball, 'Bola de cristal'), _defineProperty(_RINGS_TYPE$Phone_Rin, _const.RINGS_TYPE.Disco, 'Disco'), _defineProperty(_RINGS_TYPE$Phone_Rin, _const.RINGS_TYPE.Door_Bell, 'Timbre'), _defineProperty(_RINGS_TYPE$Phone_Rin, _const.RINGS_TYPE.Fairy, 'Hada'), _defineProperty(_RINGS_TYPE$Phone_Rin, _const.RINGS_TYPE.Fast_Bells, 'Campanas ligeras'), _defineProperty(_RINGS_TYPE$Phone_Rin, _const.RINGS_TYPE.High_Gong, 'Gong alto'), _defineProperty(_RINGS_TYPE$Phone_Rin, _const.RINGS_TYPE.Immersion, 'Inmersión'), _defineProperty(_RINGS_TYPE$Phone_Rin, _const.RINGS_TYPE.Indeed, 'Seguro'), _defineProperty(_RINGS_TYPE$Phone_Rin, _const.RINGS_TYPE.Lazy_Day, 'Relax'), _defineProperty(_RINGS_TYPE$Phone_Rin, _const.RINGS_TYPE.Neural_Funk, 'Neurona'), _defineProperty(_RINGS_TYPE$Phone_Rin, _const.RINGS_TYPE.Nice, 'Bonito'), _defineProperty(_RINGS_TYPE$Phone_Rin, _const.RINGS_TYPE.Ring, 'Ring'), _defineProperty(_RINGS_TYPE$Phone_Rin, _const.RINGS_TYPE.Ringing_Bells, 'Campanas que suenan'), _defineProperty(_RINGS_TYPE$Phone_Rin, _const.RINGS_TYPE.Simple, 'Simple'), _defineProperty(_RINGS_TYPE$Phone_Rin, _const.RINGS_TYPE.Soothing, 'Relajante'), _defineProperty(_RINGS_TYPE$Phone_Rin, _const.RINGS_TYPE.Sunshine, 'Rayo de sol'), _defineProperty(_RINGS_TYPE$Phone_Rin, _const.RINGS_TYPE.Off, 'Desactivado'), _defineProperty(_RINGS_TYPE$Phone_Rin, "add", 'Añadir'), _defineProperty(_RINGS_TYPE$Phone_Rin, "delete", 'Eliminar'), _defineProperty(_RINGS_TYPE$Phone_Rin, "play", 'Reproducir'), _defineProperty(_RINGS_TYPE$Phone_Rin, "cancel", 'Cancelar'), _defineProperty(_RINGS_TYPE$Phone_Rin, "confirmToDelete", '¿Eliminar{name}?'), _RINGS_TYPE$Phone_Rin); // @key: @#@"[RINGS_TYPE.Phone_Ring1]"@#@ @source: @#@"Phone Ring 1"@#@
+var _default = exports["default"] = (_RINGS_TYPE$Phone_Rin = {}, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_RINGS_TYPE$Phone_Rin, _const.RINGS_TYPE.Phone_Ring1, 'Sonido del teléfono 1'), _const.RINGS_TYPE.Phone_Ring2, 'Sonido del teléfono 2'), _const.RINGS_TYPE.Acoustic_Dreams, 'Sueños acústicos'), _const.RINGS_TYPE.Air_Raid, 'Ataque aéreo'), _const.RINGS_TYPE.Allusive, 'Alusivo'), _const.RINGS_TYPE.Attention, 'Atención'), _const.RINGS_TYPE.Blub_Blub, 'Blub Blub'), _const.RINGS_TYPE.Buzzy, 'Buzzy'), _const.RINGS_TYPE.Channel_Open, 'Canal abierto'), _const.RINGS_TYPE.Contemplation, 'Contemplación'), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_RINGS_TYPE$Phone_Rin, _const.RINGS_TYPE.Crystal_Ball, 'Bola de cristal'), _const.RINGS_TYPE.Disco, 'Disco'), _const.RINGS_TYPE.Door_Bell, 'Timbre'), _const.RINGS_TYPE.Fairy, 'Hada'), _const.RINGS_TYPE.Fast_Bells, 'Campanas ligeras'), _const.RINGS_TYPE.High_Gong, 'Gong alto'), _const.RINGS_TYPE.Immersion, 'Inmersión'), _const.RINGS_TYPE.Indeed, 'Seguro'), _const.RINGS_TYPE.Lazy_Day, 'Relax'), _const.RINGS_TYPE.Neural_Funk, 'Neurona'), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_RINGS_TYPE$Phone_Rin, _const.RINGS_TYPE.Nice, 'Bonito'), _const.RINGS_TYPE.Ring, 'Ring'), _const.RINGS_TYPE.Ringing_Bells, 'Campanas que suenan'), _const.RINGS_TYPE.Simple, 'Simple'), _const.RINGS_TYPE.Soothing, 'Relajante'), _const.RINGS_TYPE.Sunshine, 'Rayo de sol'), _const.RINGS_TYPE.Off, 'Desactivado'), "add", 'Añadir'), "delete", 'Eliminar'), "play", 'Reproducir'), _defineProperty(_defineProperty(_RINGS_TYPE$Phone_Rin, "cancel", 'Cancelar'), "confirmToDelete", '¿Eliminar{name}?')); // @key: @#@"[RINGS_TYPE.Phone_Ring1]"@#@ @source: @#@"Phone Ring 1"@#@
 // @key: @#@"[RINGS_TYPE.Phone_Ring2]"@#@ @source: @#@"Phone Ring 2"@#@
 // @key: @#@"[RINGS_TYPE.Acoustic_Dreams]"@#@ @source: @#@"Acoustic Dreams"@#@
 // @key: @#@"[RINGS_TYPE.Air_Raid]"@#@ @source: @#@"Air Raid"@#@
@@ -48,5 +53,4 @@ var _default = (_RINGS_TYPE$Phone_Rin = {}, _defineProperty(_RINGS_TYPE$Phone_Ri
 // @key: @#@"play"@#@ @source: @#@"Play"@#@
 // @key: @#@"cancel"@#@ @source: @#@"Cancel"@#@
 // @key: @#@"confirmToDelete"@#@ @source: @#@"Delete {name}?"@#@
-exports["default"] = _default;
 //# sourceMappingURL=es-ES.js.map

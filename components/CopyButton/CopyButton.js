@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -16,6 +17,5 @@ var CopyButton = function CopyButton(_ref) {
     size: "small"
   });
 };
-var _default = CopyButton;
-exports["default"] = _default;
+var _default = exports["default"] = CopyButton;
 //# sourceMappingURL=CopyButton.js.map

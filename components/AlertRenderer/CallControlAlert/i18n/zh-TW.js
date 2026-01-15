@@ -1,15 +1,20 @@
 "use strict";
 
-require("core-js/modules/es.symbol");
-require("core-js/modules/es.symbol.description");
-require("core-js/modules/es.symbol.to-primitive");
-require("core-js/modules/es.date.to-primitive");
-require("core-js/modules/es.number.constructor");
-require("core-js/modules/es.object.to-string");
+require("core-js/modules/es.symbol.js");
+require("core-js/modules/es.symbol.description.js");
+require("core-js/modules/es.symbol.iterator.js");
+require("core-js/modules/es.array.iterator.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/es.object.to-string.js");
+require("core-js/modules/es.string.iterator.js");
+require("core-js/modules/web.dom-collections.iterator.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+require("core-js/modules/es.symbol.to-primitive.js");
+require("core-js/modules/es.date.to-primitive.js");
+require("core-js/modules/es.number.constructor.js");
 var _ActiveCallControl = require("@ringcentral-integration/commons/modules/ActiveCallControl");
 var _callsMerged$somethin;
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
@@ -27,7 +32,7 @@ var holdConflictError = _ActiveCallControl.callControlError.holdConflictError,
   forwardSuccess = _ActiveCallControl.callControlError.forwardSuccess,
   transferCompleted = _ActiveCallControl.callControlError.transferCompleted,
   replyCompleted = _ActiveCallControl.callControlError.replyCompleted;
-var _default = (_callsMerged$somethin = {}, _defineProperty(_callsMerged$somethin, callsMerged, '通話已合併'), _defineProperty(_callsMerged$somethin, somethingWentWrong, '發生錯誤。請再試一次。'), _defineProperty(_callsMerged$somethin, tooManyParticipants, '已達到參與者人數上限。'), _defineProperty(_callsMerged$somethin, muteConflictError, '此通話已在另一台裝置上靜音。處理此應用程式前，請先取消通話的靜音。'), _defineProperty(_callsMerged$somethin, unHoldConflictError, '此通話已由其他裝置保留。處理此應用程式前，請先取消保留該通話。'), _defineProperty(_callsMerged$somethin, unMuteConflictError, '此通話已在其他裝置上取消靜音。處理此應用程式前，請先將該通話靜音。'), _defineProperty(_callsMerged$somethin, holdConflictError, '此通話已由其他裝置取消保留。處理此應用程式前，請先保留該通話。'), _defineProperty(_callsMerged$somethin, generalError, '伺服器發生意外錯誤。請稍後再試。'), _defineProperty(_callsMerged$somethin, forwardSuccess, '已轉接通話'), _defineProperty(_callsMerged$somethin, transferCompleted, '通話已轉接'), _defineProperty(_callsMerged$somethin, replyCompleted, '語音訊息已傳送。'), _callsMerged$somethin); // @key: @#@"callsMerged"@#@ @source: @#@"Calls merged"@#@
+var _default = exports["default"] = (_callsMerged$somethin = {}, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_callsMerged$somethin, callsMerged, '通話已合併'), somethingWentWrong, '發生錯誤。請再試一次。'), tooManyParticipants, '已達到參與者人數上限。'), muteConflictError, '此通話已在另一台裝置上靜音。處理此應用程式前，請先取消通話的靜音。'), unHoldConflictError, '此通話已由其他裝置保留。處理此應用程式前，請先取消保留該通話。'), unMuteConflictError, '此通話已在其他裝置上取消靜音。處理此應用程式前，請先將該通話靜音。'), holdConflictError, '此通話已由其他裝置取消保留。處理此應用程式前，請先保留該通話。'), generalError, '伺服器發生意外錯誤。請稍後再試。'), forwardSuccess, '已轉接通話'), transferCompleted, '通話已轉接'), _defineProperty(_callsMerged$somethin, replyCompleted, '語音訊息已傳送。')); // @key: @#@"callsMerged"@#@ @source: @#@"Calls merged"@#@
 // @key: @#@"somethingWentWrong"@#@ @source: @#@"Something went wrong. Please try again."@#@
 // @key: @#@"tooManyParticipants"@#@ @source: @#@"Maximum number of participants is reached."@#@
 // @key: @#@"muteConflictError"@#@ @source: @#@"This call had been muted on other device. Please unmute the call before you control in this App."@#@
@@ -38,5 +43,4 @@ var _default = (_callsMerged$somethin = {}, _defineProperty(_callsMerged$somethi
 // @key: @#@"forwardSuccess"@#@ @source: @#@"Call forwarded"@#@
 // @key: @#@"transferCompleted"@#@ @source: @#@"Call transferred"@#@
 // @key: @#@"replyCompleted"@#@ @source: @#@"Voice message sent."@#@
-exports["default"] = _default;
 //# sourceMappingURL=zh-TW.js.map

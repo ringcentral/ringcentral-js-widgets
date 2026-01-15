@@ -1,10 +1,11 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-var _default = {
+var _default = exports["default"] = {
   header: 'Contact support',
   toggleTitle: '1. Turn on error tracking mode',
   toggleDescription: 'This will help us locate your issues, but may slightly affect your app performance.',
@@ -21,5 +22,4 @@ var _default = {
   needLeavePage: 'You may leave this page while error tracking is running. When you have replicated the issue, return to this page and download the log files.',
   downloading: 'Downloading'
 };
-exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

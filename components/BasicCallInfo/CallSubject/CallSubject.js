@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -9,7 +10,7 @@ var _toolTipDelayTime = require("../../../lib/toolTipDelayTime");
 var _Tooltip = require("../../Rcui/Tooltip");
 var _styles = _interopRequireDefault(require("./styles.scss"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var CallSubject = function CallSubject(_ref) {
+var CallSubject = exports.CallSubject = function CallSubject(_ref) {
   var subject = _ref.subject;
   if (!subject) return null;
   return /*#__PURE__*/_react["default"].createElement("div", {
@@ -22,5 +23,4 @@ var CallSubject = function CallSubject(_ref) {
     "data-sign": "matchName"
   }, subject)));
 };
-exports.CallSubject = CallSubject;
 //# sourceMappingURL=CallSubject.js.map

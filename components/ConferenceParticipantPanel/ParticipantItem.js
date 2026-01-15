@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -54,6 +55,5 @@ ParticipantItem.defaultProps = {
     return i;
   }
 };
-var _default = ParticipantItem;
-exports["default"] = _default;
+var _default = exports["default"] = ParticipantItem;
 //# sourceMappingURL=ParticipantItem.js.map

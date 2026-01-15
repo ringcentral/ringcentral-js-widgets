@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -58,6 +59,5 @@ ConnectivityBadge.defaultProps = {
   webphoneConnecting: false,
   hasLimitedStatusError: false
 };
-var _default = ConnectivityBadge;
-exports["default"] = _default;
+var _default = exports["default"] = ConnectivityBadge;
 //# sourceMappingURL=index.js.map

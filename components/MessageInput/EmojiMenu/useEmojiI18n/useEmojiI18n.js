@@ -1,12 +1,13 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.useEmojiI18n = void 0;
 var _i18n = _interopRequireDefault(require("./i18n"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var useEmojiI18n = function useEmojiI18n(currentLocale) {
+var useEmojiI18n = exports.useEmojiI18n = function useEmojiI18n(currentLocale) {
   return {
     search: _i18n["default"].getString('search', currentLocale),
     search_no_results_1: _i18n["default"].getString('search_no_results_1', currentLocale),
@@ -37,5 +38,4 @@ var useEmojiI18n = function useEmojiI18n(currentLocale) {
     }
   };
 };
-exports.useEmojiI18n = useEmojiI18n;
 //# sourceMappingURL=useEmojiI18n.js.map

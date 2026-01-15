@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -11,7 +12,7 @@ var _PhoneSection = require("./components/PhoneSection");
 var _Profile = require("./components/Profile");
 var _styles = _interopRequireDefault(require("./styles.scss"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var ContactDetails = function ContactDetails(_ref) {
+var ContactDetails = exports.ContactDetails = function ContactDetails(_ref) {
   var contact = _ref.contact,
     currentLocale = _ref.currentLocale,
     onClickMailTo = _ref.onClickMailTo,
@@ -56,5 +57,4 @@ var ContactDetails = function ContactDetails(_ref) {
     onClickMailTo: onClickMailTo
   }));
 };
-exports.ContactDetails = ContactDetails;
 //# sourceMappingURL=ContactDetails.js.map

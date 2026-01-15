@@ -1,11 +1,12 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 /* eslint-disable */
-var _default = {
+var _default = exports["default"] = {
   confirmationInfo: '您上一个通话的未保存编辑将丢失，确定要处理新的通话吗？',
   log: '记录',
   save: '保存并处理新通话',
@@ -16,5 +17,4 @@ var _default = {
 // @key: @#@"save"@#@ @source: @#@"Save & Work on New"@#@
 // @key: @#@"discard"@#@ @source: @#@"Discard & Work on New"@#@
 // @key: @#@"stay"@#@ @source: @#@"Stay on Previous Work"@#@
-exports["default"] = _default;
 //# sourceMappingURL=zh-CN.js.map

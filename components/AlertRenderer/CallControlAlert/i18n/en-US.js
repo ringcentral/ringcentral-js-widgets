@@ -1,15 +1,20 @@
 "use strict";
 
-require("core-js/modules/es.symbol");
-require("core-js/modules/es.symbol.description");
-require("core-js/modules/es.symbol.to-primitive");
-require("core-js/modules/es.date.to-primitive");
-require("core-js/modules/es.number.constructor");
-require("core-js/modules/es.object.to-string");
+require("core-js/modules/es.symbol.js");
+require("core-js/modules/es.symbol.description.js");
+require("core-js/modules/es.symbol.iterator.js");
+require("core-js/modules/es.array.iterator.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/es.object.to-string.js");
+require("core-js/modules/es.string.iterator.js");
+require("core-js/modules/web.dom-collections.iterator.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+require("core-js/modules/es.symbol.to-primitive.js");
+require("core-js/modules/es.date.to-primitive.js");
+require("core-js/modules/es.number.constructor.js");
 var _ActiveCallControl = require("@ringcentral-integration/commons/modules/ActiveCallControl");
 var _callsMerged$somethin;
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
@@ -27,6 +32,5 @@ var holdConflictError = _ActiveCallControl.callControlError.holdConflictError,
   forwardSuccess = _ActiveCallControl.callControlError.forwardSuccess,
   transferCompleted = _ActiveCallControl.callControlError.transferCompleted,
   replyCompleted = _ActiveCallControl.callControlError.replyCompleted;
-var _default = (_callsMerged$somethin = {}, _defineProperty(_callsMerged$somethin, callsMerged, 'Calls merged'), _defineProperty(_callsMerged$somethin, somethingWentWrong, 'Something went wrong. Please try again.'), _defineProperty(_callsMerged$somethin, tooManyParticipants, 'Maximum number of participants is reached.'), _defineProperty(_callsMerged$somethin, muteConflictError, 'This call had been muted on other device. Please unmute the call before you control in this App.'), _defineProperty(_callsMerged$somethin, unHoldConflictError, 'This call had been held on other device. Please unhold the call before you control in this App.'), _defineProperty(_callsMerged$somethin, unMuteConflictError, 'This call had been unmuted on other device. Please mute the call before you control in this App.'), _defineProperty(_callsMerged$somethin, holdConflictError, 'This call had been unheld on other device. Please hold the call before you control in this App.'), _defineProperty(_callsMerged$somethin, generalError, 'Unexpected server error. Please try again later.'), _defineProperty(_callsMerged$somethin, forwardSuccess, 'Call forwarded'), _defineProperty(_callsMerged$somethin, transferCompleted, 'Call transferred'), _defineProperty(_callsMerged$somethin, replyCompleted, 'Voice message sent.'), _callsMerged$somethin);
-exports["default"] = _default;
+var _default = exports["default"] = (_callsMerged$somethin = {}, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_callsMerged$somethin, callsMerged, 'Calls merged'), somethingWentWrong, 'Something went wrong. Please try again.'), tooManyParticipants, 'Maximum number of participants is reached.'), muteConflictError, 'This call had been muted on other device. Please unmute the call before you control in this App.'), unHoldConflictError, 'This call had been held on other device. Please unhold the call before you control in this App.'), unMuteConflictError, 'This call had been unmuted on other device. Please mute the call before you control in this App.'), holdConflictError, 'This call had been unheld on other device. Please hold the call before you control in this App.'), generalError, 'Unexpected server error. Please try again later.'), forwardSuccess, 'Call forwarded'), transferCompleted, 'Call transferred'), _defineProperty(_callsMerged$somethin, replyCompleted, 'Voice message sent.'));
 //# sourceMappingURL=en-US.js.map

@@ -1,12 +1,13 @@
 "use strict";
 
-require("core-js/modules/es.function.bind");
-require("core-js/modules/es.function.name");
-require("core-js/modules/es.object.assign");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.AlertRenderer = void 0;
+require("core-js/modules/es.function.bind.js");
+require("core-js/modules/es.function.name.js");
+require("core-js/modules/es.object.assign.js");
 var _react = _interopRequireDefault(require("react"));
 var _AudioSettingsAlert = _interopRequireDefault(require("./AudioSettingsAlert"));
 var _AuthAlert = _interopRequireDefault(require("./AuthAlert"));
@@ -25,8 +26,8 @@ var _RateExceededAlert = _interopRequireDefault(require("./RateExceededAlert"));
 var _RegionSettingsAlert = require("./RegionSettingsAlert");
 var _WebphoneAlert = _interopRequireDefault(require("./WebphoneAlert"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) { ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } } return n; }, _extends.apply(null, arguments); }
-var AlertRenderer = function AlertRenderer(_ref) {
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
+var AlertRenderer = exports.AlertRenderer = function AlertRenderer(_ref) {
   var alert = _ref.alert,
     brand = _ref.brand,
     rateLimiter = _ref.rateLimiter,
@@ -182,5 +183,4 @@ var AlertRenderer = function AlertRenderer(_ref) {
     };
   };
 };
-exports.AlertRenderer = AlertRenderer;
 //# sourceMappingURL=AlertRenderer.js.map

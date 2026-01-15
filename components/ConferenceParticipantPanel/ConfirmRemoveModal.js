@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -52,6 +53,5 @@ ConfirmRemoveModal.defaultProps = {
   // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'object | un... Remove this comment to see the full error message
   detail: null
 };
-var _default = ConfirmRemoveModal;
-exports["default"] = _default;
+var _default = exports["default"] = ConfirmRemoveModal;
 //# sourceMappingURL=ConfirmRemoveModal.js.map

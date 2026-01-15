@@ -1,11 +1,12 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 /* eslint-disable */
-var _default = {
+var _default = exports["default"] = {
   noActiveCalls: 'No active calls',
   noCalls: 'No results found.',
   currentCall: 'Current Call',
@@ -22,5 +23,4 @@ var _default = {
 // @key: @#@"historyCalls"@#@ @source: @#@"Past Calls"@#@
 // @key: @#@"otherDeviceCall"@#@ @source: @#@"Ongoing calls on my other devices"@#@
 // @key: @#@"searchPlaceholder"@#@ @source: @#@"Search..."@#@
-exports["default"] = _default;
 //# sourceMappingURL=en-AU.js.map

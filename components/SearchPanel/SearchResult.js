@@ -1,18 +1,20 @@
 "use strict";
 
-require("core-js/modules/es.array.concat");
-require("core-js/modules/es.array.filter");
-require("core-js/modules/es.array.map");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.SearchResult = void 0;
+require("core-js/modules/es.array.concat.js");
+require("core-js/modules/es.array.filter.js");
+require("core-js/modules/es.array.map.js");
+require("core-js/modules/es.object.to-string.js");
 var _utils = require("@ringcentral-integration/utils");
 var _juno = require("@ringcentral/juno");
 var _react = _interopRequireDefault(require("react"));
 var _i18n = _interopRequireDefault(require("./i18n"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var SearchResult = function SearchResult(_ref) {
+var SearchResult = exports.SearchResult = function SearchResult(_ref) {
   var _ref$renderListItem = _ref.renderListItem,
     renderListItem = _ref$renderListItem === void 0 ? _utils.emptyFn : _ref$renderListItem,
     _ref$classes = _ref.classes,
@@ -36,5 +38,4 @@ var SearchResult = function SearchResult(_ref) {
     className: classes.noResult
   }, "".concat(noResultMessage, " \"").concat(filter, "\""))) : tipWhenNoOptions || null);
 };
-exports.SearchResult = SearchResult;
 //# sourceMappingURL=SearchResult.js.map

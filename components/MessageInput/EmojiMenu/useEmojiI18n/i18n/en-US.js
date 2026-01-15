@@ -1,12 +1,13 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 /* eslint-disable quotes */
 // ref: https://github.com/missive/emoji-mart/blob/main/packages/emoji-mart-data/i18n/en.json
-var _default = {
+var _default = exports["default"] = {
   search: 'Search',
   search_no_results_1: 'Oh no!',
   search_no_results_2: 'That emoji couldn’t be found',
@@ -31,5 +32,4 @@ var _default = {
   skins_5: 'Medium-Dark',
   skins_6: 'Dark'
 };
-exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

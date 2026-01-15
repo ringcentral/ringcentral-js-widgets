@@ -1,11 +1,12 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 /* eslint-disable */
-var _default = {
+var _default = exports["default"] = {
   noRecords: 'No se encontraron registros recientes.',
   inBound: 'Entrante',
   outBound: 'Saliente',
@@ -14,5 +15,4 @@ var _default = {
 // @key: @#@"inBound"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"outBound"@#@ @source: @#@"Outbound"@#@
 // @key: @#@"missed"@#@ @source: @#@"Missed Call"@#@
-exports["default"] = _default;
 //# sourceMappingURL=es-419.js.map

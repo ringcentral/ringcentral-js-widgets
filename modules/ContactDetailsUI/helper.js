@@ -1,15 +1,16 @@
 "use strict";
 
-require("core-js/modules/es.date.to-string");
-require("core-js/modules/es.object.to-string");
-require("core-js/modules/es.regexp.to-string");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.formatContactPhoneNumber = void 0;
+require("core-js/modules/es.date.to-string.js");
+require("core-js/modules/es.object.to-string.js");
+require("core-js/modules/es.regexp.to-string.js");
 var _formatNumber = require("@ringcentral-integration/commons/lib/formatNumber");
 var _phoneNumber = require("@ringcentral-integration/phone-number");
-var formatContactPhoneNumber = function formatContactPhoneNumber(_ref) {
+var formatContactPhoneNumber = exports.formatContactPhoneNumber = function formatContactPhoneNumber(_ref) {
   var _ref$phoneNumber = _ref.phoneNumber,
     phoneNumber = _ref$phoneNumber === void 0 ? '' : _ref$phoneNumber,
     countryCode = _ref.countryCode,
@@ -45,5 +46,4 @@ var formatContactPhoneNumber = function formatContactPhoneNumber(_ref) {
   }
   return phoneNumber;
 };
-exports.formatContactPhoneNumber = formatContactPhoneNumber;
 //# sourceMappingURL=helper.js.map

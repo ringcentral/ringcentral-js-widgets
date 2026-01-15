@@ -1,15 +1,20 @@
 "use strict";
 
-require("core-js/modules/es.symbol");
-require("core-js/modules/es.symbol.description");
-require("core-js/modules/es.symbol.to-primitive");
-require("core-js/modules/es.date.to-primitive");
-require("core-js/modules/es.number.constructor");
-require("core-js/modules/es.object.to-string");
+require("core-js/modules/es.symbol.js");
+require("core-js/modules/es.symbol.description.js");
+require("core-js/modules/es.symbol.iterator.js");
+require("core-js/modules/es.array.iterator.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/es.object.to-string.js");
+require("core-js/modules/es.string.iterator.js");
+require("core-js/modules/web.dom-collections.iterator.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+require("core-js/modules/es.symbol.to-primitive.js");
+require("core-js/modules/es.date.to-primitive.js");
+require("core-js/modules/es.number.constructor.js");
 var _ActiveCallControl = require("@ringcentral-integration/commons/modules/ActiveCallControl");
 var _callsMerged$somethin;
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
@@ -27,7 +32,7 @@ var holdConflictError = _ActiveCallControl.callControlError.holdConflictError,
   forwardSuccess = _ActiveCallControl.callControlError.forwardSuccess,
   transferCompleted = _ActiveCallControl.callControlError.transferCompleted,
   replyCompleted = _ActiveCallControl.callControlError.replyCompleted;
-var _default = (_callsMerged$somethin = {}, _defineProperty(_callsMerged$somethin, callsMerged, 'Calls merged'), _defineProperty(_callsMerged$somethin, somethingWentWrong, 'Something went wrong. Please try again.'), _defineProperty(_callsMerged$somethin, tooManyParticipants, 'Maximum number of participants has been reached.'), _defineProperty(_callsMerged$somethin, muteConflictError, 'This call had been muted on another device. Please unmute the call before you take control in this app.'), _defineProperty(_callsMerged$somethin, unHoldConflictError, 'This call has been held on another device. Please unhold the call before you take control in this app.'), _defineProperty(_callsMerged$somethin, unMuteConflictError, 'This call has been unmuted on another device. Please mute the call before you take control in this app.'), _defineProperty(_callsMerged$somethin, holdConflictError, 'This call has been unheld on another device. Please hold the call before you take control in this app.'), _defineProperty(_callsMerged$somethin, generalError, 'Unexpected server error. Please try again later.'), _defineProperty(_callsMerged$somethin, forwardSuccess, 'Call forwarded'), _defineProperty(_callsMerged$somethin, transferCompleted, 'Call transferred'), _defineProperty(_callsMerged$somethin, replyCompleted, 'Voice message sent.'), _callsMerged$somethin); // @key: @#@"callsMerged"@#@ @source: @#@"Calls merged"@#@
+var _default = exports["default"] = (_callsMerged$somethin = {}, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_callsMerged$somethin, callsMerged, 'Calls merged'), somethingWentWrong, 'Something went wrong. Please try again.'), tooManyParticipants, 'Maximum number of participants has been reached.'), muteConflictError, 'This call had been muted on another device. Please unmute the call before you take control in this app.'), unHoldConflictError, 'This call has been held on another device. Please unhold the call before you take control in this app.'), unMuteConflictError, 'This call has been unmuted on another device. Please mute the call before you take control in this app.'), holdConflictError, 'This call has been unheld on another device. Please hold the call before you take control in this app.'), generalError, 'Unexpected server error. Please try again later.'), forwardSuccess, 'Call forwarded'), transferCompleted, 'Call transferred'), _defineProperty(_callsMerged$somethin, replyCompleted, 'Voice message sent.')); // @key: @#@"callsMerged"@#@ @source: @#@"Calls merged"@#@
 // @key: @#@"somethingWentWrong"@#@ @source: @#@"Something went wrong. Please try again."@#@
 // @key: @#@"tooManyParticipants"@#@ @source: @#@"Maximum number of participants is reached."@#@
 // @key: @#@"muteConflictError"@#@ @source: @#@"This call had been muted on other device. Please unmute the call before you control in this App."@#@
@@ -38,5 +43,4 @@ var _default = (_callsMerged$somethin = {}, _defineProperty(_callsMerged$somethi
 // @key: @#@"forwardSuccess"@#@ @source: @#@"Call forwarded"@#@
 // @key: @#@"transferCompleted"@#@ @source: @#@"Call transferred"@#@
 // @key: @#@"replyCompleted"@#@ @source: @#@"Voice message sent."@#@
-exports["default"] = _default;
 //# sourceMappingURL=en-AU.js.map

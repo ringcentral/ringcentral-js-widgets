@@ -1,11 +1,12 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 /* eslint-disable */
-var _default = {
+var _default = exports["default"] = {
   logging: '記錄中...',
   logCall: '記錄通話',
   editLog: '編輯記錄',
@@ -44,5 +45,4 @@ var _default = {
 // @key: @#@"inboundCall"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"outboundCall"@#@ @source: @#@"Outbound"@#@
 // @key: @#@"answeredBy"@#@ @source: @#@"Answered by"@#@
-exports["default"] = _default;
 //# sourceMappingURL=zh-HK.js.map

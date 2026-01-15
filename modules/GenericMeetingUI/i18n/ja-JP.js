@@ -1,11 +1,12 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 /* eslint-disable */
-var _default = {
+var _default = exports["default"] = {
   cancel: 'キャンセル',
   pmiChangeConfirmed: '変更',
   pmiChangeConfirmTitle: '個人会議の設定を変更しますか？',
@@ -16,5 +17,4 @@ var _default = {
 // @key: @#@"pmiChangeConfirmTitle"@#@ @source: @#@"Change Personal Meeting settings?"@#@
 // @key: @#@"pmiChangeConfirmContext"@#@ @source: @#@"Changing these settings will affect all meetings that use your personal meeting ID or name, including those you've already scheduled"@#@
 // @key: @#@"updatePassword"@#@ @source: @#@"Update password"@#@
-exports["default"] = _default;
 //# sourceMappingURL=ja-JP.js.map

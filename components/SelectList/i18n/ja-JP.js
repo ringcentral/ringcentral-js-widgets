@@ -1,11 +1,12 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 /* eslint-disable */
-var _default = {
+var _default = exports["default"] = {
   matched: '一致',
   other: 'その他',
   associated: '関連付け済み',
@@ -22,5 +23,4 @@ var _default = {
 // @key: @#@"additionalLabelAccount"@#@ @source: @#@"Account: {displayName}"@#@
 // @key: @#@"additionalLabelContact"@#@ @source: @#@"Contact: {displayName}"@#@
 // @key: @#@"notFound"@#@ @source: @#@"N/A"@#@
-exports["default"] = _default;
 //# sourceMappingURL=ja-JP.js.map

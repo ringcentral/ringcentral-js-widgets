@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -15,7 +16,7 @@ function toPercentValue(value) {
 function toValue(percent) {
   return percent / 100;
 }
-var VolumeSlider = function VolumeSlider(_ref) {
+var VolumeSlider = exports.VolumeSlider = function VolumeSlider(_ref) {
   var volume = _ref.volume,
     _ref$minVolume = _ref.minVolume,
     minVolume = _ref$minVolume === void 0 ? 0 : _ref$minVolume,
@@ -62,5 +63,4 @@ var VolumeSlider = function VolumeSlider(_ref) {
     size: "small"
   }))));
 };
-exports.VolumeSlider = VolumeSlider;
 //# sourceMappingURL=VolumeSlider.js.map

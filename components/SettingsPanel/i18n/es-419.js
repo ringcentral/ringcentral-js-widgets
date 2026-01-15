@@ -1,11 +1,12 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 /* eslint-disable */
-var _default = {
+var _default = exports["default"] = {
   region: 'Región',
   calling: 'Llamadas',
   logout: 'Cerrar sesión',
@@ -70,5 +71,4 @@ var _default = {
 // @key: @#@"reportIssue"@#@ @source: @#@"Report issue"@#@
 // @key: @#@"contactSupport"@#@ @source: @#@"Contact support"@#@
 // @key: @#@"selectToDialHint"@#@ @source: @#@"For your better experience, select phone number to dial with RingCentral in large quantity phone number page."@#@
-exports["default"] = _default;
 //# sourceMappingURL=es-419.js.map

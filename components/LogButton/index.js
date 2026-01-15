@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -41,6 +42,5 @@ LogButton.defaultProps = {
   addTitle: undefined,
   editTitle: undefined
 };
-var _default = LogButton;
-exports["default"] = _default;
+var _default = exports["default"] = LogButton;
 //# sourceMappingURL=index.js.map

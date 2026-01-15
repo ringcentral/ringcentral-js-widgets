@@ -1,16 +1,17 @@
 "use strict";
 
-require("core-js/modules/es.array.concat");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.ContactPhone = void 0;
+require("core-js/modules/es.array.concat.js");
 var _react = _interopRequireDefault(require("react"));
 var _phoneTypeNames = _interopRequireDefault(require("../../lib/phoneTypeNames"));
 var _splitter = require("./splitter");
 var _styles = _interopRequireDefault(require("./styles.scss"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var ContactPhone = function ContactPhone(_ref) {
+var ContactPhone = exports.ContactPhone = function ContactPhone(_ref) {
   var phoneType = _ref.phoneType,
     phoneNumber = _ref.phoneNumber,
     formatContactPhone = _ref.formatContactPhone,
@@ -29,7 +30,6 @@ var ContactPhone = function ContactPhone(_ref) {
     className: _styles["default"].label
   }, phoneTypeName));
 };
-exports.ContactPhone = ContactPhone;
 ContactPhone.defaultProps = {
   titleEnabled: undefined,
   phoneTypeRenderer: undefined

@@ -1,13 +1,15 @@
 "use strict";
 
-require("core-js/modules/es.array.find");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.NavigationBarMoreMenu = void 0;
+require("core-js/modules/es.array.find.js");
+require("core-js/modules/es.object.to-string.js");
 var _react = _interopRequireDefault(require("react"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var NavigationBarMoreMenu = function NavigationBarMoreMenu(_ref) {
+var NavigationBarMoreMenu = exports.NavigationBarMoreMenu = function NavigationBarMoreMenu(_ref) {
   var tabs = _ref.tabs,
     currentPath = _ref.currentPath,
     currentVirtualPath = _ref.currentVirtualPath,
@@ -24,5 +26,4 @@ var NavigationBarMoreMenu = function NavigationBarMoreMenu(_ref) {
     currentVirtualPath: currentVirtualPath
   }) : null;
 };
-exports.NavigationBarMoreMenu = NavigationBarMoreMenu;
 //# sourceMappingURL=NavigationBarMoreMenu.js.map

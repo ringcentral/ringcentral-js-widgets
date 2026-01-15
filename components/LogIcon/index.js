@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -61,6 +62,5 @@ LogIcon.defaultProps = {
   disabled: false,
   isFax: false
 };
-var _default = LogIcon;
-exports["default"] = _default;
+var _default = exports["default"] = LogIcon;
 //# sourceMappingURL=index.js.map

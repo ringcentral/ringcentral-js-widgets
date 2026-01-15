@@ -1,5 +1,10 @@
 "use strict";
 
+require("core-js/modules/es.array.for-each.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/es.object.keys.js");
+require("core-js/modules/es.object.to-string.js");
+require("core-js/modules/web.dom-collections.for-each.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -19,6 +24,5 @@ Object.keys(_getButtonStatus).forEach(function (key) {
   });
 });
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var _default = _SaveLogButton["default"];
-exports["default"] = _default;
+var _default = exports["default"] = _SaveLogButton["default"];
 //# sourceMappingURL=index.js.map

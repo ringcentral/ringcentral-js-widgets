@@ -1,11 +1,13 @@
 "use strict";
 
-require("core-js/modules/es.array.map");
-require("core-js/modules/es.function.name");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.CallInfoList = void 0;
+require("core-js/modules/es.array.map.js");
+require("core-js/modules/es.function.name.js");
+require("core-js/modules/es.object.to-string.js");
 var _juno = require("@ringcentral/juno");
 var _clsx = _interopRequireDefault(require("clsx"));
 var _react = _interopRequireDefault(require("react"));
@@ -14,7 +16,7 @@ var _CopyToClipboard = _interopRequireDefault(require("../../CopyToClipboard"));
 var _CallInfo = require("../CallInfo");
 var _styles = _interopRequireDefault(require("./styles.scss"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var CallInfoList = function CallInfoList(_ref) {
+var CallInfoList = exports.CallInfoList = function CallInfoList(_ref) {
   var callInfos = _ref.callInfos,
     className = _ref.className,
     onCopySuccess = _ref.onCopySuccess,
@@ -51,5 +53,4 @@ var CallInfoList = function CallInfoList(_ref) {
     })));
   })));
 };
-exports.CallInfoList = CallInfoList;
 //# sourceMappingURL=CallInfoList.js.map

@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -60,6 +61,5 @@ Search.defaultProps = {
   disableLinks: false,
   renderSearchTip: undefined
 };
-var _default = Search;
-exports["default"] = _default;
+var _default = exports["default"] = Search;
 //# sourceMappingURL=index.js.map

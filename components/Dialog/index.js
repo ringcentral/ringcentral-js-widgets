@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -115,6 +116,5 @@ Dialog.defaultProps = {
   contentClassName: undefined,
   footerClassName: undefined
 };
-var _default = Dialog;
-exports["default"] = _default;
+var _default = exports["default"] = Dialog;
 //# sourceMappingURL=index.js.map
