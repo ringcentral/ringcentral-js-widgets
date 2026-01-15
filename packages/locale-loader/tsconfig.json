@@ -5,6 +5,7 @@
   "compilerOptions": {
     "outDir": "../../build/locale-loader",
     "noEmit": false,
-    "sourceMap": true
+    "sourceMap": true,
+    "types": ["node"]
   }
 }

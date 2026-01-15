@@ -25,6 +25,7 @@
   "dependencies": {
     "@ringcentral-integration/babel-settings": "*",
     "@ringcentral-integration/crius": "*",
+    "rxjs": "^7.8.0",
     "@ringcentral/juno": "^2.42.0",
     "@ringcentral/juno-icon": "^1.80.0",
     "@testing-library/jest-dom": "^6.1.6",
