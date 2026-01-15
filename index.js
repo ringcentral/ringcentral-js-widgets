@@ -1,42 +1,15 @@
 "use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-Object.defineProperty(exports, "consolidateLocale", {
-  enumerable: true,
-  get: function get() {
-    return _consolidateLocale["default"];
-  }
-});
-Object.defineProperty(exports, "default", {
-  enumerable: true,
-  get: function get() {
-    return _localeLoader["default"];
-  }
-});
-Object.defineProperty(exports, "exportLocale", {
-  enumerable: true,
-  get: function get() {
-    return _exportLocale["default"];
-  }
-});
-Object.defineProperty(exports, "importLocale", {
-  enumerable: true,
-  get: function get() {
-    return _importLocale["default"];
-  }
-});
-Object.defineProperty(exports, "transformLoader", {
-  enumerable: true,
-  get: function get() {
-    return _transformLoader["default"];
-  }
-});
-var _consolidateLocale = _interopRequireDefault(require("./lib/consolidateLocale"));
-var _exportLocale = _interopRequireDefault(require("./lib/exportLocale"));
-var _importLocale = _interopRequireDefault(require("./lib/importLocale"));
-var _localeLoader = _interopRequireDefault(require("./lib/localeLoader"));
-var _transformLoader = _interopRequireDefault(require("./lib/transformLoader"));
-function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = exports.transformLoader = exports.consolidateLocale = exports.importLocale = exports.exportLocale = void 0;
+const tslib_1 = require("tslib");
+const consolidateLocale_1 = tslib_1.__importDefault(require("./lib/consolidateLocale"));
+exports.consolidateLocale = consolidateLocale_1.default;
+const exportLocale_1 = tslib_1.__importDefault(require("./lib/exportLocale"));
+exports.exportLocale = exportLocale_1.default;
+const importLocale_1 = tslib_1.__importDefault(require("./lib/importLocale"));
+exports.importLocale = importLocale_1.default;
+const localeLoader_1 = tslib_1.__importDefault(require("./lib/localeLoader"));
+exports.default = localeLoader_1.default;
+const transformLoader_1 = tslib_1.__importDefault(require("./lib/transformLoader"));
+exports.transformLoader = transformLoader_1.default;
 //# sourceMappingURL=index.js.map

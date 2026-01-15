@@ -1,6 +1,6 @@
 {
   "name": "@ringcentral-integration/locale-loader",
-  "version": "2.2.5",
+  "version": "2.3.2",
   "description": "Locale Loader for webpack",
   "homepage": "https://github.com/ringcentral/ringcentral-js-widgets#readme",
   "bugs": {
@@ -14,6 +14,7 @@
   "author": "RingCentral Integrations",
   "main": "index.js",
   "dependencies": {
+    "@ringcentral-integration/i18n": "^2.3.1",
     "@babel/generator": "^7.11.4",
     "@babel/parser": "^7.11.4",
     "chalk": "^4.1.2",
@@ -24,18 +25,8 @@
     "loader-utils": "^1.1.0",
     "ramda": "^0.28.0",
     "through2": "^2.0.5",
+    "prettier": "^2.8.3",
     "xml-js": "^1.6.2"
   },
-  "peerDependencies": {
-    "@ringcentral-integration/i18n": "^2.2.1"
-  },
-  "common": true,
-  "ci": {
-    "@ringcentral-integration/locale-loader": "**"
-  },
-  "nx": {
-    "tags": [
-      "scope:ci-group-1"
-    ]
-  }
+  "common": true
 }
