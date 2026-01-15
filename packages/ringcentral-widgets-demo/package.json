@@ -28,7 +28,6 @@
     "@ringcentral/subscriptions": "^4.6.0",
     "autoprefixer": "^10.4.16",
     "copy-webpack-plugin": "^11.0.0",
-    "coveralls": "^3.0.4",
     "fs-extra": "^10.1.0",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
