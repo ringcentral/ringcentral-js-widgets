@@ -36,6 +36,7 @@ var _MessageSender = require("../MessageSender");
 var _conversationsStatus = require("./conversationsStatus");
 var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9, _descriptor10, _descriptor11, _descriptor12;
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function _createForOfIteratorHelper(r, e) { var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (!t) { if (Array.isArray(r) || (t = _unsupportedIterableToArray(r)) || e && r && "number" == typeof r.length) { t && (r = t); var _n = 0, F = function F() {}; return { s: F, n: function n() { return _n >= r.length ? { done: !0 } : { done: !1, value: r[_n++] }; }, e: function e(r) { throw r; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var o, a = !0, u = !1; return { s: function s() { t = t.call(r); }, n: function n() { var r = t.next(); return a = r.done, r; }, e: function e(r) { u = !0, o = r; }, f: function f() { try { a || null == t["return"] || t["return"](); } finally { if (u) throw o; } } }; }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
@@ -820,6 +821,15 @@ var Conversations = (_dec = (0, _di.Module)({
       return false;
     }
   }, {
+    key: "_alertDanger",
+    value: function _alertDanger(message) {
+      this._deps.alert.danger({
+        message: message,
+        allowDuplicates: false,
+        ttl: 5000
+      });
+    }
+  }, {
     key: "updateMessageText",
     value: function () {
       var _updateMessageText2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(text) {
@@ -848,57 +858,73 @@ var Conversations = (_dec = (0, _di.Module)({
       return updateMessageText;
     }()
   }, {
-    key: "addAttachment",
+    key: "checkAttachmentOverLimit",
+    value: function checkAttachmentOverLimit(attachments) {
+      var oldAttachments = this.attachments;
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+      if (oldAttachments.length + attachments.length > 10) {
+        this._alertDanger(_MessageSender.messageSenderMessages.attachmentCountLimitation);
+        return false;
+      }
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+      var size = [].concat(_toConsumableArray(oldAttachments), _toConsumableArray(attachments)).reduce(function (prev, curr) {
+        return prev + curr.size;
+      }, 0);
+      if (size > _MessageSender.ATTACHMENT_SIZE_LIMITATION) {
+        this._alertDanger(_MessageSender.messageSenderMessages.attachmentSizeLimitation);
+        return false;
+      }
+      return true;
+    }
+  }, {
+    key: "addAttachments",
     value: function () {
-      var _addAttachment2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(attachment) {
-        var attachments, size;
+      var _addAttachments = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(attachments) {
+        var isValid, _iterator, _step, attachment;
         return regeneratorRuntime.wrap(function _callee10$(_context10) {
           while (1) {
             switch (_context10.prev = _context10.next) {
               case 0:
-                attachments = this.attachments; // @ts-expect-error TS(2532): Object is possibly 'undefined'.
-                if (!(attachments.length >= 10)) {
-                  _context10.next = 4;
+                isValid = this.checkAttachmentOverLimit(attachments);
+                if (isValid) {
+                  _context10.next = 3;
                   break;
                 }
-                this._alertWarning(_MessageSender.messageSenderMessages.attachmentCountLimitation);
                 return _context10.abrupt("return");
-              case 4:
-                // @ts-expect-error TS(2532): Object is possibly 'undefined'.
-                size = attachments.reduce(function (prev, curr) {
-                  return prev + curr.size;
-                }, 0);
-                if (!(size + attachment.size > _MessageSender.ATTACHMENT_SIZE_LIMITATION)) {
-                  _context10.next = 8;
-                  break;
+              case 3:
+                _iterator = _createForOfIteratorHelper(attachments);
+                try {
+                  for (_iterator.s(); !(_step = _iterator.n()).done;) {
+                    attachment = _step.value;
+                    this.addAttachment(attachment);
+                  }
+                } catch (err) {
+                  _iterator.e(err);
+                } finally {
+                  _iterator.f();
                 }
-                this._alertWarning(_MessageSender.messageSenderMessages.attachmentSizeLimitation);
-                return _context10.abrupt("return");
-              case 8:
-                // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
-                this._addAttachment(this.currentConversationId, attachment);
-              case 9:
+              case 5:
               case "end":
                 return _context10.stop();
             }
           }
         }, _callee10, this);
       }));
-      function addAttachment(_x5) {
-        return _addAttachment2.apply(this, arguments);
+      function addAttachments(_x5) {
+        return _addAttachments.apply(this, arguments);
       }
-      return addAttachment;
+      return addAttachments;
     }()
   }, {
-    key: "removeAttachment",
+    key: "addAttachment",
     value: function () {
-      var _removeAttachment2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(attachment) {
+      var _addAttachment2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(attachment) {
         return regeneratorRuntime.wrap(function _callee11$(_context11) {
           while (1) {
             switch (_context11.prev = _context11.next) {
               case 0:
                 // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
-                this._removeAttachment(this.currentConversationId, attachment);
+                this._addAttachment(this.currentConversationId, attachment);
               case 1:
               case "end":
                 return _context11.stop();
@@ -906,7 +932,29 @@ var Conversations = (_dec = (0, _di.Module)({
           }
         }, _callee11, this);
       }));
-      function removeAttachment(_x6) {
+      function addAttachment(_x6) {
+        return _addAttachment2.apply(this, arguments);
+      }
+      return addAttachment;
+    }()
+  }, {
+    key: "removeAttachment",
+    value: function () {
+      var _removeAttachment2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12(attachment) {
+        return regeneratorRuntime.wrap(function _callee12$(_context12) {
+          while (1) {
+            switch (_context12.prev = _context12.next) {
+              case 0:
+                // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
+                this._removeAttachment(this.currentConversationId, attachment);
+              case 1:
+              case "end":
+                return _context12.stop();
+            }
+          }
+        }, _callee12, this);
+      }));
+      function removeAttachment(_x7) {
         return _removeAttachment2.apply(this, arguments);
       }
       return removeAttachment;
@@ -914,18 +962,18 @@ var Conversations = (_dec = (0, _di.Module)({
   }, {
     key: "replyToReceivers",
     value: function () {
-      var _replyToReceivers = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12(text) {
+      var _replyToReceivers = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13(text) {
         var attachments,
           responses,
-          _args12 = arguments;
-        return regeneratorRuntime.wrap(function _callee12$(_context12) {
+          _args13 = arguments;
+        return regeneratorRuntime.wrap(function _callee13$(_context13) {
           while (1) {
-            switch (_context12.prev = _context12.next) {
+            switch (_context13.prev = _context13.next) {
               case 0:
-                attachments = _args12.length > 1 && _args12[1] !== undefined ? _args12[1] : [];
+                attachments = _args13.length > 1 && _args13[1] !== undefined ? _args13[1] : [];
                 this._updateConversationStatus(_conversationsStatus.conversationsStatus.pushing);
-                _context12.prev = 2;
-                _context12.next = 5;
+                _context13.prev = 2;
+                _context13.next = 5;
                 return this._deps.messageSender.send({
                   // @ts-expect-error TS(2322): Type 'string | null | undefined' is not assignable... Remove this comment to see the full error message
                   fromNumber: this._getFromNumber(),
@@ -937,9 +985,9 @@ var Conversations = (_dec = (0, _di.Module)({
                   replyOnMessageId: this._getReplyOnMessageId()
                 });
               case 5:
-                responses = _context12.sent;
+                responses = _context13.sent;
                 if (!(responses && responses[0])) {
-                  _context12.next = 11;
+                  _context13.next = 11;
                   break;
                 }
                 // @ts-expect-error TS(2345): Argument of type 'import("/Users/declan.zou/Projec... Remove this comment to see the full error message
@@ -947,23 +995,23 @@ var Conversations = (_dec = (0, _di.Module)({
                 this._updateConversationStatus(_conversationsStatus.conversationsStatus.idle);
                 // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
                 this._removeInputContent(this.currentConversationId);
-                return _context12.abrupt("return", responses[0]);
+                return _context13.abrupt("return", responses[0]);
               case 11:
                 this._onReplyError();
-                return _context12.abrupt("return", null);
+                return _context13.abrupt("return", null);
               case 15:
-                _context12.prev = 15;
-                _context12.t0 = _context12["catch"](2);
+                _context13.prev = 15;
+                _context13.t0 = _context13["catch"](2);
                 this._onReplyError();
-                throw _context12.t0;
+                throw _context13.t0;
               case 19:
               case "end":
-                return _context12.stop();
+                return _context13.stop();
             }
           }
-        }, _callee12, this, [[2, 15]]);
+        }, _callee13, this, [[2, 15]]);
       }));
-      function replyToReceivers(_x7) {
+      function replyToReceivers(_x8) {
         return _replyToReceivers.apply(this, arguments);
       }
       return replyToReceivers;
@@ -1003,64 +1051,64 @@ var Conversations = (_dec = (0, _di.Module)({
   }, {
     key: "deleteConversation",
     value: function () {
-      var _deleteConversation = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13(conversationId) {
+      var _deleteConversation = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee14(conversationId) {
         var conversation;
-        return regeneratorRuntime.wrap(function _callee13$(_context13) {
+        return regeneratorRuntime.wrap(function _callee14$(_context14) {
           while (1) {
-            switch (_context13.prev = _context13.next) {
+            switch (_context14.prev = _context14.next) {
               case 0:
                 if (conversationId) {
-                  _context13.next = 2;
+                  _context14.next = 2;
                   break;
                 }
-                return _context13.abrupt("return");
+                return _context14.abrupt("return");
               case 2:
                 if (!this._deps.messageStore.conversationStore[conversationId]) {
-                  _context13.next = 6;
+                  _context14.next = 6;
                   break;
                 }
-                _context13.next = 5;
+                _context14.next = 5;
                 return this._deps.messageStore.deleteConversationMessages(conversationId);
               case 5:
-                return _context13.abrupt("return");
+                return _context14.abrupt("return");
               case 6:
                 conversation = this.allConversations.find(function (c) {
                   return c.conversationId === conversationId;
                 });
                 if (conversation) {
-                  _context13.next = 9;
+                  _context14.next = 9;
                   break;
                 }
-                return _context13.abrupt("return");
+                return _context14.abrupt("return");
               case 9:
                 if (!(0, _messageHelper.messageIsTextMessage)(conversation)) {
-                  _context13.next = 13;
+                  _context14.next = 13;
                   break;
                 }
-                _context13.next = 12;
+                _context14.next = 12;
                 return this._deps.messageStore.deleteConversation(conversationId);
               case 12:
-                return _context13.abrupt("return");
+                return _context14.abrupt("return");
               case 13:
-                _context13.prev = 13;
-                _context13.next = 16;
+                _context14.prev = 13;
+                _context14.next = 16;
                 return this._deps.messageStore.deleteMessageApi(conversationId);
               case 16:
                 this._deleteOldConversation(conversationId);
-                _context13.next = 22;
+                _context14.next = 22;
                 break;
               case 19:
-                _context13.prev = 19;
-                _context13.t0 = _context13["catch"](13);
-                console.error(_context13.t0);
+                _context14.prev = 19;
+                _context14.t0 = _context14["catch"](13);
+                console.error(_context14.t0);
               case 22:
               case "end":
-                return _context13.stop();
+                return _context14.stop();
             }
           }
-        }, _callee13, this, [[13, 19]]);
+        }, _callee14, this, [[13, 19]]);
       }));
-      function deleteConversation(_x8) {
+      function deleteConversation(_x9) {
         return _deleteConversation.apply(this, arguments);
       }
       return deleteConversation;
@@ -1535,6 +1583,6 @@ var Conversations = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return {};
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "_updateSearchInput", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_updateSearchInput"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_updateTypeFilter", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_updateTypeFilter"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_updateFetchConversationsStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_updateFetchConversationsStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_fetchOldConversationsSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_fetchOldConversationsSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_deleteOldConversation", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_deleteOldConversation"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_cleanOldConversations", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_cleanOldConversations"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_increaseCurrentPage", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_increaseCurrentPage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_resetCurrentPage", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_resetCurrentPage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_updateCurrentConversationId", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_updateCurrentConversationId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_updateFetchMessagesStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_updateFetchMessagesStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_fetchOldMessagesSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_fetchOldMessagesSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_updateMessageText", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_updateMessageText"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_addAttachment", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_addAttachment"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_removeAttachment", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_removeAttachment"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_removeInputContent", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_removeInputContent"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_updateConversationStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_updateConversationStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_addCorrespondentMatchEntities", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_addCorrespondentMatchEntities"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_removeCorrespondentMatchEntity", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_removeCorrespondentMatchEntity"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_addCorrespondentResponses", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_addCorrespondentResponses"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_removeCorrespondentResponses", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_removeCorrespondentResponses"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_resetAllStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_resetAllStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "shouldTriggerMatchConditions", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "shouldTriggerMatchConditions"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateSearchInput", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "updateSearchInput"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateTypeFilter", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "updateTypeFilter"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fetchOldConversations", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchOldConversations"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "loadNextPage", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "loadNextPage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetCurrentPage", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "resetCurrentPage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "loadConversation", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "loadConversation"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "unloadConversation", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "unloadConversation"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fetchOldMessages", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchOldMessages"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateMessageText", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "updateMessageText"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "addAttachment", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "addAttachment"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "removeAttachment", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "removeAttachment"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "replyToReceivers", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "replyToReceivers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "deleteConversation", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "deleteConversation"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "allConversations", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "allConversations"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "uniqueNumbers", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "uniqueNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "allUniqueNumbers", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "allUniqueNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "effectiveSearchString", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "effectiveSearchString"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "typeFilteredConversations", [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, "typeFilteredConversations"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "formattedConversations", [_dec8], Object.getOwnPropertyDescriptor(_class2.prototype, "formattedConversations"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "filteredConversations", [_dec9], Object.getOwnPropertyDescriptor(_class2.prototype, "filteredConversations"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "pagingConversations", [_dec10], Object.getOwnPropertyDescriptor(_class2.prototype, "pagingConversations"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "earliestTime", [_dec11], Object.getOwnPropertyDescriptor(_class2.prototype, "earliestTime"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "currentConversation", [_dec12], Object.getOwnPropertyDescriptor(_class2.prototype, "currentConversation"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "messageText", [_dec13], Object.getOwnPropertyDescriptor(_class2.prototype, "messageText"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "attachments", [_dec14], Object.getOwnPropertyDescriptor(_class2.prototype, "attachments"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "_updateSearchInput", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_updateSearchInput"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_updateTypeFilter", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_updateTypeFilter"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_updateFetchConversationsStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_updateFetchConversationsStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_fetchOldConversationsSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_fetchOldConversationsSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_deleteOldConversation", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_deleteOldConversation"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_cleanOldConversations", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_cleanOldConversations"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_increaseCurrentPage", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_increaseCurrentPage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_resetCurrentPage", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_resetCurrentPage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_updateCurrentConversationId", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_updateCurrentConversationId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_updateFetchMessagesStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_updateFetchMessagesStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_fetchOldMessagesSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_fetchOldMessagesSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_updateMessageText", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_updateMessageText"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_addAttachment", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_addAttachment"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_removeAttachment", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_removeAttachment"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_removeInputContent", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_removeInputContent"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_updateConversationStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_updateConversationStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_addCorrespondentMatchEntities", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_addCorrespondentMatchEntities"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_removeCorrespondentMatchEntity", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_removeCorrespondentMatchEntity"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_addCorrespondentResponses", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_addCorrespondentResponses"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_removeCorrespondentResponses", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_removeCorrespondentResponses"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_resetAllStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_resetAllStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "shouldTriggerMatchConditions", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "shouldTriggerMatchConditions"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateSearchInput", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "updateSearchInput"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateTypeFilter", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "updateTypeFilter"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fetchOldConversations", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchOldConversations"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "loadNextPage", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "loadNextPage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetCurrentPage", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "resetCurrentPage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "loadConversation", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "loadConversation"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "unloadConversation", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "unloadConversation"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fetchOldMessages", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchOldMessages"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateMessageText", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "updateMessageText"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "addAttachments", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "addAttachments"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "addAttachment", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "addAttachment"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "removeAttachment", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "removeAttachment"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "replyToReceivers", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "replyToReceivers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "deleteConversation", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "deleteConversation"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "allConversations", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "allConversations"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "uniqueNumbers", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "uniqueNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "allUniqueNumbers", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "allUniqueNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "effectiveSearchString", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "effectiveSearchString"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "typeFilteredConversations", [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, "typeFilteredConversations"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "formattedConversations", [_dec8], Object.getOwnPropertyDescriptor(_class2.prototype, "formattedConversations"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "filteredConversations", [_dec9], Object.getOwnPropertyDescriptor(_class2.prototype, "filteredConversations"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "pagingConversations", [_dec10], Object.getOwnPropertyDescriptor(_class2.prototype, "pagingConversations"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "earliestTime", [_dec11], Object.getOwnPropertyDescriptor(_class2.prototype, "earliestTime"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "currentConversation", [_dec12], Object.getOwnPropertyDescriptor(_class2.prototype, "currentConversation"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "messageText", [_dec13], Object.getOwnPropertyDescriptor(_class2.prototype, "messageText"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "attachments", [_dec14], Object.getOwnPropertyDescriptor(_class2.prototype, "attachments"), _class2.prototype)), _class2)) || _class);
 exports.Conversations = Conversations;
 //# sourceMappingURL=Conversations.js.map

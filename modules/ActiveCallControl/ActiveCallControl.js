@@ -137,18 +137,8 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
 }), _dec10 = (0, _core.track)(function (that) {
   return [that._getTrackEventName(_trackEvents.trackEvents.unhold)];
 }), _dec11 = (0, _core.track)(function (_, params) {
-  var messageType = 'End-User Custom Message';
-  if (params.replyWithPattern) {
-    var _params$replyWithPatt;
-    var pattern = (_params$replyWithPatt = params.replyWithPattern) === null || _params$replyWithPatt === void 0 ? void 0 : _params$replyWithPatt.pattern;
-    if (pattern === _Session.ReplyWithPattern.inAMeeting || pattern === _Session.ReplyWithPattern.onMyWay) {
-      messageType = 'Default Static Message';
-    } else {
-      messageType = 'Default Dynamic Message';
-    }
-  }
   return [_trackEvents.trackEvents.executionReplyWithMessage, {
-    'Message Type': messageType
+    'message type': params.replyWithPattern ? 'Pattern' : 'Custom'
   }];
 }), _dec12 = (0, _core.track)(_trackEvents.trackEvents.transfer), _dec13 = (0, _core.track)(function (that) {
   return [that._getTrackEventName(_trackEvents.trackEvents.confirmForward)];
@@ -243,6 +233,9 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
     _this._updateSessionsHandler = function () {
       _this.updateActiveSessions();
     };
+    _this._deps.subscription.register(_assertThisInitialized(_this), {
+      filters: [subscribeEvent]
+    });
     return _this;
   }
   _createClass(ActiveCallControl, [{
@@ -494,39 +487,36 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                 }
                 return _context6.abrupt("return");
               case 2:
-                _context6.next = 4;
-                return this._deps.subscription.subscribe([subscribeEvent]);
-              case 4:
                 this._rcCall = this._initRcCall();
                 if (!this._shouldFetch()) {
-                  _context6.next = 16;
+                  _context6.next = 14;
                   break;
                 }
-                _context6.prev = 6;
-                _context6.next = 9;
+                _context6.prev = 4;
+                _context6.next = 7;
                 return this.fetchData();
+              case 7:
+                _context6.next = 12;
+                break;
               case 9:
-                _context6.next = 14;
-                break;
-              case 11:
-                _context6.prev = 11;
-                _context6.t0 = _context6["catch"](6);
+                _context6.prev = 9;
+                _context6.t0 = _context6["catch"](4);
                 this._retry();
-              case 14:
-                _context6.next = 17;
+              case 12:
+                _context6.next = 15;
                 break;
-              case 16:
+              case 14:
                 if (this._polling) {
                   this._startPolling();
                 } else {
                   this._retry();
                 }
-              case 17:
+              case 15:
               case "end":
                 return _context6.stop();
             }
           }
-        }, _callee6, this, [[6, 11]]);
+        }, _callee6, this, [[4, 9]]);
       }));
       function onInit() {
         return _onInit.apply(this, arguments);

@@ -322,14 +322,34 @@ var Analytics = (_dec = (0, _di.Module)({
                 return _context2.abrupt("return");
               case 3:
                 trackProps = _objectSpread(_objectSpread(_objectSpread({}, this.trackProps), properties), this.extendedProps.get(event));
-                if (this.enableMixpanel) {
-                  // NOTE: Data tracking has been migrated from Segment to Mixpanel.
-                  // Add id to identify in Mixpanel, so the usage data can be filtered same as before.
-                  if ((_this$_deps$auth = this._deps.auth) === null || _this$_deps$auth === void 0 ? void 0 : _this$_deps$auth.ownerId) {
-                    trackProps.id = this._deps.auth.ownerId;
-                  }
-                  _mixpanelBrowser["default"].track(event, trackProps);
+                if (!this.enableMixpanel) {
+                  _context2.next = 15;
+                  break;
                 }
+                // NOTE: Data tracking has been migrated from Segment to Mixpanel.
+                // Add id to identify in Mixpanel, so the usage data can be filtered same as before.
+                if ((_this$_deps$auth = this._deps.auth) === null || _this$_deps$auth === void 0 ? void 0 : _this$_deps$auth.ownerId) {
+                  trackProps.id = this._deps.auth.ownerId;
+                }
+                if (!(process.env.NODE_ENV === 'test')) {
+                  _context2.next = 14;
+                  break;
+                }
+                _context2.prev = 7;
+                if (_mixpanelBrowser["default"].track.mock) {
+                  _context2.next = 10;
+                  break;
+                }
+                throw new Error('Mocked Mixpanel track is not mocked, should set a mock function to avoid miss send data to remote');
+              case 10:
+                _context2.next = 14;
+                break;
+              case 12:
+                _context2.prev = 12;
+                _context2.t0 = _context2["catch"](7);
+              case 14:
+                _mixpanelBrowser["default"].track(event, trackProps);
+              case 15:
                 if (this.analytics) {
                   this.analytics.track(event, trackProps, {
                     integrations: {
@@ -349,12 +369,12 @@ var Analytics = (_dec = (0, _di.Module)({
                 if (this._enablePendo && ((_this$_pendo = this._pendo) === null || _this$_pendo === void 0 ? void 0 : (_this$_pendo$isReady = _this$_pendo.isReady) === null || _this$_pendo$isReady === void 0 ? void 0 : _this$_pendo$isReady.call(_this$_pendo))) {
                   this._pendo.track("".concat(trackProps.appName, "-").concat(event), trackProps);
                 }
-              case 8:
+              case 18:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, this);
+        }, _callee2, this, [[7, 12]]);
       }));
       function track(_x) {
         return _track.apply(this, arguments);

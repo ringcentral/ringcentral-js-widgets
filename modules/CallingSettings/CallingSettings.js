@@ -19,6 +19,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.CallingSettings = exports.BLOCKED_ID_VALUE = void 0;
 require("regenerator-runtime/runtime");
 var _core = require("@ringcentral-integration/core");
+var _contactHelper = require("../../lib/contactHelper");
 var _di = require("../../lib/di");
 var _proxify = require("../../lib/proxy/proxify");
 var _callingModes = require("./callingModes");
@@ -85,7 +86,7 @@ var CallingSettings = (_dec = (0, _di.Module)({
   _inherits(CallingSettings, _RcModuleV);
   var _super = _createSuper(CallingSettings);
   function CallingSettings(deps) {
-    var _this$_deps$callingSe, _this$_deps$callingSe2, _this$_deps$callingSe3, _this$_deps$callingSe4, _this$_deps$callingSe5, _this$_deps$callingSe6;
+    var _this$_deps$callingSe, _this$_deps$callingSe2, _this$_deps$callingSe3, _this$_deps$callingSe4, _this$_deps$callingSe5, _this$_deps$callingSe6, _this$_deps$callingSe7, _this$_deps$callingSe8;
     var _this;
     _classCallCheck(this, CallingSettings);
     _this = _super.call(this, {
@@ -101,6 +102,7 @@ var CallingSettings = (_dec = (0, _di.Module)({
     _this._blockedIdDisabled = void 0;
     _this._showCallWithJupiter = void 0;
     _this._emergencyCallAvailable = void 0;
+    _this._showCustomPhoneLabel = void 0;
     _this._availableNumbers = void 0;
     _this.initRingoutPrompt = void 0;
     // For Japan Emergency Service notification
@@ -110,6 +112,7 @@ var CallingSettings = (_dec = (0, _di.Module)({
     _this.initRingoutPrompt = (_this$_deps$callingSe2 = _this._deps.callingSettingsOptions) === null || _this$_deps$callingSe2 === void 0 ? void 0 : _this$_deps$callingSe2.defaultRingoutPrompt;
     _this._showCallWithJupiter = (_this$_deps$callingSe3 = (_this$_deps$callingSe4 = _this._deps.callingSettingsOptions) === null || _this$_deps$callingSe4 === void 0 ? void 0 : _this$_deps$callingSe4.showCallWithJupiter) !== null && _this$_deps$callingSe3 !== void 0 ? _this$_deps$callingSe3 : true;
     _this._emergencyCallAvailable = (_this$_deps$callingSe5 = (_this$_deps$callingSe6 = _this._deps.callingSettingsOptions) === null || _this$_deps$callingSe6 === void 0 ? void 0 : _this$_deps$callingSe6.emergencyCallAvailable) !== null && _this$_deps$callingSe5 !== void 0 ? _this$_deps$callingSe5 : !!_this._deps.webphone;
+    _this._showCustomPhoneLabel = (_this$_deps$callingSe7 = (_this$_deps$callingSe8 = _this._deps.callingSettingsOptions) === null || _this$_deps$callingSe8 === void 0 ? void 0 : _this$_deps$callingSe8.showCustomPhoneLabel) !== null && _this$_deps$callingSe7 !== void 0 ? _this$_deps$callingSe7 : false;
     return _this;
   }
   _createClass(CallingSettings, [{
@@ -501,9 +504,17 @@ var CallingSettings = (_dec = (0, _di.Module)({
     value: function _getLocationLabel(phoneNumber) {
       var devices = this._deps.extensionDevice.devices;
       var flipNumbers = this._deps.forwardingNumber.flipNumbers;
-      var mainCompanyNumber = this._deps.extensionPhoneNumber.mainCompanyNumber;
+      var _this$_deps$extension = this._deps.extensionPhoneNumber,
+        mainCompanyNumber = _this$_deps$extension.mainCompanyNumber,
+        numbers = _this$_deps$extension.numbers;
       var extensionNumber = this._deps.extensionInfo.extensionNumber;
       var name = null;
+      if (this._showCustomPhoneLabel && numbers.length) {
+        var label = (0, _contactHelper.getExtensionPhoneNumberLabel)(phoneNumber, numbers);
+        if (label) {
+          return label;
+        }
+      }
       if (devices.length) {
         var registeredWithDevice = false;
         devices.forEach(function (device) {
@@ -661,9 +672,9 @@ var CallingSettings = (_dec = (0, _di.Module)({
   }, {
     key: "myPhoneNumbers",
     get: function get() {
-      var _this$_deps$extension = this._deps.extensionPhoneNumber,
-        directNumbers = _this$_deps$extension.directNumbers,
-        mainCompanyNumber = _this$_deps$extension.mainCompanyNumber;
+      var _this$_deps$extension2 = this._deps.extensionPhoneNumber,
+        directNumbers = _this$_deps$extension2.directNumbers,
+        mainCompanyNumber = _this$_deps$extension2.mainCompanyNumber;
       var extensionNumber = this._deps.extensionInfo.extensionNumber;
       var myPhoneNumbers = directNumbers.map(function (item) {
         return item.phoneNumber;
@@ -677,9 +688,9 @@ var CallingSettings = (_dec = (0, _di.Module)({
     key: "otherPhoneNumbers",
     get: function get() {
       var flipNumbers = this._deps.forwardingNumber.flipNumbers;
-      var _this$_deps$extension2 = this._deps.extensionPhoneNumber,
-        callerIdNumbers = _this$_deps$extension2.callerIdNumbers,
-        directNumbers = _this$_deps$extension2.directNumbers;
+      var _this$_deps$extension3 = this._deps.extensionPhoneNumber,
+        callerIdNumbers = _this$_deps$extension3.callerIdNumbers,
+        directNumbers = _this$_deps$extension3.directNumbers;
       var filterMapping = {};
       callerIdNumbers.forEach(function (item) {
         filterMapping[item.phoneNumber] = true;
@@ -792,8 +803,8 @@ var CallingSettings = (_dec = (0, _di.Module)({
   }, {
     key: "isBlockedIdDisabled",
     get: function get() {
-      var _this$_deps$extension3, _this$_deps$extension4;
-      return ((_this$_deps$extension3 = this._deps.extensionFeatures.features) === null || _this$_deps$extension3 === void 0 ? void 0 : (_this$_deps$extension4 = _this$_deps$extension3.BlockingCallerId) === null || _this$_deps$extension4 === void 0 ? void 0 : _this$_deps$extension4.available) === false;
+      var _this$_deps$extension4, _this$_deps$extension5;
+      return ((_this$_deps$extension4 = this._deps.extensionFeatures.features) === null || _this$_deps$extension4 === void 0 ? void 0 : (_this$_deps$extension5 = _this$_deps$extension4.BlockingCallerId) === null || _this$_deps$extension5 === void 0 ? void 0 : _this$_deps$extension5.available) === false;
     }
   }]);
   return CallingSettings;

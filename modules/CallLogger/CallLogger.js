@@ -83,7 +83,6 @@ var CallLogger = (_dec = (0, _di.Module)({
       storageKey: 'CallLogger'
     });
     _this._customMatcherHooks = [];
-    // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
     _this._identityFunction = _callLoggerHelper.callIdentityFunction;
     _this._logFunction = _this._deps.callLoggerOptions.logFunction;
     _this._readyCheckFunction = _this._deps.callLoggerOptions.readyCheckFunction;

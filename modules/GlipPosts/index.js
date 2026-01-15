@@ -15,11 +15,12 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 require("regenerator-runtime/runtime");
 var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
+var _subscriptionFilters = require("../../enums/subscriptionFilters");
 var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 var _di = require("../../lib/di");
 var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
 var _isBlank = require("../../lib/isBlank");
-var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
+var _proxify = require("../../lib/proxy/proxify");
 var _actionTypes = require("./actionTypes");
 var _getReducer = _interopRequireWildcard(require("./getReducer"));
 var _status = require("./status");
@@ -49,7 +50,6 @@ function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? O
 function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
 var glipPostsRegExp = /glip\/posts$/;
 var glipGroupRegExp = /glip\/groups$/;
-var subscriptionFilter = '/restapi/v1.0/glip/posts';
 var DEFAULT_LOAD_TTL = 30 * 60 * 1000;
 var GlipPosts = (_dec = (0, _di.Module)({
   deps: ['Client', 'Auth', 'Subscription', 'Storage', 'ExtensionFeatures', {
@@ -77,7 +77,6 @@ var GlipPosts = (_dec = (0, _di.Module)({
     _this._client = void 0;
     _this._extensionFeatures = void 0;
     _this._fetchPromises = void 0;
-    _this._lastMessage = void 0;
     _this._loadTtl = void 0;
     _this._newPostListeners = void 0;
     _this._readTimeStorageKey = void 0;
@@ -93,7 +92,6 @@ var GlipPosts = (_dec = (0, _di.Module)({
     // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
     _this._subscription = _ensureExist["default"].call(_assertThisInitialized(_this), subscription, 'subscription');
     _this._fetchPromises = {};
-    _this._lastMessage = null;
     _this._loadTtl = loadTtl;
     _this._storage = storage;
     _this._readTimeStorageKey = 'glipPostReadTime';
@@ -110,13 +108,19 @@ var GlipPosts = (_dec = (0, _di.Module)({
       if (typeof listen === 'function') {
         this._newPostListeners.push(listen);
       }
-    } // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
+    }
   }, {
     key: "initialize",
     value: function initialize() {
       var _this2 = this;
       this.store.subscribe(function () {
         return _this2._onStateChange();
+      });
+      this._subscription.register(this, {
+        filters: [_subscriptionFilters.subscriptionFilters.glipPosts],
+        handler: function handler(message) {
+          return _this2._handleSubscription(message);
+        }
       });
     } // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   }, {
@@ -128,7 +132,7 @@ var GlipPosts = (_dec = (0, _di.Module)({
             switch (_context.prev = _context.next) {
               case 0:
                 if (!this._shouldInit()) {
-                  _context.next = 8;
+                  _context.next = 7;
                   break;
                 }
                 this.store.dispatch({
@@ -143,19 +147,16 @@ var GlipPosts = (_dec = (0, _di.Module)({
                 this.store.dispatch({
                   type: this.actionTypes.initSuccess
                 });
-                this._subscription.subscribe([subscriptionFilter]);
-                _context.next = 9;
+                _context.next = 8;
                 break;
-              case 8:
+              case 7:
                 if (this._shouldReset()) {
                   this.store.dispatch({
                     type: this.actionTypes.resetSuccess
                   });
                   this._fetchPromises = {};
-                } else if (this._shouldHandleSubscriptionMessage()) {
-                  this._processSubscription();
                 }
-              case 9:
+              case 8:
               case "end":
                 return _context.stop();
             }
@@ -178,15 +179,8 @@ var GlipPosts = (_dec = (0, _di.Module)({
       return (!this._auth.loggedIn || !this._extensionFeatures.ready || !this._subscription.ready) && this.ready;
     }
   }, {
-    key: "_shouldHandleSubscriptionMessage",
-    value: function _shouldHandleSubscriptionMessage() {
-      return !!(this.ready && this._subscription && this._subscription.ready && this._subscription.message && this._subscription.message !== this._lastMessage);
-    }
-  }, {
-    key: "_processSubscription",
-    value: function _processSubscription() {
-      var message = this._subscription.message;
-      this._lastMessage = message;
+    key: "_handleSubscription",
+    value: function _handleSubscription(message) {
       if (message && (glipPostsRegExp.test(message.event) || glipGroupRegExp.test(message.event)) && message.body) {
         var _message$body = message.body,
           eventType = _message$body.eventType,
@@ -557,6 +551,6 @@ var GlipPosts = (_dec = (0, _di.Module)({
     }
   }]);
   return GlipPosts;
-}(_RcModule2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "loadPosts", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "loadPosts"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fetchPosts", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchPosts"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "loadNextPage", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "loadNextPage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "create", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "create"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "sendFile", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "sendFile"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateReadTime", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateReadTime"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updatePostInput", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updatePostInput"), _class2.prototype)), _class2)) || _class);
+}(_RcModule2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "loadPosts", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "loadPosts"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fetchPosts", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchPosts"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "loadNextPage", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "loadNextPage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "create", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "create"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "sendFile", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "sendFile"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateReadTime", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "updateReadTime"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updatePostInput", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "updatePostInput"), _class2.prototype)), _class2)) || _class);
 exports["default"] = GlipPosts;
 //# sourceMappingURL=index.js.map

@@ -45,12 +45,24 @@ function defaultCheckConnectionFn() {
 }
 function _defaultCheckConnectionFn() {
   _defaultCheckConnectionFn = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+    var response;
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            return _context3.abrupt("return", fetch('https://pubsub.pubnub.com/time/0'));
-          case 1:
+            _context3.next = 2;
+            return fetch('https://apps.ringcentral.com/integration/ping', {
+              method: 'HEAD',
+              mode: 'no-cors'
+            });
+          case 2:
+            response = _context3.sent;
+            if (!(response.type !== 'opaque' && response.status !== 200)) {
+              _context3.next = 5;
+              break;
+            }
+            throw new Error('Network check failed');
+          case 5:
           case "end":
             return _context3.stop();
         }
@@ -121,6 +133,9 @@ var ConnectivityMonitor = (_dec = (0, _di.Module)({
       }
       _this._retry();
     };
+    _this._networkOnlineHandler = function () {
+      _this._checkConnection();
+    };
     _this._networkErrorHandler = function () {
       if (!_this.networkLoss) {
         _this.setNetworkLoss();
@@ -184,17 +199,20 @@ var ConnectivityMonitor = (_dec = (0, _di.Module)({
     value: function _bindHandlers() {
       var _this$_unbindHandlers,
         _window,
+        _window2,
         _this2 = this;
       (_this$_unbindHandlers = this._unbindHandlers) === null || _this$_unbindHandlers === void 0 ? void 0 : _this$_unbindHandlers.call(this);
       var client = this._deps.client.service.client();
       client.on(client.events.requestSuccess, this._requestSuccessHandler);
       client.on(client.events.requestError, this._requestErrorHandler);
       (_window = window) === null || _window === void 0 ? void 0 : _window.addEventListener('offline', this._networkErrorHandler);
+      (_window2 = window) === null || _window2 === void 0 ? void 0 : _window2.addEventListener('online', this._networkOnlineHandler);
       this._unbindHandlers = function () {
-        var _window2;
+        var _window3, _window4;
         client.removeListener(client.events.requestSuccess, _this2._requestSuccessHandler);
         client.removeListener(client.events.requestError, _this2._requestErrorHandler);
-        (_window2 = window) === null || _window2 === void 0 ? void 0 : _window2.removeEventListener('offline', _this2._networkErrorHandler);
+        (_window3 = window) === null || _window3 === void 0 ? void 0 : _window3.removeEventListener('offline', _this2._networkErrorHandler);
+        (_window4 = window) === null || _window4 === void 0 ? void 0 : _window4.removeEventListener('online', _this2._networkOnlineHandler);
         _this2._unbindHandlers = null;
       };
     }

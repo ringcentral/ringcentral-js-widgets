@@ -9,7 +9,7 @@ require("core-js/modules/es.object.to-string");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.RCV_WAITING_ROOM_MODE_REVERSE = exports.RCV_WAITING_ROOM_MODE = exports.RCV_WAITING_ROOM_API_KEYS = exports.RCV_PASSWORD_REGEX = exports.RCV_ITEM_NAME = exports.RCV_E2EE_API_KEYS = exports.JBH_LABEL = exports.INVITATION_BOUNDARY_REGEX = exports.DISABLE_E2EE_WHEN_RELATED_OPTION_MATCH = exports.AUTH_USER_TYPE = exports.ASSISTED_USERS_MYSELF = void 0;
+exports.RCV_WAITING_ROOM_MODE_REVERSE = exports.RCV_WAITING_ROOM_MODE = exports.RCV_WAITING_ROOM_API_KEYS = exports.RCV_PASSWORD_REGEX = exports.RCV_ITEM_NAME = exports.RCV_E2EE_API_KEYS = exports.JBH_LABEL = exports.INVITATION_BOUNDARY_REGEX = exports.DISABLE_E2EE_WHEN_RELATED_OPTION_MATCH = exports.AUTH_USER_TYPE = exports.ASSISTED_USERS_MYSELF = exports.ALLOW_MEETING_ACCESS = void 0;
 var _DISABLE_E2EE_WHEN_RE;
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -24,6 +24,12 @@ var AUTH_USER_TYPE = {
   SIGNED_IN_USERS: 'signedInUsers'
 };
 exports.AUTH_USER_TYPE = AUTH_USER_TYPE;
+var ALLOW_MEETING_ACCESS = {
+  SIGNED_IN_CO_WORKERS: 'signedInCoWorkers',
+  SIGNED_IN_USERS: 'signedInUsers',
+  ANYONE_WITH_LINK: 'anyoneWithLink'
+};
+exports.ALLOW_MEETING_ACCESS = ALLOW_MEETING_ACCESS;
 var JBH_LABEL = {
   JOIN_AFTER_HOST: 'onlyJoinAfterHost',
   JOIN_AFTER_ME: 'onlyJoinAfterMe'
@@ -65,7 +71,9 @@ var RCV_ITEM_NAME = {
   isOnlyCoworkersJoin: 'isOnlyCoworkersJoin',
   muteVideo: 'muteVideo',
   muteAudio: 'muteAudio',
-  allowScreenSharing: 'allowScreenSharing'
+  allowScreenSharing: 'allowScreenSharing',
+  allowAnyoneRecord: 'allowAnyoneRecord',
+  allowAnyoneTranscribe: 'allowAnyoneTranscribe'
 };
 
 // eslint-disable-next-line max-len

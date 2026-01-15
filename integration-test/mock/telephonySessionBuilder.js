@@ -11,14 +11,14 @@ require("core-js/modules/es.regexp.to-string");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.DEFAULT_PHONE_NUMBER = void 0;
+exports.DEFAULT_SERVER_NAME = exports.DEFAULT_PHONE_NUMBER = void 0;
 Object.defineProperty(exports, "PartyStatusCode", {
   enumerable: true,
   get: function get() {
     return _Session.PartyStatusCode;
   }
 });
-exports.clearTelephonySessionBuilders = exports.TelephonySessionBuilder = void 0;
+exports.clearTelephonySessionBuilders = exports.TelephonySessionBuilderConfig = exports.TelephonySessionBuilder = void 0;
 exports.createTelephonySession = createTelephonySession;
 exports.telephonySessionBuildersCache = exports.makeWebphoneSessionId = exports.makeVoiceCallToken = exports.makeTelephonySessionId = exports.makePartyId = void 0;
 var _dayjs = _interopRequireDefault(require("dayjs"));
@@ -76,6 +76,16 @@ var DEFAULT_RECORD_STATUS = false;
 var DEFAULT_PHONE_NUMBER = '+16501234567';
 exports.DEFAULT_PHONE_NUMBER = DEFAULT_PHONE_NUMBER;
 var DEFAULT_EXTENSION_ID = _extensionInfo["default"].id.toString();
+var DEFAULT_SERVER_NAME = 'DEFAULT SERVER_NAME';
+
+/**
+ * global config for TelephonySessionBuilder
+ */
+exports.DEFAULT_SERVER_NAME = DEFAULT_SERVER_NAME;
+var TelephonySessionBuilderConfig = {
+  disabledDefaultServerName: false
+};
+exports.TelephonySessionBuilderConfig = TelephonySessionBuilderConfig;
 var telephonySessionBuildersCache = [];
 exports.telephonySessionBuildersCache = telephonySessionBuildersCache;
 var clearTelephonySessionBuilders = function clearTelephonySessionBuilders() {
@@ -238,9 +248,21 @@ var TelephonySessionBuilder = /*#__PURE__*/function () {
       return this;
     }
   }, {
+    key: "setUnmuteCall",
+    value: function setUnmuteCall() {
+      this._muteStatus = false;
+      return this;
+    }
+  }, {
     key: "startRecord",
     value: function startRecord() {
       this._isRecording = true;
+      return this;
+    }
+  }, {
+    key: "stopRecord",
+    value: function stopRecord() {
+      this._isRecording = false;
       return this;
     }
   }, {
@@ -266,9 +288,26 @@ var TelephonySessionBuilder = /*#__PURE__*/function () {
       return this;
     }
   }, {
+    key: "getPeerId",
+    value: function getPeerId() {
+      return this._peerId;
+    }
+  }, {
     key: "setConferenceRole",
     value: function setConferenceRole(role) {
       this._conferenceRole = role;
+      return this;
+    }
+  }, {
+    key: "setToNumberData",
+    value: function setToNumberData(data) {
+      this._toNumberData = data;
+      return this;
+    }
+  }, {
+    key: "setFromNumberData",
+    value: function setFromNumberData(data) {
+      this._fromNumberData = data;
       return this;
     }
   }, {
@@ -301,7 +340,7 @@ var TelephonySessionBuilder = /*#__PURE__*/function () {
     get: function get() {
       return {
         phoneNumber: this._phoneNumber,
-        name: 'Yoda HubSpot',
+        name: TelephonySessionBuilderConfig.disabledDefaultServerName ? '' : DEFAULT_SERVER_NAME,
         extensionId: DEFAULT_EXTENSION_ID
       };
     }
@@ -322,6 +361,7 @@ var TelephonySessionBuilder = /*#__PURE__*/function () {
         subscriptionId: (0, _uuid.v4)(),
         body: _objectSpread(_objectSpread({}, _telephonySessions["default"].body), {}, {
           sequence: sequence++,
+          activeCallId: this._sessionId,
           sessionId: this._sessionId,
           telephonySessionId: this._telephonySessionId,
           serverId: '10.62.25.111.TAM',
@@ -334,6 +374,12 @@ var TelephonySessionBuilder = /*#__PURE__*/function () {
             direction: this._direction,
             to: this._toNumberData || this.numberData,
             from: this._fromNumberData || this.numberData,
+            uiCallInfo: this._queueCall ? {
+              primary: {
+                type: 'QueueName',
+                value: 'Dummy Call Queue'
+              }
+            } : undefined,
             status: {
               code: this._partyStatus,
               reason: this._partyReason,

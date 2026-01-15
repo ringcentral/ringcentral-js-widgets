@@ -28,14 +28,12 @@ exports.DefaultSearchingState = exports.DefaultMinimalSearchLength = exports.Con
 require("regenerator-runtime/runtime");
 var _core = require("@ringcentral-integration/core");
 var _ramda = require("ramda");
-var uuid = _interopRequireWildcard(require("uuid"));
+var _uuid = require("uuid");
 var _debounceThrottle = require("../../lib/debounce-throttle");
 var _di = require("../../lib/di");
 var _proxify = require("../../lib/proxy/proxify");
 var _contactSearchStatus = require("./contactSearchStatus");
 var _dec, _dec2, _dec3, _class, _class2, _descriptor, _descriptor2, _descriptor3;
-function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
-function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) { if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } } return n["default"] = e, t && t.set(e, n), n; }
 function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
@@ -364,7 +362,7 @@ var ContactSearch = (_dec = (0, _di.Module)({
             switch (_context4.prev = _context4.next) {
               case 0:
                 searchOnSources = _ref9.searchOnSources, sourceName = _ref9.sourceName, searchString = _ref9.searchString;
-                searchId = uuid.v4();
+                searchId = (0, _uuid.v4)();
                 this._searchIds[sourceName] = searchId;
                 this.setSearchStatus(_contactSearchStatus.contactSearchStatus.searching);
                 _context4.prev = 4;

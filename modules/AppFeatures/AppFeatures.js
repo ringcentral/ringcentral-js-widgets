@@ -157,6 +157,12 @@ var AppFeaturesBase = (_dec = (0, _di.Module)({
       return !!(((_this$_deps$extension13 = this._deps.extensionFeatures.features) === null || _this$_deps$extension13 === void 0 ? void 0 : (_this$_deps$extension14 = _this$_deps$extension13.SMSSending) === null || _this$_deps$extension14 === void 0 ? void 0 : _this$_deps$extension14.available) && this.config.SMS);
     }
   }, {
+    key: "hasSendMMSPermission",
+    get: function get() {
+      var _this$_deps$extension15, _this$_deps$extension16;
+      return !!(((_this$_deps$extension15 = this._deps.extensionFeatures.features) === null || _this$_deps$extension15 === void 0 ? void 0 : (_this$_deps$extension16 = _this$_deps$extension15.MMSSending) === null || _this$_deps$extension16 === void 0 ? void 0 : _this$_deps$extension16.available) && this.config.SMS);
+    }
+  }, {
     key: "hasOutboundSMSPermission",
     get: function get() {
       return this.hasSendSMSPermission;
@@ -164,8 +170,8 @@ var AppFeaturesBase = (_dec = (0, _di.Module)({
   }, {
     key: "hasSendPagesPermission",
     get: function get() {
-      var _this$_deps$extension15, _this$_deps$extension16;
-      return !!(((_this$_deps$extension15 = this._deps.extensionFeatures.features) === null || _this$_deps$extension15 === void 0 ? void 0 : (_this$_deps$extension16 = _this$_deps$extension15.PagesSending) === null || _this$_deps$extension16 === void 0 ? void 0 : _this$_deps$extension16.available) && this.config.Pages);
+      var _this$_deps$extension17, _this$_deps$extension18;
+      return !!(((_this$_deps$extension17 = this._deps.extensionFeatures.features) === null || _this$_deps$extension17 === void 0 ? void 0 : (_this$_deps$extension18 = _this$_deps$extension17.PagesSending) === null || _this$_deps$extension18 === void 0 ? void 0 : _this$_deps$extension18.available) && this.config.Pages);
     }
   }, {
     key: "hasInternalSMSPermission",
@@ -180,26 +186,26 @@ var AppFeaturesBase = (_dec = (0, _di.Module)({
   }, {
     key: "hasMeetingsPermission",
     get: function get() {
-      var _this$_deps$extension17, _this$_deps$extension18;
-      return !!(((_this$_deps$extension17 = this._deps.extensionFeatures.features) === null || _this$_deps$extension17 === void 0 ? void 0 : (_this$_deps$extension18 = _this$_deps$extension17.Meetings) === null || _this$_deps$extension18 === void 0 ? void 0 : _this$_deps$extension18.available) && this.config.Meetings);
+      var _this$_deps$extension19, _this$_deps$extension20;
+      return !!(((_this$_deps$extension19 = this._deps.extensionFeatures.features) === null || _this$_deps$extension19 === void 0 ? void 0 : (_this$_deps$extension20 = _this$_deps$extension19.Meetings) === null || _this$_deps$extension20 === void 0 ? void 0 : _this$_deps$extension20.available) && this.config.Meetings);
     }
   }, {
     key: "hasRoomConnectorBeta",
     get: function get() {
-      var _this$_deps$extension19, _this$_deps$extension20;
-      return !!((_this$_deps$extension19 = this._deps.extensionFeatures.features) === null || _this$_deps$extension19 === void 0 ? void 0 : (_this$_deps$extension20 = _this$_deps$extension19.RoomConnectorBeta) === null || _this$_deps$extension20 === void 0 ? void 0 : _this$_deps$extension20.available);
+      var _this$_deps$extension21, _this$_deps$extension22;
+      return !!((_this$_deps$extension21 = this._deps.extensionFeatures.features) === null || _this$_deps$extension21 === void 0 ? void 0 : (_this$_deps$extension22 = _this$_deps$extension21.RoomConnectorBeta) === null || _this$_deps$extension22 === void 0 ? void 0 : _this$_deps$extension22.available);
     }
   }, {
     key: "hasVideoE2EE",
     get: function get() {
-      var _this$_deps$extension21, _this$_deps$extension22;
-      return !!((_this$_deps$extension21 = this._deps.extensionFeatures.features) === null || _this$_deps$extension21 === void 0 ? void 0 : (_this$_deps$extension22 = _this$_deps$extension21.MeetingsEncryption) === null || _this$_deps$extension22 === void 0 ? void 0 : _this$_deps$extension22.available);
+      var _this$_deps$extension23, _this$_deps$extension24;
+      return !!((_this$_deps$extension23 = this._deps.extensionFeatures.features) === null || _this$_deps$extension23 === void 0 ? void 0 : (_this$_deps$extension24 = _this$_deps$extension23.MeetingsEncryption) === null || _this$_deps$extension24 === void 0 ? void 0 : _this$_deps$extension24.available);
     }
   }, {
     key: "readExtensionCallLogAvailable",
     get: function get() {
-      var _this$_deps$extension23, _this$_deps$extension24;
-      return (_this$_deps$extension23 = this._deps.extensionFeatures.features) === null || _this$_deps$extension23 === void 0 ? void 0 : (_this$_deps$extension24 = _this$_deps$extension23.ReadExtensionCallLog) === null || _this$_deps$extension24 === void 0 ? void 0 : _this$_deps$extension24.available;
+      var _this$_deps$extension25, _this$_deps$extension26;
+      return (_this$_deps$extension25 = this._deps.extensionFeatures.features) === null || _this$_deps$extension25 === void 0 ? void 0 : (_this$_deps$extension26 = _this$_deps$extension25.ReadExtensionCallLog) === null || _this$_deps$extension26 === void 0 ? void 0 : _this$_deps$extension26.available;
     }
   }, {
     key: "hasReadExtensionCallLog",
@@ -214,8 +220,8 @@ var AppFeaturesBase = (_dec = (0, _di.Module)({
   }, {
     key: "hasGlipPermission",
     get: function get() {
-      var _this$_deps$extension25, _this$_deps$extension26;
-      return !!(((_this$_deps$extension25 = this._deps.extensionFeatures.features) === null || _this$_deps$extension25 === void 0 ? void 0 : (_this$_deps$extension26 = _this$_deps$extension25.Glip) === null || _this$_deps$extension26 === void 0 ? void 0 : _this$_deps$extension26.available) && this.config.Glip);
+      var _this$_deps$extension27, _this$_deps$extension28;
+      return !!(((_this$_deps$extension27 = this._deps.extensionFeatures.features) === null || _this$_deps$extension27 === void 0 ? void 0 : (_this$_deps$extension28 = _this$_deps$extension27.Glip) === null || _this$_deps$extension28 === void 0 ? void 0 : _this$_deps$extension28.available) && this.config.Glip);
     }
   }, {
     key: "hasCallControl",
@@ -236,23 +242,23 @@ var AppFeaturesBase = (_dec = (0, _di.Module)({
   }, {
     key: "isOCPEnabled",
     get: function get() {
-      var _this$_deps$extension27, _this$_deps$extension28;
-      return (_this$_deps$extension27 = this._deps.extensionFeatures.features) === null || _this$_deps$extension27 === void 0 ? void 0 : (_this$_deps$extension28 = _this$_deps$extension27.OutboundCallPrefix) === null || _this$_deps$extension28 === void 0 ? void 0 : _this$_deps$extension28.available;
+      var _this$_deps$extension29, _this$_deps$extension30;
+      return (_this$_deps$extension29 = this._deps.extensionFeatures.features) === null || _this$_deps$extension29 === void 0 ? void 0 : (_this$_deps$extension30 = _this$_deps$extension29.OutboundCallPrefix) === null || _this$_deps$extension30 === void 0 ? void 0 : _this$_deps$extension30.available;
     }
   }, {
     key: "OCPValue",
     get: function get() {
       if (this.isOCPEnabled) {
-        var _this$_deps$extension29, _this$_deps$extension30, _this$_deps$extension31, _this$_deps$extension32;
-        return (_this$_deps$extension29 = this._deps.extensionFeatures.features) === null || _this$_deps$extension29 === void 0 ? void 0 : (_this$_deps$extension30 = _this$_deps$extension29.OutboundCallPrefix) === null || _this$_deps$extension30 === void 0 ? void 0 : (_this$_deps$extension31 = _this$_deps$extension30.params) === null || _this$_deps$extension31 === void 0 ? void 0 : (_this$_deps$extension32 = _this$_deps$extension31[0]) === null || _this$_deps$extension32 === void 0 ? void 0 : _this$_deps$extension32.value;
+        var _this$_deps$extension31, _this$_deps$extension32, _this$_deps$extension33, _this$_deps$extension34;
+        return (_this$_deps$extension31 = this._deps.extensionFeatures.features) === null || _this$_deps$extension31 === void 0 ? void 0 : (_this$_deps$extension32 = _this$_deps$extension31.OutboundCallPrefix) === null || _this$_deps$extension32 === void 0 ? void 0 : (_this$_deps$extension33 = _this$_deps$extension32.params) === null || _this$_deps$extension33 === void 0 ? void 0 : (_this$_deps$extension34 = _this$_deps$extension33[0]) === null || _this$_deps$extension34 === void 0 ? void 0 : _this$_deps$extension34.value;
       }
       return null;
     }
   }, {
     key: "enableSmartDialPlan",
     get: function get() {
-      var _this$_deps$extension33, _this$_deps$extension34;
-      return ((_this$_deps$extension33 = this._deps.extensionFeatures.features) === null || _this$_deps$extension33 === void 0 ? void 0 : (_this$_deps$extension34 = _this$_deps$extension33.SmartDialPlanRouting) === null || _this$_deps$extension34 === void 0 ? void 0 : _this$_deps$extension34.available) && this.isEDPEnabled;
+      var _this$_deps$extension35, _this$_deps$extension36;
+      return ((_this$_deps$extension35 = this._deps.extensionFeatures.features) === null || _this$_deps$extension35 === void 0 ? void 0 : (_this$_deps$extension36 = _this$_deps$extension35.SmartDialPlanRouting) === null || _this$_deps$extension36 === void 0 ? void 0 : _this$_deps$extension36.available) && this.isEDPEnabled;
     }
   }, {
     key: "isEDPEnabled",

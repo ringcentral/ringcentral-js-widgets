@@ -100,6 +100,9 @@ var CallLog = (_dec = (0, _di.Module)({
     _this._timeoutId = null;
     _this._handleSyncApiError = null;
     _initializerDefineProperty(_this, "data", _descriptor, _assertThisInitialized(_this));
+    _this._deps.subscription.register(_assertThisInitialized(_this), {
+      filters: [_subscriptionFilters.subscriptionFilters.detailedPresence]
+    });
     return _this;
   }
   _createClass(CallLog, [{
@@ -263,14 +266,13 @@ var CallLog = (_dec = (0, _di.Module)({
         return _this4._deps.subscription.message;
       }, /*#__PURE__*/function () {
         var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(message) {
+          var _message$body;
           var ownerId;
           return regeneratorRuntime.wrap(function _callee3$(_context3) {
             while (1) {
               switch (_context3.prev = _context3.next) {
                 case 0:
-                  if (!(_this4.ready && _this4._deps.subscription.ready &&
-                  // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
-                  presenceRegExp.test(message.event) && message.body && message.body.activeCalls && (0, _callLogHelpers.hasEndedCalls)(message.body.activeCalls))) {
+                  if (!(_this4.ready && _this4._deps.appFeatures.hasReadExtensionCallLog && (message === null || message === void 0 ? void 0 : message.event) && presenceRegExp.test(message.event) && ((_message$body = message.body) === null || _message$body === void 0 ? void 0 : _message$body.activeCalls) && (0, _callLogHelpers.hasEndedCalls)(message.body.activeCalls))) {
                     _context3.next = 5;
                     break;
                   }
@@ -301,50 +303,39 @@ var CallLog = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                this.subscribe();
                 if (!((!this._deps.tabManager || this._deps.tabManager.active) && (!this.timestamp || Date.now() - this.timestamp > this.refreshLock))) {
-                  _context4.next = 12;
+                  _context4.next = 11;
                   break;
                 }
-                _context4.prev = 2;
-                _context4.next = 5;
+                _context4.prev = 1;
+                _context4.next = 4;
                 return this.sync();
-              case 5:
-                _context4.next = 10;
+              case 4:
+                _context4.next = 9;
                 break;
-              case 7:
-                _context4.prev = 7;
-                _context4.t0 = _context4["catch"](2);
+              case 6:
+                _context4.prev = 6;
+                _context4.t0 = _context4["catch"](1);
                 console.log(_context4.t0);
-              case 10:
-                _context4.next = 13;
+              case 9:
+                _context4.next = 12;
                 break;
-              case 12:
+              case 11:
                 if (this._polling) {
                   this._startPolling();
                 }
-              case 13:
+              case 12:
               case "end":
                 return _context4.stop();
             }
           }
-        }, _callee4, this, [[2, 7]]);
+        }, _callee4, this, [[1, 6]]);
       }));
       function _init() {
         return _init2.apply(this, arguments);
       }
       return _init;
     }()
-    /**
-     * For a temporal solution for sub module to do subscribe message manually
-     */
-  }, {
-    key: "subscribe",
-    value: function subscribe() {
-      if (this._deps.subscription) {
-        this._deps.subscription.subscribe([_subscriptionFilters.subscriptionFilters.detailedPresence]);
-      }
-    }
   }, {
     key: "_fetch",
     value: function () {

@@ -48,8 +48,11 @@ var callResults = _ObjectMap.ObjectMap.fromObject({
   wrongNumber: 'Wrong Number',
   faxReceipt: 'Fax Receipt',
   suspendedAccount: 'Suspended Account',
+  connected: 'Connected',
   disconnected: 'Disconnected',
-  notAllowed: 'Not Allowed'
+  notAllowed: 'Not Allowed',
+  answeredElsewhere: 'Answered Elsewhere',
+  ringingElsewhere: 'Ringing Elsewhere'
 });
 exports.callResults = callResults;
 var _default = callResults;

@@ -179,6 +179,7 @@ exports.videoPersonalSettings = videoPersonalSettings;
 exports.videoPreference = videoPreference;
 exports.wstoken = wstoken;
 require("regenerator-runtime/runtime");
+var _core = require("@ringcentral-integration/core");
 var _socketMockUrl = require("@ringcentral-integration/test-utils/lib/socketMockUrl");
 var _sdk = require("@ringcentral/sdk");
 var _fetchMock = _interopRequireDefault(require("fetch-mock"));
@@ -292,7 +293,7 @@ function createSDK() {
     cachePrefix: 'sdkPrefix',
     clearCacheOnRefreshError: false
   }, options);
-  return new _sdk.SDK(opts);
+  return new _sdk.SDK((0, _core.removeSDKNonISO8859Chars)(opts));
 }
 
 // give you access to the parameters last passed in to fetch
@@ -449,7 +450,7 @@ function authentication() {
       expires_in: 3600,
       refresh_token: 'REFRESH_TOKEN',
       refresh_token_expires_in: 60480,
-      scope: 'SMS RCM Foo Boo CallControl TelephonySessions',
+      scope: 'EditAccounts ReadMessages Faxes ReadPresence EditCallLog Meetings VoipCalling ReadClientInfo Interoperability VideoInternal WebSocket SubscriptionPubNub SubscriptionWebSocket Contacts SubscriptionGCM EditExtensions TelephonySessions ProblemReportsManagement RingOut SMS InternalMessages EditMessages EditPresence SendUsageInfo',
       expireTime: new Date().getTime() + 3600000,
       owner_id: '23231231"',
       endpoint_id: '3213213131'

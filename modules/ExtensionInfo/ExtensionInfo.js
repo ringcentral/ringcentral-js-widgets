@@ -64,7 +64,7 @@ var ExtensionInfo = (_dec = (0, _di.Module)({
   _inherits(ExtensionInfo, _DataFetcherV2Consume);
   var _super = _createSuper(ExtensionInfo);
   function ExtensionInfo(deps) {
-    var _this$_deps$extension;
+    var _this$_deps$extension, _this$_deps$subscript;
     var _this;
     _classCallCheck(this, ExtensionInfo);
     _this = _super.call(this, {
@@ -126,15 +126,16 @@ var ExtensionInfo = (_dec = (0, _di.Module)({
       }
     }));
     _this._deps.dataFetcherV2.register(_this._source);
+    (_this$_deps$subscript = _this._deps.subscription) === null || _this$_deps$subscript === void 0 ? void 0 : _this$_deps$subscript.register(_assertThisInitialized(_this), {
+      filters: [_subscriptionFilters.subscriptionFilters.extensionInfo]
+    });
     return _this;
   }
   _createClass(ExtensionInfo, [{
     key: "_handleSubscription",
     value: function _handleSubscription(message) {
       var _this$_deps$tabManage, _this$_deps$tabManage2, _message$body, _message$body$hints, _message$body2, _message$body2$hints, _message$body3, _message$body3$hints, _message$body4, _message$body4$hints, _message$body5, _message$body5$hints;
-      if (this.ready && (this._source.disableCache || ((_this$_deps$tabManage = (_this$_deps$tabManage2 = this._deps.tabManager) === null || _this$_deps$tabManage2 === void 0 ? void 0 : _this$_deps$tabManage2.active) !== null && _this$_deps$tabManage !== void 0 ? _this$_deps$tabManage : true)) &&
-      // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
-      extensionRegExp.test(message === null || message === void 0 ? void 0 : message.event) && !(((_message$body = message.body) === null || _message$body === void 0 ? void 0 : (_message$body$hints = _message$body.hints) === null || _message$body$hints === void 0 ? void 0 : _message$body$hints.includes(_subscriptionHints.subscriptionHints.companyNumbers)) || ((_message$body2 = message.body) === null || _message$body2 === void 0 ? void 0 : (_message$body2$hints = _message$body2.hints) === null || _message$body2$hints === void 0 ? void 0 : _message$body2$hints.includes(_subscriptionHints.subscriptionHints.limits)) || ((_message$body3 = message.body) === null || _message$body3 === void 0 ? void 0 : (_message$body3$hints = _message$body3.hints) === null || _message$body3$hints === void 0 ? void 0 : _message$body3$hints.includes(_subscriptionHints.subscriptionHints.features)) || ((_message$body4 = message.body) === null || _message$body4 === void 0 ? void 0 : (_message$body4$hints = _message$body4.hints) === null || _message$body4$hints === void 0 ? void 0 : _message$body4$hints.includes(_subscriptionHints.subscriptionHints.permissions)) || ((_message$body5 = message.body) === null || _message$body5 === void 0 ? void 0 : (_message$body5$hints = _message$body5.hints) === null || _message$body5$hints === void 0 ? void 0 : _message$body5$hints.includes(_subscriptionHints.subscriptionHints.videoConfiguration)))) {
+      if (this.ready && (this._source.disableCache || ((_this$_deps$tabManage = (_this$_deps$tabManage2 = this._deps.tabManager) === null || _this$_deps$tabManage2 === void 0 ? void 0 : _this$_deps$tabManage2.active) !== null && _this$_deps$tabManage !== void 0 ? _this$_deps$tabManage : true)) && (message === null || message === void 0 ? void 0 : message.event) && extensionRegExp.test(message.event) && !(((_message$body = message.body) === null || _message$body === void 0 ? void 0 : (_message$body$hints = _message$body.hints) === null || _message$body$hints === void 0 ? void 0 : _message$body$hints.includes(_subscriptionHints.subscriptionHints.companyNumbers)) || ((_message$body2 = message.body) === null || _message$body2 === void 0 ? void 0 : (_message$body2$hints = _message$body2.hints) === null || _message$body2$hints === void 0 ? void 0 : _message$body2$hints.includes(_subscriptionHints.subscriptionHints.limits)) || ((_message$body3 = message.body) === null || _message$body3 === void 0 ? void 0 : (_message$body3$hints = _message$body3.hints) === null || _message$body3$hints === void 0 ? void 0 : _message$body3$hints.includes(_subscriptionHints.subscriptionHints.features)) || ((_message$body4 = message.body) === null || _message$body4 === void 0 ? void 0 : (_message$body4$hints = _message$body4.hints) === null || _message$body4$hints === void 0 ? void 0 : _message$body4$hints.includes(_subscriptionHints.subscriptionHints.permissions)) || ((_message$body5 = message.body) === null || _message$body5 === void 0 ? void 0 : (_message$body5$hints = _message$body5.hints) === null || _message$body5$hints === void 0 ? void 0 : _message$body5$hints.includes(_subscriptionHints.subscriptionHints.videoConfiguration)))) {
         this.fetchData();
       }
     }
@@ -143,7 +144,6 @@ var ExtensionInfo = (_dec = (0, _di.Module)({
     value: function onInit() {
       var _this2 = this;
       if (this._deps.subscription) {
-        this._deps.subscription.subscribe([_subscriptionFilters.subscriptionFilters.extensionInfo]);
         this._stopWatching = (0, _core.watch)(this, function () {
           return _this2._deps.subscription.message;
         }, function (message) {

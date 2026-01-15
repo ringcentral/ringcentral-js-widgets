@@ -61,7 +61,7 @@ var ExtensionFeatures = (_dec = (0, _di.Module)({
   _inherits(ExtensionFeatures, _DataFetcherV2Consume);
   var _super = _createSuper(ExtensionFeatures);
   function ExtensionFeatures(deps) {
-    var _deps$extensionFeatur, _deps$extensionFeatur2;
+    var _deps$extensionFeatur, _deps$extensionFeatur2, _this$_deps$subscript;
     var _this;
     _classCallCheck(this, ExtensionFeatures);
     _this = _super.call(this, {
@@ -127,6 +127,9 @@ var ExtensionFeatures = (_dec = (0, _di.Module)({
       }
     }));
     _this._deps.dataFetcherV2.register(_this._source);
+    (_this$_deps$subscript = _this._deps.subscription) === null || _this$_deps$subscript === void 0 ? void 0 : _this$_deps$subscript.register(_assertThisInitialized(_this), {
+      filters: [_subscriptionFilters.subscriptionFilters.extensionInfo]
+    });
     return _this;
   }
   _createClass(ExtensionFeatures, [{
@@ -178,7 +181,6 @@ var ExtensionFeatures = (_dec = (0, _di.Module)({
     value: function onInit() {
       var _this3 = this;
       if (this._deps.subscription) {
-        this._deps.subscription.subscribe([_subscriptionFilters.subscriptionFilters.extensionInfo]);
         this._stopWatchingSubscription = (0, _core.watch)(this, function () {
           return _this3._deps.subscription.message;
         }, this._handleSubscription);

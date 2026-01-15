@@ -19,13 +19,11 @@ Object.defineProperty(exports, "__esModule", {
 exports.Alert = void 0;
 require("regenerator-runtime/runtime");
 var _core = require("@ringcentral-integration/core");
-var uuid = _interopRequireWildcard(require("uuid"));
+var _uuid = require("uuid");
 var _di = require("../../lib/di");
 var _proxify = require("../../lib/proxy/proxify");
 var _alertLevels = require("./alertLevels");
 var _dec, _class, _class2, _descriptor;
-function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
-function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) { if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } } return n["default"] = e, t && t.set(e, n), n; }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) { o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } } return i; }
@@ -127,7 +125,7 @@ var Alert = (_dec = (0, _di.Module)({
             switch (_context.prev = _context.next) {
               case 0:
                 message = _ref4.message, payload = _ref4.payload, _ref4$level = _ref4.level, level = _ref4$level === void 0 ? _alertLevels.alertLevels.info : _ref4$level, _ref4$ttl = _ref4.ttl, ttl = _ref4$ttl === void 0 ? this._deps.alertOptions.ttl : _ref4$ttl, _ref4$allowDuplicates = _ref4.allowDuplicates, allowDuplicates = _ref4$allowDuplicates === void 0 ? true : _ref4$allowDuplicates, _ref4$loading = _ref4.loading, loading = _ref4$loading === void 0 ? false : _ref4$loading, _ref4$backdrop = _ref4.backdrop, backdrop = _ref4$backdrop === void 0 ? false : _ref4$backdrop, classes = _ref4.classes, onBackdropClick = _ref4.onBackdropClick, _ref4$action = _ref4.action, action = _ref4$action === void 0 ? (_this$_deps$alertOpti2 = this._deps.alertOptions) === null || _this$_deps$alertOpti2 === void 0 ? void 0 : _this$_deps$alertOpti2.action : _ref4$action;
-                id = uuid.v4();
+                id = (0, _uuid.v4)();
                 this._alert({
                   message: message,
                   payload: payload,

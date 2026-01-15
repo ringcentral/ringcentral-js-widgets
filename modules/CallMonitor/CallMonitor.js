@@ -594,9 +594,7 @@ var CallMonitor = (_dec = (0, _di.Module)({
       // @ts-expect-error TS(2769): No overload matches this call.
       return (0, _ramda.filter)(function (callItem) {
         if (_this8.useTelephonySession) {
-          return callItem.webphoneSession && callItem.telephonySession &&
-          // @ts-expect-error TS(2345): Argument of type '{ status: string; id: string; di... Remove this comment to see the full error message
-          (0, _ActiveCallControl.isRinging)(callItem.telephonySession);
+          return callItem.webphoneSession && callItem.telephonySession && (0, _ActiveCallControl.isRinging)(callItem.telephonySession);
         }
         return callItem.webphoneSession && (0, _webphoneHelper.isRing)(callItem.webphoneSession);
       }, this.calls);
@@ -608,9 +606,7 @@ var CallMonitor = (_dec = (0, _di.Module)({
         return (0, _ramda.filter)(function (callItem) {
           return (
             // @ts-expect-error TS(2769): No overload matches this call.
-            callItem.webphoneSession && callItem.telephonySession &&
-            // @ts-expect-error TS(2345): Argument of type '{ status: string; id: string; di... Remove this comment to see the full error message
-            (0, _ActiveCallControl.isHolding)(callItem.telephonySession)
+            callItem.webphoneSession && callItem.telephonySession && (0, _ActiveCallControl.isHolding)(callItem.telephonySession)
           );
         }, this.calls);
       }
@@ -628,11 +624,7 @@ var CallMonitor = (_dec = (0, _di.Module)({
       // @ts-expect-error TS(2769): No overload matches this call.
       return (0, _ramda.filter)(function (callItem) {
         if (_this9.useTelephonySession) {
-          return callItem.webphoneSession && callItem.telephonySession &&
-          // @ts-expect-error TS(2345): Argument of type '{ status: string; id: string; di... Remove this comment to see the full error message
-          !(0, _ActiveCallControl.isRinging)(callItem.telephonySession) &&
-          // @ts-expect-error TS(2345): Argument of type '{ status: string; id: string; di... Remove this comment to see the full error message
-          !(0, _ActiveCallControl.isHolding)(callItem.telephonySession);
+          return callItem.webphoneSession && callItem.telephonySession && !(0, _ActiveCallControl.isRinging)(callItem.telephonySession) && !(0, _ActiveCallControl.isHolding)(callItem.telephonySession);
         }
         return callItem.webphoneSession && !(0, _webphoneHelper.isOnHold)(callItem.webphoneSession) && !(0, _webphoneHelper.isRing)(callItem.webphoneSession);
       }, this.calls);

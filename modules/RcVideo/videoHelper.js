@@ -77,11 +77,11 @@ var RcVideoTypes = {
   call: 1 // instant meeting
 };
 exports.RcVideoTypes = RcVideoTypes;
-var RCV_CREATE_API_KEYS = ['name', 'type', 'startTime', 'expiresIn', 'duration', 'accountId', 'extensionId', 'allowJoinBeforeHost', 'muteAudio', 'muteVideo', 'isMeetingSecret', 'meetingPassword', 'isOnlyAuthUserJoin', 'isOnlyCoworkersJoin', 'allowScreenSharing', _constants.RCV_WAITING_ROOM_API_KEYS, _constants.RCV_E2EE_API_KEYS];
+var RCV_CREATE_API_KEYS = ['name', 'type', 'startTime', 'expiresIn', 'duration', 'accountId', 'extensionId', 'allowJoinBeforeHost', 'muteAudio', 'muteVideo', 'isMeetingSecret', 'meetingPassword', 'isOnlyAuthUserJoin', 'isOnlyCoworkersJoin', 'allowScreenSharing', _constants.RCV_WAITING_ROOM_API_KEYS, _constants.RCV_E2EE_API_KEYS, 'allowAnyoneRecord', 'allowAnyoneTranscribe'];
 var RCV_PREFERENCES_IDS = ['e2ee', 'join_before_host',
 // 'join_video_off',
 // 'join_audio_mute',
-'password_scheduled', 'password_instant', 'guest_join', 'join_authenticated_from_account_only', 'screen_sharing_host_only', 'waiting_room_guests_only', 'waiting_room'];
+'password_scheduled', 'password_instant', 'guest_join', 'join_authenticated_from_account_only', 'screen_sharing_host_only', 'waiting_room_guests_only', 'waiting_room', 'allow_anyone_record_meetings', 'allow_anyone_transcribe_meetings'];
 exports.RCV_PREFERENCES_IDS = RCV_PREFERENCES_IDS;
 var RCV_PREFERENCES_KEYS = ['allowJoinBeforeHost',
 // 'muteVideo',
@@ -236,6 +236,8 @@ function transformPreferences(preferences) {
     isOnlyAuthUserJoin: preferences.guest_join,
     isOnlyCoworkersJoin: preferences.guest_join ? preferences.join_authenticated_from_account_only === 'only_co_workers' : false,
     allowScreenSharing: preferences.screen_sharing_host_only === 'all',
+    allowAnyoneRecord: !!preferences.allow_anyone_record_meetings,
+    allowAnyoneTranscribe: !!preferences.allow_anyone_transcribe_meetings,
     waitingRoomMode: preferences.waiting_room ?
     // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
     _constants.RCV_WAITING_ROOM_MODE[preferences.waiting_room_guests_only] : _constants.RCV_WAITING_ROOM_MODE.off
@@ -258,7 +260,11 @@ function transformSettingLocks(settingLocks) {
     // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
     allowScreenSharing: settingLocks.screen_sharing_host_only,
     // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
-    waitingRoomMode: settingLocks.waiting_room
+    waitingRoomMode: settingLocks.waiting_room,
+    // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
+    allowAnyoneRecord: settingLocks.allow_anyone_record_meetings,
+    // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
+    allowAnyoneTranscribe: settingLocks.allow_anyone_transcribe_meetings
   };
 }
 function reversePreferences(preferences) {
@@ -375,6 +381,7 @@ var formatRcvRequestData = function formatRcvRequestData(params, numbers) {
     numbers: numbers,
     meetingName: "---",
     hostName: params.hostName,
+    personalMeetingName: params.personalMeetingName,
     meetingId: params.shortId,
     isSIPAvailable: params.isSIPAvailable,
     participantCode: params.shortId,

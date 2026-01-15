@@ -218,7 +218,7 @@ var CallHistory = (_dec = (0, _di.Module)({
       }
       if (this._deps.activityMatcher) {
         (0, _core.watch)(this, function () {
-          return _this3.sessionIds;
+          return [_this3.ready, _this3.sessionIds];
         }, function () {
           if (_this3.ready && (!_this3._deps.tabManager || _this3._deps.tabManager.active) &&
           // @ts-expect-error TS(2532): Object is possibly 'undefined'.
@@ -226,6 +226,8 @@ var CallHistory = (_dec = (0, _di.Module)({
             // @ts-expect-error TS(2532): Object is possibly 'undefined'.
             _this3._deps.activityMatcher.triggerMatch();
           }
+        }, {
+          multiple: true
         });
       }
       this._deps.callMonitor && (0, _core.watch)(this, function () {

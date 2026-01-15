@@ -111,6 +111,9 @@ var ExtensionPhoneNumber = (_dec = (0, _di.Module)({
       }
     }));
     _this._deps.dataFetcherV2.register(_this._source);
+    _this._deps.subscription.register(_assertThisInitialized(_this), {
+      filters: [_subscriptionFilters.subscriptionFilters.extensionInfo]
+    });
     return _this;
   }
   _createClass(ExtensionPhoneNumber, [{
@@ -125,7 +128,6 @@ var ExtensionPhoneNumber = (_dec = (0, _di.Module)({
     key: "onInit",
     value: function onInit() {
       var _this2 = this;
-      this._deps.subscription.subscribe([_subscriptionFilters.subscriptionFilters.extensionInfo]);
       this._stopWatching = (0, _core.watch)(this, function () {
         return _this2._deps.subscription.message;
       }, function (newMessage) {

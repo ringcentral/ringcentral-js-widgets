@@ -6,7 +6,6 @@ require("core-js/modules/es.array.filter");
 require("core-js/modules/es.array.find-index");
 require("core-js/modules/es.array.for-each");
 require("core-js/modules/es.array.includes");
-require("core-js/modules/es.array.index-of");
 require("core-js/modules/es.array.iterator");
 require("core-js/modules/es.array.join");
 require("core-js/modules/es.array.map");
@@ -218,16 +217,12 @@ var MessageStore = (_dec = (0, _di.Module)({
       }()
     }));
     _this._deps.dataFetcherV2.register(_this._source);
+    _this._deps.subscription.register(_assertThisInitialized(_this), {
+      filters: [_subscriptionFilters.subscriptionFilters.messageStore, _subscriptionFilters.subscriptionFilters.instantMessage]
+    });
     return _this;
   }
   _createClass(MessageStore, [{
-    key: "onInit",
-    value: function onInit() {
-      if (this._hasPermission) {
-        this._deps.subscription.subscribe([_subscriptionFilters.subscriptionFilters.messageStore, _subscriptionFilters.subscriptionFilters.instantMessage]);
-      }
-    }
-  }, {
     key: "onInitOnce",
     value: function onInitOnce() {
       var _this2 = this;
@@ -250,7 +245,7 @@ var MessageStore = (_dec = (0, _di.Module)({
             while (1) {
               switch (_context2.prev = _context2.next) {
                 case 0:
-                  if (!(!_this2.ready || _this2._deps.tabManager && !_this2._deps.tabManager.active)) {
+                  if (!(!newValue || !_this2.ready || !_this2._hasPermission || _this2._deps.tabManager && !_this2._deps.tabManager.active)) {
                     _context2.next = 2;
                     break;
                   }
@@ -258,7 +253,7 @@ var MessageStore = (_dec = (0, _di.Module)({
                 case 2:
                   messageStoreEvent = /\/message-store$/;
                   instantMessageEvent = /\/message-store\/instant\?type=SMS$/;
-                  if (!(messageStoreEvent.test(newValue === null || newValue === void 0 ? void 0 : newValue.event) && ((_newValue$body = newValue.body) === null || _newValue$body === void 0 ? void 0 : _newValue$body.changes))) {
+                  if (!(messageStoreEvent.test(newValue.event) && ((_newValue$body = newValue.body) === null || _newValue$body === void 0 ? void 0 : _newValue$body.changes))) {
                     _context2.next = 15;
                     break;
                   }
@@ -278,7 +273,7 @@ var MessageStore = (_dec = (0, _di.Module)({
                   _context2.next = 16;
                   break;
                 case 15:
-                  if (instantMessageEvent.test(newValue === null || newValue === void 0 ? void 0 : newValue.event)) {
+                  if (instantMessageEvent.test(newValue.event)) {
                     _this2.pushMessage(messageHelper.normalizeInstantEvent(newValue));
                   }
                 case 16:
@@ -364,17 +359,17 @@ var MessageStore = (_dec = (0, _di.Module)({
           if (isDeleted && message.id === oldConversation.messageId) {
             // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
             var oldMessageList = conversationStore[id] || [];
-            var exsitedMessageList = oldMessageList.filter(function (m) {
+            var existedMessageList = oldMessageList.filter(function (m) {
               return m.id !== message.id;
             });
-            if (exsitedMessageList.length > 0) {
+            if (existedMessageList.length > 0) {
               // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
               newState[stateMap[id].index] = {
                 // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
                 id: id,
-                creationTime: exsitedMessageList[0].creationTime,
-                type: exsitedMessageList[0].type,
-                messageId: exsitedMessageList[0].id
+                creationTime: existedMessageList[0].creationTime,
+                type: existedMessageList[0].type,
+                messageId: existedMessageList[0].id
               };
               return;
             }
@@ -862,42 +857,6 @@ var MessageStore = (_dec = (0, _di.Module)({
       }
       return deleteMessageApi;
     }()
-  }, {
-    key: "sliceConversations",
-    value: function sliceConversations() {
-      var _this3 = this,
-        _this$data$conversati2,
-        _this$data3;
-      var conversationIds = Object.keys(this.conversationStore);
-      var messages = conversationIds.reduce(function (acc, id) {
-        return acc.concat(_this3.conversationStore[id]);
-      }, []);
-      var messageIds = this._messagesFilter(messages).map(function (item) {
-        return item.id;
-      });
-      var conversationList = ((_this$data$conversati2 = (_this$data3 = this.data) === null || _this$data3 === void 0 ? void 0 : _this$data3.conversationList) !== null && _this$data$conversati2 !== void 0 ? _this$data$conversati2 : []).filter(function (_ref12) {
-        var messageId = _ref12.messageId;
-        return messageIds.indexOf(messageId) > -1;
-      });
-      var conversationStore = Object.keys(this.conversationStore).reduce(function (acc, key) {
-        var messages = _this3.conversationStore[key];
-        var persist = messages.filter(function (_ref13) {
-          var id = _ref13.id;
-          return messageIds.indexOf(id) > -1;
-        });
-        if (!persist.length) {
-          return acc;
-        }
-        acc[key] = persist;
-        return acc;
-      }, {});
-      this._deps.dataFetcherV2.updateData(this._source, _objectSpread(_objectSpread({}, this.data), {}, {
-        conversationList: conversationList,
-        conversationStore: conversationStore
-      }),
-      // @ts-expect-error TS(2345): Argument of type 'number | null' is not assignable... Remove this comment to see the full error message
-      this.timestamp);
-    }
     /**
      * Batch update messages status
      */
@@ -997,7 +956,7 @@ var MessageStore = (_dec = (0, _di.Module)({
                 return Promise.all(
                 // @ts-expect-error TS(2532): Object is possibly 'undefined'.
                 responses.map( /*#__PURE__*/function () {
-                  var _ref14 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(res) {
+                  var _ref12 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(res) {
                     var _result;
                     return regeneratorRuntime.wrap(function _callee11$(_context11) {
                       while (1) {
@@ -1020,7 +979,7 @@ var MessageStore = (_dec = (0, _di.Module)({
                     }, _callee11);
                   }));
                   return function (_x12) {
-                    return _ref14.apply(this, arguments);
+                    return _ref12.apply(this, arguments);
                   };
                 }()));
               case 19:
@@ -1265,8 +1224,8 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: "_deleteConversation",
     value: function _deleteConversation(conversationId) {
-      var _this$data$conversati3, _this$data4;
-      var conversationList = ((_this$data$conversati3 = (_this$data4 = this.data) === null || _this$data4 === void 0 ? void 0 : _this$data4.conversationList) !== null && _this$data$conversati3 !== void 0 ? _this$data$conversati3 : []).filter(function (c) {
+      var _this$data$conversati2, _this$data3;
+      var conversationList = ((_this$data$conversati2 = (_this$data3 = this.data) === null || _this$data3 === void 0 ? void 0 : _this$data3.conversationList) !== null && _this$data$conversati2 !== void 0 ? _this$data$conversati2 : []).filter(function (c) {
         return c.id !== conversationId;
       });
       this.onDeleteConversation(conversationId);
@@ -1421,13 +1380,13 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: "onClickToCall",
     value: function () {
-      var _onClickToCall = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee21(_ref15) {
-        var _ref15$fromType, fromType;
+      var _onClickToCall = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee21(_ref13) {
+        var _ref13$fromType, fromType;
         return regeneratorRuntime.wrap(function _callee21$(_context21) {
           while (1) {
             switch (_context21.prev = _context21.next) {
               case 0:
-                _ref15$fromType = _ref15.fromType, fromType = _ref15$fromType === void 0 ? '' : _ref15$fromType;
+                _ref13$fromType = _ref13.fromType, fromType = _ref13$fromType === void 0 ? '' : _ref13$fromType;
                 // for track click to call in message list
                 this.onClickToCallWithRingout();
               case 2:
@@ -1474,14 +1433,14 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: "syncInfo",
     get: function get() {
-      var _this$data5;
-      return (_this$data5 = this.data) === null || _this$data5 === void 0 ? void 0 : _this$data5.syncInfo;
+      var _this$data4;
+      return (_this$data4 = this.data) === null || _this$data4 === void 0 ? void 0 : _this$data4.syncInfo;
     }
   }, {
     key: "conversationStore",
     get: function get() {
-      var _this$data6;
-      return ((_this$data6 = this.data) === null || _this$data6 === void 0 ? void 0 : _this$data6.conversationStore) || {};
+      var _this$data5;
+      return ((_this$data5 = this.data) === null || _this$data5 === void 0 ? void 0 : _this$data5.conversationStore) || {};
     }
   }, {
     key: "_hasPermission",
@@ -1491,13 +1450,13 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: "allConversations",
     get: function get() {
-      var _this$data7,
-        _this4 = this;
-      var _ref16 = (_this$data7 = this.data) !== null && _this$data7 !== void 0 ? _this$data7 : {},
-        _ref16$conversationLi = _ref16.conversationList,
-        conversationList = _ref16$conversationLi === void 0 ? [] : _ref16$conversationLi;
+      var _this$data6,
+        _this3 = this;
+      var _ref14 = (_this$data6 = this.data) !== null && _this$data6 !== void 0 ? _this$data6 : {},
+        _ref14$conversationLi = _ref14.conversationList,
+        conversationList = _ref14$conversationLi === void 0 ? [] : _ref14$conversationLi;
       return conversationList.map(function (conversationItem) {
-        var messageList = _this4.conversationStore[conversationItem.id] || [];
+        var messageList = _this3.conversationStore[conversationItem.id] || [];
         return _objectSpread(_objectSpread({}, messageList[0]), {}, {
           unreadCounts: messageList.filter(messageHelper.messageIsUnread).length
         });

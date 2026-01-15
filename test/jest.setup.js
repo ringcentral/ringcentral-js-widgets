@@ -14,4 +14,6 @@ global.chrome = (_global$chrome = global.chrome) !== null && _global$chrome !== 
     sendMessage: function sendMessage(tabId, message) {}
   }
 };
+global.MediaStream = jest.fn().mockReturnValue(true);
+global.RTCPeerConnection = jest.fn().mockReturnValue(true);
 //# sourceMappingURL=jest.setup.js.map

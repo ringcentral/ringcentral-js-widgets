@@ -155,6 +155,9 @@ var Presence = (_dec = (0, _di.Module)({
       threshold: _this._fetchDelay,
       maxThreshold: _this._maxFetchDelay
     });
+    _this._deps.subscription.register(_assertThisInitialized(_this), {
+      filters: [_this._endPoint]
+    });
     return _this;
   }
   _createClass(Presence, [{
@@ -203,9 +206,7 @@ var Presence = (_dec = (0, _di.Module)({
     value: function _handleSubscription(message) {
       var _this$_deps$tabManage, _this$_deps$tabManage2;
       var regExp = this._detailed ? detailedPresenceRegExp : presenceRegExp;
-      if (this.ready && (this._source.disableCache || ((_this$_deps$tabManage = (_this$_deps$tabManage2 = this._deps.tabManager) === null || _this$_deps$tabManage2 === void 0 ? void 0 : _this$_deps$tabManage2.active) !== null && _this$_deps$tabManage !== void 0 ? _this$_deps$tabManage : true)) &&
-      // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
-      regExp.test(message.event) && message.body) {
+      if (this.ready && (this._source.disableCache || ((_this$_deps$tabManage = (_this$_deps$tabManage2 = this._deps.tabManager) === null || _this$_deps$tabManage2 === void 0 ? void 0 : _this$_deps$tabManage2.active) !== null && _this$_deps$tabManage !== void 0 ? _this$_deps$tabManage : true)) && (message === null || message === void 0 ? void 0 : message.event) && regExp.test(message.event) && message.body) {
         var _message$body$activeC, _message$body$activeC2, _message$body$totalAc;
         if (message.body.sequence && message.body.sequence < this._sequence) {
           return;
@@ -252,7 +253,6 @@ var Presence = (_dec = (0, _di.Module)({
     key: "onInit",
     value: function onInit() {
       var _this3 = this;
-      this._deps.subscription.subscribe([this._endPoint]);
       this._stopWatchingConnectivity = (0, _core.watch)(this, function () {
         return _this3._deps.connectivityMonitor.connectivity;
       }, function (connectivity) {
@@ -670,7 +670,8 @@ var Presence = (_dec = (0, _di.Module)({
     key: "userStatus",
     get: function get() {
       var _this$data5;
-      return (_this$data5 = this.data) === null || _this$data5 === void 0 ? void 0 : _this$data5.userStatus;
+      // for displaying the presence, we should use presenceStatus instead
+      return (_this$data5 = this.data) === null || _this$data5 === void 0 ? void 0 : _this$data5.presenceStatus;
     }
   }, {
     key: "presenceStatus",

@@ -39,9 +39,14 @@ function getHostId(_ref2) {
 var getRcmUriRegExp = function getRcmUriRegExp(regExpText) {
   return new RegExp("(https?):\\/\\/".concat(regExpText, "(\\/\\w+)?(\\/(\\d+))(\\?pwd=\\w+)?"), 'i');
 };
+
+// Regular expression for RingCentral Video meeting URLs, support pmn
+// Examples:
+// - https://v.ringcentral.com/join/123456789
+// - https://v.ringcentral.com/join/asd.f-_g?pw=1234
 exports.getRcmUriRegExp = getRcmUriRegExp;
 var getRcvUriRegExp = function getRcvUriRegExp(regExpText) {
-  return new RegExp("(https?):\\/\\/".concat(regExpText, "(\\/{1,2}\\w+)*(\\/{1,2}(\\d+))(\\?pw=\\w{32})?"), 'i');
+  return new RegExp("(https?):\\/\\/".concat(regExpText, "(\\/{1,2}\\w+)*(\\/{1,2}(\\w|\\.)+)(\\?pw=\\w+)?"), 'i');
 };
 exports.getRcvUriRegExp = getRcvUriRegExp;
 //# sourceMappingURL=helper.js.map

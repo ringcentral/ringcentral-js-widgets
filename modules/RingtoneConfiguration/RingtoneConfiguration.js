@@ -17,6 +17,7 @@ var _core = require("@ringcentral-integration/core");
 var _trackEvents = require("../../enums/trackEvents");
 var _di = require("../../lib/di");
 var _proxify = require("../../lib/proxy/proxify");
+var _AudioSettings = require("../AudioSettings");
 var _const = require("./const");
 var _helper = require("./helper");
 var _dec, _dec2, _dec3, _dec4, _class, _class2, _descriptor, _descriptor2;
@@ -48,9 +49,9 @@ function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.ke
 function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
 var RingtoneConfiguration = (_dec = (0, _di.Module)({
   name: 'RingtoneConfiguration',
-  deps: ['Storage', 'AudioSettings', 'Webphone']
+  deps: ['Storage', 'Webphone', 'Alert']
 }), _dec2 = (0, _core.track)(_trackEvents.trackEvents.uploadRingtone), _dec3 = (0, _core.track)(_trackEvents.trackEvents.deleteRingtone), _dec4 = (0, _core.computed)(function (that) {
-  return [that.fullRingtoneList, that.selectedRingtoneId];
+  return [that.enableCustomRingtone, that.customRingtoneList];
 }), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
   _inherits(RingtoneConfiguration, _RcModuleV);
   var _super = _createSuper(RingtoneConfiguration);
@@ -134,12 +135,24 @@ var RingtoneConfiguration = (_dec = (0, _di.Module)({
     key: "removeCustomRingtone",
     value: function () {
       var _removeCustomRingtone2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(id) {
+        var hasCustomRingtone;
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
+                hasCustomRingtone = this.customRingtoneList.find(function (ringtone) {
+                  return ringtone.id === id;
+                });
+                if (!id || !hasCustomRingtone) {
+                  this.showDangerAlert(_AudioSettings.audioSettingsErrors.deleteRingtoneFailed);
+                }
                 this._removeCustomRingtone(id);
-              case 1:
+                // if the remove one the selected ringtone, set the first default ringtone as selected
+                if (id === this.selectedRingtoneId) {
+                  this.setSelectedRingtoneId(this.defaultRingtoneList[0].id);
+                  this.updateIncomingRingtone();
+                }
+              case 4:
               case "end":
                 return _context3.stop();
             }
@@ -152,16 +165,17 @@ var RingtoneConfiguration = (_dec = (0, _di.Module)({
       return removeCustomRingtone;
     }()
   }, {
-    key: "updateIncomingRingtone",
+    key: "showDangerAlert",
     value: function () {
-      var _updateIncomingRingtone = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+      var _showDangerAlert = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(message) {
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                if (this.selectedRingtoneAudio && this.selectedRingtoneAudio.dataUrl !== this._deps.webphone.incomingAudio) {
-                  this._deps.webphone.setIncomingAudio(this.selectedRingtoneAudio);
-                }
+                this._deps.alert.danger({
+                  message: message,
+                  allowDuplicates: false
+                });
               case 1:
               case "end":
                 return _context4.stop();
@@ -169,14 +183,39 @@ var RingtoneConfiguration = (_dec = (0, _di.Module)({
           }
         }, _callee4, this);
       }));
+      function showDangerAlert(_x4) {
+        return _showDangerAlert.apply(this, arguments);
+      }
+      return showDangerAlert;
+    }()
+  }, {
+    key: "updateIncomingRingtone",
+    value: function () {
+      var _updateIncomingRingtone = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+        var selectedRingtoneAudio;
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                selectedRingtoneAudio = this.getSelectedRingtoneAudio();
+                if (selectedRingtoneAudio && selectedRingtoneAudio.dataUrl !== this._deps.webphone.incomingAudio) {
+                  this._deps.webphone.setIncomingAudio(selectedRingtoneAudio);
+                }
+              case 2:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5, this);
+      }));
       function updateIncomingRingtone() {
         return _updateIncomingRingtone.apply(this, arguments);
       }
       return updateIncomingRingtone;
     }()
   }, {
-    key: "selectedRingtoneAudio",
-    get: function get() {
+    key: "getSelectedRingtoneAudio",
+    value: function getSelectedRingtoneAudio() {
       var _this2 = this;
       var ringtone = this.fullRingtoneList.find(function (ringtone) {
         return ringtone.id === _this2.selectedRingtoneId;
@@ -228,6 +267,11 @@ var RingtoneConfiguration = (_dec = (0, _di.Module)({
       var _this$_deps$ringtoneC3, _this$_deps$ringtoneC4;
       return (_this$_deps$ringtoneC3 = (_this$_deps$ringtoneC4 = this._deps.ringtoneConfigurationOptions) === null || _this$_deps$ringtoneC4 === void 0 ? void 0 : _this$_deps$ringtoneC4.enableCustomRingtone) !== null && _this$_deps$ringtoneC3 !== void 0 ? _this$_deps$ringtoneC3 : true;
     }
+  }, {
+    key: "isUploadRingtoneDisabled",
+    get: function get() {
+      return this.enableCustomRingtone && this.customRingtoneList.length >= _const.MAX_CUSTOM_RINGTONE_COUNT;
+    }
   }]);
   return RingtoneConfiguration;
 }(_core.RcModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "selectedRingtoneId", [_core.storage, _core.state], {
@@ -244,6 +288,6 @@ var RingtoneConfiguration = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return [];
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "_setSelectedRingtoneId", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setSelectedRingtoneId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setSelectedRingtoneId", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "setSelectedRingtoneId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_pushCustomRingtone", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_pushCustomRingtone"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_removeCustomRingtone", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_removeCustomRingtone"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "uploadCustomRingtone", [_dec2, _proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "uploadCustomRingtone"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "removeCustomRingtone", [_dec3, _proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "removeCustomRingtone"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateIncomingRingtone", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "updateIncomingRingtone"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "selectedRingtoneAudio", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "selectedRingtoneAudio"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "_setSelectedRingtoneId", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setSelectedRingtoneId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setSelectedRingtoneId", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "setSelectedRingtoneId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_pushCustomRingtone", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_pushCustomRingtone"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_removeCustomRingtone", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_removeCustomRingtone"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "uploadCustomRingtone", [_dec2, _proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "uploadCustomRingtone"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "removeCustomRingtone", [_dec3, _proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "removeCustomRingtone"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "showDangerAlert", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "showDangerAlert"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateIncomingRingtone", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "updateIncomingRingtone"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "isUploadRingtoneDisabled", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "isUploadRingtoneDisabled"), _class2.prototype)), _class2)) || _class);
 exports.RingtoneConfiguration = RingtoneConfiguration;
 //# sourceMappingURL=RingtoneConfiguration.js.map

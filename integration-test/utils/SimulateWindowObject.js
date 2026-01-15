@@ -36,6 +36,7 @@ function mockDevice() {
 }
 function SimulateWindowObject() {
   var isMockDevices = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+  var mockDevices = arguments.length > 1 ? arguments[1] : undefined;
   Object.defineProperties(window.navigator, {
     userAgent: {
       value: 'Mozilla/5.0 (darwin) AppleWebKit/537.36 (KHTML, like Gecko) jsdom/11.10.0'
@@ -49,7 +50,7 @@ function SimulateWindowObject() {
       value: true
     }
   });
-  mockDevice(isMockDevices ? defaultDevices : []);
+  mockDevice(isMockDevices ? mockDevices !== null && mockDevices !== void 0 ? mockDevices : defaultDevices : []);
   if (!HTMLMediaElement.prototype || !HTMLMediaElement.prototype.setSinkId) {
     Object.defineProperties(HTMLMediaElement.prototype, {
       setSinkId: {

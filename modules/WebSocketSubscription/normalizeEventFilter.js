@@ -1,6 +1,9 @@
 "use strict";
 
 require("core-js/modules/es.array.iterator");
+require("core-js/modules/es.array.join");
+require("core-js/modules/es.array.map");
+require("core-js/modules/es.array.sort");
 require("core-js/modules/es.object.to-string");
 require("core-js/modules/es.regexp.exec");
 require("core-js/modules/es.string.iterator");
@@ -10,6 +13,7 @@ require("core-js/modules/web.url");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.isTheSameEventFilters = isTheSameEventFilters;
 exports.isTheSameWebSocket = isTheSameWebSocket;
 exports.normalizeEventFilter = normalizeEventFilter;
 // const apiUrlPrefixRegex: RegExp = /^\/restapi\/v[\d]\.[\d]/;
@@ -32,5 +36,12 @@ function isTheSameWebSocket(firstUrl, secondUrl) {
   var second = new URL(secondUrl);
   var isEqual = first.origin === second.origin && first.pathname === second.pathname && first.searchParams.get('access_token') === second.searchParams.get('access_token');
   return isEqual;
+}
+function isTheSameEventFilters(filters1, filters2) {
+  return filters1.map(function (x) {
+    return normalizeEventFilter(x);
+  }).sort().join(',') === filters2.map(function (x) {
+    return normalizeEventFilter(x);
+  }).sort().join(',');
 }
 //# sourceMappingURL=normalizeEventFilter.js.map

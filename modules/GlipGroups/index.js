@@ -29,11 +29,12 @@ exports["default"] = void 0;
 require("regenerator-runtime/runtime");
 var _utils = require("@ringcentral-integration/utils");
 var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
+var _subscriptionFilters = require("../../enums/subscriptionFilters");
 var _Pollable2 = _interopRequireDefault(require("../../lib/Pollable"));
 var _di = require("../../lib/di");
 var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
 var _isBlank = require("../../lib/isBlank");
-var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
+var _proxify = require("../../lib/proxy/proxify");
 var _selector = require("../../lib/selector");
 var _actionTypes = require("./actionTypes");
 var _getReducer = _interopRequireWildcard(require("./getReducer"));
@@ -68,7 +69,6 @@ function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 var glipGroupRegExp = /glip\/groups$/;
-var subscriptionFilter = '/restapi/v1.0/glip/groups';
 var DEFAULT_PER_PAGE = 20;
 var DEFAULT_TTL = 30 * 60 * 1000;
 var DEFAULT_RETRY = 62 * 1000;
@@ -220,7 +220,6 @@ var GlipGroups = (_dec = (0, _di.Module)({
     _this._dataStorageKey = void 0;
     _this._glipPersons = void 0;
     _this._glipPosts = void 0;
-    _this._lastMessage = void 0;
     _this._perPage = void 0;
     _this._polling = void 0;
     _this._preloadPosts = void 0;
@@ -231,7 +230,6 @@ var GlipGroups = (_dec = (0, _di.Module)({
     _this._recordCountPerReq = void 0;
     _this._storage = void 0;
     _this._subscription = void 0;
-    _this._subscriptionFilters = void 0;
     _this._timeToRetry = void 0;
     _this._timestampStorageKey = void 0;
     _this._ttl = void 0;
@@ -272,8 +270,6 @@ var GlipGroups = (_dec = (0, _di.Module)({
     _this._preloadedPosts = {};
     _this._preloadPostsDelayTtl = preloadPostsDelayTtl;
     _this._promise = null;
-    _this._lastMessage = null;
-    _this._subscriptionFilters = [subscriptionFilter];
     if (!disableCache) {
       _this._storage = storage;
     }
@@ -302,14 +298,18 @@ var GlipGroups = (_dec = (0, _di.Module)({
     }
     return _this;
   }
-
-  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   _createClass(GlipGroups, [{
     key: "initialize",
     value: function initialize() {
       var _this2 = this;
       this.store.subscribe(function () {
         return _this2._onStateChange();
+      });
+      this._subscription.register(this, {
+        filters: [_subscriptionFilters.subscriptionFilters.glipGroups],
+        handler: function handler(message) {
+          return _this2._handleSubscription(message);
+        }
       });
     } // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   }, {
@@ -330,7 +330,7 @@ var GlipGroups = (_dec = (0, _di.Module)({
                 _context.next = 4;
                 return this._init();
               case 4:
-                _context.next = 28;
+                _context.next = 24;
                 break;
               case 6:
                 if (!this._isDataReady()) {
@@ -341,7 +341,7 @@ var GlipGroups = (_dec = (0, _di.Module)({
                   type: this.actionTypes.initSuccess
                 });
                 this._onDataReady();
-                _context.next = 28;
+                _context.next = 24;
                 break;
               case 11:
                 if (!this._shouldReset()) {
@@ -353,36 +353,28 @@ var GlipGroups = (_dec = (0, _di.Module)({
                 this.store.dispatch({
                   type: this.actionTypes.resetSuccess
                 });
-                _context.next = 28;
+                _context.next = 24;
                 break;
               case 17:
-                if (!this._shouldHandleSubscriptionMessage()) {
-                  _context.next = 21;
-                  break;
-                }
-                this._processSubscription();
-                _context.next = 28;
-                break;
-              case 21:
                 if (!(this.ready && this._connectivityMonitor && this._connectivityMonitor.ready && this._connectivity !== this._connectivityMonitor.connectivity)) {
-                  _context.next = 28;
+                  _context.next = 24;
                   break;
                 }
                 this._connectivity = this._connectivityMonitor.connectivity;
                 if (this._connectivity) {
-                  _context.next = 25;
+                  _context.next = 21;
                   break;
                 }
                 return _context.abrupt("return");
-              case 25:
-                _context.next = 27;
+              case 21:
+                _context.next = 23;
                 return this.fetchData();
-              case 27:
+              case 23:
                 if (this._preloadPosts) {
                   this._preloadedPosts = {};
                   this._preloadGroupPosts(true);
                 }
-              case 28:
+              case 24:
               case "end":
                 return _context.stop();
             }
@@ -405,11 +397,6 @@ var GlipGroups = (_dec = (0, _di.Module)({
       return !!((!this._auth.loggedIn || !this._appFeatures.ready || this._storage && !this._storage.ready || this._readyCheckFn && !this._readyCheckFn() || this._subscription && !this._subscription.ready || this._glipPosts && !this._glipPosts.ready || this._glipPersons && !this._glipPersons.ready || this._connectivityMonitor && !this._connectivityMonitor.ready || this._tabManager && !this._tabManager.ready) && this.ready);
     }
   }, {
-    key: "_shouldHandleSubscriptionMessage",
-    value: function _shouldHandleSubscriptionMessage() {
-      return !!(this.ready && this._subscription && this._subscription.ready && this._subscription.message && this._subscription.message !== this._lastMessage);
-    }
-  }, {
     key: "_onDataReady",
     value: function _onDataReady() {
       if (this._glipPersons) {
@@ -422,9 +409,9 @@ var GlipGroups = (_dec = (0, _di.Module)({
       }
     }
   }, {
-    key: "_subscriptionHandleFn",
+    key: "_handleSubscription",
     value: function () {
-      var _subscriptionHandleFn2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(message) {
+      var _handleSubscription2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(message) {
         var _message$body, eventType, group;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
@@ -466,10 +453,10 @@ var GlipGroups = (_dec = (0, _di.Module)({
           }
         }, _callee2, this);
       }));
-      function _subscriptionHandleFn(_x) {
-        return _subscriptionHandleFn2.apply(this, arguments);
+      function _handleSubscription(_x) {
+        return _handleSubscription2.apply(this, arguments);
       }
-      return _subscriptionHandleFn;
+      return _handleSubscription;
     }()
   }, {
     key: "_shouldFetch",
@@ -520,13 +507,10 @@ var GlipGroups = (_dec = (0, _di.Module)({
                   this._retry();
                 }
               case 15:
-                if (this._subscription && this._subscriptionFilters) {
-                  this._subscription.subscribe(this._subscriptionFilters);
-                }
                 if (this._connectivityMonitor) {
                   this._connectivity = this._connectivityMonitor.connectivity;
                 }
-              case 17:
+              case 16:
               case "end":
                 return _context3.stop();
             }
@@ -538,12 +522,6 @@ var GlipGroups = (_dec = (0, _di.Module)({
       }
       return _init;
     }()
-  }, {
-    key: "_processSubscription",
-    value: function _processSubscription() {
-      this._lastMessage = this._subscription.message;
-      this._subscriptionHandleFn(this._lastMessage);
-    }
   }, {
     key: "_preloadGroupPosts",
     value: function () {
@@ -915,7 +893,7 @@ var GlipGroups = (_dec = (0, _di.Module)({
     }
   }]);
   return GlipGroups;
-}(_Pollable2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "updateFilter", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateFilter"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateCurrentGroupId", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateCurrentGroupId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fetchData", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "startChat", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "startChat"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "allGroups", [_selector.selector], {
+}(_Pollable2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "updateFilter", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "updateFilter"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateCurrentGroupId", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "updateCurrentGroupId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fetchData", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "startChat", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "startChat"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "allGroups", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,

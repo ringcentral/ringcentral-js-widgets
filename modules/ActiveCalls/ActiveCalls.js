@@ -104,23 +104,23 @@ var ActiveCalls = (_dec = (0, _di.Module)({
       // throttle the request rate to once every this._fetchDelay ms
       maxThreshold: _this._fetchDelay
     });
+    _this._deps.subscription.register(_assertThisInitialized(_this), {
+      filters: [_subscriptionFilters.subscriptionFilters.detailedPresence]
+    });
     return _this;
   }
   _createClass(ActiveCalls, [{
     key: "_handleSubscription",
     value: function _handleSubscription(message) {
-      if (presenceRegExp.test(message === null || message === void 0 ? void 0 : message.event)) {
-        var _this$_deps$tabManage, _this$_deps$tabManage2;
-        if (this.ready && (this._source.disableCache || ((_this$_deps$tabManage = (_this$_deps$tabManage2 = this._deps.tabManager) === null || _this$_deps$tabManage2 === void 0 ? void 0 : _this$_deps$tabManage2.active) !== null && _this$_deps$tabManage !== void 0 ? _this$_deps$tabManage : true))) {
-          this._debouncedFetchData();
-        }
+      var _this$_deps$tabManage, _this$_deps$tabManage2;
+      if (this.ready && (this._source.disableCache || ((_this$_deps$tabManage = (_this$_deps$tabManage2 = this._deps.tabManager) === null || _this$_deps$tabManage2 === void 0 ? void 0 : _this$_deps$tabManage2.active) !== null && _this$_deps$tabManage !== void 0 ? _this$_deps$tabManage : true)) && (message === null || message === void 0 ? void 0 : message.event) && presenceRegExp.test(message.event)) {
+        this._debouncedFetchData();
       }
     }
   }, {
     key: "onInit",
     value: function onInit() {
       var _this2 = this;
-      this._deps.subscription.subscribe([_subscriptionFilters.subscriptionFilters.detailedPresence]);
       this._stopWatching = (0, _core.watch)(this, function () {
         return _this2._deps.subscription.message;
       }, function (message) {

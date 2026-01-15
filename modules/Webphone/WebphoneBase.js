@@ -576,7 +576,7 @@ var WebphoneBase = (_dec = (0, _di.Module)({
                 }
                 this._webphone = new _ringcentralWebPhone["default"](provisionData, _objectSpread({
                   appKey: this._deps.webphoneOptions.appKey,
-                  appName: this._deps.webphoneOptions.appName,
+                  appName: (0, _core.removeNonISO8859Chars)(this._deps.webphoneOptions.appName),
                   appVersion: this._deps.webphoneOptions.appVersion,
                   uuid: this._deps.auth.endpointId,
                   logLevel: (_this$_deps$webphoneO = this._deps.webphoneOptions.webphoneLogLevel) !== null && _this$_deps$webphoneO !== void 0 ? _this$_deps$webphoneO : 1,
@@ -1010,10 +1010,7 @@ var WebphoneBase = (_dec = (0, _di.Module)({
   }, {
     key: "_getConnectTimeoutTtl",
     value: function _getConnectTimeoutTtl() {
-      if (this.connectRetryCounts < 7) {
-        return this._reconnectDelays[this.connectRetryCounts];
-      }
-      return this._reconnectDelays[6];
+      return this._reconnectDelays[Math.min(this.connectRetryCounts, this._reconnectDelays.length - 1)];
     }
   }, {
     key: "_onConnectError",

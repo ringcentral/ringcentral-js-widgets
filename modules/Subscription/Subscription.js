@@ -2,8 +2,17 @@
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 require("core-js/modules/es.array.concat");
+require("core-js/modules/es.array.filter");
+require("core-js/modules/es.array.from");
+require("core-js/modules/es.array.index-of");
+require("core-js/modules/es.array.iterator");
+require("core-js/modules/es.array.reduce");
 require("core-js/modules/es.array.sort");
+require("core-js/modules/es.map");
 require("core-js/modules/es.object.get-own-property-descriptor");
+require("core-js/modules/es.object.to-string");
+require("core-js/modules/es.string.iterator");
+require("core-js/modules/web.dom-collections.iterator");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -70,6 +79,7 @@ var Subscription = (_dec = (0, _di.Module)({
     _this._retryTimeoutId = null;
     _this._debouncedRegister = void 0;
     _this._retry = void 0;
+    _this._subscriberMap = new Map();
     _this.__debugNotification__ = false;
     _initializerDefineProperty(_this, "message", _descriptor, _assertThisInitialized(_this));
     _initializerDefineProperty(_this, "filters", _descriptor2, _assertThisInitialized(_this));
@@ -172,12 +182,35 @@ var Subscription = (_dec = (0, _di.Module)({
       this._deps.auth.addBeforeLogoutHandler(this._onBeforeLogout);
     }
   }, {
-    key: "onReset",
+    key: "onInitSuccess",
     value: function () {
-      var _onReset = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+      var _onInitSuccess = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
+              case 0:
+                if (this._subscriberMap.size > 0) {
+                  this._createSubscriptionWithLock();
+                }
+              case 1:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+      function onInitSuccess() {
+        return _onInitSuccess.apply(this, arguments);
+      }
+      return onInitSuccess;
+    }()
+  }, {
+    key: "onReset",
+    value: function () {
+      var _onReset = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 this._setStates({
                   filters: [],
@@ -197,10 +230,10 @@ var Subscription = (_dec = (0, _di.Module)({
                 }
               case 6:
               case "end":
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3, this);
+        }, _callee4, this);
       }));
       function onReset() {
         return _onReset.apply(this, arguments);
@@ -291,12 +324,12 @@ var Subscription = (_dec = (0, _di.Module)({
   }, {
     key: "_createSubscription",
     value: function () {
-      var _createSubscription2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+      var _createSubscription2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
         var _this2 = this;
         var sdk;
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 if (this.ready && !this._subscription) {
                   sdk = this._deps.client.service;
@@ -335,26 +368,26 @@ var Subscription = (_dec = (0, _di.Module)({
                     return _this2._onSubscribeError(error);
                   });
                 }
-                _context4.prev = 1;
-                _context4.next = 4;
+                _context5.prev = 1;
+                _context5.next = 4;
                 return this._debouncedRegister();
               case 4:
-                _context4.next = 10;
+                _context5.next = 10;
                 break;
               case 6:
-                _context4.prev = 6;
-                _context4.t0 = _context4["catch"](1);
-                if (!(_context4.t0.message !== 'cancelled')) {
-                  _context4.next = 10;
+                _context5.prev = 6;
+                _context5.t0 = _context5["catch"](1);
+                if (!(_context5.t0.message !== 'cancelled')) {
+                  _context5.next = 10;
                   break;
                 }
-                throw _context4.t0;
+                throw _context5.t0;
               case 10:
               case "end":
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4, this, [[1, 6]]);
+        }, _callee5, this, [[1, 6]]);
       }));
       function _createSubscription() {
         return _createSubscription2.apply(this, arguments);
@@ -364,34 +397,34 @@ var Subscription = (_dec = (0, _di.Module)({
   }, {
     key: "_createSubscriptionWithLock",
     value: function () {
-      var _createSubscriptionWithLock2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+      var _createSubscriptionWithLock2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
         var _navigator,
           _navigator$locks,
           _this3 = this;
-        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
                 if ((_navigator = navigator) === null || _navigator === void 0 ? void 0 : (_navigator$locks = _navigator.locks) === null || _navigator$locks === void 0 ? void 0 : _navigator$locks.request) {
-                  _context5.next = 5;
+                  _context6.next = 5;
                   break;
                 }
-                _context5.next = 3;
+                _context6.next = 3;
                 return this._createSubscription();
               case 3:
-                _context5.next = 7;
+                _context6.next = 7;
                 break;
               case 5:
-                _context5.next = 7;
+                _context6.next = 7;
                 return navigator.locks.request(SUBSCRIPTION_LOCK_KEY, function () {
                   return _this3._createSubscription();
                 });
               case 7:
               case "end":
-                return _context5.stop();
+                return _context6.stop();
             }
           }
-        }, _callee5, this);
+        }, _callee6, this);
       }));
       function _createSubscriptionWithLock() {
         return _createSubscriptionWithLock2.apply(this, arguments);
@@ -400,33 +433,35 @@ var Subscription = (_dec = (0, _di.Module)({
     }()
   }, {
     key: "_shouldUpdateSubscription",
-    value: function _shouldUpdateSubscription() {
-      return !!(this._subscription && !(0, _ramda.equals)((0, _ramda.map)(_normalizeEventFilter.normalizeEventFilter, this._subscription.eventFilters()).sort(), (0, _ramda.map)(_normalizeEventFilter.normalizeEventFilter, this.filters).sort()));
+    value: function _shouldUpdateSubscription(eventFilters) {
+      return !!(this._subscription && !(0, _ramda.equals)((0, _ramda.map)(_normalizeEventFilter.normalizeEventFilter, this._subscription.eventFilters()).sort(), (0, _ramda.map)(_normalizeEventFilter.normalizeEventFilter, eventFilters).sort()));
     }
   }, {
     key: "_register",
     value: function () {
-      var _register2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
-        return regeneratorRuntime.wrap(function _callee6$(_context6) {
+      var _register2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+        var eventFilters;
+        return regeneratorRuntime.wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
-                if (!this._shouldUpdateSubscription()) {
-                  _context6.next = 5;
+                eventFilters = this.getFilters();
+                if (!this._shouldUpdateSubscription(eventFilters)) {
+                  _context7.next = 6;
                   break;
                 }
                 this._setStates({
                   status: _subscriptionStatus.subscriptionStatus.subscribing
                 });
-                this._subscription.setEventFilters(_toConsumableArray(this.filters));
-                _context6.next = 5;
+                this._subscription.setEventFilters(_toConsumableArray(eventFilters));
+                _context7.next = 6;
                 return this._subscription.register();
-              case 5:
+              case 6:
               case "end":
-                return _context6.stop();
+                return _context7.stop();
             }
           }
-        }, _callee6, this);
+        }, _callee7, this);
       }));
       function _register() {
         return _register2.apply(this, arguments);
@@ -436,27 +471,27 @@ var Subscription = (_dec = (0, _di.Module)({
   }, {
     key: "_removeSubscription",
     value: function () {
-      var _removeSubscription2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
-        return regeneratorRuntime.wrap(function _callee7$(_context7) {
+      var _removeSubscription2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
+        return regeneratorRuntime.wrap(function _callee8$(_context8) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context8.prev = _context8.next) {
               case 0:
                 if (!this._subscription) {
-                  _context7.next = 11;
+                  _context8.next = 11;
                   break;
                 }
                 this._setStates({
                   status: _subscriptionStatus.subscriptionStatus.unsubscribing
                 });
-                _context7.prev = 2;
-                _context7.next = 5;
+                _context8.prev = 2;
+                _context8.next = 5;
                 return this._subscription.remove();
               case 5:
-                _context7.next = 9;
+                _context8.next = 9;
                 break;
               case 7:
-                _context7.prev = 7;
-                _context7.t0 = _context7["catch"](2);
+                _context8.prev = 7;
+                _context8.t0 = _context8["catch"](2);
               case 9:
                 if (this._subscription) {
                   this._subscription.reset();
@@ -469,10 +504,10 @@ var Subscription = (_dec = (0, _di.Module)({
                 });
               case 11:
               case "end":
-                return _context7.stop();
+                return _context8.stop();
             }
           }
-        }, _callee7, this, [[2, 7]]);
+        }, _callee8, this, [[2, 7]]);
       }));
       function _removeSubscription() {
         return _removeSubscription2.apply(this, arguments);
@@ -482,42 +517,61 @@ var Subscription = (_dec = (0, _di.Module)({
   }, {
     key: "subscribe",
     value: function () {
-      var _subscribe = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
+      var _subscribe = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
         var events,
           _this$_subscription$e,
           _this$_subscription2,
           oldFiltersCount,
-          _args8 = arguments;
-        return regeneratorRuntime.wrap(function _callee8$(_context8) {
+          _args9 = arguments;
+        return regeneratorRuntime.wrap(function _callee9$(_context9) {
           while (1) {
-            switch (_context8.prev = _context8.next) {
+            switch (_context9.prev = _context9.next) {
               case 0:
-                events = _args8.length > 0 && _args8[0] !== undefined ? _args8[0] : [];
+                events = _args9.length > 0 && _args9[0] !== undefined ? _args9[0] : [];
                 if (!this.ready) {
-                  _context8.next = 7;
+                  _context9.next = 7;
                   break;
                 }
                 oldFiltersCount = (_this$_subscription$e = (_this$_subscription2 = this._subscription) === null || _this$_subscription2 === void 0 ? void 0 : _this$_subscription2.eventFilters().length) !== null && _this$_subscription$e !== void 0 ? _this$_subscription$e : 0; // use [].concat for potential compatibility issue
                 // @ts-expect-error TS(2769): No overload matches this call.
                 this._addFilters([].concat(events));
                 if (!(oldFiltersCount !== this.filters.length)) {
-                  _context8.next = 7;
+                  _context9.next = 7;
                   break;
                 }
-                _context8.next = 7;
+                _context9.next = 7;
                 return this._createSubscriptionWithLock();
               case 7:
               case "end":
-                return _context8.stop();
+                return _context9.stop();
             }
           }
-        }, _callee8, this);
+        }, _callee9, this);
       }));
       function subscribe() {
         return _subscribe.apply(this, arguments);
       }
       return subscribe;
     }()
+  }, {
+    key: "register",
+    value: function register(module, metadata) {
+      this._subscriberMap.set(module, metadata);
+    }
+  }, {
+    key: "getFilters",
+    value: function getFilters() {
+      // Registered filters
+      var filters = Array.from(this._subscriberMap.values()).reduce(function (acc, metadata) {
+        return acc.concat(metadata.filters);
+      }, []);
+      filters = filters.concat(this.filters) // Concat subscribed filters
+      .filter(function (x, index, array) {
+        return array.indexOf(x) === index;
+      }); // remove duplicates
+
+      return filters;
+    }
   }, {
     key: "_timeToRetry",
     get: function get() {

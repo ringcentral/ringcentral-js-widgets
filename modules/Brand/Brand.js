@@ -15,10 +15,10 @@ Object.defineProperty(exports, "__esModule", {
 exports.Brand = void 0;
 var _core = require("@ringcentral-integration/core");
 var _i18n = require("@ringcentral-integration/i18n");
+var _processI18n = require("@ringcentral-integration/i18n/lib/processI18n");
 var _di = require("../../lib/di");
-var _processI18n = require("../../lib/processI18n");
 var _processAssets = require("./processAssets");
-var _dec, _dec2, _dec3, _dec4, _dec5, _class, _class2, _descriptor, _descriptor2;
+var _dec, _dec2, _dec3, _dec4, _dec5, _class, _class2, _descriptor;
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -74,7 +74,6 @@ var Brand = (_dec = (0, _di.Module)({
     });
     _this._prefix = null;
     _initializerDefineProperty(_this, "_dynamicConfig", _descriptor, _assertThisInitialized(_this));
-    _initializerDefineProperty(_this, "themeMap", _descriptor2, _assertThisInitialized(_this));
     _this._prefix = "".concat(_this._deps.brandConfig.code, "-").concat((_this$_deps$brandConf = _this._deps.brandConfig.application) !== null && _this$_deps$brandConf !== void 0 ? _this$_deps$brandConf : '');
     _this.bindUpdateDocumentVariables();
     return _this;
@@ -83,11 +82,6 @@ var Brand = (_dec = (0, _di.Module)({
     key: "setDynamicConfig",
     value: function setDynamicConfig(config) {
       this._dynamicConfig = config;
-    }
-  }, {
-    key: "setThemeMap",
-    value: function setThemeMap(val) {
-      this.themeMap = val;
     }
   }, {
     key: "bindUpdateDocumentVariables",
@@ -147,7 +141,7 @@ var Brand = (_dec = (0, _di.Module)({
        * like chrome extension content page
        */
       return _objectSpread(_objectSpread({}, brandConfig), {}, {
-        assets: (0, _processAssets.processAssets)(brandConfig.assets, ((_this$_deps$brandConf2 = this._deps.brandConfigOptions) === null || _this$_deps$brandConf2 === void 0 ? void 0 : _this$_deps$brandConf2.assetOrigin) || window.location.origin)
+        assets: (0, _processAssets.processAssets)(brandConfig.assets, ((_this$_deps$brandConf2 = this._deps.brandConfigOptions) === null || _this$_deps$brandConf2 === void 0 ? void 0 : _this$_deps$brandConf2.assetOrigin) || location.origin)
       });
     }
     /**
@@ -239,18 +233,6 @@ var Brand = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return null;
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "setDynamicConfig", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setDynamicConfig"), _class2.prototype), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "themeMap", [_core.state], {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  initializer: function initializer() {
-    return {
-      "default": [],
-      light: [],
-      dark: [],
-      contrast: []
-    };
-  }
-}), _applyDecoratedDescriptor(_class2.prototype, "setThemeMap", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setThemeMap"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dynamicConfig", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "dynamicConfig"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_defaultConfig", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "_defaultConfig"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "defaultConfig", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "defaultConfig"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "brandConfig", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "brandConfig"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "setDynamicConfig", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setDynamicConfig"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dynamicConfig", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "dynamicConfig"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_defaultConfig", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "_defaultConfig"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "defaultConfig", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "defaultConfig"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "brandConfig", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "brandConfig"), _class2.prototype)), _class2)) || _class);
 exports.Brand = Brand;
 //# sourceMappingURL=Brand.js.map

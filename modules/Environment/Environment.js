@@ -1,6 +1,7 @@
 "use strict";
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+require("core-js/modules/es.array.includes");
 require("core-js/modules/es.date.now");
 require("core-js/modules/es.date.to-string");
 require("core-js/modules/es.object.get-own-property-descriptor");
@@ -111,7 +112,7 @@ var Environment = (_dec = (0, _di.Module)({
                 _context.next = 8;
                 return (_discovery$removeInit = discovery.removeInitialData) === null || _discovery$removeInit === void 0 ? void 0 : _discovery$removeInit.call(discovery);
               case 8:
-                this._deps.client.service = new _sdk.SDK(sdkConfig);
+                this._deps.client.service = new _sdk.SDK((0, _core.removeSDKNonISO8859Chars)(sdkConfig));
                 if (sdkConfig.enableDiscovery && sdkConfig.discoveryAutoInit === false) {
                   // make sure to init discovery API if discoveryAutoInit is deliberately set to false
                   this._deps.client.service.platform().initDiscovery();
@@ -200,17 +201,25 @@ var Environment = (_dec = (0, _di.Module)({
       }
       return isWithinTwoHours;
     }
+    /**
+     * when that be true, the data tracking will not auto be tracked, will base on `allowDataTracking` setting to decide whether to track data
+     */
   }, {
     key: "useDataTrackingSetting",
     get: function get() {
-      var _this$_deps$environme;
-      return (_this$_deps$environme = this._deps.environmentOptions) === null || _this$_deps$environme === void 0 ? void 0 : _this$_deps$environme.useDataTrackingSetting;
+      return Boolean(
+      // in production mode, use data tracking setting to avoid data tracking in those test environment
+      (process.env.NODE_ENV === 'production' ||
+      // also in test mode same as production to able to test that
+      process.env.NODE_ENV === 'test') && process.env.BUILD_ENVIRONMENT && ['dev', 'local', 'reg'].includes(process.env.BUILD_ENVIRONMENT) ||
+      // in development mode always use data tracking setting, to avoid data tracking in dev mode
+      process.env.NODE_ENV === 'development');
     }
   }, {
     key: "_defaultRecordingHost",
     get: function get() {
-      var _this$_deps$environme2, _this$_deps$environme3;
-      return (_this$_deps$environme2 = (_this$_deps$environme3 = this._deps.environmentOptions) === null || _this$_deps$environme3 === void 0 ? void 0 : _this$_deps$environme3.defaultRecordingHost) !== null && _this$_deps$environme2 !== void 0 ? _this$_deps$environme2 : DEFAULT_RECORDING_HOST;
+      var _this$_deps$environme, _this$_deps$environme2;
+      return (_this$_deps$environme = (_this$_deps$environme2 = this._deps.environmentOptions) === null || _this$_deps$environme2 === void 0 ? void 0 : _this$_deps$environme2.defaultRecordingHost) !== null && _this$_deps$environme !== void 0 ? _this$_deps$environme : DEFAULT_RECORDING_HOST;
     }
   }]);
   return Environment;

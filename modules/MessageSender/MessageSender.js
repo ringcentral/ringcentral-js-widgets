@@ -6,6 +6,7 @@ require("core-js/modules/es.array.for-each");
 require("core-js/modules/es.array.index-of");
 require("core-js/modules/es.array.is-array");
 require("core-js/modules/es.array.map");
+require("core-js/modules/es.function.name");
 require("core-js/modules/es.object.get-own-property-descriptor");
 require("core-js/modules/es.string.starts-with");
 require("core-js/modules/web.dom-collections.for-each");
@@ -18,7 +19,7 @@ var _core = require("@ringcentral-integration/core");
 var _utils = require("@ringcentral-integration/utils");
 var _events = require("events");
 var _ramda = require("ramda");
-var uuid = _interopRequireWildcard(require("uuid"));
+var _uuid = require("uuid");
 var _trackEvents = require("../../enums/trackEvents");
 var _chunkMessage = _interopRequireDefault(require("../../lib/chunkMessage"));
 var _di = require("../../lib/di");
@@ -29,8 +30,6 @@ var _messageSenderMessages = require("./messageSenderMessages");
 var _messageSenderStatus = require("./messageSenderStatus");
 var _dec, _dec2, _dec3, _dec4, _class, _class2, _descriptor;
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
-function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) { if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } } return n["default"] = e, t && t.set(e, n), n; }
 function _createForOfIteratorHelper(r, e) { var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (!t) { if (Array.isArray(r) || (t = _unsupportedIterableToArray(r)) || e && r && "number" == typeof r.length) { t && (r = t); var _n = 0, F = function F() {}; return { s: F, n: function n() { return _n >= r.length ? { done: !0 } : { done: !1, value: r[_n++] }; }, e: function e(r) { throw r; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var o, a = !0, u = !1; return { s: function s() { t = t.call(r); }, n: function n() { var r = t.next(); return a = r.done, r; }, e: function e(r) { u = !0, o = r; }, f: function f() { try { a || null == t["return"] || t["return"](); } finally { if (u) throw o; } } }; }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) { n[e] = r[e]; } return n; }
@@ -56,7 +55,7 @@ exports.MESSAGE_MAX_LENGTH = MESSAGE_MAX_LENGTH;
 var MULTIPART_MESSAGE_MAX_LENGTH = MESSAGE_MAX_LENGTH * 5;
 exports.MULTIPART_MESSAGE_MAX_LENGTH = MULTIPART_MESSAGE_MAX_LENGTH;
 var SENDING_THRESHOLD = 30;
-var ATTACHMENT_SIZE_LIMITATION = 1500000;
+var ATTACHMENT_SIZE_LIMITATION = 1.5 * 1024 * 1024;
 
 /**
  * @class
@@ -326,7 +325,7 @@ var MessageSender = (_dec = (0, _di.Module)({
             switch (_context2.prev = _context2.next) {
               case 0:
                 fromNumber = _ref.fromNumber, toNumbers = _ref.toNumbers, text = _ref.text, replyOnMessageId = _ref.replyOnMessageId, _ref$multipart = _ref.multipart, multipart = _ref$multipart === void 0 ? false : _ref$multipart, _ref$attachments = _ref.attachments, attachments = _ref$attachments === void 0 ? [] : _ref$attachments;
-                eventId = uuid.v4();
+                eventId = (0, _uuid.v4)();
                 if (this._validateContent(text, attachments, multipart)) {
                   _context2.next = 4;
                   break;
@@ -347,22 +346,23 @@ var MessageSender = (_dec = (0, _di.Module)({
                 extensionNumbers = validateToNumberResult.extNumbers;
                 phoneNumbers = validateToNumberResult.noExtNumbers;
                 if (!(extensionNumbers.length > 0 && attachments.length > 0)) {
-                  _context2.next = 15;
+                  _context2.next = 16;
                   break;
                 }
                 this._alertWarning(_messageSenderMessages.messageSenderMessages.noAttachmentToExtension);
+                this._smsSentError();
                 return _context2.abrupt("return", null);
-              case 15:
+              case 16:
                 if (!(phoneNumbers.length > 0)) {
-                  _context2.next = 18;
+                  _context2.next = 19;
                   break;
                 }
                 if (this._validateSenderNumber(fromNumber)) {
-                  _context2.next = 18;
+                  _context2.next = 19;
                   break;
                 }
                 return _context2.abrupt("return", null);
-              case 18:
+              case 19:
                 this._eventEmitter.emit(_messageSenderEvents.messageSenderEvents.send, {
                   eventId: eventId,
                   fromNumber: fromNumber,
@@ -379,79 +379,79 @@ var MessageSender = (_dec = (0, _di.Module)({
                 total = (phoneNumbers.length + 1) * chunks.length;
                 shouldSleep = total > SENDING_THRESHOLD;
                 if (!(extensionNumbers.length > 0)) {
-                  _context2.next = 49;
+                  _context2.next = 50;
                   break;
                 }
                 _iterator2 = _createForOfIteratorHelper(chunks);
-                _context2.prev = 28;
+                _context2.prev = 29;
                 _iterator2.s();
-              case 30:
+              case 31:
                 if ((_step2 = _iterator2.n()).done) {
-                  _context2.next = 41;
+                  _context2.next = 42;
                   break;
                 }
                 chunk = _step2.value;
                 if (!shouldSleep) {
-                  _context2.next = 35;
+                  _context2.next = 36;
                   break;
                 }
-                _context2.next = 35;
+                _context2.next = 36;
                 return (0, _utils.sleep)(2000);
-              case 35:
-                _context2.next = 37;
+              case 36:
+                _context2.next = 38;
                 return this._sendPager({
                   toNumbers: extensionNumbers,
                   text: chunk,
                   // @ts-expect-error TS(2322): Type 'number | undefined' is not assignable to typ... Remove this comment to see the full error message
                   replyOnMessageId: replyOnMessageId
                 });
-              case 37:
+              case 38:
                 pagerResponse = _context2.sent;
                 responses.push(pagerResponse);
-              case 39:
-                _context2.next = 30;
+              case 40:
+                _context2.next = 31;
                 break;
-              case 41:
-                _context2.next = 46;
+              case 42:
+                _context2.next = 47;
                 break;
-              case 43:
-                _context2.prev = 43;
-                _context2.t0 = _context2["catch"](28);
+              case 44:
+                _context2.prev = 44;
+                _context2.t0 = _context2["catch"](29);
                 _iterator2.e(_context2.t0);
-              case 46:
-                _context2.prev = 46;
+              case 47:
+                _context2.prev = 47;
                 _iterator2.f();
-                return _context2.finish(46);
-              case 49:
+                return _context2.finish(47);
+              case 50:
                 if (!(phoneNumbers.length > 0)) {
-                  _context2.next = 95;
+                  _context2.next = 96;
                   break;
                 }
                 _iterator3 = _createForOfIteratorHelper(phoneNumbers);
-                _context2.prev = 51;
+                _context2.prev = 52;
                 _iterator3.s();
-              case 53:
+              case 54:
                 if ((_step3 = _iterator3.n()).done) {
-                  _context2.next = 87;
+                  _context2.next = 88;
                   break;
                 }
                 phoneNumber = _step3.value;
                 _iterator4 = _createForOfIteratorHelper(chunks);
-                _context2.prev = 56;
+                _context2.prev = 57;
                 _iterator4.s();
-              case 58:
+              case 59:
                 if ((_step4 = _iterator4.n()).done) {
-                  _context2.next = 77;
+                  _context2.next = 78;
                   break;
                 }
                 _chunk = _step4.value;
                 if (!shouldSleep) {
-                  _context2.next = 63;
+                  _context2.next = 64;
                   break;
                 }
-                _context2.next = 63;
+                _context2.next = 64;
                 return (0, _utils.sleep)(2000);
-              case 63:
+              case 64:
                 smsResponse = void 0;
                 smsBody = {
                   fromNumber: fromNumber,
@@ -460,55 +460,55 @@ var MessageSender = (_dec = (0, _di.Module)({
                   attachments: attachments
                 };
                 if (!(attachments.length > 0)) {
-                  _context2.next = 71;
+                  _context2.next = 72;
                   break;
                 }
-                _context2.next = 68;
+                _context2.next = 69;
                 return this._sendMMS(smsBody);
-              case 68:
+              case 69:
                 smsResponse = _context2.sent;
+                _context2.next = 75;
+                break;
+              case 72:
                 _context2.next = 74;
-                break;
-              case 71:
-                _context2.next = 73;
                 return this._sendSMS(smsBody);
-              case 73:
-                smsResponse = _context2.sent;
               case 74:
-                responses.push(smsResponse);
+                smsResponse = _context2.sent;
               case 75:
-                _context2.next = 58;
+                responses.push(smsResponse);
+              case 76:
+                _context2.next = 59;
                 break;
-              case 77:
-                _context2.next = 82;
+              case 78:
+                _context2.next = 83;
                 break;
-              case 79:
-                _context2.prev = 79;
-                _context2.t1 = _context2["catch"](56);
+              case 80:
+                _context2.prev = 80;
+                _context2.t1 = _context2["catch"](57);
                 _iterator4.e(_context2.t1);
-              case 82:
-                _context2.prev = 82;
+              case 83:
+                _context2.prev = 83;
                 _iterator4.f();
-                return _context2.finish(82);
-              case 85:
-                _context2.next = 53;
+                return _context2.finish(83);
+              case 86:
+                _context2.next = 54;
                 break;
-              case 87:
-                _context2.next = 92;
+              case 88:
+                _context2.next = 93;
                 break;
-              case 89:
-                _context2.prev = 89;
-                _context2.t2 = _context2["catch"](51);
+              case 90:
+                _context2.prev = 90;
+                _context2.t2 = _context2["catch"](52);
                 _iterator3.e(_context2.t2);
-              case 92:
-                _context2.prev = 92;
+              case 93:
+                _context2.prev = 93;
                 _iterator3.f();
-                return _context2.finish(92);
-              case 95:
+                return _context2.finish(93);
+              case 96:
                 this._smsSentOver();
                 return _context2.abrupt("return", responses);
-              case 99:
-                _context2.prev = 99;
+              case 100:
+                _context2.prev = 100;
                 _context2.t3 = _context2["catch"](4);
                 console.debug('sendComposeText e ', _context2.t3);
                 this._eventEmitter.emit(_messageSenderEvents.messageSenderEvents.sendError, {
@@ -520,16 +520,16 @@ var MessageSender = (_dec = (0, _di.Module)({
                   multipart: multipart
                 });
                 this._smsSentError();
-                _context2.next = 106;
+                _context2.next = 107;
                 return this._onSendError(_context2.t3);
-              case 106:
-                throw _context2.t3;
               case 107:
+                throw _context2.t3;
+              case 108:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, this, [[4, 99], [28, 43, 46, 49], [51, 89, 92, 95], [56, 79, 82, 85]]);
+        }, _callee2, this, [[4, 100], [29, 44, 47, 50], [52, 90, 93, 96], [57, 80, 83, 86]]);
       }));
       function send(_x2) {
         return _send.apply(this, arguments);
@@ -576,13 +576,12 @@ var MessageSender = (_dec = (0, _di.Module)({
     key: "_sendMMS",
     value: function () {
       var _sendMMS2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(_ref3) {
-        var fromNumber, toNumber, text, _ref3$attachments, attachments, formData, body, response;
+        var fromNumber, toNumber, text, _ref3$attachments, attachments, body, attachment, responseData;
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
                 fromNumber = _ref3.fromNumber, toNumber = _ref3.toNumber, text = _ref3.text, _ref3$attachments = _ref3.attachments, attachments = _ref3$attachments === void 0 ? [] : _ref3$attachments;
-                formData = new FormData();
                 body = {
                   from: {
                     phoneNumber: fromNumber
@@ -591,19 +590,23 @@ var MessageSender = (_dec = (0, _di.Module)({
                     phoneNumber: toNumber
                   }],
                   text: text
-                };
-                formData.append('json', new Blob([JSON.stringify(body, null, 2)], {
-                  type: 'application/json'
-                }));
-                attachments.forEach(function (attachment) {
-                  formData.append('attachment', attachment.file);
+                }; // in some device, the file instance is broken, so we use base64 first
+                attachment = attachments.map(function (attachment) {
+                  return attachment.base64Url ? (0, _utils.base64ToFile)(attachment.base64Url, attachment.name) : attachment.file;
                 });
-                _context4.next = 7;
-                return this._deps.client.service.platform().post('/restapi/v1.0/account/~/extension/~/sms', formData);
+                _context4.next = 5;
+                return this._deps.client.multipart.post('/restapi/v1.0/account/~/extension/~/mms', {
+                  fields: {
+                    json: body
+                  },
+                  files: {
+                    attachment: attachment
+                  }
+                });
+              case 5:
+                responseData = _context4.sent;
+                return _context4.abrupt("return", responseData);
               case 7:
-                response = _context4.sent;
-                return _context4.abrupt("return", response.json());
-              case 9:
               case "end":
                 return _context4.stop();
             }
@@ -708,6 +711,11 @@ var MessageSender = (_dec = (0, _di.Module)({
                   if (err.errorCode === 'CMN-408') {
                     // MSG-240 : "In order to call this API endpoint, user needs to have [InternalSMS] permission for requested resource."
                     _this3._alertWarning(_messageSenderMessages.messageSenderMessages.noInternalSMSPermission);
+                  }
+                  if (err.errorCode === 'MSG-383') {
+                    // MSG-240: International MMS feature is not available
+                    // use common error temporarily
+                    _this3._alertWarning(_messageSenderMessages.messageSenderMessages.sendError);
                   }
                   return null;
                 });

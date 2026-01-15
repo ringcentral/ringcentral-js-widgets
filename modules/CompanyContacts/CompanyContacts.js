@@ -153,6 +153,9 @@ var CompanyContacts = (_dec = (0, _di.Module)({
       }
     }));
     _this._deps.dataFetcherV2.register(_this._source);
+    _this._deps.subscription.register(_assertThisInitialized(_this), {
+      filters: [_subscriptionFilters.subscriptionFilters.companyContacts]
+    });
     return _this;
   }
   _createClass(CompanyContacts, [{
@@ -222,7 +225,7 @@ var CompanyContacts = (_dec = (0, _di.Module)({
     key: "_handleSubscription",
     value: function _handleSubscription(message) {
       var _this$_deps$tabManage, _this$_deps$tabManage2, _message$body;
-      if (this.ready && (this._source.disableCache || ((_this$_deps$tabManage = (_this$_deps$tabManage2 = this._deps.tabManager) === null || _this$_deps$tabManage2 === void 0 ? void 0 : _this$_deps$tabManage2.active) !== null && _this$_deps$tabManage !== void 0 ? _this$_deps$tabManage : true)) && contactsRegExp.test(message === null || message === void 0 ? void 0 : message.event) && (message === null || message === void 0 ? void 0 : (_message$body = message.body) === null || _message$body === void 0 ? void 0 : _message$body.contacts)) {
+      if (this.ready && (this._source.disableCache || ((_this$_deps$tabManage = (_this$_deps$tabManage2 = this._deps.tabManager) === null || _this$_deps$tabManage2 === void 0 ? void 0 : _this$_deps$tabManage2.active) !== null && _this$_deps$tabManage !== void 0 ? _this$_deps$tabManage : true)) && (message === null || message === void 0 ? void 0 : message.event) && contactsRegExp.test(message.event) && ((_message$body = message.body) === null || _message$body === void 0 ? void 0 : _message$body.contacts)) {
         var _this$data;
         var data = (_this$data = this.data) !== null && _this$data !== void 0 ? _this$data : [];
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -254,7 +257,6 @@ var CompanyContacts = (_dec = (0, _di.Module)({
         this._deps.dataFetcherV2.updateData(this._source, [], Date.now());
         this.setCompanyContactsData(data);
       }
-      this._deps.subscription.subscribe([_subscriptionFilters.subscriptionFilters.companyContacts]);
       this._stopWatching = (0, _core.watch)(this, function () {
         return _this3._deps.subscription.message;
       }, function (message) {

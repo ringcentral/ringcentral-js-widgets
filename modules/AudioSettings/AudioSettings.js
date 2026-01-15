@@ -324,30 +324,40 @@ var AudioSettings = (_dec = (0, _di.Module)({
     key: "setAutoGainControl",
     value: function () {
       var _setAutoGainControl = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(isAGCEnabled) {
+        var constraints;
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
                 _context4.prev = 0;
-                _context4.next = 3;
+                constraints = isAGCEnabled ? {
+                  autoGainControl: true
+                } : {
+                  autoGainControl: false,
+                  /**
+                   * https://stackoverflow.com/questions/44307432/how-to-disable-system-audio-enhancements-using-webrtc
+                   * disable system audio enhancements using webRTC
+                   */
+                  googAutoGainControl: false,
+                  googAutoGainControl2: false
+                };
+                _context4.next = 4;
                 return navigator.mediaDevices.getUserMedia({
-                  audio: {
-                    autoGainControl: isAGCEnabled
-                  }
+                  audio: constraints
                 });
-              case 3:
-                _context4.next = 8;
+              case 4:
+                _context4.next = 9;
                 break;
-              case 5:
-                _context4.prev = 5;
+              case 6:
+                _context4.prev = 6;
                 _context4.t0 = _context4["catch"](0);
                 console.warn("setAutoGainControl error:", _context4.t0);
-              case 8:
+              case 9:
               case "end":
                 return _context4.stop();
             }
           }
-        }, _callee4, null, [[0, 5]]);
+        }, _callee4, null, [[0, 6]]);
       }));
       function setAutoGainControl(_x) {
         return _setAutoGainControl.apply(this, arguments);
@@ -531,58 +541,43 @@ var AudioSettings = (_dec = (0, _di.Module)({
   }, {
     key: "checkAudioAvailable",
     value: function () {
-      var _checkAudioAvailable = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10() {
+      var _checkAudioAvailable = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(options) {
         return regeneratorRuntime.wrap(function _callee10$(_context10) {
           while (1) {
             switch (_context10.prev = _context10.next) {
               case 0:
-                if (!this.userMedia) {
-                  this.showPermissionAlert(30 * 1000);
+                if (this.userMedia) {
+                  _context10.next = 4;
+                  break;
                 }
+                this.showPermissionAlert(30 * 1000);
+                if (options.checkIfNoDevices) {
+                  _context10.next = 4;
+                  break;
+                }
+                return _context10.abrupt("return");
+              case 4:
                 this.getUserMedia();
-              case 2:
+              case 5:
               case "end":
                 return _context10.stop();
             }
           }
         }, _callee10, this);
       }));
-      function checkAudioAvailable() {
+      function checkAudioAvailable(_x3) {
         return _checkAudioAvailable.apply(this, arguments);
       }
       return checkAudioAvailable;
     }()
   }, {
-    key: "showAlert",
+    key: "setData",
     value: function () {
-      var _showAlert = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11() {
+      var _setData2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(_ref5) {
+        var _ref5$ringtoneVolume, ringtoneVolume, _ref5$callVolume, callVolume, _ref5$outputDeviceId, outputDeviceId, _ref5$inputDeviceId, inputDeviceId, _ref5$ringtoneDeviceI, ringtoneDeviceId, _ref5$isAGCEnabled, isAGCEnabled;
         return regeneratorRuntime.wrap(function _callee11$(_context11) {
           while (1) {
             switch (_context11.prev = _context11.next) {
-              case 0:
-                if (!this.userMedia) {
-                  this.showPermissionAlert(30 * 1000);
-                }
-              case 1:
-              case "end":
-                return _context11.stop();
-            }
-          }
-        }, _callee11, this);
-      }));
-      function showAlert() {
-        return _showAlert.apply(this, arguments);
-      }
-      return showAlert;
-    }()
-  }, {
-    key: "setData",
-    value: function () {
-      var _setData2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12(_ref5) {
-        var _ref5$ringtoneVolume, ringtoneVolume, _ref5$callVolume, callVolume, _ref5$outputDeviceId, outputDeviceId, _ref5$inputDeviceId, inputDeviceId, _ref5$ringtoneDeviceI, ringtoneDeviceId, _ref5$isAGCEnabled, isAGCEnabled;
-        return regeneratorRuntime.wrap(function _callee12$(_context12) {
-          while (1) {
-            switch (_context12.prev = _context12.next) {
               case 0:
                 _ref5$ringtoneVolume = _ref5.ringtoneVolume, ringtoneVolume = _ref5$ringtoneVolume === void 0 ? this.ringtoneVolume : _ref5$ringtoneVolume, _ref5$callVolume = _ref5.callVolume, callVolume = _ref5$callVolume === void 0 ? this.callVolume : _ref5$callVolume, _ref5$outputDeviceId = _ref5.outputDeviceId, outputDeviceId = _ref5$outputDeviceId === void 0 ? this.outputDeviceId : _ref5$outputDeviceId, _ref5$inputDeviceId = _ref5.inputDeviceId, inputDeviceId = _ref5$inputDeviceId === void 0 ? this.inputDeviceId : _ref5$inputDeviceId, _ref5$ringtoneDeviceI = _ref5.ringtoneDeviceId, ringtoneDeviceId = _ref5$ringtoneDeviceI === void 0 ? this.ringtoneDeviceId : _ref5$ringtoneDeviceI, _ref5$isAGCEnabled = _ref5.isAGCEnabled, isAGCEnabled = _ref5$isAGCEnabled === void 0 ? this.isAGCEnabled : _ref5$isAGCEnabled;
                 this._setData({
@@ -595,12 +590,12 @@ var AudioSettings = (_dec = (0, _di.Module)({
                 });
               case 2:
               case "end":
-                return _context12.stop();
+                return _context11.stop();
             }
           }
-        }, _callee12, this);
+        }, _callee11, this);
       }));
-      function setData(_x3) {
+      function setData(_x4) {
         return _setData2.apply(this, arguments);
       }
       return setData;
@@ -733,6 +728,6 @@ var AudioSettings = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return false;
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "setHasAutoPrompted", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setHasAutoPrompted"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setUserMediaError", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setUserMediaError"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setUserMediaSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setUserMediaSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setAvailableDevices", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setAvailableDevices"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setData", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "markAutoPrompted", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "markAutoPrompted"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setAutoGainControl", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "setAutoGainControl"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_checkDevices", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_checkDevices"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_onGetUserMediaSuccess", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_onGetUserMediaSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "showPermissionAlert", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "showPermissionAlert"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onGetUserMediaError", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "onGetUserMediaError"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "checkAudioAvailable", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "checkAudioAvailable"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "showAlert", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "showAlert"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setData", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "setData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "availableOutputDevices", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "availableOutputDevices"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "availableRingtoneDevices", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "availableRingtoneDevices"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "availableInputDevices", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "availableInputDevices"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "setHasAutoPrompted", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setHasAutoPrompted"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setUserMediaError", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setUserMediaError"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setUserMediaSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setUserMediaSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setAvailableDevices", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setAvailableDevices"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setData", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "markAutoPrompted", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "markAutoPrompted"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setAutoGainControl", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "setAutoGainControl"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_checkDevices", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_checkDevices"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_onGetUserMediaSuccess", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_onGetUserMediaSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "showPermissionAlert", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "showPermissionAlert"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onGetUserMediaError", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "onGetUserMediaError"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "checkAudioAvailable", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "checkAudioAvailable"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setData", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "setData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "availableOutputDevices", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "availableOutputDevices"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "availableRingtoneDevices", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "availableRingtoneDevices"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "availableInputDevices", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "availableInputDevices"), _class2.prototype)), _class2)) || _class);
 exports.AudioSettings = AudioSettings;
 //# sourceMappingURL=AudioSettings.js.map

@@ -13,9 +13,17 @@ var subscriptionFilters = _ObjectMap.ObjectMap.fromObject({
   companyContacts: '/restapi/v1.0/account/~/directory/contacts',
   messageStore: '/restapi/v1.0/account/~/extension/~/message-store',
   instantMessage: '/restapi/v1.0/account/~/extension/~/message-store/instant?type=SMS',
+  messageThreadsSync: '/restapi/v1.0/account/~/message-threads/sync',
+  extensionGrants: '/restapi/v1.0/account/~/extension/~/grant',
+  optOuts: '/restapi/v1.0/account/~/a2p-sms/opt-outs',
+  messageThreadsEntriesSync: '/restapi/v1.0/account/~/message-threads/entries/sync',
   telephonySessions: '/restapi/v1.0/account/~/extension/~/telephony/sessions',
+  callAnsweredElsewhere: '/restapi/v1.0/account/~/extension/~/telephony?action=call-answered-elsewhere',
+  missedCalls: '/restapi/v1.0/account/~/extension/~/missed-calls',
   startRing: '/restapi/v1.0/account/~/extension/~/start-ring',
-  stopRing: '/restapi/v1.0/account/~/extension/~/stop-ring'
+  stopRing: '/restapi/v1.0/account/~/extension/~/stop-ring',
+  glipPosts: '/restapi/v1.0/glip/posts',
+  glipGroups: '/restapi/v1.0/glip/groups'
 });
 exports.subscriptionFilters = subscriptionFilters;
 var _default = subscriptionFilters;
