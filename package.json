@@ -17,7 +17,7 @@
     "dayjs": "^1.11.7"
   },
   "peerDependencies": {
-    "@ringcentral-integration/i18n": "^2.2.1",
+    "@ringcentral-integration/i18n": "^2.3.1",
     "@ringcentral-integration/utils": "^0.15.0"
   }
 }
