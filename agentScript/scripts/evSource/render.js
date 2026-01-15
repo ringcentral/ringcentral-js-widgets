@@ -1,6 +1,7 @@
 "use strict";
 
-require("core-js/modules/es.date.to-string");
+require("core-js/modules/es.date.to-string.js");
+require("core-js/modules/es.object.keys.js");
 (function () {
   'use strict';
 

@@ -1,4 +1,4 @@
-"use strict";require("core-js/modules/es.symbol");require("core-js/modules/es.symbol.description");require("core-js/modules/es.symbol.iterator");require("core-js/modules/es.array.concat");require("core-js/modules/es.array.filter");require("core-js/modules/es.array.find");require("core-js/modules/es.array.for-each");require("core-js/modules/es.array.index-of");require("core-js/modules/es.array.is-array");require("core-js/modules/es.array.iterator");require("core-js/modules/es.array.join");require("core-js/modules/es.array.last-index-of");require("core-js/modules/es.array.map");require("core-js/modules/es.array.reduce");require("core-js/modules/es.array.reduce-right");require("core-js/modules/es.array.slice");require("core-js/modules/es.array.some");require("core-js/modules/es.array.sort");require("core-js/modules/es.array.splice");require("core-js/modules/es.date.to-iso-string");require("core-js/modules/es.date.to-string");require("core-js/modules/es.function.bind");require("core-js/modules/es.function.name");require("core-js/modules/es.number.constructor");require("core-js/modules/es.object.create");require("core-js/modules/es.object.get-prototype-of");require("core-js/modules/es.object.keys");require("core-js/modules/es.object.to-string");require("core-js/modules/es.parse-float");require("core-js/modules/es.parse-int");require("core-js/modules/es.promise");require("core-js/modules/es.promise.finally");require("core-js/modules/es.regexp.constructor");require("core-js/modules/es.regexp.exec");require("core-js/modules/es.regexp.to-string");require("core-js/modules/es.string.iterator");require("core-js/modules/es.string.match");require("core-js/modules/es.string.replace");require("core-js/modules/es.string.search");require("core-js/modules/es.string.split");require("core-js/modules/es.string.trim");require("core-js/modules/es.string.link");require("core-js/modules/web.dom-collections.for-each");require("core-js/modules/web.dom-collections.iterator");require("core-js/modules/web.timers");function _typeof(o){"@babel/helpers - typeof";return _typeof="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(o){return typeof o;}:function(o){return o&&"function"==typeof Symbol&&o.constructor===Symbol&&o!==Symbol.prototype?"symbol":typeof o;},_typeof(o);}/**
+"use strict";require("core-js/modules/es.symbol.js");require("core-js/modules/es.symbol.description.js");require("core-js/modules/es.symbol.iterator.js");require("core-js/modules/es.array.iterator.js");require("core-js/modules/es.string.iterator.js");require("core-js/modules/web.dom-collections.iterator.js");require("core-js/modules/es.array.concat.js");require("core-js/modules/es.array.filter.js");require("core-js/modules/es.array.find.js");require("core-js/modules/es.array.for-each.js");require("core-js/modules/es.array.index-of.js");require("core-js/modules/es.array.is-array.js");require("core-js/modules/es.array.join.js");require("core-js/modules/es.array.last-index-of.js");require("core-js/modules/es.array.map.js");require("core-js/modules/es.array.reduce.js");require("core-js/modules/es.array.reduce-right.js");require("core-js/modules/es.array.slice.js");require("core-js/modules/es.array.some.js");require("core-js/modules/es.array.sort.js");require("core-js/modules/es.array.splice.js");require("core-js/modules/es.date.to-iso-string.js");require("core-js/modules/es.date.to-json.js");require("core-js/modules/es.date.to-string.js");require("core-js/modules/es.function.bind.js");require("core-js/modules/es.function.name.js");require("core-js/modules/es.number.constructor.js");require("core-js/modules/es.object.create.js");require("core-js/modules/es.object.get-prototype-of.js");require("core-js/modules/es.object.keys.js");require("core-js/modules/es.object.to-string.js");require("core-js/modules/es.parse-float.js");require("core-js/modules/es.parse-int.js");require("core-js/modules/es.promise.js");require("core-js/modules/es.promise.finally.js");require("core-js/modules/es.regexp.constructor.js");require("core-js/modules/es.regexp.exec.js");require("core-js/modules/es.regexp.to-string.js");require("core-js/modules/es.string.match.js");require("core-js/modules/es.string.replace.js");require("core-js/modules/es.string.search.js");require("core-js/modules/es.string.split.js");require("core-js/modules/es.string.trim.js");require("core-js/modules/es.string.link.js");require("core-js/modules/web.dom-collections.for-each.js");require("core-js/modules/web.timers.js");function _typeof(o){"@babel/helpers - typeof";return _typeof="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(o){return typeof o;}:function(o){return o&&"function"==typeof Symbol&&o.constructor===Symbol&&o!==Symbol.prototype?"symbol":typeof o;},_typeof(o);}/**
  * @license AngularJS v1.4.14
  * (c) 2010-2015 Google, Inc. http://angularjs.org
  * License: MIT
@@ -30,7 +30,7 @@
  * @param {function} ErrorConstructor Custom error constructor to be instantiated when returning
  *   error from returned function, for cases when a particular type of error is useful.
  * @returns {function(code:string, template:string, ...templateArgs): Error} minErr instance
- */function minErr(module,ErrorConstructor){ErrorConstructor=ErrorConstructor||Error;return function(){var SKIP_INDEXES=2;var templateArgs=arguments,code=templateArgs[0],message='['+(module?module+':':'')+code+'] ',template=templateArgs[1],paramPrefix,i;message+=template.replace(/\{\d+\}/g,function(match){var index=+match.slice(1,-1),shiftedIndex=index+SKIP_INDEXES;if(shiftedIndex<templateArgs.length){return toDebugString(templateArgs[shiftedIndex]);}return match;});message+='\nhttp://errors.angularjs.org/1.4.14/'+(module?module+'/':'')+code;for(i=SKIP_INDEXES,paramPrefix='?';i<templateArgs.length;i++,paramPrefix='&'){message+=paramPrefix+'p'+(i-SKIP_INDEXES)+'='+encodeURIComponent(toDebugString(templateArgs[i]));}return new ErrorConstructor(message);};}/* We need to tell jshint what variables are being exported */ /* global angular: true,
+ */function minErr(module,ErrorConstructor){ErrorConstructor=ErrorConstructor||Error;return function(){var SKIP_INDEXES=2;var templateArgs=arguments,code=templateArgs[0],message='['+(module?module+':':'')+code+'] ',template=templateArgs[1],paramPrefix,i;message+=template.replace(/\{\d+\}/g,function(match){var index=+match.slice(1,-1),shiftedIndex=index+SKIP_INDEXES;if(shiftedIndex<templateArgs.length){return toDebugString(templateArgs[shiftedIndex]);}return match;});message+='\nhttp://errors.angularjs.org/1.4.14/'+(module?module+'/':'')+code;for(i=SKIP_INDEXES,paramPrefix='?';i<templateArgs.length;i++,paramPrefix='&'){message+=paramPrefix+'p'+(i-SKIP_INDEXES)+'='+encodeURIComponent(toDebugString(templateArgs[i]));}return new ErrorConstructor(message);};}/* We need to tell jshint what variables are being exported *//* global angular: true,
   msie: true,
   jqLite: true,
   jQuery: true,
@@ -123,7 +123,7 @@
   NODE_TYPE_COMMENT: true,
   NODE_TYPE_DOCUMENT: true,
   NODE_TYPE_DOCUMENT_FRAGMENT: true,
-*/ ////////////////////////////////////
+*/////////////////////////////////////
 /**
  * @ngdoc module
  * @name ng
@@ -538,7 +538,7 @@ var index=stackSource.indexOf(source);if(index!==-1){return stackDest[index];}if
  * @param {*} o2 Object or value to compare.
  * @returns {boolean} True if arguments are equal.
  */function equals(o1,o2){if(o1===o2)return true;if(o1===null||o2===null)return false;if(o1!==o1&&o2!==o2)return true;// NaN === NaN
-var t1=_typeof(o1),t2=_typeof(o2),length,key,keySet;if(t1==t2){if(t1=='object'){if(isArray(o1)){if(!isArray(o2))return false;if((length=o1.length)==o2.length){for(key=0;key<length;key++){if(!equals(o1[key],o2[key]))return false;}return true;}}else if(isDate(o1)){if(!isDate(o2))return false;return equals(o1.getTime(),o2.getTime());}else if(isRegExp(o1)){return isRegExp(o2)?o1.toString()==o2.toString():false;}else{if(isScope(o1)||isScope(o2)||isWindow(o1)||isWindow(o2)||isArray(o2)||isDate(o2)||isRegExp(o2))return false;keySet=createMap();for(key in o1){if(key.charAt(0)==='$'||isFunction(o1[key]))continue;if(!equals(o1[key],o2[key]))return false;keySet[key]=true;}for(key in o2){if(!(key in keySet)&&key.charAt(0)!=='$'&&isDefined(o2[key])&&!isFunction(o2[key]))return false;}return true;}}}return false;}var csp=function csp(){if(!isDefined(csp.rules)){var ngCspElement=document.querySelector('[ng-csp]')||document.querySelector('[data-ng-csp]');if(ngCspElement){var ngCspAttribute=ngCspElement.getAttribute('ng-csp')||ngCspElement.getAttribute('data-ng-csp');csp.rules={noUnsafeEval:!ngCspAttribute||ngCspAttribute.indexOf('no-unsafe-eval')!==-1,noInlineStyle:!ngCspAttribute||ngCspAttribute.indexOf('no-inline-style')!==-1};}else{csp.rules={noUnsafeEval:noUnsafeEval(),noInlineStyle:false};}}return csp.rules;function noUnsafeEval(){try{/* jshint -W031, -W054 */new Function('');/* jshint +W031, +W054 */return false;}catch(e){return true;}}};/**
+var t1=_typeof(o1),t2=_typeof(o2),length,key,keySet;if(t1==t2){if(t1=='object'){if(isArray(o1)){if(!isArray(o2))return false;if((length=o1.length)==o2.length){for(key=0;key<length;key++){if(!equals(o1[key],o2[key]))return false;}return true;}}else if(isDate(o1)){if(!isDate(o2))return false;return equals(o1.getTime(),o2.getTime());}else if(isRegExp(o1)){return isRegExp(o2)?o1.toString()==o2.toString():false;}else{if(isScope(o1)||isScope(o2)||isWindow(o1)||isWindow(o2)||isArray(o2)||isDate(o2)||isRegExp(o2))return false;keySet=createMap();for(key in o1){if(key.charAt(0)==='$'||isFunction(o1[key]))continue;if(!equals(o1[key],o2[key]))return false;keySet[key]=true;}for(key in o2){if(!(key in keySet)&&key.charAt(0)!=='$'&&isDefined(o2[key])&&!isFunction(o2[key]))return false;}return true;}}}return false;}var _csp=function csp(){if(!isDefined(_csp.rules)){var ngCspElement=document.querySelector('[ng-csp]')||document.querySelector('[data-ng-csp]');if(ngCspElement){var ngCspAttribute=ngCspElement.getAttribute('ng-csp')||ngCspElement.getAttribute('data-ng-csp');_csp.rules={noUnsafeEval:!ngCspAttribute||ngCspAttribute.indexOf('no-unsafe-eval')!==-1,noInlineStyle:!ngCspAttribute||ngCspAttribute.indexOf('no-inline-style')!==-1};}else{_csp.rules={noUnsafeEval:noUnsafeEval(),noInlineStyle:false};}}return _csp.rules;function noUnsafeEval(){try{/* jshint -W031, -W054 */new Function('');/* jshint +W031, +W054 */return false;}catch(e){return true;}}};/**
  * @ngdoc directive
  * @module ng
  * @name ngJq
@@ -575,7 +575,7 @@ var t1=_typeof(o1),t2=_typeof(o2),length,key,keySet;if(t1==t2){if(t1=='object'){
  ...
  </html>
  ```
- */var jq=function jq(){if(isDefined(jq.name_))return jq.name_;var el;var i,ii=ngAttrPrefixes.length,prefix,name;for(i=0;i<ii;++i){prefix=ngAttrPrefixes[i];if(el=document.querySelector('['+prefix.replace(':','\\:')+'jq]')){name=el.getAttribute(prefix+'jq');break;}}return jq.name_=name;};function concat(array1,array2,index){return array1.concat(slice.call(array2,index));}function sliceArgs(args,startIndex){return slice.call(args,startIndex||0);}/* jshint -W101 */ /**
+ */var _jq=function jq(){if(isDefined(_jq.name_))return _jq.name_;var el;var i,ii=ngAttrPrefixes.length,prefix,name;for(i=0;i<ii;++i){prefix=ngAttrPrefixes[i];if(el=document.querySelector('['+prefix.replace(':','\\:')+'jq]')){name=el.getAttribute(prefix+'jq');break;}}return _jq.name_=name;};function concat(array1,array2,index){return array1.concat(slice.call(array2,index));}function sliceArgs(args,startIndex){return slice.call(args,startIndex||0);}/* jshint -W101 *//**
  * @ngdoc function
  * @name angular.bind
  * @module ng
@@ -591,7 +591,7 @@ var t1=_typeof(o1),t2=_typeof(o2),length,key,keySet;if(t1==t2){if(t1=='object'){
  * @param {function()} fn Function to be bound.
  * @param {...*} args Optional arguments to be prebound to the `fn` function call.
  * @returns {function()} Function that wraps the `fn` with all the specified bindings.
- */ /* jshint +W101 */function bind(self,fn){var curryArgs=arguments.length>2?sliceArgs(arguments,2):[];if(isFunction(fn)&&!(fn instanceof RegExp)){return curryArgs.length?function(){return arguments.length?fn.apply(self,concat(curryArgs,arguments,0)):fn.apply(self,curryArgs);}:function(){return arguments.length?fn.apply(self,arguments):fn.call(self);};}else{// in IE, native methods are not functions so they cannot be bound (note: they don't need to be)
+ *//* jshint +W101 */function bind(self,fn){var curryArgs=arguments.length>2?sliceArgs(arguments,2):[];if(isFunction(fn)&&!(fn instanceof RegExp)){return curryArgs.length?function(){return arguments.length?fn.apply(self,concat(curryArgs,arguments,0)):fn.apply(self,curryArgs);}:function(){return arguments.length?fn.apply(self,arguments):fn.call(self);};}else{// in IE, native methods are not functions so they cannot be bound (note: they don't need to be)
 return fn;}}function toJsonReplacer(key,value){var val=value;if(typeof key==='string'&&key.charAt(0)==='$'&&key.charAt(1)==='$'){val=undefined;}else if(isWindow(value)){val='$WINDOW';}else if(value&&document===value){val='$DOCUMENT';}else if(isScope(value)){val='$SCOPE';}return val;}/**
  * @ngdoc function
  * @name angular.toJson
@@ -849,7 +849,7 @@ modules.push(['$compileProvider',function($compileProvider){$compileProvider.deb
  * element.
  * @param {DOMElement} element DOM element which is the root of angular application.
  */function getTestability(rootElement){var injector=angular.element(rootElement).injector();if(!injector){throw ngMinErr('test','no injector found for element argument to getTestability');}return injector.get('$$testability');}var SNAKE_CASE_REGEXP=/[A-Z]/g;function snake_case(name,separator){separator=separator||'_';return name.replace(SNAKE_CASE_REGEXP,function(letter,pos){return(pos?separator:'')+letter.toLowerCase();});}var bindJQueryFired=false;var skipDestroyOnNextJQueryCleanData;function bindJQuery(){var originalCleanData;if(bindJQueryFired){return;}// bind to jQuery if present;
-var jqName=jq();jQuery=isUndefined(jqName)?window.jQuery:// use jQuery (if present)
+var jqName=_jq();jQuery=isUndefined(jqName)?window.jQuery:// use jQuery (if present)
 !jqName?undefined:// use jqLite
 window[jqName];// use jQuery specified by `ngJq`
 // Use jQuery if it exists with proper functionality, otherwise default to us.
@@ -872,7 +872,7 @@ bindJQueryFired=true;}/**
  * @param {String} path path to traverse
  * @param {boolean} [bindFnToScope=true]
  * @returns {Object} value as accessible by path
- */ //TODO(misko): this function needs to be removed
+ *///TODO(misko): this function needs to be removed
 function getter(obj,path,bindFnToScope){if(!path)return obj;var keys=path.split('.');var key;var lastInstance=obj;var len=keys.length;for(var i=0;i<len;i++){key=keys[i];if(obj){obj=(lastInstance=obj)[key];}}if(!bindFnToScope&&isFunction(obj)){return bind(lastInstance,obj);}return obj;}/**
  * Return the DOM siblings between the first and last node in the given array.
  * @param {Array} array like object
@@ -1199,7 +1199,7 @@ _invokeQueue:invokeQueue,_configBlocks:configBlocks,_runBlocks:runBlocks,/**
   $WindowProvider,
   $$jqLiteProvider,
   $$CookieReaderProvider
-*/ /**
+*//**
  * @ngdoc object
  * @name angular.version
  * @module ng
@@ -1215,7 +1215,7 @@ _invokeQueue:invokeQueue,_configBlocks:configBlocks,_runBlocks:runBlocks,/**
  * - `codeName` – `{string}` – Code name of the release, such as "jiggling-armfat".
  */var version={full:'1.4.14',// all of these placeholder strings will be replaced by grunt's
 major:1,// package task
-minor:4,dot:14,codeName:'material-distinction'};function publishExternalAPI(angular){extend(angular,{'bootstrap':bootstrap,'copy':copy,'extend':extend,'merge':merge,'equals':equals,'element':jqLite,'forEach':forEach,'injector':createInjector,'noop':noop,'bind':bind,'toJson':toJson,'fromJson':fromJson,'identity':identity,'isUndefined':isUndefined,'isDefined':isDefined,'isString':isString,'isFunction':isFunction,'isObject':isObject,'isNumber':isNumber,'isElement':isElement,'isArray':isArray,'version':version,'isDate':isDate,'lowercase':lowercase,'uppercase':uppercase,'callbacks':{counter:0},'getTestability':getTestability,'$$minErr':minErr,'$$csp':csp,'reloadWithDebugInfo':reloadWithDebugInfo});angularModule=setupModuleLoader(window);angularModule('ng',['ngLocale'],['$provide',function ngModule($provide){// $$sanitizeUriProvider needs to be before $compileProvider as it is used by it.
+minor:4,dot:14,codeName:'material-distinction'};function publishExternalAPI(angular){extend(angular,{'bootstrap':bootstrap,'copy':copy,'extend':extend,'merge':merge,'equals':equals,'element':jqLite,'forEach':forEach,'injector':createInjector,'noop':noop,'bind':bind,'toJson':toJson,'fromJson':fromJson,'identity':identity,'isUndefined':isUndefined,'isDefined':isDefined,'isString':isString,'isFunction':isFunction,'isObject':isObject,'isNumber':isNumber,'isElement':isElement,'isArray':isArray,'version':version,'isDate':isDate,'lowercase':lowercase,'uppercase':uppercase,'callbacks':{counter:0},'getTestability':getTestability,'$$minErr':minErr,'$$csp':_csp,'reloadWithDebugInfo':reloadWithDebugInfo});angularModule=setupModuleLoader(window);angularModule('ng',['ngLocale'],['$provide',function ngModule($provide){// $$sanitizeUriProvider needs to be before $compileProvider as it is used by it.
 $provide.provider({$$sanitizeUri:$$SanitizeUriProvider});$provide.provider('$compile',$CompileProvider).directive({a:htmlAnchorDirective,input:inputDirective,textarea:inputDirective,form:formDirective,script:scriptDirective,select:selectDirective,style:styleDirective,option:optionDirective,ngBind:ngBindDirective,ngBindHtml:ngBindHtmlDirective,ngBindTemplate:ngBindTemplateDirective,ngClass:ngClassDirective,ngClassEven:ngClassEvenDirective,ngClassOdd:ngClassOddDirective,ngCloak:ngCloakDirective,ngController:ngControllerDirective,ngForm:ngFormDirective,ngHide:ngHideDirective,ngIf:ngIfDirective,ngInclude:ngIncludeDirective,ngInit:ngInitDirective,ngNonBindable:ngNonBindableDirective,ngPluralize:ngPluralizeDirective,ngRepeat:ngRepeatDirective,ngShow:ngShowDirective,ngStyle:ngStyleDirective,ngSwitch:ngSwitchDirective,ngSwitchWhen:ngSwitchWhenDirective,ngSwitchDefault:ngSwitchDefaultDirective,ngOptions:ngOptionsDirective,ngTransclude:ngTranscludeDirective,ngModel:ngModelDirective,ngList:ngListDirective,ngChange:ngChangeDirective,pattern:patternDirective,ngPattern:patternDirective,required:requiredDirective,ngRequired:requiredDirective,minlength:minlengthDirective,ngMinlength:minlengthDirective,maxlength:maxlengthDirective,ngMaxlength:maxlengthDirective,ngValue:ngValueDirective,ngModelOptions:ngModelOptionsDirective}).directive({ngInclude:ngIncludeFillContentDirective}).directive(ngAttributeAliasDirectives).directive(ngEventDirectives);$provide.provider({$anchorScroll:$AnchorScrollProvider,$animate:$AnimateProvider,$animateCss:$CoreAnimateCssProvider,$$animateJs:$$CoreAnimateJsProvider,$$animateQueue:$$CoreAnimateQueueProvider,$$AnimateRunner:$$AnimateRunnerFactoryProvider,$$animateAsyncRun:$$AnimateAsyncRunFactoryProvider,$browser:$BrowserProvider,$cacheFactory:$CacheFactoryProvider,$controller:$ControllerProvider,$document:$DocumentProvider,$exceptionHandler:$ExceptionHandlerProvider,$filter:$FilterProvider,$$forceReflow:$$ForceReflowProvider,$interpolate:$InterpolateProvider,$interval:$IntervalProvider,$http:$HttpProvider,$httpParamSerializer:$HttpParamSerializerProvider,$httpParamSerializerJQLike:$HttpParamSerializerJQLikeProvider,$httpBackend:$HttpBackendProvider,$xhrFactory:$xhrFactoryProvider,$location:$LocationProvider,$log:$LogProvider,$parse:$ParseProvider,$rootScope:$RootScopeProvider,$q:$QProvider,$$q:$$QProvider,$sce:$SceProvider,$sceDelegate:$SceDelegateProvider,$sniffer:$SnifferProvider,$templateCache:$TemplateCacheProvider,$templateRequest:$TemplateRequestProvider,$$testability:$$TestabilityProvider,$timeout:$TimeoutProvider,$window:$WindowProvider,$$rAF:$$RAFProvider,$$jqLite:$$jqLiteProvider,$$HashMap:$$HashMapProvider,$$cookieReader:$$CookieReaderProvider});}]);}/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *     Any commits to this file should be reviewed with security in mind.  *
  *   Changes to this file can potentially create security vulnerabilities. *
@@ -1225,12 +1225,12 @@ $provide.provider({$$sanitizeUri:$$SanitizeUriProvider});$provide.provider('$com
  *  Does the change somehow allow for arbitrary javascript to be executed? *
  *    Or allows for someone to change the prototype of built-in objects?   *
  *     Or gives undesired access to variables likes document or window?    *
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */ /* global JQLitePrototype: true,
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *//* global JQLitePrototype: true,
   addEventListenerFn: true,
   removeEventListenerFn: true,
   BOOLEAN_ATTR: true,
   ALIASED_ATTR: true,
-*/ //////////////////////////////////
+*///////////////////////////////////
 //JQLite
 //////////////////////////////////
 /**
@@ -1500,7 +1500,7 @@ function $$jqLiteProvider(){this.$get=function $$jqLite(){return extend(JQLite,{
  *   $compile($div)(scope);
  * });
  * ```
- */ /**
+ *//**
  * @ngdoc module
  * @name auto
  * @description
@@ -1560,7 +1560,7 @@ var fnText=fn.toString().replace(STRIP_COMMENTS,''),args=fnText.match(FN_ARGS);i
  *
  * ## Inline
  * As an array of injection names, where the last item in the array is the function to call.
- */ /**
+ *//**
  * @ngdoc method
  * @name $injector#get
  *
@@ -1570,7 +1570,7 @@ var fnText=fn.toString().replace(STRIP_COMMENTS,''),args=fnText.match(FN_ARGS);i
  * @param {string} name The name of the instance to retrieve.
  * @param {string=} caller An optional string to provide the origin of the function call for error messages.
  * @return {*} The instance.
- */ /**
+ *//**
  * @ngdoc method
  * @name $injector#invoke
  *
@@ -1583,7 +1583,7 @@ var fnText=fn.toString().replace(STRIP_COMMENTS,''),args=fnText.match(FN_ARGS);i
  * @param {Object=} locals Optional object. If preset then any argument names are read from this
  *                         object first, before the `$injector` is consulted.
  * @returns {*} the value returned by the invoked `fn` function.
- */ /**
+ *//**
  * @ngdoc method
  * @name $injector#has
  *
@@ -1592,7 +1592,7 @@ var fnText=fn.toString().replace(STRIP_COMMENTS,''),args=fnText.match(FN_ARGS);i
  *
  * @param {string} name Name of the service to query.
  * @returns {boolean} `true` if injector has given service.
- */ /**
+ *//**
  * @ngdoc method
  * @name $injector#instantiate
  * @description
@@ -1604,7 +1604,7 @@ var fnText=fn.toString().replace(STRIP_COMMENTS,''),args=fnText.match(FN_ARGS);i
  * @param {Object=} locals Optional object. If preset then any argument names are read from this
  * object first, before the `$injector` is consulted.
  * @returns {Object} new instance of `Type`.
- */ /**
+ *//**
  * @ngdoc method
  * @name $injector#annotate
  *
@@ -1686,7 +1686,7 @@ var fnText=fn.toString().replace(STRIP_COMMENTS,''),args=fnText.match(FN_ARGS);i
  * @param {boolean=} [strictDi=false] Disallow argument name annotation inference.
  *
  * @returns {Array.<string>} The names of the services which the function requires.
- */ /**
+ *//**
  * @ngdoc service
  * @name $provide
  *
@@ -1724,7 +1724,7 @@ var fnText=fn.toString().replace(STRIP_COMMENTS,''),args=fnText.match(FN_ARGS);i
  *      a new object using the given constructor function.
  *
  * See the individual methods for more information and examples.
- */ /**
+ *//**
  * @ngdoc method
  * @name $provide#provider
  * @description
@@ -1818,7 +1818,7 @@ var fnText=fn.toString().replace(STRIP_COMMENTS,''),args=fnText.match(FN_ARGS);i
  *    }));
  *  });
  * ```
- */ /**
+ *//**
  * @ngdoc method
  * @name $provide#factory
  * @description
@@ -1849,7 +1849,7 @@ var fnText=fn.toString().replace(STRIP_COMMENTS,''),args=fnText.match(FN_ARGS);i
  *     ping();
  *   }]);
  * ```
- */ /**
+ *//**
  * @ngdoc method
  * @name $provide#service
  * @description
@@ -1900,7 +1900,7 @@ var fnText=fn.toString().replace(STRIP_COMMENTS,''),args=fnText.match(FN_ARGS);i
  *     ping.send();
  *   }]);
  * ```
- */ /**
+ *//**
  * @ngdoc method
  * @name $provide#value
  * @description
@@ -1929,7 +1929,7 @@ var fnText=fn.toString().replace(STRIP_COMMENTS,''),args=fnText.match(FN_ARGS);i
  *     return value / 2;
  *   });
  * ```
- */ /**
+ *//**
  * @ngdoc method
  * @name $provide#constant
  * @description
@@ -1957,7 +1957,7 @@ var fnText=fn.toString().replace(STRIP_COMMENTS,''),args=fnText.match(FN_ARGS);i
  *     return value * 2;
  *   });
  * ```
- */ /**
+ *//**
  * @ngdoc method
  * @name $provide#decorator
  * @description
@@ -2534,7 +2534,7 @@ if(doc&&doc.hidden){timeoutTick(fn);}else{rafTick(fn);}};this._state=0;}AnimateR
 var options=initialOptions||{};if(!options.$$prepared){options=copy(options);}// there is no point in applying the styles since
 // there is no animation that goes on at all in
 // this version of $animateCss.
-if(options.cleanupStyles){options.from=options.to=null;}if(options.from){element.css(options.from);options.from=null;}/* jshint newcap: false*/var closed,runner=new $$AnimateRunner();return{start:run,end:run};function run(){$$rAF(function(){applyAnimationContents();if(!closed){runner.complete();}closed=true;});return runner;}function applyAnimationContents(){if(options.addClass){element.addClass(options.addClass);options.addClass=null;}if(options.removeClass){element.removeClass(options.removeClass);options.removeClass=null;}if(options.to){element.css(options.to);options.to=null;}}};}];};/* global stripHash: true */ /**
+if(options.cleanupStyles){options.from=options.to=null;}if(options.from){element.css(options.from);options.from=null;}/* jshint newcap: false*/var closed,runner=new $$AnimateRunner();return{start:run,end:run};function run(){$$rAF(function(){applyAnimationContents();if(!closed){runner.complete();}closed=true;});return runner;}function applyAnimationContents(){if(options.addClass){element.addClass(options.addClass);options.addClass=null;}if(options.removeClass){element.removeClass(options.removeClass);options.removeClass=null;}if(options.to){element.css(options.to);options.to=null;}}};}];};/* global stripHash: true *//**
  * ! This is a private undocumented service !
  *
  * @name $browser
@@ -2548,7 +2548,7 @@ if(options.cleanupStyles){options.from=options.to=null;}if(options.from){element
  * For tests we provide {@link ngMock.$browser mock implementation} of the `$browser`
  * service, which can be used for convenient testing of the application without the interaction with
  * the real browser apis.
- */ /**
+ *//**
  * @param {object} window The global window object.
  * @param {object} document jQuery wrapped document.
  * @param {object} $log window.console or an object with the same interface.
@@ -2941,7 +2941,7 @@ if(prevEntry)prevEntry.n=nextEntry;//n stands for next, 'next' didn't minify
  *  Does the change somehow allow for arbitrary javascript to be executed? *
  *    Or allows for someone to change the prototype of built-in objects?   *
  *     Or gives undesired access to variables likes document or window?    *
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */ /* ! VARIABLE/FUNCTION NAMING CONVENTIONS THAT APPLY TO THIS FILE!
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *//* ! VARIABLE/FUNCTION NAMING CONVENTIONS THAT APPLY TO THIS FILE!
  *
  * DOM-related variables:
  *
@@ -2956,7 +2956,7 @@ if(prevEntry)prevEntry.n=nextEntry;//n stands for next, 'next' didn't minify
  * - "nodeLinkFn" - function that aggregates all linking fns for a particular node
  * - "childLinkFn" -  function that aggregates all linking fns for child nodes of a particular node
  * - "compositeLinkFn" - function that aggregates all linking fns for a compilation root (nodeList)
- */ /**
+ *//**
  * @ngdoc service
  * @name $compile
  * @kind function
@@ -4121,14 +4121,14 @@ if(parentGet===noop&&optional)break;destination[scopeName]=function(locals){retu
  * ```
  *    <span ng:bind="a" ng-bind="a" data-ng-bind="a" x-ng-bind="a">
  * ```
- */ /**
+ *//**
  * @ngdoc property
  * @name $compile.directive.Attributes#$attr
  *
  * @description
  * A map of DOM element attribute names to the normalized name. This is
  * needed to do reverse lookup from normalized name back to actual name.
- */ /**
+ *//**
  * @ngdoc method
  * @name $compile.directive.Attributes#$set
  * @kind function
@@ -4141,7 +4141,7 @@ if(parentGet===noop&&optional)break;destination[scopeName]=function(locals){retu
  *          reverse-translated using the {@link ng.$compile.directive.Attributes#$attr $attr}
  *          property to the original name.
  * @param {string} value Value to set the attribute to. The value can be an interpolated string.
- */ /**
+ *//**
  * Closure compiler type information
  */function nodesetLinkingFn(/* angular.Scope */scope,/* NodeList */nodeList,/* Element */rootElement,/* function(Function) */boundTranscludeFn){}function directiveLinkingFn(/* nodesetLinkingFn */nodesetLinkingFn,/* angular.Scope */scope,/* Node */node,/* Element */rootElement,/* function(Function) */boundTranscludeFn){}function tokenDifference(str1,str2){var values='',tokens1=str1.split(/\s+/),tokens2=str2.split(/\s+/);outer:for(var i=0;i<tokens1.length;i++){var token=tokens1[i];for(var j=0;j<tokens2.length;j++){if(token==tokens2[j])continue outer;}values+=(values.length>0?' ':'')+token;}return values;}function removeComments(jqNodes){jqNodes=jqLite(jqNodes);var i=jqNodes.length;if(i<=1){return jqNodes;}while(i--){var node=jqNodes[i];if(node.nodeType===NODE_TYPE_COMMENT){splice.call(jqNodes,i,1);}}return jqNodes;}var $controllerMinErr=minErr('$controller');var CNTRL_REG=/^(\S+)(\s+as\s+([\w$]+))?$/;function identifierForController(controller,ident){if(ident&&isString(ident))return ident;if(isString(controller)){var match=CNTRL_REG.exec(controller);if(match)return match[3];}}/**
  * @ngdoc provider
@@ -4996,7 +4996,7 @@ return executeHeaderFns(reqHeaders,shallowCopy(config));}}$http.pendingRequests=
      * @param {string} url Relative or absolute URL specifying the destination of the request
      * @param {Object=} config Optional configuration object
      * @returns {HttpPromise} Future object
-     */ /**
+     *//**
      * @ngdoc method
      * @name $http#delete
      *
@@ -5006,7 +5006,7 @@ return executeHeaderFns(reqHeaders,shallowCopy(config));}}$http.pendingRequests=
      * @param {string} url Relative or absolute URL specifying the destination of the request
      * @param {Object=} config Optional configuration object
      * @returns {HttpPromise} Future object
-     */ /**
+     *//**
      * @ngdoc method
      * @name $http#head
      *
@@ -5016,7 +5016,7 @@ return executeHeaderFns(reqHeaders,shallowCopy(config));}}$http.pendingRequests=
      * @param {string} url Relative or absolute URL specifying the destination of the request
      * @param {Object=} config Optional configuration object
      * @returns {HttpPromise} Future object
-     */ /**
+     *//**
      * @ngdoc method
      * @name $http#jsonp
      *
@@ -5038,7 +5038,7 @@ return executeHeaderFns(reqHeaders,shallowCopy(config));}}$http.pendingRequests=
      * @param {*} data Request content
      * @param {Object=} config Optional configuration object
      * @returns {HttpPromise} Future object
-     */ /**
+     *//**
      * @ngdoc method
      * @name $http#put
      *
@@ -5049,7 +5049,7 @@ return executeHeaderFns(reqHeaders,shallowCopy(config));}}$http.pendingRequests=
      * @param {*} data Request content
      * @param {Object=} config Optional configuration object
      * @returns {HttpPromise} Future object
-     */ /**
+     *//**
       * @ngdoc method
       * @name $http#patch
       *
@@ -5786,7 +5786,7 @@ this.$$state=isUndefined(state)?null:state;return this;};});function locationGet
  * - Represents the URL object as a set of methods (protocol, host, port, path, search, hash).
  *
  * For more information see {@link guide/$location Developer Guide: Using $location}
- */ /**
+ *//**
  * @ngdoc provider
  * @name $locationProvider
  * @description
@@ -5835,7 +5835,7 @@ this.$$state=isUndefined(state)?null:state;return this;};});function locationGet
    * @param {string=} oldUrl URL that was before it was changed.
    * @param {string=} newState New history state object
    * @param {string=} oldState History state object that was before it was changed.
-   */ /**
+   *//**
    * @ngdoc event
    * @name $location#$locationChangeSuccess
    * @eventType broadcast on root scope
@@ -5915,7 +5915,7 @@ if($location.absUrl()!==newUrl)return;if(defaultPrevented){$location.$$parse(old
        </div>
      </file>
    </example>
- */ /**
+ *//**
  * @ngdoc provider
  * @name $logProvider
  * @description
@@ -6016,7 +6016,7 @@ break;}property={type:AST.Property,kind:'init'};if(this.peek().constant){propert
    * but using it as an identifier is not supported
    */constants:{'true':{type:AST.Literal,value:true},'false':{type:AST.Literal,value:false},'null':{type:AST.Literal,value:null},'undefined':{type:AST.Literal,value:undefined},'this':{type:AST.ThisExpression}}};function ifDefined(v,d){return typeof v!=='undefined'?v:d;}function plusFn(l,r){if(typeof l==='undefined')return r;if(typeof r==='undefined')return l;return l+r;}function isStateless($filter,filterName){var fn=$filter(filterName);return!fn.$stateful;}function findConstantAndWatchExpressions(ast,$filter){var allConstants;var argsToWatch;switch(ast.type){case AST.Program:allConstants=true;forEach(ast.body,function(expr){findConstantAndWatchExpressions(expr.expression,$filter);allConstants=allConstants&&expr.expression.constant;});ast.constant=allConstants;break;case AST.Literal:ast.constant=true;ast.toWatch=[];break;case AST.UnaryExpression:findConstantAndWatchExpressions(ast.argument,$filter);ast.constant=ast.argument.constant;ast.toWatch=ast.argument.toWatch;break;case AST.BinaryExpression:findConstantAndWatchExpressions(ast.left,$filter);findConstantAndWatchExpressions(ast.right,$filter);ast.constant=ast.left.constant&&ast.right.constant;ast.toWatch=ast.left.toWatch.concat(ast.right.toWatch);break;case AST.LogicalExpression:findConstantAndWatchExpressions(ast.left,$filter);findConstantAndWatchExpressions(ast.right,$filter);ast.constant=ast.left.constant&&ast.right.constant;ast.toWatch=ast.constant?[]:[ast];break;case AST.ConditionalExpression:findConstantAndWatchExpressions(ast.test,$filter);findConstantAndWatchExpressions(ast.alternate,$filter);findConstantAndWatchExpressions(ast.consequent,$filter);ast.constant=ast.test.constant&&ast.alternate.constant&&ast.consequent.constant;ast.toWatch=ast.constant?[]:[ast];break;case AST.Identifier:ast.constant=false;ast.toWatch=[ast];break;case AST.MemberExpression:findConstantAndWatchExpressions(ast.object,$filter);if(ast.computed){findConstantAndWatchExpressions(ast.property,$filter);}ast.constant=ast.object.constant&&(!ast.computed||ast.property.constant);ast.toWatch=[ast];break;case AST.CallExpression:allConstants=ast.filter?isStateless($filter,ast.callee.name):false;argsToWatch=[];forEach(ast.arguments,function(expr){findConstantAndWatchExpressions(expr,$filter);allConstants=allConstants&&expr.constant;if(!expr.constant){argsToWatch.push.apply(argsToWatch,expr.toWatch);}});ast.constant=allConstants;ast.toWatch=ast.filter&&isStateless($filter,ast.callee.name)?argsToWatch:[ast];break;case AST.AssignmentExpression:findConstantAndWatchExpressions(ast.left,$filter);findConstantAndWatchExpressions(ast.right,$filter);ast.constant=ast.left.constant&&ast.right.constant;ast.toWatch=[ast];break;case AST.ArrayExpression:allConstants=true;argsToWatch=[];forEach(ast.elements,function(expr){findConstantAndWatchExpressions(expr,$filter);allConstants=allConstants&&expr.constant;if(!expr.constant){argsToWatch.push.apply(argsToWatch,expr.toWatch);}});ast.constant=allConstants;ast.toWatch=argsToWatch;break;case AST.ObjectExpression:allConstants=true;argsToWatch=[];forEach(ast.properties,function(property){findConstantAndWatchExpressions(property.value,$filter);allConstants=allConstants&&property.value.constant;if(!property.value.constant){argsToWatch.push.apply(argsToWatch,property.value.toWatch);}});ast.constant=allConstants;ast.toWatch=argsToWatch;break;case AST.ThisExpression:ast.constant=false;ast.toWatch=[];break;}}function getInputs(body){if(body.length!=1)return;var lastExpression=body[0].expression;var candidate=lastExpression.toWatch;if(candidate.length!==1)return candidate;return candidate[0]!==lastExpression?candidate:undefined;}function isAssignable(ast){return ast.type===AST.Identifier||ast.type===AST.MemberExpression;}function assignableAST(ast){if(ast.body.length===1&&isAssignable(ast.body[0].expression)){return{type:AST.AssignmentExpression,left:ast.body[0].expression,right:{type:AST.NGValueParameter},operator:'='};}}function isLiteral(ast){return ast.body.length===0||ast.body.length===1&&(ast.body[0].expression.type===AST.Literal||ast.body[0].expression.type===AST.ArrayExpression||ast.body[0].expression.type===AST.ObjectExpression);}function isConstant(ast){return ast.constant;}function ASTCompiler(astBuilder,$filter){this.astBuilder=astBuilder;this.$filter=$filter;}ASTCompiler.prototype={compile:function compile(expression,expensiveChecks){var self=this;var ast=this.astBuilder.ast(expression);this.state={nextId:0,filters:{},expensiveChecks:expensiveChecks,fn:{vars:[],body:[],own:{}},assign:{vars:[],body:[],own:{}},inputs:[]};findConstantAndWatchExpressions(ast,self.$filter);var extra='';var assignable;this.stage='assign';if(assignable=assignableAST(ast)){this.state.computing='assign';var result=this.nextId();this.recurse(assignable,result);this.return_(result);extra='fn.assign='+this.generateFunction('assign','s,v,l');}var toWatch=getInputs(ast.body);self.stage='inputs';forEach(toWatch,function(watch,key){var fnKey='fn'+key;self.state[fnKey]={vars:[],body:[],own:{}};self.state.computing=fnKey;var intoId=self.nextId();self.recurse(watch,intoId);self.return_(intoId);self.state.inputs.push(fnKey);watch.watchId=key;});this.state.computing='fn';this.stage='main';this.recurse(ast);var fnString=// The build and minification steps remove the string "use strict" from the code, but this is done using a regex.
 // This is a workaround for this until we do a better job at only removing the prefix only when we should.
-'"'+this.USE+' '+this.STRICT+'";\n'+this.filterPrefix()+'var fn='+this.generateFunction('fn','s,l,a,i')+extra+this.watchFns()+'return fn;';/* jshint -W054 */var fn=new Function('$filter','ensureSafeMemberName','ensureSafeObject','ensureSafeFunction','getStringValue','ensureSafeAssignContext','ifDefined','plus','text',fnString)(this.$filter,ensureSafeMemberName,ensureSafeObject,ensureSafeFunction,getStringValue,ensureSafeAssignContext,ifDefined,plusFn,expression);/* jshint +W054 */this.state=this.stage=undefined;fn.literal=isLiteral(ast);fn.constant=isConstant(ast);return fn;},USE:'use',STRICT:'strict',watchFns:function watchFns(){var result=[];var fns=this.state.inputs;var self=this;forEach(fns,function(name){result.push('var '+name+'='+self.generateFunction(name,'s'));});if(fns.length){result.push('fn.inputs=['+fns.join(',')+'];');}return result.join('');},generateFunction:function generateFunction(name,params){return'function('+params+'){'+this.varsPrefix(name)+this.body(name)+'};';},filterPrefix:function filterPrefix(){var parts=[];var self=this;forEach(this.state.filters,function(id,filter){parts.push(id+'=$filter('+self.escape(filter)+')');});if(parts.length)return'var '+parts.join(',')+';';return'';},varsPrefix:function varsPrefix(section){return this.state[section].vars.length?'var '+this.state[section].vars.join(',')+';':'';},body:function body(section){return this.state[section].body.join('');},recurse:function recurse(ast,intoId,nameId,recursionFn,create,skipWatchIdCheck){var left,right,self=this,args,expression;recursionFn=recursionFn||noop;if(!skipWatchIdCheck&&isDefined(ast.watchId)){intoId=intoId||this.nextId();this.if_('i',this.lazyAssign(intoId,this.computedMember('i',ast.watchId)),this.lazyRecurse(ast,intoId,nameId,recursionFn,create,true));return;}switch(ast.type){case AST.Program:forEach(ast.body,function(expression,pos){self.recurse(expression.expression,undefined,undefined,function(expr){right=expr;});if(pos!==ast.body.length-1){self.current().body.push(right,';');}else{self.return_(right);}});break;case AST.Literal:expression=this.escape(ast.value);this.assign(intoId,expression);recursionFn(expression);break;case AST.UnaryExpression:this.recurse(ast.argument,undefined,undefined,function(expr){right=expr;});expression=ast.operator+'('+this.ifDefined(right,0)+')';this.assign(intoId,expression);recursionFn(expression);break;case AST.BinaryExpression:this.recurse(ast.left,undefined,undefined,function(expr){left=expr;});this.recurse(ast.right,undefined,undefined,function(expr){right=expr;});if(ast.operator==='+'){expression=this.plus(left,right);}else if(ast.operator==='-'){expression=this.ifDefined(left,0)+ast.operator+this.ifDefined(right,0);}else{expression='('+left+')'+ast.operator+'('+right+')';}this.assign(intoId,expression);recursionFn(expression);break;case AST.LogicalExpression:intoId=intoId||this.nextId();self.recurse(ast.left,intoId);self.if_(ast.operator==='&&'?intoId:self.not(intoId),self.lazyRecurse(ast.right,intoId));recursionFn(intoId);break;case AST.ConditionalExpression:intoId=intoId||this.nextId();self.recurse(ast.test,intoId);self.if_(intoId,self.lazyRecurse(ast.alternate,intoId),self.lazyRecurse(ast.consequent,intoId));recursionFn(intoId);break;case AST.Identifier:intoId=intoId||this.nextId();if(nameId){nameId.context=self.stage==='inputs'?'s':this.assign(this.nextId(),this.getHasOwnProperty('l',ast.name)+'?l:s');nameId.computed=false;nameId.name=ast.name;}ensureSafeMemberName(ast.name);self.if_(self.stage==='inputs'||self.not(self.getHasOwnProperty('l',ast.name)),function(){self.if_(self.stage==='inputs'||'s',function(){if(create&&create!==1){self.if_(self.not(self.nonComputedMember('s',ast.name)),self.lazyAssign(self.nonComputedMember('s',ast.name),'{}'));}self.assign(intoId,self.nonComputedMember('s',ast.name));});},intoId&&self.lazyAssign(intoId,self.nonComputedMember('l',ast.name)));if(self.state.expensiveChecks||isPossiblyDangerousMemberName(ast.name)){self.addEnsureSafeObject(intoId);}recursionFn(intoId);break;case AST.MemberExpression:left=nameId&&(nameId.context=this.nextId())||this.nextId();intoId=intoId||this.nextId();self.recurse(ast.object,left,undefined,function(){self.if_(self.notNull(left),function(){if(create&&create!==1){self.addEnsureSafeAssignContext(left);}if(ast.computed){right=self.nextId();self.recurse(ast.property,right);self.getStringValue(right);self.addEnsureSafeMemberName(right);if(create&&create!==1){self.if_(self.not(self.computedMember(left,right)),self.lazyAssign(self.computedMember(left,right),'{}'));}expression=self.ensureSafeObject(self.computedMember(left,right));self.assign(intoId,expression);if(nameId){nameId.computed=true;nameId.name=right;}}else{ensureSafeMemberName(ast.property.name);if(create&&create!==1){self.if_(self.not(self.nonComputedMember(left,ast.property.name)),self.lazyAssign(self.nonComputedMember(left,ast.property.name),'{}'));}expression=self.nonComputedMember(left,ast.property.name);if(self.state.expensiveChecks||isPossiblyDangerousMemberName(ast.property.name)){expression=self.ensureSafeObject(expression);}self.assign(intoId,expression);if(nameId){nameId.computed=false;nameId.name=ast.property.name;}}},function(){self.assign(intoId,'undefined');});recursionFn(intoId);},!!create);break;case AST.CallExpression:intoId=intoId||this.nextId();if(ast.filter){right=self.filter(ast.callee.name);args=[];forEach(ast.arguments,function(expr){var argument=self.nextId();self.recurse(expr,argument);args.push(argument);});expression=right+'('+args.join(',')+')';self.assign(intoId,expression);recursionFn(intoId);}else{right=self.nextId();left={};args=[];self.recurse(ast.callee,right,left,function(){self.if_(self.notNull(right),function(){self.addEnsureSafeFunction(right);forEach(ast.arguments,function(expr){self.recurse(expr,self.nextId(),undefined,function(argument){args.push(self.ensureSafeObject(argument));});});if(left.name){if(!self.state.expensiveChecks){self.addEnsureSafeObject(left.context);}expression=self.member(left.context,left.name,left.computed)+'('+args.join(',')+')';}else{expression=right+'('+args.join(',')+')';}expression=self.ensureSafeObject(expression);self.assign(intoId,expression);},function(){self.assign(intoId,'undefined');});recursionFn(intoId);});}break;case AST.AssignmentExpression:right=this.nextId();left={};if(!isAssignable(ast.left)){throw $parseMinErr('lval','Trying to assign a value to a non l-value');}this.recurse(ast.left,undefined,left,function(){self.if_(self.notNull(left.context),function(){self.recurse(ast.right,right);self.addEnsureSafeObject(self.member(left.context,left.name,left.computed));self.addEnsureSafeAssignContext(left.context);expression=self.member(left.context,left.name,left.computed)+ast.operator+right;self.assign(intoId,expression);recursionFn(intoId||expression);});},1);break;case AST.ArrayExpression:args=[];forEach(ast.elements,function(expr){self.recurse(expr,self.nextId(),undefined,function(argument){args.push(argument);});});expression='['+args.join(',')+']';this.assign(intoId,expression);recursionFn(expression);break;case AST.ObjectExpression:args=[];forEach(ast.properties,function(property){self.recurse(property.value,self.nextId(),undefined,function(expr){args.push(self.escape(property.key.type===AST.Identifier?property.key.name:''+property.key.value)+':'+expr);});});expression='{'+args.join(',')+'}';this.assign(intoId,expression);recursionFn(expression);break;case AST.ThisExpression:this.assign(intoId,'s');recursionFn('s');break;case AST.NGValueParameter:this.assign(intoId,'v');recursionFn('v');break;}},getHasOwnProperty:function getHasOwnProperty(element,property){var key=element+'.'+property;var own=this.current().own;if(!own.hasOwnProperty(key)){own[key]=this.nextId(false,element+'&&('+this.escape(property)+' in '+element+')');}return own[key];},assign:function assign(id,value){if(!id)return;this.current().body.push(id,'=',value,';');return id;},filter:function filter(filterName){if(!this.state.filters.hasOwnProperty(filterName)){this.state.filters[filterName]=this.nextId(true);}return this.state.filters[filterName];},ifDefined:function ifDefined(id,defaultValue){return'ifDefined('+id+','+this.escape(defaultValue)+')';},plus:function plus(left,right){return'plus('+left+','+right+')';},return_:function return_(id){this.current().body.push('return ',id,';');},if_:function if_(test,alternate,consequent){if(test===true){alternate();}else{var body=this.current().body;body.push('if(',test,'){');alternate();body.push('}');if(consequent){body.push('else{');consequent();body.push('}');}}},not:function not(expression){return'!('+expression+')';},notNull:function notNull(expression){return expression+'!=null';},nonComputedMember:function nonComputedMember(left,right){return left+'.'+right;},computedMember:function computedMember(left,right){return left+'['+right+']';},member:function member(left,right,computed){if(computed)return this.computedMember(left,right);return this.nonComputedMember(left,right);},addEnsureSafeObject:function addEnsureSafeObject(item){this.current().body.push(this.ensureSafeObject(item),';');},addEnsureSafeMemberName:function addEnsureSafeMemberName(item){this.current().body.push(this.ensureSafeMemberName(item),';');},addEnsureSafeFunction:function addEnsureSafeFunction(item){this.current().body.push(this.ensureSafeFunction(item),';');},addEnsureSafeAssignContext:function addEnsureSafeAssignContext(item){this.current().body.push(this.ensureSafeAssignContext(item),';');},ensureSafeObject:function ensureSafeObject(item){return'ensureSafeObject('+item+',text)';},ensureSafeMemberName:function ensureSafeMemberName(item){return'ensureSafeMemberName('+item+',text)';},ensureSafeFunction:function ensureSafeFunction(item){return'ensureSafeFunction('+item+',text)';},getStringValue:function getStringValue(item){this.assign(item,'getStringValue('+item+',text)');},ensureSafeAssignContext:function ensureSafeAssignContext(item){return'ensureSafeAssignContext('+item+',text)';},lazyRecurse:function lazyRecurse(ast,intoId,nameId,recursionFn,create,skipWatchIdCheck){var self=this;return function(){self.recurse(ast,intoId,nameId,recursionFn,create,skipWatchIdCheck);};},lazyAssign:function lazyAssign(id,value){var self=this;return function(){self.assign(id,value);};},stringEscapeRegex:/[^ a-zA-Z0-9]/g,stringEscapeFn:function stringEscapeFn(c){return"\\u"+('0000'+c.charCodeAt(0).toString(16)).slice(-4);},escape:function escape(value){if(isString(value))return"'"+value.replace(this.stringEscapeRegex,this.stringEscapeFn)+"'";if(isNumber(value))return value.toString();if(value===true)return'true';if(value===false)return'false';if(value===null)return'null';if(typeof value==='undefined')return'undefined';throw $parseMinErr('esc','IMPOSSIBLE');},nextId:function nextId(skip,init){var id='v'+this.state.nextId++;if(!skip){this.current().vars.push(id+(init?'='+init:''));}return id;},current:function current(){return this.state[this.state.computing];}};function ASTInterpreter(astBuilder,$filter){this.astBuilder=astBuilder;this.$filter=$filter;}ASTInterpreter.prototype={compile:function compile(expression,expensiveChecks){var self=this;var ast=this.astBuilder.ast(expression);this.expression=expression;this.expensiveChecks=expensiveChecks;findConstantAndWatchExpressions(ast,self.$filter);var assignable;var assign;if(assignable=assignableAST(ast)){assign=this.recurse(assignable);}var toWatch=getInputs(ast.body);var inputs;if(toWatch){inputs=[];forEach(toWatch,function(watch,key){var input=self.recurse(watch);watch.input=input;inputs.push(input);watch.watchId=key;});}var expressions=[];forEach(ast.body,function(expression){expressions.push(self.recurse(expression.expression));});var fn=ast.body.length===0?function(){}:ast.body.length===1?expressions[0]:function(scope,locals){var lastValue;forEach(expressions,function(exp){lastValue=exp(scope,locals);});return lastValue;};if(assign){fn.assign=function(scope,value,locals){return assign(scope,locals,value);};}if(inputs){fn.inputs=inputs;}fn.literal=isLiteral(ast);fn.constant=isConstant(ast);return fn;},recurse:function recurse(ast,context,create){var left,right,self=this,args,expression;if(ast.input){return this.inputs(ast.input,ast.watchId);}switch(ast.type){case AST.Literal:return this.value(ast.value,context);case AST.UnaryExpression:right=this.recurse(ast.argument);return this['unary'+ast.operator](right,context);case AST.BinaryExpression:left=this.recurse(ast.left);right=this.recurse(ast.right);return this['binary'+ast.operator](left,right,context);case AST.LogicalExpression:left=this.recurse(ast.left);right=this.recurse(ast.right);return this['binary'+ast.operator](left,right,context);case AST.ConditionalExpression:return this['ternary?:'](this.recurse(ast.test),this.recurse(ast.alternate),this.recurse(ast.consequent),context);case AST.Identifier:ensureSafeMemberName(ast.name,self.expression);return self.identifier(ast.name,self.expensiveChecks||isPossiblyDangerousMemberName(ast.name),context,create,self.expression);case AST.MemberExpression:left=this.recurse(ast.object,false,!!create);if(!ast.computed){ensureSafeMemberName(ast.property.name,self.expression);right=ast.property.name;}if(ast.computed)right=this.recurse(ast.property);return ast.computed?this.computedMember(left,right,context,create,self.expression):this.nonComputedMember(left,right,self.expensiveChecks,context,create,self.expression);case AST.CallExpression:args=[];forEach(ast.arguments,function(expr){args.push(self.recurse(expr));});if(ast.filter)right=this.$filter(ast.callee.name);if(!ast.filter)right=this.recurse(ast.callee,true);return ast.filter?function(scope,locals,assign,inputs){var values=[];for(var i=0;i<args.length;++i){values.push(args[i](scope,locals,assign,inputs));}var value=right.apply(undefined,values,inputs);return context?{context:undefined,name:undefined,value:value}:value;}:function(scope,locals,assign,inputs){var rhs=right(scope,locals,assign,inputs);var value;if(rhs.value!=null){ensureSafeObject(rhs.context,self.expression);ensureSafeFunction(rhs.value,self.expression);var values=[];for(var i=0;i<args.length;++i){values.push(ensureSafeObject(args[i](scope,locals,assign,inputs),self.expression));}value=ensureSafeObject(rhs.value.apply(rhs.context,values),self.expression);}return context?{value:value}:value;};case AST.AssignmentExpression:left=this.recurse(ast.left,true,1);right=this.recurse(ast.right);return function(scope,locals,assign,inputs){var lhs=left(scope,locals,assign,inputs);var rhs=right(scope,locals,assign,inputs);ensureSafeObject(lhs.value,self.expression);ensureSafeAssignContext(lhs.context);lhs.context[lhs.name]=rhs;return context?{value:rhs}:rhs;};case AST.ArrayExpression:args=[];forEach(ast.elements,function(expr){args.push(self.recurse(expr));});return function(scope,locals,assign,inputs){var value=[];for(var i=0;i<args.length;++i){value.push(args[i](scope,locals,assign,inputs));}return context?{value:value}:value;};case AST.ObjectExpression:args=[];forEach(ast.properties,function(property){args.push({key:property.key.type===AST.Identifier?property.key.name:''+property.key.value,value:self.recurse(property.value)});});return function(scope,locals,assign,inputs){var value={};for(var i=0;i<args.length;++i){value[args[i].key]=args[i].value(scope,locals,assign,inputs);}return context?{value:value}:value;};case AST.ThisExpression:return function(scope){return context?{value:scope}:scope;};case AST.NGValueParameter:return function(scope,locals,assign,inputs){return context?{value:assign}:assign;};}},'unary+':function unary(argument,context){return function(scope,locals,assign,inputs){var arg=argument(scope,locals,assign,inputs);if(isDefined(arg)){arg=+arg;}else{arg=0;}return context?{value:arg}:arg;};},'unary-':function unary(argument,context){return function(scope,locals,assign,inputs){var arg=argument(scope,locals,assign,inputs);if(isDefined(arg)){arg=-arg;}else{arg=0;}return context?{value:arg}:arg;};},'unary!':function unary(argument,context){return function(scope,locals,assign,inputs){var arg=!argument(scope,locals,assign,inputs);return context?{value:arg}:arg;};},'binary+':function binary(left,right,context){return function(scope,locals,assign,inputs){var lhs=left(scope,locals,assign,inputs);var rhs=right(scope,locals,assign,inputs);var arg=plusFn(lhs,rhs);return context?{value:arg}:arg;};},'binary-':function binary(left,right,context){return function(scope,locals,assign,inputs){var lhs=left(scope,locals,assign,inputs);var rhs=right(scope,locals,assign,inputs);var arg=(isDefined(lhs)?lhs:0)-(isDefined(rhs)?rhs:0);return context?{value:arg}:arg;};},'binary*':function binary(left,right,context){return function(scope,locals,assign,inputs){var arg=left(scope,locals,assign,inputs)*right(scope,locals,assign,inputs);return context?{value:arg}:arg;};},'binary/':function binary(left,right,context){return function(scope,locals,assign,inputs){var arg=left(scope,locals,assign,inputs)/right(scope,locals,assign,inputs);return context?{value:arg}:arg;};},'binary%':function binary(left,right,context){return function(scope,locals,assign,inputs){var arg=left(scope,locals,assign,inputs)%right(scope,locals,assign,inputs);return context?{value:arg}:arg;};},'binary===':function binary(left,right,context){return function(scope,locals,assign,inputs){var arg=left(scope,locals,assign,inputs)===right(scope,locals,assign,inputs);return context?{value:arg}:arg;};},'binary!==':function binary(left,right,context){return function(scope,locals,assign,inputs){var arg=left(scope,locals,assign,inputs)!==right(scope,locals,assign,inputs);return context?{value:arg}:arg;};},'binary==':function binary(left,right,context){return function(scope,locals,assign,inputs){var arg=left(scope,locals,assign,inputs)==right(scope,locals,assign,inputs);return context?{value:arg}:arg;};},'binary!=':function binary(left,right,context){return function(scope,locals,assign,inputs){var arg=left(scope,locals,assign,inputs)!=right(scope,locals,assign,inputs);return context?{value:arg}:arg;};},'binary<':function binary(left,right,context){return function(scope,locals,assign,inputs){var arg=left(scope,locals,assign,inputs)<right(scope,locals,assign,inputs);return context?{value:arg}:arg;};},'binary>':function binary(left,right,context){return function(scope,locals,assign,inputs){var arg=left(scope,locals,assign,inputs)>right(scope,locals,assign,inputs);return context?{value:arg}:arg;};},'binary<=':function binary(left,right,context){return function(scope,locals,assign,inputs){var arg=left(scope,locals,assign,inputs)<=right(scope,locals,assign,inputs);return context?{value:arg}:arg;};},'binary>=':function binary(left,right,context){return function(scope,locals,assign,inputs){var arg=left(scope,locals,assign,inputs)>=right(scope,locals,assign,inputs);return context?{value:arg}:arg;};},'binary&&':function binary(left,right,context){return function(scope,locals,assign,inputs){var arg=left(scope,locals,assign,inputs)&&right(scope,locals,assign,inputs);return context?{value:arg}:arg;};},'binary||':function binary(left,right,context){return function(scope,locals,assign,inputs){var arg=left(scope,locals,assign,inputs)||right(scope,locals,assign,inputs);return context?{value:arg}:arg;};},'ternary?:':function ternary(test,alternate,consequent,context){return function(scope,locals,assign,inputs){var arg=test(scope,locals,assign,inputs)?alternate(scope,locals,assign,inputs):consequent(scope,locals,assign,inputs);return context?{value:arg}:arg;};},value:function value(_value2,context){return function(){return context?{context:undefined,name:undefined,value:_value2}:_value2;};},identifier:function identifier(name,expensiveChecks,context,create,expression){return function(scope,locals,assign,inputs){var base=locals&&name in locals?locals:scope;if(create&&create!==1&&base&&!base[name]){base[name]={};}var value=base?base[name]:undefined;if(expensiveChecks){ensureSafeObject(value,expression);}if(context){return{context:base,name:name,value:value};}else{return value;}};},computedMember:function computedMember(left,right,context,create,expression){return function(scope,locals,assign,inputs){var lhs=left(scope,locals,assign,inputs);var rhs;var value;if(lhs!=null){rhs=right(scope,locals,assign,inputs);rhs=getStringValue(rhs);ensureSafeMemberName(rhs,expression);if(create&&create!==1){ensureSafeAssignContext(lhs);if(lhs&&!lhs[rhs]){lhs[rhs]={};}}value=lhs[rhs];ensureSafeObject(value,expression);}if(context){return{context:lhs,name:rhs,value:value};}else{return value;}};},nonComputedMember:function nonComputedMember(left,right,expensiveChecks,context,create,expression){return function(scope,locals,assign,inputs){var lhs=left(scope,locals,assign,inputs);if(create&&create!==1){ensureSafeAssignContext(lhs);if(lhs&&!lhs[right]){lhs[right]={};}}var value=lhs!=null?lhs[right]:undefined;if(expensiveChecks||isPossiblyDangerousMemberName(right)){ensureSafeObject(value,expression);}if(context){return{context:lhs,name:right,value:value};}else{return value;}};},inputs:function inputs(input,watchId){return function(scope,value,locals,inputs){if(inputs)return inputs[watchId];return input(scope,value,locals);};}};/**
+'"'+this.USE+' '+this.STRICT+'";\n'+this.filterPrefix()+'var fn='+this.generateFunction('fn','s,l,a,i')+extra+this.watchFns()+'return fn;';/* jshint -W054 */var fn=new Function('$filter','ensureSafeMemberName','ensureSafeObject','ensureSafeFunction','getStringValue','ensureSafeAssignContext','ifDefined','plus','text',fnString)(this.$filter,ensureSafeMemberName,ensureSafeObject,ensureSafeFunction,getStringValue,ensureSafeAssignContext,ifDefined,plusFn,expression);/* jshint +W054 */this.state=this.stage=undefined;fn.literal=isLiteral(ast);fn.constant=isConstant(ast);return fn;},USE:'use',STRICT:'strict',watchFns:function watchFns(){var result=[];var fns=this.state.inputs;var self=this;forEach(fns,function(name){result.push('var '+name+'='+self.generateFunction(name,'s'));});if(fns.length){result.push('fn.inputs=['+fns.join(',')+'];');}return result.join('');},generateFunction:function generateFunction(name,params){return'function('+params+'){'+this.varsPrefix(name)+this.body(name)+'};';},filterPrefix:function filterPrefix(){var parts=[];var self=this;forEach(this.state.filters,function(id,filter){parts.push(id+'=$filter('+self.escape(filter)+')');});if(parts.length)return'var '+parts.join(',')+';';return'';},varsPrefix:function varsPrefix(section){return this.state[section].vars.length?'var '+this.state[section].vars.join(',')+';':'';},body:function body(section){return this.state[section].body.join('');},recurse:function recurse(ast,intoId,nameId,recursionFn,create,skipWatchIdCheck){var left,right,self=this,args,expression;recursionFn=recursionFn||noop;if(!skipWatchIdCheck&&isDefined(ast.watchId)){intoId=intoId||this.nextId();this.if_('i',this.lazyAssign(intoId,this.computedMember('i',ast.watchId)),this.lazyRecurse(ast,intoId,nameId,recursionFn,create,true));return;}switch(ast.type){case AST.Program:forEach(ast.body,function(expression,pos){self.recurse(expression.expression,undefined,undefined,function(expr){right=expr;});if(pos!==ast.body.length-1){self.current().body.push(right,';');}else{self.return_(right);}});break;case AST.Literal:expression=this.escape(ast.value);this.assign(intoId,expression);recursionFn(expression);break;case AST.UnaryExpression:this.recurse(ast.argument,undefined,undefined,function(expr){right=expr;});expression=ast.operator+'('+this.ifDefined(right,0)+')';this.assign(intoId,expression);recursionFn(expression);break;case AST.BinaryExpression:this.recurse(ast.left,undefined,undefined,function(expr){left=expr;});this.recurse(ast.right,undefined,undefined,function(expr){right=expr;});if(ast.operator==='+'){expression=this.plus(left,right);}else if(ast.operator==='-'){expression=this.ifDefined(left,0)+ast.operator+this.ifDefined(right,0);}else{expression='('+left+')'+ast.operator+'('+right+')';}this.assign(intoId,expression);recursionFn(expression);break;case AST.LogicalExpression:intoId=intoId||this.nextId();self.recurse(ast.left,intoId);self.if_(ast.operator==='&&'?intoId:self.not(intoId),self.lazyRecurse(ast.right,intoId));recursionFn(intoId);break;case AST.ConditionalExpression:intoId=intoId||this.nextId();self.recurse(ast.test,intoId);self.if_(intoId,self.lazyRecurse(ast.alternate,intoId),self.lazyRecurse(ast.consequent,intoId));recursionFn(intoId);break;case AST.Identifier:intoId=intoId||this.nextId();if(nameId){nameId.context=self.stage==='inputs'?'s':this.assign(this.nextId(),this.getHasOwnProperty('l',ast.name)+'?l:s');nameId.computed=false;nameId.name=ast.name;}ensureSafeMemberName(ast.name);self.if_(self.stage==='inputs'||self.not(self.getHasOwnProperty('l',ast.name)),function(){self.if_(self.stage==='inputs'||'s',function(){if(create&&create!==1){self.if_(self.not(self.nonComputedMember('s',ast.name)),self.lazyAssign(self.nonComputedMember('s',ast.name),'{}'));}self.assign(intoId,self.nonComputedMember('s',ast.name));});},intoId&&self.lazyAssign(intoId,self.nonComputedMember('l',ast.name)));if(self.state.expensiveChecks||isPossiblyDangerousMemberName(ast.name)){self.addEnsureSafeObject(intoId);}recursionFn(intoId);break;case AST.MemberExpression:left=nameId&&(nameId.context=this.nextId())||this.nextId();intoId=intoId||this.nextId();self.recurse(ast.object,left,undefined,function(){self.if_(self.notNull(left),function(){if(create&&create!==1){self.addEnsureSafeAssignContext(left);}if(ast.computed){right=self.nextId();self.recurse(ast.property,right);self.getStringValue(right);self.addEnsureSafeMemberName(right);if(create&&create!==1){self.if_(self.not(self.computedMember(left,right)),self.lazyAssign(self.computedMember(left,right),'{}'));}expression=self.ensureSafeObject(self.computedMember(left,right));self.assign(intoId,expression);if(nameId){nameId.computed=true;nameId.name=right;}}else{ensureSafeMemberName(ast.property.name);if(create&&create!==1){self.if_(self.not(self.nonComputedMember(left,ast.property.name)),self.lazyAssign(self.nonComputedMember(left,ast.property.name),'{}'));}expression=self.nonComputedMember(left,ast.property.name);if(self.state.expensiveChecks||isPossiblyDangerousMemberName(ast.property.name)){expression=self.ensureSafeObject(expression);}self.assign(intoId,expression);if(nameId){nameId.computed=false;nameId.name=ast.property.name;}}},function(){self.assign(intoId,'undefined');});recursionFn(intoId);},!!create);break;case AST.CallExpression:intoId=intoId||this.nextId();if(ast.filter){right=self.filter(ast.callee.name);args=[];forEach(ast.arguments,function(expr){var argument=self.nextId();self.recurse(expr,argument);args.push(argument);});expression=right+'('+args.join(',')+')';self.assign(intoId,expression);recursionFn(intoId);}else{right=self.nextId();left={};args=[];self.recurse(ast.callee,right,left,function(){self.if_(self.notNull(right),function(){self.addEnsureSafeFunction(right);forEach(ast.arguments,function(expr){self.recurse(expr,self.nextId(),undefined,function(argument){args.push(self.ensureSafeObject(argument));});});if(left.name){if(!self.state.expensiveChecks){self.addEnsureSafeObject(left.context);}expression=self.member(left.context,left.name,left.computed)+'('+args.join(',')+')';}else{expression=right+'('+args.join(',')+')';}expression=self.ensureSafeObject(expression);self.assign(intoId,expression);},function(){self.assign(intoId,'undefined');});recursionFn(intoId);});}break;case AST.AssignmentExpression:right=this.nextId();left={};if(!isAssignable(ast.left)){throw $parseMinErr('lval','Trying to assign a value to a non l-value');}this.recurse(ast.left,undefined,left,function(){self.if_(self.notNull(left.context),function(){self.recurse(ast.right,right);self.addEnsureSafeObject(self.member(left.context,left.name,left.computed));self.addEnsureSafeAssignContext(left.context);expression=self.member(left.context,left.name,left.computed)+ast.operator+right;self.assign(intoId,expression);recursionFn(intoId||expression);});},1);break;case AST.ArrayExpression:args=[];forEach(ast.elements,function(expr){self.recurse(expr,self.nextId(),undefined,function(argument){args.push(argument);});});expression='['+args.join(',')+']';this.assign(intoId,expression);recursionFn(expression);break;case AST.ObjectExpression:args=[];forEach(ast.properties,function(property){self.recurse(property.value,self.nextId(),undefined,function(expr){args.push(self.escape(property.key.type===AST.Identifier?property.key.name:''+property.key.value)+':'+expr);});});expression='{'+args.join(',')+'}';this.assign(intoId,expression);recursionFn(expression);break;case AST.ThisExpression:this.assign(intoId,'s');recursionFn('s');break;case AST.NGValueParameter:this.assign(intoId,'v');recursionFn('v');break;}},getHasOwnProperty:function getHasOwnProperty(element,property){var key=element+'.'+property;var own=this.current().own;if(!own.hasOwnProperty(key)){own[key]=this.nextId(false,element+'&&('+this.escape(property)+' in '+element+')');}return own[key];},assign:function assign(id,value){if(!id)return;this.current().body.push(id,'=',value,';');return id;},filter:function filter(filterName){if(!this.state.filters.hasOwnProperty(filterName)){this.state.filters[filterName]=this.nextId(true);}return this.state.filters[filterName];},ifDefined:function ifDefined(id,defaultValue){return'ifDefined('+id+','+this.escape(defaultValue)+')';},plus:function plus(left,right){return'plus('+left+','+right+')';},return_:function return_(id){this.current().body.push('return ',id,';');},if_:function if_(test,alternate,consequent){if(test===true){alternate();}else{var body=this.current().body;body.push('if(',test,'){');alternate();body.push('}');if(consequent){body.push('else{');consequent();body.push('}');}}},not:function not(expression){return'!('+expression+')';},notNull:function notNull(expression){return expression+'!=null';},nonComputedMember:function nonComputedMember(left,right){return left+'.'+right;},computedMember:function computedMember(left,right){return left+'['+right+']';},member:function member(left,right,computed){if(computed)return this.computedMember(left,right);return this.nonComputedMember(left,right);},addEnsureSafeObject:function addEnsureSafeObject(item){this.current().body.push(this.ensureSafeObject(item),';');},addEnsureSafeMemberName:function addEnsureSafeMemberName(item){this.current().body.push(this.ensureSafeMemberName(item),';');},addEnsureSafeFunction:function addEnsureSafeFunction(item){this.current().body.push(this.ensureSafeFunction(item),';');},addEnsureSafeAssignContext:function addEnsureSafeAssignContext(item){this.current().body.push(this.ensureSafeAssignContext(item),';');},ensureSafeObject:function ensureSafeObject(item){return'ensureSafeObject('+item+',text)';},ensureSafeMemberName:function ensureSafeMemberName(item){return'ensureSafeMemberName('+item+',text)';},ensureSafeFunction:function ensureSafeFunction(item){return'ensureSafeFunction('+item+',text)';},getStringValue:function getStringValue(item){this.assign(item,'getStringValue('+item+',text)');},ensureSafeAssignContext:function ensureSafeAssignContext(item){return'ensureSafeAssignContext('+item+',text)';},lazyRecurse:function lazyRecurse(ast,intoId,nameId,recursionFn,create,skipWatchIdCheck){var self=this;return function(){self.recurse(ast,intoId,nameId,recursionFn,create,skipWatchIdCheck);};},lazyAssign:function lazyAssign(id,value){var self=this;return function(){self.assign(id,value);};},stringEscapeRegex:/[^ a-zA-Z0-9]/g,stringEscapeFn:function stringEscapeFn(c){return"\\u"+('0000'+c.charCodeAt(0).toString(16)).slice(-4);},escape:function escape(value){if(isString(value))return"'"+value.replace(this.stringEscapeRegex,this.stringEscapeFn)+"'";if(isNumber(value))return value.toString();if(value===true)return'true';if(value===false)return'false';if(value===null)return'null';if(typeof value==='undefined')return'undefined';throw $parseMinErr('esc','IMPOSSIBLE');},nextId:function nextId(skip,init){var id='v'+this.state.nextId++;if(!skip){this.current().vars.push(id+(init?'='+init:''));}return id;},current:function current(){return this.state[this.state.computing];}};function ASTInterpreter(astBuilder,$filter){this.astBuilder=astBuilder;this.$filter=$filter;}ASTInterpreter.prototype={compile:function compile(expression,expensiveChecks){var self=this;var ast=this.astBuilder.ast(expression);this.expression=expression;this.expensiveChecks=expensiveChecks;findConstantAndWatchExpressions(ast,self.$filter);var assignable;var assign;if(assignable=assignableAST(ast)){assign=this.recurse(assignable);}var toWatch=getInputs(ast.body);var inputs;if(toWatch){inputs=[];forEach(toWatch,function(watch,key){var input=self.recurse(watch);watch.input=input;inputs.push(input);watch.watchId=key;});}var expressions=[];forEach(ast.body,function(expression){expressions.push(self.recurse(expression.expression));});var fn=ast.body.length===0?function(){}:ast.body.length===1?expressions[0]:function(scope,locals){var lastValue;forEach(expressions,function(exp){lastValue=exp(scope,locals);});return lastValue;};if(assign){fn.assign=function(scope,value,locals){return assign(scope,locals,value);};}if(inputs){fn.inputs=inputs;}fn.literal=isLiteral(ast);fn.constant=isConstant(ast);return fn;},recurse:function recurse(ast,context,create){var left,right,self=this,args,expression;if(ast.input){return this.inputs(ast.input,ast.watchId);}switch(ast.type){case AST.Literal:return this.value(ast.value,context);case AST.UnaryExpression:right=this.recurse(ast.argument);return this['unary'+ast.operator](right,context);case AST.BinaryExpression:left=this.recurse(ast.left);right=this.recurse(ast.right);return this['binary'+ast.operator](left,right,context);case AST.LogicalExpression:left=this.recurse(ast.left);right=this.recurse(ast.right);return this['binary'+ast.operator](left,right,context);case AST.ConditionalExpression:return this['ternary?:'](this.recurse(ast.test),this.recurse(ast.alternate),this.recurse(ast.consequent),context);case AST.Identifier:ensureSafeMemberName(ast.name,self.expression);return self.identifier(ast.name,self.expensiveChecks||isPossiblyDangerousMemberName(ast.name),context,create,self.expression);case AST.MemberExpression:left=this.recurse(ast.object,false,!!create);if(!ast.computed){ensureSafeMemberName(ast.property.name,self.expression);right=ast.property.name;}if(ast.computed)right=this.recurse(ast.property);return ast.computed?this.computedMember(left,right,context,create,self.expression):this.nonComputedMember(left,right,self.expensiveChecks,context,create,self.expression);case AST.CallExpression:args=[];forEach(ast.arguments,function(expr){args.push(self.recurse(expr));});if(ast.filter)right=this.$filter(ast.callee.name);if(!ast.filter)right=this.recurse(ast.callee,true);return ast.filter?function(scope,locals,assign,inputs){var values=[];for(var i=0;i<args.length;++i){values.push(args[i](scope,locals,assign,inputs));}var value=right.apply(undefined,values,inputs);return context?{context:undefined,name:undefined,value:value}:value;}:function(scope,locals,assign,inputs){var rhs=right(scope,locals,assign,inputs);var value;if(rhs.value!=null){ensureSafeObject(rhs.context,self.expression);ensureSafeFunction(rhs.value,self.expression);var values=[];for(var i=0;i<args.length;++i){values.push(ensureSafeObject(args[i](scope,locals,assign,inputs),self.expression));}value=ensureSafeObject(rhs.value.apply(rhs.context,values),self.expression);}return context?{value:value}:value;};case AST.AssignmentExpression:left=this.recurse(ast.left,true,1);right=this.recurse(ast.right);return function(scope,locals,assign,inputs){var lhs=left(scope,locals,assign,inputs);var rhs=right(scope,locals,assign,inputs);ensureSafeObject(lhs.value,self.expression);ensureSafeAssignContext(lhs.context);lhs.context[lhs.name]=rhs;return context?{value:rhs}:rhs;};case AST.ArrayExpression:args=[];forEach(ast.elements,function(expr){args.push(self.recurse(expr));});return function(scope,locals,assign,inputs){var value=[];for(var i=0;i<args.length;++i){value.push(args[i](scope,locals,assign,inputs));}return context?{value:value}:value;};case AST.ObjectExpression:args=[];forEach(ast.properties,function(property){args.push({key:property.key.type===AST.Identifier?property.key.name:''+property.key.value,value:self.recurse(property.value)});});return function(scope,locals,assign,inputs){var value={};for(var i=0;i<args.length;++i){value[args[i].key]=args[i].value(scope,locals,assign,inputs);}return context?{value:value}:value;};case AST.ThisExpression:return function(scope){return context?{value:scope}:scope;};case AST.NGValueParameter:return function(scope,locals,assign,inputs){return context?{value:assign}:assign;};}},'unary+':function unary(argument,context){return function(scope,locals,assign,inputs){var arg=argument(scope,locals,assign,inputs);if(isDefined(arg)){arg=+arg;}else{arg=0;}return context?{value:arg}:arg;};},'unary-':function unary(argument,context){return function(scope,locals,assign,inputs){var arg=argument(scope,locals,assign,inputs);if(isDefined(arg)){arg=-arg;}else{arg=0;}return context?{value:arg}:arg;};},'unary!':function unary(argument,context){return function(scope,locals,assign,inputs){var arg=!argument(scope,locals,assign,inputs);return context?{value:arg}:arg;};},'binary+':function binary(left,right,context){return function(scope,locals,assign,inputs){var lhs=left(scope,locals,assign,inputs);var rhs=right(scope,locals,assign,inputs);var arg=plusFn(lhs,rhs);return context?{value:arg}:arg;};},'binary-':function binary(left,right,context){return function(scope,locals,assign,inputs){var lhs=left(scope,locals,assign,inputs);var rhs=right(scope,locals,assign,inputs);var arg=(isDefined(lhs)?lhs:0)-(isDefined(rhs)?rhs:0);return context?{value:arg}:arg;};},'binary*':function binary(left,right,context){return function(scope,locals,assign,inputs){var arg=left(scope,locals,assign,inputs)*right(scope,locals,assign,inputs);return context?{value:arg}:arg;};},'binary/':function binary_(left,right,context){return function(scope,locals,assign,inputs){var arg=left(scope,locals,assign,inputs)/right(scope,locals,assign,inputs);return context?{value:arg}:arg;};},'binary%':function binary(left,right,context){return function(scope,locals,assign,inputs){var arg=left(scope,locals,assign,inputs)%right(scope,locals,assign,inputs);return context?{value:arg}:arg;};},'binary===':function binary(left,right,context){return function(scope,locals,assign,inputs){var arg=left(scope,locals,assign,inputs)===right(scope,locals,assign,inputs);return context?{value:arg}:arg;};},'binary!==':function binary(left,right,context){return function(scope,locals,assign,inputs){var arg=left(scope,locals,assign,inputs)!==right(scope,locals,assign,inputs);return context?{value:arg}:arg;};},'binary==':function binary(left,right,context){return function(scope,locals,assign,inputs){var arg=left(scope,locals,assign,inputs)==right(scope,locals,assign,inputs);return context?{value:arg}:arg;};},'binary!=':function binary(left,right,context){return function(scope,locals,assign,inputs){var arg=left(scope,locals,assign,inputs)!=right(scope,locals,assign,inputs);return context?{value:arg}:arg;};},'binary<':function binary(left,right,context){return function(scope,locals,assign,inputs){var arg=left(scope,locals,assign,inputs)<right(scope,locals,assign,inputs);return context?{value:arg}:arg;};},'binary>':function binary(left,right,context){return function(scope,locals,assign,inputs){var arg=left(scope,locals,assign,inputs)>right(scope,locals,assign,inputs);return context?{value:arg}:arg;};},'binary<=':function binary(left,right,context){return function(scope,locals,assign,inputs){var arg=left(scope,locals,assign,inputs)<=right(scope,locals,assign,inputs);return context?{value:arg}:arg;};},'binary>=':function binary(left,right,context){return function(scope,locals,assign,inputs){var arg=left(scope,locals,assign,inputs)>=right(scope,locals,assign,inputs);return context?{value:arg}:arg;};},'binary&&':function binary(left,right,context){return function(scope,locals,assign,inputs){var arg=left(scope,locals,assign,inputs)&&right(scope,locals,assign,inputs);return context?{value:arg}:arg;};},'binary||':function binary(left,right,context){return function(scope,locals,assign,inputs){var arg=left(scope,locals,assign,inputs)||right(scope,locals,assign,inputs);return context?{value:arg}:arg;};},'ternary?:':function ternary(test,alternate,consequent,context){return function(scope,locals,assign,inputs){var arg=test(scope,locals,assign,inputs)?alternate(scope,locals,assign,inputs):consequent(scope,locals,assign,inputs);return context?{value:arg}:arg;};},value:function value(_value2,context){return function(){return context?{context:undefined,name:undefined,value:_value2}:_value2;};},identifier:function identifier(name,expensiveChecks,context,create,expression){return function(scope,locals,assign,inputs){var base=locals&&name in locals?locals:scope;if(create&&create!==1&&base&&!base[name]){base[name]={};}var value=base?base[name]:undefined;if(expensiveChecks){ensureSafeObject(value,expression);}if(context){return{context:base,name:name,value:value};}else{return value;}};},computedMember:function computedMember(left,right,context,create,expression){return function(scope,locals,assign,inputs){var lhs=left(scope,locals,assign,inputs);var rhs;var value;if(lhs!=null){rhs=right(scope,locals,assign,inputs);rhs=getStringValue(rhs);ensureSafeMemberName(rhs,expression);if(create&&create!==1){ensureSafeAssignContext(lhs);if(lhs&&!lhs[rhs]){lhs[rhs]={};}}value=lhs[rhs];ensureSafeObject(value,expression);}if(context){return{context:lhs,name:rhs,value:value};}else{return value;}};},nonComputedMember:function nonComputedMember(left,right,expensiveChecks,context,create,expression){return function(scope,locals,assign,inputs){var lhs=left(scope,locals,assign,inputs);if(create&&create!==1){ensureSafeAssignContext(lhs);if(lhs&&!lhs[right]){lhs[right]={};}}var value=lhs!=null?lhs[right]:undefined;if(expensiveChecks||isPossiblyDangerousMemberName(right)){ensureSafeObject(value,expression);}if(context){return{context:lhs,name:right,value:value};}else{return value;}};},inputs:function inputs(input,watchId){return function(scope,value,locals,inputs){if(inputs)return inputs[watchId];return input(scope,value,locals);};}};/**
  * @constructor
  */var Parser=function Parser(lexer,$filter,options){this.lexer=lexer;this.$filter=$filter;this.options=options;this.ast=new AST(this.lexer);this.astCompiler=options.csp?new ASTInterpreter(this.ast,$filter):new ASTCompiler(this.ast,$filter);};Parser.prototype={constructor:Parser,parse:function parse(text){return this.astCompiler.compile(text,this.options.expensiveChecks);}};function isPossiblyDangerousMemberName(name){return name=='constructor';}var objectValueOf=Object.prototype.valueOf;function getValueOf(value){return isFunction(value.valueOf)?value.valueOf():objectValueOf.call(value);}///////////////////////////////////
 /**
@@ -6057,14 +6057,14 @@ break;}property={type:AST.Property,kind:'init'};if(this.peek().constant){propert
  *      * `assign` – `{?function(context, value)}` – if the expression is assignable, this will be
  *        set to a function to change its value on the given context.
  *
- */ /**
+ *//**
  * @ngdoc provider
  * @name $parseProvider
  *
  * @description
  * `$parseProvider` can be used for configuring the default behavior of the {@link ng.$parse $parse}
  *  service.
- */function $ParseProvider(){var cacheDefault=createMap();var cacheExpensive=createMap();this.$get=['$filter',function($filter){var noUnsafeEval=csp().noUnsafeEval;var $parseOptions={csp:noUnsafeEval,expensiveChecks:false},$parseOptionsExpensive={csp:noUnsafeEval,expensiveChecks:true};var runningChecksEnabled=false;$parse.$$runningExpensiveChecks=function(){return runningChecksEnabled;};return $parse;function $parse(exp,interceptorFn,expensiveChecks){var parsedExpression,oneTime,cacheKey;expensiveChecks=expensiveChecks||runningChecksEnabled;switch(_typeof(exp)){case'string':exp=exp.trim();cacheKey=exp;var cache=expensiveChecks?cacheExpensive:cacheDefault;parsedExpression=cache[cacheKey];if(!parsedExpression){if(exp.charAt(0)===':'&&exp.charAt(1)===':'){oneTime=true;exp=exp.substring(2);}var parseOptions=expensiveChecks?$parseOptionsExpensive:$parseOptions;var lexer=new Lexer(parseOptions);var parser=new Parser(lexer,$filter,parseOptions);parsedExpression=parser.parse(exp);if(parsedExpression.constant){parsedExpression.$$watchDelegate=constantWatchDelegate;}else if(oneTime){parsedExpression.$$watchDelegate=parsedExpression.literal?oneTimeLiteralWatchDelegate:oneTimeWatchDelegate;}else if(parsedExpression.inputs){parsedExpression.$$watchDelegate=inputsWatchDelegate;}if(expensiveChecks){parsedExpression=expensiveChecksInterceptor(parsedExpression);}cache[cacheKey]=parsedExpression;}return addInterceptor(parsedExpression,interceptorFn);case'function':return addInterceptor(exp,interceptorFn);default:return addInterceptor(noop,interceptorFn);}}function expensiveChecksInterceptor(fn){if(!fn)return fn;expensiveCheckFn.$$watchDelegate=fn.$$watchDelegate;expensiveCheckFn.assign=expensiveChecksInterceptor(fn.assign);expensiveCheckFn.constant=fn.constant;expensiveCheckFn.literal=fn.literal;for(var i=0;fn.inputs&&i<fn.inputs.length;++i){fn.inputs[i]=expensiveChecksInterceptor(fn.inputs[i]);}expensiveCheckFn.inputs=fn.inputs;return expensiveCheckFn;function expensiveCheckFn(scope,locals,assign,inputs){var expensiveCheckOldValue=runningChecksEnabled;runningChecksEnabled=true;try{return fn(scope,locals,assign,inputs);}finally{runningChecksEnabled=expensiveCheckOldValue;}}}function expressionInputDirtyCheck(newValue,oldValueOfValue){if(newValue==null||oldValueOfValue==null){// null/undefined
+ */function $ParseProvider(){var cacheDefault=createMap();var cacheExpensive=createMap();this.$get=['$filter',function($filter){var noUnsafeEval=_csp().noUnsafeEval;var $parseOptions={csp:noUnsafeEval,expensiveChecks:false},$parseOptionsExpensive={csp:noUnsafeEval,expensiveChecks:true};var runningChecksEnabled=false;$parse.$$runningExpensiveChecks=function(){return runningChecksEnabled;};return $parse;function $parse(exp,interceptorFn,expensiveChecks){var parsedExpression,oneTime,cacheKey;expensiveChecks=expensiveChecks||runningChecksEnabled;switch(_typeof(exp)){case'string':exp=exp.trim();cacheKey=exp;var cache=expensiveChecks?cacheExpensive:cacheDefault;parsedExpression=cache[cacheKey];if(!parsedExpression){if(exp.charAt(0)===':'&&exp.charAt(1)===':'){oneTime=true;exp=exp.substring(2);}var parseOptions=expensiveChecks?$parseOptionsExpensive:$parseOptions;var lexer=new Lexer(parseOptions);var parser=new Parser(lexer,$filter,parseOptions);parsedExpression=parser.parse(exp);if(parsedExpression.constant){parsedExpression.$$watchDelegate=constantWatchDelegate;}else if(oneTime){parsedExpression.$$watchDelegate=parsedExpression.literal?oneTimeLiteralWatchDelegate:oneTimeWatchDelegate;}else if(parsedExpression.inputs){parsedExpression.$$watchDelegate=inputsWatchDelegate;}if(expensiveChecks){parsedExpression=expensiveChecksInterceptor(parsedExpression);}cache[cacheKey]=parsedExpression;}return addInterceptor(parsedExpression,interceptorFn);case'function':return addInterceptor(exp,interceptorFn);default:return addInterceptor(noop,interceptorFn);}}function expensiveChecksInterceptor(fn){if(!fn)return fn;expensiveCheckFn.$$watchDelegate=fn.$$watchDelegate;expensiveCheckFn.assign=expensiveChecksInterceptor(fn.assign);expensiveCheckFn.constant=fn.constant;expensiveCheckFn.literal=fn.literal;for(var i=0;fn.inputs&&i<fn.inputs.length;++i){fn.inputs[i]=expensiveChecksInterceptor(fn.inputs[i]);}expensiveCheckFn.inputs=fn.inputs;return expensiveCheckFn;function expensiveCheckFn(scope,locals,assign,inputs){var expensiveCheckOldValue=runningChecksEnabled;runningChecksEnabled=true;try{return fn(scope,locals,assign,inputs);}finally{runningChecksEnabled=expensiveCheckOldValue;}}}function expressionInputDirtyCheck(newValue,oldValueOfValue){if(newValue==null||oldValueOfValue==null){// null/undefined
 return newValue===oldValueOfValue;}if(_typeof(newValue)==='object'){// attempt to convert the value to a primitive type
 // TODO(docs): add a note to docs that by implementing valueOf even objects and arrays can
 //             be cheaply dirty-checked
@@ -6414,13 +6414,13 @@ return function(){$timeout.cancel(timer);};};raf.supported=rafSupported;return r
  * There are fewer watches than observers. This is why you don't want the observer to be implemented
  * in the same way as watch. Watch requires return of the initialization function which is expensive
  * to construct.
- */ /**
+ *//**
  * @ngdoc provider
  * @name $rootScopeProvider
  * @description
  *
  * Provider for the $rootScope service.
- */ /**
+ *//**
  * @ngdoc method
  * @name $rootScopeProvider#digestTtl
  * @description
@@ -6439,7 +6439,7 @@ return function(){$timeout.cancel(timer);};};raf.supported=rafSupported;return r
  * proper justification.
  *
  * @param {number} limit The number of digest iterations.
- */ /**
+ *//**
  * @ngdoc service
  * @name $rootScope
  * @description
@@ -6505,13 +6505,13 @@ $scope.$parent=$scope.$$nextSibling=$scope.$$prevSibling=$scope.$$childHead=$sco
      *
      * @description
      * Unique scope ID (monotonically increasing) useful for debugging.
-     */ /**
+     *//**
       * @ngdoc property
       * @name $rootScope.Scope#$parent
       *
       * @description
       * Reference to the parent scope.
-      */ /**
+      *//**
        * @ngdoc property
        * @name $rootScope.Scope#$root
        *
@@ -6839,7 +6839,7 @@ if((dirty||asyncQueue.length)&&!ttl--){clearPhase();throw $rootScopeMinErr('infd
        *
        * Note that, in AngularJS, there is also a `$destroy` jQuery event, which can be used to
        * clean up DOM bindings before an element is removed from the DOM.
-       */ /**
+       *//**
        * @ngdoc method
        * @name $rootScope.Scope#$destroy
        * @kind function
@@ -7075,7 +7075,7 @@ var asyncQueue=$rootScope.$$asyncQueue=[];var postDigestQueue=$rootScope.$$postD
  * {@link angular.bootstrap}. The element represents the root element of application. It is also the
  * location where the application's {@link auto.$injector $injector} service gets
  * published, and can be retrieved using `$rootElement.injector()`.
- */ // the implementation is in angular.bootstrap
+ */// the implementation is in angular.bootstrap
 /**
  * @description
  * Private service to sanitize uris for links and images. Used by $compile and $sanitize.
@@ -7153,7 +7153,7 @@ return new RegExp('^'+matcher.source+'$');}else{throw $sceMinErr('imatcher','Mat
  * templates.  Refer {@link ng.$sceDelegateProvider#resourceUrlWhitelist
  * $sceDelegateProvider.resourceUrlWhitelist} and {@link
  * ng.$sceDelegateProvider#resourceUrlBlacklist $sceDelegateProvider.resourceUrlBlacklist}
- */ /**
+ *//**
  * @ngdoc provider
  * @name $sceDelegateProvider
  * @description
@@ -7305,7 +7305,7 @@ if(type===SCE_CONTEXTS.RESOURCE_URL){if(isResourceUrlAllowedByPolicy(maybeTruste
  * -   override the default implementation with a custom delegate
  *
  * Read more about {@link ng.$sce Strict Contextual Escaping (SCE)}.
- */ /* jshint maxlen: false*/ /**
+ *//* jshint maxlen: false*//**
  * @ngdoc service
  * @name $sce
  * @kind function
@@ -7569,7 +7569,7 @@ if(type===SCE_CONTEXTS.RESOURCE_URL){if(isResourceUrlAllowedByPolicy(maybeTruste
  * });
  * ```
  *
- */ /* jshint maxlen: 100 */function $SceProvider(){var enabled=true;/**
+ *//* jshint maxlen: 100 */function $SceProvider(){var enabled=true;/**
    * @ngdoc method
    * @name $sceProvider#enabled
    * @kind function
@@ -7670,7 +7670,7 @@ if(enabled&&msie<8){throw $sceMinErr('iequirks','Strict Contextual Escaping does
      * @param {*} value The value that that should be considered trusted/safe.
      * @returns {*} A value that can be used to stand in for the provided `value` in places
      * where Angular expects a $sce.trustAs() return value.
-     */ /**
+     *//**
      * @ngdoc method
      * @name $sce#trustAsHtml
      *
@@ -7683,7 +7683,7 @@ if(enabled&&msie<8){throw $sceMinErr('iequirks','Strict Contextual Escaping does
      *     $sce.getTrustedHtml(value)} to obtain the original value.  (privileged directives
      *     only accept expressions that are either literal constants or are the
      *     return value of {@link ng.$sce#trustAs $sce.trustAs}.)
-     */ /**
+     *//**
      * @ngdoc method
      * @name $sce#trustAsUrl
      *
@@ -7696,7 +7696,7 @@ if(enabled&&msie<8){throw $sceMinErr('iequirks','Strict Contextual Escaping does
      *     $sce.getTrustedUrl(value)} to obtain the original value.  (privileged directives
      *     only accept expressions that are either literal constants or are the
      *     return value of {@link ng.$sce#trustAs $sce.trustAs}.)
-     */ /**
+     *//**
      * @ngdoc method
      * @name $sce#trustAsResourceUrl
      *
@@ -7709,7 +7709,7 @@ if(enabled&&msie<8){throw $sceMinErr('iequirks','Strict Contextual Escaping does
      *     $sce.getTrustedResourceUrl(value)} to obtain the original value.  (privileged directives
      *     only accept expressions that are either literal constants or are the return
      *     value of {@link ng.$sce#trustAs $sce.trustAs}.)
-     */ /**
+     *//**
      * @ngdoc method
      * @name $sce#trustAsJs
      *
@@ -7722,7 +7722,7 @@ if(enabled&&msie<8){throw $sceMinErr('iequirks','Strict Contextual Escaping does
      *     $sce.getTrustedJs(value)} to obtain the original value.  (privileged directives
      *     only accept expressions that are either literal constants or are the
      *     return value of {@link ng.$sce#trustAs $sce.trustAs}.)
-     */ /**
+     *//**
      * @ngdoc method
      * @name $sce#getTrusted
      *
@@ -7738,7 +7738,7 @@ if(enabled&&msie<8){throw $sceMinErr('iequirks','Strict Contextual Escaping does
      * @returns {*} The value the was originally provided to
      *              {@link ng.$sce#trustAs `$sce.trustAs`} if valid in this context.
      *              Otherwise, throws an exception.
-     */ /**
+     *//**
      * @ngdoc method
      * @name $sce#getTrustedHtml
      *
@@ -7748,7 +7748,7 @@ if(enabled&&msie<8){throw $sceMinErr('iequirks','Strict Contextual Escaping does
      *
      * @param {*} value The value to pass to `$sce.getTrusted`.
      * @returns {*} The return value of `$sce.getTrusted($sce.HTML, value)`
-     */ /**
+     *//**
      * @ngdoc method
      * @name $sce#getTrustedCss
      *
@@ -7758,7 +7758,7 @@ if(enabled&&msie<8){throw $sceMinErr('iequirks','Strict Contextual Escaping does
      *
      * @param {*} value The value to pass to `$sce.getTrusted`.
      * @returns {*} The return value of `$sce.getTrusted($sce.CSS, value)`
-     */ /**
+     *//**
      * @ngdoc method
      * @name $sce#getTrustedUrl
      *
@@ -7768,7 +7768,7 @@ if(enabled&&msie<8){throw $sceMinErr('iequirks','Strict Contextual Escaping does
      *
      * @param {*} value The value to pass to `$sce.getTrusted`.
      * @returns {*} The return value of `$sce.getTrusted($sce.URL, value)`
-     */ /**
+     *//**
      * @ngdoc method
      * @name $sce#getTrustedResourceUrl
      *
@@ -7778,7 +7778,7 @@ if(enabled&&msie<8){throw $sceMinErr('iequirks','Strict Contextual Escaping does
      *
      * @param {*} value The value to pass to `$sceDelegate.getTrusted`.
      * @returns {*} The return value of `$sce.getTrusted($sce.RESOURCE_URL, value)`
-     */ /**
+     *//**
      * @ngdoc method
      * @name $sce#getTrustedJs
      *
@@ -7788,7 +7788,7 @@ if(enabled&&msie<8){throw $sceMinErr('iequirks','Strict Contextual Escaping does
      *
      * @param {*} value The value to pass to `$sce.getTrusted`.
      * @returns {*} The return value of `$sce.getTrusted($sce.JS, value)`
-     */ /**
+     *//**
      * @ngdoc method
      * @name $sce#parseAsHtml
      *
@@ -7803,7 +7803,7 @@ if(enabled&&msie<8){throw $sceMinErr('iequirks','Strict Contextual Escaping does
      *      are evaluated against (typically a scope object).
      *    * `locals` – `{object=}` – local variables context object, useful for overriding values in
      *      `context`.
-     */ /**
+     *//**
      * @ngdoc method
      * @name $sce#parseAsCss
      *
@@ -7818,7 +7818,7 @@ if(enabled&&msie<8){throw $sceMinErr('iequirks','Strict Contextual Escaping does
      *      are evaluated against (typically a scope object).
      *    * `locals` – `{object=}` – local variables context object, useful for overriding values in
      *      `context`.
-     */ /**
+     *//**
      * @ngdoc method
      * @name $sce#parseAsUrl
      *
@@ -7833,7 +7833,7 @@ if(enabled&&msie<8){throw $sceMinErr('iequirks','Strict Contextual Escaping does
      *      are evaluated against (typically a scope object).
      *    * `locals` – `{object=}` – local variables context object, useful for overriding values in
      *      `context`.
-     */ /**
+     *//**
      * @ngdoc method
      * @name $sce#parseAsResourceUrl
      *
@@ -7848,7 +7848,7 @@ if(enabled&&msie<8){throw $sceMinErr('iequirks','Strict Contextual Escaping does
      *      are evaluated against (typically a scope object).
      *    * `locals` – `{object=}` – local variables context object, useful for overriding values in
      *      `context`.
-     */ /**
+     *//**
      * @ngdoc method
      * @name $sce#parseAsJs
      *
@@ -7863,7 +7863,7 @@ if(enabled&&msie<8){throw $sceMinErr('iequirks','Strict Contextual Escaping does
      *      are evaluated against (typically a scope object).
      *    * `locals` – `{object=}` – local variables context object, useful for overriding values in
      *      `context`.
-     */ // Shorthand delegations.
+     */// Shorthand delegations.
 var parse=sce.parseAs,getTrusted=sce.getTrusted,trustAs=sce.trustAs;forEach(SCE_CONTEXTS,function(enumValue,name){var lName=lowercase(name);sce[camelCase("parse_as_"+lName)]=function(expr){return parse(enumValue,expr);};sce[camelCase("get_trusted_"+lName)]=function(value){return getTrusted(enumValue,value);};sce[camelCase("trust_as_"+lName)]=function(value){return trustAs(enumValue,value);};});return sce;}];}/**
  * !!! This is an undocumented "private" service !!!
  *
@@ -7891,7 +7891,7 @@ hasEvent:function hasEvent(event){// IE9 implements 'input' event it's so fubare
 // when cut operation is performed.
 // IE10+ implements 'input' event but it erroneously fires under various situations,
 // e.g. when placeholder changes, or a form is focused.
-if(event==='input'&&msie<=11)return false;if(isUndefined(eventSupport[event])){var divElm=document.createElement('div');eventSupport[event]='on'+event in divElm;}return eventSupport[event];},csp:csp(),vendorPrefix:vendorPrefix,transitions:transitions,animations:animations,android:android};}];}var $compileMinErr=minErr('$compile');/**
+if(event==='input'&&msie<=11)return false;if(isUndefined(eventSupport[event])){var divElm=document.createElement('div');eventSupport[event]='on'+event in divElm;}return eventSupport[event];},csp:_csp(),vendorPrefix:vendorPrefix,transitions:transitions,animations:animations,android:android};}];}var $compileMinErr=minErr('$compile');/**
  * @ngdoc service
  * @name $templateRequest
  *
@@ -8123,7 +8123,7 @@ if(isUndefined(lastCookies[name])){lastCookies[name]=safeDecodeURIComponent(cook
  numberFilter: true,
  orderByFilter: true,
  uppercaseFilter: true,
- */ /**
+ *//**
  * @ngdoc provider
  * @name $filterProvider
  * @description
@@ -8178,7 +8178,7 @@ if(isUndefined(lastCookies[name])){lastCookies[name]=safeDecodeURIComponent(cook
  *
  * For more information about how angular filters work, and how to create your own filters, see
  * {@link guide/filter Filters} in the Angular Developer Guide.
- */ /**
+ *//**
  * @ngdoc service
  * @name $filter
  * @kind function
@@ -8494,7 +8494,7 @@ if(numberOfIntegerDigits<0)numberOfIntegerDigits=i;numberOfIntegerDigits+=+numSt
 numberOfIntegerDigits=numStr.length;}// Count the number of leading zeros.
 for(i=0;numStr.charAt(i)==ZERO_CHAR;i++){/* jshint noempty: false */}if(i==(zeros=numStr.length)){// The digits are all zero.
 digits=[0];numberOfIntegerDigits=1;}else{// Count the number of trailing zeros
-zeros--;while(numStr.charAt(zeros)==ZERO_CHAR){zeros--;}// Trailing zeros are insignificant so ignore them
+zeros--;while(numStr.charAt(zeros)==ZERO_CHAR)zeros--;// Trailing zeros are insignificant so ignore them
 numberOfIntegerDigits-=i;digits=[];// Convert string to array of digits without leading/trailing zeros.
 for(j=0;i<=zeros;i++,j++){digits[j]=+numStr.charAt(i);}}// If the number overflows the maximum allowed digits then use an exponent.
 if(numberOfIntegerDigits>MAX_DIGITS){digits=digits.splice(0,MAX_DIGITS-1);exponent=numberOfIntegerDigits-1;numberOfIntegerDigits=1;}return{d:digits,e:exponent,i:numberOfIntegerDigits};}/**
@@ -8503,8 +8503,8 @@ if(numberOfIntegerDigits>MAX_DIGITS){digits=digits.splice(0,MAX_DIGITS-1);expone
  */function roundNumber(parsedNumber,fractionSize,minFrac,maxFrac){var digits=parsedNumber.d;var fractionLen=digits.length-parsedNumber.i;// determine fractionSize if it is not specified; `+fractionSize` converts it to a number
 fractionSize=isUndefined(fractionSize)?Math.min(Math.max(minFrac,fractionLen),maxFrac):+fractionSize;// The index of the digit to where rounding is to occur
 var roundAt=fractionSize+parsedNumber.i;var digit=digits[roundAt];if(roundAt>0){digits.splice(roundAt);}else{// We rounded to zero so reset the parsedNumber
-parsedNumber.i=1;digits.length=roundAt=fractionSize+1;for(var i=0;i<roundAt;i++){digits[i]=0;}}if(digit>=5)digits[roundAt-1]++;// Pad out with zeros to get the required fraction length
-for(;fractionLen<fractionSize;fractionLen++){digits.push(0);}// Do any carrying, e.g. a digit was rounded up to 10
+parsedNumber.i=1;digits.length=roundAt=fractionSize+1;for(var i=0;i<roundAt;i++)digits[i]=0;}if(digit>=5)digits[roundAt-1]++;// Pad out with zeros to get the required fraction length
+for(;fractionLen<fractionSize;fractionLen++)digits.push(0);// Do any carrying, e.g. a digit was rounded up to 10
 var carry=digits.reduceRight(function(carry,d,i,digits){d=d+carry;digits[i]=d%10;return Math.floor(d/10);},0);if(carry){digits.unshift(carry);parsedNumber.i++;}}/**
  * Format a number into a string
  * @param  {number} number       The number to format
@@ -8526,7 +8526,7 @@ var carry=digits.reduceRight(function(carry,d,i,digits){d=d+carry;digits[i]=d%10
 while(integerLen<0){digits.unshift(0);integerLen++;}// extract decimals digits
 if(integerLen>0){decimals=digits.splice(integerLen,digits.length);}else{decimals=digits;digits=[0];}// format the integer digits with grouping separators
 var groups=[];if(digits.length>=pattern.lgSize){groups.unshift(digits.splice(-pattern.lgSize,digits.length).join(''));}while(digits.length>pattern.gSize){groups.unshift(digits.splice(-pattern.gSize,digits.length).join(''));}if(digits.length){groups.unshift(digits.join(''));}formattedText=groups.join(groupSep);// append the decimal digits
-if(decimals.length){formattedText+=decimalSep+decimals.join('');}if(exponent){formattedText+='e+'+exponent;}}if(number<0&&!isZero){return pattern.negPre+formattedText+pattern.negSuf;}else{return pattern.posPre+formattedText+pattern.posSuf;}}function padNumber(num,digits,trim){var neg='';if(num<0){neg='-';num=-num;}num=''+num;while(num.length<digits){num=ZERO_CHAR+num;}if(trim){num=num.substr(num.length-digits);}return neg+num;}function dateGetter(name,size,offset,trim){offset=offset||0;return function(date){var value=date['get'+name]();if(offset>0||value>-offset){value+=offset;}if(value===0&&offset==-12)value=12;return padNumber(value,size,trim);};}function dateStrGetter(name,shortForm){return function(date,formats){var value=date['get'+name]();var get=uppercase(shortForm?'SHORT'+name:name);return formats[get][value];};}function timeZoneGetter(date,formats,offset){var zone=-1*offset;var paddedZone=zone>=0?"+":"";paddedZone+=padNumber(Math[zone>0?'floor':'ceil'](zone/60),2)+padNumber(Math.abs(zone%60),2);return paddedZone;}function getFirstThursdayOfYear(year){// 0 = index of January
+if(decimals.length){formattedText+=decimalSep+decimals.join('');}if(exponent){formattedText+='e+'+exponent;}}if(number<0&&!isZero){return pattern.negPre+formattedText+pattern.negSuf;}else{return pattern.posPre+formattedText+pattern.posSuf;}}function padNumber(num,digits,trim){var neg='';if(num<0){neg='-';num=-num;}num=''+num;while(num.length<digits)num=ZERO_CHAR+num;if(trim){num=num.substr(num.length-digits);}return neg+num;}function dateGetter(name,size,offset,trim){offset=offset||0;return function(date){var value=date['get'+name]();if(offset>0||value>-offset){value+=offset;}if(value===0&&offset==-12)value=12;return padNumber(value,size,trim);};}function dateStrGetter(name,shortForm){return function(date,formats){var value=date['get'+name]();var get=uppercase(shortForm?'SHORT'+name:name);return formats[get][value];};}function timeZoneGetter(date,formats,offset){var zone=-1*offset;var paddedZone=zone>=0?"+":"";paddedZone+=padNumber(Math[zone>0?'floor':'ceil'](zone/60),2)+padNumber(Math.abs(zone%60),2);return paddedZone;}function getFirstThursdayOfYear(year){// 0 = index of January
 var dayOfWeekOnFirst=new Date(year,0,1).getDay();// 4 = index of Thursday (+1 to account for 1st = 5)
 // 11 = index of *next* Thursday (+1 account for 1st = 12)
 return new Date(year,0,(dayOfWeekOnFirst<=4?5:12)-dayOfWeekOnFirst);}function getThursdayThisWeek(datetime){return new Date(datetime.getFullYear(),datetime.getMonth(),// 4 = index of Thursday
@@ -9080,7 +9080,7 @@ if(!element.attr(href)){event.preventDefault();}});};}}});/**
         });
       </file>
     </example>
- */ /**
+ *//**
  * @ngdoc directive
  * @name ngSrc
  * @restrict A
@@ -9104,7 +9104,7 @@ if(!element.attr(href)){event.preventDefault();}});};}}});/**
  *
  * @element IMG
  * @param {template} ngSrc any string which can contain `{{}}` markup.
- */ /**
+ *//**
  * @ngdoc directive
  * @name ngSrcset
  * @restrict A
@@ -9128,7 +9128,7 @@ if(!element.attr(href)){event.preventDefault();}});};}}});/**
  *
  * @element IMG
  * @param {template} ngSrcset any string which can contain `{{}}` markup.
- */ /**
+ *//**
  * @ngdoc directive
  * @name ngDisabled
  * @restrict A
@@ -9160,7 +9160,7 @@ if(!element.attr(href)){event.preventDefault();}});};}}});/**
  * @element INPUT
  * @param {expression} ngDisabled If the {@link guide/expression expression} is truthy,
  *     then the `disabled` attribute will be set on the element
- */ /**
+ *//**
  * @ngdoc directive
  * @name ngChecked
  * @restrict A
@@ -9193,7 +9193,7 @@ if(!element.attr(href)){event.preventDefault();}});};}}});/**
  * @element INPUT
  * @param {expression} ngChecked If the {@link guide/expression expression} is truthy,
  *     then the `checked` attribute will be set on the element
- */ /**
+ *//**
  * @ngdoc directive
  * @name ngReadonly
  * @restrict A
@@ -9224,7 +9224,7 @@ if(!element.attr(href)){event.preventDefault();}});};}}});/**
  * @element INPUT
  * @param {expression} ngReadonly If the {@link guide/expression expression} is truthy,
  *     then special attribute "readonly" will be set on the element
- */ /**
+ *//**
  * @ngdoc directive
  * @name ngSelected
  * @restrict A
@@ -9258,7 +9258,7 @@ if(!element.attr(href)){event.preventDefault();}});};}}});/**
  * @element OPTION
  * @param {expression} ngSelected If the {@link guide/expression expression} is truthy,
  *     then special attribute "selected" will be set on the element
- */ /**
+ *//**
  * @ngdoc directive
  * @name ngOpen
  * @restrict A
@@ -9345,7 +9345,7 @@ if(msie&&propName)element.prop(propName,attr[name]);});}};};});/* global -nullFo
  * Each {@link ng.directive:form form} directive creates an instance
  * of `FormController`.
  *
- */ //asks for $scope to fool the BC controller module
+ *///asks for $scope to fool the BC controller module
 FormController.$inject=['$element','$attrs','$scope','$animate','$interpolate'];function FormController(element,attrs,$scope,$animate,$interpolate){var form=this,controls=[];// init state
 form.$error={};form.$$success={};form.$pending=undefined;form.$name=$interpolate(attrs.name||attrs.ngForm||'')($scope);form.$dirty=false;form.$pristine=true;form.$valid=true;form.$invalid=false;form.$submitted=false;form.$$parentForm=nullFormCtrl;/**
    * @ngdoc method
@@ -9470,7 +9470,7 @@ form.$$renameControl=function(control,newName){var oldName=control.$name;if(form
  * @param {string=} ngForm|name Name of the form. If specified, the form controller will be published into
  *                       related scope, under this name.
  *
- */ /**
+ *//**
  * @ngdoc directive
  * @name form
  * @restrict E
@@ -9631,7 +9631,7 @@ return $parse('this[""]').assign;}return $parse(expression).assign||noop;}}];};v
   UNTOUCHED_CLASS: false,
   TOUCHED_CLASS: false,
   ngModelMinErr: false,
-*/ // Regex code is obtained from SO: https://stackoverflow.com/questions/3143070/javascript-regex-iso-datetime#answer-3143231
+*/// Regex code is obtained from SO: https://stackoverflow.com/questions/3143070/javascript-regex-iso-datetime#answer-3143231
 var ISO_DATE_REGEXP=/\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\d:[0-5]\d|Z)/;// See valid URLs in RFC3987 (http://tools.ietf.org/html/rfc3987)
 // Note: We are being more lenient, because browsers are too.
 //   1. Scheme
@@ -10721,7 +10721,7 @@ ctrl.$isEmpty=function(value){return value===false;};ctrl.$formatters.push(funct
  * @param {string=} ngChange Angular expression to be executed when input changes due to user
  *    interaction with the input element.
  * @param {boolean=} [ngTrim=true] If set to false Angular will not automatically trim the input.
- */ /**
+ *//**
  * @ngdoc directive
  * @name input
  * @restrict E
@@ -11869,7 +11869,7 @@ var classCounts=element.data('$classCounts')||createMap();var classesToUpdate=[]
           });
         </file>
       </example>
-  */ // ngCsp is not implemented as a proper directive any more, because we need it be processed while we
+  */// ngCsp is not implemented as a proper directive any more, because we need it be processed while we
 // bootstrap the system (before $parse is instantiated), for this reason we just have
 // the csp() fn that looks for the `ng-csp` attribute anywhere in the current doc
 /**
@@ -11903,7 +11903,7 @@ var classCounts=element.data('$classCounts')||createMap();var classesToUpdate=[]
        });
      </file>
    </example>
- */ /*
+ *//*
  * A collection of directives that allows creation of custom event handlers that are defined as
  * angular expressions and are compiled and executed within the current scope.
  */var ngEventDirectives={};// For events that might fire synchronously during DOM manipulation
@@ -11934,7 +11934,7 @@ var fn=$parse(attr[directiveName],/* interceptorFn */null,/* expensiveChecks */t
       count: {{count}}
      </file>
    </example>
- */ /**
+ *//**
  * @ngdoc directive
  * @name ngMousedown
  *
@@ -11955,7 +11955,7 @@ var fn=$parse(attr[directiveName],/* interceptorFn */null,/* expensiveChecks */t
       count: {{count}}
      </file>
    </example>
- */ /**
+ *//**
  * @ngdoc directive
  * @name ngMouseup
  *
@@ -11976,7 +11976,7 @@ var fn=$parse(attr[directiveName],/* interceptorFn */null,/* expensiveChecks */t
       count: {{count}}
      </file>
    </example>
- */ /**
+ *//**
  * @ngdoc directive
  * @name ngMouseover
  *
@@ -11997,7 +11997,7 @@ var fn=$parse(attr[directiveName],/* interceptorFn */null,/* expensiveChecks */t
       count: {{count}}
      </file>
    </example>
- */ /**
+ *//**
  * @ngdoc directive
  * @name ngMouseenter
  *
@@ -12018,7 +12018,7 @@ var fn=$parse(attr[directiveName],/* interceptorFn */null,/* expensiveChecks */t
       count: {{count}}
      </file>
    </example>
- */ /**
+ *//**
  * @ngdoc directive
  * @name ngMouseleave
  *
@@ -12039,7 +12039,7 @@ var fn=$parse(attr[directiveName],/* interceptorFn */null,/* expensiveChecks */t
       count: {{count}}
      </file>
    </example>
- */ /**
+ *//**
  * @ngdoc directive
  * @name ngMousemove
  *
@@ -12060,7 +12060,7 @@ var fn=$parse(attr[directiveName],/* interceptorFn */null,/* expensiveChecks */t
       count: {{count}}
      </file>
    </example>
- */ /**
+ *//**
  * @ngdoc directive
  * @name ngKeydown
  *
@@ -12079,7 +12079,7 @@ var fn=$parse(attr[directiveName],/* interceptorFn */null,/* expensiveChecks */t
       key down count: {{count}}
      </file>
    </example>
- */ /**
+ *//**
  * @ngdoc directive
  * @name ngKeyup
  *
@@ -12103,7 +12103,7 @@ var fn=$parse(attr[directiveName],/* interceptorFn */null,/* expensiveChecks */t
        <p>event altKey: {{ event.altKey }}</p>
      </file>
    </example>
- */ /**
+ *//**
  * @ngdoc directive
  * @name ngKeypress
  *
@@ -12122,7 +12122,7 @@ var fn=$parse(attr[directiveName],/* interceptorFn */null,/* expensiveChecks */t
       key press count: {{count}}
      </file>
    </example>
- */ /**
+ *//**
  * @ngdoc directive
  * @name ngSubmit
  *
@@ -12183,7 +12183,7 @@ var fn=$parse(attr[directiveName],/* interceptorFn */null,/* expensiveChecks */t
         });
      </file>
    </example>
- */ /**
+ *//**
  * @ngdoc directive
  * @name ngFocus
  *
@@ -12201,7 +12201,7 @@ var fn=$parse(attr[directiveName],/* interceptorFn */null,/* expensiveChecks */t
  *
  * @example
  * See {@link ng.directive:ngClick ngClick}
- */ /**
+ *//**
  * @ngdoc directive
  * @name ngBlur
  *
@@ -12223,7 +12223,7 @@ var fn=$parse(attr[directiveName],/* interceptorFn */null,/* expensiveChecks */t
  *
  * @example
  * See {@link ng.directive:ngClick ngClick}
- */ /**
+ *//**
  * @ngdoc directive
  * @name ngCopy
  *
@@ -12242,7 +12242,7 @@ var fn=$parse(attr[directiveName],/* interceptorFn */null,/* expensiveChecks */t
       copied: {{copied}}
      </file>
    </example>
- */ /**
+ *//**
  * @ngdoc directive
  * @name ngCut
  *
@@ -12261,7 +12261,7 @@ var fn=$parse(attr[directiveName],/* interceptorFn */null,/* expensiveChecks */t
       cut: {{cut}}
      </file>
    </example>
- */ /**
+ *//**
  * @ngdoc directive
  * @name ngPaste
  *
@@ -12280,7 +12280,7 @@ var fn=$parse(attr[directiveName],/* interceptorFn */null,/* expensiveChecks */t
       pasted: {{paste}}
      </file>
    </example>
- */ /**
+ *//**
  * @ngdoc directive
  * @name ngIf
  * @restrict A
@@ -12504,7 +12504,7 @@ block={clone:clone};$animate.enter(clone,$element.parent(),$element);});}}else{i
       });
     </file>
   </example>
- */ /**
+ *//**
  * @ngdoc event
  * @name ngInclude#$includeContentRequested
  * @eventType emit on the scope ngInclude was declared in
@@ -12513,7 +12513,7 @@ block={clone:clone};$animate.enter(clone,$element.parent(),$element);});}}else{i
  *
  * @param {Object} angularEvent Synthetic event object.
  * @param {String} src URL of content to load.
- */ /**
+ *//**
  * @ngdoc event
  * @name ngInclude#$includeContentLoaded
  * @eventType emit on the current ngInclude scope
@@ -12522,7 +12522,7 @@ block={clone:clone};$animate.enter(clone,$element.parent(),$element);});}}else{i
  *
  * @param {Object} angularEvent Synthetic event object.
  * @param {String} src URL of content to load.
- */ /**
+ *//**
  * @ngdoc event
  * @name ngInclude#$includeContentError
  * @eventType emit on the scope ngInclude was declared in
@@ -13799,7 +13799,7 @@ var combinedState;if(ctrl.$pending&&ctrl.$pending[validationErrorKey]){combinedS
          });
       </file>
     </example>
- */ // jshint maxlen: false
+ */// jshint maxlen: false
 //                     //00001111111111000000000002222222222000000000000000000000333333333300000000000000000000000004444444444400000000000005555555555555550000000006666666666666660000000777777777777777000000000000000888888888800000000000000000009999999999
 var NG_OPTIONS_REGEXP=/^\s*([\s\S]+?)(?:\s+as\s+([\s\S]+?))?(?:\s+group\s+by\s+([\s\S]+?))?(?:\s+disable\s+when\s+([\s\S]+?))?\s+for\s+(?:([\$\w][\$\w]*)|(?:\(\s*([\$\w][\$\w]*)\s*,\s*([\$\w][\$\w]*)\s*\)))\s+in\s+([\s\S]+?)(?:\s+track\s+by\s+([\s\S]+?))?$/;// 1: value expression (valueFn)
 // 2: label expression (displayFn)

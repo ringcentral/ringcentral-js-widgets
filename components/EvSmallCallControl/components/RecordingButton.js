@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -10,7 +11,7 @@ var _iconRecording = _interopRequireDefault(require("../../../assets/icons/icon-
 var _i18n = _interopRequireDefault(require("../i18n"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var RecordingButton = function RecordingButton(_ref) {
+var RecordingButton = exports.RecordingButton = function RecordingButton(_ref) {
   var currentLocale = _ref.currentLocale,
     disabled = _ref.disabled,
     size = _ref.size;
@@ -31,7 +32,6 @@ var RecordingButton = function RecordingButton(_ref) {
     size: size
   });
 };
-exports.RecordingButton = RecordingButton;
 RecordingButton.defaultProps = {
   disabled: true,
   currentLocale: 'en-US',

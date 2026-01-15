@@ -1,10 +1,11 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.agentStateTypes = void 0;
-var agentStateTypes = {
+var agentStateTypes = exports.agentStateTypes = {
   working: 'WORKING',
   available: 'AVAILABLE',
   away: 'AWAY',
@@ -18,5 +19,4 @@ var agentStateTypes = {
   engaged: 'ENGAGED',
   breakAfterCall: 'BREAK-AFTER-CALL'
 };
-exports.agentStateTypes = agentStateTypes;
 //# sourceMappingURL=agentStateTypes.js.map

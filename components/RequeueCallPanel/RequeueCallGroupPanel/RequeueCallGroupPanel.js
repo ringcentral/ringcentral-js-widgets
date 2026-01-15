@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -9,7 +10,7 @@ var _react = _interopRequireDefault(require("react"));
 var _SelectList = require("../../SelectList");
 var _i18n = _interopRequireDefault(require("./i18n"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var RequeueCallGroupPanel = function RequeueCallGroupPanel(_ref) {
+var RequeueCallGroupPanel = exports.RequeueCallGroupPanel = function RequeueCallGroupPanel(_ref) {
   var currentLocale = _ref.currentLocale,
     goToRequeueCallPage = _ref.goToRequeueCallPage,
     searchGroup = _ref.searchGroup,
@@ -37,5 +38,4 @@ var RequeueCallGroupPanel = function RequeueCallGroupPanel(_ref) {
     }
   });
 };
-exports.RequeueCallGroupPanel = RequeueCallGroupPanel;
 //# sourceMappingURL=RequeueCallGroupPanel.js.map

@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -63,6 +64,5 @@ function mapToProps(_, _ref3) {
     }
   };
 }
-var AppView = (0, _withPhone["default"])((0, _reactRedux.connect)(mapToFunctions, mapToProps)(AppViewPanel));
-exports.AppView = AppView;
+var AppView = exports.AppView = (0, _withPhone["default"])((0, _reactRedux.connect)(mapToFunctions, mapToProps)(AppViewPanel));
 //# sourceMappingURL=AppView.js.map

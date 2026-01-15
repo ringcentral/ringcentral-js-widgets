@@ -1,10 +1,11 @@
 "use strict";
 
-require("core-js/modules/es.date.to-string");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getTimeStamp = getTimeStamp;
+require("core-js/modules/es.date.to-string.js");
 var _dayjs = _interopRequireDefault(require("dayjs"));
 var _timezone = _interopRequireDefault(require("dayjs/plugin/timezone"));
 var _utc = _interopRequireDefault(require("dayjs/plugin/utc"));

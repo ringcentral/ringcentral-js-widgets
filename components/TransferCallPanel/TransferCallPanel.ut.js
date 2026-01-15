@@ -1,12 +1,14 @@
 "use strict";
 
-require("core-js/modules/es.array.find");
-require("core-js/modules/es.array.for-each");
-require("core-js/modules/web.dom-collections.for-each");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.UTWhenCallTransfering = exports.UTUserClickCallRecipientCases = exports.UTUserClickCallRecipient = exports.UTTransferCallButtonDisabled = exports.UTSetStayOnCallCases = exports.UTSetStayOnCall = exports.UTCheckTransferCallRenderCases = exports.UTCheckTransferCallRender = exports.UTCheckBackButton = void 0;
+require("core-js/modules/es.array.find.js");
+require("core-js/modules/es.array.for-each.js");
+require("core-js/modules/es.object.to-string.js");
+require("core-js/modules/web.dom-collections.for-each.js");
 var _juno = require("@ringcentral/juno");
 var _enzyme = require("enzyme");
 var _react = _interopRequireDefault(require("react"));
@@ -83,7 +85,7 @@ function setup(_ref) {
     cancelTransfer = _ref$cancelTransfer === void 0 ? function () {} : _ref$cancelTransfer,
     _ref$cancelTransferPa = _ref.cancelTransferPage,
     cancelTransferPage = _ref$cancelTransferPa === void 0 ? function () {} : _ref$cancelTransferPa;
-  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_TransferCallPanel.TransferCallPanel, {
+  return (0, _enzyme.mount)(/*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_TransferCallPanel.TransferCallPanel, {
     currentLocale: currentLocale,
     goBack: goBack,
     clickCallRecipient: clickCallRecipient,
@@ -104,7 +106,7 @@ function setup(_ref) {
 var getTransferCallButton = function getTransferCallButton(wrapper) {
   return wrapper.find('RcButton[data-sign="transferCall"]').at(0).find('button');
 };
-var UTCheckTransferCallRenderCases = [{
+var UTCheckTransferCallRenderCases = exports.UTCheckTransferCallRenderCases = [{
   title: 'Can display transferType, callRecipient correctly, and can click to change TransferType',
   selectedTransferType: _transferTypes.transferTypes.internal,
   transferOptions: defaultTransferOptions
@@ -117,8 +119,7 @@ var UTCheckTransferCallRenderCases = [{
   selectedTransferType: _transferTypes.transferTypes.manualEntry,
   transferOptions: defaultTransferOptions
 }];
-exports.UTCheckTransferCallRenderCases = UTCheckTransferCallRenderCases;
-var UTCheckTransferCallRender = function UTCheckTransferCallRender(_ref2) {
+var UTCheckTransferCallRender = exports.UTCheckTransferCallRender = function UTCheckTransferCallRender(_ref2) {
   var selectedTransferType = _ref2.selectedTransferType,
     transferOptions = _ref2.transferOptions;
   var clickTransferTypeFiled = jest.fn(function () {});
@@ -139,8 +140,7 @@ var UTCheckTransferCallRender = function UTCheckTransferCallRender(_ref2) {
   expect(transferTypePickList.prop('value')).toBe(selectedTransferType);
   wrapper.unmount();
 };
-exports.UTCheckTransferCallRender = UTCheckTransferCallRender;
-var UTCheckBackButton = function UTCheckBackButton() {
+var UTCheckBackButton = exports.UTCheckBackButton = function UTCheckBackButton() {
   var goBack = jest.fn(function () {});
   var wrapper = setup({
     goBack: goBack
@@ -148,8 +148,7 @@ var UTCheckBackButton = function UTCheckBackButton() {
   wrapper.find('[data-sign="backButton"]').at(0).find('button').simulate('click');
   expect(goBack).toHaveBeenCalled();
 };
-exports.UTCheckBackButton = UTCheckBackButton;
-var UTUserClickCallRecipientCases = [{
+var UTUserClickCallRecipientCases = exports.UTUserClickCallRecipientCases = [{
   title: 'User can click callRecipient field to change callRecipient',
   selectedTransferType: _transferTypes.transferTypes.internal
 }, {
@@ -159,8 +158,7 @@ var UTUserClickCallRecipientCases = [{
   title: 'User can click callRecipient field to change callRecipient',
   selectedTransferType: _transferTypes.transferTypes.manualEntry
 }];
-exports.UTUserClickCallRecipientCases = UTUserClickCallRecipientCases;
-var UTUserClickCallRecipient = function UTUserClickCallRecipient() {
+var UTUserClickCallRecipient = exports.UTUserClickCallRecipient = function UTUserClickCallRecipient() {
   var clickCallRecipient = jest.fn();
   var textFields = defaultTextFields;
   var selectIndex = 0;
@@ -172,16 +170,14 @@ var UTUserClickCallRecipient = function UTUserClickCallRecipient() {
   callRecipient.find('input').at(0).simulate('click');
   expect(clickCallRecipient).toHaveBeenCalledWith(defaultTextFields[selectIndex].router);
 };
-exports.UTUserClickCallRecipient = UTUserClickCallRecipient;
-var UTSetStayOnCallCases = [{
+var UTSetStayOnCallCases = exports.UTSetStayOnCallCases = [{
   title: 'When StayOnCall, click the StayOnCall, setStayOnCall will be called',
   isStayOnCall: true
 }, {
   title: 'When not StayOnCall, click the StayOnCall, setStayOnCall will be called',
   isStayOnCall: false
 }];
-exports.UTSetStayOnCallCases = UTSetStayOnCallCases;
-var UTSetStayOnCall = function UTSetStayOnCall(_ref4) {
+var UTSetStayOnCall = exports.UTSetStayOnCall = function UTSetStayOnCall(_ref4) {
   var isStayOnCall = _ref4.isStayOnCall;
   var setStayOnCall = jest.fn(function () {});
   var wrapper = setup({
@@ -194,8 +190,7 @@ var UTSetStayOnCall = function UTSetStayOnCall(_ref4) {
   expect(setStayOnCall).toHaveBeenCalledWith(isStayOnCall);
   wrapper.unmount();
 };
-exports.UTSetStayOnCall = UTSetStayOnCall;
-var UTTransferCallButtonDisabled = function UTTransferCallButtonDisabled() {
+var UTTransferCallButtonDisabled = exports.UTTransferCallButtonDisabled = function UTTransferCallButtonDisabled() {
   var transferCall = jest.fn(function () {});
   var wrapper = setup({
     transferCallDisabled: true,
@@ -206,13 +201,11 @@ var UTTransferCallButtonDisabled = function UTTransferCallButtonDisabled() {
   transferCallButton.simulate('click');
   expect(transferCall).not.toHaveBeenCalled();
 };
-exports.UTTransferCallButtonDisabled = UTTransferCallButtonDisabled;
-var UTWhenCallTransfering = function UTWhenCallTransfering() {
+var UTWhenCallTransfering = exports.UTWhenCallTransfering = function UTWhenCallTransfering() {
   var transferring = true;
   var wrapper = setup({
     transferring: transferring
   });
   expect(getTransferCallButton(wrapper).find('RcCircularProgress').length).toBe(1);
 };
-exports.UTWhenCallTransfering = UTWhenCallTransfering;
 //# sourceMappingURL=TransferCallPanel.ut.js.map

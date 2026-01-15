@@ -1,16 +1,17 @@
 "use strict";
 
-require("core-js/modules/es.string.sub");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.QueueLabel = void 0;
+require("core-js/modules/es.string.sub.js");
 var _juno = require("@ringcentral/juno");
 var _react = _interopRequireDefault(require("react"));
 var _i18n = _interopRequireDefault(require("../i18n"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var QueueLabel = function QueueLabel(_ref) {
+var QueueLabel = exports.QueueLabel = function QueueLabel(_ref) {
   var gateName = _ref.gateName,
     gateId = _ref.gateId,
     currentLocale = _ref.currentLocale;
@@ -25,5 +26,4 @@ var QueueLabel = function QueueLabel(_ref) {
     className: _styles["default"].sub
   }, _i18n["default"].getString('queueID', currentLocale), ": ", gateId) : null);
 };
-exports.QueueLabel = QueueLabel;
 //# sourceMappingURL=QueueLabel.js.map

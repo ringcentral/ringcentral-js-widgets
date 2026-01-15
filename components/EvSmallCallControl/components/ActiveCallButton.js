@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -9,7 +10,7 @@ var _junoIcon = require("@ringcentral/juno-icon");
 var _react = _interopRequireDefault(require("react"));
 var _i18n = _interopRequireDefault(require("../i18n"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var ActiveCallButton = function ActiveCallButton(_ref) {
+var ActiveCallButton = exports.ActiveCallButton = function ActiveCallButton(_ref) {
   var currentLocale = _ref.currentLocale,
     disableActive = _ref.disableActive,
     onActive = _ref.onActive,
@@ -25,7 +26,6 @@ var ActiveCallButton = function ActiveCallButton(_ref) {
     title: _i18n["default"].getString('activeCall', currentLocale)
   });
 };
-exports.ActiveCallButton = ActiveCallButton;
 ActiveCallButton.defaultProps = {
   onActive: function onActive() {},
   disableActive: false,

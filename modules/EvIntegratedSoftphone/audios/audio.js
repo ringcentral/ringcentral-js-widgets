@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -10,12 +11,11 @@ var _dtmf = _interopRequireDefault(require("./dtmf.wav"));
 var _newchat = _interopRequireDefault(require("./newchat.wav"));
 var _ringtone = _interopRequireDefault(require("./ringtone.wav"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var audios = {
+var audios = exports.audios = {
   beep: _beep["default"],
   chatPresented: _chatPresented["default"],
   dtmf: _dtmf["default"],
   newchat: _newchat["default"],
   ringtone: _ringtone["default"]
 };
-exports.audios = audios;
 //# sourceMappingURL=audio.js.map

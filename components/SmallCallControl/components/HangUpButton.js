@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -12,7 +13,7 @@ var _help = require("../help");
 var _i18n = _interopRequireDefault(require("../i18n"));
 var _styles = _interopRequireDefault(require("../styles.scss"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var HangUpButton = function HangUpButton(_ref) {
+var HangUpButton = exports.HangUpButton = function HangUpButton(_ref) {
   var currentLocale = _ref.currentLocale,
     onReject = _ref.onReject,
     onHangup = _ref.onHangup,
@@ -39,7 +40,6 @@ var HangUpButton = function HangUpButton(_ref) {
     "data-sign": dataSign
   });
 };
-exports.HangUpButton = HangUpButton;
 HangUpButton.defaultProps = {
   onReject: function onReject() {},
   onHangup: function onHangup() {},

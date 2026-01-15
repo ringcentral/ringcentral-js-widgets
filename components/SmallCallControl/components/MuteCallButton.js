@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -11,7 +12,7 @@ var _help = require("../help");
 var _i18n = _interopRequireDefault(require("../i18n"));
 var _getIconColor = require("./getIconColor");
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var MuteCallButton = function MuteCallButton(_ref) {
+var MuteCallButton = exports.MuteCallButton = function MuteCallButton(_ref) {
   var isOnMute = _ref.isOnMute,
     currentLocale = _ref.currentLocale,
     onUnmute = _ref.onUnmute,
@@ -42,7 +43,6 @@ var MuteCallButton = function MuteCallButton(_ref) {
     useColorWhenDisabled: isOnMute
   });
 };
-exports.MuteCallButton = MuteCallButton;
 MuteCallButton.defaultProps = {
   onMute: function onMute() {},
   onUnmute: function onUnmute() {},

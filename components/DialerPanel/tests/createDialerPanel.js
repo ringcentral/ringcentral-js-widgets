@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -29,7 +30,7 @@ function createDialerPanel() {
     hangup = _ref$hangup === void 0 ? function () {} : _ref$hangup,
     _ref$dialButtonDisabl = _ref.dialButtonDisabled,
     dialButtonDisabled = _ref$dialButtonDisabl === void 0 ? false : _ref$dialButtonDisabl;
-  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_DialerPanel.DialerPanel, {
+  return (0, _enzyme.mount)(/*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_DialerPanel.DialerPanel, {
     currentLocale: currentLocale,
     dialout: dialout,
     toNumber: toNumber,

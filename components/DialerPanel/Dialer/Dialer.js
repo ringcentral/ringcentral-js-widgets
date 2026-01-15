@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -9,7 +10,7 @@ var _junoIcon = require("@ringcentral/juno-icon");
 var _react = _interopRequireDefault(require("react"));
 var _styles = require("./styles");
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var Dialer = function Dialer(_ref) {
+var Dialer = exports.Dialer = function Dialer(_ref) {
   var value = _ref.value,
     setValue = _ref.setValue,
     children = _ref.children,
@@ -38,5 +39,4 @@ var Dialer = function Dialer(_ref) {
     }
   })), children));
 };
-exports.Dialer = Dialer;
 //# sourceMappingURL=Dialer.js.map

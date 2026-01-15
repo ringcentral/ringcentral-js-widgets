@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -15,7 +16,7 @@ var LinkSizeMapping = {
   medium: 'body1',
   large: 'headline1'
 };
-var DialerPanel = function DialerPanel(_ref) {
+var DialerPanel = exports.DialerPanel = function DialerPanel(_ref) {
   var dialout = _ref.dialout,
     toNumber = _ref.toNumber,
     currentLocale = _ref.currentLocale,
@@ -66,5 +67,4 @@ var DialerPanel = function DialerPanel(_ref) {
     "data-sign": "manualDialSettings"
   }, _i18n["default"].getString('manualDialSettings', currentLocale))));
 };
-exports.DialerPanel = DialerPanel;
 //# sourceMappingURL=DialerPanel.js.map

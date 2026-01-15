@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -22,7 +23,7 @@ function setup(_ref) {
     disablePauseRecord = _ref$disablePauseReco === void 0 ? true : _ref$disablePauseReco,
     _ref$onPauseRecord = _ref.onPauseRecord,
     onPauseRecord = _ref$onPauseRecord === void 0 ? function () {} : _ref$onPauseRecord;
-  return (0, _react.render)( /*#__PURE__*/_react2["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react2["default"].createElement(_.RecordControlButton, {
+  return (0, _react.render)(/*#__PURE__*/_react2["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react2["default"].createElement(_.RecordControlButton, {
     currentLocale: currentLocale,
     isRecording: isRecording,
     onRecord: onRecord,
@@ -31,7 +32,7 @@ function setup(_ref) {
     onPauseRecord: onPauseRecord
   })));
 }
-var CheckPauseRecordingTooltip = function CheckPauseRecordingTooltip() {
+var CheckPauseRecordingTooltip = exports.CheckPauseRecordingTooltip = function CheckPauseRecordingTooltip() {
   var _setup = setup({
       disablePauseRecord: false
     }),
@@ -40,5 +41,4 @@ var CheckPauseRecordingTooltip = function CheckPauseRecordingTooltip() {
   expect(node).toBeTruthy;
   expect(node.title).toBe('Pause recording');
 };
-exports.CheckPauseRecordingTooltip = CheckPauseRecordingTooltip;
 //# sourceMappingURL=RecordControlButton.ut.js.map

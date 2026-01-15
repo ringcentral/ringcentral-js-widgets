@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -10,7 +11,7 @@ var _react = _interopRequireDefault(require("react"));
 var _iconRecord = _interopRequireDefault(require("../../../assets/icons/icon-record.svg"));
 var _i18n = _interopRequireDefault(require("../i18n"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var RecordControlButton = function RecordControlButton(_ref) {
+var RecordControlButton = exports.RecordControlButton = function RecordControlButton(_ref) {
   var currentLocale = _ref.currentLocale,
     isRecording = _ref.isRecording,
     onRecord = _ref.onRecord,
@@ -39,7 +40,6 @@ var RecordControlButton = function RecordControlButton(_ref) {
     className: className
   });
 };
-exports.RecordControlButton = RecordControlButton;
 RecordControlButton.defaultProps = {
   currentLocale: 'en-US'
 };

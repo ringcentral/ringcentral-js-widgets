@@ -1,10 +1,11 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-var _default = {
+var _default = exports["default"] = {
   sendVoicemail: 'Send to voicemail',
   transferFailedContent: 'Routing failed. The person is not accepting the call at this time.',
   transferRejectedContent: 'The transfer was rejected by the agent. How would you like to proceed?',
@@ -17,5 +18,4 @@ var _default = {
   ignoreIncomingTransfer: 'Ignore',
   transferModalTitle: 'Call transfer failed'
 };
-exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

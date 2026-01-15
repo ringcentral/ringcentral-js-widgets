@@ -1,10 +1,11 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.defaultAgentStateTexts = void 0;
-var defaultAgentStateTexts = {
+var defaultAgentStateTexts = exports.defaultAgentStateTexts = {
   WORKING: 'Working',
   AVAILABLE: 'Available',
   AWAY: 'Away',
@@ -14,5 +15,4 @@ var defaultAgentStateTexts = {
   'AUX-UNAVAIL-NO-OFFHOOK': 'Disconnect Offhook',
   TRAINING: 'Training'
 };
-exports.defaultAgentStateTexts = defaultAgentStateTexts;
 //# sourceMappingURL=agentStatesTexts.js.map

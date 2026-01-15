@@ -1,10 +1,11 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.agentStatesColors = void 0;
-var agentStatesColors = {
+var agentStatesColors = exports.agentStatesColors = {
   // green
   AVAILABLE: 'green',
   // red
@@ -24,5 +25,4 @@ var agentStatesColors = {
   // TODO: should check with color
   'RNA-STATE': 'yellow'
 };
-exports.agentStatesColors = agentStatesColors;
 //# sourceMappingURL=agentStatesColors.js.map

@@ -1,16 +1,31 @@
 "use strict";
 
-require("core-js/modules/es.array.concat");
-require("core-js/modules/es.array.filter");
-require("core-js/modules/es.array.find");
-require("core-js/modules/es.array.find-index");
-require("core-js/modules/es.array.includes");
-require("core-js/modules/es.array.map");
-require("core-js/modules/es.string.includes");
+require("core-js/modules/es.symbol.js");
+require("core-js/modules/es.symbol.description.js");
+require("core-js/modules/es.symbol.iterator.js");
+require("core-js/modules/es.array.from.js");
+require("core-js/modules/es.array.is-array.js");
+require("core-js/modules/es.array.iterator.js");
+require("core-js/modules/es.array.slice.js");
+require("core-js/modules/es.date.to-string.js");
+require("core-js/modules/es.function.name.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/es.regexp.exec.js");
+require("core-js/modules/es.regexp.to-string.js");
+require("core-js/modules/es.string.iterator.js");
+require("core-js/modules/web.dom-collections.iterator.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.inboundQueuesPanelCases = exports.CheckInboundQueuesPanel = void 0;
+require("core-js/modules/es.array.concat.js");
+require("core-js/modules/es.array.filter.js");
+require("core-js/modules/es.array.find.js");
+require("core-js/modules/es.array.find-index.js");
+require("core-js/modules/es.array.includes.js");
+require("core-js/modules/es.array.map.js");
+require("core-js/modules/es.object.to-string.js");
+require("core-js/modules/es.string.includes.js");
 var _juno = require("@ringcentral/juno");
 var _enzyme = require("enzyme");
 var _react = _interopRequireDefault(require("react"));
@@ -21,7 +36,7 @@ function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread n
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
 function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
 function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
-function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) { n[e] = r[e]; } return n; }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function renderFunction(option) {
   return option.gateName;
 }
@@ -62,7 +77,7 @@ function allCheckBoxOnChange(severalAssign, inboundQueuesState, setInboundQueues
 }
 var goBack = function goBack() {};
 function setup(inboundQueues) {
-  var wrapper = (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_index.InboundQueuesPanel, {
+  var wrapper = (0, _enzyme.mount)(/*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_index.InboundQueuesPanel, {
     renderFunction: renderFunction,
     searchOption: searchOption,
     currentLocale: currentLocale,
@@ -77,7 +92,7 @@ function setup(inboundQueues) {
   })));
   return wrapper;
 }
-var inboundQueuesPanelCases = [{
+var inboundQueuesPanelCases = exports.inboundQueuesPanelCases = [{
   title: 'Assignment checkbox: indeterminate',
   assignment: 1,
   indeterminate: true,
@@ -154,11 +169,10 @@ var inboundQueuesPanelCases = [{
     gateName: 'gateName3'
   }]
 }];
-exports.inboundQueuesPanelCases = inboundQueuesPanelCases;
 function findElement(wrapper, dataSign) {
   return wrapper.find("[data-sign=\"".concat(dataSign, "\"]")).at(0);
 }
-var CheckInboundQueuesPanel = function CheckInboundQueuesPanel(_ref2) {
+var CheckInboundQueuesPanel = exports.CheckInboundQueuesPanel = function CheckInboundQueuesPanel(_ref2) {
   var list = _ref2.list,
     assignment = _ref2.assignment,
     indeterminate = _ref2.indeterminate,
@@ -173,5 +187,4 @@ var CheckInboundQueuesPanel = function CheckInboundQueuesPanel(_ref2) {
   expect(bulkChangeCheckBox.prop('indeterminate')).toBe(indeterminate);
   expect(bulkChangeCheckBox.prop('checked')).toBe(checked);
 };
-exports.CheckInboundQueuesPanel = CheckInboundQueuesPanel;
 //# sourceMappingURL=InboundQueuesPanel.ut.js.map

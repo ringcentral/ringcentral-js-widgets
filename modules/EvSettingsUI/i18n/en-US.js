@@ -1,10 +1,11 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-var _default = {
+var _default = exports["default"] = {
   phone: 'Phone',
   loginStyle: 'Login style',
   loginTime: 'Login time',
@@ -15,5 +16,4 @@ var _default = {
   externalPhone: 'External Phone',
   unknown: 'Unknown'
 };
-exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

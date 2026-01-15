@@ -1,7 +1,6 @@
 "use strict";
 
-require("core-js/modules/es.date.now");
-require("core-js/modules/es.date.to-string");
+require("core-js/modules/es.date.now.js");
 (function () {
   'use strict';
 

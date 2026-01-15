@@ -1,10 +1,11 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-var _default = {
+var _default = exports["default"] = {
   inboundQueues: 'Inbound queues',
   skillProfile: 'Skill profile',
   voiceConnection: 'Voice connection',
@@ -17,5 +18,4 @@ var _default = {
   agent: 'Agent',
   supervisor: 'Supervisor'
 };
-exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

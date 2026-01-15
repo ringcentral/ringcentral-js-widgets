@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -10,7 +11,7 @@ var _react = _interopRequireDefault(require("react"));
 var _i18n = _interopRequireDefault(require("../i18n"));
 var _getIconColor = require("./getIconColor");
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var TransferCallButton = function TransferCallButton(_ref) {
+var TransferCallButton = exports.TransferCallButton = function TransferCallButton(_ref) {
   var currentLocale = _ref.currentLocale,
     onTransfer = _ref.onTransfer,
     transferRef = _ref.transferRef,
@@ -36,7 +37,6 @@ var TransferCallButton = function TransferCallButton(_ref) {
     shouldPersistBg: disableTransfer
   });
 };
-exports.TransferCallButton = TransferCallButton;
 TransferCallButton.defaultProps = {
   onTransfer: function onTransfer() {},
   disableTransfer: false,

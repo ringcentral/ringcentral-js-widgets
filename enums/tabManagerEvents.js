@@ -1,11 +1,12 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.tabManagerEvents = void 0;
 var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
-var tabManagerEvents = _ObjectMap.ObjectMap.prefixKeys(['MUTE', 'MUTE_STATE_CHANGE', 'NOTIFY_ACTIVE_TAB_CALL_ACTIVE',
+var tabManagerEvents = exports.tabManagerEvents = _ObjectMap.ObjectMap.prefixKeys(['MUTE', 'MUTE_STATE_CHANGE', 'NOTIFY_ACTIVE_TAB_CALL_ACTIVE',
 // Session config related
 'SET_MIAN_TAB_ID', 'MAIN_TAB_WILL_UNLOAD', 'SET_MAIN_TAB_COMPLETE', 'AGENT_CONFIG_SUCCESS', 'RESET_WORKING_STATE', 'UPDATE_SESSION', 'UPDATE_SESSION_FAIL', 'UPDATE_SESSION_SUCCESS', 'UPDATE_SESSION_SUCCESS_ALERT',
 // WebRTC related
@@ -14,5 +15,4 @@ var tabManagerEvents = _ObjectMap.ObjectMap.prefixKeys(['MUTE', 'MUTE_STATE_CHAN
 'CALL_DISPOSITION_SUCCESS', 'CALL_LOG_CREATE_SUCCESS', 'CLOSE_WHEN_CALL_CONNECTED',
 // Auth related
 'LOGOUT', 'LOGGED_OUT', 'OPEN_SOCKET', 'RELOGIN', 'CONFIGURE_FAIL', 'RE_CHOOSE_ACCOUNT', 'RECORD_PAUSED'], 'tabManager');
-exports.tabManagerEvents = tabManagerEvents;
 //# sourceMappingURL=tabManagerEvents.js.map

@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -8,7 +9,7 @@ var _juno = require("@ringcentral/juno");
 var _react = _interopRequireDefault(require("react"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var Warning = function Warning(_ref) {
+var Warning = exports.Warning = function Warning(_ref) {
   var children = _ref.children,
     isWide = _ref.isWide;
   return /*#__PURE__*/_react["default"].createElement(_juno.RcTypography, {
@@ -17,7 +18,6 @@ var Warning = function Warning(_ref) {
     className: _styles["default"].warning
   }, children);
 };
-exports.Warning = Warning;
 Warning.defaultProps = {
   isWide: true
 };

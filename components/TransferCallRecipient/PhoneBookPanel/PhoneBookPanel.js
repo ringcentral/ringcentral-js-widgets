@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -15,7 +16,7 @@ var _styles = _interopRequireDefault(require("../styles.scss"));
 var _i18n2 = _interopRequireDefault(require("./i18n"));
 var _styles2 = _interopRequireDefault(require("./styles.scss"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var PhoneBookPanel = function PhoneBookPanel(_ref) {
+var PhoneBookPanel = exports.PhoneBookPanel = function PhoneBookPanel(_ref) {
   var currentLocale = _ref.currentLocale,
     goBack = _ref.goBack,
     transferPhoneBook = _ref.transferPhoneBook,
@@ -61,5 +62,4 @@ var PhoneBookPanel = function PhoneBookPanel(_ref) {
     }
   });
 };
-exports.PhoneBookPanel = PhoneBookPanel;
 //# sourceMappingURL=PhoneBookPanel.js.map

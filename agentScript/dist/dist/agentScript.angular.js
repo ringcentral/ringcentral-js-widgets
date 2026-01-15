@@ -1,6 +1,7 @@
 "use strict";
 
-require("core-js/modules/web.timers");
+require("core-js/modules/es.object.keys.js");
+require("core-js/modules/web.timers.js");
 /* eslint-disable no-use-before-define */
 var app = window.app;
 var initDebounceTime = 1000;

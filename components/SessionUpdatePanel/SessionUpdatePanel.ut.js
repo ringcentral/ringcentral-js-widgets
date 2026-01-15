@@ -1,10 +1,12 @@
 "use strict";
 
-require("core-js/modules/es.array.find");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.UTRenderUpdateSessionBtns = void 0;
+require("core-js/modules/es.array.find.js");
+require("core-js/modules/es.object.to-string.js");
 var _juno = require("@ringcentral/juno");
 var _enzyme = require("enzyme");
 var _react = _interopRequireDefault(require("react"));
@@ -89,7 +91,7 @@ function setup(_ref) {
     showSkillProfile = _ref$showSkillProfile === void 0 ? true : _ref$showSkillProfile,
     _ref$showAutoAnswer = _ref.showAutoAnswer,
     showAutoAnswer = _ref$showAutoAnswer === void 0 ? true : _ref$showAutoAnswer;
-  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_SessionUpdatePanel.SessionUpdatePanel, {
+  return (0, _enzyme.mount)(/*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_SessionUpdatePanel.SessionUpdatePanel, {
     currentLocale: currentLocale,
     goToSettingsPageWhetherSessionChanged: goToSettingsPageWhetherSessionChanged,
     onSaveUpdate: onSaveUpdate,
@@ -118,10 +120,9 @@ function setup(_ref) {
     showAutoAnswer: showAutoAnswer
   })));
 }
-var UTRenderUpdateSessionBtns = function UTRenderUpdateSessionBtns() {
+var UTRenderUpdateSessionBtns = exports.UTRenderUpdateSessionBtns = function UTRenderUpdateSessionBtns() {
   wrapper = setup({});
   expect(wrapper.find('[data-sign="saveUpdate"]').exists()).toBeTruthy();
   expect(wrapper.find('[data-sign="cancel"]').exists()).toBeTruthy();
 };
-exports.UTRenderUpdateSessionBtns = UTRenderUpdateSessionBtns;
 //# sourceMappingURL=SessionUpdatePanel.ut.js.map

@@ -1,17 +1,23 @@
 "use strict";
 
-require("core-js/modules/es.symbol");
-require("core-js/modules/es.symbol.description");
-require("core-js/modules/es.symbol.to-primitive");
-require("core-js/modules/es.array.map");
-require("core-js/modules/es.date.to-primitive");
-require("core-js/modules/es.function.name");
-require("core-js/modules/es.number.constructor");
-require("core-js/modules/es.object.to-string");
+require("core-js/modules/es.symbol.js");
+require("core-js/modules/es.symbol.description.js");
+require("core-js/modules/es.symbol.iterator.js");
+require("core-js/modules/es.symbol.to-primitive.js");
+require("core-js/modules/es.array.iterator.js");
+require("core-js/modules/es.date.to-primitive.js");
+require("core-js/modules/es.number.constructor.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/es.string.iterator.js");
+require("core-js/modules/web.dom-collections.iterator.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.SettingsPanel = void 0;
+require("core-js/modules/es.array.map.js");
+require("core-js/modules/es.function.name.js");
+require("core-js/modules/es.object.to-string.js");
 var _Tooltip = require("@ringcentral-integration/widgets/components/Rcui/Tooltip");
 var _toolTipDelayTime = require("@ringcentral-integration/widgets/lib/toolTipDelayTime");
 var _juno = require("@ringcentral/juno");
@@ -21,12 +27,10 @@ var _react = _interopRequireDefault(require("react"));
 var _i18n = _interopRequireDefault(require("./i18n"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-var SettingsPanel = function SettingsPanel(_ref) {
-  var _clsx;
+var SettingsPanel = exports.SettingsPanel = function SettingsPanel(_ref) {
   var onLogout = _ref.onLogout,
     currentLocale = _ref.currentLocale,
     version = _ref.version,
@@ -55,7 +59,7 @@ var SettingsPanel = function SettingsPanel(_ref) {
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].infoTitle
   }, /*#__PURE__*/_react["default"].createElement("span", null, _i18n["default"].getString('sessionInfo', currentLocale)), showEditSessionIcon && /*#__PURE__*/_react["default"].createElement("span", {
-    className: (0, _clsx2["default"])((_clsx = {}, _defineProperty(_clsx, _styles["default"].pointerWrap, disableEditSessionButton), _defineProperty(_clsx, _styles["default"].alignRight, true), _clsx))
+    className: (0, _clsx2["default"])(_defineProperty(_defineProperty({}, _styles["default"].pointerWrap, disableEditSessionButton), _styles["default"].alignRight, true))
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
     "data-sign": "editSession",
     title: _i18n["default"].getString('edit', currentLocale),
@@ -90,5 +94,4 @@ var SettingsPanel = function SettingsPanel(_ref) {
     size: "large"
   }, _i18n["default"].getString('logout', currentLocale))));
 };
-exports.SettingsPanel = SettingsPanel;
 //# sourceMappingURL=SettingsPanel.js.map

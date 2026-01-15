@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -8,7 +9,7 @@ var _clsx = _interopRequireDefault(require("clsx"));
 var _react = _interopRequireDefault(require("react"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var getModalText = function getModalText(_ref) {
+var getModalText = exports.getModalText = function getModalText(_ref) {
   var isInbound = _ref.isInbound,
     inboundTextProps = _ref.inboundTextProps,
     outboundText = _ref.outboundText;
@@ -28,5 +29,4 @@ var getModalText = function getModalText(_ref) {
     title: outboundText
   }, outboundText);
 };
-exports.getModalText = getModalText;
 //# sourceMappingURL=IncomingModalText.js.map

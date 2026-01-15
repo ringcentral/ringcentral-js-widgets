@@ -1,8 +1,9 @@
 "use strict";
 
-require("core-js/modules/es.array.find");
-require("core-js/modules/es.array.includes");
-require("core-js/modules/es.string.includes");
+require("core-js/modules/es.array.find.js");
+require("core-js/modules/es.array.includes.js");
+require("core-js/modules/es.object.to-string.js");
+require("core-js/modules/es.string.includes.js");
 var _juno = require("@ringcentral/juno");
 var _enzyme = require("enzyme");
 var _react = _interopRequireDefault(require("react"));
@@ -35,7 +36,7 @@ function setup() {
     _ref2$goToRequeueCall = _ref2.goToRequeueCallPage,
     goToRequeueCallPage = _ref2$goToRequeueCall === void 0 ? function () {} : _ref2$goToRequeueCall;
   var selectedQueueGroupId = queueGroups[selectedQueueGroupIndex] ? queueGroups[selectedQueueGroupIndex].gateGroupId : '';
-  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_RequeueCallGroupPanel.RequeueCallGroupPanel, {
+  return (0, _enzyme.mount)(/*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_RequeueCallGroupPanel.RequeueCallGroupPanel, {
     currentLocale: currentLocale,
     goToRequeueCallPage: goToRequeueCallPage,
     searchGroup: searchGroup,
