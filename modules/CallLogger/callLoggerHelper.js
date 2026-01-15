@@ -1,14 +1,15 @@
 "use strict";
 
-require("core-js/modules/es.array.concat");
-require("core-js/modules/es.date.to-iso-string");
-require("core-js/modules/es.date.to-string");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.callIdentityFunction = callIdentityFunction;
 exports.getRecordingInfo = getRecordingInfo;
 exports.hasRecording = hasRecording;
+require("core-js/modules/es.array.concat.js");
+require("core-js/modules/es.date.to-iso-string.js");
+require("core-js/modules/es.date.to-string.js");
 /**
  * Identity function for calls.
  */

@@ -1,11 +1,12 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.trackEvents = void 0;
 var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
-var trackEvents = _ObjectMap.ObjectMap.fromObject({
+var trackEvents = exports.trackEvents = _ObjectMap.ObjectMap.fromObject({
   outbound: 'Outbound Call',
   mute: 'Call Control: Mute',
   unmute: 'Call Control: Unmute',
@@ -135,5 +136,4 @@ var trackEvents = _ObjectMap.ObjectMap.fromObject({
   clickAdminLearnMoreOnPromotionalScreen: 'Int_ActSync_PromotionalScreen_Admin_LearnMore',
   clickUserLearnMoreOnPromotionalScreen: 'Int_ActSync_PromotionalScreen_User_LearnMore'
 });
-exports.trackEvents = trackEvents;
 //# sourceMappingURL=trackEvents.js.map

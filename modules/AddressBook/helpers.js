@@ -1,14 +1,18 @@
 "use strict";
 
-require("core-js/modules/es.array.is-array");
-require("core-js/modules/es.regexp.exec");
-require("core-js/modules/es.string.replace");
+require("core-js/modules/es.array.for-each.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/es.object.to-string.js");
+require("core-js/modules/web.dom-collections.for-each.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.decodeName = decodeName;
 exports.getSyncParams = getSyncParams;
 exports.processAddressBookResponse = processAddressBookResponse;
+require("core-js/modules/es.array.is-array.js");
+require("core-js/modules/es.regexp.exec.js");
+require("core-js/modules/es.string.replace.js");
 var _ramda = require("ramda");
 var _syncTypes = require("../../enums/syncTypes");
 var REGX_DECODE = /&\w+;/g;

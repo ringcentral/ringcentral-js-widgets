@@ -1,15 +1,17 @@
 "use strict";
 
-require("core-js/modules/es.array.map");
-require("core-js/modules/es.function.name");
-require("core-js/modules/es.regexp.exec");
-require("core-js/modules/es.string.replace");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.renameTurkey = renameTurkey;
 exports.renameTurkeyCountries = renameTurkeyCountries;
 exports.renameTurkeyCountry = renameTurkeyCountry;
+require("core-js/modules/es.array.map.js");
+require("core-js/modules/es.function.name.js");
+require("core-js/modules/es.object.to-string.js");
+require("core-js/modules/es.regexp.exec.js");
+require("core-js/modules/es.string.replace.js");
 /**
  * https://jira_domain/browse/RCINT-29161
  * Turkey renames to Türkiye

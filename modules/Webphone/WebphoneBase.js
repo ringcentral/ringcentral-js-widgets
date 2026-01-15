@@ -1,27 +1,44 @@
 "use strict";
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-require("core-js/modules/es.array.concat");
-require("core-js/modules/es.array.filter");
-require("core-js/modules/es.array.for-each");
-require("core-js/modules/es.array.index-of");
-require("core-js/modules/es.array.iterator");
-require("core-js/modules/es.array.map");
-require("core-js/modules/es.map");
-require("core-js/modules/es.object.entries");
-require("core-js/modules/es.object.get-own-property-descriptor");
-require("core-js/modules/es.object.keys");
-require("core-js/modules/es.object.to-string");
-require("core-js/modules/es.promise");
-require("core-js/modules/es.string.iterator");
-require("core-js/modules/web.dom-collections.for-each");
-require("core-js/modules/web.dom-collections.iterator");
-require("core-js/modules/web.timers");
+require("core-js/modules/es.symbol.js");
+require("core-js/modules/es.symbol.description.js");
+require("core-js/modules/es.symbol.iterator.js");
+require("core-js/modules/es.symbol.to-primitive.js");
+require("core-js/modules/es.array.reduce.js");
+require("core-js/modules/es.array.reverse.js");
+require("core-js/modules/es.array.slice.js");
+require("core-js/modules/es.date.to-primitive.js");
+require("core-js/modules/es.function.bind.js");
+require("core-js/modules/es.number.constructor.js");
+require("core-js/modules/es.object.create.js");
+require("core-js/modules/es.object.define-properties.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/es.object.get-own-property-descriptors.js");
+require("core-js/modules/es.object.get-prototype-of.js");
+require("core-js/modules/es.object.set-prototype-of.js");
+require("core-js/modules/es.reflect.construct.js");
+require("core-js/modules/es.reflect.get.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.WebphoneBase = exports.DEFAULT_AUDIO = void 0;
-require("regenerator-runtime/runtime");
+require("core-js/modules/es.array.concat.js");
+require("core-js/modules/es.array.filter.js");
+require("core-js/modules/es.array.for-each.js");
+require("core-js/modules/es.array.index-of.js");
+require("core-js/modules/es.array.iterator.js");
+require("core-js/modules/es.array.map.js");
+require("core-js/modules/es.map.js");
+require("core-js/modules/es.object.entries.js");
+require("core-js/modules/es.object.get-own-property-descriptor.js");
+require("core-js/modules/es.object.keys.js");
+require("core-js/modules/es.object.to-string.js");
+require("core-js/modules/es.promise.js");
+require("core-js/modules/es.string.iterator.js");
+require("core-js/modules/web.dom-collections.for-each.js");
+require("core-js/modules/web.dom-collections.iterator.js");
+require("core-js/modules/web.timers.js");
 var _core = require("@ringcentral-integration/core");
 var _utils = require("@ringcentral-integration/utils");
 var _events = require("events");
@@ -42,6 +59,8 @@ function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default":
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
+function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
@@ -50,19 +69,19 @@ function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = 
 function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _get() { return _get = "undefined" != typeof Reflect && Reflect.get ? Reflect.get.bind() : function (e, t, r) { var p = _superPropBase(e, t); if (p) { var n = Object.getOwnPropertyDescriptor(p, t); return n.get ? n.get.call(arguments.length < 3 ? e : r) : n.value; } }, _get.apply(null, arguments); }
-function _superPropBase(t, o) { for (; !{}.hasOwnProperty.call(t, o) && null !== (t = _getPrototypeOf(t));) { ; } return t; }
-function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
-function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
-function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _callSuper(t, o, e) { return o = _getPrototypeOf(o), _possibleConstructorReturn(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor) : o.apply(t, e)); }
 function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
 function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
 function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _superPropGet(t, o, e, r) { var p = _get(_getPrototypeOf(1 & r ? t.prototype : t), o, e); return 2 & r && "function" == typeof p ? function (t) { return p.apply(e, t); } : p; }
+function _get() { return _get = "undefined" != typeof Reflect && Reflect.get ? Reflect.get.bind() : function (e, t, r) { var p = _superPropBase(e, t); if (p) { var n = Object.getOwnPropertyDescriptor(p, t); return n.get ? n.get.call(arguments.length < 3 ? e : r) : n.value; } }, _get.apply(null, arguments); }
+function _superPropBase(t, o) { for (; !{}.hasOwnProperty.call(t, o) && null !== (t = _getPrototypeOf(t));); return t; }
 function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
 function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
 function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
-var DEFAULT_AUDIO = 'default';
-exports.DEFAULT_AUDIO = DEFAULT_AUDIO;
+var DEFAULT_AUDIO = exports.DEFAULT_AUDIO = 'default';
 var AUTO_RETRIES_DELAY = [0, 5 * 1000, 10 * 1000, 30 * 1000, 2 * 60 * 1000, 5 * 60 * 1000, 15 * 60 * 1000, 30 * 60 * 1000];
 var RECOVER_DEBOUNCE_THRESHOLD = 1000;
 var INACTIVE_SLEEP_DELAY = 1000;
@@ -72,7 +91,7 @@ var registerErrors = [_webphoneErrors.webphoneErrors.sipProvisionError, _webphon
  * @constructor
  * @description Web phone module to handle phone interaction with WebRTC.
  */
-var WebphoneBase = (_dec = (0, _di.Module)({
+var WebphoneBase = exports.WebphoneBase = (_dec = (0, _di.Module)({
   name: 'Webphone',
   deps: ['Auth', 'Alert', 'Client', 'NumberValidate', 'AppFeatures', 'ExtensionFeatures', 'Brand', 'RegionSettings', 'AudioSettings', 'Storage', {
     dep: 'AvailabilityMonitor',
@@ -100,17 +119,15 @@ var WebphoneBase = (_dec = (0, _di.Module)({
   var _that$_deps$tabManage, _that$_deps$tabManage2;
   return [that.ready, (_that$_deps$tabManage = that._deps.tabManager) === null || _that$_deps$tabManage === void 0 ? void 0 : _that$_deps$tabManage.ready, (_that$_deps$tabManage2 = that._deps.tabManager) === null || _that$_deps$tabManage2 === void 0 ? void 0 : _that$_deps$tabManage2.active];
 }), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
-  _inherits(WebphoneBase, _RcModuleV);
-  var _super = _createSuper(WebphoneBase);
   function WebphoneBase(deps) {
     var _deps$webphoneOptions, _deps$webphoneOptions2;
     var _this;
     _classCallCheck(this, WebphoneBase);
-    _this = _super.call(this, {
+    _this = _callSuper(this, WebphoneBase, [{
       deps: deps,
       enableCache: true,
       storageKey: 'Webphone'
-    });
+    }]);
     _this._reconnectDelays = AUTO_RETRIES_DELAY;
     _this._disconnectOnInactive = void 0;
     _this._activeWebphoneKey = void 0;
@@ -127,18 +144,19 @@ var WebphoneBase = (_dec = (0, _di.Module)({
     _this._eventEmitter = new _events.EventEmitter();
     _this._stopWebphoneUserAgentPromise = null;
     _this._removedWebphoneAtBeforeUnload = false;
-    _initializerDefineProperty(_this, "connectionStatus", _descriptor, _assertThisInitialized(_this));
-    _initializerDefineProperty(_this, "connectRetryCounts", _descriptor2, _assertThisInitialized(_this));
-    _initializerDefineProperty(_this, "errorCode", _descriptor3, _assertThisInitialized(_this));
-    _initializerDefineProperty(_this, "statusCode", _descriptor4, _assertThisInitialized(_this));
-    _initializerDefineProperty(_this, "device", _descriptor5, _assertThisInitialized(_this));
-    _initializerDefineProperty(_this, "data", _descriptor6, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "connectionStatus", _descriptor, _this);
+    _initializerDefineProperty(_this, "connectRetryCounts", _descriptor2, _this);
+    _initializerDefineProperty(_this, "errorCode", _descriptor3, _this);
+    _initializerDefineProperty(_this, "statusCode", _descriptor4, _this);
+    _initializerDefineProperty(_this, "device", _descriptor5, _this);
+    _initializerDefineProperty(_this, "data", _descriptor6, _this);
     _this._disconnectOnInactive = (_deps$webphoneOptions = (_deps$webphoneOptions2 = deps.webphoneOptions) === null || _deps$webphoneOptions2 === void 0 ? void 0 : _deps$webphoneOptions2.disconnectOnInactive) !== null && _deps$webphoneOptions !== void 0 ? _deps$webphoneOptions : false;
     _this._activeWebphoneKey = "".concat(deps.prefix, "-active-webphone-key");
     _this._sipInstanceManager = new _SipInstanceManager.SipInstanceManager("".concat(deps.prefix, "-webphone-inactive-sip-instance"));
     return _this;
   }
-  _createClass(WebphoneBase, [{
+  _inherits(WebphoneBase, _RcModuleV);
+  return _createClass(WebphoneBase, [{
     key: "_setConnectionStatus",
     value: function _setConnectionStatus(status) {
       this.connectionStatus = status;
@@ -221,6 +239,26 @@ var WebphoneBase = (_dec = (0, _di.Module)({
       this.connectRetryCounts = retryCounts;
     }
   }, {
+    key: "incomingAudioFile",
+    get: function get() {
+      return this.data.incomingAudioFile;
+    }
+  }, {
+    key: "incomingAudioDataUrl",
+    get: function get() {
+      return this.data.incomingAudioDataUrl;
+    }
+  }, {
+    key: "outgoingAudioFile",
+    get: function get() {
+      return this.data.outgoingAudioFile;
+    }
+  }, {
+    key: "outgoingAudioDataUrl",
+    get: function get() {
+      return this.data.outgoingAudioDataUrl;
+    }
+  }, {
     key: "_setRingtoneIntoStorage",
     value: function _setRingtoneIntoStorage(incomingAudioFile, incomingAudioDataUrl, outgoingAudioFile, outgoingAudioDataUrl) {
       this.data.incomingAudioFile = incomingAudioFile;
@@ -287,61 +325,58 @@ var WebphoneBase = (_dec = (0, _di.Module)({
   }, {
     key: "_initModule",
     value: function () {
-      var _initModule2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+      var _initModule2 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
         var _this2 = this;
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                if (typeof window !== 'undefined' && typeof document !== 'undefined') {
-                  if (document.readyState === 'loading') {
-                    window.addEventListener('load', function () {
-                      _this2._prepareVideoElement();
-                    });
-                  } else {
-                    this._prepareVideoElement();
-                  }
-                  window.addEventListener('beforeunload', function () {
-                    if (!_this2._webphone) {
-                      return;
-                    }
-                    if (Object.keys(_this2.originalSessions).length > 0) {
-                      return;
-                    }
-                    _this2._removedWebphoneAtBeforeUnload = true;
-                    // disconnect webphone at beforeunload if there are not active sessions
-                    _this2._disconnect();
-                    // set timeout to reconnect web phone is before unload cancel
-                    setTimeout(function () {
-                      _this2._removedWebphoneAtBeforeUnload = false;
-                      _this2.connect({
-                        force: true,
-                        skipConnectDelay: true,
-                        skipDLCheck: true
-                      });
-                    }, 4000);
+        return _regenerator().w(function (_context) {
+          while (1) switch (_context.n) {
+            case 0:
+              if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+                if (document.readyState === 'loading') {
+                  window.addEventListener('load', function () {
+                    _this2._prepareVideoElement();
                   });
-                  window.addEventListener('pagehide', function () {
-                    // mark current instance id as inactive, so app can reuse it after refresh
-                    if (_this2._sipInstanceId) {
-                      _this2._sipInstanceManager.setInstanceInactive(_this2._sipInstanceId, _this2._deps.auth.endpointId);
-                      _this2._sipInstanceId = null;
-                    }
-                    // disconnect if web phone is not disconnected at beforeunload
-                    if (!_this2._removedWebphoneAtBeforeUnload) {
-                      _this2._disconnect();
-                    }
-                    _this2._removeCurrentInstanceFromActiveWebphone();
-                    _this2._destroyVideoElement();
-                  });
+                } else {
+                  this._prepareVideoElement();
                 }
-                this._createOtherWebphoneInstanceListener();
-                _context.next = 4;
-                return _get(_getPrototypeOf(WebphoneBase.prototype), "_initModule", this).call(this);
-              case 4:
-              case "end":
-                return _context.stop();
-            }
+                window.addEventListener('beforeunload', function () {
+                  if (!_this2._webphone) {
+                    return;
+                  }
+                  if (Object.keys(_this2.originalSessions).length > 0) {
+                    return;
+                  }
+                  _this2._removedWebphoneAtBeforeUnload = true;
+                  // disconnect webphone at beforeunload if there are not active sessions
+                  _this2._disconnect();
+                  // set timeout to reconnect web phone is before unload cancel
+                  setTimeout(function () {
+                    _this2._removedWebphoneAtBeforeUnload = false;
+                    _this2.connect({
+                      force: true,
+                      skipConnectDelay: true,
+                      skipDLCheck: true
+                    });
+                  }, 4000);
+                });
+                window.addEventListener('pagehide', function () {
+                  // mark current instance id as inactive, so app can reuse it after refresh
+                  if (_this2._sipInstanceId) {
+                    _this2._sipInstanceManager.setInstanceInactive(_this2._sipInstanceId, _this2._deps.auth.endpointId);
+                    _this2._sipInstanceId = null;
+                  }
+                  // disconnect if web phone is not disconnected at beforeunload
+                  if (!_this2._removedWebphoneAtBeforeUnload) {
+                    _this2._disconnect();
+                  }
+                  _this2._removeCurrentInstanceFromActiveWebphone();
+                  _this2._destroyVideoElement();
+                });
+              }
+              this._createOtherWebphoneInstanceListener();
+              _context.n = 1;
+              return _superPropGet(WebphoneBase, "_initModule", this, 3)([]);
+            case 1:
+              return _context.a(2);
           }
         }, _callee, this);
       }));
@@ -354,18 +389,15 @@ var WebphoneBase = (_dec = (0, _di.Module)({
     key: "onInitOnce",
     value: function onInitOnce() {
       var _this3 = this;
-      this._deps.auth.addBeforeLogoutHandler( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _this3._sipInstanceId = null;
-                _context2.next = 3;
-                return _this3._disconnect();
-              case 3:
-              case "end":
-                return _context2.stop();
-            }
+      this._deps.auth.addBeforeLogoutHandler(/*#__PURE__*/_asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
+        return _regenerator().w(function (_context2) {
+          while (1) switch (_context2.n) {
+            case 0:
+              _this3._sipInstanceId = null;
+              _context2.n = 1;
+              return _this3._disconnect();
+            case 1:
+              return _context2.a(2);
           }
         }, _callee2);
       })));
@@ -410,6 +442,27 @@ var WebphoneBase = (_dec = (0, _di.Module)({
       });
     }
   }, {
+    key: "shouldUpdateRingtoneVolume",
+    get: function get() {
+      return [this.ready, this._deps.audioSettings.ringtoneVolume];
+    }
+  }, {
+    key: "shouldSetRingtoneSinkId",
+    get: function get() {
+      return [this.ready, this._deps.audioSettings.supportDevices, this._deps.audioSettings.ringtoneDeviceId];
+    }
+  }, {
+    key: "shouldSetSinkId",
+    get: function get() {
+      return [this.ready, this._deps.audioSettings.supportDevices, this._deps.audioSettings.outputDeviceId];
+    }
+  }, {
+    key: "shouldTriggerOnTabActive",
+    get: function get() {
+      var _this$_deps$tabManage, _this$_deps$tabManage2;
+      return [this.ready, (_this$_deps$tabManage = this._deps.tabManager) === null || _this$_deps$tabManage === void 0 ? void 0 : _this$_deps$tabManage.ready, (_this$_deps$tabManage2 = this._deps.tabManager) === null || _this$_deps$tabManage2 === void 0 ? void 0 : _this$_deps$tabManage2.active];
+    }
+  }, {
     key: "_shouldInit",
     value: function _shouldInit() {
       return this._deps.auth.loggedIn && this._deps.appFeatures.ready && this._deps.extensionFeatures.ready && this._deps.numberValidate.ready && this._deps.audioSettings.ready && this._deps.storage.ready && (!this._deps.tabManager || this._deps.tabManager.ready) && this.pending;
@@ -422,25 +475,20 @@ var WebphoneBase = (_dec = (0, _di.Module)({
   }, {
     key: "_sipProvision",
     value: function () {
-      var _sipProvision2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+      var _sipProvision2 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {
         var response;
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                _context3.next = 2;
-                return this._deps.client.service.platform().post('/restapi/v1.0/client-info/sip-provision', {
-                  sipInfo: [{
-                    transport: 'WSS'
-                  }]
-                });
-              case 2:
-                response = _context3.sent;
-                return _context3.abrupt("return", response.json());
-              case 4:
-              case "end":
-                return _context3.stop();
-            }
+        return _regenerator().w(function (_context3) {
+          while (1) switch (_context3.n) {
+            case 0:
+              _context3.n = 1;
+              return this._deps.client.service.platform().post('/restapi/v1.0/client-info/sip-provision', {
+                sipInfo: [{
+                  transport: 'WSS'
+                }]
+              });
+            case 1:
+              response = _context3.v;
+              return _context3.a(2, response.json());
           }
         }, _callee3, this);
       }));
@@ -452,29 +500,24 @@ var WebphoneBase = (_dec = (0, _di.Module)({
   }, {
     key: "_fetchDL",
     value: function () {
-      var _fetchDL2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+      var _fetchDL2 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4() {
         var response, devices, phoneLines;
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                _context4.next = 2;
-                return this._deps.client.account().extension().device().list();
-              case 2:
-                response = _context4.sent;
-                devices = response.records;
-                phoneLines = [];
-                devices === null || devices === void 0 ? void 0 : devices.forEach(function (device) {
-                  if (!device.phoneLines || device.phoneLines.length === 0) {
-                    return;
-                  }
-                  phoneLines = phoneLines.concat(device.phoneLines);
-                });
-                return _context4.abrupt("return", phoneLines);
-              case 7:
-              case "end":
-                return _context4.stop();
-            }
+        return _regenerator().w(function (_context4) {
+          while (1) switch (_context4.n) {
+            case 0:
+              _context4.n = 1;
+              return this._deps.client.account().extension().device().list();
+            case 1:
+              response = _context4.v;
+              devices = response.records;
+              phoneLines = [];
+              devices === null || devices === void 0 ? void 0 : devices.forEach(function (device) {
+                if (!device.phoneLines || device.phoneLines.length === 0) {
+                  return;
+                }
+                phoneLines = phoneLines.concat(device.phoneLines);
+              });
+              return _context4.a(2, phoneLines);
           }
         }, _callee4, this);
       }));
@@ -486,56 +529,54 @@ var WebphoneBase = (_dec = (0, _di.Module)({
   }, {
     key: "_removeWebphone",
     value: function () {
-      var _removeWebphone2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
-        return regeneratorRuntime.wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                if (!(!this._webphone || !this._webphone.userAgent)) {
-                  _context5.next = 2;
-                  break;
-                }
-                return _context5.abrupt("return");
-              case 2:
-                this._stopWebphoneUserAgentPromise = this._waitUnregistered(this._webphone.userAgent);
-                this._webphone.userAgent.stop();
-                _context5.prev = 4;
-                _context5.next = 7;
-                return this._stopWebphoneUserAgentPromise;
-              case 7:
-                _context5.next = 12;
+      var _removeWebphone2 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5() {
+        var _t;
+        return _regenerator().w(function (_context5) {
+          while (1) switch (_context5.p = _context5.n) {
+            case 0:
+              if (!(!this._webphone || !this._webphone.userAgent)) {
+                _context5.n = 1;
                 break;
-              case 9:
-                _context5.prev = 9;
-                _context5.t0 = _context5["catch"](4);
-                console.error(_context5.t0);
-              case 12:
-                this._stopWebphoneUserAgentPromise = null;
-                try {
-                  this._webphone.userAgent.removeAllListeners();
-                  this._webphone.userAgent.transport.removeAllListeners();
-                  if (this._webphone.userAgent.transport.isConnected()) {
-                    this._webphone.userAgent.transport.disconnect();
-                  }
-                  if (this._webphone.userAgent.transport.reconnectTimer) {
-                    clearTimeout(this._webphone.userAgent.transport.reconnectTimer);
-                    this._webphone.userAgent.transport.reconnectTimer = undefined;
-                  }
-                  if (this._webphone.userAgent.transport.__clearSwitchBackTimer) {
-                    this._webphone.userAgent.transport.__clearSwitchBackTimer();
-                  }
-                  this.stopAudio();
-                } catch (e) {
-                  console.error(e);
-                  // ignore clean listener error
+              }
+              return _context5.a(2);
+            case 1:
+              this._stopWebphoneUserAgentPromise = this._waitUnregistered(this._webphone.userAgent);
+              this._webphone.userAgent.stop();
+              _context5.p = 2;
+              _context5.n = 3;
+              return this._stopWebphoneUserAgentPromise;
+            case 3:
+              _context5.n = 5;
+              break;
+            case 4:
+              _context5.p = 4;
+              _t = _context5.v;
+              console.error(_t);
+            case 5:
+              this._stopWebphoneUserAgentPromise = null;
+              try {
+                this._webphone.userAgent.removeAllListeners();
+                this._webphone.userAgent.transport.removeAllListeners();
+                if (this._webphone.userAgent.transport.isConnected()) {
+                  this._webphone.userAgent.transport.disconnect();
                 }
-                this._webphone = null;
-              case 15:
-              case "end":
-                return _context5.stop();
-            }
+                if (this._webphone.userAgent.transport.reconnectTimer) {
+                  clearTimeout(this._webphone.userAgent.transport.reconnectTimer);
+                  this._webphone.userAgent.transport.reconnectTimer = undefined;
+                }
+                if (this._webphone.userAgent.transport.__clearSwitchBackTimer) {
+                  this._webphone.userAgent.transport.__clearSwitchBackTimer();
+                }
+                this.stopAudio();
+              } catch (e) {
+                console.error(e);
+                // ignore clean listener error
+              }
+              this._webphone = null;
+            case 6:
+              return _context5.a(2);
           }
-        }, _callee5, this, [[4, 9]]);
+        }, _callee5, this, [[2, 4]]);
       }));
       function _removeWebphone() {
         return _removeWebphone2.apply(this, arguments);
@@ -560,195 +601,192 @@ var WebphoneBase = (_dec = (0, _di.Module)({
   }, {
     key: "_createWebphone",
     value: function () {
-      var _createWebphone2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(provisionData) {
+      var _createWebphone2 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee6(provisionData) {
         var _this$_deps$webphoneO,
           _this$_deps$webphoneO2,
           _this4 = this;
-        return regeneratorRuntime.wrap(function _callee6$(_context6) {
-          while (1) {
-            switch (_context6.prev = _context6.next) {
-              case 0:
-                _context6.next = 2;
-                return this._removeWebphone();
-              case 2:
-                if (!this._sipInstanceId) {
-                  this._sipInstanceId = this._sipInstanceManager.getInstanceId(this._deps.auth.endpointId);
+        return _regenerator().w(function (_context6) {
+          while (1) switch (_context6.n) {
+            case 0:
+              _context6.n = 1;
+              return this._removeWebphone();
+            case 1:
+              if (!this._sipInstanceId) {
+                this._sipInstanceId = this._sipInstanceManager.getInstanceId(this._deps.auth.endpointId);
+              }
+              this._webphone = new _ringcentralWebPhone["default"](provisionData, _objectSpread({
+                appKey: this._deps.webphoneOptions.appKey,
+                appName: (0, _core.removeNonISO8859Chars)(this._deps.webphoneOptions.appName),
+                appVersion: this._deps.webphoneOptions.appVersion,
+                uuid: this._deps.auth.endpointId,
+                logLevel: (_this$_deps$webphoneO = this._deps.webphoneOptions.webphoneLogLevel) !== null && _this$_deps$webphoneO !== void 0 ? _this$_deps$webphoneO : 1,
+                // error 0, warn 1, log: 2, debug: 3
+                audioHelper: {
+                  enabled: true // enables audio feedback when web phone is ringing or making a call
+                },
+                media: {
+                  remote: this._remoteVideo,
+                  local: this._localVideo
+                },
+                enableQos: (0, _webphoneHelper.isChrome)(),
+                enableMidLinesInSDP: (0, _webphoneHelper.isEnableMidLinesInSDP)(),
+                instanceId: this._sipInstanceId,
+                // reuse sip instance id to avoid 603 issue at reconnection
+                autoStop: false
+              }, (_this$_deps$webphoneO2 = this._deps.webphoneOptions.webphoneSDKOptions) !== null && _this$_deps$webphoneO2 !== void 0 ? _this$_deps$webphoneO2 : {}));
+              // @ts-expect-error TS(2322): Type 'WebphoneAudioHelper' is not assignable to ty... Remove this comment to see the full error message
+              this._webphone.userAgent.audioHelper = new _AudioHelper.WebphoneAudioHelper({
+                enabled: true
+              });
+              this.loadAudio();
+              this._webphone.userAgent.audioHelper.setVolume(this._deps.audioSettings.ringtoneVolume);
+              // Webphone userAgent registered event
+              this._webphone.userAgent.on('registered', function () {
+                if (!_this4.connected) {
+                  _this4._onWebphoneRegistered(provisionData);
                 }
-                this._webphone = new _ringcentralWebPhone["default"](provisionData, _objectSpread({
-                  appKey: this._deps.webphoneOptions.appKey,
-                  appName: (0, _core.removeNonISO8859Chars)(this._deps.webphoneOptions.appName),
-                  appVersion: this._deps.webphoneOptions.appVersion,
-                  uuid: this._deps.auth.endpointId,
-                  logLevel: (_this$_deps$webphoneO = this._deps.webphoneOptions.webphoneLogLevel) !== null && _this$_deps$webphoneO !== void 0 ? _this$_deps$webphoneO : 1,
-                  // error 0, warn 1, log: 2, debug: 3
-                  audioHelper: {
-                    enabled: true // enables audio feedback when web phone is ringing or making a call
-                  },
-                  media: {
-                    remote: this._remoteVideo,
-                    local: this._localVideo
-                  },
-                  enableQos: (0, _webphoneHelper.isChrome)(),
-                  enableMidLinesInSDP: (0, _webphoneHelper.isEnableMidLinesInSDP)(),
-                  instanceId: this._sipInstanceId,
-                  // reuse sip instance id to avoid 603 issue at reconnection
-                  autoStop: false
-                }, (_this$_deps$webphoneO2 = this._deps.webphoneOptions.webphoneSDKOptions) !== null && _this$_deps$webphoneO2 !== void 0 ? _this$_deps$webphoneO2 : {}));
-                // @ts-expect-error TS(2322): Type 'WebphoneAudioHelper' is not assignable to ty... Remove this comment to see the full error message
-                this._webphone.userAgent.audioHelper = new _AudioHelper.WebphoneAudioHelper({
-                  enabled: true
+              });
+              this._webphone.userAgent.on('unregistered', function (e) {
+                console.log('web phone unregistered event', e);
+                _this4._onWebphoneUnregistered();
+              });
+              this._webphone.userAgent.on('registrationFailed', function (response, cause) {
+                console.error('Webphone Register Error:', response, cause);
+                // For 401
+                if (!response && cause === 'Connection Error') {
+                  return;
+                }
+                var message = response && response.data || response;
+                if (message && typeof message === 'string' && _this4._webphone.userAgent.transport.isSipErrorCode(message)) {
+                  // error is handled in webphone sdk;
+                  return;
+                }
+                // don't handled in connection is disconnecting
+                if (_this4.disconnected || _this4.disconnecting) {
+                  return;
+                }
+                var errorCode;
+                // limit logic:
+                /*
+                 * Specialties of this flow are next:
+                 *   6th WebRTC in another browser receives 6th ‘EndpointID’ and 1st ‘InstanceID’,
+                 *   which has been given previously to the 1st ‘EndpointID’.
+                 *   It successfully registers on WSX by moving 1st ‘EndpointID’ to a blocklist state.
+                 *   When 1st WebRTC client re-registers on expiration timeout,
+                 *   WSX defines that 1st ‘EndpointID’ is blocklisted and responds with ‘SIP/2.0 403 Forbidden,
+                 *   instance id is intercepted by another registration’ and remove it from block list.
+                 *   So if 1st WebRTC will send re-register again with the same ‘InstanceID’,
+                 *   it will be accepted and 6th ‘EndpointID’ will be blocklisted.
+                 *   (But the WebRTC client must logout on receiving SIP/2.0 403 Forbidden error and in case of login -
+                 *   provision again via Platform API and receive new InstanceID)
+                 */
+                var statusCode = response ? response.statusCode || response.status_code : null;
+                switch (statusCode) {
+                  // Webphone account over limit
+                  case 403:
+                  case 603:
+                    {
+                      errorCode = _webphoneErrors.webphoneErrors.webphoneCountOverLimit;
+                      break;
+                    }
+                  // Internal server error
+                  case 500:
+                    {
+                      errorCode = _webphoneErrors.webphoneErrors.internalServerError;
+                      break;
+                    }
+                  // Timeout
+                  case 504:
+                    {
+                      errorCode = _webphoneErrors.webphoneErrors.serverTimeout;
+                      break;
+                    }
+                  default:
+                    {
+                      errorCode = _webphoneErrors.webphoneErrors.unknownError;
+                      break;
+                    }
+                }
+                _this4._onConnectError({
+                  errorCode: errorCode,
+                  statusCode: statusCode
                 });
-                this.loadAudio();
-                this._webphone.userAgent.audioHelper.setVolume(this._deps.audioSettings.ringtoneVolume);
-                // Webphone userAgent registered event
-                this._webphone.userAgent.on('registered', function () {
-                  if (!_this4.connected) {
-                    _this4._onWebphoneRegistered(provisionData);
-                  }
-                });
-                this._webphone.userAgent.on('unregistered', function (e) {
-                  console.log('web phone unregistered event', e);
-                  _this4._onWebphoneUnregistered();
-                });
-                this._webphone.userAgent.on('registrationFailed', function (response, cause) {
-                  console.error('Webphone Register Error:', response, cause);
-                  // For 401
-                  if (!response && cause === 'Connection Error') {
-                    return;
-                  }
-                  var message = response && response.data || response;
-                  if (message && typeof message === 'string' && _this4._webphone.userAgent.transport.isSipErrorCode(message)) {
-                    // error is handled in webphone sdk;
-                    return;
-                  }
-                  // don't handled in connection is disconnecting
-                  if (_this4.disconnected || _this4.disconnecting) {
-                    return;
-                  }
-                  var errorCode;
-                  // limit logic:
-                  /*
-                   * Specialties of this flow are next:
-                   *   6th WebRTC in another browser receives 6th ‘EndpointID’ and 1st ‘InstanceID’,
-                   *   which has been given previously to the 1st ‘EndpointID’.
-                   *   It successfully registers on WSX by moving 1st ‘EndpointID’ to a blocklist state.
-                   *   When 1st WebRTC client re-registers on expiration timeout,
-                   *   WSX defines that 1st ‘EndpointID’ is blocklisted and responds with ‘SIP/2.0 403 Forbidden,
-                   *   instance id is intercepted by another registration’ and remove it from block list.
-                   *   So if 1st WebRTC will send re-register again with the same ‘InstanceID’,
-                   *   it will be accepted and 6th ‘EndpointID’ will be blocklisted.
-                   *   (But the WebRTC client must logout on receiving SIP/2.0 403 Forbidden error and in case of login -
-                   *   provision again via Platform API and receive new InstanceID)
-                   */
-                  var statusCode = response ? response.statusCode || response.status_code : null;
-                  switch (statusCode) {
-                    // Webphone account over limit
-                    case 403:
-                    case 603:
-                      {
-                        errorCode = _webphoneErrors.webphoneErrors.webphoneCountOverLimit;
-                        break;
-                      }
-                    // Internal server error
-                    case 500:
-                      {
-                        errorCode = _webphoneErrors.webphoneErrors.internalServerError;
-                        break;
-                      }
-                    // Timeout
-                    case 504:
-                      {
-                        errorCode = _webphoneErrors.webphoneErrors.serverTimeout;
-                        break;
-                      }
-                    default:
-                      {
-                        errorCode = _webphoneErrors.webphoneErrors.unknownError;
-                        break;
-                      }
-                  }
-                  _this4._onConnectError({
-                    errorCode: errorCode,
-                    statusCode: statusCode
+              });
+              this._webphone.userAgent.on('invite', function (session) {
+                console.log('UA invite');
+                _this4._onInvite(session);
+              });
+              // this._webphone.userAgent.on('inviteSent', (session) => {
+              //   console.log('UA invite');
+              //   this._addSession(session as WebphoneSession);
+              // });
+              // sip provision expired
+              // TODO: should check that type issue in ringcentral-web-phone
+              // @ts-expect-error TS(2769): No overload matches this call.
+              this._webphone.userAgent.on('provisionUpdate', function () {
+                if (Object.keys(_this4.originalSessions).length === 0) {
+                  _this4._deps.alert.warning({
+                    message: _webphoneErrors.webphoneErrors.provisionUpdate,
+                    allowDuplicates: false
                   });
-                });
-                this._webphone.userAgent.on('invite', function (session) {
-                  console.log('UA invite');
-                  _this4._onInvite(session);
-                });
-                // this._webphone.userAgent.on('inviteSent', (session) => {
-                //   console.log('UA invite');
-                //   this._addSession(session as WebphoneSession);
-                // });
-                // sip provision expired
-                // TODO: should check that type issue in ringcentral-web-phone
-                // @ts-expect-error TS(2769): No overload matches this call.
-                this._webphone.userAgent.on('provisionUpdate', function () {
-                  if (Object.keys(_this4.originalSessions).length === 0) {
-                    _this4._deps.alert.warning({
-                      message: _webphoneErrors.webphoneErrors.provisionUpdate,
-                      allowDuplicates: false
-                    });
-                    _this4.connect({
-                      force: true,
-                      skipDLCheck: true,
-                      skipConnectDelay: true
-                    });
-                    return;
-                  }
-                  _this4._reconnectAfterSessionEnd = {
-                    reason: _webphoneErrors.webphoneErrors.provisionUpdate
-                  };
-                });
-                // websocket transport connecting event
-                this._webphone.userAgent.transport.on('connecting', function () {
-                  // reconnecting event
-                  console.log('web phone connecting event');
-                  if (_this4.connected || _this4.connectError) {
-                    _this4._deps.alert.warning({
-                      message: _webphoneErrors.webphoneErrors.serverConnecting,
-                      allowDuplicates: false
-                    });
-                    _this4._setStateOnReconnect();
-                  }
-                  _this4.stopAudio();
-                });
-                // Server connection closed event after 10 time retry with primary server and backup server
-                this._webphone.userAgent.transport.on('closed', function () {
-                  console.log('web phone closed event');
-                  _this4._setRetryCounts(20);
-                  _this4._onConnectError({
-                    errorCode: _webphoneErrors.webphoneErrors.connectFailed,
-                    ttl: 0
+                  _this4.connect({
+                    force: true,
+                    skipDLCheck: true,
+                    skipConnectDelay: true
                   });
-                  _this4.stopAudio();
+                  return;
+                }
+                _this4._reconnectAfterSessionEnd = {
+                  reason: _webphoneErrors.webphoneErrors.provisionUpdate
+                };
+              });
+              // websocket transport connecting event
+              this._webphone.userAgent.transport.on('connecting', function () {
+                // reconnecting event
+                console.log('web phone connecting event');
+                if (_this4.connected || _this4.connectError) {
+                  _this4._deps.alert.warning({
+                    message: _webphoneErrors.webphoneErrors.serverConnecting,
+                    allowDuplicates: false
+                  });
+                  _this4._setStateOnReconnect();
+                }
+                _this4.stopAudio();
+              });
+              // Server connection closed event after 10 time retry with primary server and backup server
+              this._webphone.userAgent.transport.on('closed', function () {
+                console.log('web phone closed event');
+                _this4._setRetryCounts(20);
+                _this4._onConnectError({
+                  errorCode: _webphoneErrors.webphoneErrors.connectFailed,
+                  ttl: 0
                 });
-                this._webphone.userAgent.transport.on('transportError', function () {
-                  console.log('WebSocket transportError occurred');
-                  _this4.stopAudio();
-                });
-                this._webphone.userAgent.transport.on('wsConnectionError', function () {
-                  _this4._setConnectionStatus(_connectionStatus.connectionStatus.connectError);
-                  _this4.stopAudio();
-                });
-                // Timeout to switch back to primary server
-                this._webphone.userAgent.transport.on('switchBackProxy', function () {
-                  if (Object.keys(_this4.originalSessions).length === 0) {
-                    _this4.connect({
-                      skipConnectDelay: true,
-                      force: true,
-                      skipDLCheck: true
-                    });
-                    return;
-                  }
-                  _this4._reconnectAfterSessionEnd = {
-                    reason: null
-                  };
-                });
-              case 17:
-              case "end":
-                return _context6.stop();
-            }
+                _this4.stopAudio();
+              });
+              this._webphone.userAgent.transport.on('transportError', function () {
+                console.log('WebSocket transportError occurred');
+                _this4.stopAudio();
+              });
+              this._webphone.userAgent.transport.on('wsConnectionError', function () {
+                _this4._setConnectionStatus(_connectionStatus.connectionStatus.connectError);
+                _this4.stopAudio();
+              });
+              // Timeout to switch back to primary server
+              this._webphone.userAgent.transport.on('switchBackProxy', function () {
+                if (Object.keys(_this4.originalSessions).length === 0) {
+                  _this4.connect({
+                    skipConnectDelay: true,
+                    force: true,
+                    skipDLCheck: true
+                  });
+                  return;
+                }
+                _this4._reconnectAfterSessionEnd = {
+                  reason: null
+                };
+              });
+            case 2:
+              return _context6.a(2);
           }
         }, _callee6, this);
       }));
@@ -765,52 +803,49 @@ var WebphoneBase = (_dec = (0, _di.Module)({
   }, {
     key: "_connect",
     value: function () {
-      var _connect2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
-        var sipProvision;
-        return regeneratorRuntime.wrap(function _callee7$(_context7) {
-          while (1) {
-            switch (_context7.prev = _context7.next) {
-              case 0:
-                if (this._deps.auth.loggedIn) {
-                  _context7.next = 2;
-                  break;
-                }
-                return _context7.abrupt("return");
-              case 2:
-                _context7.prev = 2;
-                _context7.next = 5;
-                return this._sipProvision();
-              case 5:
-                sipProvision = _context7.sent;
-                _context7.next = 16;
+      var _connect2 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee7() {
+        var sipProvision, _t2;
+        return _regenerator().w(function (_context7) {
+          while (1) switch (_context7.p = _context7.n) {
+            case 0:
+              if (this._deps.auth.loggedIn) {
+                _context7.n = 1;
                 break;
-              case 8:
-                _context7.prev = 8;
-                _context7.t0 = _context7["catch"](2);
-                // TODO: should use instanceof to check that error type before use that
-                console.error(_context7.t0, this.connectRetryCounts);
-                if (!(_context7.t0 && _context7.t0.message && _context7.t0.message.indexOf('Feature [WebPhone] is not available') > -1)) {
-                  _context7.next = 14;
-                  break;
-                }
-                this._deps.extensionFeatures.fetchData();
-                return _context7.abrupt("return");
-              case 14:
-                this._onConnectError({
-                  errorCode: _webphoneErrors.webphoneErrors.sipProvisionError,
-                  statusCode: null,
-                  ttl: 0
-                });
-                return _context7.abrupt("return");
-              case 16:
-                _context7.next = 18;
-                return this._createWebphone(sipProvision);
-              case 18:
-              case "end":
-                return _context7.stop();
-            }
+              }
+              return _context7.a(2);
+            case 1:
+              _context7.p = 1;
+              _context7.n = 2;
+              return this._sipProvision();
+            case 2:
+              sipProvision = _context7.v;
+              _context7.n = 5;
+              break;
+            case 3:
+              _context7.p = 3;
+              _t2 = _context7.v;
+              // TODO: should use instanceof to check that error type before use that
+              console.error(_t2, this.connectRetryCounts);
+              if (!(_t2 && _t2.message && _t2.message.indexOf('Feature [WebPhone] is not available') > -1)) {
+                _context7.n = 4;
+                break;
+              }
+              this._deps.extensionFeatures.fetchData();
+              return _context7.a(2);
+            case 4:
+              this._onConnectError({
+                errorCode: _webphoneErrors.webphoneErrors.sipProvisionError,
+                statusCode: null,
+                ttl: 0
+              });
+              return _context7.a(2);
+            case 5:
+              _context7.n = 6;
+              return this._createWebphone(sipProvision);
+            case 6:
+              return _context7.a(2);
           }
-        }, _callee7, this, [[2, 8]]);
+        }, _callee7, this, [[1, 3]]);
       }));
       function _connect() {
         return _connect2.apply(this, arguments);
@@ -820,26 +855,23 @@ var WebphoneBase = (_dec = (0, _di.Module)({
   }, {
     key: "_waitStillTabActive",
     value: function () {
-      var _waitStillTabActive2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
-        return regeneratorRuntime.wrap(function _callee8$(_context8) {
-          while (1) {
-            switch (_context8.prev = _context8.next) {
-              case 0:
-                if (!(!this._deps.tabManager || this._deps.tabManager.active)) {
-                  _context8.next = 2;
-                  break;
-                }
-                return _context8.abrupt("return");
-              case 2:
-                _context8.next = 4;
-                return (0, _utils.sleep)(INACTIVE_SLEEP_DELAY);
-              case 4:
-                _context8.next = 6;
-                return this._waitStillTabActive();
-              case 6:
-              case "end":
-                return _context8.stop();
-            }
+      var _waitStillTabActive2 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee8() {
+        return _regenerator().w(function (_context8) {
+          while (1) switch (_context8.n) {
+            case 0:
+              if (!(!this._deps.tabManager || this._deps.tabManager.active)) {
+                _context8.n = 1;
+                break;
+              }
+              return _context8.a(2);
+            case 1:
+              _context8.n = 2;
+              return (0, _utils.sleep)(INACTIVE_SLEEP_DELAY);
+            case 2:
+              _context8.n = 3;
+              return this._waitStillTabActive();
+            case 3:
+              return _context8.a(2);
           }
         }, _callee8, this);
       }));
@@ -866,13 +898,14 @@ var WebphoneBase = (_dec = (0, _di.Module)({
       }
       return true;
     }
+
     /**
      * connect a web phone.
      */
   }, {
     key: "connect",
-    value: function () {
-      var _connect3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
+    value: (function () {
+      var _connect3 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee9() {
         var _this$_deps$webphoneO3,
           _this5 = this;
         var _ref3,
@@ -888,125 +921,123 @@ var WebphoneBase = (_dec = (0, _di.Module)({
           skipTabActiveCheck,
           connectDelay,
           phoneLines,
-          _args9 = arguments;
-        return regeneratorRuntime.wrap(function _callee9$(_context9) {
-          while (1) {
-            switch (_context9.prev = _context9.next) {
-              case 0:
-                _ref3 = _args9.length > 0 && _args9[0] !== undefined ? _args9[0] : {}, _ref3$force = _ref3.force, force = _ref3$force === void 0 ? false : _ref3$force, _ref3$skipTimeout = _ref3.skipTimeout, skipTimeout = _ref3$skipTimeout === void 0 ? true : _ref3$skipTimeout, _ref3$skipConnectDela = _ref3.skipConnectDelay, skipConnectDelay = _ref3$skipConnectDela === void 0 ? false : _ref3$skipConnectDela, _ref3$skipDLCheck = _ref3.skipDLCheck, skipDLCheck = _ref3$skipDLCheck === void 0 ? false : _ref3$skipDLCheck, _ref3$skipTabActiveCh = _ref3.skipTabActiveCheck, skipTabActiveCheck = _ref3$skipTabActiveCh === void 0 ? false : _ref3$skipTabActiveCh;
-                if ((0, _webphoneHelper.isBrowserSupport)()) {
-                  _context9.next = 5;
-                  break;
-                }
-                this._setStateOnConnectError(_webphoneErrors.webphoneErrors.browserNotSupported, null);
-                this._deps.alert.warning({
-                  message: _webphoneErrors.webphoneErrors.browserNotSupported,
-                  ttl: 0
-                });
-                return _context9.abrupt("return");
-              case 5:
-                if (this._isAvailableToConnect({
-                  force: force
-                })) {
-                  _context9.next = 7;
-                  break;
-                }
-                return _context9.abrupt("return");
-              case 7:
-                if (skipTabActiveCheck) {
-                  _context9.next = 10;
-                  break;
-                }
-                _context9.next = 10;
-                return this._waitStillTabActive();
-              case 10:
-                if (this._isAvailableToConnect({
-                  force: force
-                })) {
-                  _context9.next = 12;
-                  break;
-                }
-                return _context9.abrupt("return");
-              case 12:
-                // when last connect is connect error, use reconnect (will show connecting badge)
-                if (this.connectError || force) {
-                  this._setStateOnReconnect();
-                } else {
-                  this._setStateOnConnect();
-                }
-                connectDelay = (_this$_deps$webphoneO3 = this._deps.webphoneOptions.connectDelay) !== null && _this$_deps$webphoneO3 !== void 0 ? _this$_deps$webphoneO3 : 0;
-                if (!(!skipConnectDelay && connectDelay > 0)) {
-                  _context9.next = 17;
-                  break;
-                }
-                _context9.next = 17;
-                return (0, _utils.sleep)(connectDelay);
-              case 17:
-                if (skipDLCheck) {
-                  _context9.next = 31;
-                  break;
-                }
-                _context9.prev = 18;
-                if (this._deps.auth.loggedIn) {
-                  _context9.next = 21;
-                  break;
-                }
-                return _context9.abrupt("return");
-              case 21:
-                _context9.next = 23;
-                return this._fetchDL();
-              case 23:
-                phoneLines = _context9.sent;
-                if (phoneLines.length === 0) {
-                  this._deps.alert.warning({
-                    message: _webphoneErrors.webphoneErrors.noOutboundCallWithoutDL
-                  });
-                }
-                _context9.next = 31;
+          _args9 = arguments,
+          _t3;
+        return _regenerator().w(function (_context9) {
+          while (1) switch (_context9.p = _context9.n) {
+            case 0:
+              _ref3 = _args9.length > 0 && _args9[0] !== undefined ? _args9[0] : {}, _ref3$force = _ref3.force, force = _ref3$force === void 0 ? false : _ref3$force, _ref3$skipTimeout = _ref3.skipTimeout, skipTimeout = _ref3$skipTimeout === void 0 ? true : _ref3$skipTimeout, _ref3$skipConnectDela = _ref3.skipConnectDelay, skipConnectDelay = _ref3$skipConnectDela === void 0 ? false : _ref3$skipConnectDela, _ref3$skipDLCheck = _ref3.skipDLCheck, skipDLCheck = _ref3$skipDLCheck === void 0 ? false : _ref3$skipDLCheck, _ref3$skipTabActiveCh = _ref3.skipTabActiveCheck, skipTabActiveCheck = _ref3$skipTabActiveCh === void 0 ? false : _ref3$skipTabActiveCh;
+              if ((0, _webphoneHelper.isBrowserSupport)()) {
+                _context9.n = 1;
                 break;
-              case 27:
-                _context9.prev = 27;
-                _context9.t0 = _context9["catch"](18);
-                console.error('fetch DL failed', _context9.t0);
+              }
+              this._setStateOnConnectError(_webphoneErrors.webphoneErrors.browserNotSupported, null);
+              this._deps.alert.warning({
+                message: _webphoneErrors.webphoneErrors.browserNotSupported,
+                ttl: 0
+              });
+              return _context9.a(2);
+            case 1:
+              if (this._isAvailableToConnect({
+                force: force
+              })) {
+                _context9.n = 2;
+                break;
+              }
+              return _context9.a(2);
+            case 2:
+              if (skipTabActiveCheck) {
+                _context9.n = 3;
+                break;
+              }
+              _context9.n = 3;
+              return this._waitStillTabActive();
+            case 3:
+              if (this._isAvailableToConnect({
+                force: force
+              })) {
+                _context9.n = 4;
+                break;
+              }
+              return _context9.a(2);
+            case 4:
+              // when last connect is connect error, use reconnect (will show connecting badge)
+              if (this.connectError || force) {
+                this._setStateOnReconnect();
+              } else {
+                this._setStateOnConnect();
+              }
+              connectDelay = (_this$_deps$webphoneO3 = this._deps.webphoneOptions.connectDelay) !== null && _this$_deps$webphoneO3 !== void 0 ? _this$_deps$webphoneO3 : 0;
+              if (!(!skipConnectDelay && connectDelay > 0)) {
+                _context9.n = 5;
+                break;
+              }
+              _context9.n = 5;
+              return (0, _utils.sleep)(connectDelay);
+            case 5:
+              if (skipDLCheck) {
+                _context9.n = 10;
+                break;
+              }
+              _context9.p = 6;
+              if (this._deps.auth.loggedIn) {
+                _context9.n = 7;
+                break;
+              }
+              return _context9.a(2);
+            case 7:
+              _context9.n = 8;
+              return this._fetchDL();
+            case 8:
+              phoneLines = _context9.v;
+              if (phoneLines.length === 0) {
                 this._deps.alert.warning({
-                  message: _webphoneErrors.webphoneErrors.checkDLError,
-                  allowDuplicates: false
+                  message: _webphoneErrors.webphoneErrors.noOutboundCallWithoutDL
                 });
-              case 31:
-                if (!(this.disconnected || this.disconnecting || !this._deps.auth.loggedIn)) {
-                  _context9.next = 33;
-                  break;
-                }
-                return _context9.abrupt("return");
-              case 33:
-                if (this._connectTimeout) {
-                  clearTimeout(this._connectTimeout);
-                }
-                if (!(force || skipTimeout)) {
-                  _context9.next = 38;
-                  break;
-                }
-                _context9.next = 37;
-                return this._connect();
-              case 37:
-                return _context9.abrupt("return");
-              case 38:
-                this._connectTimeout = setTimeout(function () {
-                  _this5._connectTimeout = null;
-                  _this5._connect();
-                }, this._getConnectTimeoutTtl());
-              case 39:
-              case "end":
-                return _context9.stop();
-            }
+              }
+              _context9.n = 10;
+              break;
+            case 9:
+              _context9.p = 9;
+              _t3 = _context9.v;
+              console.error('fetch DL failed', _t3);
+              this._deps.alert.warning({
+                message: _webphoneErrors.webphoneErrors.checkDLError,
+                allowDuplicates: false
+              });
+            case 10:
+              if (!(this.disconnected || this.disconnecting || !this._deps.auth.loggedIn)) {
+                _context9.n = 11;
+                break;
+              }
+              return _context9.a(2);
+            case 11:
+              if (this._connectTimeout) {
+                clearTimeout(this._connectTimeout);
+              }
+              if (!(force || skipTimeout)) {
+                _context9.n = 13;
+                break;
+              }
+              _context9.n = 12;
+              return this._connect();
+            case 12:
+              return _context9.a(2);
+            case 13:
+              this._connectTimeout = setTimeout(function () {
+                _this5._connectTimeout = null;
+                _this5._connect();
+              }, this._getConnectTimeoutTtl());
+            case 14:
+              return _context9.a(2);
           }
-        }, _callee9, this, [[18, 27]]);
+        }, _callee9, this, [[6, 9]]);
       }));
       function connect() {
         return _connect3.apply(this, arguments);
       }
       return connect;
-    }()
+    }())
   }, {
     key: "_getConnectTimeoutTtl",
     value: function _getConnectTimeoutTtl() {
@@ -1015,73 +1046,70 @@ var WebphoneBase = (_dec = (0, _di.Module)({
   }, {
     key: "_onConnectError",
     value: function () {
-      var _onConnectError2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(_ref4) {
+      var _onConnectError2 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee0(_ref4) {
         var errorCode, statusCode, ttl;
-        return regeneratorRuntime.wrap(function _callee10$(_context10) {
-          while (1) {
-            switch (_context10.prev = _context10.next) {
-              case 0:
-                errorCode = _ref4.errorCode, statusCode = _ref4.statusCode, ttl = _ref4.ttl;
-                if (statusCode === 403 && this._sipInstanceId) {
-                  // recreate sip instance id if server send 403
-                  this._sipInstanceId = null;
+        return _regenerator().w(function (_context0) {
+          while (1) switch (_context0.n) {
+            case 0:
+              errorCode = _ref4.errorCode, statusCode = _ref4.statusCode, ttl = _ref4.ttl;
+              if (statusCode === 403 && this._sipInstanceId) {
+                // recreate sip instance id if server send 403
+                this._sipInstanceId = null;
+              }
+              if (!(this.connectRetryCounts > 2 || this.reconnecting || this.connected || this.connectError)) {
+                _context0.n = 3;
+                break;
+              }
+              this._setStateOnConnectError(errorCode, statusCode);
+              this._deps.alert.danger({
+                message: errorCode,
+                ttl: ttl,
+                allowDuplicates: false,
+                payload: {
+                  statusCode: statusCode
                 }
-                if (!(this.connectRetryCounts > 2 || this.reconnecting || this.connected || this.connectError)) {
-                  _context10.next = 12;
-                  break;
-                }
-                this._setStateOnConnectError(errorCode, statusCode);
-                this._deps.alert.danger({
+              });
+              this._hideConnectingAlert();
+              // Need to show unavailable badge and reconnect in background when third retry
+              // sleep before next reconnect for slient reconnect in background
+              _context0.n = 1;
+              return (0, _utils.sleep)(this._getConnectTimeoutTtl());
+            case 1:
+              if (this.connectError) {
+                _context0.n = 2;
+                break;
+              }
+              return _context0.a(2);
+            case 2:
+              this.connect({
+                skipConnectDelay: true,
+                force: true,
+                skipDLCheck: true
+              });
+              return _context0.a(2);
+            case 3:
+              this._setStateOnConnectFailed(errorCode, statusCode);
+              if (this.connectRetryCounts === 1) {
+                this._deps.alert.warning({
                   message: errorCode,
                   ttl: ttl,
                   allowDuplicates: false,
                   payload: {
-                    statusCode: statusCode
+                    statusCode: statusCode,
+                    isConnecting: true
                   }
                 });
-                this._hideConnectingAlert();
-                // Need to show unavailable badge and reconnect in background when third retry
-                // sleep before next reconnect for slient reconnect in background
-                _context10.next = 8;
-                return (0, _utils.sleep)(this._getConnectTimeoutTtl());
-              case 8:
-                if (this.connectError) {
-                  _context10.next = 10;
-                  break;
-                }
-                return _context10.abrupt("return");
-              case 10:
-                this.connect({
-                  skipConnectDelay: true,
-                  force: true,
-                  skipDLCheck: true
-                });
-                return _context10.abrupt("return");
-              case 12:
-                this._setStateOnConnectFailed(errorCode, statusCode);
-                if (this.connectRetryCounts === 1) {
-                  this._deps.alert.warning({
-                    message: errorCode,
-                    ttl: ttl,
-                    allowDuplicates: false,
-                    payload: {
-                      statusCode: statusCode,
-                      isConnecting: true
-                    }
-                  });
-                  this._hideConnectFailedAlert();
-                }
-                this.connect({
-                  skipDLCheck: true,
-                  skipConnectDelay: true,
-                  skipTimeout: false
-                });
-              case 15:
-              case "end":
-                return _context10.stop();
-            }
+                this._hideConnectFailedAlert();
+              }
+              this.connect({
+                skipDLCheck: true,
+                skipConnectDelay: true,
+                skipTimeout: false
+              });
+            case 4:
+              return _context0.a(2);
           }
-        }, _callee10, this);
+        }, _callee0, this);
       }));
       function _onConnectError(_x2) {
         return _onConnectError2.apply(this, arguments);
@@ -1141,11 +1169,11 @@ var WebphoneBase = (_dec = (0, _di.Module)({
     value: function _onStorageChangeEvent(e) {
       // disconnect to inactive when other tabs' web phone connected
       if (e.key === this._activeWebphoneKey) {
-        var _this$_deps$tabManage;
+        var _this$_deps$tabManage3;
         if (!this.connected || !document.hidden) {
           return;
         }
-        if (e.newValue === ((_this$_deps$tabManage = this._deps.tabManager) === null || _this$_deps$tabManage === void 0 ? void 0 : _this$_deps$tabManage.id)) {
+        if (e.newValue === ((_this$_deps$tabManage3 = this._deps.tabManager) === null || _this$_deps$tabManage3 === void 0 ? void 0 : _this$_deps$tabManage3.id)) {
           return;
         }
         if (Object.keys(this.originalSessions).length === 0) {
@@ -1158,23 +1186,20 @@ var WebphoneBase = (_dec = (0, _di.Module)({
   }, {
     key: "_disconnectToInactive",
     value: function () {
-      var _disconnectToInactive2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11() {
-        return regeneratorRuntime.wrap(function _callee11$(_context11) {
-          while (1) {
-            switch (_context11.prev = _context11.next) {
-              case 0:
-                this._setConnectionStatus(_connectionStatus.connectionStatus.inactiveDisconnecting);
-                this._setDevice(null);
-                _context11.next = 4;
-                return this._removeWebphone();
-              case 4:
-                this._setStateWhenUnregisteredOnInactive();
-              case 5:
-              case "end":
-                return _context11.stop();
-            }
+      var _disconnectToInactive2 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee1() {
+        return _regenerator().w(function (_context1) {
+          while (1) switch (_context1.n) {
+            case 0:
+              this._setConnectionStatus(_connectionStatus.connectionStatus.inactiveDisconnecting);
+              this._setDevice(null);
+              _context1.n = 1;
+              return this._removeWebphone();
+            case 1:
+              this._setStateWhenUnregisteredOnInactive();
+            case 2:
+              return _context1.a(2);
           }
-        }, _callee11, this);
+        }, _callee1, this);
       }));
       function _disconnectToInactive() {
         return _disconnectToInactive2.apply(this, arguments);
@@ -1187,9 +1212,9 @@ var WebphoneBase = (_dec = (0, _di.Module)({
       if (this._disconnectInactiveAfterSessionEnd && Object.keys(this.originalSessions).length === 0) {
         this._disconnectInactiveAfterSessionEnd = false;
         if (!document.hidden) {
-          var _this$_deps$tabManage2;
+          var _this$_deps$tabManage4;
           // set to active
-          if ((_this$_deps$tabManage2 = this._deps.tabManager) === null || _this$_deps$tabManage2 === void 0 ? void 0 : _this$_deps$tabManage2.active) {
+          if ((_this$_deps$tabManage4 = this._deps.tabManager) === null || _this$_deps$tabManage4 === void 0 ? void 0 : _this$_deps$tabManage4.active) {
             this._setCurrentInstanceAsActiveWebphone();
           }
           return;
@@ -1200,46 +1225,43 @@ var WebphoneBase = (_dec = (0, _di.Module)({
   }, {
     key: "_onTabActive",
     value: function () {
-      var _onTabActive2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12() {
-        return regeneratorRuntime.wrap(function _callee12$(_context12) {
-          while (1) {
-            switch (_context12.prev = _context12.next) {
-              case 0:
-                if (this._disconnectOnInactive) {
-                  _context12.next = 2;
-                  break;
-                }
-                return _context12.abrupt("return");
-              case 2:
-                if (!this.connected) {
-                  _context12.next = 5;
-                  break;
-                }
-                this._setCurrentInstanceAsActiveWebphone();
-                return _context12.abrupt("return");
-              case 5:
-                _context12.next = 7;
-                return (0, _utils.sleep)(RECOVER_DEBOUNCE_THRESHOLD);
-              case 7:
-                if (this._deps.tabManager.active) {
-                  _context12.next = 9;
-                  break;
-                }
-                return _context12.abrupt("return");
-              case 9:
-                if (this.inactive) {
-                  this.connect({
-                    skipDLCheck: true,
-                    force: true,
-                    skipTabActiveCheck: true
-                  });
-                }
-              case 10:
-              case "end":
-                return _context12.stop();
-            }
+      var _onTabActive2 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee10() {
+        return _regenerator().w(function (_context10) {
+          while (1) switch (_context10.n) {
+            case 0:
+              if (this._disconnectOnInactive) {
+                _context10.n = 1;
+                break;
+              }
+              return _context10.a(2);
+            case 1:
+              if (!this.connected) {
+                _context10.n = 2;
+                break;
+              }
+              this._setCurrentInstanceAsActiveWebphone();
+              return _context10.a(2);
+            case 2:
+              _context10.n = 3;
+              return (0, _utils.sleep)(RECOVER_DEBOUNCE_THRESHOLD);
+            case 3:
+              if (this._deps.tabManager.active) {
+                _context10.n = 4;
+                break;
+              }
+              return _context10.a(2);
+            case 4:
+              if (this.inactive) {
+                this.connect({
+                  skipDLCheck: true,
+                  force: true,
+                  skipTabActiveCheck: true
+                });
+              }
+            case 5:
+              return _context10.a(2);
           }
-        }, _callee12, this);
+        }, _callee10, this);
       }));
       function _onTabActive() {
         return _onTabActive2.apply(this, arguments);
@@ -1264,29 +1286,26 @@ var WebphoneBase = (_dec = (0, _di.Module)({
   }, {
     key: "_hideConnectFailedAlert",
     value: function () {
-      var _hideConnectFailedAlert2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13() {
+      var _hideConnectFailedAlert2 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee11() {
         var alertIds;
-        return regeneratorRuntime.wrap(function _callee13$(_context13) {
-          while (1) {
-            switch (_context13.prev = _context13.next) {
-              case 0:
-                alertIds = this._deps.alert.messages.filter(function (m) {
-                  for (var i = 0, len = registerErrors.length; i < len; i += 1) {
-                    if (m.message === registerErrors[i] && !m.payload.isConnecting) return true;
-                  }
-                  return false;
-                }).map(function (m) {
-                  return m.id;
-                });
-                if (alertIds.length) {
-                  this._deps.alert.dismiss(alertIds);
+        return _regenerator().w(function (_context11) {
+          while (1) switch (_context11.n) {
+            case 0:
+              alertIds = this._deps.alert.messages.filter(function (m) {
+                for (var i = 0, len = registerErrors.length; i < len; i += 1) {
+                  if (m.message === registerErrors[i] && !m.payload.isConnecting) return true;
                 }
-              case 2:
-              case "end":
-                return _context13.stop();
-            }
+                return false;
+              }).map(function (m) {
+                return m.id;
+              });
+              if (alertIds.length) {
+                this._deps.alert.dismiss(alertIds);
+              }
+            case 1:
+              return _context11.a(2);
           }
-        }, _callee13, this);
+        }, _callee11, this);
       }));
       function _hideConnectFailedAlert() {
         return _hideConnectFailedAlert2.apply(this, arguments);
@@ -1311,35 +1330,32 @@ var WebphoneBase = (_dec = (0, _di.Module)({
   }, {
     key: "_disconnect",
     value: function () {
-      var _disconnect2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee14() {
-        return regeneratorRuntime.wrap(function _callee14$(_context14) {
-          while (1) {
-            switch (_context14.prev = _context14.next) {
-              case 0:
-                if (!(this.disconnected || this.disconnecting)) {
-                  _context14.next = 2;
-                  break;
-                }
-                return _context14.abrupt("return");
-              case 2:
-                if (this._connectTimeout) {
-                  clearTimeout(this._connectTimeout);
-                }
-                this._setStoreOnDisconnect();
-                if (!this._webphone) {
-                  _context14.next = 7;
-                  break;
-                }
-                _context14.next = 7;
-                return this._removeWebphone();
-              case 7:
-                this._setStateOnUnregistered();
-              case 8:
-              case "end":
-                return _context14.stop();
-            }
+      var _disconnect2 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee12() {
+        return _regenerator().w(function (_context12) {
+          while (1) switch (_context12.n) {
+            case 0:
+              if (!(this.disconnected || this.disconnecting)) {
+                _context12.n = 1;
+                break;
+              }
+              return _context12.a(2);
+            case 1:
+              if (this._connectTimeout) {
+                clearTimeout(this._connectTimeout);
+              }
+              this._setStoreOnDisconnect();
+              if (!this._webphone) {
+                _context12.n = 2;
+                break;
+              }
+              _context12.n = 2;
+              return this._removeWebphone();
+            case 2:
+              this._setStateOnUnregistered();
+            case 3:
+              return _context12.a(2);
           }
-        }, _callee14, this);
+        }, _callee12, this);
       }));
       function _disconnect() {
         return _disconnect2.apply(this, arguments);
@@ -1349,20 +1365,17 @@ var WebphoneBase = (_dec = (0, _di.Module)({
   }, {
     key: "disconnect",
     value: function () {
-      var _disconnect3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee15() {
-        return regeneratorRuntime.wrap(function _callee15$(_context15) {
-          while (1) {
-            switch (_context15.prev = _context15.next) {
-              case 0:
-                this._sipInstanceId = null;
-                _context15.next = 3;
-                return this._disconnect();
-              case 3:
-              case "end":
-                return _context15.stop();
-            }
+      var _disconnect3 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee13() {
+        return _regenerator().w(function (_context13) {
+          while (1) switch (_context13.n) {
+            case 0:
+              this._sipInstanceId = null;
+              _context13.n = 1;
+              return this._disconnect();
+            case 1:
+              return _context13.a(2);
           }
-        }, _callee15, this);
+        }, _callee13, this);
       }));
       function disconnect() {
         return _disconnect3.apply(this, arguments);
@@ -1375,37 +1388,34 @@ var WebphoneBase = (_dec = (0, _di.Module)({
      */
   }, {
     key: "showAlert",
-    value: function () {
-      var _showAlert = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee16() {
-        return regeneratorRuntime.wrap(function _callee16$(_context16) {
-          while (1) {
-            switch (_context16.prev = _context16.next) {
-              case 0:
-                if (this.errorCode) {
-                  _context16.next = 2;
-                  break;
+    value: (function () {
+      var _showAlert = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee14() {
+        return _regenerator().w(function (_context14) {
+          while (1) switch (_context14.n) {
+            case 0:
+              if (this.errorCode) {
+                _context14.n = 1;
+                break;
+              }
+              return _context14.a(2);
+            case 1:
+              this._deps.alert.danger({
+                message: this.errorCode,
+                allowDuplicates: false,
+                payload: {
+                  statusCode: this.statusCode
                 }
-                return _context16.abrupt("return");
-              case 2:
-                this._deps.alert.danger({
-                  message: this.errorCode,
-                  allowDuplicates: false,
-                  payload: {
-                    statusCode: this.statusCode
-                  }
-                });
-              case 3:
-              case "end":
-                return _context16.stop();
-            }
+              });
+            case 2:
+              return _context14.a(2);
           }
-        }, _callee16, this);
+        }, _callee14, this);
       }));
       function showAlert() {
         return _showAlert.apply(this, arguments);
       }
       return showAlert;
-    }()
+    }())
   }, {
     key: "loadAudio",
     value: function loadAudio() {
@@ -1430,22 +1440,19 @@ var WebphoneBase = (_dec = (0, _di.Module)({
   }, {
     key: "setOutgoingAudio",
     value: function () {
-      var _setOutgoingAudio = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee17(_ref5) {
+      var _setOutgoingAudio = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee15(_ref5) {
         var fileName, dataUrl;
-        return regeneratorRuntime.wrap(function _callee17$(_context17) {
-          while (1) {
-            switch (_context17.prev = _context17.next) {
-              case 0:
-                fileName = _ref5.fileName, dataUrl = _ref5.dataUrl;
-                // TODO: validate filePath?
-                this._setOutgoingAudioIntoStorage(fileName, dataUrl);
-                this.loadAudio();
-              case 3:
-              case "end":
-                return _context17.stop();
-            }
+        return _regenerator().w(function (_context15) {
+          while (1) switch (_context15.n) {
+            case 0:
+              fileName = _ref5.fileName, dataUrl = _ref5.dataUrl;
+              // TODO: validate filePath?
+              this._setOutgoingAudioIntoStorage(fileName, dataUrl);
+              this.loadAudio();
+            case 1:
+              return _context15.a(2);
           }
-        }, _callee17, this);
+        }, _callee15, this);
       }));
       function setOutgoingAudio(_x3) {
         return _setOutgoingAudio.apply(this, arguments);
@@ -1455,19 +1462,16 @@ var WebphoneBase = (_dec = (0, _di.Module)({
   }, {
     key: "resetOutgoingAudio",
     value: function () {
-      var _resetOutgoingAudio2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee18() {
-        return regeneratorRuntime.wrap(function _callee18$(_context18) {
-          while (1) {
-            switch (_context18.prev = _context18.next) {
-              case 0:
-                this._resetOutgoingAudio();
-                this.loadAudio();
-              case 2:
-              case "end":
-                return _context18.stop();
-            }
+      var _resetOutgoingAudio2 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee16() {
+        return _regenerator().w(function (_context16) {
+          while (1) switch (_context16.n) {
+            case 0:
+              this._resetOutgoingAudio();
+              this.loadAudio();
+            case 1:
+              return _context16.a(2);
           }
-        }, _callee18, this);
+        }, _callee16, this);
       }));
       function resetOutgoingAudio() {
         return _resetOutgoingAudio2.apply(this, arguments);
@@ -1477,22 +1481,19 @@ var WebphoneBase = (_dec = (0, _di.Module)({
   }, {
     key: "setIncomingAudio",
     value: function () {
-      var _setIncomingAudio = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee19(_ref6) {
+      var _setIncomingAudio = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee17(_ref6) {
         var fileName, dataUrl;
-        return regeneratorRuntime.wrap(function _callee19$(_context19) {
-          while (1) {
-            switch (_context19.prev = _context19.next) {
-              case 0:
-                fileName = _ref6.fileName, dataUrl = _ref6.dataUrl;
-                // TODO: validate filePath?
-                this._setIncomingAudioIntoStorage(fileName, dataUrl);
-                this.loadAudio();
-              case 3:
-              case "end":
-                return _context19.stop();
-            }
+        return _regenerator().w(function (_context17) {
+          while (1) switch (_context17.n) {
+            case 0:
+              fileName = _ref6.fileName, dataUrl = _ref6.dataUrl;
+              // TODO: validate filePath?
+              this._setIncomingAudioIntoStorage(fileName, dataUrl);
+              this.loadAudio();
+            case 1:
+              return _context17.a(2);
           }
-        }, _callee19, this);
+        }, _callee17, this);
       }));
       function setIncomingAudio(_x4) {
         return _setIncomingAudio.apply(this, arguments);
@@ -1502,19 +1503,16 @@ var WebphoneBase = (_dec = (0, _di.Module)({
   }, {
     key: "resetIncomingAudio",
     value: function () {
-      var _resetIncomingAudio2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee20() {
-        return regeneratorRuntime.wrap(function _callee20$(_context20) {
-          while (1) {
-            switch (_context20.prev = _context20.next) {
-              case 0:
-                this._resetIncomingAudio();
-                this.loadAudio();
-              case 2:
-              case "end":
-                return _context20.stop();
-            }
+      var _resetIncomingAudio2 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee18() {
+        return _regenerator().w(function (_context18) {
+          while (1) switch (_context18.n) {
+            case 0:
+              this._resetIncomingAudio();
+              this.loadAudio();
+            case 1:
+              return _context18.a(2);
           }
-        }, _callee20, this);
+        }, _callee18, this);
       }));
       function resetIncomingAudio() {
         return _resetIncomingAudio2.apply(this, arguments);
@@ -1524,23 +1522,20 @@ var WebphoneBase = (_dec = (0, _di.Module)({
   }, {
     key: "setRingtone",
     value: function () {
-      var _setRingtone = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee21(_ref7) {
+      var _setRingtone = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee19(_ref7) {
         var incomingAudio, incomingAudioFile, outgoingAudio, outgoingAudioFile, isIncomingDefault, isOutgoingDefault;
-        return regeneratorRuntime.wrap(function _callee21$(_context21) {
-          while (1) {
-            switch (_context21.prev = _context21.next) {
-              case 0:
-                incomingAudio = _ref7.incomingAudio, incomingAudioFile = _ref7.incomingAudioFile, outgoingAudio = _ref7.outgoingAudio, outgoingAudioFile = _ref7.outgoingAudioFile;
-                isIncomingDefault = incomingAudioFile === DEFAULT_AUDIO && incomingAudio === _incoming["default"];
-                isOutgoingDefault = outgoingAudioFile === DEFAULT_AUDIO && outgoingAudio === _outgoing["default"];
-                this._setRingtoneIntoStorage(isIncomingDefault ? DEFAULT_AUDIO : incomingAudioFile, isIncomingDefault ? null : incomingAudio, isOutgoingDefault ? DEFAULT_AUDIO : outgoingAudioFile, isOutgoingDefault ? null : outgoingAudio);
-                this.loadAudio();
-              case 5:
-              case "end":
-                return _context21.stop();
-            }
+        return _regenerator().w(function (_context19) {
+          while (1) switch (_context19.n) {
+            case 0:
+              incomingAudio = _ref7.incomingAudio, incomingAudioFile = _ref7.incomingAudioFile, outgoingAudio = _ref7.outgoingAudio, outgoingAudioFile = _ref7.outgoingAudioFile;
+              isIncomingDefault = incomingAudioFile === DEFAULT_AUDIO && incomingAudio === _incoming["default"];
+              isOutgoingDefault = outgoingAudioFile === DEFAULT_AUDIO && outgoingAudio === _outgoing["default"];
+              this._setRingtoneIntoStorage(isIncomingDefault ? DEFAULT_AUDIO : incomingAudioFile, isIncomingDefault ? null : incomingAudio, isOutgoingDefault ? DEFAULT_AUDIO : outgoingAudioFile, isOutgoingDefault ? null : outgoingAudio);
+              this.loadAudio();
+            case 1:
+              return _context19.a(2);
           }
-        }, _callee21, this);
+        }, _callee19, this);
       }));
       function setRingtone(_x5) {
         return _setRingtone.apply(this, arguments);
@@ -1548,52 +1543,13 @@ var WebphoneBase = (_dec = (0, _di.Module)({
       return setRingtone;
     }()
   }, {
-    key: "incomingAudioFile",
-    get: function get() {
-      return this.data.incomingAudioFile;
-    }
-  }, {
-    key: "incomingAudioDataUrl",
-    get: function get() {
-      return this.data.incomingAudioDataUrl;
-    }
-  }, {
-    key: "outgoingAudioFile",
-    get: function get() {
-      return this.data.outgoingAudioFile;
-    }
-  }, {
-    key: "outgoingAudioDataUrl",
-    get: function get() {
-      return this.data.outgoingAudioDataUrl;
-    }
-  }, {
-    key: "shouldUpdateRingtoneVolume",
-    get: function get() {
-      return [this.ready, this._deps.audioSettings.ringtoneVolume];
-    }
-  }, {
-    key: "shouldSetRingtoneSinkId",
-    get: function get() {
-      return [this.ready, this._deps.audioSettings.supportDevices, this._deps.audioSettings.ringtoneDeviceId];
-    }
-  }, {
-    key: "shouldSetSinkId",
-    get: function get() {
-      return [this.ready, this._deps.audioSettings.supportDevices, this._deps.audioSettings.outputDeviceId];
-    }
-  }, {
-    key: "shouldTriggerOnTabActive",
-    get: function get() {
-      var _this$_deps$tabManage3, _this$_deps$tabManage4;
-      return [this.ready, (_this$_deps$tabManage3 = this._deps.tabManager) === null || _this$_deps$tabManage3 === void 0 ? void 0 : _this$_deps$tabManage3.ready, (_this$_deps$tabManage4 = this._deps.tabManager) === null || _this$_deps$tabManage4 === void 0 ? void 0 : _this$_deps$tabManage4.active];
-    }
-  }, {
     key: "originalSessions",
     get: function get() {
       var _this$_webphone$userA2, _this$_webphone2;
       return (_this$_webphone$userA2 = (_this$_webphone2 = this._webphone) === null || _this$_webphone2 === void 0 ? void 0 : _this$_webphone2.userAgent.sessions) !== null && _this$_webphone$userA2 !== void 0 ? _this$_webphone$userA2 : {};
-    } // for backward compatibility v1
+    }
+
+    // for backward compatibility v1
   }, {
     key: "_sessions",
     get: function get() {
@@ -1649,6 +1605,7 @@ var WebphoneBase = (_dec = (0, _di.Module)({
     get: function get() {
       return this.connectionStatus === _connectionStatus.connectionStatus.connectError;
     }
+
     /*
      * Together with `CallingSettings` module to check if webphone is
      * Unavailable.
@@ -1693,8 +1650,7 @@ var WebphoneBase = (_dec = (0, _di.Module)({
       return DEFAULT_AUDIO;
     }
   }]);
-  return WebphoneBase;
-}(_core.RcModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "connectionStatus", [_core.state], {
+}(_core.RcModuleV2), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "connectionStatus", [_core.state], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -1741,6 +1697,5 @@ var WebphoneBase = (_dec = (0, _di.Module)({
       outgoingAudioDataUrl: null
     };
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "_setRingtoneIntoStorage", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setRingtoneIntoStorage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setIncomingAudioIntoStorage", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setIncomingAudioIntoStorage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_resetIncomingAudio", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_resetIncomingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setOutgoingAudioIntoStorage", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setOutgoingAudioIntoStorage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_resetOutgoingAudio", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_resetOutgoingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "shouldUpdateRingtoneVolume", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "shouldUpdateRingtoneVolume"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "shouldSetRingtoneSinkId", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "shouldSetRingtoneSinkId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "shouldSetSinkId", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "shouldSetSinkId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "shouldTriggerOnTabActive", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "shouldTriggerOnTabActive"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_sipProvision", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_sipProvision"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_connect", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_connect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "connect", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "connect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "disconnect", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "disconnect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "showAlert", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "showAlert"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setOutgoingAudio", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "setOutgoingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetOutgoingAudio", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "resetOutgoingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setIncomingAudio", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "setIncomingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetIncomingAudio", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "resetIncomingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setRingtone", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "setRingtone"), _class2.prototype)), _class2)) || _class);
-exports.WebphoneBase = WebphoneBase;
+}), _applyDecoratedDescriptor(_class2.prototype, "_setRingtoneIntoStorage", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setRingtoneIntoStorage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setIncomingAudioIntoStorage", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setIncomingAudioIntoStorage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_resetIncomingAudio", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_resetIncomingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setOutgoingAudioIntoStorage", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setOutgoingAudioIntoStorage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_resetOutgoingAudio", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_resetOutgoingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "shouldUpdateRingtoneVolume", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "shouldUpdateRingtoneVolume"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "shouldSetRingtoneSinkId", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "shouldSetRingtoneSinkId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "shouldSetSinkId", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "shouldSetSinkId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "shouldTriggerOnTabActive", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "shouldTriggerOnTabActive"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_sipProvision", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_sipProvision"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_connect", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_connect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "connect", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "connect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "disconnect", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "disconnect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "showAlert", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "showAlert"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setOutgoingAudio", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "setOutgoingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetOutgoingAudio", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "resetOutgoingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setIncomingAudio", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "setIncomingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetIncomingAudio", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "resetIncomingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setRingtone", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "setRingtone"), _class2.prototype), _class2)) || _class);
 //# sourceMappingURL=WebphoneBase.js.map

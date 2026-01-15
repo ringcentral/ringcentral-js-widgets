@@ -1,10 +1,11 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.MeetingType = void 0;
-var MeetingType = {
+var MeetingType = exports.MeetingType = {
   SCHEDULED: 'Scheduled',
   RECURRING: 'Recurring',
   SCHEDULED_RECURRING: 'ScheduledRecurring',
@@ -14,5 +15,4 @@ var MeetingType = {
 
 // TODO: will remove this when google app script could support export seperately
 // export together because google app script not fully support export
-exports.MeetingType = MeetingType;
 //# sourceMappingURL=meetingHelper.interface.js.map

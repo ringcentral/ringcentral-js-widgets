@@ -1,15 +1,14 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = exports.callDirection = void 0;
 var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
-var callDirection = _ObjectMap.ObjectMap.fromObject({
+var callDirection = exports.callDirection = _ObjectMap.ObjectMap.fromObject({
   inbound: 'Inbound',
   outbound: 'Outbound'
 });
-exports.callDirection = callDirection;
-var _default = callDirection;
-exports["default"] = _default;
+var _default = exports["default"] = callDirection;
 //# sourceMappingURL=callDirections.js.map

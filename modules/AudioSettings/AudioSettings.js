@@ -1,28 +1,50 @@
 "use strict";
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-require("core-js/modules/es.array.concat");
-require("core-js/modules/es.array.for-each");
-require("core-js/modules/es.array.index-of");
-require("core-js/modules/es.array.map");
-require("core-js/modules/es.array.some");
-require("core-js/modules/es.object.assign");
-require("core-js/modules/es.object.get-own-property-descriptor");
-require("core-js/modules/es.object.keys");
-require("core-js/modules/es.object.to-string");
-require("core-js/modules/es.promise");
-require("core-js/modules/web.dom-collections.for-each");
+require("core-js/modules/es.symbol.js");
+require("core-js/modules/es.symbol.description.js");
+require("core-js/modules/es.symbol.iterator.js");
+require("core-js/modules/es.symbol.to-primitive.js");
+require("core-js/modules/es.array.filter.js");
+require("core-js/modules/es.array.find.js");
+require("core-js/modules/es.array.iterator.js");
+require("core-js/modules/es.array.reduce.js");
+require("core-js/modules/es.array.reverse.js");
+require("core-js/modules/es.array.slice.js");
+require("core-js/modules/es.date.to-primitive.js");
+require("core-js/modules/es.function.bind.js");
+require("core-js/modules/es.number.constructor.js");
+require("core-js/modules/es.object.create.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/es.object.get-prototype-of.js");
+require("core-js/modules/es.object.set-prototype-of.js");
+require("core-js/modules/es.reflect.construct.js");
+require("core-js/modules/es.reflect.get.js");
+require("core-js/modules/es.string.iterator.js");
+require("core-js/modules/web.dom-collections.iterator.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.AudioSettings = void 0;
-require("regenerator-runtime/runtime");
+require("core-js/modules/es.array.concat.js");
+require("core-js/modules/es.array.for-each.js");
+require("core-js/modules/es.array.index-of.js");
+require("core-js/modules/es.array.map.js");
+require("core-js/modules/es.array.some.js");
+require("core-js/modules/es.object.assign.js");
+require("core-js/modules/es.object.get-own-property-descriptor.js");
+require("core-js/modules/es.object.keys.js");
+require("core-js/modules/es.object.to-string.js");
+require("core-js/modules/es.promise.js");
+require("core-js/modules/web.dom-collections.for-each.js");
 var _core = require("@ringcentral-integration/core");
 var _ramda = require("ramda");
 var _di = require("../../lib/di");
 var _proxify = require("../../lib/proxy/proxify");
 var _audioSettingsErrors = require("./audioSettingsErrors");
 var _dec, _dec2, _dec3, _dec4, _class, _class2, _descriptor, _descriptor2, _descriptor3;
+function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
+function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
@@ -31,15 +53,16 @@ function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = 
 function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _get() { return _get = "undefined" != typeof Reflect && Reflect.get ? Reflect.get.bind() : function (e, t, r) { var p = _superPropBase(e, t); if (p) { var n = Object.getOwnPropertyDescriptor(p, t); return n.get ? n.get.call(arguments.length < 3 ? e : r) : n.value; } }, _get.apply(null, arguments); }
-function _superPropBase(t, o) { for (; !{}.hasOwnProperty.call(t, o) && null !== (t = _getPrototypeOf(t));) { ; } return t; }
-function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
-function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
-function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _callSuper(t, o, e) { return o = _getPrototypeOf(o), _possibleConstructorReturn(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor) : o.apply(t, e)); }
 function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
 function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
 function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _superPropGet(t, o, e, r) { var p = _get(_getPrototypeOf(1 & r ? t.prototype : t), o, e); return 2 & r && "function" == typeof p ? function (t) { return p.apply(e, t); } : p; }
+function _get() { return _get = "undefined" != typeof Reflect && Reflect.get ? Reflect.get.bind() : function (e, t, r) { var p = _superPropBase(e, t); if (p) { var n = Object.getOwnPropertyDescriptor(p, t); return n.get ? n.get.call(arguments.length < 3 ? e : r) : n.value; } }, _get.apply(null, arguments); }
+function _superPropBase(t, o) { for (; !{}.hasOwnProperty.call(t, o) && null !== (t = _getPrototypeOf(t));); return t; }
 function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
 function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
 function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
 function polyfillGetUserMedia() {
@@ -81,7 +104,7 @@ var DEFAULT_VALUE = {
    */
   isAGCEnabled: false
 };
-var AudioSettings = (_dec = (0, _di.Module)({
+var AudioSettings = exports.AudioSettings = (_dec = (0, _di.Module)({
   name: 'AudioSettings',
   deps: ['Auth', 'Alert', 'Storage', 'AppFeatures', {
     dep: 'AudioSettingsOptions',
@@ -97,26 +120,25 @@ var AudioSettings = (_dec = (0, _di.Module)({
   var availableDevices = _ref3.availableDevices;
   return [availableDevices];
 }), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
-  _inherits(AudioSettings, _RcModuleV);
-  var _super = _createSuper(AudioSettings);
   function AudioSettings(deps) {
     var _this$_deps$audioSett, _this$_deps$audioSett2;
     var _this;
     _classCallCheck(this, AudioSettings);
-    _this = _super.call(this, {
+    _this = _callSuper(this, AudioSettings, [{
       deps: deps,
       storageKey: 'AudioSettings',
       enableCache: true
-    });
+    }]);
     _this._getUserMediaPromise = null;
     _this._showCheckMediaAlert = void 0;
-    _initializerDefineProperty(_this, "data", _descriptor, _assertThisInitialized(_this));
-    _initializerDefineProperty(_this, "availableDevices", _descriptor2, _assertThisInitialized(_this));
-    _initializerDefineProperty(_this, "hasUserMedia", _descriptor3, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "data", _descriptor, _this);
+    _initializerDefineProperty(_this, "availableDevices", _descriptor2, _this);
+    _initializerDefineProperty(_this, "hasUserMedia", _descriptor3, _this);
     _this._showCheckMediaAlert = (_this$_deps$audioSett = (_this$_deps$audioSett2 = _this._deps.audioSettingsOptions) === null || _this$_deps$audioSett2 === void 0 ? void 0 : _this$_deps$audioSett2.showCheckMediaAlert) !== null && _this$_deps$audioSett !== void 0 ? _this$_deps$audioSett : false;
     return _this;
   }
-  _createClass(AudioSettings, [{
+  _inherits(AudioSettings, _RcModuleV);
+  return _createClass(AudioSettings, [{
     key: "onInitOnce",
     value: function onInitOnce() {
       var _this2 = this;
@@ -249,16 +271,13 @@ var AudioSettings = (_dec = (0, _di.Module)({
   }, {
     key: "markAutoPrompted",
     value: function () {
-      var _markAutoPrompted = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                this.setHasAutoPrompted();
-              case 1:
-              case "end":
-                return _context.stop();
-            }
+      var _markAutoPrompted = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
+        return _regenerator().w(function (_context) {
+          while (1) switch (_context.n) {
+            case 0:
+              this.setHasAutoPrompted();
+            case 1:
+              return _context.a(2);
           }
         }, _callee, this);
       }));
@@ -270,22 +289,19 @@ var AudioSettings = (_dec = (0, _di.Module)({
   }, {
     key: "_initModule",
     value: function () {
-      var _initModule2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+      var _initModule2 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
         var _this5 = this;
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _get(_getPrototypeOf(AudioSettings.prototype), "_initModule", this).call(this);
-                if (navigator && navigator.mediaDevices && navigator.mediaDevices.addEventListener) {
-                  navigator.mediaDevices.addEventListener('devicechange', function () {
-                    _this5._checkDevices();
-                  });
-                }
-              case 2:
-              case "end":
-                return _context2.stop();
-            }
+        return _regenerator().w(function (_context2) {
+          while (1) switch (_context2.n) {
+            case 0:
+              _superPropGet(AudioSettings, "_initModule", this, 3)([]);
+              if (navigator && navigator.mediaDevices && navigator.mediaDevices.addEventListener) {
+                navigator.mediaDevices.addEventListener('devicechange', function () {
+                  _this5._checkDevices();
+                });
+              }
+            case 1:
+              return _context2.a(2);
           }
         }, _callee2, this);
       }));
@@ -297,21 +313,18 @@ var AudioSettings = (_dec = (0, _di.Module)({
   }, {
     key: "onInit",
     value: function () {
-      var _onInit = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                if (!this.supportDevices) {
-                  _context3.next = 3;
-                  break;
-                }
-                _context3.next = 3;
-                return this._checkDevices();
-              case 3:
-              case "end":
-                return _context3.stop();
-            }
+      var _onInit = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {
+        return _regenerator().w(function (_context3) {
+          while (1) switch (_context3.n) {
+            case 0:
+              if (!this.supportDevices) {
+                _context3.n = 1;
+                break;
+              }
+              _context3.n = 1;
+              return this._checkDevices();
+            case 1:
+              return _context3.a(2);
           }
         }, _callee3, this);
       }));
@@ -323,41 +336,38 @@ var AudioSettings = (_dec = (0, _di.Module)({
   }, {
     key: "setAutoGainControl",
     value: function () {
-      var _setAutoGainControl = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(isAGCEnabled) {
-        var constraints;
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                _context4.prev = 0;
-                constraints = isAGCEnabled ? {
-                  autoGainControl: true
-                } : {
-                  autoGainControl: false,
-                  /**
-                   * https://stackoverflow.com/questions/44307432/how-to-disable-system-audio-enhancements-using-webrtc
-                   * disable system audio enhancements using webRTC
-                   */
-                  googAutoGainControl: false,
-                  googAutoGainControl2: false
-                };
-                _context4.next = 4;
-                return navigator.mediaDevices.getUserMedia({
-                  audio: constraints
-                });
-              case 4:
-                _context4.next = 9;
-                break;
-              case 6:
-                _context4.prev = 6;
-                _context4.t0 = _context4["catch"](0);
-                console.warn("setAutoGainControl error:", _context4.t0);
-              case 9:
-              case "end":
-                return _context4.stop();
-            }
+      var _setAutoGainControl = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4(isAGCEnabled) {
+        var constraints, _t;
+        return _regenerator().w(function (_context4) {
+          while (1) switch (_context4.p = _context4.n) {
+            case 0:
+              _context4.p = 0;
+              constraints = isAGCEnabled ? {
+                autoGainControl: true
+              } : {
+                autoGainControl: false,
+                /**
+                 * https://stackoverflow.com/questions/44307432/how-to-disable-system-audio-enhancements-using-webrtc
+                 * disable system audio enhancements using webRTC
+                 */
+                googAutoGainControl: false,
+                googAutoGainControl2: false
+              };
+              _context4.n = 1;
+              return navigator.mediaDevices.getUserMedia({
+                audio: constraints
+              });
+            case 1:
+              _context4.n = 3;
+              break;
+            case 2:
+              _context4.p = 2;
+              _t = _context4.v;
+              console.warn("setAutoGainControl error:", _t);
+            case 3:
+              return _context4.a(2);
           }
-        }, _callee4, null, [[0, 6]]);
+        }, _callee4, null, [[0, 2]]);
       }));
       function setAutoGainControl(_x) {
         return _setAutoGainControl.apply(this, arguments);
@@ -367,28 +377,25 @@ var AudioSettings = (_dec = (0, _di.Module)({
   }, {
     key: "_checkDevices",
     value: function () {
-      var _checkDevices2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+      var _checkDevices2 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5() {
         var devices;
-        return regeneratorRuntime.wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                _context5.next = 2;
-                return navigator.mediaDevices.enumerateDevices();
-              case 2:
-                devices = _context5.sent;
-                this.setAvailableDevices(devices.map(function (d) {
-                  return {
-                    deviceId: d.deviceId,
-                    kind: d.kind,
-                    label: d.label,
-                    groupId: d.groupId
-                  };
-                }));
-              case 4:
-              case "end":
-                return _context5.stop();
-            }
+        return _regenerator().w(function (_context5) {
+          while (1) switch (_context5.n) {
+            case 0:
+              _context5.n = 1;
+              return navigator.mediaDevices.enumerateDevices();
+            case 1:
+              devices = _context5.v;
+              this.setAvailableDevices(devices.map(function (d) {
+                return {
+                  deviceId: d.deviceId,
+                  kind: d.kind,
+                  label: d.label,
+                  groupId: d.groupId
+                };
+              }));
+            case 2:
+              return _context5.a(2);
           }
         }, _callee5, this);
       }));
@@ -400,53 +407,50 @@ var AudioSettings = (_dec = (0, _di.Module)({
   }, {
     key: "getUserMedia",
     value: function () {
-      var _getUserMedia = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
-        var stream;
-        return regeneratorRuntime.wrap(function _callee6$(_context6) {
-          while (1) {
-            switch (_context6.prev = _context6.next) {
-              case 0:
-                if (navigator.mediaDevices.getUserMedia) {
-                  _context6.next = 2;
-                  break;
-                }
-                return _context6.abrupt("return");
-              case 2:
-                _context6.prev = 2;
-                if (!this._getUserMediaPromise) {
-                  this._getUserMediaPromise = navigator.mediaDevices.getUserMedia({
-                    audio: true
-                  });
-                }
-                _context6.next = 6;
-                return this._getUserMediaPromise;
-              case 6:
-                stream = _context6.sent;
-                this._getUserMediaPromise = null;
-                _context6.next = 10;
-                return this._onGetUserMediaSuccess();
-              case 10:
-                if (typeof stream.getTracks === 'function') {
-                  stream.getTracks().forEach(function (track) {
-                    track.stop();
-                  });
-                } else if (typeof stream.stop === 'function') {
-                  // TODO: check type;
-                  stream.stop();
-                }
-                _context6.next = 17;
+      var _getUserMedia = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee6() {
+        var stream, _t2;
+        return _regenerator().w(function (_context6) {
+          while (1) switch (_context6.p = _context6.n) {
+            case 0:
+              if (navigator.mediaDevices.getUserMedia) {
+                _context6.n = 1;
                 break;
-              case 13:
-                _context6.prev = 13;
-                _context6.t0 = _context6["catch"](2);
-                this._getUserMediaPromise = null;
-                this.onGetUserMediaError();
-              case 17:
-              case "end":
-                return _context6.stop();
-            }
+              }
+              return _context6.a(2);
+            case 1:
+              _context6.p = 1;
+              if (!this._getUserMediaPromise) {
+                this._getUserMediaPromise = navigator.mediaDevices.getUserMedia({
+                  audio: true
+                });
+              }
+              _context6.n = 2;
+              return this._getUserMediaPromise;
+            case 2:
+              stream = _context6.v;
+              this._getUserMediaPromise = null;
+              _context6.n = 3;
+              return this._onGetUserMediaSuccess();
+            case 3:
+              if (typeof stream.getTracks === 'function') {
+                stream.getTracks().forEach(function (track) {
+                  track.stop();
+                });
+              } else if (typeof stream.stop === 'function') {
+                // TODO: check type;
+                stream.stop();
+              }
+              _context6.n = 5;
+              break;
+            case 4:
+              _context6.p = 4;
+              _t2 = _context6.v;
+              this._getUserMediaPromise = null;
+              this.onGetUserMediaError();
+            case 5:
+              return _context6.a(2);
           }
-        }, _callee6, this, [[2, 13]]);
+        }, _callee6, this, [[1, 4]]);
       }));
       function getUserMedia() {
         return _getUserMedia.apply(this, arguments);
@@ -456,25 +460,22 @@ var AudioSettings = (_dec = (0, _di.Module)({
   }, {
     key: "_onGetUserMediaSuccess",
     value: function () {
-      var _onGetUserMediaSuccess2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+      var _onGetUserMediaSuccess2 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee7() {
         var userMediaAlert;
-        return regeneratorRuntime.wrap(function _callee7$(_context7) {
-          while (1) {
-            switch (_context7.prev = _context7.next) {
-              case 0:
-                userMediaAlert = (0, _ramda.find)(function (item) {
-                  return item.message === _audioSettingsErrors.audioSettingsErrors.userMediaPermission || item.message === _audioSettingsErrors.audioSettingsErrors.checkMediaPermission;
-                }, this._deps.alert.messages);
-                if (userMediaAlert) {
-                  this._deps.alert.dismiss(userMediaAlert.id);
-                }
-                this.setUserMediaSuccess();
-                _context7.next = 5;
-                return this._checkDevices();
-              case 5:
-              case "end":
-                return _context7.stop();
-            }
+        return _regenerator().w(function (_context7) {
+          while (1) switch (_context7.n) {
+            case 0:
+              userMediaAlert = (0, _ramda.find)(function (item) {
+                return item.message === _audioSettingsErrors.audioSettingsErrors.userMediaPermission || item.message === _audioSettingsErrors.audioSettingsErrors.checkMediaPermission;
+              }, this._deps.alert.messages);
+              if (userMediaAlert) {
+                this._deps.alert.dismiss(userMediaAlert.id);
+              }
+              this.setUserMediaSuccess();
+              _context7.n = 1;
+              return this._checkDevices();
+            case 1:
+              return _context7.a(2);
           }
         }, _callee7, this);
       }));
@@ -486,28 +487,25 @@ var AudioSettings = (_dec = (0, _di.Module)({
   }, {
     key: "showPermissionAlert",
     value: function () {
-      var _showPermissionAlert = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(ttl) {
-        return regeneratorRuntime.wrap(function _callee8$(_context8) {
-          while (1) {
-            switch (_context8.prev = _context8.next) {
-              case 0:
-                if (this._showCheckMediaAlert) {
-                  this._deps.alert.warning({
-                    message: _audioSettingsErrors.audioSettingsErrors.checkMediaPermission,
-                    allowDuplicates: false,
-                    ttl: 0
-                  });
-                } else {
-                  this._deps.alert.danger({
-                    message: _audioSettingsErrors.audioSettingsErrors.userMediaPermission,
-                    allowDuplicates: false,
-                    ttl: ttl
-                  });
-                }
-              case 1:
-              case "end":
-                return _context8.stop();
-            }
+      var _showPermissionAlert = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee8(ttl) {
+        return _regenerator().w(function (_context8) {
+          while (1) switch (_context8.n) {
+            case 0:
+              if (this._showCheckMediaAlert) {
+                this._deps.alert.warning({
+                  message: _audioSettingsErrors.audioSettingsErrors.checkMediaPermission,
+                  allowDuplicates: false,
+                  ttl: 0
+                });
+              } else {
+                this._deps.alert.danger({
+                  message: _audioSettingsErrors.audioSettingsErrors.userMediaPermission,
+                  allowDuplicates: false,
+                  ttl: ttl
+                });
+              }
+            case 1:
+              return _context8.a(2);
           }
         }, _callee8, this);
       }));
@@ -519,17 +517,14 @@ var AudioSettings = (_dec = (0, _di.Module)({
   }, {
     key: "onGetUserMediaError",
     value: function () {
-      var _onGetUserMediaError = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
-        return regeneratorRuntime.wrap(function _callee9$(_context9) {
-          while (1) {
-            switch (_context9.prev = _context9.next) {
-              case 0:
-                this.setUserMediaError();
-                this.showPermissionAlert();
-              case 2:
-              case "end":
-                return _context9.stop();
-            }
+      var _onGetUserMediaError = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee9() {
+        return _regenerator().w(function (_context9) {
+          while (1) switch (_context9.n) {
+            case 0:
+              this.setUserMediaError();
+              this.showPermissionAlert();
+            case 1:
+              return _context9.a(2);
           }
         }, _callee9, this);
       }));
@@ -541,29 +536,26 @@ var AudioSettings = (_dec = (0, _di.Module)({
   }, {
     key: "checkAudioAvailable",
     value: function () {
-      var _checkAudioAvailable = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(options) {
-        return regeneratorRuntime.wrap(function _callee10$(_context10) {
-          while (1) {
-            switch (_context10.prev = _context10.next) {
-              case 0:
-                if (this.userMedia) {
-                  _context10.next = 4;
-                  break;
-                }
-                this.showPermissionAlert(30 * 1000);
-                if (options.checkIfNoDevices) {
-                  _context10.next = 4;
-                  break;
-                }
-                return _context10.abrupt("return");
-              case 4:
-                this.getUserMedia();
-              case 5:
-              case "end":
-                return _context10.stop();
-            }
+      var _checkAudioAvailable = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee0(options) {
+        return _regenerator().w(function (_context0) {
+          while (1) switch (_context0.n) {
+            case 0:
+              if (this.userMedia) {
+                _context0.n = 1;
+                break;
+              }
+              this.showPermissionAlert(30 * 1000);
+              if (options.checkIfNoDevices) {
+                _context0.n = 1;
+                break;
+              }
+              return _context0.a(2);
+            case 1:
+              this.getUserMedia();
+            case 2:
+              return _context0.a(2);
           }
-        }, _callee10, this);
+        }, _callee0, this);
       }));
       function checkAudioAvailable(_x3) {
         return _checkAudioAvailable.apply(this, arguments);
@@ -573,27 +565,24 @@ var AudioSettings = (_dec = (0, _di.Module)({
   }, {
     key: "setData",
     value: function () {
-      var _setData2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(_ref5) {
+      var _setData2 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee1(_ref5) {
         var _ref5$ringtoneVolume, ringtoneVolume, _ref5$callVolume, callVolume, _ref5$outputDeviceId, outputDeviceId, _ref5$inputDeviceId, inputDeviceId, _ref5$ringtoneDeviceI, ringtoneDeviceId, _ref5$isAGCEnabled, isAGCEnabled;
-        return regeneratorRuntime.wrap(function _callee11$(_context11) {
-          while (1) {
-            switch (_context11.prev = _context11.next) {
-              case 0:
-                _ref5$ringtoneVolume = _ref5.ringtoneVolume, ringtoneVolume = _ref5$ringtoneVolume === void 0 ? this.ringtoneVolume : _ref5$ringtoneVolume, _ref5$callVolume = _ref5.callVolume, callVolume = _ref5$callVolume === void 0 ? this.callVolume : _ref5$callVolume, _ref5$outputDeviceId = _ref5.outputDeviceId, outputDeviceId = _ref5$outputDeviceId === void 0 ? this.outputDeviceId : _ref5$outputDeviceId, _ref5$inputDeviceId = _ref5.inputDeviceId, inputDeviceId = _ref5$inputDeviceId === void 0 ? this.inputDeviceId : _ref5$inputDeviceId, _ref5$ringtoneDeviceI = _ref5.ringtoneDeviceId, ringtoneDeviceId = _ref5$ringtoneDeviceI === void 0 ? this.ringtoneDeviceId : _ref5$ringtoneDeviceI, _ref5$isAGCEnabled = _ref5.isAGCEnabled, isAGCEnabled = _ref5$isAGCEnabled === void 0 ? this.isAGCEnabled : _ref5$isAGCEnabled;
-                this._setData({
-                  ringtoneVolume: ringtoneVolume,
-                  callVolume: callVolume,
-                  outputDeviceId: outputDeviceId,
-                  inputDeviceId: inputDeviceId,
-                  ringtoneDeviceId: ringtoneDeviceId,
-                  isAGCEnabled: isAGCEnabled
-                });
-              case 2:
-              case "end":
-                return _context11.stop();
-            }
+        return _regenerator().w(function (_context1) {
+          while (1) switch (_context1.n) {
+            case 0:
+              _ref5$ringtoneVolume = _ref5.ringtoneVolume, ringtoneVolume = _ref5$ringtoneVolume === void 0 ? this.ringtoneVolume : _ref5$ringtoneVolume, _ref5$callVolume = _ref5.callVolume, callVolume = _ref5$callVolume === void 0 ? this.callVolume : _ref5$callVolume, _ref5$outputDeviceId = _ref5.outputDeviceId, outputDeviceId = _ref5$outputDeviceId === void 0 ? this.outputDeviceId : _ref5$outputDeviceId, _ref5$inputDeviceId = _ref5.inputDeviceId, inputDeviceId = _ref5$inputDeviceId === void 0 ? this.inputDeviceId : _ref5$inputDeviceId, _ref5$ringtoneDeviceI = _ref5.ringtoneDeviceId, ringtoneDeviceId = _ref5$ringtoneDeviceI === void 0 ? this.ringtoneDeviceId : _ref5$ringtoneDeviceI, _ref5$isAGCEnabled = _ref5.isAGCEnabled, isAGCEnabled = _ref5$isAGCEnabled === void 0 ? this.isAGCEnabled : _ref5$isAGCEnabled;
+              this._setData({
+                ringtoneVolume: ringtoneVolume,
+                callVolume: callVolume,
+                outputDeviceId: outputDeviceId,
+                inputDeviceId: inputDeviceId,
+                ringtoneDeviceId: ringtoneDeviceId,
+                isAGCEnabled: isAGCEnabled
+              });
+            case 1:
+              return _context1.a(2);
           }
-        }, _callee11, this);
+        }, _callee1, this);
       }));
       function setData(_x4) {
         return _setData2.apply(this, arguments);
@@ -706,8 +695,7 @@ var AudioSettings = (_dec = (0, _di.Module)({
       }
     }
   }]);
-  return AudioSettings;
-}(_core.RcModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "data", [_core.storage, _core.state], {
+}(_core.RcModuleV2), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "data", [_core.storage, _core.state], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -728,6 +716,5 @@ var AudioSettings = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return false;
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "setHasAutoPrompted", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setHasAutoPrompted"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setUserMediaError", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setUserMediaError"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setUserMediaSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setUserMediaSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setAvailableDevices", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setAvailableDevices"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setData", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "markAutoPrompted", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "markAutoPrompted"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setAutoGainControl", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "setAutoGainControl"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_checkDevices", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_checkDevices"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_onGetUserMediaSuccess", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_onGetUserMediaSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "showPermissionAlert", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "showPermissionAlert"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onGetUserMediaError", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "onGetUserMediaError"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "checkAudioAvailable", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "checkAudioAvailable"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setData", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "setData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "availableOutputDevices", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "availableOutputDevices"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "availableRingtoneDevices", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "availableRingtoneDevices"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "availableInputDevices", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "availableInputDevices"), _class2.prototype)), _class2)) || _class);
-exports.AudioSettings = AudioSettings;
+}), _applyDecoratedDescriptor(_class2.prototype, "setHasAutoPrompted", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setHasAutoPrompted"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setUserMediaError", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setUserMediaError"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setUserMediaSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setUserMediaSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setAvailableDevices", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setAvailableDevices"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setData", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "markAutoPrompted", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "markAutoPrompted"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setAutoGainControl", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "setAutoGainControl"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_checkDevices", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_checkDevices"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_onGetUserMediaSuccess", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_onGetUserMediaSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "showPermissionAlert", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "showPermissionAlert"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onGetUserMediaError", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "onGetUserMediaError"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "checkAudioAvailable", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "checkAudioAvailable"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setData", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "setData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "availableOutputDevices", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "availableOutputDevices"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "availableRingtoneDevices", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "availableRingtoneDevices"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "availableInputDevices", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "availableInputDevices"), _class2.prototype), _class2)) || _class);
 //# sourceMappingURL=AudioSettings.js.map

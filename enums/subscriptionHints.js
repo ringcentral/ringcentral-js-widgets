@@ -1,11 +1,12 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.subscriptionHints = exports["default"] = void 0;
 var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
-var subscriptionHints = _ObjectMap.ObjectMap.fromObject({
+var subscriptionHints = exports.subscriptionHints = _ObjectMap.ObjectMap.fromObject({
   limits: 'Limits',
   features: 'Features',
   accountStatus: 'AccountStatus',
@@ -17,7 +18,5 @@ var subscriptionHints = _ObjectMap.ObjectMap.fromObject({
   extensionInfo: 'ExtensionInfo',
   videoConfiguration: 'VideoConfiguration'
 });
-exports.subscriptionHints = subscriptionHints;
-var _default = subscriptionHints;
-exports["default"] = _default;
+var _default = exports["default"] = subscriptionHints;
 //# sourceMappingURL=subscriptionHints.js.map

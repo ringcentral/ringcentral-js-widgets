@@ -1,13 +1,15 @@
 "use strict";
 
-require("core-js/modules/es.array.concat");
-require("core-js/modules/es.array.reduce");
-require("core-js/modules/es.date.to-string");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.sortByTime = exports.flattenToRecords = exports.filterPhoneNumber = exports.dedup = void 0;
-var filterPhoneNumber = function filterPhoneNumber(call) {
+require("core-js/modules/es.array.concat.js");
+require("core-js/modules/es.array.reduce.js");
+require("core-js/modules/es.date.to-string.js");
+require("core-js/modules/es.object.to-string.js");
+var filterPhoneNumber = exports.filterPhoneNumber = function filterPhoneNumber(call) {
   return function (_ref) {
     var phoneNumber = _ref.phoneNumber;
     return (
@@ -22,8 +24,7 @@ var filterPhoneNumber = function filterPhoneNumber(call) {
     );
   };
 };
-exports.filterPhoneNumber = filterPhoneNumber;
-var flattenToRecords = function flattenToRecords(items) {
+var flattenToRecords = exports.flattenToRecords = function flattenToRecords(items) {
   return items.reduce(
   // @ts-expect-error TS(2769): No overload matches this call.
   function (acc, _ref2) {
@@ -34,14 +35,12 @@ var flattenToRecords = function flattenToRecords(items) {
 
 // Sort by time in descending order
 // TODO: fix type optional in `@rc-ex/core/definitions`
-exports.flattenToRecords = flattenToRecords;
-var sortByTime = function sortByTime(a, b
+var sortByTime = exports.sortByTime = function sortByTime(a, b
 // @ts-expect-error TS(2769): No overload matches this call.
 ) {
   return new Date(b.startTime).getTime() - new Date(a.startTime).getTime();
 };
-exports.sortByTime = sortByTime;
-var dedup = function dedup(calls) {
+var dedup = exports.dedup = function dedup(calls) {
   var hash = {};
   return calls.reduce(function (acc, cur) {
     // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
@@ -52,5 +51,4 @@ var dedup = function dedup(calls) {
     return acc.concat(cur);
   }, []);
 };
-exports.dedup = dedup;
 //# sourceMappingURL=RecentCallsHelper.js.map

@@ -1,12 +1,13 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.defaultCssVariable = void 0;
 var _juno = require("@ringcentral/juno");
 var mainColor = (0, _juno.palette2)('nav', 'menuBg');
-var defaultCssVariable = {
+var defaultCssVariable = exports.defaultCssVariable = {
   rcBlue: mainColor,
   // '#066fac'
   bigRed: (0, _juno.palette2)('danger', 'b03'),
@@ -78,5 +79,4 @@ var defaultCssVariable = {
   // '#ffffff'
   extOptionBtnColor: mainColor
 };
-exports.defaultCssVariable = defaultCssVariable;
 //# sourceMappingURL=defaultCssVariable.js.map

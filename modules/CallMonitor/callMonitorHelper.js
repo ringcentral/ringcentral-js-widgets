@@ -1,14 +1,16 @@
 "use strict";
 
-require("core-js/modules/es.array.filter");
-require("core-js/modules/es.array.index-of");
-require("core-js/modules/es.array.sort");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.isCurrentDeviceEndCall = isCurrentDeviceEndCall;
 exports.matchWebphoneSessionWithActiveCall = matchWebphoneSessionWithActiveCall;
 exports.normalizeTelephonySession = normalizeTelephonySession;
+require("core-js/modules/es.array.filter.js");
+require("core-js/modules/es.array.index-of.js");
+require("core-js/modules/es.array.sort.js");
+require("core-js/modules/es.object.to-string.js");
 var _callDirections = _interopRequireDefault(require("../../enums/callDirections"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 function getSessionStartTime(session) {

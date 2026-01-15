@@ -1,21 +1,24 @@
 "use strict";
 
-require("core-js/modules/es.array.iterator");
-require("core-js/modules/es.array.join");
-require("core-js/modules/es.array.map");
-require("core-js/modules/es.array.sort");
-require("core-js/modules/es.object.to-string");
-require("core-js/modules/es.regexp.exec");
-require("core-js/modules/es.string.iterator");
-require("core-js/modules/es.string.replace");
-require("core-js/modules/web.dom-collections.iterator");
-require("core-js/modules/web.url");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.isTheSameEventFilters = isTheSameEventFilters;
 exports.isTheSameWebSocket = isTheSameWebSocket;
 exports.normalizeEventFilter = normalizeEventFilter;
+require("core-js/modules/es.array.iterator.js");
+require("core-js/modules/es.array.join.js");
+require("core-js/modules/es.array.map.js");
+require("core-js/modules/es.array.sort.js");
+require("core-js/modules/es.object.to-string.js");
+require("core-js/modules/es.regexp.exec.js");
+require("core-js/modules/es.string.iterator.js");
+require("core-js/modules/es.string.replace.js");
+require("core-js/modules/web.dom-collections.iterator.js");
+require("core-js/modules/web.url.js");
+require("core-js/modules/web.url.to-json.js");
+require("core-js/modules/web.url-search-params.js");
 // const apiUrlPrefixRegex: RegExp = /^\/restapi\/v[\d]\.[\d]/;
 var accountRegex = /\/account\/[\d]+/;
 var extensionRegex = /\/extension\/[\d]+/;

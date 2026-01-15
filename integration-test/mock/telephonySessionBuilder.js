@@ -1,13 +1,23 @@
 "use strict";
 
-require("core-js/modules/es.symbol");
-require("core-js/modules/es.symbol.description");
-require("core-js/modules/es.symbol.to-primitive");
-require("core-js/modules/es.date.to-primitive");
-require("core-js/modules/es.date.to-string");
-require("core-js/modules/es.number.constructor");
-require("core-js/modules/es.object.to-string");
-require("core-js/modules/es.regexp.to-string");
+require("core-js/modules/es.symbol.js");
+require("core-js/modules/es.symbol.description.js");
+require("core-js/modules/es.symbol.iterator.js");
+require("core-js/modules/es.symbol.to-primitive.js");
+require("core-js/modules/es.array.filter.js");
+require("core-js/modules/es.array.for-each.js");
+require("core-js/modules/es.array.iterator.js");
+require("core-js/modules/es.date.to-primitive.js");
+require("core-js/modules/es.number.constructor.js");
+require("core-js/modules/es.object.define-properties.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/es.object.get-own-property-descriptor.js");
+require("core-js/modules/es.object.get-own-property-descriptors.js");
+require("core-js/modules/es.object.keys.js");
+require("core-js/modules/es.string.iterator.js");
+require("core-js/modules/web.dom-collections.for-each.js");
+require("core-js/modules/web.dom-collections.iterator.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -21,6 +31,9 @@ Object.defineProperty(exports, "PartyStatusCode", {
 exports.clearTelephonySessionBuilders = exports.TelephonySessionBuilderConfig = exports.TelephonySessionBuilder = void 0;
 exports.createTelephonySession = createTelephonySession;
 exports.telephonySessionBuildersCache = exports.makeWebphoneSessionId = exports.makeVoiceCallToken = exports.makeTelephonySessionId = exports.makePartyId = void 0;
+require("core-js/modules/es.date.to-string.js");
+require("core-js/modules/es.object.to-string.js");
+require("core-js/modules/es.regexp.to-string.js");
 var _dayjs = _interopRequireDefault(require("dayjs"));
 var _Session = require("ringcentral-call-control/lib/Session");
 var _uuid = require("uuid");
@@ -28,7 +41,6 @@ var _callDirections = require("../../enums/callDirections");
 var _extensionInfo = _interopRequireDefault(require("./data/extensionInfo.json"));
 var _telephonySessions = _interopRequireDefault(require("./data/telephonySessions.json"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -38,25 +50,22 @@ function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), 
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 // "s-a4a012b34c545z18b6f423f7fzf4d9960000"
-var makeTelephonySessionId = function makeTelephonySessionId() {
+var makeTelephonySessionId = exports.makeTelephonySessionId = function makeTelephonySessionId() {
   return "s-".concat((0, _uuid.v4)());
 };
 
 // "p-a4a012b34c545z18b6f423f7fzf4d9960000-1"
-exports.makeTelephonySessionId = makeTelephonySessionId;
-var makePartyId = function makePartyId(telephonySessionId) {
+var makePartyId = exports.makePartyId = function makePartyId(telephonySessionId) {
   return "p-".concat(telephonySessionId.substring(2), "-1");
 };
 
 // "e5c8acd0-dcc2-4767-b445-b0029bd8b85210.74.1.43-5070-b30665b0-599a-49b9-b"
-exports.makePartyId = makePartyId;
-var makeWebphoneSessionId = function makeWebphoneSessionId() {
+var makeWebphoneSessionId = exports.makeWebphoneSessionId = function makeWebphoneSessionId() {
   return (0, _uuid.v4)();
 };
 
 // "conf_732d613461306438313238356331617a31376662656163336664377a3830633664303030304031302e37342e31332e3132393a35303730"
-exports.makeWebphoneSessionId = makeWebphoneSessionId;
-var makeVoiceCallToken = function makeVoiceCallToken() {
+var makeVoiceCallToken = exports.makeVoiceCallToken = function makeVoiceCallToken() {
   return "conf_".concat((0, _uuid.v4)());
 };
 
@@ -69,30 +78,25 @@ var makeVoiceCallToken = function makeVoiceCallToken() {
  *
  * @class TelephonySession
  */
-exports.makeVoiceCallToken = makeVoiceCallToken;
+
 var sequence = 10;
 var DEFAULT_DIRECTION = _callDirections.callDirection.outbound;
 var DEFAULT_RECORD_STATUS = false;
-var DEFAULT_PHONE_NUMBER = '+16501234567';
-exports.DEFAULT_PHONE_NUMBER = DEFAULT_PHONE_NUMBER;
+var DEFAULT_PHONE_NUMBER = exports.DEFAULT_PHONE_NUMBER = '+16501234567';
 var DEFAULT_EXTENSION_ID = _extensionInfo["default"].id.toString();
-var DEFAULT_SERVER_NAME = 'DEFAULT SERVER_NAME';
+var DEFAULT_SERVER_NAME = exports.DEFAULT_SERVER_NAME = 'DEFAULT SERVER_NAME';
 
 /**
  * global config for TelephonySessionBuilder
  */
-exports.DEFAULT_SERVER_NAME = DEFAULT_SERVER_NAME;
-var TelephonySessionBuilderConfig = {
+var TelephonySessionBuilderConfig = exports.TelephonySessionBuilderConfig = {
   disabledDefaultServerName: false
 };
-exports.TelephonySessionBuilderConfig = TelephonySessionBuilderConfig;
-var telephonySessionBuildersCache = [];
-exports.telephonySessionBuildersCache = telephonySessionBuildersCache;
-var clearTelephonySessionBuilders = function clearTelephonySessionBuilders() {
+var telephonySessionBuildersCache = exports.telephonySessionBuildersCache = [];
+var clearTelephonySessionBuilders = exports.clearTelephonySessionBuilders = function clearTelephonySessionBuilders() {
   telephonySessionBuildersCache.length = 0; // clear
 };
-exports.clearTelephonySessionBuilders = clearTelephonySessionBuilders;
-var TelephonySessionBuilder = /*#__PURE__*/function () {
+var TelephonySessionBuilder = exports.TelephonySessionBuilder = /*#__PURE__*/function () {
   function TelephonySessionBuilder() {
     var initParams = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     _classCallCheck(this, TelephonySessionBuilder);
@@ -116,7 +120,7 @@ var TelephonySessionBuilder = /*#__PURE__*/function () {
     this._init(initParams);
     telephonySessionBuildersCache.push(this);
   }
-  _createClass(TelephonySessionBuilder, [{
+  return _createClass(TelephonySessionBuilder, [{
     key: "_init",
     value: function _init(_ref) {
       var _ref$telephonySession = _ref.telephonySessionId,
@@ -407,9 +411,7 @@ var TelephonySessionBuilder = /*#__PURE__*/function () {
       });
     }
   }]);
-  return TelephonySessionBuilder;
 }();
-exports.TelephonySessionBuilder = TelephonySessionBuilder;
 function createTelephonySession(initParams) {
   return new TelephonySessionBuilder(initParams);
 }

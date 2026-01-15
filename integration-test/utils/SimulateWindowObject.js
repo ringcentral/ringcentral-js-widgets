@@ -1,11 +1,12 @@
 "use strict";
 
-require("core-js/modules/es.object.define-properties");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = SimulateWindowObject;
 exports.mockDevice = mockDevice;
+require("core-js/modules/es.object.define-properties.js");
 var defaultDevices = [{
   deviceId: 'default',
   kind: 'audioinput',

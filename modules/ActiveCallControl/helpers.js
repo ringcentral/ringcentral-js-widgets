@@ -1,9 +1,8 @@
 "use strict";
 
-require("core-js/modules/es.array.includes");
-require("core-js/modules/es.date.to-string");
-require("core-js/modules/es.function.name");
-require("core-js/modules/es.string.includes");
+require("core-js/modules/es.array.find.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/es.object.to-string.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -26,6 +25,11 @@ exports.isRinging = isRinging;
 exports.mapTelephonyStatus = mapTelephonyStatus;
 exports.normalizeSession = normalizeSession;
 exports.normalizeTelephonySession = normalizeTelephonySession;
+require("core-js/modules/es.array.includes.js");
+require("core-js/modules/es.date.to-string.js");
+require("core-js/modules/es.function.name.js");
+require("core-js/modules/es.regexp.exec.js");
+require("core-js/modules/es.string.includes.js");
 var _ramda = require("ramda");
 var _Session = require("ringcentral-call-control/lib/Session");
 var _activeCallControlStatus = _interopRequireDefault(require("../../enums/activeCallControlStatus"));
@@ -135,7 +139,8 @@ function isHolding(telephonySession) {
   return telephonySession.status === _Session.PartyStatusCode.hold;
 }
 function isRecording(session) {
-  var party = session.party; // @ts-expect-error TS(2345): Argument of type 'Recording[] | undefined' is not ... Remove this comment to see the full error message
+  var party = session.party;
+  // @ts-expect-error TS(2345): Argument of type 'Recording[] | undefined' is not ... Remove this comment to see the full error message
   return isOnRecording(party.recordings);
 }
 function isForwardedToVoiceMail(session) {
@@ -215,19 +220,17 @@ function normalizeTelephonySession(session) {
 }
 
 // fix call control api issue.
-var WEBPHONE_REPLY_TIME_UNIT = {
+var WEBPHONE_REPLY_TIME_UNIT = exports.WEBPHONE_REPLY_TIME_UNIT = {
   Minute: '0',
   Hour: '1',
   Day: '2'
 };
-exports.WEBPHONE_REPLY_TIME_UNIT = WEBPHONE_REPLY_TIME_UNIT;
-var WEBPHONE_REPLY_TYPE = {
+var WEBPHONE_REPLY_TYPE = exports.WEBPHONE_REPLY_TYPE = {
   customMessage: 0,
   callBack: 1,
   onMyWay: 2,
   inAMeeting: 5
 };
-exports.WEBPHONE_REPLY_TYPE = WEBPHONE_REPLY_TYPE;
 function getWebphoneReplyMessageOption(params) {
   var _params$replyWithPatt, _params$replyWithPatt2, _params$replyWithPatt3, _params$replyWithPatt4;
   if (params.replyWithText) {

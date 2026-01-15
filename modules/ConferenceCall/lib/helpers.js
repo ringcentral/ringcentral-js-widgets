@@ -1,7 +1,11 @@
 "use strict";
 
-require("core-js/modules/es.regexp.exec");
-require("core-js/modules/es.string.split");
+require("core-js/modules/es.array.filter.js");
+require("core-js/modules/es.array.find.js");
+require("core-js/modules/es.array.map.js");
+require("core-js/modules/es.array.sort.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/es.object.to-string.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });

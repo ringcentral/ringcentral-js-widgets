@@ -1,10 +1,11 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.NumberDetailsType = exports.ContextSourceOption = exports.Category = void 0;
-var Category = /*#__PURE__*/function (Category) {
+var Category = exports.Category = /*#__PURE__*/function (Category) {
   Category["Unknown"] = "Unknown";
   Category["ServiceCode"] = "ServiceCode";
   Category["SpecialService"] = "SpecialService";
@@ -15,14 +16,12 @@ var Category = /*#__PURE__*/function (Category) {
   Category["Ambiguous"] = "Ambiguous";
   return Category;
 }({});
-exports.Category = Category;
-var ContextSourceOption = {
+var ContextSourceOption = exports.ContextSourceOption = {
   "default": 'Default',
   account: 'Account'
 };
-exports.ContextSourceOption = ContextSourceOption;
 // introduce number parser v2
-var NumberDetailsType = /*#__PURE__*/function (NumberDetailsType) {
+var NumberDetailsType = exports.NumberDetailsType = /*#__PURE__*/function (NumberDetailsType) {
   NumberDetailsType["Unknown"] = "Unknown";
   NumberDetailsType["Emergency"] = "Emergency";
   NumberDetailsType["DirectoryAssistance"] = "DirectoryAssistance";
@@ -35,5 +34,4 @@ var NumberDetailsType = /*#__PURE__*/function (NumberDetailsType) {
   NumberDetailsType["Supplementary"] = "Supplementary";
   return NumberDetailsType;
 }({});
-exports.NumberDetailsType = NumberDetailsType;
 //# sourceMappingURL=NumberParserResponse.interface.js.map

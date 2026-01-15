@@ -1,12 +1,13 @@
 "use strict";
 
-require("core-js/modules/es.date.to-string");
-require("core-js/modules/es.object.to-string");
-require("core-js/modules/es.regexp.to-string");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.localStorageDataTrackingTimestamp = void 0;
+require("core-js/modules/es.date.to-string.js");
+require("core-js/modules/es.object.to-string.js");
+require("core-js/modules/es.regexp.to-string.js");
 var DATA_TRACKING_TIMESTAMP_STORAGE_KEY = 'environment.enabledDataTrackingTimestamp';
 
 /**
@@ -14,7 +15,7 @@ var DATA_TRACKING_TIMESTAMP_STORAGE_KEY = 'environment.enabledDataTrackingTimest
  *
  * use local storage to get state be `synchronously`
  */
-var localStorageDataTrackingTimestamp = {
+var localStorageDataTrackingTimestamp = exports.localStorageDataTrackingTimestamp = {
   get: function get() {
     if (typeof localStorage === 'undefined') return null;
     var value = localStorage.getItem(DATA_TRACKING_TIMESTAMP_STORAGE_KEY);
@@ -29,5 +30,4 @@ var localStorageDataTrackingTimestamp = {
     localStorage.setItem(DATA_TRACKING_TIMESTAMP_STORAGE_KEY, timestamp.toString());
   }
 };
-exports.localStorageDataTrackingTimestamp = localStorageDataTrackingTimestamp;
 //# sourceMappingURL=enabledDataTrackingTimestamp.js.map

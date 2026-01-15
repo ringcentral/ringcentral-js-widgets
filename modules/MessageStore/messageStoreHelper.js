@@ -1,12 +1,13 @@
 "use strict";
 
-require("core-js/modules/es.date.to-iso-string");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getSyncParams = void 0;
+require("core-js/modules/es.date.to-iso-string.js");
 var _syncTypes = require("../../enums/syncTypes");
-var getSyncParams = function getSyncParams(_ref) {
+var getSyncParams = exports.getSyncParams = function getSyncParams(_ref) {
   var recordCount = _ref.recordCount,
     conversationLoadLength = _ref.conversationLoadLength,
     dateFrom = _ref.dateFrom,
@@ -33,5 +34,4 @@ var getSyncParams = function getSyncParams(_ref) {
   }
   return params;
 };
-exports.getSyncParams = getSyncParams;
 //# sourceMappingURL=messageStoreHelper.js.map

@@ -1,15 +1,18 @@
 "use strict";
 
-require("core-js/modules/es.function.name");
-require("core-js/modules/es.regexp.constructor");
-require("core-js/modules/es.regexp.exec");
-require("core-js/modules/es.regexp.to-string");
+require("core-js/modules/es.array.find.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/es.object.to-string.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getExtensionName = getExtensionName;
 exports.getHostId = getHostId;
 exports.getRcvUriRegExp = exports.getRcmUriRegExp = void 0;
+require("core-js/modules/es.function.name.js");
+require("core-js/modules/es.regexp.constructor.js");
+require("core-js/modules/es.regexp.exec.js");
+require("core-js/modules/es.regexp.to-string.js");
 var _ramda = require("ramda");
 function getExtensionName(_ref) {
   var extensionInfo = _ref.extensionInfo,
@@ -36,7 +39,7 @@ function getHostId(_ref2) {
   }
   return "".concat(extensionInfo.info.id) || '';
 }
-var getRcmUriRegExp = function getRcmUriRegExp(regExpText) {
+var getRcmUriRegExp = exports.getRcmUriRegExp = function getRcmUriRegExp(regExpText) {
   return new RegExp("(https?):\\/\\/".concat(regExpText, "(\\/\\w+)?(\\/(\\d+))(\\?pwd=\\w+)?"), 'i');
 };
 
@@ -44,9 +47,7 @@ var getRcmUriRegExp = function getRcmUriRegExp(regExpText) {
 // Examples:
 // - https://v.ringcentral.com/join/123456789
 // - https://v.ringcentral.com/join/asd.f-_g?pw=1234
-exports.getRcmUriRegExp = getRcmUriRegExp;
-var getRcvUriRegExp = function getRcvUriRegExp(regExpText) {
+var getRcvUriRegExp = exports.getRcvUriRegExp = function getRcvUriRegExp(regExpText) {
   return new RegExp("(https?):\\/\\/".concat(regExpText, "(\\/{1,2}\\w+)*(\\/{1,2}(\\w|\\.)+)(\\?pw=\\w+)?"), 'i');
 };
-exports.getRcvUriRegExp = getRcvUriRegExp;
 //# sourceMappingURL=helper.js.map

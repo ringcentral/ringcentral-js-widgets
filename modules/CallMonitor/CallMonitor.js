@@ -1,24 +1,52 @@
 "use strict";
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-require("core-js/modules/es.array.concat");
-require("core-js/modules/es.array.filter");
-require("core-js/modules/es.array.find");
-require("core-js/modules/es.array.for-each");
-require("core-js/modules/es.array.index-of");
-require("core-js/modules/es.array.slice");
-require("core-js/modules/es.array.some");
-require("core-js/modules/es.array.splice");
-require("core-js/modules/es.function.name");
-require("core-js/modules/es.object.get-own-property-descriptor");
-require("core-js/modules/es.object.values");
-require("core-js/modules/es.regexp.exec");
-require("core-js/modules/es.string.match");
-require("core-js/modules/web.dom-collections.for-each");
+require("core-js/modules/es.symbol.js");
+require("core-js/modules/es.symbol.description.js");
+require("core-js/modules/es.symbol.iterator.js");
+require("core-js/modules/es.symbol.to-primitive.js");
+require("core-js/modules/es.array.find-index.js");
+require("core-js/modules/es.array.from.js");
+require("core-js/modules/es.array.is-array.js");
+require("core-js/modules/es.array.iterator.js");
+require("core-js/modules/es.array.map.js");
+require("core-js/modules/es.array.reduce.js");
+require("core-js/modules/es.array.reverse.js");
+require("core-js/modules/es.array.sort.js");
+require("core-js/modules/es.date.to-primitive.js");
+require("core-js/modules/es.date.to-string.js");
+require("core-js/modules/es.function.bind.js");
+require("core-js/modules/es.number.constructor.js");
+require("core-js/modules/es.object.create.js");
+require("core-js/modules/es.object.define-properties.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/es.object.get-own-property-descriptors.js");
+require("core-js/modules/es.object.get-prototype-of.js");
+require("core-js/modules/es.object.keys.js");
+require("core-js/modules/es.object.set-prototype-of.js");
+require("core-js/modules/es.reflect.construct.js");
+require("core-js/modules/es.regexp.to-string.js");
+require("core-js/modules/es.string.iterator.js");
+require("core-js/modules/web.dom-collections.iterator.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.CallMonitor = void 0;
+require("core-js/modules/es.array.concat.js");
+require("core-js/modules/es.array.filter.js");
+require("core-js/modules/es.array.find.js");
+require("core-js/modules/es.array.for-each.js");
+require("core-js/modules/es.array.index-of.js");
+require("core-js/modules/es.array.slice.js");
+require("core-js/modules/es.array.some.js");
+require("core-js/modules/es.array.splice.js");
+require("core-js/modules/es.function.name.js");
+require("core-js/modules/es.object.get-own-property-descriptor.js");
+require("core-js/modules/es.object.to-string.js");
+require("core-js/modules/es.object.values.js");
+require("core-js/modules/es.regexp.exec.js");
+require("core-js/modules/es.string.match.js");
+require("core-js/modules/web.dom-collections.for-each.js");
 var _core = require("@ringcentral-integration/core");
 var _events = require("events");
 var _ramda = require("ramda");
@@ -30,13 +58,13 @@ var _ActiveCallControl = require("../ActiveCallControl");
 var _webphoneHelper = require("../Webphone/webphoneHelper");
 var _callEvents = require("./callEvents");
 var _callMonitorHelper = require("./callMonitorHelper");
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _dec15, _dec16, _dec17, _dec18, _dec19, _dec20, _dec21, _dec22, _dec23, _dec24, _dec25, _dec26, _dec27, _dec28, _dec29, _dec30, _dec31, _dec32, _class, _class2, _descriptor;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec0, _dec1, _dec10, _dec11, _dec12, _dec13, _dec14, _dec15, _dec16, _dec17, _dec18, _dec19, _dec20, _dec21, _dec22, _dec23, _dec24, _dec25, _dec26, _dec27, _dec28, _dec29, _dec30, _class, _class2, _descriptor;
 function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
 function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
 function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
-function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) { n[e] = r[e]; } return n; }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -46,16 +74,16 @@ function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = 
 function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
-function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
-function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _callSuper(t, o, e) { return o = _getPrototypeOf(o), _possibleConstructorReturn(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor) : o.apply(t, e)); }
 function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
 function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
 function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
 function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
 function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
 function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
-var CallMonitor = (_dec = (0, _di.Module)({
+var CallMonitor = exports.CallMonitor = (_dec = (0, _di.Module)({
   name: 'CallMonitor',
   deps: ['AccountInfo', 'Storage', 'Presence', 'ExtensionInfo', {
     dep: 'ContactMatcher',
@@ -82,68 +110,66 @@ var CallMonitor = (_dec = (0, _di.Module)({
     dep: 'CallMonitorOptions',
     optional: true
   }]
-}), _dec2 = (0, _core.track)(_trackEvents.trackEvents.callInboundCallConnected), _dec3 = (0, _core.track)(_trackEvents.trackEvents.callOutboundRingOutCallConnected), _dec4 = (0, _core.track)(_trackEvents.trackEvents.clickCallItem), _dec5 = (0, _core.track)(_trackEvents.trackEvents.clickHoldAllCalls), _dec6 = (0, _core.track)(_trackEvents.trackEvents.clickHangupAllCalls), _dec7 = (0, _core.track)(_trackEvents.trackEvents.clickRejectAllCalls), _dec8 = (0, _core.track)(_trackEvents.trackEvents.clickAddCallControl), _dec9 = (0, _core.track)(_trackEvents.trackEvents.clickHangupMergeCallControl), _dec10 = (0, _core.track)(function (that) {
+}), _dec2 = (0, _core.track)(_trackEvents.trackEvents.callInboundCallConnected), _dec3 = (0, _core.track)(_trackEvents.trackEvents.callOutboundRingOutCallConnected), _dec4 = (0, _core.track)(_trackEvents.trackEvents.clickCallItem), _dec5 = (0, _core.track)(_trackEvents.trackEvents.clickHoldAllCalls), _dec6 = (0, _core.track)(_trackEvents.trackEvents.clickHangupAllCalls), _dec7 = (0, _core.track)(_trackEvents.trackEvents.clickRejectAllCalls), _dec8 = (0, _core.track)(_trackEvents.trackEvents.clickAddCallControl), _dec9 = (0, _core.track)(_trackEvents.trackEvents.clickHangupMergeCallControl), _dec0 = (0, _core.track)(function (that) {
   var _that$_deps$conferenc, _that$_deps$conferenc2;
   return [
   // @ts-expect-error TS(2341): Property 'state' is private and only accessible wi... Remove this comment to see the full error message
   Object.values((_that$_deps$conferenc = (_that$_deps$conferenc2 = that._deps.conferenceCall) === null || _that$_deps$conferenc2 === void 0 ? void 0 : _that$_deps$conferenc2.state.mergingPair) !== null && _that$_deps$conferenc !== void 0 ? _that$_deps$conferenc : {}).length ? _trackEvents.trackEvents.clickMergeCallControl : _trackEvents.trackEvents.clickMergeMergeCallControl];
-}), _dec11 = (0, _core.track)(_trackEvents.trackEvents.clickCloseConfirmMergeModal), _dec12 = (0, _core.track)(_trackEvents.trackEvents.clickMergeConfirmMergeModal), _dec13 = (0, _core.track)(_trackEvents.trackEvents.clickAddCallsOnHold), _dec14 = (0, _core.track)(_trackEvents.trackEvents.clickMergeCallsOnHold), _dec15 = (0, _core.track)(_trackEvents.trackEvents.clickHangupCallsOnHold), _dec16 = (0, _core.track)(_trackEvents.trackEvents.clickParticipantAreaCallControl), _dec17 = (0, _core.computed)(function (that) {
+}), _dec1 = (0, _core.track)(_trackEvents.trackEvents.clickCloseConfirmMergeModal), _dec10 = (0, _core.track)(_trackEvents.trackEvents.clickMergeConfirmMergeModal), _dec11 = (0, _core.track)(_trackEvents.trackEvents.clickAddCallsOnHold), _dec12 = (0, _core.track)(_trackEvents.trackEvents.clickMergeCallsOnHold), _dec13 = (0, _core.track)(_trackEvents.trackEvents.clickHangupCallsOnHold), _dec14 = (0, _core.track)(_trackEvents.trackEvents.clickParticipantAreaCallControl), _dec15 = (0, _core.computed)(function (that) {
   var _that$_deps$contactMa, _that$_deps$activityM;
   return [that.normalizedCalls, (_that$_deps$contactMa = that._deps.contactMatcher) === null || _that$_deps$contactMa === void 0 ? void 0 : _that$_deps$contactMa.dataMapping, (_that$_deps$activityM = that._deps.activityMatcher) === null || _that$_deps$activityM === void 0 ? void 0 : _that$_deps$activityM.dataMapping, that.callMatched];
-}), _dec18 = (0, _core.computed)(function (that) {
+}), _dec16 = (0, _core.computed)(function (that) {
   return [
   // Use "null" to avoid triggering get property unnecessarily that may cause issues
   that.useTelephonySession ? null : that.normalizedCallsFromPresence, that.useTelephonySession ? that.normalizedCallsFromTelephonySessions : null, that.useTelephonySession];
-}), _dec19 = (0, _core.computed)(function (that) {
+}), _dec17 = (0, _core.computed)(function (that) {
   var _that$_deps$webphone, _that$_deps$webphone2;
   return [that._deps.presence.calls, that._deps.accountInfo.countryCode, (_that$_deps$webphone = that._deps.webphone) === null || _that$_deps$webphone === void 0 ? void 0 : _that$_deps$webphone.sessions, (_that$_deps$webphone2 = that._deps.webphone) === null || _that$_deps$webphone2 === void 0 ? void 0 : _that$_deps$webphone2.cachedSessions];
-}), _dec20 = (0, _core.computed)(function (that) {
+}), _dec18 = (0, _core.computed)(function (that) {
   var _that$_deps$activeCal, _that$_deps$activeCal2, _that$_deps$activeCal3;
   return [(_that$_deps$activeCal = that._deps.activeCallControl) === null || _that$_deps$activeCal === void 0 ? void 0 : _that$_deps$activeCal.sessions, (_that$_deps$activeCal2 = that._deps.activeCallControl) === null || _that$_deps$activeCal2 === void 0 ? void 0 : _that$_deps$activeCal2.currentDeviceCallsMap, (_that$_deps$activeCal3 = that._deps.activeCallControl) === null || _that$_deps$activeCal3 === void 0 ? void 0 : _that$_deps$activeCal3.transferCallMapping, that._deps.accountInfo.countryCode, that._deps.presence.calls];
-}), _dec21 = (0, _core.computed)(function (that) {
+}), _dec19 = (0, _core.computed)(function (that) {
   var _that$_deps$conferenc3;
   return [that.allCalls, (_that$_deps$conferenc3 = that._deps.conferenceCall) === null || _that$_deps$conferenc3 === void 0 ? void 0 : _that$_deps$conferenc3.isMerging];
+}), _dec20 = (0, _core.computed)(function (that) {
+  return [that.calls, that.useTelephonySession];
+}), _dec21 = (0, _core.computed)(function (that) {
+  return [that.calls, that.useTelephonySession];
 }), _dec22 = (0, _core.computed)(function (that) {
   return [that.calls, that.useTelephonySession];
 }), _dec23 = (0, _core.computed)(function (that) {
-  return [that.calls, that.useTelephonySession];
-}), _dec24 = (0, _core.computed)(function (that) {
-  return [that.calls, that.useTelephonySession];
-}), _dec25 = (0, _core.computed)(function (that) {
   return [that._activeOnHoldCalls, that._activeCurrentCalls];
-}), _dec26 = (0, _core.computed)(function (that) {
+}), _dec24 = (0, _core.computed)(function (that) {
   return [that._activeCurrentCalls, that._activeOnHoldCalls];
-}), _dec27 = (0, _core.computed)(function (that) {
+}), _dec25 = (0, _core.computed)(function (that) {
   var _that$_deps$webphone3, _that$_deps$activeCal4;
   return [that.calls, (_that$_deps$webphone3 = that._deps.webphone) === null || _that$_deps$webphone3 === void 0 ? void 0 : _that$_deps$webphone3.lastEndedSessions, that.useTelephonySession, (_that$_deps$activeCal4 = that._deps.activeCallControl) === null || _that$_deps$activeCal4 === void 0 ? void 0 : _that$_deps$activeCal4.lastEndedSessionIds];
+}), _dec26 = (0, _core.computed)(function (that) {
+  return [that.normalizedCalls];
+}), _dec27 = (0, _core.computed)(function (that) {
+  return [that.normalizedCalls];
 }), _dec28 = (0, _core.computed)(function (that) {
-  return [that.normalizedCalls];
+  return [that.otherDeviceCalls];
 }), _dec29 = (0, _core.computed)(function (that) {
-  return [that.normalizedCalls];
+  return [that.otherDeviceCalls];
 }), _dec30 = (0, _core.computed)(function (that) {
   return [that.otherDeviceCalls];
-}), _dec31 = (0, _core.computed)(function (that) {
-  return [that.otherDeviceCalls];
-}), _dec32 = (0, _core.computed)(function (that) {
-  return [that.otherDeviceCalls];
 }), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
-  _inherits(CallMonitor, _RcModuleV);
-  var _super = _createSuper(CallMonitor);
   function CallMonitor(deps) {
     var _this$_deps$callMonit, _this$_deps$callMonit2, _this$_deps$callMonit3, _this$_deps$callMonit4;
     var _this;
     _classCallCheck(this, CallMonitor);
-    _this = _super.call(this, {
+    _this = _callSuper(this, CallMonitor, [{
       deps: deps,
       enableCache: true,
       storageKey: 'CallMonitor'
-    });
+    }]);
     _this._eventEmitter = new _events.EventEmitter();
     _this._useTelephonySession = (_this$_deps$callMonit = (_this$_deps$callMonit2 = _this._deps.callMonitorOptions) === null || _this$_deps$callMonit2 === void 0 ? void 0 : _this$_deps$callMonit2.useTelephonySession) !== null && _this$_deps$callMonit !== void 0 ? _this$_deps$callMonit : false;
     // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'NormalizedC... Remove this comment to see the full error message
     _this._normalizedCalls = null;
     _this._enableContactMatchWhenNewCall = (_this$_deps$callMonit3 = (_this$_deps$callMonit4 = _this._deps.callMonitorOptions) === null || _this$_deps$callMonit4 === void 0 ? void 0 : _this$_deps$callMonit4.enableContactMatchWhenNewCall) !== null && _this$_deps$callMonit3 !== void 0 ? _this$_deps$callMonit3 : true;
-    _initializerDefineProperty(_this, "callMatched", _descriptor, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "callMatched", _descriptor, _this);
     if (_this._deps.contactMatcher && _this._enableContactMatchWhenNewCall) {
       _this._deps.contactMatcher.addQuerySource({
         getQueriesFn: function getQueriesFn() {
@@ -170,7 +196,8 @@ var CallMonitor = (_dec = (0, _di.Module)({
     }
     return _this;
   }
-  _createClass(CallMonitor, [{
+  _inherits(CallMonitor, _RcModuleV);
+  return _createClass(CallMonitor, [{
     key: "setMatchedData",
     value: function setMatchedData(_ref) {
       var sessionId = _ref.sessionId,
@@ -491,7 +518,9 @@ var CallMonitor = (_dec = (0, _di.Module)({
       var combinedCalls = _toConsumableArray(this._deps.activeCallControl.sessions); // clone
       var _this$_deps$activeCal2 = this._deps.activeCallControl,
         currentDeviceCallsMap = _this$_deps$activeCal2.currentDeviceCallsMap,
-        transferCallMapping = _this$_deps$activeCal2.transferCallMapping; // mapping and sort
+        transferCallMapping = _this$_deps$activeCal2.transferCallMapping;
+
+      // mapping and sort
       // @ts-ignore
       this._normalizedCalls = (0, _ramda.sort)(function (l, r) {
         return (0, _webphoneHelper.sortByLastActiveTimeDesc)(l.webphoneSession, r.webphoneSession);
@@ -510,7 +539,8 @@ var CallMonitor = (_dec = (0, _di.Module)({
           sessionId = callItem.sessionId,
           startTime = callItem.startTime,
           isRecording = callItem.isRecording;
-        var id = callItem.activeCallId; // find id from presence call one time, due to telephony session event not push call id back
+        var id = callItem.activeCallId;
+        // find id from presence call one time, due to telephony session event not push call id back
         // with ringout call
         if (!id) {
           var presenceCall = _this6._deps.presence.calls.find(function (presenceCall) {
@@ -645,7 +675,7 @@ var CallMonitor = (_dec = (0, _di.Module)({
   }, {
     key: "otherDeviceCalls",
     get: function get() {
-      var _this10 = this,
+      var _this0 = this,
         _this$_deps$activeCal3,
         _this$_deps$webphone5;
       return (0, _ramda.reduce)(function (_ref2, callItem) {
@@ -666,7 +696,7 @@ var CallMonitor = (_dec = (0, _di.Module)({
         // TODO: refactor
         // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'boolean | N... Remove this comment to see the full error message
         var endCall = null;
-        if (_this10.useTelephonySession) {
+        if (_this0.useTelephonySession) {
           endCall = (0, _callMonitorHelper.isCurrentDeviceEndCall)(sessionsCache, callItem);
         } else {
           // @ts-expect-error TS(2322): Type 'NormalizedSession | undefined' is not assign... Remove this comment to see the full error message
@@ -733,14 +763,12 @@ var CallMonitor = (_dec = (0, _di.Module)({
       }, this.otherDeviceCalls);
     }
   }]);
-  return CallMonitor;
-}(_core.RcModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "callMatched", [_core.storage, _core.state], {
+}(_core.RcModuleV2), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "callMatched", [_core.storage, _core.state], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: function initializer() {
     return {};
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "setMatchedData", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setMatchedData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "inboundCallConnectedTrack", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "inboundCallConnectedTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "outboundCallConnectedTrack", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "outboundCallConnectedTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callItemClickTrack", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "callItemClickTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "allCallsClickHoldTrack", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "allCallsClickHoldTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "allCallsClickHangupTrack", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "allCallsClickHangupTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "allCallsClickRejectTrack", [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, "allCallsClickRejectTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callControlClickAddTrack", [_dec8], Object.getOwnPropertyDescriptor(_class2.prototype, "callControlClickAddTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "mergeControlClickHangupTrack", [_dec9], Object.getOwnPropertyDescriptor(_class2.prototype, "mergeControlClickHangupTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callControlClickMergeTrack", [_dec10], Object.getOwnPropertyDescriptor(_class2.prototype, "callControlClickMergeTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "confirmMergeClickCloseTrack", [_dec11], Object.getOwnPropertyDescriptor(_class2.prototype, "confirmMergeClickCloseTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "confirmMergeClickMergeTrack", [_dec12], Object.getOwnPropertyDescriptor(_class2.prototype, "confirmMergeClickMergeTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callsOnHoldClickAddTrack", [_dec13], Object.getOwnPropertyDescriptor(_class2.prototype, "callsOnHoldClickAddTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callsOnHoldClickMergeTrack", [_dec14], Object.getOwnPropertyDescriptor(_class2.prototype, "callsOnHoldClickMergeTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callsOnHoldClickHangupTrack", [_dec15], Object.getOwnPropertyDescriptor(_class2.prototype, "callsOnHoldClickHangupTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callControlClickParticipantAreaTrack", [_dec16], Object.getOwnPropertyDescriptor(_class2.prototype, "callControlClickParticipantAreaTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "allCalls", [_dec17], Object.getOwnPropertyDescriptor(_class2.prototype, "allCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "normalizedCalls", [_dec18], Object.getOwnPropertyDescriptor(_class2.prototype, "normalizedCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "normalizedCallsFromPresence", [_dec19], Object.getOwnPropertyDescriptor(_class2.prototype, "normalizedCallsFromPresence"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "normalizedCallsFromTelephonySessions", [_dec20], Object.getOwnPropertyDescriptor(_class2.prototype, "normalizedCallsFromTelephonySessions"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "calls", [_dec21], Object.getOwnPropertyDescriptor(_class2.prototype, "calls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "activeRingCalls", [_dec22], Object.getOwnPropertyDescriptor(_class2.prototype, "activeRingCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_activeOnHoldCalls", [_dec23], Object.getOwnPropertyDescriptor(_class2.prototype, "_activeOnHoldCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_activeCurrentCalls", [_dec24], Object.getOwnPropertyDescriptor(_class2.prototype, "_activeCurrentCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "activeOnHoldCalls", [_dec25], Object.getOwnPropertyDescriptor(_class2.prototype, "activeOnHoldCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "activeCurrentCalls", [_dec26], Object.getOwnPropertyDescriptor(_class2.prototype, "activeCurrentCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "otherDeviceCalls", [_dec27], Object.getOwnPropertyDescriptor(_class2.prototype, "otherDeviceCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "uniqueNumbers", [_dec28], Object.getOwnPropertyDescriptor(_class2.prototype, "uniqueNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "sessionIds", [_dec29], Object.getOwnPropertyDescriptor(_class2.prototype, "sessionIds"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "ringoutRingCalls", [_dec30], Object.getOwnPropertyDescriptor(_class2.prototype, "ringoutRingCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "ringoutCurrentCalls", [_dec31], Object.getOwnPropertyDescriptor(_class2.prototype, "ringoutCurrentCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "ringoutOnHoldCalls", [_dec32], Object.getOwnPropertyDescriptor(_class2.prototype, "ringoutOnHoldCalls"), _class2.prototype)), _class2)) || _class);
-exports.CallMonitor = CallMonitor;
+}), _applyDecoratedDescriptor(_class2.prototype, "setMatchedData", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setMatchedData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "inboundCallConnectedTrack", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "inboundCallConnectedTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "outboundCallConnectedTrack", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "outboundCallConnectedTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callItemClickTrack", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "callItemClickTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "allCallsClickHoldTrack", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "allCallsClickHoldTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "allCallsClickHangupTrack", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "allCallsClickHangupTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "allCallsClickRejectTrack", [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, "allCallsClickRejectTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callControlClickAddTrack", [_dec8], Object.getOwnPropertyDescriptor(_class2.prototype, "callControlClickAddTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "mergeControlClickHangupTrack", [_dec9], Object.getOwnPropertyDescriptor(_class2.prototype, "mergeControlClickHangupTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callControlClickMergeTrack", [_dec0], Object.getOwnPropertyDescriptor(_class2.prototype, "callControlClickMergeTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "confirmMergeClickCloseTrack", [_dec1], Object.getOwnPropertyDescriptor(_class2.prototype, "confirmMergeClickCloseTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "confirmMergeClickMergeTrack", [_dec10], Object.getOwnPropertyDescriptor(_class2.prototype, "confirmMergeClickMergeTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callsOnHoldClickAddTrack", [_dec11], Object.getOwnPropertyDescriptor(_class2.prototype, "callsOnHoldClickAddTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callsOnHoldClickMergeTrack", [_dec12], Object.getOwnPropertyDescriptor(_class2.prototype, "callsOnHoldClickMergeTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callsOnHoldClickHangupTrack", [_dec13], Object.getOwnPropertyDescriptor(_class2.prototype, "callsOnHoldClickHangupTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callControlClickParticipantAreaTrack", [_dec14], Object.getOwnPropertyDescriptor(_class2.prototype, "callControlClickParticipantAreaTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "allCalls", [_dec15], Object.getOwnPropertyDescriptor(_class2.prototype, "allCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "normalizedCalls", [_dec16], Object.getOwnPropertyDescriptor(_class2.prototype, "normalizedCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "normalizedCallsFromPresence", [_dec17], Object.getOwnPropertyDescriptor(_class2.prototype, "normalizedCallsFromPresence"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "normalizedCallsFromTelephonySessions", [_dec18], Object.getOwnPropertyDescriptor(_class2.prototype, "normalizedCallsFromTelephonySessions"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "calls", [_dec19], Object.getOwnPropertyDescriptor(_class2.prototype, "calls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "activeRingCalls", [_dec20], Object.getOwnPropertyDescriptor(_class2.prototype, "activeRingCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_activeOnHoldCalls", [_dec21], Object.getOwnPropertyDescriptor(_class2.prototype, "_activeOnHoldCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_activeCurrentCalls", [_dec22], Object.getOwnPropertyDescriptor(_class2.prototype, "_activeCurrentCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "activeOnHoldCalls", [_dec23], Object.getOwnPropertyDescriptor(_class2.prototype, "activeOnHoldCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "activeCurrentCalls", [_dec24], Object.getOwnPropertyDescriptor(_class2.prototype, "activeCurrentCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "otherDeviceCalls", [_dec25], Object.getOwnPropertyDescriptor(_class2.prototype, "otherDeviceCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "uniqueNumbers", [_dec26], Object.getOwnPropertyDescriptor(_class2.prototype, "uniqueNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "sessionIds", [_dec27], Object.getOwnPropertyDescriptor(_class2.prototype, "sessionIds"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "ringoutRingCalls", [_dec28], Object.getOwnPropertyDescriptor(_class2.prototype, "ringoutRingCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "ringoutCurrentCalls", [_dec29], Object.getOwnPropertyDescriptor(_class2.prototype, "ringoutCurrentCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "ringoutOnHoldCalls", [_dec30], Object.getOwnPropertyDescriptor(_class2.prototype, "ringoutOnHoldCalls"), _class2.prototype), _class2)) || _class);
 //# sourceMappingURL=CallMonitor.js.map

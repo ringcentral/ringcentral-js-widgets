@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -8,7 +9,7 @@ var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 /**
  * @deprecated should use `@ringcentral-integration/commons/enums/trackEvents` instead
  */
-var trackEvents = _ObjectMap.ObjectMap.fromObject({
+var trackEvents = exports.trackEvents = _ObjectMap.ObjectMap.fromObject({
   outbound: 'Outbound Call',
   mute: 'Call Control: Mute',
   unmute: 'Call Control: Unmute',
@@ -98,5 +99,4 @@ var trackEvents = _ObjectMap.ObjectMap.fromObject({
   changeSMSDirectoryTab: 'Click to navigate in compose SMS search result pages',
   openEntityDetailLink: 'Click hyperlink to view record'
 });
-exports.trackEvents = trackEvents;
 //# sourceMappingURL=trackEvents.js.map

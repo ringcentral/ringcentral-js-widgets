@@ -1,11 +1,8 @@
 "use strict";
 
-require("core-js/modules/es.array.for-each");
-require("core-js/modules/es.array.index-of");
-require("core-js/modules/es.date.now");
-require("core-js/modules/es.date.to-iso-string");
-require("core-js/modules/es.date.to-string");
-require("core-js/modules/web.dom-collections.for-each");
+require("core-js/modules/es.symbol.js");
+require("core-js/modules/es.array.index-of.js");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -13,12 +10,19 @@ exports.getISODateFrom = getISODateFrom;
 exports.getISODateTo = getISODateTo;
 exports.processData = processData;
 exports.processRecords = processRecords;
+require("core-js/modules/es.array.for-each.js");
+require("core-js/modules/es.date.now.js");
+require("core-js/modules/es.date.to-iso-string.js");
+require("core-js/modules/es.date.to-string.js");
+require("core-js/modules/es.object.to-string.js");
+require("core-js/modules/web.dom-collections.for-each.js");
 var _callActions = require("../../enums/callActions");
 var _callLogHelpers = require("../../lib/callLogHelpers");
 var _getDateFrom = _interopRequireDefault(require("../../lib/getDateFrom"));
+var _excluded = ["uri"];
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) { o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } } return i; }
-function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) { if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } } return t; }
+function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 function processData(data) {
   var _data$syncInfo;
   return {
@@ -47,7 +51,7 @@ function processRecords() {
     if (call.id && !ids[call.id] && call.action !== _callActions.callActions.findMe) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       var uri = call.uri,
-        removeUriCall = _objectWithoutProperties(call, ["uri"]);
+        removeUriCall = _objectWithoutProperties(call, _excluded);
       output.push((0, _callLogHelpers.normalizeStartTime)(removeUriCall));
       ids[call.id] = true;
     }

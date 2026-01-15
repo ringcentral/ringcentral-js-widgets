@@ -1,11 +1,12 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = exports.connectionStatus = void 0;
 var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
-var connectionStatus = _ObjectMap.ObjectMap.prefixKeys(['connecting',
+var connectionStatus = exports.connectionStatus = _ObjectMap.ObjectMap.prefixKeys(['connecting',
 // status by first 3 connect
 'connected',
 // registered
@@ -23,7 +24,5 @@ var connectionStatus = _ObjectMap.ObjectMap.prefixKeys(['connecting',
 // status when disconnect for inactive
 'inactive' // status when disconnected for inactive
 ], 'connectionStatus');
-exports.connectionStatus = connectionStatus;
-var _default = connectionStatus;
-exports["default"] = _default;
+var _default = exports["default"] = connectionStatus;
 //# sourceMappingURL=connectionStatus.js.map

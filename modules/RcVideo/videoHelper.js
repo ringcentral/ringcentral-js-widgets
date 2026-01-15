@@ -1,20 +1,24 @@
 "use strict";
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-require("core-js/modules/es.array.concat");
-require("core-js/modules/es.array.filter");
-require("core-js/modules/es.array.for-each");
-require("core-js/modules/es.array.includes");
-require("core-js/modules/es.array.index-of");
-require("core-js/modules/es.array.map");
-require("core-js/modules/es.date.to-string");
-require("core-js/modules/es.function.name");
-require("core-js/modules/es.object.entries");
-require("core-js/modules/es.object.keys");
-require("core-js/modules/es.regexp.exec");
-require("core-js/modules/es.string.includes");
-require("core-js/modules/es.string.split");
-require("core-js/modules/web.dom-collections.for-each");
+require("core-js/modules/es.symbol.js");
+require("core-js/modules/es.symbol.description.js");
+require("core-js/modules/es.symbol.iterator.js");
+require("core-js/modules/es.symbol.to-primitive.js");
+require("core-js/modules/es.array.from.js");
+require("core-js/modules/es.array.index-of.js");
+require("core-js/modules/es.array.is-array.js");
+require("core-js/modules/es.array.iterator.js");
+require("core-js/modules/es.array.slice.js");
+require("core-js/modules/es.date.to-primitive.js");
+require("core-js/modules/es.number.constructor.js");
+require("core-js/modules/es.object.define-properties.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/es.object.get-own-property-descriptor.js");
+require("core-js/modules/es.object.get-own-property-descriptors.js");
+require("core-js/modules/es.regexp.to-string.js");
+require("core-js/modules/es.string.iterator.js");
+require("core-js/modules/web.dom-collections.iterator.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -40,10 +44,24 @@ exports.transformPreferences = transformPreferences;
 exports.transformSettingLocks = transformSettingLocks;
 exports.validatePasswordSettings = validatePasswordSettings;
 exports.validateRandomPassword = validateRandomPassword;
+require("core-js/modules/es.array.concat.js");
+require("core-js/modules/es.array.filter.js");
+require("core-js/modules/es.array.for-each.js");
+require("core-js/modules/es.array.includes.js");
+require("core-js/modules/es.array.map.js");
+require("core-js/modules/es.date.to-string.js");
+require("core-js/modules/es.function.name.js");
+require("core-js/modules/es.object.entries.js");
+require("core-js/modules/es.object.keys.js");
+require("core-js/modules/es.object.to-string.js");
+require("core-js/modules/es.regexp.exec.js");
+require("core-js/modules/es.string.includes.js");
+require("core-js/modules/web.dom-collections.for-each.js");
 var _utils = require("@ringcentral-integration/utils");
 var _ramda = require("ramda");
 var _constants = require("./constants");
 var _i18n = _interopRequireDefault(require("./i18n"));
+var _excluded = ["name", "isMeetingSecret", "meetingPassword"];
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -52,45 +70,40 @@ function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
-function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) { n[e] = r[e]; } return n; }
-function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0) { ; } } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) { o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } } return i; }
-function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) { if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } } return t; }
+function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 /* TODO: this meetingProviderTypes is only used for calender-addon
  * if you want to use meetingProviderTypes
  * please turn to use MeetingProvider/interface
  */
-var meetingProviderTypes = {
+var meetingProviderTypes = exports.meetingProviderTypes = {
   meeting: 'RCMeetings',
   video: 'RCVideo'
 };
-exports.meetingProviderTypes = meetingProviderTypes;
-var RcVideoTypes = {
+var RcVideoTypes = exports.RcVideoTypes = {
   meeting: 0,
   // schedule
   call: 1 // instant meeting
 };
-exports.RcVideoTypes = RcVideoTypes;
 var RCV_CREATE_API_KEYS = ['name', 'type', 'startTime', 'expiresIn', 'duration', 'accountId', 'extensionId', 'allowJoinBeforeHost', 'muteAudio', 'muteVideo', 'isMeetingSecret', 'meetingPassword', 'isOnlyAuthUserJoin', 'isOnlyCoworkersJoin', 'allowScreenSharing', _constants.RCV_WAITING_ROOM_API_KEYS, _constants.RCV_E2EE_API_KEYS, 'allowAnyoneRecord', 'allowAnyoneTranscribe'];
-var RCV_PREFERENCES_IDS = ['e2ee', 'join_before_host',
+var RCV_PREFERENCES_IDS = exports.RCV_PREFERENCES_IDS = ['e2ee', 'join_before_host',
 // 'join_video_off',
 // 'join_audio_mute',
 'password_scheduled', 'password_instant', 'guest_join', 'join_authenticated_from_account_only', 'screen_sharing_host_only', 'waiting_room_guests_only', 'waiting_room', 'allow_anyone_record_meetings', 'allow_anyone_transcribe_meetings'];
-exports.RCV_PREFERENCES_IDS = RCV_PREFERENCES_IDS;
-var RCV_PREFERENCES_KEYS = ['allowJoinBeforeHost',
+var RCV_PREFERENCES_KEYS = exports.RCV_PREFERENCES_KEYS = ['allowJoinBeforeHost',
 // 'muteVideo',
 // 'muteAudio',
 'isMeetingSecret', 'isOnlyAuthUserJoin', 'isOnlyCoworkersJoin', 'allowScreenSharing', _constants.RCV_WAITING_ROOM_API_KEYS, _constants.RCV_E2EE_API_KEYS];
-exports.RCV_PREFERENCES_KEYS = RCV_PREFERENCES_KEYS;
-var RCV_E2EE_RELATED_KEYS = ['allowJoinBeforeHost', 'isMeetingSecret', 'isOnlyAuthUserJoin', 'isOnlyCoworkersJoin', _constants.RCV_WAITING_ROOM_API_KEYS];
-exports.RCV_E2EE_RELATED_KEYS = RCV_E2EE_RELATED_KEYS;
-var RCV_E2EE_DEFAULT_SECURITY_OPTIONS = {
+var RCV_E2EE_RELATED_KEYS = exports.RCV_E2EE_RELATED_KEYS = ['allowJoinBeforeHost', 'isMeetingSecret', 'isOnlyAuthUserJoin', 'isOnlyCoworkersJoin', _constants.RCV_WAITING_ROOM_API_KEYS];
+var RCV_E2EE_DEFAULT_SECURITY_OPTIONS = exports.RCV_E2EE_DEFAULT_SECURITY_OPTIONS = {
   allowJoinBeforeHost: false,
   isMeetingSecret: true,
   isOnlyAuthUserJoin: true,
@@ -101,7 +114,6 @@ var RCV_E2EE_DEFAULT_SECURITY_OPTIONS = {
 /* RCINT-14566
  * Exclude characters that are hard to visually differentiate ["0", "o", "O", "I", "l"]
  */
-exports.RCV_E2EE_DEFAULT_SECURITY_OPTIONS = RCV_E2EE_DEFAULT_SECURITY_OPTIONS;
 function getDefaultChars() {
   var DEFAULT_PASSWORD_CHARSET = 'abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ123456789';
   return DEFAULT_PASSWORD_CHARSET;
@@ -138,7 +150,7 @@ function getVideoSettings(data) {
     name = _data$name === void 0 ? 'Scheduled meeting' : _data$name,
     isMeetingSecret = data.isMeetingSecret,
     meetingPassword = data.meetingPassword,
-    params = _objectWithoutProperties(data, ["name", "isMeetingSecret", "meetingPassword"]);
+    params = _objectWithoutProperties(data, _excluded);
   var settings = _objectSpread(_objectSpread({}, params), {}, {
     name: name,
     type: RcVideoTypes.meeting,
@@ -412,7 +424,7 @@ var formatRcvRequestData = function formatRcvRequestData(params, numbers) {
     }))(parameters)
   };
 };
-var formatRcvInvitationRequestData = function formatRcvInvitationRequestData(params) {
+var formatRcvInvitationRequestData = exports.formatRcvInvitationRequestData = function formatRcvInvitationRequestData(params) {
   // format number
   var numbers = params.dialInNumbers.map(function (item) {
     return {
@@ -425,8 +437,7 @@ var formatRcvInvitationRequestData = function formatRcvInvitationRequestData(par
   });
   return formatRcvRequestData(params, numbers);
 };
-exports.formatRcvInvitationRequestData = formatRcvInvitationRequestData;
-var sortDialInNumbers = function sortDialInNumbers(numbers, currentLocale) {
+var sortDialInNumbers = exports.sortDialInNumbers = function sortDialInNumbers(numbers, currentLocale) {
   var defaultPhoneNumbers = numbers.filter(function (item) {
     return !item.premium;
   }).map(function (item) {
@@ -459,8 +470,7 @@ var sortDialInNumbers = function sortDialInNumbers(numbers, currentLocale) {
   });
   return [].concat(_toConsumableArray(defaultPhoneNumbers), _toConsumableArray(premiumNumbers), _toConsumableArray(tollFreeNumbers));
 };
-exports.sortDialInNumbers = sortDialInNumbers;
-var formatRcvInvitationRequestDataV2 = function formatRcvInvitationRequestDataV2(params) {
+var formatRcvInvitationRequestDataV2 = exports.formatRcvInvitationRequestDataV2 = function formatRcvInvitationRequestDataV2(params) {
   // format number
   var numbers = sortDialInNumbers(params.phoneNumbers, params.currentLocale);
   return formatRcvRequestData(params, numbers);
@@ -468,5 +478,4 @@ var formatRcvInvitationRequestDataV2 = function formatRcvInvitationRequestDataV2
 
 // TODO: will remove this when google app script could support export seperately
 // export together because google app script not fully support export
-exports.formatRcvInvitationRequestDataV2 = formatRcvInvitationRequestDataV2;
 //# sourceMappingURL=videoHelper.js.map

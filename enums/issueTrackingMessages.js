@@ -1,10 +1,10 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.issueTrackingMessages = void 0;
 var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
-var issueTrackingMessages = _ObjectMap.ObjectMap.prefixKeys(['downloadSuccess', 'downloadFail'], 'issueTracking');
-exports.issueTrackingMessages = issueTrackingMessages;
+var issueTrackingMessages = exports.issueTrackingMessages = _ObjectMap.ObjectMap.prefixKeys(['downloadSuccess', 'downloadFail'], 'issueTracking');
 //# sourceMappingURL=issueTrackingMessages.js.map

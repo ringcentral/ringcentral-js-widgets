@@ -1,11 +1,12 @@
 "use strict";
 
-require("core-js/modules/es.regexp.exec");
-require("core-js/modules/es.string.replace");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.normalizeEventFilter = normalizeEventFilter;
+require("core-js/modules/es.regexp.exec.js");
+require("core-js/modules/es.string.replace.js");
 // const apiUrlPrefixRegex = /^\/restapi\/v[\d]\.[\d]/;
 var accountRegex = /\/account\/[\d]+/;
 var extensionRegex = /\/extension\/[\d]+/;

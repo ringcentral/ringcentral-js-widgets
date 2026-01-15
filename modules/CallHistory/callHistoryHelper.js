@@ -1,12 +1,13 @@
 "use strict";
 
-require("core-js/modules/es.array.concat");
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.pickPhoneOrExtensionNumber = exports.pickFullPhoneNumber = exports.addNumbersFromCall = exports.addIfNotExist = void 0;
+require("core-js/modules/es.array.concat.js");
 var RC_EXTENSION_DELIMITER = '*';
-var addIfNotExist = function addIfNotExist(number, output, numberMap) {
+var addIfNotExist = exports.addIfNotExist = function addIfNotExist(number, output, numberMap) {
   if (!numberMap[number]) {
     output.push(number);
     numberMap[number] = true;
@@ -16,22 +17,20 @@ var addIfNotExist = function addIfNotExist(number, output, numberMap) {
 // NOTE:
 // business logic for commons for now
 // return phone number only.
-exports.addIfNotExist = addIfNotExist;
 var pickPhoneNumber = function pickPhoneNumber(phoneNumber) {
   return phoneNumber;
 };
 
 // @ts-expect-error TS(2322): Type '(phoneNumber: string, extension: string) => ... Remove this comment to see the full error message
-var pickPhoneOrExtensionNumber = function pickPhoneOrExtensionNumber(phoneNumber, extension) {
+var pickPhoneOrExtensionNumber = exports.pickPhoneOrExtensionNumber = function pickPhoneOrExtensionNumber(phoneNumber, extension) {
   return phoneNumber || extension;
 };
-exports.pickPhoneOrExtensionNumber = pickPhoneOrExtensionNumber;
 var formatExt = function formatExt(num) {
   return "".concat(RC_EXTENSION_DELIMITER).concat(num);
 };
 
 // @ts-expect-error TS(2322): Type '(phoneNumber: string, extensionNumber: strin... Remove this comment to see the full error message
-var pickFullPhoneNumber = function pickFullPhoneNumber(phoneNumber, extensionNumber) {
+var pickFullPhoneNumber = exports.pickFullPhoneNumber = function pickFullPhoneNumber(phoneNumber, extensionNumber) {
   var number = phoneNumber;
   if (phoneNumber && extensionNumber) {
     number = "".concat(phoneNumber).concat(formatExt(extensionNumber));
@@ -40,8 +39,7 @@ var pickFullPhoneNumber = function pickFullPhoneNumber(phoneNumber, extensionNum
   }
   return number;
 };
-exports.pickFullPhoneNumber = pickFullPhoneNumber;
-var addNumbersFromCall = function addNumbersFromCall(output, numberMap) {
+var addNumbersFromCall = exports.addNumbersFromCall = function addNumbersFromCall(output, numberMap) {
   var pickingFullNumber = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
   return function (call) {
     var pickNumber = pickingFullNumber ? pickFullPhoneNumber : pickPhoneNumber;
@@ -59,5 +57,4 @@ var addNumbersFromCall = function addNumbersFromCall(output, numberMap) {
     }
   };
 };
-exports.addNumbersFromCall = addNumbersFromCall;
 //# sourceMappingURL=callHistoryHelper.js.map

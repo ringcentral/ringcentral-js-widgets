@@ -1,19 +1,29 @@
 "use strict";
 
-require("core-js/modules/es.symbol");
-require("core-js/modules/es.symbol.description");
-require("core-js/modules/es.symbol.to-primitive");
-require("core-js/modules/es.array.for-each");
-require("core-js/modules/es.date.to-primitive");
-require("core-js/modules/es.number.constructor");
-require("core-js/modules/es.object.to-string");
-require("core-js/modules/web.dom-collections.for-each");
+require("core-js/modules/es.symbol.js");
+require("core-js/modules/es.symbol.description.js");
+require("core-js/modules/es.symbol.iterator.js");
+require("core-js/modules/es.array.filter.js");
+require("core-js/modules/es.array.iterator.js");
+require("core-js/modules/es.object.define-properties.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/es.object.get-own-property-descriptor.js");
+require("core-js/modules/es.object.get-own-property-descriptors.js");
+require("core-js/modules/es.object.keys.js");
+require("core-js/modules/es.string.iterator.js");
+require("core-js/modules/web.dom-collections.iterator.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = getGlipPostsReducer;
 exports.getGlipPersonStoreReducer = getGlipPersonStoreReducer;
 exports.getGlipPersonsStatusReducer = getGlipPersonsStatusReducer;
+require("core-js/modules/es.symbol.to-primitive.js");
+require("core-js/modules/es.array.for-each.js");
+require("core-js/modules/es.date.to-primitive.js");
+require("core-js/modules/es.number.constructor.js");
+require("core-js/modules/es.object.to-string.js");
+require("core-js/modules/web.dom-collections.for-each.js");
 var _redux = require("redux");
 var _getModuleStatusReducer = _interopRequireDefault(require("../../lib/getModuleStatusReducer"));
 var _status = _interopRequireDefault(require("./status"));

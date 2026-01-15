@@ -1,11 +1,12 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.subscriptionFilters = exports["default"] = void 0;
 var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
-var subscriptionFilters = _ObjectMap.ObjectMap.fromObject({
+var subscriptionFilters = exports.subscriptionFilters = _ObjectMap.ObjectMap.fromObject({
   presence: '/restapi/v1.0/account/~/extension/~/presence',
   detailedPresence: '/restapi/v1.0/account/~/extension/~/presence?detailedTelephonyState=true&sipData=true&totalActiveCalls',
   extensionInfo: '/restapi/v1.0/account/~/extension/~',
@@ -25,7 +26,5 @@ var subscriptionFilters = _ObjectMap.ObjectMap.fromObject({
   glipPosts: '/restapi/v1.0/glip/posts',
   glipGroups: '/restapi/v1.0/glip/groups'
 });
-exports.subscriptionFilters = subscriptionFilters;
-var _default = subscriptionFilters;
-exports["default"] = _default;
+var _default = exports["default"] = subscriptionFilters;
 //# sourceMappingURL=subscriptionFilters.js.map

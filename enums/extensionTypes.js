@@ -1,11 +1,12 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.extensionTypes = exports["default"] = void 0;
 var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
-var extensionTypes = _ObjectMap.ObjectMap.fromObject({
+var extensionTypes = exports.extensionTypes = _ObjectMap.ObjectMap.fromObject({
   announcement: 'Announcement',
   applicationExtension: 'ApplicationExtension',
   bot: 'Bot',
@@ -23,7 +24,5 @@ var extensionTypes = _ObjectMap.ObjectMap.fromObject({
   virtualUser: 'VirtualUser',
   voicemail: 'Voicemail'
 });
-exports.extensionTypes = extensionTypes;
-var _default = extensionTypes;
-exports["default"] = _default;
+var _default = exports["default"] = extensionTypes;
 //# sourceMappingURL=extensionTypes.js.map

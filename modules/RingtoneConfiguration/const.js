@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -31,7 +32,7 @@ var _Soothing = _interopRequireDefault(require("./audio/Soothing.mp3"));
 var _Sunshine = _interopRequireDefault(require("./audio/Sunshine.mp3"));
 var _incoming = _interopRequireDefault(require("./audio/incoming.mp3"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var RINGS_TYPE = /*#__PURE__*/function (RINGS_TYPE) {
+var RINGS_TYPE = exports.RINGS_TYPE = /*#__PURE__*/function (RINGS_TYPE) {
   RINGS_TYPE["Phone_Ring1"] = "phone_ring1";
   RINGS_TYPE["Phone_Ring2"] = "phone_ring2";
   RINGS_TYPE["Acoustic_Dreams"] = "acoustic_dreams";
@@ -61,8 +62,7 @@ var RINGS_TYPE = /*#__PURE__*/function (RINGS_TYPE) {
   RINGS_TYPE["Off"] = "off";
   return RINGS_TYPE;
 }({});
-exports.RINGS_TYPE = RINGS_TYPE;
-var DEFAULT_RINGTONE_LIST = [{
+var DEFAULT_RINGTONE_LIST = exports.DEFAULT_RINGTONE_LIST = [{
   id: RINGS_TYPE.Phone_Ring1,
   url: _incoming["default"]
 }, {
@@ -144,9 +144,6 @@ var DEFAULT_RINGTONE_LIST = [{
   id: RINGS_TYPE.Off,
   url: ''
 }];
-exports.DEFAULT_RINGTONE_LIST = DEFAULT_RINGTONE_LIST;
-var MAX_CUSTOM_RINGTONE_COUNT = 10;
-exports.MAX_CUSTOM_RINGTONE_COUNT = MAX_CUSTOM_RINGTONE_COUNT;
-var MAX_RINGTONE_SIZE = 5 * 1024 * 1024;
-exports.MAX_RINGTONE_SIZE = MAX_RINGTONE_SIZE;
+var MAX_CUSTOM_RINGTONE_COUNT = exports.MAX_CUSTOM_RINGTONE_COUNT = 10;
+var MAX_RINGTONE_SIZE = exports.MAX_RINGTONE_SIZE = 5 * 1024 * 1024;
 //# sourceMappingURL=const.js.map

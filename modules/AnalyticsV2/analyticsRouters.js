@@ -1,10 +1,11 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.trackRouters = void 0;
-var trackRouters = [{
+var trackRouters = exports.trackRouters = [{
   eventPostfix: 'Dialer',
   router: '/dialer'
 }, {
@@ -47,5 +48,4 @@ var trackRouters = [{
   eventPostfix: 'Add',
   router: '/conferenceCall'
 }];
-exports.trackRouters = trackRouters;
 //# sourceMappingURL=analyticsRouters.js.map

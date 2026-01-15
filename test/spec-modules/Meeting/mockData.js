@@ -1,16 +1,16 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.SAVED_DEFAULT_MEETING_SETTING = exports.MOCK_TURN_OFF_3RD_PARTY_AUDIO = exports.MOCK_PERSONAL_MEETING = exports.LAST_MEETING_SETTING = exports.EXPECT_SAVE_AS_DEFAULT_SETTING = exports.EXPECT_PMI_DEFAULT_SETTING_WITH_SW_SETTING = exports.EXPECT_LAST_MEETING_SETTING = exports.EXPECT_GENERAL_DEFAULT_SETTING_WITH_SW_SETTING = void 0;
 var _meetingHelper = require("../../../helpers/meetingHelper");
-var MOCK_TURN_OFF_3RD_PARTY_AUDIO = {
+var MOCK_TURN_OFF_3RD_PARTY_AUDIO = exports.MOCK_TURN_OFF_3RD_PARTY_AUDIO = {
   audioConferenceInfo: '',
   thirdPartyAudio: false
 };
-exports.MOCK_TURN_OFF_3RD_PARTY_AUDIO = MOCK_TURN_OFF_3RD_PARTY_AUDIO;
-var MOCK_PERSONAL_MEETING = {
+var MOCK_PERSONAL_MEETING = exports.MOCK_PERSONAL_MEETING = {
   topic: 'RingCentral Meeting',
   meetingType: 'Scheduled',
   password: '123456',
@@ -58,8 +58,7 @@ var MOCK_PERSONAL_MEETING = {
   autoRecordType: 'none',
   shortId: '6993012426'
 };
-exports.MOCK_PERSONAL_MEETING = MOCK_PERSONAL_MEETING;
-var EXPECT_PMI_DEFAULT_SETTING_WITH_SW_SETTING = {
+var EXPECT_PMI_DEFAULT_SETTING_WITH_SW_SETTING = exports.EXPECT_PMI_DEFAULT_SETTING_WITH_SW_SETTING = {
   _saved: false,
   _showDate: false,
   _showTime: false,
@@ -83,8 +82,7 @@ var EXPECT_PMI_DEFAULT_SETTING_WITH_SW_SETTING = {
   topic: "extensionName's Meeting",
   usePersonalMeetingId: true
 };
-exports.EXPECT_PMI_DEFAULT_SETTING_WITH_SW_SETTING = EXPECT_PMI_DEFAULT_SETTING_WITH_SW_SETTING;
-var SAVED_DEFAULT_MEETING_SETTING = {
+var SAVED_DEFAULT_MEETING_SETTING = exports.SAVED_DEFAULT_MEETING_SETTING = {
   allowJoinBeforeHost: true,
   startHostVideo: true,
   startParticipantsVideo: true,
@@ -92,8 +90,7 @@ var SAVED_DEFAULT_MEETING_SETTING = {
   _requireMeetingPassword: true,
   _saved: true
 };
-exports.SAVED_DEFAULT_MEETING_SETTING = SAVED_DEFAULT_MEETING_SETTING;
-var LAST_MEETING_SETTING = {
+var LAST_MEETING_SETTING = exports.LAST_MEETING_SETTING = {
   allowJoinBeforeHost: false,
   startHostVideo: false,
   startParticipantsVideo: false,
@@ -101,8 +98,7 @@ var LAST_MEETING_SETTING = {
   _requireMeetingPassword: false,
   _saved: false
 };
-exports.LAST_MEETING_SETTING = LAST_MEETING_SETTING;
-var EXPECT_SAVE_AS_DEFAULT_SETTING = {
+var EXPECT_SAVE_AS_DEFAULT_SETTING = exports.EXPECT_SAVE_AS_DEFAULT_SETTING = {
   _requireMeetingPassword: true,
   _saved: true,
   _showDate: false,
@@ -126,8 +122,7 @@ var EXPECT_SAVE_AS_DEFAULT_SETTING = {
   topic: "extensionName's Meeting",
   usePersonalMeetingId: false
 };
-exports.EXPECT_SAVE_AS_DEFAULT_SETTING = EXPECT_SAVE_AS_DEFAULT_SETTING;
-var EXPECT_LAST_MEETING_SETTING = {
+var EXPECT_LAST_MEETING_SETTING = exports.EXPECT_LAST_MEETING_SETTING = {
   _requireMeetingPassword: false,
   _saved: false,
   _showDate: false,
@@ -151,8 +146,7 @@ var EXPECT_LAST_MEETING_SETTING = {
   topic: "extensionName's Meeting",
   usePersonalMeetingId: false
 };
-exports.EXPECT_LAST_MEETING_SETTING = EXPECT_LAST_MEETING_SETTING;
-var EXPECT_GENERAL_DEFAULT_SETTING_WITH_SW_SETTING = {
+var EXPECT_GENERAL_DEFAULT_SETTING_WITH_SW_SETTING = exports.EXPECT_GENERAL_DEFAULT_SETTING_WITH_SW_SETTING = {
   _lockRequireMeetingPassword: false,
   _pmiPassword: '',
   _requireMeetingPassword: false,
@@ -179,5 +173,4 @@ var EXPECT_GENERAL_DEFAULT_SETTING_WITH_SW_SETTING = {
   topic: "extensionName's Meeting",
   usePersonalMeetingId: false
 };
-exports.EXPECT_GENERAL_DEFAULT_SETTING_WITH_SW_SETTING = EXPECT_GENERAL_DEFAULT_SETTING_WITH_SW_SETTING;
 //# sourceMappingURL=mockData.js.map
