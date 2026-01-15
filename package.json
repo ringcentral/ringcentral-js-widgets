@@ -57,7 +57,7 @@
     "node": ">=20.0.0"
   },
   "dependencies": {
-    "execa": "^1.0.0",
-    "fs-extra": "^7.0.1"
+    "execa": "^9.6.1",
+    "fs-extra": "^10.1.0"
   }
 }

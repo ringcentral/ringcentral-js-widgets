@@ -14,7 +14,6 @@
     "test:debug": "node --inspect node_modules/.bin/jest --runInBand",
     "test:dev": "jest",
     "test:legacy": "yarn jest --config=legacyTest.config.js",
-    "test:showCoverage": "cat ./coverage/lcov.info | coveralls",
     "test:watch": "yarn test -- --watch",
     "update-snapshot": "yarn test --testMatch='**/*.snapshot.*.(ts|tsx|js)' -u"
   },
@@ -37,7 +36,6 @@
     "@ringcentral/subscriptions": "^4.5.0",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.3",
     "babel-jest": "^29.7.0",
-    "coveralls": "^3.0.4",
     "dotenv": "^6.2.0",
     "enzyme": "^3.7.0",
     "enzyme-to-json": "^3.3.4",
