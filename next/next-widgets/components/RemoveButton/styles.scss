@@ -1,0 +1,41 @@
+.container {
+  text-decoration: none;
+  color: #666666;
+  cursor: pointer;
+  &:hover {
+    text-decoration: none;
+    color: #666666;
+  }
+}
+
+.deleteIcon {
+  width: 1em;
+  height: 1em;
+}
+
+.icon {
+  width: 1em;
+  height: 1em;
+  g {
+    fill: none;
+  }
+  path {
+    fill: currentColor;
+  }
+  circle {
+    stroke-width: 0.5;
+    stroke: currentColor;
+  }
+}
+
+.hideRemoveButton {
+  color: transparent;
+  text-decoration: none !important;
+  cursor: unset;
+  &:hover {
+    color: transparent;
+  }
+  &:focus {
+    outline: none;
+  }
+}

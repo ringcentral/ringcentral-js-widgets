@@ -1,0 +1,16 @@
+export default {
+  preview: 'Preview',
+  coverNone: 'None',
+  createNewFax: 'Create new fax',
+  from: 'Fax from',
+  toPlaceholder: 'Enter a fax number or a contact number',
+  coverPage: 'Cover page',
+  coverPageNote: 'Notes [optional]',
+  attachFileButtonTitle: 'Attach files',
+  attachmentDescription: '*maximum file size: {maxAllowedSize} MB',
+  cancel: 'Cancel',
+  sendNow: 'Send now',
+  sendLater: 'Send later',
+  attach: 'Attach',
+  attachFiles: 'Attach files',
+};

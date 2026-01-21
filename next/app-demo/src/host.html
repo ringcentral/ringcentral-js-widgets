@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%= meta %> <%= font %>
+    <title>Demo host page</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        width: 100%;
+        background: rgba(221, 223, 229, 0.5);
+      }
+      iframe {
+        height: 540px;
+        width: 300px;
+        /* same color from spring-ui */
+        border: 1px solid rgba(221, 223, 229);
+        resize: both;
+        position: fixed;
+        bottom: 0;
+        left: 30px;
+        transition: all 0.5s;
+      }
+      .expand {
+        width: 600px;
+      }
+      .action {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+        display: flex;
+        gap: 0.5rem;
+        padding: 0.5rem;
+        width: 100%;
+      }
+      input {
+        flex: 1 1 auto;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <input
+      type="text"
+      value="try focus and toggle the iframe, the iframe focus should not grab the current focus status"
+    />
+    <div>
+      <button id="toggle">Simulate show hide</button>
+    </div>
+    <div>
+      <button id="change">change position</button>
+    </div>
+    <div>
+      <iframe
+        src="./index.html"
+        width="100%"
+        height="100%"
+        frameborder="0"
+      ></iframe>
+    </div>
+  </body>
+</html>

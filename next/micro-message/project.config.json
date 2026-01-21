@@ -1,0 +1,42 @@
+{
+  "$schema": "../../libs/next-builder/src/projectConfigSchema.json",
+  "distPath": "dist",
+  "buildPath": "build",
+  "themePath": "src",
+  "pages": [
+    {
+      "index": "src/index.html",
+      "main": "src/main.ts"
+    },
+    {
+      "index": "pages/proxy/proxy.html",
+      "main": "pages/proxy/proxy.ts"
+    },
+    {
+      "index": "pages/redirect/redirect.html",
+      "main": "pages/redirect/redirect.ts"
+    }
+  ],
+  "assets": ["src/assets", "src/icon.svg"],
+  "environment": {
+    "local": {
+      "brand": ["rc"],
+      "mode": "development"
+    },
+
+    "dev": {
+      "brand": ["rc"],
+      "mode": "production"
+    },
+    "reg": {
+      "brand": ["rc"],
+      "mode": "production"
+    },
+    "prod": {
+      "brand": ["rc"],
+      "mode": "production"
+    }
+  },
+  "appConfigPath": "config/index.ts",
+  "devServerPort": 8086
+}

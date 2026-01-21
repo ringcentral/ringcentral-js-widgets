@@ -1,0 +1,95 @@
+@import '~@ringcentral-integration/widgets/lib/commonStyles/colors';
+
+.root {
+  position: relative;
+  display: block;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 354px;
+  padding: 0 15px;
+}
+
+.message {
+  width: 100%;
+
+  &:first-child {
+    margin-top: 10px;
+  }
+
+  &:last-child {
+    margin-bottom: 10px;
+  }
+}
+
+.time {
+  text-align: center;
+  margin-bottom: 10px;
+  clear: both;
+}
+
+.sender {
+  clear: both;
+  margin-bottom: 1px;
+}
+
+.imageBody,
+.messageBody {
+  clear: both;
+  position: relative;
+  display: inline-block;
+  margin-bottom: 10px;
+  max-width: 90%;
+  text-align: left;
+  hyphens: auto;
+  border-radius: 16px;
+  min-height: 13px;
+  box-sizing: content-box;
+  /* For Firefox */
+  white-space: pre-wrap;
+  word-break: break-word;
+  /* For Chrome and IE */
+  word-wrap: break-word;
+}
+
+.messageBody {
+  padding: 10px 15px;
+}
+
+.messageBody.big {
+  width: 85%;
+  max-width: 85%;
+}
+
+.clear {
+  clear: both;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+.loading {
+  text-align: center;
+  line-height: 40px;
+  font-size: 14px;
+}
+
+.picture {
+  width: 100%;
+}
+.ext {
+  white-space: nowrap;
+}
+
+.previewMedia {
+  &:hover,
+  &.focus-visible,
+  &[data-focus-visible-added] {
+    .hoverAction {
+      left: 0;
+      bottom: 0;
+      transform: translateY(0);
+    }
+  }
+}

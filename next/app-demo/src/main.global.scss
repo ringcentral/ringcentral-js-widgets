@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body,
+html,
+#app {
+  @apply h-full w-full;
+
+  @apply bg-neutral-base text-neutral-b0;
+}

@@ -1,0 +1,9 @@
+{
+  "extends": "../../packages/tsconfig.json",
+  "include": ["./**/*.ts", "./**/*.tsx", "./typings/**/*.d.ts"],
+  "files": [
+    "./typings/typings.d.ts",
+    "../../packages/ringcentral-widgets/typings/react.d.ts",
+    "../../packages/ringcentral-widgets/typings/typings.d.ts"
+  ]
+}

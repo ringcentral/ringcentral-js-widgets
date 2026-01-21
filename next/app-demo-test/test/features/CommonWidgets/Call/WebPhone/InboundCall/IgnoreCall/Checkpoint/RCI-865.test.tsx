@@ -1,0 +1,85 @@
+/**
+ * RCI-865: Second call incoming_Ignore
+ * https://test_it_domain/test-cases/RCI-865
+ * Preconditions:
+ *
+ * Entry point(/s):
+ * 1. Answer an inbound call, and make another incoming call
+ * 2. Make a outbound call, and make another incoming call
+ */
+import { Webphone } from '@ringcentral-integration/micro-phone/src/app/services';
+import {
+  autorun,
+  common,
+  examples,
+  it,
+  p1,
+  Scenario,
+  Step,
+  StepFunction,
+  Then,
+  title,
+  When,
+} from '@ringcentral-integration/test-utils';
+
+import {
+  AnswerCall,
+  CallButtonBehavior,
+  CheckIgnoreButton,
+  MakeCall,
+  MakeInboundCall,
+} from '../../../../../../../steps/Call';
+import { CommonLogin } from '../../../../../../../steps/CommonLogin';
+import { TriggerActiveCallChanged } from '../../../../../../../steps/Mock';
+
+@autorun(test.skip)
+@common
+@it
+@p1
+@title('Second call incoming_Ignore')
+export class RCI865 extends Step {
+  Login: StepFunction<any, any> = CommonLogin;
+  @examples(`
+    | direction  |
+    | 'Outbound' |
+    | 'Inbound'  |
+  `)
+  run() {
+    const { Login } = this;
+    return (
+      <Scenario desc="Second call incoming_Ignore" action={Login}>
+        <When
+          desc="Check the active call page"
+          action={({ direction }: any) => [
+            ((_, { app }) => {
+              const webphone = app.container.got(Webphone)!;
+              jest.spyOn(webphone, 'reject');
+            }) as StepFunction,
+            <MakeCall direction={direction} useUserAgentSession />,
+            direction === 'Inbound' ? AnswerCall : () => {},
+            <MakeInboundCall />,
+            <TriggerActiveCallChanged />,
+          ]}
+        />
+        <Then
+          desc="There should be an ignore button
+										[L10N]"
+          action={CheckIgnoreButton}
+        />
+        <When
+          desc="Click ignore button"
+          action={<CallButtonBehavior callButtonBehaviorType="ignore" />}
+        />
+        <Then
+          desc="User should stay on current call and the incoming call is ignored"
+          action={
+            (async (_, { app }) => {
+              const webphone = app.container.got(Webphone)!;
+              expect(webphone.reject).toHaveBeenCalled();
+            }) as StepFunction
+          }
+        />
+      </Scenario>
+    );
+  }
+}

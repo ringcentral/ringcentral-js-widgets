@@ -1,0 +1,41 @@
+{
+  "name": "@ringcentral-integration/app-demo",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Demo for RingCentral JS Widgets",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ringcentral/ringcentral-js-widget.git"
+  },
+  "scripts": {
+    "build": "yarn gulp build",
+    "serve": "http-server build/rc --cors -S -p 8081",
+    "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
+    "lint": "yarn eslint . --quiet",
+    "tsc-check": "yarn tsc --project tsconfig.lint.json --noEmit",
+    "pretest": "yarn tsc-check",
+    "test": "echo \"test view at app-demo-test project\"",
+    "start": "yarn gulp devServer",
+    "start:ext": "rm -rf ./browser-extension/build && yarn gulp devExtensionServer"
+  },
+  "dependencies": {
+    "@ringcentral-integration/next-core": "*",
+    "@ringcentral-integration/micro-auth": "*",
+    "@ringcentral-integration/micro-contacts": "*",
+    "@ringcentral-integration/micro-core": "*",
+    "@ringcentral-integration/micro-meeting": "*",
+    "@ringcentral-integration/micro-message": "*",
+    "@ringcentral-integration/micro-phone": "*",
+    "@ringcentral-integration/micro-setting": "*"
+  },
+  "nx": {
+    "tags": [
+      "scope:coverage-ignore",
+      "scope:ci-group-1",
+      "scope:ci-test"
+    ]
+  },
+  "ci": {
+    "@ringcentral-integration/app-demo": "**"
+  }
+}

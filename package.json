@@ -3,7 +3,8 @@
   "private": true,
   "workspaces": [
     "packages/*",
-    "crius/packages/*"
+    "crius/packages/*",
+    "next/*"
   ],
   "scripts": {
     "setup": "echo \"Error: no setup specified\" && exit 0",
@@ -33,17 +34,23 @@
   },
   "devDependencies": {
     "@ringcentral-integration/babel-settings": "*",
+    "@ringcentral/spring-theme": "^1.7.0",
     "@testing-library/jest-dom": "^6.9.1",
     "@types/fs-extra": "^11.0.4",
     "@types/glob": "^8.1.0",
     "@types/inquirer": "^6.5.0",
     "@types/node": "^20.11.0",
     "@types/through2": "^2.0.41",
+    "@types/uuid": "^10.0.0",
     "commitizen": "^4.3.1",
     "core-js": "^3.9.1",
     "cz-conventional-changelog": "^2.1.0",
     "eslint-settings": "*",
+    "observable-hooks": "^4.2.1",
+    "react-redux": "^7.2.8",
+    "react-router": "^5.3.1",
     "typescript-plugin-css-modules": "^5.2.0",
+    "tailwindcss": "^3.4.7",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.2",
     "serialize-error": "^7.0.1"

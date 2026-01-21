@@ -1,0 +1,32 @@
+[
+  {
+    "id": "b90e52a6-41a8-4fc1-a666-a4e87e01849f10.74.4.59-5070-bd67ea2d-48c0-424b-9",
+    "callId": "b90e52a6-41a8-4fc1-a666-a4e87e01849f",
+    "direction": "Inbound",
+    "callStatus": "webphone-session-connected",
+    "to": "18662425556*101",
+    "toUserName": "One Second",
+    "from": "102",
+    "fromUserName": "One Second",
+    "fromTag": "10.74.4.59-5070-bd67ea2d-48c0-424b-9",
+    "startTime": 1703657548817,
+    "creationTime": 1703657542258,
+    "isOnHold": false,
+    "isOnMute": false,
+    "isOnFlip": false,
+    "isOnTransfer": false,
+    "isToVoicemail": false,
+    "isForwarded": false,
+    "isReplied": false,
+    "recordStatus": "webphone-record-idle",
+    "minimized": false,
+    "partyData": {
+      "partyId": "p-a4a043b26ee4az18ca9e71172z91755f0000-2",
+      "sessionId": "s-a4a043b26ee4az18ca9e71172z91755f0000"
+    },
+    "lastActiveTime": 1703657542258,
+    "cached": false,
+    "removed": false,
+    "callQueueName": null
+  }
+]

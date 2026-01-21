@@ -1,0 +1,20 @@
+{
+  "uuid": "2503099500297674508",
+  "event": "/restapi/v1.0/account/295090004/extension/295090004/message-store",
+  "timestamp": "2024-03-06T05:49:49.619Z",
+  "subscriptionId": "6cb504e5-57d0-4693-8240-a2e5604070af",
+  "ownerId": "295090004",
+  "body": {
+    "accountId": 295090004,
+    "extensionId": 295090004,
+    "lastUpdated": "2024-03-06T05:49:39.633Z",
+    "changes": [
+      {
+        "type": "Fax",
+        "newCount": 0,
+        "updatedCount": 1,
+        "newMessageIds": []
+      }
+    ]
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "name": "@ringcentral-integration/micro-setting",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Demo for RingCentral JS Widgets",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ringcentral/ringcentral-js-widget.git"
+  },
+  "scripts": {
+    "build": "yarn gulp build",
+    "build-mfe": "yarn gulp build --brand rc --build-env prod",
+    "serve": "http-server build/rc --cors -p 8087",
+    "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
+    "lint": "yarn eslint . --quiet",
+    "test": "yarn run-test",
+    "e2e": "echo 'todo e2e'",
+    "start": "yarn gulp devServer",
+    "tsc-check": "yarn tsc --project tsconfig.lint.json --noEmit"
+  },
+  "dependencies": {
+    "@ringcentral/mfe-react": "^0.4.18",
+    "@ringcentral-integration/next-micro": "*",
+    "@ringcentral-integration/commons": "*",
+    "@ringcentral-integration/i18n": "*",
+    "@ringcentral-integration/next-core": "*",
+    "@ringcentral-integration/next-integration": "*",
+    "@ringcentral-integration/next-widgets": "*",
+    "@ringcentral-integration/utils": "*",
+    "@ringcentral-integration/widgets": "*",
+    "@ringcentral/juno": "^2.42.0",
+    "@ringcentral/juno-icon": "^1.80.0",
+    "ramda": "^0.28.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@ringcentral/mfe-builder": "^0.4.18",
+    "@ringcentral-integration/babel-settings": "*",
+    "@ringcentral-integration/mock": "*",
+    "@ringcentral-integration/locale-loader": "*",
+    "@ringcentral-integration/locale-settings": "*",
+    "@ringcentral-integration/next-builder": "*",
+    "@ringcentral-integration/test-utils": "*",
+    "webpack": "^5.89.0",
+    "webpack-dev-server": "^4.15.1"
+  },
+  "common": true,
+  "ci": {
+    "@ringcentral-integration/micro-setting": "**"
+  },
+  "nx": {
+    "tags": [
+      "scope:ci-group-1",
+      "scope:common-spring",
+      "scope:ci-test"
+    ]
+  }
+}

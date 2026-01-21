@@ -1,0 +1,44 @@
+{
+  "context": {
+    "brandId": "5010",
+    "country": {
+      "isoCode": "AU",
+      "name": "Australia (Commonwealth of)",
+      "callingCode": "61"
+    },
+    "defaultAreaCode": "8",
+    "vanityPhoneNumbersAllowed": true,
+    "maxExtensionNumberLength": 5,
+    "shortCodesAllowed": true,
+    "shortExtensionNumberLength": 5,
+    "maskedPhoneNumbersAllowed": false,
+    "conflictHandling": "Client"
+  },
+  "results": [
+    {
+      "originalString": "1014037",
+      "category": "Regular",
+      "numberDetails": {
+        "country": {
+          "isoCode": "AU",
+          "name": "Australia (Commonwealth of)",
+          "callingCode": "61"
+        },
+        "subscriberNumber": "1014037",
+        "status": "Possible"
+      },
+      "formats": [
+        {
+          "e164": "+611014037",
+          "e164Extended": "+611014037",
+          "national": "01014037",
+          "nationalExtended": "01014037",
+          "international": "+61 1014037",
+          "internationalExtended": "+61 101 4037",
+          "dialable": "01014037",
+          "dialableExtended": "01014037"
+        }
+      ]
+    }
+  ]
+}

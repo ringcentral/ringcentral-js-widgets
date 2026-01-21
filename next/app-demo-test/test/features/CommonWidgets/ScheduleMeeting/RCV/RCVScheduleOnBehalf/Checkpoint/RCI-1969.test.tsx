@@ -1,0 +1,57 @@
+/**
+ * RCI-1969: Schedule on behalf - no delegates
+ * https://test_it_domain/test-cases/RCI-1969
+ * Preconditions:
+ * User has RCV permission
+ * Already installed and logged in CTI app
+ * Entry point(/s):
+ * Scheduler:Login to Outlook: Calendar -> New Event > RingCentral Scheduler
+ * Outlook appointment: Login to Outlook > CalendarNew Meeting > RingCentral for Outlook
+ */
+import {
+  autorun,
+  common,
+  it,
+  p2,
+  Scenario,
+  Step,
+  StepFunction,
+  Then,
+  title,
+  When,
+} from '@ringcentral-integration/test-utils';
+import { screen } from '@testing-library/react';
+
+import { CommonLogin } from '../../../../../../steps/CommonLogin';
+import { CheckRCVPageDisplay } from '../../../../../../steps/Meeting';
+
+@autorun(test.skip)
+@common
+@it
+@p2
+@title('Schedule on behalf - no delegates')
+export class RCI1969 extends Step {
+  Login: StepFunction<any, any> = CommonLogin;
+  run() {
+    const { Login } = this;
+    return (
+      <Scenario desc="Schedule on behalf - no delegates">
+        <When
+          desc="Clear 'Delegates' in RCV web > Settings > Delegates, login app"
+          action={Login}
+        />
+        <Then
+          desc="'Schedule on behalf of' dropdown is not shown above 'Meeting settings' section"
+          action={[
+            CheckRCVPageDisplay,
+            () => {
+              expect(
+                screen.queryByTestId('scheduleFor'),
+              ).not.toBeInTheDocument();
+            },
+          ]}
+        />
+      </Scenario>
+    );
+  }
+}

@@ -1,0 +1,12 @@
+/* eslint-disable */
+export default {
+  getStart: 'Começar',
+  copy: 'Copie os seus novos números para uma partilha fácil',
+  welcome: 'Bem-vindo(a), {name}!',
+  accountReady: 'A sua conta está pronta. Comece por personalizar a aplicação.',
+} as const;
+
+// @key: @#@"getStart"@#@ @source: @#@"Get started"@#@
+// @key: @#@"copy"@#@ @source: @#@"Copy your new numbers for easy sharing"@#@
+// @key: @#@"welcome"@#@ @source: @#@"Welcome, {name}!"@#@
+// @key: @#@"accountReady"@#@ @source: @#@"Your account is ready. Get started by personalizing your app."@#@

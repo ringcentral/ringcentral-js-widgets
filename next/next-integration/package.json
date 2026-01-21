@@ -1,0 +1,20 @@
+{
+  "name": "@ringcentral-integration/next-integration",
+  "version": "0.0.1",
+  "scripts": {
+    "test": "yarn run-test"
+  },
+  "dependencies": {
+    "@ringcentral-integration/next-core": "*",
+    "@ringcentral-integration/utils": "*"
+  },
+  "devDependencies": {
+    "@ringcentral-integration/test-utils": "*"
+  },
+  "common": true,
+  "nx": {
+    "tags": [
+      "scope:ci-group-1"
+    ]
+  }
+}

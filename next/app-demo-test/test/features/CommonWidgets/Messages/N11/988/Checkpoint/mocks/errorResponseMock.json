@@ -1,0 +1,10 @@
+{
+  "errorCode": "InvalidParameter",
+  "message": "Sending SMS to short numbers is not available",
+  "errors": [
+    {
+      "errorCode": "MSG-247",
+      "message": "Sending SMS to short numbers is not available"
+    }
+  ]
+}

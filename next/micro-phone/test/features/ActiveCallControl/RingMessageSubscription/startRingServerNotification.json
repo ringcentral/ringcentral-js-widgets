@@ -1,0 +1,37 @@
+[
+  {
+    "type": "ServerNotification",
+    "messageId": "3831395897699861911",
+    "status": 200,
+    "headers": { "RCRequestId": "93ea666a-a2cd-11ee-9c83-005056be59dc" }
+  },
+  {
+    "uuid": "3831395897699861911",
+    "event": "/restapi/v1.0/account/335414004/extension/335414004/start-ring",
+    "timestamp": "2023-12-25T02:30:32.791Z",
+    "subscriptionId": "9c5bf39a-2c66-43e4-a927-737de24097b1",
+    "ownerId": "335414004",
+    "body": {
+      "uuid": "3831395897699861911",
+      "event": "/restapi/v1.0/account/335414004/extension/335414004/start-ring",
+      "timestamp": "2023-12-25T02:30:32.791Z",
+      "extensionId": 335414004,
+      "action": "StartRing",
+      "from": "102",
+      "fromName": "One Second",
+      "to": "101",
+      "toName": "Something1 New1",
+      "subscriptionId": "9c5bf39a-2c66-43e4-a927-737de24097b1",
+      "ownerId": "335414004",
+      "queueCall": false,
+      "srvLvl": "-149699523",
+      "srvLvlExt": "486",
+      "toUrl": "#26004@sip-xmrupxmn.intlabs_domain:5060",
+      "telephonySessionId": "s-a4a042e2d72bdz18c9ecf4334z747e460000",
+      "sessionId": "18992291004",
+      "partyId": "p-a4a042e2d72bdz18c9ecf4334z747e460000-2",
+      "serverId": "10.74.4.46.TAM",
+      "sid": "35203364379836"
+    }
+  }
+]

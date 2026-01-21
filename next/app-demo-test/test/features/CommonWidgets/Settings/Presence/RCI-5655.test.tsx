@@ -1,0 +1,128 @@
+/**
+ * RCI-5655: Keep accept call queue calls toggle set by the user
+ * https://test_it_domain/test-cases/RCI-5655
+ * Preconditions:
+ * 1. RC CTI app has installed and enabled
+ * 2. User must have logged into 3rd party
+ * 3. User must have logged into RC app
+ * 4. User is a call queue member of CallQueue1
+ * 5. User B is no call queue account
+ * Entry point(/s):
+ * > Go to Settings
+ */
+import { MockPostAuthentication } from '@ringcentral-integration/app-internal-demo-test/test/steps/Mock';
+import {
+  And,
+  autorun,
+  Given,
+  it,
+  p2,
+  Scenario,
+  Step,
+  StepFunction,
+  Then,
+  title,
+  WaitForRenderReady,
+  When,
+} from '@ringcentral-integration/test-utils';
+
+import { CommonLogin } from '../../../../steps/CommonLogin';
+import { CreateInstance } from '../../../../steps/CreateInstance';
+import {
+  CreateMock,
+  MockFeaturePermission,
+  MockMessageSync,
+  MockPresence,
+} from '../../../../steps/Mock';
+import { NavigateTo } from '../../../../steps/Router';
+import {
+  CheckAcceptCallQueueCalls,
+  ClickLogoutButton,
+  SetAcceptCallQueueCalls,
+  SetPresenceStatus,
+} from '../../../../steps/Settings';
+
+@autorun(test)
+@it
+@p2
+@title('Keep accept call queue calls toggle set by the user')
+class KeepAcceptCallQueueCalls extends Step {
+  Login: StepFunction<any, any> = (props) => (
+    <CommonLogin {...props} CreateInstance={CreateInstance} />
+  );
+  CreateMock: StepFunction<any, any> = CreateMock;
+
+  run() {
+    const { Login, CreateMock } = this;
+
+    return (
+      <Scenario desc="Keep accept call queue calls toggle set by the user">
+        <Given
+          desc="Create phone instance and login"
+          action={[
+            CreateMock,
+            <MockPostAuthentication repeat={0} />,
+            MockMessageSync,
+            MockPresence,
+            <MockFeaturePermission
+              featureId="AcceptQueueCalls"
+              available
+              isDefaultInit
+            />,
+            Login,
+          ]}
+        />
+        <And
+          desc="App navigate to setting page"
+          action={<NavigateTo path="/settings" />}
+        />
+        <When
+          desc="Turn off the 'Accept call queue calls' toggle, then logout then login again
+										Select 'Do not disturb' in the 'Status' section"
+          action={[
+            // Turn off the 'Accept call queue calls' toggle
+            <SetAcceptCallQueueCalls isAccept={false} />,
+
+            // logout
+            ClickLogoutButton,
+            WaitForRenderReady,
+
+            // login again
+            <CommonLogin
+              CreateInstance={() => {
+                global.instance.rcMock.init();
+              }}
+            />,
+
+            // Select 'Do not disturb' in the 'Status' section
+            <NavigateTo path="/settings" />,
+            <SetPresenceStatus presence="DND" />,
+          ]}
+        />
+        <Then
+          desc="'Accept call queue calls' toggle is turned off
+										The toggle is disabled for editing"
+          action={
+            <CheckAcceptCallQueueCalls isAccept={false} isDisabled={true} />
+          }
+        />
+        <When
+          desc="Select status other than 'Do not disturb'"
+          action={<SetPresenceStatus presence="available" />}
+        />
+        <Then
+          desc="'Accept call queue calls' toggle is keep turn off
+										The toggle is editable"
+          action={
+            <CheckAcceptCallQueueCalls isAccept={false} isDisabled={false} />
+          }
+        />
+        {/* <When
+          desc="Logout then login with user B, change status to 'Do not Disturb' then change status to 'Available'"
+          action={}
+        />
+        <Then desc="Change status successfully" action={} /> */}
+      </Scenario>
+    );
+  }
+}

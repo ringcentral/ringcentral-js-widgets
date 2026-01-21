@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "./**/*.ts",
+    "./**/*.tsx",
+    "./typings/**/*",
+    "../../ringcentral-js-widgets/ringcentral-integration/typings/**/*",
+    "../../ringcentral-js-widgets/ringcentral-widgets/typings/**/*",
+    "../../ringcentral-js-widgets/test-utils/lib/global.d.ts"
+  ],
+  "compilerOptions": {
+    "checkJs": false
+  }
+}

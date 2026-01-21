@@ -1,0 +1,45 @@
+{
+  "name": "@ringcentral-integration/next-builder",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "license": "ISC",
+  "main": "index.ts",
+  "bin": {
+    "mfe": "bin/mfe.js"
+  },
+  "type": "commonjs",
+  "scripts": {
+    "test": "yarn run-test",
+    "build:schema": "typescript-json-schema src/getProjectConfig.ts ProjectConfigFileSchema -o src/projectConfigSchema.json --ignoreErrors",
+    "buildIndex18n": "ts-node ./scripts/pack-inline.ts",
+    "update-snapshot": "yarn test --testMatch='**/*.snapshot.*.(ts|tsx|js)' -u"
+  },
+  "dependencies": {
+    "@ringcentral-integration/next-core": "*",
+    "@ringcentral-integration/next-integration": "*",
+    "@ringcentral-integration/next-widgets": "*",
+    "@ringcentral-integration/widgets": "*",
+    "@ringcentral-integration/i18n": "*",
+    "@types/cli-table": "^0.3.1",
+    "@types/cors": "^2.8.17",
+    "cli-table": "^0.3.11",
+    "copy-webpack-plugin": "^11.0.0",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "fs-extra": "^10.1.0",
+    "html-webpack-plugin": "^5.3.2",
+    "typescript-json-schema": "^0.54.0",
+    "webpack": "^5.89.0",
+    "webpack-merge": "^5.10.0"
+  },
+  "ci": {
+    "@ringcentral-integration/next-builder": "**"
+  },
+  "nx": {
+    "tags": [
+      "scope:ci-group-1",
+      "scope:ci-test"
+    ]
+  }
+}

@@ -1,0 +1,48 @@
+[
+  {
+    "type": "ServerNotification",
+    "messageId": "2962505524648419937",
+    "status": 200,
+    "headers": { "RCRequestId": "919a771a-a2c3-11ee-a04a-005056be59dc" }
+  },
+  {
+    "uuid": "2962505524648419937",
+    "event": "/restapi/v1.0/account/335414004/extension/335414004/telephony/sessions",
+    "timestamp": "2023-12-25T01:18:53.946Z",
+    "subscriptionId": "d8de77de-c908-4419-88ce-49fb4a1b9484",
+    "ownerId": "335414004",
+    "body": {
+      "sequence": 6,
+      "sessionId": "18963517004",
+      "telephonySessionId": "s-a4a042e2d72bdz18c9e8d99e8z73dd7b0000",
+      "serverId": "10.74.4.46.TAM",
+      "eventTime": "2023-12-25T01:18:53.855Z",
+      "parties": [
+        {
+          "accountId": "335414004",
+          "extensionId": "335414004",
+          "id": "p-a4a042e2d72bdz18c9e8d99e8z73dd7b0000-2",
+          "direction": "Inbound",
+          "to": {
+            "phoneNumber": "101",
+            "name": "Something1 New1",
+            "extensionId": "335414004"
+          },
+          "from": {
+            "phoneNumber": "102",
+            "name": "One Second",
+            "extensionId": "335954004",
+            "deviceId": "302822004"
+          },
+          "status": { "code": "Answered", "rcc": false },
+          "park": {},
+          "missedCall": false,
+          "standAlone": false,
+          "muted": false,
+          "ringOutRole": "Initiator"
+        }
+      ],
+      "origin": { "type": "RingOut" }
+    }
+  }
+]

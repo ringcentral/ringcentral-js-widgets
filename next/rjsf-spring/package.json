@@ -1,0 +1,30 @@
+{
+  "name": "@ringcentral-integration/rjsf-spring",
+  "version": "0.0.1",
+  "comment": "TODO: the test should be fix, the snapshot-test with rjsf need esm, should check later",
+  "scripts": {
+    "test": "yarn run-test",
+    "tsc-check": "yarn tsc --project tsconfig.lint.json --noEmit",
+    "update-snapshot": "yarn test  -u"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3",
+    "@rjsf/snapshot-tests": "^5.18.3"
+  },
+  "dependencies": {
+    "@ringcentral/spring-ui": "1.7.0",
+    "@ringcentral/spring-icon": "1.7.0",
+    "dayjs": "^1.11.7",
+    "@rjsf/core": "^5.18.3",
+    "@rjsf/utils": "^5.18.3"
+  },
+  "ci": {
+    "@ringcentral-integration/rjsf-spring": "**"
+  },
+  "nx": {
+    "tags": [
+      "scope:ci-group-1",
+      "scope:ci-test"
+    ]
+  }
+}

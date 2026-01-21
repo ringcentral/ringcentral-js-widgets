@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%= meta %> <%= font %>
+    <title><%= appName %></title>
+    <link rel="icon" type="image/x-icon" href="icon.svg" />
+
+    <%= themeInject %>
+    <!-- prettier-ignore -->
+    <%= workerScript('__rc_shared_worker__', 'worker') %>
+  </head>
+  <body>
+    <div id="app"><%= loadingSpring %></div>
+  </body>
+</html>

@@ -1,0 +1,33 @@
+[
+  {
+    "type": "ServerNotification",
+    "messageId": "3939007890286475488",
+    "status": 200,
+    "headers": { "RCRequestId": "d1aeef8e-a2cd-11ee-85dd-005056be59dc" }
+  },
+  {
+    "uuid": "3939007890286475488",
+    "event": "/restapi/v1.0/account/335414004/extension/335414004/stop-ring",
+    "timestamp": "2023-12-25T02:32:16.433Z",
+    "subscriptionId": "9c5bf39a-2c66-43e4-a927-737de24097b1",
+    "ownerId": "335414004",
+    "body": {
+      "uuid": "3939007890286475488",
+      "event": "/restapi/v1.0/account/335414004/extension/335414004/stop-ring",
+      "timestamp": "2023-12-25T02:32:16.433Z",
+      "extensionId": 335414004,
+      "action": "StopRing",
+      "from": "102",
+      "fromName": "One Second",
+      "to": "101",
+      "toName": "Something1 New1",
+      "subscriptionId": "9c5bf39a-2c66-43e4-a927-737de24097b1",
+      "ownerId": "335414004",
+      "reason": "CallerDropped",
+      "telephonySessionId": "s-a4a042e2d72bdz18c9ecf4334z747e460000",
+      "sessionId": "18993030004",
+      "partyId": "p-a4a042e2d72bdz18c9ecf4334z747e460000-2",
+      "sid": "35203365118836"
+    }
+  }
+]

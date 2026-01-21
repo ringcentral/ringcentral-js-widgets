@@ -1,0 +1,32 @@
+{
+  "name": "@ringcentral-integration/next-widgets",
+  "version": "0.0.1",
+  "scripts": {
+    "test": "yarn run-test",
+    "update-snapshot": "yarn test --testMatch='**/*.snapshot.*.(ts|tsx|js)' -u",
+    "tsc-check": "yarn tsc --project tsconfig.lint.json --noEmit"
+  },
+  "dependencies": {
+    "dompurify": "^3.3.1",
+    "@ringcentral-integration/next-core": "*",
+    "@ringcentral-integration/i18n": "*",
+    "@ringcentral-integration/next-integration": "*",
+    "linkify-html": "^4.3.2",
+    "runes": "^0.4.3",
+    "use-file-upload": "^1.0.11",
+    "@emoji-mart/react": "^1.0.1"
+  },
+  "common": true,
+  "devDependencies": {
+    "@types/dompurify": "^3.2.0",
+    "@ringcentral-integration/test-utils": "*"
+  },
+  "ci": {
+    "@ringcentral-integration/next-widgets": "**"
+  },
+  "nx": {
+    "tags": [
+      "scope:ci-test"
+    ]
+  }
+}

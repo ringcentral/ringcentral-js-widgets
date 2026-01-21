@@ -1,0 +1,40 @@
+{
+  "name": "@ringcentral-integration/app-demo-test",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "license": "MIT",
+  "author": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "COMMON=true yarn run-test",
+    "update-snapshot": "yarn test --testMatch='**/*.snapshot.*.(ts|tsx|js)' -u"
+  },
+  "devDependencies": {
+    "@ringcentral-integration/babel-settings": "*",
+    "@ringcentral-integration/micro-auth": "*",
+    "@ringcentral-integration/micro-contacts": "*",
+    "@ringcentral-integration/micro-core": "*",
+    "@ringcentral-integration/micro-meeting": "*",
+    "@ringcentral-integration/micro-message": "*",
+    "@ringcentral-integration/micro-phone": "*",
+    "@ringcentral-integration/micro-setting": "*",
+    "@ringcentral-integration/next-core": "*",
+    "@ringcentral-integration/next-integration": "*",
+    "@ringcentral-integration/app-demo": "*",
+    "@ringcentral-integration/next-widgets": "*",
+    "@ringcentral-integration/test-utils": "*",
+    "@ringcentral-integration/utils": "*",
+    "@testing-library/react": "^12.1.5",
+    "jszip": "3.10.1"
+  },
+  "common": true,
+  "ci": {
+    "@ringcentral-integration/app-demo-test": "**"
+  },
+  "nx": {
+    "tags": [
+      "scope:ci-test"
+    ]
+  }
+}
