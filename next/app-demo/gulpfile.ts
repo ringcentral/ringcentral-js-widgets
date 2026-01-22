@@ -7,9 +7,14 @@ import localeSettings from '@ringcentral-integration/locale-settings';
 import { getProjectConfig } from '@ringcentral-integration/next-builder';
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
+import dotenv from 'dotenv';
 
 import type { AppConfig } from './config';
 import { getWebpackConfig } from './webpack.config';
+
+dotenv.config({
+  path: '../../.env',
+});
 
 export async function devServer() {
   const projectConfig = getProjectConfig<AppConfig>();

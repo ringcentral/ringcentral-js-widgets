@@ -41,7 +41,7 @@
     }
   },
   "appConfigPath": "config/index.ts",
-  "devServerPort": 8081,
+  "devServerPort": 8080,
   "themeSystem": "spring-ui",
   "includeUpgradePage": true,
   "includeHiddenDownloadPage": true

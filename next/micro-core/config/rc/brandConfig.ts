@@ -70,7 +70,7 @@ export const brandConfig: BrandConfig = {
   },
   assets: {
     guides: [],
-    logo: path.resolve(__dirname, 'assets/logo.png'),
-    icon: path.resolve(__dirname, 'assets/icon.png'),
+    logo: '/assets/logo.svg',
+    icon: '/assets/icon.svg',
   },
 };

@@ -1,5 +1,6 @@
 import type {
   OAuthOptions,
+  AuthOptions,
   PendoAnalyticsOptions,
 } from '@ringcentral-integration/micro-auth/src/app/services';
 import {
@@ -210,6 +211,10 @@ export const createApp = async (
           // use redirect.html directly for we host in sub path of the app
           redirectUri: './redirect.html',
         } satisfies OAuthOptions,
+      },
+      {
+        provide: 'AuthOptions',
+        useValue: { usePKCE: true } satisfies AuthOptions,
       },
       {
         provide: 'BrandConfigOptions',
