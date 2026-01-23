@@ -1,0 +1,1 @@
+{"version":3,"file":"Emoji.interface.js","names":[],"sources":["components/MessageInput/EmojiMenu/Emoji.interface.ts"],"sourcesContent":["export interface Emoji {\n  id: string;\n  name: string;\n  native: string;\n  unified: string;\n  keywords: string[];\n  shortcodes: string;\n  emoticons: string[];\n}\n"],"mappings":"","ignoreList":[]}

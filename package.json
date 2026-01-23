@@ -1,0 +1,26 @@
+{
+  "name": "@ringcentral-integration/next-widgets",
+  "version": "0.0.1",
+  "description": "UI components and widgets for RingCentral Integration next-generation architecture.",
+  "homepage": "https://github.com/ringcentral/ringcentral-js-widgets/tree/master/next/next-widgets#readme",
+  "bugs": {
+    "url": "https://github.com/ringcentral/ringcentral-js-widgets/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ringcentral/ringcentral-js-widgets.git"
+  },
+  "license": "MIT",
+  "author": "RingCentral Integration Team",
+  "main": "components/index.js",
+  "dependencies": {
+    "dompurify": "^3.3.1",
+    "@ringcentral-integration/next-core": "*",
+    "@ringcentral-integration/i18n": "*",
+    "@ringcentral-integration/next-integration": "*",
+    "linkify-html": "^4.3.2",
+    "runes": "^0.4.3",
+    "use-file-upload": "^1.0.11",
+    "@emoji-mart/react": "^1.0.1"
+  }
+}

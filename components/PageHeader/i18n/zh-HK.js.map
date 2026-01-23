@@ -1,0 +1,1 @@
+{"version":3,"file":"zh-HK.js","names":["_default","exports","back"],"sources":["components/PageHeader/i18n/zh-HK.ts"],"sourcesContent":["/* eslint-disable */\nexport default {\n  back: '返回',\n} as const;\n\n// @key: @#@\"back\"@#@ @source: @#@\"Back\"@#@\n"],"mappings":";;;;;;;AAAA;AAAA,IAAAA,QAAA,GAAAC,OAAA,cACe;EACbC,IAAI,EAAE;AACR,CAAC,EAED","ignoreList":[]}

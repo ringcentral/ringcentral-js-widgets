@@ -1,0 +1,1 @@
+{"version":3,"file":"fr-FR.js","names":["_default","exports","more"],"sources":["components/ActionMenuList/i18n/fr-FR.ts"],"sourcesContent":["/* eslint-disable */\nexport default {\n  more: 'Plus',\n} as const;\n\n// @key: @#@\"more\"@#@ @source: @#@\"More\"@#@\n"],"mappings":";;;;;;;AAAA;AAAA,IAAAA,QAAA,GAAAC,OAAA,cACe;EACbC,IAAI,EAAE;AACR,CAAC,EAED","ignoreList":[]}

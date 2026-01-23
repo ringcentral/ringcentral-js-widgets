@@ -1,0 +1,1 @@
+{"version":3,"file":"ja-JP.js","names":["_default","exports","back"],"sources":["components/PageHeader/i18n/ja-JP.ts"],"sourcesContent":["/* eslint-disable */\nexport default {\n  back: '戻る',\n} as const;\n\n// @key: @#@\"back\"@#@ @source: @#@\"Back\"@#@\n"],"mappings":";;;;;;;AAAA;AAAA,IAAAA,QAAA,GAAAC,OAAA,cACe;EACbC,IAAI,EAAE;AACR,CAAC,EAED","ignoreList":[]}

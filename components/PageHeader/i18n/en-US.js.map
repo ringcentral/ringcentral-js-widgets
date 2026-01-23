@@ -1,0 +1,1 @@
+{"version":3,"file":"en-US.js","names":["back"],"sources":["components/PageHeader/i18n/en-US.ts"],"sourcesContent":["export default {\n  back: 'Back',\n} as const;\n"],"mappings":";;;;;;;oCAAe;EACbA,IAAI,EAAE;AACR,CAAC","ignoreList":[]}
