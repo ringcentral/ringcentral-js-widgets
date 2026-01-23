@@ -1,0 +1,1 @@
+{"version":3,"file":"isWebWorker.js","names":["isWebWorker","exports","globalThis","WorkerGlobalScope"],"sources":["src/lib/isWebWorker.ts"],"sourcesContent":["export const isWebWorker = !!globalThis.WorkerGlobalScope;\n"],"mappings":";;;;;;;;AAAO,IAAMA,WAAW,GAAAC,OAAA,CAAAD,WAAA,GAAG,CAAC,CAACE,UAAU,CAACC,iBAAiB","ignoreList":[]}

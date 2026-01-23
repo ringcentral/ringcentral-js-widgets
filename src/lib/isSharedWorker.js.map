@@ -1,0 +1,1 @@
+{"version":3,"file":"isSharedWorker.js","names":["isSharedWorker","exports","globalThis","SharedWorkerGlobalScope"],"sources":["src/lib/isSharedWorker.ts"],"sourcesContent":["export const isSharedWorker = !!globalThis.SharedWorkerGlobalScope;\n"],"mappings":";;;;;;;;AAAO,IAAMA,cAAc,GAAAC,OAAA,CAAAD,cAAA,GAAG,CAAC,CAACE,UAAU,CAACC,uBAAuB","ignoreList":[]}

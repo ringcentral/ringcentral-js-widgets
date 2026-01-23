@@ -1,0 +1,33 @@
+{
+  "name": "@ringcentral-integration/next-core",
+  "version": "0.0.1",
+  "description": "Core package for RingCentral Integration next-generation architecture.",
+  "homepage": "https://github.com/ringcentral/ringcentral-js-widgets/tree/master/next/next-core#readme",
+  "bugs": {
+    "url": "https://github.com/ringcentral/ringcentral-js-widgets/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ringcentral/ringcentral-js-widgets.git"
+  },
+  "license": "MIT",
+  "author": "RingCentral Integration Team",
+  "main": "index.js",
+  "dependencies": {
+    "@ringcentral/mfe-logger": "^0.4.18",
+    "@ringcentral/mfe-react": "^0.4.18",
+    "@ringcentral-integration/utils": "*",
+    "reactant-share": "^0.149.0",
+    "reactant-web": "^0.149.0",
+    "reactant-router": "^0.149.0",
+    "localforage": "^1.10.0",
+    "react-router-dom": "^5.3.1",
+    "ramda": "^0.28.0",
+    "rxjs": "^7.8.0",
+    "uuid": "^9.0.1"
+  },
+  "peerDependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  }
+}
