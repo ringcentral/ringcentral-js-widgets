@@ -1,6 +1,6 @@
 {
   "name": "@ringcentral-integration/babel-settings",
-  "version": "0.2.0",
+  "version": "0.4.0",
   "description": "RingCentral Integration shared babel settings",
   "repository": {
     "type": "git",
