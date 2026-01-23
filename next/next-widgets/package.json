@@ -1,7 +1,22 @@
 {
   "name": "@ringcentral-integration/next-widgets",
   "version": "0.0.1",
+  "description": "UI components and widgets for RingCentral Integration next-generation architecture.",
+  "homepage": "https://github.com/ringcentral/ringcentral-js-widgets/tree/master/next/next-widgets#readme",
+  "bugs": {
+    "url": "https://github.com/ringcentral/ringcentral-js-widgets/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ringcentral/ringcentral-js-widgets.git"
+  },
+  "license": "MIT",
+  "author": "RingCentral Integration Team",
+  "main": "components/index.js",
   "scripts": {
+    "build": "yarn gulp build",
+    "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
+    "release": "yarn gulp release",
     "test": "yarn run-test",
     "update-snapshot": "yarn test --testMatch='**/*.snapshot.*.(ts|tsx|js)' -u",
     "tsc-check": "yarn tsc --project tsconfig.lint.json --noEmit"
@@ -18,8 +33,13 @@
   },
   "common": true,
   "devDependencies": {
+    "@ringcentral-integration/babel-settings": "*",
     "@types/dompurify": "^3.2.0",
-    "@ringcentral-integration/test-utils": "*"
+    "@ringcentral-integration/test-utils": "*",
+    "fs-extra": "^10.1.0",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-sourcemaps": "^2.6.5"
   },
   "ci": {
     "@ringcentral-integration/next-widgets": "**"

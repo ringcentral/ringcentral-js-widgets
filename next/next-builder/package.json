@@ -1,15 +1,27 @@
 {
   "name": "@ringcentral-integration/next-builder",
   "version": "1.0.0",
-  "description": "",
+  "description": "Build tools and webpack configuration for RingCentral Integration next-generation architecture.",
+  "homepage": "https://github.com/ringcentral/ringcentral-js-widgets/tree/master/next/next-builder#readme",
+  "bugs": {
+    "url": "https://github.com/ringcentral/ringcentral-js-widgets/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ringcentral/ringcentral-js-widgets.git"
+  },
   "keywords": [],
-  "license": "ISC",
+  "license": "MIT",
+  "author": "RingCentral Integration Team",
   "main": "index.ts",
   "bin": {
     "mfe": "bin/mfe.js"
   },
   "type": "commonjs",
   "scripts": {
+    "build": "yarn gulp build",
+    "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
+    "release": "yarn gulp release",
     "test": "yarn run-test",
     "build:schema": "typescript-json-schema src/getProjectConfig.ts ProjectConfigFileSchema -o src/projectConfigSchema.json --ignoreErrors",
     "buildIndex18n": "ts-node ./scripts/pack-inline.ts",
@@ -32,6 +44,13 @@
     "typescript-json-schema": "^0.54.0",
     "webpack": "^5.89.0",
     "webpack-merge": "^5.10.0"
+  },
+  "devDependencies": {
+    "@ringcentral-integration/babel-settings": "*",
+    "@ringcentral-integration/test-utils": "*",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-sourcemaps": "^2.6.5"
   },
   "ci": {
     "@ringcentral-integration/next-builder": "**"
