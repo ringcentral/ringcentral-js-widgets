@@ -1,7 +1,22 @@
 {
   "name": "@ringcentral-integration/next-core",
   "version": "0.0.1",
+  "description": "Core package for RingCentral Integration next-generation architecture.",
+  "homepage": "https://github.com/ringcentral/ringcentral-js-widgets/tree/master/next/next-core#readme",
+  "bugs": {
+    "url": "https://github.com/ringcentral/ringcentral-js-widgets/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ringcentral/ringcentral-js-widgets.git"
+  },
+  "license": "MIT",
+  "author": "RingCentral Integration Team",
+  "main": "index.js",
   "scripts": {
+    "build": "yarn gulp build",
+    "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
+    "release": "yarn gulp release",
     "test": "yarn run-test",
     "tsc-check": "tsc --noEmit",
     "update-snapshot": "yarn test --testMatch='**/*.snapshot.*.(ts|tsx|js)' -u"
@@ -20,8 +35,13 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
+    "@ringcentral-integration/babel-settings": "*",
     "@ringcentral-integration/test-utils": "*",
-    "@types/react-router-dom": "^5.3.3"
+    "@types/react-router-dom": "^5.3.3",
+    "fs-extra": "^10.1.0",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-sourcemaps": "^2.6.5"
   },
   "peerDependencies": {
     "react": "^17.0.2",
