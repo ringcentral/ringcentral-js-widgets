@@ -1,0 +1,1 @@
+{"version":3,"file":"EnvironmentType.js","names":[],"sources":["interfaces/EnvironmentType.ts"],"sourcesContent":["export type EnvironmentType =\n  | 'local'\n  | 'dev'\n  | 'reg'\n  | 'preview'\n  | 'staging'\n  | 'prod';\n"],"mappings":"","ignoreList":[]}

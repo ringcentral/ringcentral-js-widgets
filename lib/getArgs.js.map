@@ -1,0 +1,1 @@
+{"version":3,"file":"getArgs.js","names":["_scripts","require"],"sources":["lib/getArgs.ts"],"sourcesContent":["import { getArgs } from '@ringcentral-integration/utils/scripts';\n\nexport { getArgs };\n"],"mappings":";;;;;;;;;;;;AAAA,IAAAA,QAAA,GAAAC,OAAA","ignoreList":[]}

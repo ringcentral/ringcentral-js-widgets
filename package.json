@@ -1,0 +1,20 @@
+{
+  "name": "@ringcentral-integration/next-integration",
+  "version": "0.0.1",
+  "description": "Integration utilities for RingCentral Integration next-generation architecture.",
+  "homepage": "https://github.com/ringcentral/ringcentral-js-widgets/tree/master/next/next-integration#readme",
+  "bugs": {
+    "url": "https://github.com/ringcentral/ringcentral-js-widgets/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ringcentral/ringcentral-js-widgets.git"
+  },
+  "license": "MIT",
+  "author": "RingCentral Integration Team",
+  "main": "interfaces/index.js",
+  "dependencies": {
+    "@ringcentral-integration/next-core": "*",
+    "@ringcentral-integration/utils": "*"
+  }
+}
