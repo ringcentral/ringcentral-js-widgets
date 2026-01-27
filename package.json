@@ -1,0 +1,23 @@
+{
+  "name": "@ringcentral-integration/next-micro",
+  "version": "0.0.1",
+  "description": "Micro-frontend utilities for RingCentral Integration next-generation architecture.",
+  "homepage": "https://github.com/ringcentral/ringcentral-js-widgets/tree/master/next/next-micro#readme",
+  "bugs": {
+    "url": "https://github.com/ringcentral/ringcentral-js-widgets/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ringcentral/ringcentral-js-widgets.git"
+  },
+  "license": "MIT",
+  "author": "RingCentral Integration Team",
+  "main": "index.js",
+  "dependencies": {
+    "@ringcentral/mfe-react": "^0.4.18"
+  },
+  "peerDependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  }
+}
