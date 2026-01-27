@@ -1,0 +1,1 @@
+{"version":3,"file":"en-US.js","names":["ApiFailure"],"sources":["src/app/services/CPRClient/i18n/en-US.ts"],"sourcesContent":["export default {\n  ApiFailure: 'Unable to submit report. Check permissions or try again later.',\n} as const;\n"],"mappings":";;;;;;;oCAAe;EACbA,UAAU,EAAE;AACd,CAAC","ignoreList":[]}

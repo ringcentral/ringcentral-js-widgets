@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","names":["_SettingsCard","require"],"sources":["src/app/views/AutoCallLogICSettingsView/components/SettingsCard/index.ts"],"sourcesContent":["export { SettingsCard } from './SettingsCard';\nexport type { SettingsCardProps } from './SettingsCard.interface';\n"],"mappings":";;;;;;;;;;;;AAAA,IAAAA,aAAA,GAAAC,OAAA","ignoreList":[]}

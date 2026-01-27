@@ -1,0 +1,1 @@
+{"version":3,"file":"Feedback.interface.js","names":[],"sources":["src/app/services/Feedback/Feedback.interface.ts"],"sourcesContent":["export interface FeedbackOptions {\n  //\n}\n"],"mappings":"","ignoreList":[]}

@@ -1,0 +1,1 @@
+{"version":3,"file":"AutoCallLoggingSwitch.view.interface.js","names":[],"sources":["src/app/views/SettingsView/AutoCallLoggingSwitchView/AutoCallLoggingSwitch.view.interface.ts"],"sourcesContent":["export interface AutoCallLoggingSwitchViewProps {}\n"],"mappings":"","ignoreList":[]}

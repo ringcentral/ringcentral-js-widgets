@@ -1,0 +1,50 @@
+"use strict";
+
+require("core-js/modules/es.object.define-property.js");
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+/* eslint-disable */
+var _default = exports["default"] = {
+  title: '音声',
+  input: '入力',
+  microphone: 'マイクロフォン',
+  autoAdjustMicLevel: 'マイクレベルを自動調整',
+  output: '出力',
+  speakerSource: 'スピーカーソース',
+  speakerVolume: 'スピーカー音量',
+  ringtoneSource: '着信音と通知ソース',
+  ringtoneVolume: '着信音と通知ボリューム',
+  ringtones: '着信音',
+  noDevices: 'デバイスがありません',
+  off: 'オフ',
+  noLabel: '不明なデバイス',
+  stopRecordDescription: '話しかけてマイクレベルを確認してください({countDown}秒)',
+  stopPlaybackDescription: 'レコーディングを再生しています…',
+  startRecordButton: 'マイクロフォンをテスト',
+  stopRecordButton: 'レコーディングを停止',
+  stopPlaybackButton: 'テストを停止',
+  startTestButton: 'スピーカーをテスト',
+  stopTestDescription: 'サンプルサウンドを再生…'
+}; // @key: @#@"title"@#@ @source: @#@"Audio"@#@
+// @key: @#@"input"@#@ @source: @#@"Input"@#@
+// @key: @#@"microphone"@#@ @source: @#@"Microphone"@#@
+// @key: @#@"autoAdjustMicLevel"@#@ @source: @#@"Automatically adjust my mic level"@#@
+// @key: @#@"output"@#@ @source: @#@"Output"@#@
+// @key: @#@"speakerSource"@#@ @source: @#@"Speaker source"@#@
+// @key: @#@"speakerVolume"@#@ @source: @#@"Speaker volume"@#@
+// @key: @#@"ringtoneSource"@#@ @source: @#@"Ringtone and notification source"@#@
+// @key: @#@"ringtoneVolume"@#@ @source: @#@"Ringtone and notification volume"@#@
+// @key: @#@"ringtones"@#@ @source: @#@"Ringtones"@#@
+// @key: @#@"noDevices"@#@ @source: @#@"No devices"@#@
+// @key: @#@"off"@#@ @source: @#@"Off"@#@
+// @key: @#@"noLabel"@#@ @source: @#@"Unknown device"@#@
+// @key: @#@"stopRecordDescription"@#@ @source: @#@"Say something to check your mic level ({countDown} sec)"@#@
+// @key: @#@"stopPlaybackDescription"@#@ @source: @#@"Playing your recording..."@#@
+// @key: @#@"startRecordButton"@#@ @source: @#@"Test microphone"@#@
+// @key: @#@"stopRecordButton"@#@ @source: @#@"Stop recording"@#@
+// @key: @#@"stopPlaybackButton"@#@ @source: @#@"Stop test"@#@
+// @key: @#@"startTestButton"@#@ @source: @#@"Test speaker"@#@
+// @key: @#@"stopTestDescription"@#@ @source: @#@"Playing sample sound..."@#@
+//# sourceMappingURL=ja-JP.js.map

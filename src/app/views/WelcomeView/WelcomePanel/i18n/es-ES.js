@@ -1,0 +1,18 @@
+"use strict";
+
+require("core-js/modules/es.object.define-property.js");
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+/* eslint-disable */
+var _default = exports["default"] = {
+  getStart: 'Empezar',
+  copy: 'Copie sus nuevos números para compartirlos fácilmente',
+  welcome: '¡Le damos la bienvenida, {name}!',
+  accountReady: 'Su cuenta está lista. Empiece por personalizar su app.'
+}; // @key: @#@"getStart"@#@ @source: @#@"Get started"@#@
+// @key: @#@"copy"@#@ @source: @#@"Copy your new numbers for easy sharing"@#@
+// @key: @#@"welcome"@#@ @source: @#@"Welcome, {name}!"@#@
+// @key: @#@"accountReady"@#@ @source: @#@"Your account is ready. Get started by personalizing your app."@#@
+//# sourceMappingURL=es-ES.js.map

@@ -1,0 +1,1 @@
+{"version":3,"file":"en-US.js","names":["createNew"],"sources":["src/app/services/IntegrationConfig/i18n/en-US.ts"],"sourcesContent":["export default {\n  createNew: 'Create new contact',\n} as const;\n"],"mappings":";;;;;;;oCAAe;EACbA,SAAS,EAAE;AACb,CAAC","ignoreList":[]}

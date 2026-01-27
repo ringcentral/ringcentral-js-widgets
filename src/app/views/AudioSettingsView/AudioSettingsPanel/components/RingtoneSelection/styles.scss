@@ -1,0 +1,39 @@
+.ringtoneItem {
+  height: 36px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.addRingtoneItem {
+  display: flex;
+  gap: 5px;
+  min-height: 32px;
+  margin-bottom: 8px;
+}
+
+.addRingtoneDivider {
+  margin: 8px 0 !important;
+}
+
+.ringtonePopover {
+  max-height: 288px;
+}
+
+.ringtoneContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+  & div[class*='RcBoxSelectInput-input'] {
+    span[class*='play_circle_border'] {
+      display: none;
+    }
+    span[class*='delete'] {
+      display: none;
+    }
+  }
+}
+
+.hidden {
+  display: none;
+}

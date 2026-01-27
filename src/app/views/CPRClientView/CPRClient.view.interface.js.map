@@ -1,0 +1,1 @@
+{"version":3,"file":"CPRClient.view.interface.js","names":[],"sources":["src/app/views/CPRClientView/CPRClient.view.interface.ts"],"sourcesContent":["export interface CPRClientViewOptions {}\n"],"mappings":"","ignoreList":[]}
