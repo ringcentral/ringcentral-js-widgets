@@ -1,0 +1,1 @@
+{"version":3,"file":"SwitchCallConfirm.view.interface.js","names":[],"sources":["src/app/views/SwitchCallConfirmView/SwitchCallConfirm.view.interface.ts"],"sourcesContent":["export interface SwitchCallConfirmationProps {\n  contactName: string;\n  confirmContext: string;\n}\n"],"mappings":"","ignoreList":[]}

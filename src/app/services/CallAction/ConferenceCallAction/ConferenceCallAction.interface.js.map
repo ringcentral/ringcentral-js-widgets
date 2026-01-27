@@ -1,0 +1,1 @@
+{"version":3,"file":"ConferenceCallAction.interface.js","names":[],"sources":["src/app/services/CallAction/ConferenceCallAction/ConferenceCallAction.interface.ts"],"sourcesContent":["export interface ConferenceCallActionOptions {}\n"],"mappings":"","ignoreList":[]}

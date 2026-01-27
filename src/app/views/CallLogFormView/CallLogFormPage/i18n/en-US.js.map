@@ -1,0 +1,1 @@
+{"version":3,"file":"en-US.js","names":["save","transferLog"],"sources":["src/app/views/CallLogFormView/CallLogFormPage/i18n/en-US.ts"],"sourcesContent":["export default {\n  save: 'Save',\n  transferLog: 'This is the call log for the initial call with ${callerName}.',\n} as const;\n"],"mappings":";;;;;;;oCAAe;EACbA,IAAI,EAAE,MAAM;EACZC,WAAW,EAAE;AACf,CAAC","ignoreList":[]}

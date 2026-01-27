@@ -1,0 +1,1 @@
+{"version":3,"file":"en-US.js","names":["noToNumber","phoneTitle"],"sources":["src/app/views/DialerView/i18n/en-US.ts"],"sourcesContent":["export default {\n  noToNumber: 'Please enter a valid phone number.',\n  phoneTitle: 'Phone'\n} as const;\n"],"mappings":";;;;;;;oCAAe;EACbA,UAAU,EAAE,oCAAoC;EAChDC,UAAU,EAAE;AACd,CAAC","ignoreList":[]}

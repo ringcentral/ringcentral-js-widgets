@@ -1,0 +1,1 @@
+{"version":3,"file":"en-US.js","names":["suggested","associated"],"sources":["src/app/views/CallLogFormView/i18n/en-US.ts"],"sourcesContent":["export default {\n  suggested: 'Suggested',\n  associated: 'Associated',\n} as const;\n"],"mappings":";;;;;;;oCAAe;EACbA,SAAS,EAAE,WAAW;EACtBC,UAAU,EAAE;AACd,CAAC","ignoreList":[]}

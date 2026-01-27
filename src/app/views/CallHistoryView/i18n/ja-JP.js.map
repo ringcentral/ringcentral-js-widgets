@@ -1,0 +1,1 @@
+{"version":3,"file":"ja-JP.js","names":["_default","exports","title"],"sources":["src/app/views/CallHistoryView/i18n/ja-JP.ts"],"sourcesContent":["/* eslint-disable */\nexport default {\n  title: '履歴',\n} as const;\n\n// @key: @#@\"title\"@#@ @source: @#@\"History\"@#@\n"],"mappings":";;;;;;;AAAA;AAAA,IAAAA,QAAA,GAAAC,OAAA,cACe;EACbC,KAAK,EAAE;AACT,CAAC,EAED","ignoreList":[]}

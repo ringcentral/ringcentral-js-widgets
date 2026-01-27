@@ -1,0 +1,36 @@
+/* eslint-disable */
+export default {
+  participants: '参加者',
+  host: 'ホスト',
+  removeParticipant: '参加者を削除',
+  removeTitle: '参加者を削除',
+  removeDescription: 'この会議から{name}を削除しますか？',
+  confirmButtonText: '削除',
+  cancelButtonText: 'キャンセル',
+  endCallForEveryone: '全員に対して通話を終了',
+  leaveCall: '通話から退出',
+  leaveOrEndCall: '通話から退出するか、通話を終了しますか？',
+  mergeTitle: 'アクティブな通話とマージしますか？',
+  mergeMessage: '現在の通話は、{contactName}さんとの電話会議にマージされます',
+  mergeDoNotAsk: '次回から確認しない',
+  mergeCancel: 'キャンセル',
+  mergeConfirm: 'マージ',
+  conferenceCall: '電話会議',
+} as const;
+
+// @key: @#@"participants"@#@ @source: @#@"Participants"@#@
+// @key: @#@"host"@#@ @source: @#@"Host"@#@
+// @key: @#@"removeParticipant"@#@ @source: @#@"Remove participant"@#@
+// @key: @#@"removeTitle"@#@ @source: @#@"Remove participant"@#@
+// @key: @#@"removeDescription"@#@ @source: @#@"Remove {name} from this conference?"@#@
+// @key: @#@"confirmButtonText"@#@ @source: @#@"Remove"@#@
+// @key: @#@"cancelButtonText"@#@ @source: @#@"Cancel"@#@
+// @key: @#@"endCallForEveryone"@#@ @source: @#@"End call for everyone"@#@
+// @key: @#@"leaveCall"@#@ @source: @#@"Leave call"@#@
+// @key: @#@"leaveOrEndCall"@#@ @source: @#@"Leave or end call?"@#@
+// @key: @#@"mergeTitle"@#@ @source: @#@"Merge with active call?"@#@
+// @key: @#@"mergeMessage"@#@ @source: @#@"Your current call will be merged into a conference call with {contactName}"@#@
+// @key: @#@"mergeDoNotAsk"@#@ @source: @#@"Don't ask me again"@#@
+// @key: @#@"mergeCancel"@#@ @source: @#@"Cancel"@#@
+// @key: @#@"mergeConfirm"@#@ @source: @#@"Merge"@#@
+// @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@

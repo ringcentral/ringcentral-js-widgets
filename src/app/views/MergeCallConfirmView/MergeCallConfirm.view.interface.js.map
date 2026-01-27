@@ -1,0 +1,1 @@
+{"version":3,"file":"MergeCallConfirm.view.interface.js","names":[],"sources":["src/app/views/MergeCallConfirmView/MergeCallConfirm.view.interface.ts"],"sourcesContent":["export interface ConfirmContextData {\n  webphoneSessionId?: string;\n  telephonySessionId?: string;\n}\n\nexport interface MergeCallConfirmViewProps {}\n"],"mappings":"","ignoreList":[]}

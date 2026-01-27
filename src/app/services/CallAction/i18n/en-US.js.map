@@ -1,0 +1,1 @@
+{"version":3,"file":"en-US.js","names":["maxExistCallsError"],"sources":["src/app/services/CallAction/i18n/en-US.ts"],"sourcesContent":["export default {\n  maxExistCallsError: 'Sorry, you can make up to {count} calls at a time.',\n} as const;\n"],"mappings":";;;;;;;oCAAe;EACbA,kBAAkB,EAAE;AACtB,CAAC","ignoreList":[]}

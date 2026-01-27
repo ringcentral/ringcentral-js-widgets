@@ -1,0 +1,1 @@
+{"version":3,"file":"en-US.js","names":["hideCallLog","viewCallLog"],"sources":["src/app/components/ExpandLogButton/i18n/en-US.ts"],"sourcesContent":["export default {\n  hideCallLog: 'Hide call log',\n  viewCallLog: 'View call log',\n} as const;\n"],"mappings":";;;;;;;oCAAe;EACbA,WAAW,EAAE,eAAe;EAC5BC,WAAW,EAAE;AACf,CAAC","ignoreList":[]}

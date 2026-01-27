@@ -1,0 +1,1 @@
+{"version":3,"file":"en-US.js","names":["dialer","allCalls"],"sources":["src/app/views/DialerAndCallsTabView/i18n/en-US.ts"],"sourcesContent":["export default {\n  dialer: 'Dial Pad',\n  allCalls: 'All Calls',\n} as const;\n"],"mappings":";;;;;;;oCAAe;EACbA,MAAM,EAAE,UAAU;EAClBC,QAAQ,EAAE;AACZ,CAAC","ignoreList":[]}

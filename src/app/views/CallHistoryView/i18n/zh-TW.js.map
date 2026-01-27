@@ -1,0 +1,1 @@
+{"version":3,"file":"zh-TW.js","names":["_default","exports","title"],"sources":["src/app/views/CallHistoryView/i18n/zh-TW.ts"],"sourcesContent":["/* eslint-disable */\nexport default {\n  title: '歷史記錄',\n} as const;\n\n// @key: @#@\"title\"@#@ @source: @#@\"History\"@#@\n"],"mappings":";;;;;;;AAAA;AAAA,IAAAA,QAAA,GAAAC,OAAA,cACe;EACbC,KAAK,EAAE;AACT,CAAC,EAED","ignoreList":[]}

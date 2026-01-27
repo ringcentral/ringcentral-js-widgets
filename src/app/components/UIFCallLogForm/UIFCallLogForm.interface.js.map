@@ -1,0 +1,1 @@
+{"version":3,"file":"UIFCallLogForm.interface.js","names":[],"sources":["src/app/components/UIFCallLogForm/UIFCallLogForm.interface.ts"],"sourcesContent":["import type { CallLogFieldsProps } from '@ringcentral-integration/widgets/components/CallLogFields';\n\nexport interface UIFCallLogFormProps extends CallLogFieldsProps {\n  formRef: any;\n}\n"],"mappings":"","ignoreList":[]}

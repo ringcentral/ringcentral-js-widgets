@@ -1,0 +1,1 @@
+{"version":3,"file":"en-US.js","names":["save","me"],"sources":["src/app/views/CallDetailView/CallDetailPage/i18n/en-US.ts"],"sourcesContent":["export default {\n  save: 'Save',\n  me: 'me',\n} as const;\n"],"mappings":";;;;;;;oCAAe;EACbA,IAAI,EAAE,MAAM;EACZC,EAAE,EAAE;AACN,CAAC","ignoreList":[]}

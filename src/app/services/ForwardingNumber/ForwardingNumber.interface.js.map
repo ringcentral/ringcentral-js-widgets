@@ -1,0 +1,1 @@
+{"version":3,"file":"ForwardingNumber.interface.js","names":[],"sources":["src/app/services/ForwardingNumber/ForwardingNumber.interface.ts"],"sourcesContent":["import type { DataSourceBaseProps } from '@ringcentral-integration/micro-auth/src/app/services';\n\nexport interface ForwardingNumberOptions extends DataSourceBaseProps {\n  //\n}\n"],"mappings":"","ignoreList":[]}

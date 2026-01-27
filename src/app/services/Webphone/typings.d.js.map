@@ -1,0 +1,1 @@
+{"version":3,"file":"typings.d.js","names":[],"sources":["src/app/services/Webphone/typings.d.ts"],"sourcesContent":["declare module '*.ogg' {\n  const content: any;\n  export default content;\n}\ndeclare module '*.mp3' {\n  const content: any;\n  export default content;\n}\n"],"mappings":"","ignoreList":[]}

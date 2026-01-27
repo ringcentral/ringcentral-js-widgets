@@ -1,0 +1,1 @@
+{"version":3,"file":"en-US.js","names":["addCall"],"sources":["src/app/views/CallView/routes/AddCallViewSpring/i18n/en-US.ts"],"sourcesContent":["export default {\n  addCall: 'New call',\n} as const;\n"],"mappings":";;;;;;;oCAAe;EACbA,OAAO,EAAE;AACX,CAAC","ignoreList":[]}

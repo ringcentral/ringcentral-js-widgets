@@ -1,0 +1,1 @@
+{"version":3,"file":"en-US.js","names":["matchedRecordsTips"],"sources":["src/app/components/ReferenceWidgetSpring/i18n/en-US.ts"],"sourcesContent":["export default {\n  matchedRecordsTips: '{matchedCount} suggested records',\n} as const;\n"],"mappings":";;;;;;;oCAAe;EACbA,kBAAkB,EAAE;AACtB,CAAC","ignoreList":[]}

@@ -1,0 +1,1 @@
+{"version":3,"file":"CallingSettings.interface.js","names":[],"sources":["src/app/services/CallingSettings/CallingSettings.interface.ts"],"sourcesContent":["export interface CallingSettingsOptions {\n  emergencyCallAvailable?: boolean;\n  showCallWithJupiter?: boolean;\n  onFirstLogin?: () => {};\n  defaultRingoutPrompt?: boolean;\n}\n"],"mappings":"","ignoreList":[]}

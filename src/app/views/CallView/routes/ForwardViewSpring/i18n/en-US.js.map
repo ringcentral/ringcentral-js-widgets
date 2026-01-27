@@ -1,0 +1,1 @@
+{"version":3,"file":"en-US.js","names":["forward","forwardTitle"],"sources":["src/app/views/CallView/routes/ForwardViewSpring/i18n/en-US.ts"],"sourcesContent":["export default {\n  forward: 'Forward',\n  forwardTitle: 'Forward Call',\n} as const;\n"],"mappings":";;;;;;;oCAAe;EACbA,OAAO,EAAE,SAAS;EAClBC,YAAY,EAAE;AAChB,CAAC","ignoreList":[]}
