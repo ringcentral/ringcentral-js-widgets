@@ -1,0 +1,1 @@
+{"version":3,"file":"interfaces.js","names":[],"sources":["src/app/services/Fax/FaxCover/interfaces.ts"],"sourcesContent":["export type CoverInfo = {\n  id: number;\n  name: string;\n  url: string;\n};\n"],"mappings":"","ignoreList":[]}

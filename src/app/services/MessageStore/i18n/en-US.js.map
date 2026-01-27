@@ -1,0 +1,1 @@
+{"version":3,"file":"en-US.js","names":["deleteFailed"],"sources":["src/app/services/MessageStore/i18n/en-US.ts"],"sourcesContent":["export default {\n  deleteFailed: 'Cannot delete the voicemail due to internal server error.',\n} as const;\n"],"mappings":";;;;;;;oCAAe;EACbA,YAAY,EAAE;AAChB,CAAC","ignoreList":[]}

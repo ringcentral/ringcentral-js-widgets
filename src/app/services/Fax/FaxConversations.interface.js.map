@@ -1,0 +1,1 @@
+{"version":3,"file":"FaxConversations.interface.js","names":[],"sources":["src/app/services/Fax/FaxConversations.interface.ts"],"sourcesContent":["import type { ConversationsOptions as BaseOptions } from '../Conversations/Conversations.interface';\n\nexport interface FaxConversationsOptions\n  extends Omit<BaseOptions, 'showMMSAttachment'> {}\n"],"mappings":"","ignoreList":[]}

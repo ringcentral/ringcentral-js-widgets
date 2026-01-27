@@ -1,0 +1,1 @@
+{"version":3,"file":"SmsTemplate.view.interface.js","names":[],"sources":["src/app/views/SmsTemplateView/SmsTemplate.view.interface.ts"],"sourcesContent":["export interface SmsTemplateViewOptions {}\n\nexport interface SmsTemplateViewProps {\n  targetInputRef: React.RefObject<HTMLTextAreaElement>;\n}\n"],"mappings":"","ignoreList":[]}

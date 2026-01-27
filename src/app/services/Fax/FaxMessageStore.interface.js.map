@@ -1,0 +1,1 @@
+{"version":3,"file":"FaxMessageStore.interface.js","names":[],"sources":["src/app/services/Fax/FaxMessageStore.interface.ts"],"sourcesContent":["import type { MessageStoreOptions } from '../MessageStore/MessageStore.interface';\n\nexport interface FaxMessageStoreOptions\n  extends Omit<MessageStoreOptions, 'messageType'> {}\n"],"mappings":"","ignoreList":[]}

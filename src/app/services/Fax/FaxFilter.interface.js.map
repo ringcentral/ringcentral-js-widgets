@@ -1,0 +1,1 @@
+{"version":3,"file":"FaxFilter.interface.js","names":[],"sources":["src/app/services/Fax/FaxFilter.interface.ts"],"sourcesContent":["export type FaxFilterStatus = 'All' | 'Sent' | 'Received' | 'Failed';\n\nexport type FaxFilterInfo = { status: FaxFilterStatus; badgeNumber?: number };\n"],"mappings":"","ignoreList":[]}

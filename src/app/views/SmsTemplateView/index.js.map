@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","names":["_SmsTemplate","require"],"sources":["src/app/views/SmsTemplateView/index.ts"],"sourcesContent":["export { SmsTemplateView } from './SmsTemplate.view';\nexport type {\n  SmsTemplateViewOptions,\n  SmsTemplateViewProps,\n} from './SmsTemplate.view.interface';\n"],"mappings":";;;;;;;;;;;;AAAA,IAAAA,YAAA,GAAAC,OAAA","ignoreList":[]}

@@ -1,0 +1,1 @@
+{"version":3,"file":"MessageStoreEventSubscriber.interface.js","names":[],"sources":["src/app/services/MessageStoreEventSubscriber/MessageStoreEventSubscriber.interface.ts"],"sourcesContent":["export interface MessageStoreEventSubscriberOptions {}\n"],"mappings":"","ignoreList":[]}

@@ -1,0 +1,1 @@
+{"version":3,"file":"SmsMessageStore.interface.js","names":[],"sources":["src/app/services/Sms/SmsMessageStore.interface.ts"],"sourcesContent":["import type { MessageStoreOptions } from '../MessageStore/MessageStore.interface';\n\nexport interface SmsMessageStoreOptions\n  extends Omit<MessageStoreOptions, 'messageType'> {}\n"],"mappings":"","ignoreList":[]}
