@@ -1,0 +1,1 @@
+{"version":3,"file":"CoworkerLogger.interface.js","names":[],"sources":["src/app/services/CoworkerLogger/CoworkerLogger.interface.ts"],"sourcesContent":["export interface CoworkerLoggerOptions {\n  //\n}\n"],"mappings":"","ignoreList":[]}

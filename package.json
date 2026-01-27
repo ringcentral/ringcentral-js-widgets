@@ -1,0 +1,32 @@
+{
+  "name": "@ringcentral-integration/micro-coworker",
+  "version": "0.0.1",
+  "description": "Coworker micro-frontend module for RingCentral Integration next-generation architecture.",
+  "homepage": "https://github.com/ringcentral/ringcentral-js-widgets/tree/master/next/micro-coworker#readme",
+  "bugs": {
+    "url": "https://github.com/ringcentral/ringcentral-js-widgets/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ringcentral/ringcentral-js-widgets.git"
+  },
+  "license": "MIT",
+  "author": "RingCentral Integration Team",
+  "main": "src/app/services/index.js",
+  "dependencies": {
+    "@ringcentral/mfe-react": "^0.4.18",
+    "@ringcentral-integration/commons": "*",
+    "@ringcentral-integration/i18n": "*",
+    "@ringcentral-integration/next-core": "*",
+    "@ringcentral-integration/next-integration": "*",
+    "@ringcentral-integration/next-micro": "*",
+    "@ringcentral-integration/next-widgets": "*",
+    "@ringcentral-integration/utils": "*",
+    "@ringcentral-integration/widgets": "*",
+    "@ringcentral/juno": "^2.42.0",
+    "@ringcentral/juno-icon": "^1.80.0",
+    "ramda": "^0.28.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  }
+}

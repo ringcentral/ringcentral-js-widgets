@@ -1,0 +1,17 @@
+"use strict";
+
+require("core-js/modules/es.object.define-property.js");
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+var _default = exports["default"] = {
+  hello: 'Hello world',
+  themeMode: 'Theme mode',
+  light: 'light',
+  dark: 'dark',
+  contrast: 'contrast',
+  locale: 'Current language',
+  loginSuccess: 'login successfully'
+};
+//# sourceMappingURL=en-US.js.map

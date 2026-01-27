@@ -1,0 +1,1 @@
+{"version":3,"file":"CoworkerAuth.interface.js","names":[],"sources":["src/app/services/CoworkerAuth/CoworkerAuth.interface.ts"],"sourcesContent":["export interface CoworkerAuthOptions {\n  //\n}\n"],"mappings":"","ignoreList":[]}
