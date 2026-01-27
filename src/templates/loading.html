@@ -1,0 +1,32 @@
+<style>
+  @keyframes spinner {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  .loading {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+  }
+  .loading-bar {
+    width: 42px;
+    height: 42px;
+    border: 4px solid var(--primary-color, #066fac);
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spinner 1s linear infinite;
+    box-sizing: border-box;
+  }
+</style>
+<div class="loading">
+  <div class="theme-color loading-bar"></div>
+</div>

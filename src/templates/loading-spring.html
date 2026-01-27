@@ -1,0 +1,68 @@
+<!-- https://stackoverflow.com/questions/14633363/can-i-apply-a-gradient-along-an-svg-path -->
+
+<style>
+  body,
+  html,
+  #app {
+    background: var(--global-bg-color, #fff);
+  }
+  .loading {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: var(--global-bg-color, #fff);
+  }
+  .loading-container {
+    --size: 40px;
+    --border-size: 6px;
+    --duration: 1s;
+    width: var(--size);
+    height: var(--size);
+    border: var(--border-size) solid var(--loading-ring, #ddd);
+    border-radius: 50%;
+    box-sizing: border-box;
+    position: relative;
+  }
+
+  .loading-bar {
+    --diff: calc(calc(var(--size) / 2) - var(--border-size));
+    --mask: radial-gradient(
+      circle var(--diff),
+      transparent 98%,
+      var(--global-bg-color, #fff) 100%
+    );
+    box-sizing: border-box;
+    background-image: conic-gradient(
+      transparent 75%,
+      var(--primary-color, #066fac)
+    );
+    width: var(--size);
+    height: var(--size);
+    -webkit-mask: var(--mask);
+    mask: var(--mask);
+    position: absolute;
+    border-radius: 50%;
+    top: calc(0px - var(--border-size));
+    left: calc(0px - var(--border-size));
+    animation: rotate var(--duration) ease-in-out infinite;
+  }
+
+  @keyframes rotate {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+</style>
+<div class="loading">
+  <div class="loading-container theme-color">
+    <div class="loading-bar"></div>
+  </div>
+</div>

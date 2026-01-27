@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%= meta %>
+    <title>download</title>
+  </head>
+  <body>
+    <script>
+      window.addEventListener('message', function (event) {
+        if (event.data && event.data.key === 'ɵɵ.rc-download') {
+          const href = event.data.url;
+          const filename = event.data.filename;
+          const link = document.createElement('a');
+          link.href = href;
+          // that custom file name only support with same site origin
+          link.download = filename;
+          document.body.appendChild(link); // required for firefox
+
+          link.dispatchEvent(new MouseEvent('click', { bubbles: false }));
+          link.remove();
+        }
+      });
+    </script>
+  </body>
+</html>

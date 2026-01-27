@@ -1,0 +1,262 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+        "BaseEnvironmentConfig": {
+            "properties": {
+                "mode": {
+                    "$ref": "#/definitions/Mode",
+                    "description": "build mode for webpack\nhttps://webpack.js.org/configuration/mode/"
+                },
+                "preferredDevtool": {
+                    "description": "preferred devtool for webpack\nhttps://webpack.js.org/configuration/devtool/",
+                    "type": "string"
+                },
+                "useDevtool": {
+                    "description": "use devtool for webpack",
+                    "type": "boolean"
+                },
+                "useStyleTransform": {
+                    "description": "enable style transform for shared worker mode",
+                    "type": "boolean"
+                }
+            },
+            "type": "object"
+        },
+        "EnvironmentConfig": {
+            "properties": {
+                "brand": {
+                    "description": "brand code",
+                    "items": {
+                        "anyOf": [
+                            {
+                                "items": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "$ref": "#/definitions/BaseEnvironmentConfig"
+                                    }
+                                ],
+                                "maxItems": 2,
+                                "minItems": 2,
+                                "type": "array"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
+                    },
+                    "type": "array"
+                },
+                "mode": {
+                    "$ref": "#/definitions/Mode",
+                    "description": "build mode for webpack\nhttps://webpack.js.org/configuration/mode/"
+                },
+                "preferredDevtool": {
+                    "description": "preferred devtool for webpack\nhttps://webpack.js.org/configuration/devtool/",
+                    "type": "string"
+                },
+                "useDevtool": {
+                    "description": "use devtool for webpack",
+                    "type": "boolean"
+                },
+                "useStyleTransform": {
+                    "description": "enable style transform for shared worker mode",
+                    "type": "boolean"
+                }
+            },
+            "type": "object"
+        },
+        "Mode": {
+            "enum": [
+                "development",
+                "production"
+            ],
+            "type": "string"
+        },
+        "Record<EnvironmentType,EnvironmentConfig>": {
+            "properties": {
+                "dev": {
+                    "$ref": "#/definitions/EnvironmentConfig"
+                },
+                "local": {
+                    "$ref": "#/definitions/EnvironmentConfig"
+                },
+                "preview": {
+                    "$ref": "#/definitions/EnvironmentConfig"
+                },
+                "prod": {
+                    "$ref": "#/definitions/EnvironmentConfig"
+                },
+                "reg": {
+                    "$ref": "#/definitions/EnvironmentConfig"
+                },
+                "staging": {
+                    "$ref": "#/definitions/EnvironmentConfig"
+                }
+            },
+            "type": "object"
+        },
+        "Record<string,string>": {
+            "type": "object"
+        }
+    },
+    "properties": {
+        "appConfigPath": {
+            "description": "app config path",
+            "type": "string"
+        },
+        "assets": {
+            "description": "assets path for webpack copy plugin",
+            "items": {
+                "anyOf": [
+                    {
+                        "properties": {
+                            "from": {
+                                "type": "string"
+                            },
+                            "to": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    {
+                        "type": "string"
+                    }
+                ]
+            },
+            "type": "array"
+        },
+        "buildPath": {
+            "description": "build path with webpack\nhttps://webpack.js.org/configuration/output/",
+            "type": "string"
+        },
+        "chunkFilenames": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/Record<string,string>"
+                },
+                {
+                    "type": "string"
+                }
+            ],
+            "default": "\"[id]-[contenthash].js\"\n\nyou can use map to set different chunk filename for different files",
+            "description": "chunk filename for webpack, in `production` mode\n\nThis option determines the name of non-initial chunk files."
+        },
+        "devServerPort": {
+            "description": "dev server port for webpack dev server\nhttps://webpack.js.org/configuration/dev-server/",
+            "type": "number"
+        },
+        "disabledAutoSplitChunks": {
+            "default": false,
+            "description": "by default, our builder will split chunks for all entries `node_modules` and `ringcentral-js-widgets`, to ensure file size is smaller than 10MB\n\nif you not want that behavior, you can set `disabledAutoSplitChunks` to `true`",
+            "type": "boolean"
+        },
+        "distPath": {
+            "description": "distribution path",
+            "type": "string"
+        },
+        "environment": {
+            "$ref": "#/definitions/Record<EnvironmentType,EnvironmentConfig>",
+            "description": "environment config with build mode and brand"
+        },
+        "includeHiddenDownloadPage": {
+            "description": "include hidden-download page\n\nfile name: `{host_domain}/hidden-download.html`\n\nenable this will include hidden-download page in final build folder,\nthen you can `downloadFileWithIframeCors` when you need download file in hidden way but need to avoid same origin policy",
+            "type": "boolean"
+        },
+        "includeUpgradePage": {
+            "description": "include upgrade page\n\nfile name: `{host_domain}/upgrade.html`\n\nenable this will include upgrade page in final build folder,\nthen you can use it when your iframe app need user reload page manually",
+            "type": "boolean"
+        },
+        "pages": {
+            "description": "pages for webpack entry config",
+            "items": {
+                "allOf": [
+                    {
+                        "properties": {
+                            "description": {
+                                "description": "some comment for this entry page, like filename reason, use is some where",
+                                "type": "string"
+                            },
+                            "filename": {
+                                "description": "filename for webpack output in `production` mode\nhttps://webpack.js.org/configuration/output/#output-filename\n\nby default, it will use the `[name].js` of main entry,\n\nif you have set `index` html page, it will use `[name]-[contenthash].js`\n\nif you not want default behavior, you can set it manually",
+                                "type": "string"
+                            },
+                            "index": {
+                                "description": "html file entry",
+                                "type": "string"
+                            },
+                            "main": {
+                                "description": "script file entry",
+                                "type": "string"
+                            },
+                            "params": {
+                                "description": "extra params for HtmlWebpackPlugin of this page entry",
+                                "properties": {
+                                    "chunks": {
+                                        "anyOf": [
+                                            {
+                                                "items": {
+                                                    "type": "string"
+                                                },
+                                                "type": "array"
+                                            },
+                                            {
+                                                "enum": [
+                                                    "all"
+                                                ],
+                                                "type": "string"
+                                            }
+                                        ],
+                                        "description": "List all entries which should be injected"
+                                    },
+                                    "excludeChunks": {
+                                        "description": "List all entries which should not be injected",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "type": "array"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "type": "object"
+                    }
+                ]
+            },
+            "type": "array"
+        },
+        "runtimeEnvironment": {
+            "default": "web",
+            "description": "runtime environment\n\n- `web` for web application\n- `extension` for extension application",
+            "enum": [
+                "extension",
+                "web"
+            ],
+            "type": "string"
+        },
+        "themePath": {
+            "description": "theme path",
+            "type": "string"
+        },
+        "themeSystem": {
+            "default": "'juno'",
+            "description": "which styled system to use",
+            "enum": [
+                "juno",
+                "spring-ui"
+            ],
+            "type": "string"
+        }
+    },
+    "type": "object"
+}
+

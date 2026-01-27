@@ -1,0 +1,39 @@
+{
+  "name": "@ringcentral-integration/next-builder",
+  "version": "1.0.0",
+  "description": "Build tools and webpack configuration for RingCentral Integration next-generation architecture.",
+  "homepage": "https://github.com/ringcentral/ringcentral-js-widgets/tree/master/next/next-builder#readme",
+  "bugs": {
+    "url": "https://github.com/ringcentral/ringcentral-js-widgets/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ringcentral/ringcentral-js-widgets.git"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "author": "RingCentral Integration Team",
+  "main": "index.js",
+  "bin": {
+    "mfe": "bin/mfe.js"
+  },
+  "type": "commonjs",
+  "dependencies": {
+    "@ringcentral-integration/next-core": "*",
+    "@ringcentral-integration/next-integration": "*",
+    "@ringcentral-integration/next-widgets": "*",
+    "@ringcentral-integration/widgets": "*",
+    "@ringcentral-integration/i18n": "*",
+    "@types/cli-table": "^0.3.1",
+    "@types/cors": "^2.8.17",
+    "cli-table": "^0.3.11",
+    "copy-webpack-plugin": "^11.0.0",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "fs-extra": "^10.1.0",
+    "html-webpack-plugin": "^5.3.2",
+    "typescript-json-schema": "^0.54.0",
+    "webpack": "^5.89.0",
+    "webpack-merge": "^5.10.0"
+  }
+}
