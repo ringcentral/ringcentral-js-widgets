@@ -1,0 +1,1 @@
+{"version":3,"file":"SleepDetector.interface.js","names":[],"sources":["src/app/services/SleepDetector/SleepDetector.interface.ts"],"sourcesContent":["export interface SleepDetectorOptions {\n  detectionInterval?: number;\n  detectionThreshold?: number;\n  maxListeners?: number;\n}\n"],"mappings":"","ignoreList":[]}

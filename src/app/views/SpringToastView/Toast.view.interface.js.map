@@ -1,0 +1,1 @@
+{"version":3,"file":"Toast.view.interface.js","names":[],"sources":["src/app/views/SpringToastView/Toast.view.interface.ts"],"sourcesContent":["export interface ToastViewOptions {}\n"],"mappings":"","ignoreList":[]}

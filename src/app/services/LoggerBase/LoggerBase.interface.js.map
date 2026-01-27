@@ -1,0 +1,1 @@
+{"version":3,"file":"LoggerBase.interface.js","names":[],"sources":["src/app/services/LoggerBase/LoggerBase.interface.ts"],"sourcesContent":["export type LogOptions<T, S> = {\n  item?: T;\n} & S;\n\nexport interface Options {\n  storageKey?: string;\n  enableCache?: boolean;\n}\n"],"mappings":"","ignoreList":[]}

@@ -1,0 +1,1 @@
+{"version":3,"file":"Beforeunload.interface.js","names":[],"sources":["src/app/services/Beforeunload/Beforeunload.interface.ts"],"sourcesContent":["export interface BeforeunloadOptions {\n  originWindow?: Window;\n}\n"],"mappings":"","ignoreList":[]}

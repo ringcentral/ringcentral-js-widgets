@@ -1,0 +1,1 @@
+{"version":3,"file":"fi-FI.js","names":["_default","exports","more"],"sources":["src/app/views/SyncTabView/i18n/fi-FI.ts"],"sourcesContent":["/* eslint-disable */\nexport default {\n  more: 'Enemmän',\n} as const;\n\n// @key: @#@\"more\"@#@ @source: @#@\"More\"@#@\n"],"mappings":";;;;;;;AAAA;AAAA,IAAAA,QAAA,GAAAC,OAAA,cACe;EACbC,IAAI,EAAE;AACR,CAAC,EAED","ignoreList":[]}

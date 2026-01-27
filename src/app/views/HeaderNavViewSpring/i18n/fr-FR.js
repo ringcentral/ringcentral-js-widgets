@@ -1,0 +1,26 @@
+"use strict";
+
+require("core-js/modules/es.object.define-property.js");
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+/* eslint-disable */
+var _default = exports["default"] = {
+  phone: 'Téléphone',
+  text: 'SMS',
+  fax: 'Fax',
+  settings: 'Paramètres',
+  keypad: 'Clavier',
+  calls: 'Appels',
+  voicemails: 'Messages vocaux',
+  video: 'Vidéo'
+}; // @key: @#@"phone"@#@ @source: @#@"Phone"@#@
+// @key: @#@"text"@#@ @source: @#@"Text"@#@
+// @key: @#@"fax"@#@ @source: @#@"Fax"@#@
+// @key: @#@"settings"@#@ @source: @#@"Settings"@#@
+// @key: @#@"keypad"@#@ @source: @#@"Keypad"@#@
+// @key: @#@"calls"@#@ @source: @#@"Calls"@#@
+// @key: @#@"voicemails"@#@ @source: @#@"Voicemails"@#@
+// @key: @#@"video"@#@ @source: @#@"Video"@#@
+//# sourceMappingURL=fr-FR.js.map

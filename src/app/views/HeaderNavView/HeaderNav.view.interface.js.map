@@ -1,0 +1,1 @@
+{"version":3,"file":"HeaderNav.view.interface.js","names":[],"sources":["src/app/views/HeaderNavView/HeaderNav.view.interface.ts"],"sourcesContent":["import type { HeaderNav } from '@ringcentral-integration/next-widgets/deprecated/components/HeaderNav';\n\nexport interface HeaderNavViewOptions {\n  component?: typeof HeaderNav;\n}\n"],"mappings":"","ignoreList":[]}

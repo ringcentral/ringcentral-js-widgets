@@ -1,0 +1,1 @@
+{"version":3,"file":"layout.js","names":["navBarHeight","exports"],"sources":["src/styles/layout.ts"],"sourcesContent":["export const navBarHeight = 46;\n"],"mappings":";;;;;;;AAAO,IAAMA,YAAY,GAAAC,OAAA,CAAAD,YAAA,GAAG,EAAE","ignoreList":[]}

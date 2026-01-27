@@ -1,0 +1,1 @@
+{"version":3,"file":"en-US.js","names":["more"],"sources":["src/app/views/SyncTabView/i18n/en-US.ts"],"sourcesContent":["export default {\n  more: 'More',\n} as const;\n"],"mappings":";;;;;;;oCAAe;EACbA,IAAI,EAAE;AACR,CAAC","ignoreList":[]}

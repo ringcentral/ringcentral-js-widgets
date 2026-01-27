@@ -1,0 +1,1 @@
+{"version":3,"file":"ToastManager.interface.js","names":[],"sources":["src/app/services/Toast/ToastManager/ToastManager.interface.ts"],"sourcesContent":["export interface ToastManagerOptions {}\n\nexport type CatchErrorToastMessage = {\n  network?: string;\n  server?: string;\n};\n\nexport type ToastUniqueType = 'renew' | 'keep';\n"],"mappings":"","ignoreList":[]}
