@@ -1,0 +1,995 @@
+"use strict";
+
+require("core-js/modules/es.object.define-property.js");
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.highAvailabilityAPI = void 0;
+var _availabilityStatus = require("./availabilityStatus");
+// TODO: Store as JSON, and can be requested from backend server
+
+var highAvailabilityAPI = exports.highAvailabilityAPI = [{
+  reg: /\/restapi\/v1.0\/account$/,
+  POST: _availabilityStatus.availability.LIMITED
+}, {
+  reg: /\/restapi\/v1.0\/account\/validate$/,
+  POST: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/active-calls$/,
+  GET: _availabilityStatus.availability.LIMITED
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  POST: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/answering-rule$/
+}, {
+  DELETE: _availabilityStatus.availability.LIMITED,
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/answering-rule\/[a-z0-9~,]+$/
+}, {
+  POST: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/application-extensions$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/application-extensions\/[a-z0-9~,]+$/
+}, {
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/assigned-role$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  POST: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/bots$/
+}, {
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/bots\/[a-z0-9~,]+$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/business-address$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/business-hours$/
+}, {
+  DELETE: _availabilityStatus.availability.LIMITED,
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/call-log$/
+}, {
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/call-log-sync$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  DELETE: _availabilityStatus.availability.HIGH,
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/call-log\/[a-z0-9~,]+$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  POST: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/call-monitoring-groups$/
+}, {
+  DELETE: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/call-monitoring-groups\/[a-z0-9~,]+$/
+}, {
+  POST: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/call-monitoring-groups\/[a-z0-9~,]+\/bulk-assign$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/call-monitoring-groups\/[a-z0-9~,]+\/members$/
+}, {
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/call-queues$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  POST: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/call-queues\/[a-z0-9~,]+\/bulk-assign$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/call-queues\/[a-z0-9~,]+\/members$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/call-recording$/
+}, {
+  POST: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/call-recording\/bulk-assign$/
+}, {
+  DELETE: _availabilityStatus.availability.LIMITED,
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/call-recording\/custom-greetings$/
+}, {
+  DELETE: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/call-recording\/custom-greetings\/[a-z0-9~,]+$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/call-recording\/extensions$/
+}, {
+  POST: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/department\/bulk-assign$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/department\/[a-z0-9~,]+\/members$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  POST: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/device$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/device\/[a-z0-9~,]+$/
+}, {
+  POST: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/device\/[a-z0-9~,]+\/assign-line$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/device\/[a-z0-9~,]+\/sip-info$/
+}, {
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/dialing-plan$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  POST: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension$/
+}, {
+  POST: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/bulk-assign$/
+}, {
+  GET: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/free-numbers$/
+}, {
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/validate$/,
+  POST: _availabilityStatus.availability.HIGH
+}, {
+  DELETE: _availabilityStatus.availability.LIMITED,
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+$/
+}, {
+  GET: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/active-calls$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/address-book$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/address-book-sync$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  POST: _availabilityStatus.availability.LIMITED,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/address-book\/contact$/
+}, {
+  DELETE: _availabilityStatus.availability.LIMITED,
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/address-book\/contact\/[a-z0-9~,]+$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  POST: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/address-book\/group$/
+}, {
+  DELETE: _availabilityStatus.availability.LIMITED,
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/address-book\/group\/[a-z0-9~,]+$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/address-book\/group\/[a-z0-9~,]+\/contact$/
+}, {
+  DELETE: _availabilityStatus.availability.LIMITED,
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/address-book\/group\/[a-z0-9~,]+\/contact\/[a-z0-9~,]+$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/administered-sites$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  POST: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/answering-rule$/
+}, {
+  DELETE: _availabilityStatus.availability.LIMITED,
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/answering-rule\/[a-z0-9~,]+$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/assigned-role$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/authz-profile$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/authz-profile\/check$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  POST: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/blocked-number$/
+}, {
+  DELETE: _availabilityStatus.availability.LIMITED,
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/blocked-number\/[a-z0-9~,]+$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/business-hours$/
+}, {
+  DELETE: _availabilityStatus.availability.LIMITED,
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/call-log$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/call-log-sync$/
+}, {
+  DELETE: _availabilityStatus.availability.HIGH,
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/call-log\/[a-z0-9~,]+$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/caller-blocking$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  POST: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/caller-blocking\/phone-numbers$/
+}, {
+  DELETE: _availabilityStatus.availability.LIMITED,
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/caller-blocking\/phone-numbers\/[a-z0-9~,]+$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/caller-id$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  POST: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/company-pager$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/company-pager\/[a-z0-9~,]+$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/company-pager\/[a-z0-9~,]+\/content\/[a-z0-9~,]+$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/conferencing$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/credentials$/
+}, {
+  POST: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/credentials\/validate$/
+}, {
+  POST: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/credentials\/verify$/
+}, {
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/delegates$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/delegation-assignments$/
+}, {
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/device$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  POST: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/direct-ring-out$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/email-to-fax$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/favorite$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  POST: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/fax$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/fax\/[a-z0-9~,]+$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/fax\/[a-z0-9~,]+\/content\/[a-z0-9~,]+$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  POST: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/forwarding-number$/
+}, {
+  DELETE: _availabilityStatus.availability.LIMITED,
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/forwarding-number\/[a-z0-9~,]+$/
+}, {
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/grant$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  POST: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/greeting$/
+}, {
+  POST: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/greeting-recording-call$/
+}, {
+  DELETE: _availabilityStatus.availability.HIGH,
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/greeting-recording-call\/[a-z0-9~,]+$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/greeting\/[a-z0-9~,]+$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/incoming-call-info$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/intercom$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/intercom\/permissions$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  POST: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/meeting$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/meeting\/service-info$/
+}, {
+  DELETE: _availabilityStatus.availability.HIGH,
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/meeting\/[a-z0-9~,]+$/
+}, {
+  POST: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/meeting\/[a-z0-9~,]+\/end$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/meetings-configuration$/
+}, {
+  DELETE: _availabilityStatus.availability.LIMITED,
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/message-store$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/message-store\/counters$/
+}, {
+  DELETE: _availabilityStatus.availability.LIMITED,
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/message-store\/[a-z0-9~,]+$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/message-store\/[a-z0-9~,]+\/content\/[a-z0-9~,]+$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/message-sync$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/notification-settings$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/permissions$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/phone-number$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/presence$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/presence\/line$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/internal\/presence$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/presence$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/presence\/line\/[a-z0-9~,]+$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/presence\/permission$/
+}, {
+  DELETE: _availabilityStatus.availability.HIGH,
+  GET: _availabilityStatus.availability.HIGH,
+  POST: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/profile-image$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/profile-image\/[a-z0-9~,]+$/
+}, {
+  DELETE: _availabilityStatus.availability.HIGH,
+  GET: _availabilityStatus.availability.HIGH,
+  POST: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/reporting\/settings$/
+}, {
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/ring-out$/,
+  POST: _availabilityStatus.availability.HIGH
+}, {
+  DELETE: _availabilityStatus.availability.HIGH,
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/ring-out\/[a-z0-9~,]+$/
+}, {
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/ringout$/,
+  POST: _availabilityStatus.availability.HIGH
+}, {
+  POST: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/ringout\/direct$/
+}, {
+  DELETE: _availabilityStatus.availability.HIGH,
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/ringout\/[a-z0-9~,]+$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  POST: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/sms$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/sms\/[a-z0-9~,]+$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/sms\/[a-z0-9~,]+\/content\/[a-z0-9~,]+$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/user-groups$/
+}, {
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/validate$/,
+  POST: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/glip-configuration$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/greeting$/,
+  POST: _availabilityStatus.availability.LIMITED
+}, {
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/greeting\/[a-z0-9~,]+$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/ivr$/
+}, {
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/ivr-menus$/,
+  POST: _availabilityStatus.availability.LIMITED
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/ivr-menus\/[a-z0-9~,]+$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  POST: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/ivr-prompts$/
+}, {
+  DELETE: _availabilityStatus.availability.LIMITED,
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/ivr-prompts\/[a-z0-9~,]+$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/ivr-prompts\/[a-z0-9~,]+\/content$/
+}, {
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/licenses$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  POST: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/licenses\/bulk-purchase$/
+}, {
+  DELETE: _availabilityStatus.availability.LIMITED,
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/licenses\/[a-z0-9~,]+$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  POST: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/live-reporting\/dashboards$/
+}, {
+  DELETE: _availabilityStatus.availability.HIGH,
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/live-reporting\/dashboards\/[a-z0-9~,]+$/
+}, {
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/meetings-configuration$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/order$/,
+  POST: _availabilityStatus.availability.LIMITED
+}, {
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/order\/[a-z0-9~,]+$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  POST: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/paging-only-groups\/[a-z0-9~,]+\/bulk-assign$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/paging-only-groups\/[a-z0-9~,]+\/devices$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/paging-only-groups\/[a-z0-9~,]+\/users$/
+}, {
+  POST: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/park-locations\/[a-z0-9~,]+\/bulk-assign$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/park-locations\/[a-z0-9~,]+\/users$/
+}, {
+  GET: _availabilityStatus.availability.LIMITED,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/payment-info$/
+}, {
+  GET: _availabilityStatus.availability.LIMITED,
+  POST: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/phone-number$/
+}, {
+  DELETE: _availabilityStatus.availability.LIMITED,
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/phone-number\/[a-z0-9~,]+$/
+}, {
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/recording\/[a-z0-9~,]+$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/recording\/[a-z0-9~,]+\/content$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/service-info$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  POST: _availabilityStatus.availability.LIMITED,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/shared-lines-groups\/[a-z0-9~,]+\/lines$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  POST: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/sites$/
+}, {
+  DELETE: _availabilityStatus.availability.LIMITED,
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/sites\/[a-z0-9~,]+$/
+}, {
+  POST: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/sites\/[a-z0-9~,]+\/bulk-assign$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/sites\/[a-z0-9~,]+\/ivr$/
+}, {
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/sites\/[a-z0-9~,]+\/members$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/templates$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/templates\/[a-z0-9~,]+$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  POST: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/templates\/[a-z0-9~,]+\/bulk-apply$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  POST: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/user-group$/
+}, {
+  POST: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/user-group\/bulk-assign$/
+}, {
+  DELETE: _availabilityStatus.availability.LIMITED,
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/user-group\/[a-z0-9~,]+$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/user-group\/[a-z0-9~,]+\/members$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  POST: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/user-role$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/user-role\/default$/
+}, {
+  DELETE: _availabilityStatus.availability.LIMITED,
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/user-role\/[a-z0-9~,]+$/
+}, {
+  POST: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/user-role\/[a-z0-9~,]+\/bulk-assign$/
+}, {
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/validate$/,
+  POST: _availabilityStatus.availability.HIGH
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  POST: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/voicemail-library$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/voicemail-library\/broadcasts\/[a-z0-9~,]+$/
+}, {
+  DELETE: _availabilityStatus.availability.HIGH,
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/voicemail-library\/[a-z0-9~,]+$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/voicemail-library\/[a-z0-9~,]+\/content$/
+}, {
+  POST: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/voicemail-library\/[a-z0-9~,]+\/send$/
+}, {
+  reg: /\/restapi\/v1.0\/client-info$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/client-info\/banners$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/client-info\/banners\/settings$/
+}, {
+  DELETE: _availabilityStatus.availability.LIMITED,
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/client-info\/custom-data\/[a-z0-9~,]+$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/client-info\/custom-data\/[a-z0-9~,]+\/content$/
+}, {
+  reg: /\/restapi\/v1.0\/client-info\/sip-provision$/,
+  POST: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/client-info\/special-number-rule$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/dictionary\/brand\/[a-z0-9~,]+$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/dictionary\/country$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/dictionary\/country\/[a-z0-9~,]+$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/dictionary\/device$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/dictionary\/fax-cover-page$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/dictionary\/forms\/address$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/dictionary\/greeting$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/dictionary\/greeting\/[a-z0-9~,]+$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/dictionary\/language$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/dictionary\/language\/[a-z0-9~,]+$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/dictionary\/license-types$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/dictionary\/location$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/dictionary\/permission$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/dictionary\/permission-category$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/dictionary\/permission-category\/[a-z0-9~,]+$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/dictionary\/permission\/[a-z0-9~,]+$/
+}, {
+  reg: /\/restapi\/v1.0\/dictionary\/secret-question$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/dictionary\/secret-question\/[a-z0-9~,]+$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/dictionary\/service-plan\/[a-z0-9~,]+$/
+}, {
+  reg: /\/restapi\/v1.0\/dictionary\/shipping-options$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/dictionary\/state$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/dictionary\/state\/[a-z0-9~,]+$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/dictionary\/timezone$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/dictionary\/timezone\/[a-z0-9~,]+$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/dictionary\/user-role$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/dictionary\/user-role\/[a-z0-9~,]+$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/integration-profiles$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/internal\/account\/info$/,
+  POST: _availabilityStatus.availability.HIGH
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/internal\/account\/[a-z0-9~,]+\/call-monitoring-groups$/
+}, {
+  POST: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/internal\/account\/[a-z0-9~,]+\/call-monitoring-groups\/[a-z0-9~,]+\/bulk-assign$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/internal\/account\/[a-z0-9~,]+\/call-monitoring-groups\/[a-z0-9~,]+\/members$/
+}, {
+  reg: /\/restapi\/v1.0\/internal\/account\/[a-z0-9~,]+\/call-queues$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  POST: _availabilityStatus.availability.LIMITED,
+  reg: /\/restapi\/v1.0\/internal\/account\/[a-z0-9~,]+\/call-queues\/[a-z0-9~,]+\/bulk-assign$/
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/internal\/account\/[a-z0-9~,]+\/call-queues\/[a-z0-9~,]+\/members$/
+}, {
+  reg: /\/restapi\/v1.0\/internal\/address-book$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  GET: _availabilityStatus.availability.HIGH,
+  reg: /\/restapi\/v1.0\/internal\/adg\/account\/large-accounts$/
+}, {
+  reg: /\/restapi\/v1.0\/internal\/adg\/account\/[a-z0-9~,]+\/business-info$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/internal\/adg\/account\/[a-z0-9~,]+\/get-all-by-account-id$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/internal\/adg\/account\/[a-z0-9~,]+\/get-all-by-account-id-lists$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/internal\/adg\/extension\/$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/internal\/adg\/extension\/bulk$/,
+  POST: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/internal\/adg\/extension\/[a-z0-9~,]+$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/internal\/adg\/federation$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/internal\/adg\/phone-number$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/internal\/adg\/phone-number\/bulk$/,
+  POST: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/internal\/adg\/phone-number\/bulk-by-extension-ids$/,
+  POST: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/internal\/adg\/phone-number\/[a-z0-9~,]+$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/internal\/billing-events\/process-event$/,
+  POST: _availabilityStatus.availability.LIMITED
+}, {
+  reg: /\/restapi\/v1.0\/internal\/call-recording\/account\/[a-z0-9~,]+\/recording\/[a-z0-9~,]+\/stream$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/internal\/delegates$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/internal\/device-order\/update$/,
+  POST: _availabilityStatus.availability.LIMITED
+}, {
+  reg: /\/restapi\/v1.0\/internal\/email-to-fax\/send$/,
+  POST: _availabilityStatus.availability.LIMITED
+}, {
+  reg: /\/restapi\/v1.0\/internal\/extension-permissions\/check$/,
+  POST: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/internal\/favorite$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/internal\/legal-data$/,
+  POST: _availabilityStatus.availability.LIMITED
+}, {
+  reg: /\/restapi\/v1.0\/internal\/live-reporting\/dashboards\/permissions$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/internal\/message-content-stream\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/message-store\/[a-z0-9~,]+\/content\/[a-z0-9~,]+$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/internal\/order-processor\/process-device-order$/,
+  POST: _availabilityStatus.availability.LIMITED
+}, {
+  reg: /\/restapi\/v1.0\/internal\/presence-line$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/internal\/presence-permissions$/,
+  GET: _availabilityStatus.availability.HIGH,
+  POST: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/internal\/profile-image\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/stream'$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/internal\/profile-image\/account\/[a-z0-9~,]+\/extension\/[a-z0-9~,]+\/stream\/\d+$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/internal\/promotion-code$/,
+  POST: _availabilityStatus.availability.LIMITED
+}, {
+  reg: /\/restapi\/v1.0\/internal\/send-confirmation-email$/,
+  POST: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/internal\/send-sms$/,
+  POST: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/internal\/service-parameter\/[a-z0-9~,]+$/,
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED
+}, {
+  reg: /\/restapi\/v1.0\/internal\/subscription\/legacy\/apn\/add$/,
+  POST: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/internal\/subscription\/legacy\/apn\/application$/,
+  POST: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/internal\/subscription\/legacy\/apn\/remove$/,
+  POST: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/subscription$/,
+  GET: _availabilityStatus.availability.HIGH,
+  POST: _availabilityStatus.availability.HIGH,
+  DELETE: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/subscriptions\/v1\/remove-device$/,
+  POST: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/subscriptions\/v1\/subscription$/,
+  GET: _availabilityStatus.availability.HIGH,
+  DELETE: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/subscriptions\/v1\/subscriptions$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/subscriptions\/v1\/blacklist$/,
+  GET: _availabilityStatus.availability.HIGH,
+  POST: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/internal\/tap-settings$/,
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED
+}, {
+  reg: /\/restapi\/v1.0\/internal\/tester-flag$/,
+  PUT: _availabilityStatus.availability.LIMITED
+}, {
+  reg: /\/restapi\/v1.0\/internal\/token-validation$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/internal\/user-auth\/account-info-partner\/[a-z0-9~,]+$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/internal\/user-auth\/account-info\/[a-z0-9~,]+$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/internal\/user-auth\/authenticate$/,
+  POST: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/internal\/user-auth\/authentication$/,
+  POST: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/internal\/user-auth\/brand-info\/[a-z0-9~,]+$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/internal\/user-auth\/contact-email-lookup$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/internal\/user-auth\/extension-info\/[a-z0-9~,]+$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/internal\/user-auth\/iovation-device$/,
+  GET: _availabilityStatus.availability.HIGH,
+  POST: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/internal\/user-auth\/login-hash\/[a-z0-9~,]+$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/internal\/user-auth\/login-info$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/internal\/user-auth\/multifactor\/send-code$/,
+  POST: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/internal\/user-auth\/session-created$/,
+  POST: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/notify-admin$/,
+  POST: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/number-parser\/parse$/,
+  POST: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/number-parser\/phonedata.xml$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/number-pool\/lookup$/,
+  POST: _availabilityStatus.availability.LIMITED
+}, {
+  reg: /\/restapi\/v1.0\/number-pool\/lookup-external$/,
+  POST: _availabilityStatus.availability.LIMITED
+}, {
+  reg: /\/restapi\/v1.0\/number-pool\/reserve$/,
+  POST: _availabilityStatus.availability.LIMITED
+}, {
+  reg: /\/restapi\/v1.0\/status$/,
+  GET: _availabilityStatus.availability.LIMITED
+}, {
+  reg: /\/restapi\/[a-z0-9~,]+$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/oauth\/revoke$/,
+  POST: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/oauth\/token$/,
+  POST: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/oauth\/userinfo$/,
+  POST: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/oauth\/restapi\/oauth\/token$/,
+  POST: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/subscription\/[a-z0-9~,-]+$/,
+  DELETE: _availabilityStatus.availability.HIGH,
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/subscription\/[a-z0-9~,-]+\/renew$/,
+  POST: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+$/,
+  DELETE: _availabilityStatus.availability.LIMITED,
+  GET: _availabilityStatus.availability.HIGH,
+  PUT: _availabilityStatus.availability.LIMITED
+}, {
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/directory\/contacts$/,
+  GET: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/directory\/contacts\/search$/,
+  POST: _availabilityStatus.availability.HIGH
+}, {
+  reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/directory\/contacts\/[a-z0-9~,]+$/,
+  GET: _availabilityStatus.availability.HIGH
+}];
+//# sourceMappingURL=highAvailabilityAPI.js.map

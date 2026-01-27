@@ -1,0 +1,1 @@
+{"version":3,"file":"RateLimiter.interface.js","names":[],"sources":["src/app/services/RateLimiter/RateLimiter.interface.ts"],"sourcesContent":["export interface RateLimiterOptions {\n  /**\n   *  throttle duration, default 61 seconds\n   */\n  throttleDuration?: number;\n  suppressAlerts?: boolean;\n}\n"],"mappings":"","ignoreList":[]}

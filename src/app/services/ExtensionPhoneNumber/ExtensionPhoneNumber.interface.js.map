@@ -1,0 +1,1 @@
+{"version":3,"file":"ExtensionPhoneNumber.interface.js","names":[],"sources":["src/app/services/ExtensionPhoneNumber/ExtensionPhoneNumber.interface.ts"],"sourcesContent":["import type { DataSourceBaseProps } from '../DataFetcher';\n\nexport interface ExtensionPhoneNumberOptions extends DataSourceBaseProps {\n  //\n}\n"],"mappings":"","ignoreList":[]}

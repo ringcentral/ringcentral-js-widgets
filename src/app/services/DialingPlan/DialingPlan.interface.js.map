@@ -1,0 +1,1 @@
+{"version":3,"file":"DialingPlan.interface.js","names":[],"sources":["src/app/services/DialingPlan/DialingPlan.interface.ts"],"sourcesContent":["import type { DataSourceBaseProps } from '../DataFetcher';\n\nexport interface DialingPlanOptions extends DataSourceBaseProps {\n  //\n}\n"],"mappings":"","ignoreList":[]}

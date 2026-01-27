@@ -1,0 +1,1 @@
+{"version":3,"file":"en-US.js","names":["insufficientPrivilege"],"sources":["src/app/services/AccountInfo/i18n/en-US.ts"],"sourcesContent":["export default {\n  insufficientPrivilege:\n    'Insufficient privilege. Please contact your account representative for an upgrade.',\n} as const;\n"],"mappings":";;;;;;;oCAAe;EACbA,qBAAqB,EACnB;AACJ,CAAC","ignoreList":[]}

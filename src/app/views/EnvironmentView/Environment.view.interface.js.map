@@ -1,0 +1,1 @@
+{"version":3,"file":"Environment.view.interface.js","names":[],"sources":["src/app/views/EnvironmentView/Environment.view.interface.ts"],"sourcesContent":["import type { EnvironmentPanel } from '@ringcentral-integration/widgets/components/EnvironmentPanel';\n\nexport interface EnvironmentViewOptions {\n  component?: typeof EnvironmentPanel;\n}\n"],"mappings":"","ignoreList":[]}

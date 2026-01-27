@@ -1,0 +1,1 @@
+{"version":3,"file":"AccountInfo.interface.js","names":[],"sources":["src/app/services/AccountInfo/AccountInfo.interface.ts"],"sourcesContent":["import type { DataSourceBaseProps } from '../DataFetcher';\n\nexport interface AccountInfoOptions extends DataSourceBaseProps {}\n"],"mappings":"","ignoreList":[]}

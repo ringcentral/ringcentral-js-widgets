@@ -1,0 +1,1 @@
+{"version":3,"file":"RegionSettings.interface.js","names":[],"sources":["src/app/services/RegionSettings/RegionSettings.interface.ts"],"sourcesContent":["export interface RegionSettingsData {\n  countryCode?: string;\n  areaCode?: string;\n}\n\nexport interface RegionSettingsOptions {\n  suppressSettingsChangedWarning?: boolean;\n}\n"],"mappings":"","ignoreList":[]}

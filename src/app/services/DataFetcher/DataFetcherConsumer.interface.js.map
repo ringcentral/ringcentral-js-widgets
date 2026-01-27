@@ -1,0 +1,1 @@
+{"version":3,"file":"DataFetcherConsumer.interface.js","names":[],"sources":["src/app/services/DataFetcher/DataFetcherConsumer.interface.ts"],"sourcesContent":["import type { DataFetcher } from './DataFetcher';\n\nexport interface DataFetcherConsumerBaseDeps {\n  dataFetcher: DataFetcher;\n}\n"],"mappings":"","ignoreList":[]}

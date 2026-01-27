@@ -1,0 +1,1 @@
+{"version":3,"file":"UserInfo.interface.js","names":[],"sources":["src/app/services/UserInfo/UserInfo.interface.ts"],"sourcesContent":["export interface UserInfoOptions {}\n"],"mappings":"","ignoreList":[]}

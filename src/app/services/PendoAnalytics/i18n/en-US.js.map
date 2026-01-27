@@ -1,0 +1,1 @@
+{"version":3,"file":"en-US.js","names":["submitFeedbackSuccess"],"sources":["src/app/services/PendoAnalytics/i18n/en-US.ts"],"sourcesContent":["export default {\n  submitFeedbackSuccess: 'Thanks for your feedback!',\n} as const;\n"],"mappings":";;;;;;;oCAAe;EACbA,qBAAqB,EAAE;AACzB,CAAC","ignoreList":[]}
