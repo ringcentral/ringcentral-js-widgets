@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","names":["_SubmitButton","_interopRequireDefault","require","e","__esModule"],"sources":["src/SubmitButton/index.ts"],"sourcesContent":["export { default } from './SubmitButton';\n"],"mappings":";;;;;;;;;;;;AAAA,IAAAA,aAAA,GAAAC,sBAAA,CAAAC,OAAA;AAAyC,SAAAD,uBAAAE,CAAA,WAAAA,CAAA,IAAAA,CAAA,CAAAC,UAAA,GAAAD,CAAA,gBAAAA,CAAA","ignoreList":[]}
