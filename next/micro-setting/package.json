@@ -1,15 +1,23 @@
 {
   "name": "@ringcentral-integration/micro-setting",
   "version": "0.0.1",
-  "private": true,
-  "description": "Demo for RingCentral JS Widgets",
+  "description": "Settings micro-frontend module for RingCentral Integration next-generation architecture.",
+  "homepage": "https://github.com/ringcentral/ringcentral-js-widgets/tree/master/next/micro-setting#readme",
+  "bugs": {
+    "url": "https://github.com/ringcentral/ringcentral-js-widgets/issues"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ringcentral/ringcentral-js-widget.git"
+    "url": "git+https://github.com/ringcentral/ringcentral-js-widgets.git"
   },
+  "license": "MIT",
+  "author": "RingCentral Integration Team",
+  "main": "src/app/index.js",
   "scripts": {
     "build": "yarn gulp build",
     "build-mfe": "yarn gulp build --brand rc --build-env prod",
+    "lib-build": "yarn gulp libBuild",
+    "release": "yarn gulp release",
     "serve": "http-server build/rc --cors -p 8087",
     "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
     "lint": "yarn eslint . --quiet",
@@ -42,6 +50,10 @@
     "@ringcentral-integration/locale-settings": "*",
     "@ringcentral-integration/next-builder": "*",
     "@ringcentral-integration/test-utils": "*",
+    "fs-extra": "^10.1.0",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-sourcemaps": "^2.6.5",
     "webpack": "^5.89.0",
     "webpack-dev-server": "^4.15.1"
   },

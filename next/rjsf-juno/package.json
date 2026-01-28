@@ -1,15 +1,34 @@
 {
   "name": "@ringcentral-integration/rjsf-juno",
   "version": "0.0.1",
+  "description": "React JSON Schema Form theme for RingCentral Juno design system.",
+  "homepage": "https://github.com/ringcentral/ringcentral-js-widgets/tree/master/next/rjsf-juno#readme",
+  "bugs": {
+    "url": "https://github.com/ringcentral/ringcentral-js-widgets/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ringcentral/ringcentral-js-widgets.git"
+  },
+  "license": "MIT",
+  "author": "RingCentral Integration Team",
+  "main": "index.js",
   "comment": "TODO: the test should be fix, the snapshot-test with rjsf need esm, should check later",
   "scripts": {
+    "build": "gulp build",
+    "release": "gulp release",
     "test": "yarn run-test",
     "tsc-check": "yarn tsc --project tsconfig.lint.json --noEmit",
     "update-snapshot": "yarn test  -u"
   },
   "devDependencies": {
-    "typescript": "^5.8.3",
-    "@rjsf/snapshot-tests": "^5.18.3"
+    "@ringcentral-integration/babel-settings": "*",
+    "@rjsf/snapshot-tests": "^5.18.3",
+    "fs-extra": "^10.1.0",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-sourcemaps": "^2.6.5",
+    "typescript": "^5.8.3"
   },
   "dependencies": {
     "@ringcentral/juno": "^2.42.0",
