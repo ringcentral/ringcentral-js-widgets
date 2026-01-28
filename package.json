@@ -1,0 +1,23 @@
+{
+  "name": "@ringcentral-integration/rjsf-spring",
+  "version": "0.0.1",
+  "description": "React JSON Schema Form theme for RingCentral Spring design system.",
+  "homepage": "https://github.com/ringcentral/ringcentral-js-widgets/tree/master/next/rjsf-spring#readme",
+  "bugs": {
+    "url": "https://github.com/ringcentral/ringcentral-js-widgets/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ringcentral/ringcentral-js-widgets.git"
+  },
+  "license": "MIT",
+  "author": "RingCentral Integration Team",
+  "main": "index.js",
+  "dependencies": {
+    "@ringcentral/spring-ui": "1.7.0",
+    "@ringcentral/spring-icon": "1.7.0",
+    "dayjs": "^1.11.7",
+    "@rjsf/core": "^5.18.3",
+    "@rjsf/utils": "^5.18.3"
+  }
+}

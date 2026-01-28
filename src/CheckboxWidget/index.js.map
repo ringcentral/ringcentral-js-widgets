@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","names":["_CheckboxWidget","_interopRequireDefault","require","e","__esModule"],"sources":["src/CheckboxWidget/index.ts"],"sourcesContent":["export { default } from './CheckboxWidget';\n"],"mappings":";;;;;;;;;;;;AAAA,IAAAA,eAAA,GAAAC,sBAAA,CAAAC,OAAA;AAA2C,SAAAD,uBAAAE,CAAA,WAAAA,CAAA,IAAAA,CAAA,CAAAC,UAAA,GAAAD,CAAA,gBAAAA,CAAA","ignoreList":[]}
