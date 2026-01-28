@@ -1,0 +1,23 @@
+"use strict";
+
+require("core-js/modules/es.object.define-property.js");
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.SUBCATEGORY_MATCHING_SETTING = exports.DELAY_IN_CALL_LOGGING = void 0;
+var SUBCATEGORY_MATCHING_SETTING = exports.SUBCATEGORY_MATCHING_SETTING = /*#__PURE__*/function (SUBCATEGORY_MATCHING_SETTING) {
+  SUBCATEGORY_MATCHING_SETTING["ALPHABETICAL"] = "ALPHABETICAL";
+  SUBCATEGORY_MATCHING_SETTING["RECENTLY_ACTIVE"] = "RECENTLY_ACTIVE";
+  return SUBCATEGORY_MATCHING_SETTING;
+}({});
+var DELAY_IN_CALL_LOGGING = exports.DELAY_IN_CALL_LOGGING = /*#__PURE__*/function (DELAY_IN_CALL_LOGGING) {
+  DELAY_IN_CALL_LOGGING["NO_DELAY"] = "NO_DELAY";
+  DELAY_IN_CALL_LOGGING["5_MIN"] = "5_MIN";
+  DELAY_IN_CALL_LOGGING["10_MIN"] = "10_MIN";
+  DELAY_IN_CALL_LOGGING["15_MIN"] = "15_MIN";
+  DELAY_IN_CALL_LOGGING["20_MIN"] = "20_MIN";
+  DELAY_IN_CALL_LOGGING["25_MIN"] = "25_MIN";
+  DELAY_IN_CALL_LOGGING["30_MIN"] = "30_MIN";
+  return DELAY_IN_CALL_LOGGING;
+}({});
+//# sourceMappingURL=account-configuration-response.js.map
