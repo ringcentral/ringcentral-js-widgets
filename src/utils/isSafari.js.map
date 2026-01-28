@@ -1,0 +1,1 @@
+{"version":3,"file":"isSafari.js","names":["isSafari","test","navigator","userAgent"],"sources":["src/utils/isSafari.ts"],"sourcesContent":["export function isSafari() {\n  return /^((?!chrome|android).)*safari/i.test(navigator.userAgent);\n}\n"],"mappings":";;;;;;;;AAAO,SAASA,QAAQA,CAAA,EAAG;EACzB,OAAO,gCAAgC,CAACC,IAAI,CAACC,SAAS,CAACC,SAAS,CAAC;AACnE","ignoreList":[]}
