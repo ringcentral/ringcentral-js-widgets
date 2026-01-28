@@ -1,0 +1,1 @@
+{"version":3,"file":"Contacts.interface.js","names":[],"sources":["src/app/services/Contacts/Contacts.interface.ts"],"sourcesContent":["export interface ContactsOptions {}\n"],"mappings":"","ignoreList":[]}

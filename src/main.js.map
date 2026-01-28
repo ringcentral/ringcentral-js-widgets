@@ -1,0 +1,1 @@
+{"version":3,"file":"main.js","names":["Promise","resolve","then","_interopRequireWildcard","require"],"sources":["src/main.ts"],"sourcesContent":["import('./bootstrap');\n"],"mappings":";;;;;;;;;;;;;;;AAAAA,OAAA,CAAAC,OAAA,GAAAC,IAAA;EAAA,OAAAC,uBAAA,CAAAC,OAAA,CAAO,aAAa;AAAA","ignoreList":[]}

@@ -1,0 +1,1 @@
+{"version":3,"file":"ActivityMatcher.interface.js","names":[],"sources":["src/app/services/ActivityMatcher/ActivityMatcher.interface.ts"],"sourcesContent":["import type { DataMatcherOptions } from '@ringcentral-integration/commons/lib/DataMatcherV2';\n\nexport interface ActivityMatcherOptions extends DataMatcherOptions {\n  //\n}\n"],"mappings":"","ignoreList":[]}

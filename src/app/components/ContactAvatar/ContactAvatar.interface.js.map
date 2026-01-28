@@ -1,0 +1,1 @@
+{"version":3,"file":"ContactAvatar.interface.js","names":[],"sources":["src/app/components/ContactAvatar/ContactAvatar.interface.ts"],"sourcesContent":["export type TrackProfileFn = (entityType: string, location?: string) => void;\n"],"mappings":"","ignoreList":[]}

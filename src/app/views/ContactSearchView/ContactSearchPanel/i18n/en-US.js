@@ -1,0 +1,25 @@
+"use strict";
+
+require("core-js/modules/es.symbol.js");
+require("core-js/modules/es.symbol.description.js");
+require("core-js/modules/es.symbol.iterator.js");
+require("core-js/modules/es.array.iterator.js");
+require("core-js/modules/es.object.define-property.js");
+require("core-js/modules/es.object.to-string.js");
+require("core-js/modules/es.string.iterator.js");
+require("core-js/modules/web.dom-collections.iterator.js");
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+require("core-js/modules/es.symbol.to-primitive.js");
+require("core-js/modules/es.date.to-primitive.js");
+require("core-js/modules/es.number.constructor.js");
+var _ContactSearchPanelEnum = require("../ContactSearchPanelEnum");
+var _HintsType$thirdParty;
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+var _default = exports["default"] = (_HintsType$thirdParty = {}, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_HintsType$thirdParty, _ContactSearchPanelEnum.HintsType.thirdPartyNoRecordsContent, 'Enter at least {minimumLength} characters to search {sourceName} contacts.'), _ContactSearchPanelEnum.HintsType.noFilterOrSearchRecordsTitle, 'No results found'), _ContactSearchPanelEnum.HintsType.noFilterOrSearchRecordsContent, 'Check results from other sources or change your keyword.'), _ContactSearchPanelEnum.HintsType.searching, 'Searching...'), "companyTabTitle", 'Company'), "personalTabTitle", 'Personal'), "direct", 'Direct'), "extension", 'Ext.'), "contact", 'Contact'), "mobile", 'Mobile'), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_HintsType$thirdParty, "company", 'Company'), "home", 'Home'), "home2", 'Home'), "other", 'Other'), "business", 'Business'), "business2", 'Business'), "car", 'Car'), "fax", 'Fax'), "assistant", 'Assistant'), "callback", 'Callback'), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_HintsType$thirdParty, "MobileNumber", 'Mobile Number'), "ContactNumber", 'Contact Number'), "DirectNumber", 'Direct Number'), "doNotCall", 'Do Not Call'), "enterNameOrNumber", 'Enter names or phone numbers'), "enterANameOrNumber", 'Enter a name or number'), "to", 'To'), "dial", 'Dial'), "message", 'Message'), "transfer", 'Transfer'), _defineProperty(_defineProperty(_HintsType$thirdParty, "delete", 'Delete'), "invalidPhoneNumber", 'Invalid phone number.'));
+//# sourceMappingURL=en-US.js.map
