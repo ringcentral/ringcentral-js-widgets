@@ -1,15 +1,23 @@
 {
   "name": "@ringcentral-integration/micro-next-commons",
   "version": "0.0.1",
-  "private": true,
-  "description": "Common libraries for RingCentral JS Widgets",
+  "description": "Common libraries and re-exports for RingCentral Integration micro-frontend modules.",
+  "homepage": "https://github.com/ringcentral/ringcentral-js-widgets/tree/master/next/micro-next-commons#readme",
+  "bugs": {
+    "url": "https://github.com/ringcentral/ringcentral-js-widgets/issues"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ringcentral/ringcentral-js-widget.git"
+    "url": "git+https://github.com/ringcentral/ringcentral-js-widgets.git"
   },
+  "license": "MIT",
+  "author": "RingCentral Integration Team",
+  "main": "src/app/index.js",
   "scripts": {
     "build-spa": "yarn gulp build --env spa",
     "build": "yarn gulp build --env mfe",
+    "lib-build": "yarn gulp libBuild",
+    "release": "yarn gulp release",
     "serve": "http-server build/25.3.10/rc --cors -S -p 8091",
     "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
     "lint": "yarn eslint . --quiet",
@@ -49,6 +57,10 @@
     "@ringcentral-integration/locale-settings": "*",
     "@ringcentral-integration/next-builder": "*",
     "@ringcentral-integration/test-utils": "*",
+    "fs-extra": "^10.1.0",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-sourcemaps": "^2.6.5",
     "webpack": "^5.89.0",
     "webpack-dev-middleware": "^7.4.2",
     "webpack-dev-server": "^4.15.1"
