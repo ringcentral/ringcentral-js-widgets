@@ -1,0 +1,55 @@
+/* 定義滑動距離和時間 */
+:root {
+  --view-transition-duration: 0.195s;
+  --view-transition-easing: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.view-transition-container {
+  view-transition-name: container;
+  position: relative;
+}
+
+.view-transition-detail {
+  view-transition-name: detail;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes slide-from-right {
+  from {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes slide-to-right {
+  from {
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+::view-transition-old(container),
+::view-transition-new(container) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(detail) {
+  animation: slide-to-right var(--view-transition-duration)
+    var(--view-transition-easing) forwards;
+  mix-blend-mode: normal;
+}
+
+::view-transition-new(detail) {
+  animation: slide-from-right var(--view-transition-duration)
+    var(--view-transition-easing) forwards;
+  mix-blend-mode: normal;
+}
+
+::view-transition-group(detail) {
+  z-index: 1;
+}
+// to ensure the toast is on the top of the detail
+::view-transition-group(toast) {
+  z-index: 2;
+}
