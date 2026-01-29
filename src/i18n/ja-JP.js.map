@@ -1,1 +1,1 @@
-{"version":3,"file":"ja-JP.js","sourceRoot":"","sources":["../../../../packages/i18n-dayjs/src/i18n/ja-JP.ts"],"names":[],"mappings":";;AAAA,2BAAyB;AAEzB,kBAAe,EAAE,CAAC"}
+{"version":3,"file":"ja-JP.js","names":["require","_default","exports"],"sources":["src/i18n/ja-JP.ts"],"sourcesContent":["import 'dayjs/locale/ja';\n\nexport default {};\n"],"mappings":";;;;;;;AAAAA,OAAA;AAAyB,IAAAC,QAAA,GAAAC,OAAA,cAEV,CAAC,CAAC","ignoreList":[]}
