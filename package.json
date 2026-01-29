@@ -1,6 +1,6 @@
 {
   "name": "@ringcentral-integration/i18n-dayjs",
-  "version": "0.0.1",
+  "version": "0.16.0",
   "private": false,
   "description": "RingCentral integration i18n with dayjs",
   "homepage": "https://github.com/ringcentral/ringcentral-js-widgets#readme",
@@ -17,7 +17,7 @@
     "dayjs": "^1.11.7"
   },
   "peerDependencies": {
-    "@ringcentral-integration/i18n": "^2.2.1",
-    "@ringcentral-integration/utils": "^0.14.0"
+    "@ringcentral-integration/i18n": "^2.3.1",
+    "@ringcentral-integration/utils": "^0.15.0"
   }
 }
