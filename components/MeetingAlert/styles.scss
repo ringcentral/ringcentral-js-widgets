@@ -1,0 +1,32 @@
+.wrapper {
+  margin: 15px 20px 0;
+
+  div[class*='RcAlert-message'] {
+    font-size: 14px !important;
+  }
+}
+
+.expandWrapper {
+  // The alert should show over the mask in Meeting page
+  z-index: 1001;
+  div[class*='RcAlert-message'] {
+    font-size: 12px !important;
+    line-height: 1.3;
+  }
+}
+
+.underline {
+  text-decoration: underline !important;
+}
+
+.alert {
+  padding: 8px !important;
+  div[class*='RcAlert-icon'] {
+    align-items: flex-start;
+    margin-top: 8px;
+  }
+}
+
+.expandAlert {
+  padding: 8px 16px !important;
+}

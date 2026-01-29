@@ -1,0 +1,22 @@
+@import "~@ringcentral-integration/widgets/lib/commonStyles/fonts";
+
+.root {
+  position: relative;
+  width: 100%;
+  padding: 15px 20px;
+  min-height: 30px;
+  box-sizing: border-box;
+  @include primary-font;
+}
+
+.horizontal {
+  display: inline-flex;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.noborder {
+  border: none;
+}
