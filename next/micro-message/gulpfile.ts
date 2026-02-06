@@ -6,6 +6,7 @@ import {
   exportLocale as el,
   importLocale as il,
 } from '@ringcentral-integration/locale-loader';
+import transformLoader from '@ringcentral-integration/locale-loader/lib/transformLoader';
 import localeSettings from '@ringcentral-integration/locale-settings';
 import { getProjectConfig } from '@ringcentral-integration/next-builder';
 import fs from 'fs-extra';
@@ -121,7 +122,7 @@ export function libCopyAssets() {
     .pipe(gulp.dest(LIB_BUILD_PATH));
 }
 
-// Compile TypeScript to JavaScript
+// Compile TypeScript to JavaScript with locale transformation
 export function libCompile() {
   return gulp
     .src(
@@ -137,6 +138,7 @@ export function libCompile() {
         base: './',
       },
     )
+    .pipe(transformLoader({ ...localeSettings }))
     .pipe(sourcemaps.init())
     .pipe(babel())
     .pipe(sourcemaps.write('.'))

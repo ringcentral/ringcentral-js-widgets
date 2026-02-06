@@ -4,6 +4,8 @@ import gulp from 'gulp';
 import fs from 'fs-extra';
 import babel from 'gulp-babel';
 import sourcemaps from 'gulp-sourcemaps';
+import transformLoader from '@ringcentral-integration/locale-loader/lib/transformLoader';
+import localeSettings from '@ringcentral-integration/locale-settings';
 
 const BUILD_PATH = path.resolve(__dirname, '../../build/next-widgets');
 
@@ -11,23 +13,35 @@ export function clean() {
   return fs.remove(BUILD_PATH);
 }
 
-// Copy TypeScript source files for type information
+// Copy TypeScript/JavaScript source files for type information
 export function copySource() {
   return gulp
     .src(
       [
         './components/**/*.ts',
         './components/**/*.tsx',
+        './components/**/*.js',
+        './components/**/*.jsx',
         './deprecated/**/*.ts',
         './deprecated/**/*.tsx',
+        './deprecated/**/*.js',
+        './deprecated/**/*.jsx',
         './i18n/**/*.ts',
+        './i18n/**/*.js',
         './pages/**/*.ts',
         './pages/**/*.tsx',
+        './pages/**/*.js',
+        './pages/**/*.jsx',
         './styles/**/*.ts',
+        './styles/**/*.js',
         '!./**/*.test.ts',
         '!./**/*.test.tsx',
+        '!./**/*.test.js',
+        '!./**/*.test.jsx',
         '!./**/*.snapshot.test.ts',
         '!./**/*.snapshot.test.tsx',
+        '!./**/*.snapshot.test.js',
+        '!./**/*.snapshot.test.jsx',
       ],
       {
         base: './',
@@ -36,37 +50,59 @@ export function copySource() {
     .pipe(gulp.dest(BUILD_PATH));
 }
 
-// Copy assets (SVG, etc.)
+// Copy assets (SVG, SCSS, etc.)
 export function copyAssets() {
   return gulp
-    .src(['./pages/**/*.svg', './components/**/*.svg'], {
-      base: './',
-    })
+    .src(
+      [
+        './pages/**/*.svg',
+        './components/**/*.svg',
+        './pages/**/*.scss',
+        './components/**/*.scss',
+        './styles/**/*.scss',
+      ],
+      {
+        base: './',
+      },
+    )
     .pipe(gulp.dest(BUILD_PATH));
 }
 
-// Compile TypeScript to JavaScript
+// Compile TypeScript/JavaScript with locale transformation
 export function compile() {
   return gulp
     .src(
       [
         './components/**/*.ts',
         './components/**/*.tsx',
+        './components/**/*.js',
+        './components/**/*.jsx',
         './deprecated/**/*.ts',
         './deprecated/**/*.tsx',
+        './deprecated/**/*.js',
+        './deprecated/**/*.jsx',
         './i18n/**/*.ts',
+        './i18n/**/*.js',
         './pages/**/*.ts',
         './pages/**/*.tsx',
+        './pages/**/*.js',
+        './pages/**/*.jsx',
         './styles/**/*.ts',
+        './styles/**/*.js',
         '!./**/*.test.ts',
         '!./**/*.test.tsx',
+        '!./**/*.test.js',
+        '!./**/*.test.jsx',
         '!./**/*.snapshot.test.ts',
         '!./**/*.snapshot.test.tsx',
+        '!./**/*.snapshot.test.js',
+        '!./**/*.snapshot.test.jsx',
       ],
       {
         base: './',
       },
     )
+    .pipe(transformLoader({ ...localeSettings }))
     .pipe(sourcemaps.init())
     .pipe(babel())
     .pipe(sourcemaps.write('.'))

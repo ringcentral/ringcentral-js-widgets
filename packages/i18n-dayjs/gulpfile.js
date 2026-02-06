@@ -1,8 +1,12 @@
 import cp from 'child_process';
 import fs from 'fs-extra';
 import gulp from 'gulp';
+import babel from 'gulp-babel';
+import sourcemaps from 'gulp-sourcemaps';
 import path from 'path';
 import yargs from 'yargs';
+import transformLoader from '@ringcentral-integration/locale-loader/lib/transformLoader';
+import localeSettings from '@ringcentral-integration/locale-settings';
 
 const DEFAULT_BUILD_PATH = path.resolve(__dirname, '../../build/i18n-dayjs');
 
@@ -18,11 +22,25 @@ export function clean() {
   return fs.remove(buildPath);
 }
 
-export function compile() {
-  return exec('yarn build');
+// Copy TypeScript source files for type information
+export function copySource() {
+  return gulp
+    .src(['./src/**/*.ts', './index.ts'], { base: './' })
+    .pipe(gulp.dest(buildPath));
 }
 
-export const build = gulp.series(clean, compile);
+// Compile TypeScript to JavaScript with locale transformation
+export function compile() {
+  return gulp
+    .src(['./src/**/*.ts', './index.ts'], { base: './' })
+    .pipe(transformLoader({ ...localeSettings }))
+    .pipe(sourcemaps.init())
+    .pipe(babel())
+    .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest(buildPath));
+}
+
+export const build = gulp.series(clean, copySource, compile);
 
 async function exec(command) {
   return new Promise((resolve, reject) => {

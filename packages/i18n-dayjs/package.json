@@ -1,6 +1,6 @@
 {
   "name": "@ringcentral-integration/i18n-dayjs",
-  "version": "0.15.0",
+  "version": "0.16.0",
   "private": false,
   "description": "RingCentral integration i18n with dayjs",
   "homepage": "https://github.com/ringcentral/ringcentral-js-widgets#readme",
@@ -24,6 +24,8 @@
   "devDependencies": {
     "@ringcentral-integration/babel-settings": "*",
     "@ringcentral-integration/i18n": "*",
+    "@ringcentral-integration/locale-loader": "*",
+    "@ringcentral-integration/locale-settings": "*",
     "@ringcentral-integration/utils": "*",
     "fs-extra": "^10.1.0",
     "gulp": "^4.0.2",

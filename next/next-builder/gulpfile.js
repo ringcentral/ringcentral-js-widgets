@@ -61,6 +61,7 @@ export function compile() {
       [
         './src/**/*.ts',
         './index.ts',
+        './scripts/**/*.ts',
         '!./**/*.test.ts',
         '!./**/*.snapshot.test.ts',
       ],
