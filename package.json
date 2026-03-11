@@ -1,6 +1,6 @@
 {
   "name": "@ringcentral-integration/next-builder",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Build tools and webpack configuration for RingCentral Integration next-generation architecture.",
   "homepage": "https://github.com/ringcentral/ringcentral-js-widgets/tree/master/next/next-builder#readme",
   "bugs": {
