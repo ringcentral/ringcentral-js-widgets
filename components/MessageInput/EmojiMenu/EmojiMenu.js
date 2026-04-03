@@ -23,7 +23,7 @@ require("core-js/modules/es.string.iterator.js");
 require("core-js/modules/es.weak-map.js");
 require("core-js/modules/web.dom-collections.iterator.js");
 var _hooks = require("@ringcentral-integration/micro-core/src/app/hooks");
-var _styledComponents = require("@ringcentral/juno/es6/foundation/styled-components.js");
+var _styledComponents = require("@ringcentral/juno/foundation/styled-components");
 var _springIcon = require("@ringcentral/spring-icon");
 var _springUi = require("@ringcentral/spring-ui");
 var _react = _interopRequireWildcard(require("react"));
@@ -56,7 +56,7 @@ var EmojiMenu = exports.EmojiMenu = /*#__PURE__*/(0, _react.forwardRef)(function
     onOpen = props.onOpen,
     onClose = props.onClose,
     getInputElement = props.getInputElement;
-  var theme = (0, _styledComponents.RcUseTheme)();
+  var theme = (0, _styledComponents.useTheme)();
   var popperRef = (0, _react.useRef)(null);
   var positionRef = (0, _react.useRef)(null);
   var innerRef = (0, _react.useRef)(null);
