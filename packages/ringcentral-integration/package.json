@@ -46,7 +46,7 @@
     "ringcentral-call": "^0.2.21",
     "ringcentral-call-control": "^0.2.10",
     "ringcentral-web-phone": "^0.8.14",
-    "uuid": "^9.0.1",
+    "uuid": "^14.0.0",
     "yards": "^0.1.4"
   },
   "devDependencies": {
