@@ -1,10 +1,5 @@
 "use strict";
-
-require("core-js/modules/es.object.define-property.js");
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
+Object.defineProperty(exports, "__esModule", { value: true });
 require("dayjs/locale/en-au");
-var _default = exports["default"] = {};
+exports.default = {};
 //# sourceMappingURL=en-AU.js.map
