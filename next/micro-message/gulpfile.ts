@@ -129,6 +129,8 @@ export function libCompile() {
       [
         './src/**/*.ts',
         './src/**/*.tsx',
+        './src/**/*.js',
+        './src/**/*.jsx',
         '!./**/*.test.ts',
         '!./**/*.test.tsx',
         '!./**/*.spec.ts',

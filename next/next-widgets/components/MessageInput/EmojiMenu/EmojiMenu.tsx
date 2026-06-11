@@ -1,5 +1,5 @@
 import { useLocale } from '@ringcentral-integration/micro-core/src/app/hooks';
-import { useTheme } from '@ringcentral/juno';
+import { useTheme } from '@ringcentral/juno/foundation/styled-components';
 
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import { EmojiMd as Emoji } from '@ringcentral/spring-icon';

@@ -117,7 +117,13 @@ export function libCopySource() {
 export function libCopyAssets() {
   return gulp
     .src(
-      ['./src/**/*.svg', './src/**/*.png', './src/**/*.mp3', './src/**/*.scss'],
+      [
+        './src/**/*.svg',
+        './src/**/*.png',
+        './src/**/*.gif',
+        './src/**/*.mp3',
+        './src/**/*.scss',
+      ],
       {
         base: './',
       },

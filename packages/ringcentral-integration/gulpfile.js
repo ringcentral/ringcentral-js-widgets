@@ -204,7 +204,12 @@ export async function releaseClean() {
 
 export function releaseCopy() {
   return gulp
-    .src([`${BUILD_PATH}/**`, `${__dirname}/README.md`, `${__dirname}/LICENSE`])
+    .src([
+      `${BUILD_PATH}/**`,
+      `${__dirname}/README.md`,
+      `${__dirname}/LICENSE`,
+      `${__dirname}/**/*.mp3`,
+    ])
     .pipe(gulp.dest(RELEASE_PATH));
 }
 
