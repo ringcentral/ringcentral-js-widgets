@@ -16,10 +16,10 @@
     "@babel/plugin-transform-react-jsx-source": "^7.5.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.5.5"
+    "@babel/core": "^7.29.6"
   },
   "peerDependencies": {
-    "@babel/core": "^7.5.5"
+    "@babel/core": "^7.29.6"
   },
   "nx": {
     "tags": [
