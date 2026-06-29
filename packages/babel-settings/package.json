@@ -11,7 +11,7 @@
     "test": "yarn run-test"
   },
   "dependencies": {
-    "@babel/core": "^7.24.0",
+    "@babel/core": "^7.29.6",
     "@babel/node": "^7.15.8",
     "@babel/plugin-proposal-class-properties": "^7.10.4",
     "@babel/plugin-proposal-decorators": "^7.10.5",
