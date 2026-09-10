@@ -1,3 +1,3 @@
-"use strict";
 /* pseudo */
+"use strict";
 //# sourceMappingURL=rc-XX.js.map

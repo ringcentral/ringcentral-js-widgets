@@ -1,1 +1,1 @@
-{"version":3,"file":"fi-FI.js","sourceRoot":"","sources":["../../../../packages/i18n-dayjs/src/i18n/fi-FI.ts"],"names":[],"mappings":";;AAAA,2BAAyB;AAEzB,kBAAe,EAAE,CAAC"}
+{"version":3,"file":"fi-FI.js","names":["require","_default","exports"],"sources":["src/i18n/fi-FI.ts"],"sourcesContent":["import 'dayjs/locale/fi';\n\nexport default {};\n"],"mappings":";;;;;;;AAAAA,OAAA;AAAyB,IAAAC,QAAA,GAAAC,OAAA,cAEV,CAAC,CAAC","ignoreList":[]}

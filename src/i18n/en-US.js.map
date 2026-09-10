@@ -1,1 +1,1 @@
-{"version":3,"file":"en-US.js","sourceRoot":"","sources":["../../../../packages/i18n-dayjs/src/i18n/en-US.ts"],"names":[],"mappings":";;AAAA,kBAAe,EAAW,CAAC"}
+{"version":3,"file":"en-US.js","names":[],"sources":["src/i18n/en-US.ts"],"sourcesContent":["export default {} as const;\n"],"mappings":";;;;;;;oCAAe,CAAC,CAAC","ignoreList":[]}

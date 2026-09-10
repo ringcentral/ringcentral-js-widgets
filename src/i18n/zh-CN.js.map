@@ -1,1 +1,1 @@
-{"version":3,"file":"zh-CN.js","sourceRoot":"","sources":["../../../../packages/i18n-dayjs/src/i18n/zh-CN.ts"],"names":[],"mappings":";;AAAA,8BAA4B;AAE5B,kBAAe,EAAE,CAAC"}
+{"version":3,"file":"zh-CN.js","names":["require","_default","exports"],"sources":["src/i18n/zh-CN.ts"],"sourcesContent":["import 'dayjs/locale/zh-cn';\n\nexport default {};\n"],"mappings":";;;;;;;AAAAA,OAAA;AAA4B,IAAAC,QAAA,GAAAC,OAAA,cAEb,CAAC,CAAC","ignoreList":[]}

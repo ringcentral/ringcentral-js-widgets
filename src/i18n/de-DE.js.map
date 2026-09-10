@@ -1,1 +1,1 @@
-{"version":3,"file":"de-DE.js","sourceRoot":"","sources":["../../../../packages/i18n-dayjs/src/i18n/de-DE.ts"],"names":[],"mappings":";;AAAA,2BAAyB;AAEzB,kBAAe,EAAE,CAAC"}
+{"version":3,"file":"de-DE.js","names":["require","_default","exports"],"sources":["src/i18n/de-DE.ts"],"sourcesContent":["import 'dayjs/locale/de';\n\nexport default {};\n"],"mappings":";;;;;;;AAAAA,OAAA;AAAyB,IAAAC,QAAA,GAAAC,OAAA,cAEV,CAAC,CAAC","ignoreList":[]}
