@@ -1,0 +1,1 @@
+{"version":3,"file":"defaultConfig.js","sourceRoot":"","sources":["../../../packages/locale-loader/lib/defaultConfig.ts"],"names":[],"mappings":";;AAQA,kBAAe;IACb,YAAY,EAAE,OAAO;IACrB,YAAY,EAAE,OAAO,CAAC,GAAG,EAAE;IAC3B,kBAAkB,EAAE,gBAAgB;IACpC,WAAW,EAAE,IAAI;IACjB,MAAM,EAAE,KAAK;CACG,CAAC"}
