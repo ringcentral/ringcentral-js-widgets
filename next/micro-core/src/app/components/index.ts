@@ -4,6 +4,7 @@ export * from './DownloadButton';
 export * from './FlexFill';
 export * from './SpinnerOverlay';
 export * from './TextMiddleEllipsis';
+export * from './TimezoneSelect';
 export * from './Draggable';
 export * from './DropArea';
 export * from './FormattedDateTime';

@@ -1,17 +1,17 @@
 /* eslint-disable */
 export default {
   loginButton: 'Anmelden',
-  newUser: 'Neuer Benutzer?',
-  tryForFree: 'Kostenlos testen',
+  newUser: 'Neu bei {brandName}?',
+  tryForFree: 'Jetzt registrieren',
   version: 'Version',
-  title: 'Willkommen bei {brandName}',
   description:
     '{appName} bietet eine native Integration für ein nahtloses Anruferlebnis.',
+  tagline: 'Die KI-gestützte Kommunikationsplattform',
 } as const;
 
-// @key: @#@"loginButton"@#@ @source: @#@"Sign In"@#@
-// @key: @#@"newUser"@#@ @source: @#@"New user?"@#@
-// @key: @#@"tryForFree"@#@ @source: @#@"Try for free"@#@
+// @key: @#@"loginButton"@#@ @source: @#@"Sign in"@#@
+// @key: @#@"newUser"@#@ @source: @#@"New to {brandName}?"@#@
+// @key: @#@"tryForFree"@#@ @source: @#@"Sign up now"@#@
 // @key: @#@"version"@#@ @source: @#@"Version"@#@
-// @key: @#@"title"@#@ @source: @#@"Welcome to {brandName}"@#@
 // @key: @#@"description"@#@ @source: @#@"{appName} provides a native integration for a seamless calling experience."@#@
+// @key: @#@"tagline"@#@ @source: @#@"The AI communications platform"@#@

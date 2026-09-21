@@ -3,9 +3,11 @@ import React, {
   createContext,
   FunctionComponent,
   useContext,
+  useMemo,
   useRef,
   useState,
 } from 'react';
+import type { PropsWithChildren } from 'react';
 import { noop } from 'rxjs';
 
 /**
@@ -74,9 +76,23 @@ export const AppContext = createContext<{
   expandedContentRef: { current: null },
 });
 
+export const AppRefsContext = createContext<{
+  additionalFooterHeightRef: React.MutableRefObject<number>;
+  announcementRef: React.RefObject<HTMLDivElement>;
+  announcementBottomAnchorRef: React.RefObject<HTMLDivElement>;
+  mainContentRef: React.RefObject<HTMLDivElement>;
+  expandedContentRef: React.RefObject<HTMLDivElement>;
+}>({
+  additionalFooterHeightRef: { current: 0 },
+  announcementRef: { current: null },
+  announcementBottomAnchorRef: { current: null },
+  mainContentRef: { current: null },
+  expandedContentRef: { current: null },
+});
+
 export const AppProvider: FunctionComponent<{
   defaultFooterHeight?: number;
-}> = ({ children, defaultFooterHeight = 0 }) => {
+} & PropsWithChildren<{}>> = ({ children, defaultFooterHeight = 0 }) => {
   const [nav, setNav] = useState<React.ReactNode | null>(null);
   const [title, setTitle] = useState<React.ReactNode | null>(null);
   const [navOverrideMode, setNavOverrideMode] = useState(false);
@@ -106,35 +122,60 @@ export const AppProvider: FunctionComponent<{
 
   const cancelReset = useEventCallback(cancel);
 
+  const refsContextValue = useMemo(
+    () => ({
+      additionalFooterHeightRef,
+      announcementRef,
+      announcementBottomAnchorRef,
+      mainContentRef,
+      expandedContentRef,
+    }),
+    [],
+  );
+
+  const appContextValue = useMemo(
+    () => ({
+      nav,
+      setNav,
+      title,
+      setTitle,
+      navOverrideMode,
+      setNavOverrideMode,
+      footer,
+      setFooter,
+      footerHeight,
+      setFooterHeight,
+      additionalFooterHeightRef,
+      announcementBottomAnchorRef,
+      reset,
+      cancelReset,
+      announcementRef,
+      mainContentRef,
+      expandedContentRef,
+    }),
+    [
+      nav,
+      title,
+      navOverrideMode,
+      footer,
+      footerHeight,
+      reset,
+      cancelReset,
+      refsContextValue,
+    ],
+  );
+
   return (
-    <AppContext.Provider
-      value={{
-        nav,
-        setNav,
-        title,
-        setTitle,
-        navOverrideMode,
-        setNavOverrideMode,
-        footer,
-        setFooter,
-        footerHeight,
-        setFooterHeight,
-        additionalFooterHeightRef,
-        announcementBottomAnchorRef,
-        reset,
-        cancelReset,
-        announcementRef,
-        mainContentRef,
-        expandedContentRef,
-      }}
-    >
-      {children}
-    </AppContext.Provider>
+    <AppRefsContext.Provider value={refsContextValue}>
+      <AppContext.Provider value={appContextValue}>
+        {children}
+      </AppContext.Provider>
+    </AppRefsContext.Provider>
   );
 };
 
 export const useAppContentRef = () => {
-  const { mainContentRef, expandedContentRef } = useContext(AppContext);
+  const { mainContentRef, expandedContentRef } = useContext(AppRefsContext);
 
   return { mainContentRef, expandedContentRef };
 };

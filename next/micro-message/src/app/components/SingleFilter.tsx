@@ -63,6 +63,7 @@ export const SingleFilter: React.FC<SingleFilterProps> = ({
   className,
   MenuProps,
   MoreButtonProps,
+  ...rest
 }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -117,6 +118,7 @@ export const SingleFilter: React.FC<SingleFilterProps> = ({
   return (
     <div
       className={clsx('sui-single-filter sui-single-filter-root', className)}
+      {...rest}
     >
       {/* Visible filter buttons */}
       {visibleItems.map((item) => (

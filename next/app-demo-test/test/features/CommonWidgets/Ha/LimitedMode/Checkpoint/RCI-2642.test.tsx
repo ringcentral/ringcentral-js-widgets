@@ -39,8 +39,8 @@ import {
 } from '@ringcentral-integration/test-utils';
 
 import {
+  CheckAlertAutoDismiss,
   CheckContainsAlertMessage,
-  CheckToastMessage,
 } from '../../../../../steps/Alert';
 import { CheckLimitedModeBadge } from '../../../../../steps/Badge';
 import { CommonLogin } from '../../../../../steps/CommonLogin';
@@ -132,10 +132,7 @@ export class LimitedMode extends Step {
 							  The 'Limited Mode' badge keep stay"
           action={[
             CheckLimitedModeBadge,
-            <CheckToastMessage
-              message="Sorry, something went wrong on our end, but we are working hard to fix it. You may have limited access to certain features. The app will recover automatically as soon as it’s available."
-              noExist
-            />,
+            <CheckAlertAutoDismiss message="Sorry, something went wrong on our end, but we are working hard to fix it. You may have limited access to certain features. The app will recover automatically as soon as it’s available." />,
             UseRealTimers,
           ]}
         />

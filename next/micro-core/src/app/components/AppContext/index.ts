@@ -4,6 +4,7 @@ export * from './AppFooter';
 export * from './ToastPositionAdjustor';
 export * from './AppAnnouncement';
 export * from './PortalWithCheckAgain';
+export * from './AnchorOverlay';
 export * from './ExpandedLayoutPopper';
 export * from './AppMainContent';
 export * from './AppExpandedContent';

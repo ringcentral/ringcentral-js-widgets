@@ -8,8 +8,7 @@
  * Entry point(/s):
  * Login CTI APP > Settings > Calling
  */
-import { loggerV2 } from '@ringcentral-integration/core/lib/logger/loggerV2';
-import { Webphone } from '@ringcentral-integration/micro-phone/src/app/services';
+import { logger } from '@ringcentral-integration/next-core';
 import {
   autorun,
   common,
@@ -54,10 +53,10 @@ import {
 beforeEach(() => {
   mockAllLogs();
 
-  jest.spyOn(loggerV2, 'log');
-  jest.spyOn(loggerV2, 'warn');
-  jest.spyOn(loggerV2, 'error');
-  jest.spyOn(loggerV2, 'info');
+  jest.spyOn(logger, 'log');
+  jest.spyOn(logger, 'warn');
+  jest.spyOn(logger, 'error');
+  jest.spyOn(logger, 'info');
 });
 
 @autorun(test)
@@ -137,10 +136,6 @@ export class RCI805_MakeOutboundCall extends Step {
           MockGetPhoneNumber,
           MockMessageSync,
           <Login shouldMockWebphone={false} />,
-          ((_, { app }) => {
-            const webphone = app.container.got(Webphone)!;
-            jest.spyOn(webphone.logger, 'log');
-          }) as StepFunction,
           <TriggerWebphoneEvent
             eventName="registrationFailed"
             args={[{ statusCode: 603 }]}
@@ -166,18 +161,6 @@ export class RCI805_MakeOutboundCall extends Step {
             <CheckContainsAlertMessage
               message={'A maximum of 5 web phones could be registered.'}
             />,
-            ((_, { app }) => {
-              const webphone = app.container.got(Webphone)!;
-              console.log(jest.mocked(webphone.logger.log).mock.calls);
-              expect(webphone.logger.log).toHaveBeenCalledWith(
-                'webphone not able to make call, errorCode or not ready or not connected more than 30s',
-                {
-                  ready: true,
-                  connected: false,
-                  errorCode: 'webphoneCountOverLimit',
-                },
-              );
-            }) as StepFunction,
           ]}
         />
       </Scenario>

@@ -5,7 +5,7 @@ import {
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { LiteralUnion, RcSnackbarContentProps } from '@ringcentral/juno';
-import type { ComponentType } from 'react';
+import type { ComponentType, ReactNode } from 'react';
 
 export interface ToastOptions {
   /**
@@ -109,6 +109,7 @@ export interface ToastItem {
 
 export type ToastItemPanelProps = {
   dismiss: (id: string, reason: ToastOnCloseType) => void;
+  children?: ReactNode;
 } & ToastItem &
   Pick<
     RcSnackbarContentProps,

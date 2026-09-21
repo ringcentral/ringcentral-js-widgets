@@ -4,7 +4,7 @@ import type {
   Service as BaseService,
   defaultStateKey,
   stateKey,
-} from 'reactant-share';
+} from 'reactant';
 
 import { userIdReadyKey } from './constant';
 import type { globalStorageKey } from './lib/decorators/globalStorage';

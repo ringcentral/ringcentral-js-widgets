@@ -8,14 +8,15 @@ import {
 } from '@ringcentral/juno';
 import { Search } from '@ringcentral/juno-icon';
 import clsx from 'clsx';
+import type { PropsWithChildren } from 'react';
 import React, { forwardRef, useMemo } from 'react';
 
 import { SearchBarStyle } from './styles';
 import { SearchBarClasses } from './utils';
 
-export type SearchBarProps = {
+export type SearchBarProps = PropsWithChildren<{
   className?: string;
-} & RcClassesProps<'root'>;
+} & RcClassesProps<'root'>>;
 
 const _SearchBar = forwardRef<any, SearchBarProps>(
   ({ classes: classesProp, className, children, ...rest }, ref) => {

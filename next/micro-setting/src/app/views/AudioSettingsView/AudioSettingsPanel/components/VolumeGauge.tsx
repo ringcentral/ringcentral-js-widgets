@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import type { PropsWithChildren } from 'react';
 import React, { FC, useMemo } from 'react';
 
 type VolumeGaugeProps = {
@@ -7,9 +8,9 @@ type VolumeGaugeProps = {
   isRecording?: boolean;
 };
 
-const GaugeWrapper: FC<{
+const GaugeWrapper: FC<PropsWithChildren<{
   size: number;
-}> = ({ children, size, ...rest }) => {
+}>> = ({ children, size, ...rest }) => {
   const width = size * 8;
   return (
     <div
@@ -22,9 +23,9 @@ const GaugeWrapper: FC<{
   );
 };
 
-const Gauge: FC<{
+const Gauge: FC<PropsWithChildren<{
   volume: number;
-}> = ({ children, volume, ...rest }) => {
+}>> = ({ children, volume, ...rest }) => {
   const transformData = -50 + volume / 2;
   return (
     <div
@@ -37,10 +38,10 @@ const Gauge: FC<{
   );
 };
 
-const Dot: FC<{
+const Dot: FC<PropsWithChildren<{
   inactive?: boolean;
   isRecording?: boolean;
-}> = ({ children, inactive, isRecording, ...rest }) => {
+}>> = ({ children, inactive, isRecording, ...rest }) => {
   let backgroundColor = 'bg-neutral-b4';
   if (!inactive && !isRecording) {
     backgroundColor = 'bg-success';

@@ -17,6 +17,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import type { PropsWithChildren } from 'react';
 
 import { useLocale } from '../../../hooks';
 import { HeaderViewProps } from '../Header.view.interface';
@@ -33,7 +34,7 @@ export type HeaderPanelAction = {
 export const HeaderPanel: FunctionComponent<
   HeaderViewProps & {
     action?: Ref<HeaderPanelAction>;
-  }
+  } & PropsWithChildren<{}>
 > = (props) => {
   const {
     loginNumber,

@@ -272,15 +272,13 @@ const AddTodo = () => (
 
 ```js
 import React from 'react';
-import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { render, screen } from '@testing-library/react';
 
 import MyComponent from '../src/MyComponent';
-import Foo from '../src/Foo';
 
-it('renders three <Foo /> components', () => {
-    const wrapper = shallow(<MyComponent />);
-    expect(wrapper.find(Foo)).to.have.lengthOf(3);
+it('renders the expected content', () => {
+    render(<MyComponent />);
+    expect(screen.getByText('Expected content')).toBeInTheDocument();
 });
 ```
 
@@ -288,15 +286,13 @@ You have to use the following writing instead.
 
 ```js
 import React from 'react';
-import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { render, screen } from '@testing-library/react';
 
 import MyComponent from '../src/MyComponent';
-import Foo from '../src/Foo';
 
 const checkMyComponent = () => {
-    const wrapper = shallow(React.createElement(MyComponent));
-    expect(wrapper.find(Foo)).to.have.lengthOf(3);
+    render(React.createElement(MyComponent));
+    expect(screen.getByText('Expected content')).toBeInTheDocument();
 };
 ```
 

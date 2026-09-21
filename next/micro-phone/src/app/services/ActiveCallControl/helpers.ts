@@ -108,10 +108,10 @@ export function normalizeSession(
        * the server muted state
        */
       muted ||
-        /**
-         * the local muted state
-         */
-        webphoneSession?.isOnMute,
+      /**
+       * the local muted state
+       */
+      webphoneSession?.isOnMute,
     ),
     isOnHold: status?.code === activeCallControlStatus.hold,
     isForwarded: false,
@@ -148,16 +148,16 @@ export function conflictError({
 export const isOtherDeviceCall = (callItem: ICall): boolean => {
   return Boolean(
     !callItem.webphoneSession &&
-      // when not have id, means that is our fake call
-      callItem.id,
+    // when not have id, means that is our fake call
+    callItem.id,
   );
 };
 
 export const isRingingCall = (callItem: ICall | undefined): boolean => {
   return Boolean(
     callItem &&
-      callItem.telephonySession &&
-      isProceeding(callItem.telephonySession),
+    callItem.telephonySession &&
+    isProceeding(callItem.telephonySession),
   );
 };
 
@@ -194,8 +194,8 @@ export const isQueueCall = (call: ICall) => {
 export const isHoldingCall = (callItem: ICall | undefined): boolean => {
   return Boolean(
     callItem &&
-      callItem.telephonySession &&
-      isHolding(callItem.telephonySession),
+    callItem.telephonySession &&
+    isHolding(callItem.telephonySession),
   );
 };
 

@@ -1,4 +1,4 @@
-import type { AccountConfigurationResponse } from '@ringcentral-integration/micro-next-commons/src/models';
+import type { AccountConfigurationResponse } from './AccountConfigurationResponse.interface';
 
 export interface AALOptions {
   /**

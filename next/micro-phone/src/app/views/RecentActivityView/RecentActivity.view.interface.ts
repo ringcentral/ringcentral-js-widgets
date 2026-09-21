@@ -5,8 +5,8 @@ import type RecentActivityPanel from '@ringcentral-integration/widgets/component
 
 import type { HistoryCall } from '../../services';
 
-import type { trackTabsMap } from './RecentActivity.view';
 import type { Tab } from './getTabs';
+import type { trackTabsMap } from './RecentActivity.view';
 
 export interface RecentActivityViewOptions {
   component?: typeof RecentActivityPanel;

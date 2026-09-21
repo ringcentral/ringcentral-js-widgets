@@ -43,7 +43,7 @@ const TransferringCallItem: FC<TransferringCallItemProps> = ({
     >
       <button
         className={clsx(
-          'flex flex-nowrap items-center flex-auto gap-2 rounded-full px-4 py-2 text-left typography-mainText hover:bg-neutral-b4/40',
+          'flex h-8 flex-nowrap items-center flex-auto gap-2 rounded-full px-4 text-left typography-mainText hover:bg-neutral-b4/40',
           active ? 'bg-neutral-b4' : undefined,
         )}
         onClick={() => {
@@ -73,7 +73,7 @@ const TransferringCallItem: FC<TransferringCallItemProps> = ({
           title: t(call.isConferenceCall ? 'leaveCall' : 'endCall'),
         }}
         data-sign="endCall"
-        className={active ? undefined : 'invisible'}
+        className={clsx('h-8 w-8 min-w-8', active ? undefined : 'invisible')}
         onClick={() => {
           onAction('hangUpWarmTransfer', telephonySessionId);
         }}
@@ -94,7 +94,10 @@ export const TransferringCall: React.FC<CallControlViewPanelProps> = ({
   const activeTelephonySessionId = call.telephonySessionId;
 
   return (
-    <div data-sign="transferring-calls">
+    <div
+      data-sign="transferring-calls"
+      className="flex flex-col h-full overflow-hidden"
+    >
       <PageHeader
         className="h-12"
         onBackClick={() => onAction('back')}
@@ -106,7 +109,7 @@ export const TransferringCall: React.FC<CallControlViewPanelProps> = ({
       >
         {t('transferTitle')}
       </PageHeader>
-      <ul className="mx-4 space-y-1 mt-6">
+      <ul className="mx-4 space-y-1 mt-4 flex-none">
         {transferringCalls!.map((transferringCall, index) => {
           const currTelephonySessionId = transferringCall.telephonySessionId;
           return (
@@ -121,22 +124,28 @@ export const TransferringCall: React.FC<CallControlViewPanelProps> = ({
         })}
       </ul>
 
-      <div className="flex flex-col items-center mt-6 mb-12">{children}</div>
+      <main
+        className={clsx(
+          'flex flex-col flex-auto items-center overflow-auto w-full h-0 pb-4',
+        )}
+      >
+        <div className="flex flex-col items-center my-4">{children}</div>
 
-      <div className="flex justify-center items-center relative">
-        <IconButton
-          color="success"
-          size="xxxlarge"
-          iconSize="large"
-          TooltipProps={{ title: t('completeTransfer') }}
-          variant="contained"
-          data-sign="completeWarnTransfer"
-          symbol={TransferCallMd}
-          onClick={() => {
-            onAction('completeWarmTransfer');
-          }}
-        />
-      </div>
+        <div className="flex justify-center items-center relative">
+          <IconButton
+            color="success"
+            size="xlarge"
+            iconSize="large"
+            TooltipProps={{ title: t('completeTransfer') }}
+            variant="contained"
+            data-sign="completeWarnTransfer"
+            symbol={TransferCallMd}
+            onClick={() => {
+              onAction('completeWarmTransfer');
+            }}
+          />
+        </div>
+      </main>
     </div>
   );
 };

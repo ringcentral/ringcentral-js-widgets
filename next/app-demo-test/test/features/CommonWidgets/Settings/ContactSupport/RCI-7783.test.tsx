@@ -14,8 +14,8 @@ import {
   title,
   When,
   userEvent,
-  fireEvent,
 } from '@ringcentral-integration/test-utils';
+import { waitFor } from '@testing-library/react';
 
 import { EntryWithLoggedNavToSettings } from '../../../../../../app-demo-test/test/steps/Entry';
 import { CheckToastMessage } from '../../../../steps/Alert';
@@ -75,8 +75,8 @@ export class RCI7783 extends Step {
               });
             }) as StepFunction,
             <ClickItemByDataSign dataSign="attachFileBtn" />,
-            () => {
-              userEvent.type(
+            async () => {
+              await userEvent.type(
                 screen.getByPlaceholderText('Tell us what the problem is...'),
                 'Test description',
               );
@@ -85,17 +85,19 @@ export class RCI7783 extends Step {
         />
         <Then
           desc="'Submit' button becomes enabled"
-          action={() => {
+          action={async () => {
             const submitBtn = screen.getByTestId('submitBtn');
-            expect(submitBtn).toBeEnabled();
+            await waitFor(() => {
+              expect(submitBtn).toBeEnabled();
+            });
           }}
         />
 
         <When
           desc="Click 'Submit' button"
-          action={() => {
+          action={async () => {
             const submitBtn = screen.getByTestId('submitBtn');
-            userEvent.click(submitBtn);
+            await userEvent.click(submitBtn);
           }}
         />
         <Then

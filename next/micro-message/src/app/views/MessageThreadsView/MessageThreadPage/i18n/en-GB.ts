@@ -10,6 +10,7 @@ export default {
   open: 'Open',
   resolved: 'Resolved',
   assignment: 'Assignment',
+  selectAll: 'Select all',
   done: 'Done',
   cancel: 'Cancel',
   clear: 'Clear',
@@ -29,6 +30,7 @@ export default {
 // @key: @#@"open"@#@ @source: @#@"Open"@#@
 // @key: @#@"resolved"@#@ @source: @#@"Resolved"@#@
 // @key: @#@"assignment"@#@ @source: @#@"Assignment"@#@
+// @key: @#@"selectAll"@#@ @source: @#@"Select all"@#@
 // @key: @#@"done"@#@ @source: @#@"Done"@#@
 // @key: @#@"cancel"@#@ @source: @#@"Cancel"@#@
 // @key: @#@"clear"@#@ @source: @#@"Clear"@#@

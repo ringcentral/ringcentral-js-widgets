@@ -24,6 +24,7 @@ export const MakeOutboundCall: StepFunction<{
   },
   context,
 ) => {
+  const { app } = context;
   if (executeByCallFunction) {
     const dialerView = app.container.got(DialerView);
     const webphone = app.container.got(Webphone);
@@ -44,6 +45,7 @@ export const MakeOutboundCall: StepFunction<{
         }
       }
     }
+    await waitForRenderReady();
   } else {
     await InputToField({ input: phoneNumber, needEnter: false }, context);
     const { app } = context;

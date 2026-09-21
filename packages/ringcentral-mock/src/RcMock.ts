@@ -13,6 +13,7 @@ import { isConferenceSession } from '@ringcentral-integration/commons/modules/We
 import type { MockRequest } from 'fetch-mock';
 import { includes } from 'ramda';
 import { PartyStatusCode } from 'ringcentral-call-control/lib/Session';
+import { firstValueFrom, Subject } from 'rxjs';
 
 import type { PlatformMockOptions, ResponseData } from './PlatformMock';
 import { PlatformMock } from './PlatformMock';
@@ -275,8 +276,10 @@ export class RcMock extends PlatformMock {
       .add(this.getMessageThreadSync)
       .add(this.getMessageThreadEntriesSync)
       .add(this.getMessageThreadMessages)
+      .add(this.postMessageThreadMessages)
       .add(this.getMessageThread)
-      .add(this.getCallQueuesSmsRecipients);
+      .add(this.getCallQueuesSmsRecipients)
+      .add(this.getOptOuts);
 
     if (enableSeparateMessageSyncMock) {
       this.defaultInitMocks
@@ -364,12 +367,20 @@ export class RcMock extends PlatformMock {
     );
   }
 
+  /**
+   * Mock GET /restapi/v1.0/account/~/extension/~/grant
+   * Get extension grants (e.g. for shared inbox / call queue SMS recipients)
+   */
   getExtensionGrants(repeat = 0) {
     this.get('/restapi/v1.0/account/~/extension/~/grant' as any, 200, {
       repeat,
-      response: () => {
+      response: (res) => {
+        const mockData = grantBody;
+        res.mockData = mockData;
+        const processedData =
+          this.processors['/restapi/v1.0/account/~/extension/~/grant'](res);
         return {
-          body: grantBody,
+          body: processedData.mockData,
         };
       },
     });
@@ -387,12 +398,12 @@ export class RcMock extends PlatformMock {
   }
 
   /**
-   * Mock GET /restapi/v1.0/account/~/call-queues/:queueId/sms-recipients
+   * Mock GET /restapi/v1.0/account/~/extension/:queueId/sms-recipients
    * Get SMS recipients for a call queue
    */
   getCallQueuesSmsRecipients() {
     this.get(
-      '/restapi/v1.0/account/~/call-queues/:queueId/sms-recipients' as any,
+      '/restapi/v1.0/account/~/extension/:queueId/sms-recipients' as any,
       200,
       {
         repeat: 0,
@@ -401,7 +412,7 @@ export class RcMock extends PlatformMock {
           res.mockData = mockData;
           const processedData =
             this.processors[
-              '/restapi/v1.0/account/~/call-queues/:queueId/sms-recipients'
+              '/restapi/v1.0/account/~/extension/:queueId/sms-recipients'
             ](res);
           return {
             body: processedData.mockData,
@@ -409,6 +420,35 @@ export class RcMock extends PlatformMock {
         },
       },
     );
+  }
+
+  /**
+   * Mock GET /restapi/v1.0/account/~/a2p-sms/opt-outs
+   * List of opt-out records for the account. Tests can override
+   * rcMock.processors['/restapi/v1.0/account/~/a2p-sms/opt-outs'] to customize response.
+   */
+  getOptOuts(repeat = 0) {
+    const defaultOptOutsBody = {
+      records: [],
+      paging: {
+        page: 1,
+        perPage: 1000,
+        totalPages: 1,
+        totalElements: 0,
+      },
+    };
+    this.get('/restapi/v1.0/account/~/a2p-sms/opt-outs' as any, 200, {
+      repeat,
+      response: async (res) => {
+        res.mockData = res.mockData ?? defaultOptOutsBody;
+        const processedData = await this.processors[
+          '/restapi/v1.0/account/~/a2p-sms/opt-outs'
+        ](res);
+        return {
+          body: processedData.mockData,
+        };
+      },
+    });
   }
 
   putCallerId(repeat = 0, success = true) {
@@ -1863,7 +1903,9 @@ export class RcMock extends PlatformMock {
 
             if (conferenceParticipants.length === 1) {
               // simulate the production will got after several render, so we need to wait for several render and not await
-              Promise.resolve().then(async () => {
+              const conferenceHostDisconnect =
+                this.delay.conferenceHostDisconnect;
+              const triggerHostDisconnected = async () => {
                 const [hostTelephonySessionBuilder] = conferenceParticipants;
                 hostTelephonySessionBuilder.setConnected();
                 const event2 = hostTelephonySessionBuilder.done();
@@ -1873,7 +1915,16 @@ export class RcMock extends PlatformMock {
                 const event3 = hostTelephonySessionBuilder.done();
                 hostTelephonySessionBuilder.relatedWebphoneSession.terminate();
                 await this.subscription.trigger(event3);
-              });
+              };
+
+              if (conferenceHostDisconnect) {
+                await firstValueFrom(conferenceHostDisconnect);
+                await triggerHostDisconnected();
+              } else {
+                Promise.resolve().then(async () => {
+                  await triggerHostDisconnected();
+                });
+              }
             }
           }
           return {
@@ -2863,10 +2914,16 @@ export class RcMock extends PlatformMock {
   }
 
   processors = {
+    '/restapi/v1.0/account/~/a2p-sms/opt-outs': async (
+      data: ResponseData<any, any, any>,
+    ) => data,
     '/restapi/v1.0/account/~/message-threads/sync': (
       data: ResponseData<any, any, any>,
     ) => data,
-    '/restapi/v1.0/account/~/call-queues/:queueId/sms-recipients': (
+    '/restapi/v1.0/account/~/extension/:queueId/sms-recipients': (
+      data: ResponseData<any, any, any>,
+    ) => data,
+    '/restapi/v1.0/account/~/extension/~/grant': (
       data: ResponseData<any, any, any>,
     ) => data,
     '/restapi/v1.0/account/~/message-threads/entries/sync': (
@@ -2887,6 +2944,15 @@ export class RcMock extends PlatformMock {
     '/restapi/v1.0/account/~/message-threads/:threadId': (
       data: ResponseData<any, any, any>,
     ) => data,
+    post: {
+      '/restapi/v1.0/account/~/message-threads/messages': (
+        data: ResponseData<any, any, any>,
+      ) => data,
+    },
+  };
+
+  delay = {
+    conferenceHostDisconnect: null as Subject<void> | null,
   };
 
   /**
@@ -2967,6 +3033,8 @@ export class RcMock extends PlatformMock {
     this.get('/restapi/v1.0/account/~/message-threads' as any, 200, {
       repeat: 0,
       response: (res) => {
+        const defaultSender =
+          global.app?.modules?.ExtensionPhoneNumber?.numbers?.[0].phoneNumber;
         const { url } = res;
         const urlObj = new URL(url, 'http://example.com');
         const page = urlObj.searchParams.get('page')
@@ -2982,6 +3050,7 @@ export class RcMock extends PlatformMock {
         } else {
           mockData = { ...messageThreadsBody };
         }
+        mockData.records[0].ownerParty.phoneNumber = defaultSender;
         res.mockData = mockData;
         const processedData =
           this.processors['/restapi/v1.0/account/~/message-threads'](res);
@@ -3098,6 +3167,43 @@ export class RcMock extends PlatformMock {
           this.processors['/restapi/v1.0/account/~/message-threads/messages'](
             res,
           );
+        return {
+          body: processedData.mockData,
+        };
+      },
+    });
+  }
+
+  /**
+   * Mock POST /restapi/v1.0/account/~/message-threads/messages
+   * Create a message
+   */
+  postMessageThreadMessages() {
+    this.post('/restapi/v1.0/account/~/message-threads/messages' as any, 200, {
+      repeat: 0,
+      response: (res) => {
+        const { params } = res;
+        const threadId = params.threadId || '123';
+        res.mockData = {
+          id: '123',
+          threadId,
+          recordType: 'AliveMessage',
+          lastModifiedTime: new Date().toISOString(),
+          availability: 'Alive',
+          creationTime: new Date().toISOString(),
+          direction: 'Inbound',
+          messageStatus: 'Received',
+          text: 'Hello',
+          author: {
+            extensionId: '123',
+            name: 'John Doe',
+            extensionType: 'User',
+          },
+        };
+        const processedData =
+          this.processors.post[
+            '/restapi/v1.0/account/~/message-threads/messages'
+          ](res);
         return {
           body: processedData.mockData,
         };

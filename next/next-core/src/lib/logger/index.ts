@@ -1,2 +1,1 @@
-export * from './bufferLogger';
-export * from './logger';
+export * from '@ringcentral-integration/core/lib/logger/logger';

@@ -85,7 +85,7 @@ export class ComposeTextView extends RcViewModule {
   }
 
   getUIProps({
-    inputExpandable = process.env.THEME_SYSTEM === 'spring-ui',
+    inputExpandable = true,
     supportAttachment = process.env.THEME_SYSTEM === 'spring-ui',
     supportEmoji = process.env.THEME_SYSTEM === 'spring-ui',
     useRecipientsInputV2 = false,

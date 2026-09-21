@@ -67,7 +67,7 @@ export const AddCallPage: FunctionComponent<AddCallViewPanelProps> = (
       )}
       <div
         data-sign="addCallPage"
-        className="flex flex-col items-center mt-2 flex-auto gap-y-2"
+        className="flex flex-col items-center mt-2 flex-auto gap-y-2 overflow-hidden"
       >
         <Dialer>
           <div className="flex flex-col w-full h-full">
@@ -86,7 +86,7 @@ export const AddCallPage: FunctionComponent<AddCallViewPanelProps> = (
 
             <main
               className={clsx(
-                'px-10 py-2 flex flex-col items-center flex-auto',
+                'px-10 py-2 flex flex-col items-center flex-auto overflow-auto pb-2',
                 contactSearchExpanded && 'hidden',
               )}
             >

@@ -11,11 +11,16 @@ import {
   RouterOptions,
   RouterPlugin,
   SharedAppOptions,
+  StoragePlugin,
   testBed,
 } from '@ringcentral-integration/next-core';
 import { render } from '@ringcentral-integration/test-utils';
 
 import { ThemeSwitchView } from '../../src/app/views';
+
+class MockStoragePlugin {
+  enable = jest.fn();
+}
 
 describe('ThemeSwitchView Module', () => {
   let updateThemeTypeMock: jest.Mock;
@@ -46,6 +51,10 @@ describe('ThemeSwitchView Module', () => {
         },
         Initiator,
         RouterPlugin,
+        {
+          provide: StoragePlugin,
+          useValue: new MockStoragePlugin(),
+        },
         {
           provide: RouterOptions,
           useValue: {
@@ -84,6 +93,10 @@ describe('ThemeSwitchView Module', () => {
         },
         Initiator,
         RouterPlugin,
+        {
+          provide: StoragePlugin,
+          useValue: new MockStoragePlugin(),
+        },
         {
           provide: RouterOptions,
           useValue: {
@@ -127,6 +140,10 @@ describe('ThemeSwitchView Module', () => {
         },
         Initiator,
         RouterPlugin,
+        {
+          provide: StoragePlugin,
+          useValue: new MockStoragePlugin(),
+        },
         {
           provide: RouterOptions,
           useValue: {
@@ -172,6 +189,10 @@ describe('ThemeSwitchView Module', () => {
         },
         Initiator,
         {
+          provide: StoragePlugin,
+          useValue: new MockStoragePlugin(),
+        },
+        {
           provide: RouterPlugin,
           useValue: { push: routerPushMock },
         },
@@ -214,6 +235,10 @@ describe('ThemeSwitchView Module', () => {
           },
         },
         Initiator,
+        {
+          provide: StoragePlugin,
+          useValue: new MockStoragePlugin(),
+        },
         {
           provide: RouterPlugin,
           useValue: { push: routerPushMock },

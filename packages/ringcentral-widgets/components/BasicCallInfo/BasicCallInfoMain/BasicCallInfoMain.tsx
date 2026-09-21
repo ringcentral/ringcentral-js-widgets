@@ -8,6 +8,7 @@ import { FollowInfo } from '../FollowInfo';
 import styles from '../styles.scss';
 
 export type BasicCallInfoMainProps = {
+  children?: React.ReactNode;
   onClick?: DOMAttributes<HTMLDivElement>['onClick'];
   subject: string;
   isInbound: boolean;

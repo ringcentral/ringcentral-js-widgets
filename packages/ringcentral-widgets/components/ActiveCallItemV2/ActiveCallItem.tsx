@@ -870,7 +870,6 @@ export class ActiveCallItem extends Component<
               <CallIcon
                 direction={direction}
                 ringing={ringing}
-                // @ts-expect-error TS(2322): Type '{ direction: "Inbound" | "Outbound"; ringing... Remove this comment to see the full error message
                 active
                 missed={false}
                 inboundTitle={i18n.getString('inboundCall', currentLocale)}

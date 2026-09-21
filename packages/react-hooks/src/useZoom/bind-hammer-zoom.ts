@@ -1,3 +1,5 @@
+import { getNodeEnv } from '../getNodeEnv';
+
 type BindHammerZoomOptions = {
   hammer: HammerManager;
   /**
@@ -136,7 +138,7 @@ export const bindHammerZoom = ({
     toggle();
 
     // in test env, some event will be wrong event instance, skip that
-    if (process.env.NODE_ENV === 'test') {
+    if (getNodeEnv() === 'test') {
       return;
     }
     e.preventDefault();

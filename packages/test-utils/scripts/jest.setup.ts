@@ -4,28 +4,38 @@ import preview from 'jest-preview';
 import { TextDecoder, TextEncoder } from 'util';
 import { v4 as uuidv4 } from 'uuid';
 
+Object.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true });
+
+const isPreviewMode =
+  process.env.PREVIEW === 'true' ||
+  process.env.DEBUG?.split(',').includes('preview');
+
 // use roarr logger and disable roarr mock logger
 // doc: https://github.com/gajus/roarr?tab=readme-ov-file#nodejs
 // @ts-ignore
 process.env.ROARR_LOG = true;
-window.HTMLMediaElement.prototype.pause = () => {};
-window.HTMLMediaElement.prototype.play = async () => {};
-window.HTMLMediaElement.prototype.load = async () => {};
-window.matchMedia = () =>
-  ({
-    matches: false,
-    addListener: () => {},
-    removeListener: () => {},
-    addEventListener: () => {},
-    removeEventListener: () => {},
-  } as any);
-// @ts-ignore
+if (typeof window !== 'undefined') {
+  window.HTMLMediaElement.prototype.pause = () => {};
+  window.HTMLMediaElement.prototype.play = async () => {};
+  window.HTMLMediaElement.prototype.load = async () => {};
+  // jsdom's setSinkId is not always thenable; Webphone AudioHelper always calls .catch()
+  window.HTMLMediaElement.prototype.setSinkId = async () => {};
+  window.matchMedia = () =>
+    ({
+      matches: false,
+      addListener: () => {},
+      removeListener: () => {},
+      addEventListener: () => {},
+      removeEventListener: () => {},
+    } as any);
+  // @ts-ignore
 
-window.setImmediate = (cb) => setTimeout(cb, 0);
-// @ts-ignore
-window.authData = null;
+  window.setImmediate = (cb) => setTimeout(cb, 0);
+  // @ts-ignore
+  window.authData = null;
 
-Element.prototype.scrollIntoView = () => {};
+  Element.prototype.scrollIntoView = () => {};
+}
 
 // @ts-ignore
 if (__CI__ || process.env.DEBUG) {
@@ -53,17 +63,60 @@ if (__CI__ || process.env.DEBUG) {
   });
 }
 
-global.debugPreview = preview.debug;
+const debugPreview = () => {
+  preview.debug();
+};
+
+global.debugPreview = debugPreview;
+
+if (isPreviewMode && typeof MutationObserver !== 'undefined') {
+  let previewDebugScheduled = false;
+  const schedulePreviewDebug = () => {
+    if (previewDebugScheduled) {
+      return;
+    }
+    previewDebugScheduled = true;
+    setTimeout(() => {
+      previewDebugScheduled = false;
+      debugPreview();
+    }, 0);
+  };
+
+  schedulePreviewDebug();
+
+  const previewObserver = new MutationObserver(() => {
+    schedulePreviewDebug();
+  });
+
+  const previewRoot = document.body ?? document.documentElement;
+
+  if (previewRoot) {
+    previewObserver.observe(previewRoot, {
+      subtree: true,
+      childList: true,
+      characterData: true,
+      attributes: true,
+    });
+  }
+}
 
 // jest related
-window.open = jest.fn();
-window.URL.createObjectURL = jest.fn();
-window.URL.revokeObjectURL = jest.fn();
+if (typeof window !== 'undefined') {
+  window.open = jest.fn();
+  window.URL.createObjectURL = jest.fn();
+  window.URL.revokeObjectURL = jest.fn();
+}
 // mock performance optimization
 global.performance.mark = jest.fn();
 global.performance.measure = jest.fn().mockReturnValue({ duration: '' });
 
 global.ResizeObserver = jest.fn().mockImplementation(() => ({
+  observe: jest.fn(),
+  unobserve: jest.fn(),
+  disconnect: jest.fn(),
+}));
+
+global.IntersectionObserver = jest.fn().mockImplementation(() => ({
   observe: jest.fn(),
   unobserve: jest.fn(),
   disconnect: jest.fn(),
@@ -77,14 +130,16 @@ global.CSSAnimation = class CSSAnimation {
   }
 };
 
-Element.prototype.getAnimations = jest.fn(function () {
-  // eslint-disable-next-line no-undef
-  const ani = new CSSAnimation();
-  ani.currentTime = Math.random();
-  // @ts-ignore
-  ani.animationName = this.style.animation.split(' ')[0];
-  return [ani];
-});
+if (typeof Element !== 'undefined') {
+  Element.prototype.getAnimations = jest.fn(function () {
+    // eslint-disable-next-line no-undef
+    const ani = new CSSAnimation();
+    ani.currentTime = Math.random();
+    // @ts-ignore
+    ani.animationName = this.style.animation.split(' ')[0];
+    return [ani];
+  });
+}
 
 Object.assign(global, { TextDecoder, TextEncoder });
 

@@ -55,6 +55,7 @@ import i18n, { type I18nKey } from './i18n';
 import styles from './styles.scss';
 
 export interface MeetingConfigsProps {
+  children?: React.ReactNode;
   disabled: boolean;
   showSpinnerInConfigPanel: boolean;
   personalMeetingId?: string;
@@ -232,13 +233,13 @@ export const MeetingConfigs: FunctionComponent<MeetingConfigsProps> = ({
     trackSettingChanges && trackSettingChanges(itemName);
   };
 
-  const configRef = useRef<HTMLDivElement>();
+  const configRef = useRef<HTMLDivElement>(null);
   const [hasScrollBar, setHasScrollBar] = useState<boolean>(false);
 
   useEffect(() => {
     setHasScrollBar(
-      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
-      configRef.current.scrollHeight > configRef.current.clientHeight,
+      !!configRef.current &&
+        configRef.current.scrollHeight > configRef.current.clientHeight,
     );
   }, []);
 
@@ -305,7 +306,6 @@ export const MeetingConfigs: FunctionComponent<MeetingConfigsProps> = ({
   const minutesList = getMinutesList(MINUTE_SCALE, currentLocale);
 
   return (
-    // @ts-expect-error TS(2322): Type '{ children: Element; ref: MutableRefObject<H... Remove this comment to see the full error message
     <PanelRoot
       ref={configRef}
       className={styles.videoConfig}
@@ -351,11 +351,10 @@ export const MeetingConfigs: FunctionComponent<MeetingConfigsProps> = ({
                   size={datePickerSize}
                   locale={currentLocale}
                   todayButtonText={i18n.getString('today', currentLocale)}
-                  onChange={(value) => {
+                  onChange={(value: any) => {
                     update({
                       schedule: {
                         ...meeting.schedule,
-                        // @ts-expect-error TS(2345): Argument of type 'Date | null' is not assignable t... Remove this comment to see the full error message
                         startTime: updateFullYear(startTime, value),
                       },
                     });
@@ -395,8 +394,7 @@ export const MeetingConfigs: FunctionComponent<MeetingConfigsProps> = ({
                   data-sign="durationHour"
                   // @ts-expect-error TS(2532): Object is possibly 'undefined'.
                   value={Math.floor(meeting.schedule.durationInMinutes / 60)}
-                  onChange={(e) => {
-                    // @ts-expect-error TS(2571): Object is of type 'unknown'.
+                  onChange={(e: any) => {
                     const value = +e.target.value;
                     const restMinutes = Math.floor(
                       // @ts-expect-error TS(2532): Object is possibly 'undefined'.
@@ -434,8 +432,7 @@ export const MeetingConfigs: FunctionComponent<MeetingConfigsProps> = ({
                   required
                   // @ts-expect-error TS(2532): Object is possibly 'undefined'.
                   value={Math.floor(meeting.schedule.durationInMinutes % 60)}
-                  onChange={(e) => {
-                    // @ts-expect-error TS(2571): Object is of type 'unknown'.
+                  onChange={(e: any) => {
                     const value = +e.target.value;
                     const restHours = Math.floor(
                       // @ts-expect-error TS(2532): Object is possibly 'undefined'.
@@ -513,7 +510,7 @@ export const MeetingConfigs: FunctionComponent<MeetingConfigsProps> = ({
                   disabled={disabled}
                   className={clsx(styles.boxSelect, styles.autoFullWidth)}
                   data-sign="scheduleFor"
-                  onChange={(e) => {
+                  onChange={(e: any) => {
                     updateScheduleFor(e.target.value as string);
                     trackItemChanges(RCM_ITEM_NAME.scheduleFor);
                   }}
@@ -654,7 +651,7 @@ export const MeetingConfigs: FunctionComponent<MeetingConfigsProps> = ({
                   inputProps={{
                     maxLength: 255,
                   }}
-                  onChange={(e) => {
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     const password = e.target.value;
                     update({ password });
                   }}
@@ -765,7 +762,7 @@ export const MeetingConfigs: FunctionComponent<MeetingConfigsProps> = ({
                     root: styles.boxSelectWrapper,
                   }}
                   className={clsx(styles.boxSelect, styles.autoFullWidth)}
-                  onChange={(e) => {
+                  onChange={(e: any) => {
                     updateAudioOptions(e.target.value as string);
                   }}
                   value={audioOptions}

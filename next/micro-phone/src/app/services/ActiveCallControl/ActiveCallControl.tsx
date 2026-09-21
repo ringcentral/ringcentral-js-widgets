@@ -31,6 +31,7 @@ import {
 import {
   Brand,
   Locale,
+  SleepDetector,
   Toast,
 } from '@ringcentral-integration/micro-core/src/app/services';
 import {
@@ -143,6 +144,7 @@ export class ActiveCallControl extends RcModule {
   private _polling = this._activeCallControlOptions?.polling ?? false;
   private _promise: Promise<void> | null = null;
   private _rcCallControl: RingCentralCallControl | null = null;
+  private _mergingConferenceSessionIds = new Set<string>();
   private _permissionCheck =
     this._activeCallControlOptions?.permissionCheck ?? true;
 
@@ -249,6 +251,7 @@ export class ActiveCallControl extends RcModule {
     @optional('ActiveCallControlOptions')
     protected _activeCallControlOptions?: ActiveCallControlOptions,
     @optional() protected _router?: RouterPlugin,
+    @optional() protected _sleepDetector?: SleepDetector,
   ) {
     super();
     if (this._portManager.shared) {
@@ -295,6 +298,14 @@ export class ActiveCallControl extends RcModule {
       .pipe(filter((data) => data.telephonySessionId === telephonySessionId));
   };
 
+  override async onInitOnce() {
+    // Lifetime (takeUntilAppDestroy) subscriptions must be bound once, not
+    // on every init - binding them in onInit() would stack a duplicate
+    // subscription on each reset -> re-init cycle and fire handlers N times.
+    this._initSleepDetection();
+    this._initRecoverySync();
+  }
+
   override async onInit() {
     if (!this.hasPermission) return;
     this._rcCallControl = this._initRcCallControl();
@@ -308,6 +319,23 @@ export class ActiveCallControl extends RcModule {
     }
   }
 
+  private _initSleepDetection() {
+    this._sleepDetector?.detect$
+      .pipe(
+        tap(() => {
+          if (this.ready && this.hasPermission) {
+            // Fallback for calls already in progress after sleep: the
+            // subscription is recreated by WebSocketSubscription on wake,
+            // but refetch active sessions so an ongoing call can still be
+            // tracked and logged.
+            this.fetchData();
+          }
+        }),
+        takeUntilAppDestroy,
+      )
+      .subscribe();
+  }
+
   private _iniSubscription() {
     this._stopWatchingSubscription = watch(
       this,
@@ -317,6 +345,20 @@ export class ActiveCallControl extends RcModule {
           | undefined,
       (message) => this._handleSubscription(message),
     );
+  }
+
+  private _initRecoverySync() {
+    // After the WebSocket has been closed and re-established, the
+    // subscription is recreated by WebSocketSubscription, but events during
+    // the outage window are lost. Refetch active sessions so calls that
+    // started or ended while disconnected are still tracked and logged.
+    this._subscription.subscriptionRecovered$
+      .pipe(takeUntilAppDestroy)
+      .subscribe(() => {
+        if (this.ready && this.hasPermission) {
+          this.fetchData();
+        }
+      });
   }
 
   private _initConnectivity() {
@@ -396,13 +438,19 @@ export class ActiveCallControl extends RcModule {
         this.removeRingMessage(telephonySessionId);
       }
     }
-    if (
-      this.ready &&
-      this.hasPermission &&
-      message?.event &&
-      message?.body &&
-      telephonySessionsEndPoint.test(message.event)
-    ) {
+    if (message?.event && telephonySessionsEndPoint.test(message.event)) {
+      if (!this.ready || !this.hasPermission || !message.body) {
+        // Instrumentation: distinguishes "event arrived but dropped" from
+        // "event never arrived" when investigating missed call logs.
+        logger.warn(`[${this.identifier}] telephony session event dropped`, {
+          telephonySessionId: message.body?.telephonySessionId,
+          partyStatus: (message.body as any)?.parties?.[0]?.status?.code,
+          ready: this.ready,
+          hasPermission: this.hasPermission,
+          hasBody: !!message.body,
+        });
+        return;
+      }
       message = checkRingOutCallDirection(message);
       const cloneMsg = JSON.parse(JSON.stringify(message));
       this._rcCallControl?.onNotificationEvent(cloneMsg);
@@ -525,7 +573,8 @@ export class ActiveCallControl extends RcModule {
       })
       .filter((session) =>
         this.skipConferenceCall ? !session.isConferenceCall : true,
-      );
+      )
+      .filter((session) => !this._mergingConferenceSessionIds.has(session.id));
     this._updateActiveSessions(JSON.parse(JSON.stringify(callControlSessions)));
   }
 
@@ -629,10 +678,10 @@ export class ActiveCallControl extends RcModule {
     await this._webphone.mute(currentDeviceWebphoneId, this.muteErrorHandle);
   }
 
+  @delegate('server')
   @track((that: ActiveCallControl) => [
     that._getTrackEventName(trackEvents.mute),
   ])
-  @delegate('server')
   async mute(telephonySessionId: string) {
     try {
       this.setCallControlBusyTimestamp();
@@ -650,10 +699,10 @@ export class ActiveCallControl extends RcModule {
     this.clearCallControlBusyTimestamp();
   }
 
+  @delegate('server')
   @track((that: ActiveCallControl) => [
     that._getTrackEventName(trackEvents.unmute),
   ])
-  @delegate('server')
   async unmute(telephonySessionId: string) {
     try {
       this.setCallControlBusyTimestamp();
@@ -695,10 +744,10 @@ export class ActiveCallControl extends RcModule {
     }
   }
 
+  @delegate('server')
   @track((that: ActiveCallControl) => [
     that._getTrackEventName(trackEvents.record),
   ])
-  @delegate('server')
   async startRecord(telephonySessionId: string) {
     try {
       this.setCallControlBusyTimestamp();
@@ -768,7 +817,11 @@ export class ActiveCallControl extends RcModule {
       return;
     }
 
-    this._preInsertCall.listenPreinsertServerHandler(this.sessionsMap$);
+    this._preInsertCall.listenPreinsertServerHandler(this.sessionsMap$, {
+      dropTelephonySession: async (telephonySessionId) => {
+        await this._getSessionById(telephonySessionId)?.drop();
+      },
+    });
   }
 
   protected stopRecordErrorHandle = async (error: any) => {
@@ -787,10 +840,10 @@ export class ActiveCallControl extends RcModule {
     );
   }
 
+  @delegate('server')
   @track((that: ActiveCallControl) => [
     that._getTrackEventName(trackEvents.stopRecord),
   ])
-  @delegate('server')
   async stopRecord(telephonySessionId: string) {
     try {
       this.setCallControlBusyTimestamp();
@@ -826,10 +879,10 @@ export class ActiveCallControl extends RcModule {
     );
   }
 
+  @delegate('server')
   @track((that: ActiveCallControl) => [
     that._getTrackEventName(trackEvents.hangup),
   ])
-  @delegate('server')
   async checkIfConferenceCall(telephonySessionId: string) {
     const session = this._getSessionById(telephonySessionId)!;
     return checkIfConferenceCall(session);
@@ -839,9 +892,8 @@ export class ActiveCallControl extends RcModule {
   @delegate('server')
   async hangUp(telephonySessionId: string, hangupOnlyHost?: boolean) {
     if (process.env.THEME_SYSTEM !== 'spring-ui') {
-      const isConferenceCall = await this.checkIfConferenceCall(
-        telephonySessionId,
-      );
+      const isConferenceCall =
+        await this.checkIfConferenceCall(telephonySessionId);
       const enableLeaveConferenceAsHost = this.enableLeaveConferenceAsHost;
 
       // isLeaveConferenceAsHostEnabled
@@ -861,9 +913,8 @@ export class ActiveCallControl extends RcModule {
       const currentDeviceWebphoneId =
         this._getCurrentDeviceCallsBySessionId(telephonySessionId);
       const session = this._getSessionById(telephonySessionId)!;
-      const isConferenceCall = await this.checkIfConferenceCall(
-        telephonySessionId,
-      );
+      const isConferenceCall =
+        await this.checkIfConferenceCall(telephonySessionId);
       if (isConferenceCall && hangupOnlyHost) {
         session.removeParty(session.party.id, { keepConferenceAlive: true });
         return;
@@ -889,10 +940,10 @@ export class ActiveCallControl extends RcModule {
     this.clearCallControlBusyTimestamp();
   }
 
+  @delegate('server')
   @track((that: ActiveCallControl) => [
     that._getTrackEventName(trackEvents.voicemail),
   ])
-  @delegate('server')
   async reject(telephonySessionId: string) {
     try {
       this.setCallControlBusyTimestamp();
@@ -935,10 +986,10 @@ export class ActiveCallControl extends RcModule {
     }
   }
 
+  @delegate('server')
   @track((that: ActiveCallControl) => [
     that._getTrackEventName(trackEvents.confirmSwitch),
   ])
-  @delegate('server')
   async switch(telephonySessionId: string) {
     this.setCallControlBusyTimestamp();
     const switchedSessionId = await this._switch(telephonySessionId);
@@ -969,10 +1020,10 @@ export class ActiveCallControl extends RcModule {
     await this._webphone.hold(currentDeviceWebphoneId, this.holdErrorHandle);
   }
 
+  @delegate('server')
   @track((that: ActiveCallControl) => [
     that._getTrackEventName(trackEvents.hold),
   ])
-  @delegate('server')
   async hold(telephonySessionId: string) {
     this.setCallControlBusyTimestamp();
     try {
@@ -1018,10 +1069,10 @@ export class ActiveCallControl extends RcModule {
     return false;
   }
 
+  @delegate('server')
   @track((that: ActiveCallControl) => [
     that._getTrackEventName(trackEvents.unhold),
   ])
-  @delegate('server')
   async unhold(telephonySessionId: string) {
     this.setCallControlBusyTimestamp();
     try {
@@ -1073,6 +1124,7 @@ export class ActiveCallControl extends RcModule {
     }
   }
 
+  @delegate('server')
   @track((_, params: ReplyWithTextParams) => {
     return [
       trackEvents.executionReplyWithMessage,
@@ -1081,7 +1133,6 @@ export class ActiveCallControl extends RcModule {
       },
     ];
   })
-  @delegate('server')
   async replyWithMessage(
     params: ReplyWithTextParams,
     telephonySessionId: string,
@@ -1116,6 +1167,10 @@ export class ActiveCallControl extends RcModule {
   }
 
   @delegate('server')
+  @track(
+    trackEvents.transferCompleteTransfer,
+    process.env.THEME_SYSTEM === 'spring-ui',
+  )
   async completeWarmTransfer(telephonySession: string) {
     try {
       this.setCallControlBusyTimestamp();
@@ -1146,8 +1201,8 @@ export class ActiveCallControl extends RcModule {
     }
   }
 
-  @track(trackEvents.transfer)
   @delegate('server')
+  @track(trackEvents.transfer)
   async transfer(transferNumber: string, telephonySessionId: string) {
     try {
       this.setCallControlBusyTimestamp();
@@ -1234,10 +1289,10 @@ export class ActiveCallControl extends RcModule {
     }
   }
 
+  @delegate('server')
   @track((that: ActiveCallControl) => [
     that._getTrackEventName(trackEvents.confirmForward),
   ])
-  @delegate('server')
   async forward(forwardNumber: string, telephonySessionId: string) {
     const session = this._getSessionById(telephonySessionId);
     if (!session) {
@@ -1411,10 +1466,10 @@ export class ActiveCallControl extends RcModule {
     }
   }
 
+  @delegate('server')
   @track((that: ActiveCallControl) => [
     that._getTrackEventName(trackEvents.ignore),
   ])
-  @delegate('server')
   async ignore(telephonySessionId: string) {
     const currentDeviceWebphoneId =
       this._getCurrentDeviceCallsBySessionId(telephonySessionId);
@@ -1440,10 +1495,10 @@ export class ActiveCallControl extends RcModule {
     this.clearCallControlBusyTimestamp();
   }
 
+  @delegate('server')
   @track((that: ActiveCallControl) => [
     that._getTrackEventName(trackEvents.endAndAnswer),
   ])
-  @delegate('server')
   async answerAndEnd(telephonySessionId: string, needPickupCall = false) {
     try {
       if (this.busy) return;
@@ -1472,8 +1527,8 @@ export class ActiveCallControl extends RcModule {
 
   // TODO: after full migrate to spring-ui, can remove the condition
   // only spring-ui track at root, others track from view
-  @track(trackEvents.transferAskFirst, process.env.THEME_SYSTEM === 'spring-ui')
   @delegate('server')
+  @track(trackEvents.transferAskFirst, process.env.THEME_SYSTEM === 'spring-ui')
   async startWarmTransfer(transferNumber: string, telephonySessionId: string) {
     try {
       this.setCallControlBusyTimestamp();
@@ -1628,9 +1683,14 @@ export class ActiveCallControl extends RcModule {
       session.origin.type !== CONFERENCE_ORIGIN_TYPE &&
       mergeWithSession.origin.type !== CONFERENCE_ORIGIN_TYPE
     ) {
+      let mergingConferenceSessionId: string | undefined;
       try {
         this.setCallControlBusyTimestamp();
         const conferenceSession = await this._createConferenceSession();
+
+        if (process.env.THEME_SYSTEM === 'spring-ui') {
+          mergingConferenceSessionId = conferenceSession.id as string;
+        }
 
         await conferenceSession.bringInParty({
           partyId: session.party.id,
@@ -1664,6 +1724,10 @@ export class ActiveCallControl extends RcModule {
           message: t('somethingWentWrong'),
         });
       } finally {
+        if (mergingConferenceSessionId) {
+          this._mergingConferenceSessionIds.delete(mergingConferenceSessionId);
+          await this._updateSessionsHandler();
+        }
         this.clearCallControlBusyTimestamp();
       }
       return;
@@ -1721,8 +1785,19 @@ export class ActiveCallControl extends RcModule {
 
   private async _createConferenceSession() {
     const conferenceSession = await this._rcCallControl!.createConference();
-    const voiceCallToken = conferenceSession.data.voiceCallToken;
-    await this._initConferenceVoiceCall(voiceCallToken);
+    // hide the new conference session from the session list until the
+    // merge in mergeCalls completes, it only becomes a merged call after
+    // the parties are brought in
+    if (process.env.THEME_SYSTEM === 'spring-ui') {
+      this._mergingConferenceSessionIds.add(conferenceSession.id);
+    }
+    try {
+      const voiceCallToken = conferenceSession.data.voiceCallToken;
+      await this._initConferenceVoiceCall(voiceCallToken);
+    } catch (error) {
+      this._mergingConferenceSessionIds.delete(conferenceSession.id);
+      throw error;
+    }
     return conferenceSession;
   }
 
@@ -1773,8 +1848,8 @@ export class ActiveCallControl extends RcModule {
     return await firstValueFrom(merge(reject$, resolve$, timeout$));
   }
 
-  @track(trackEvents.clickConfirmRemoveParticipant)
   @delegate('server')
+  @track(trackEvents.clickConfirmRemoveParticipant)
   async removeConferenceParticipant(
     telephonySessionId: string,
     removedPartyId: string,
@@ -1865,23 +1940,29 @@ export class ActiveCallControl extends RcModule {
 
   @computed((that: ActiveCallControl) => [that.sessions, that.timestamp])
   get activeSessions() {
-    return this.sessions.reduce((acc, session) => {
-      const webphoneSession = this._findWebphoneSession(
-        session.telephonySessionId,
-      );
+    return this.sessions.reduce(
+      (acc, session) => {
+        const webphoneSession = this._findWebphoneSession(
+          session.telephonySessionId,
+        );
 
-      acc[session.id!] = normalizeSession(session, webphoneSession);
-      return acc;
-    }, {} as Record<string, ActiveSession>);
+        acc[session.id!] = normalizeSession(session, webphoneSession);
+        return acc;
+      },
+      {} as Record<string, ActiveSession>,
+    );
   }
 
   @computed((that: ActiveCallControl) => [that._presence.calls])
   get sessionIdToTelephonySessionIdMapping() {
-    return this._presence.calls.reduce((accumulator, call) => {
-      const { telephonySessionId, sessionId } = call;
-      accumulator[sessionId!] = telephonySessionId!;
-      return accumulator;
-    }, {} as Record<string, string>);
+    return this._presence.calls.reduce(
+      (accumulator, call) => {
+        const { telephonySessionId, sessionId } = call;
+        accumulator[sessionId!] = telephonySessionId!;
+        return accumulator;
+      },
+      {} as Record<string, string>,
+    );
   }
 
   @computed((that: ActiveCallControl) => [that._webphone.sessions])
@@ -1941,10 +2022,13 @@ export class ActiveCallControl extends RcModule {
 
   @computed
   get sessionsMap() {
-    return this.sessions.reduce((acc, session) => {
-      acc[session.telephonySessionId] = session;
-      return acc;
-    }, {} as Record<string, ActiveCallControlSessionData | undefined>);
+    return this.sessions.reduce(
+      (acc, session) => {
+        acc[session.telephonySessionId] = session;
+        return acc;
+      },
+      {} as Record<string, ActiveCallControlSessionData | undefined>,
+    );
   }
 
   @track(trackEvents.dialpadOpen)

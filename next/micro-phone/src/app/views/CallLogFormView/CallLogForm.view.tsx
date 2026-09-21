@@ -1,16 +1,15 @@
-import { trackEvents } from '@ringcentral-integration/commons/enums/trackEvents';
-import {
-  ConnectivityMonitor,
-  track,
-} from '@ringcentral-integration/micro-auth/src/app/services';
+import { ConnectivityMonitor } from '@ringcentral-integration/micro-auth/src/app/services';
 import { useLocale } from '@ringcentral-integration/micro-core/src/app/hooks';
 import {
   CallLogSyncTabId,
   SyncTabId,
   SyncTabView,
 } from '@ringcentral-integration/micro-core/src/app/views';
+import type { ExperienceFeedbackView } from '@ringcentral-integration/micro-setting/src/app/views';
 import {
+  computed,
   delegate,
+  dynamic,
   injectable,
   optional,
   RcViewModule,
@@ -29,10 +28,10 @@ import type {
   CallLogFormViewOptions,
   CallLogFormViewPanelProps,
   CallLogFormViewProps,
+  UpdateCallLogOptions,
 } from './CallLogForm.view.interface';
 import { CallLogFormPage } from './CallLogFormPage';
-import panelI18n from './CallLogFormPage/i18n';
-import { I18nKey, t } from './i18n';
+import i18n, { I18nKey, t } from './i18n';
 
 @injectable({
   name: 'CallLogFormView',
@@ -40,20 +39,31 @@ import { I18nKey, t } from './i18n';
 export class CallLogFormView extends RcViewModule {
   public eventEmitter = new EventEmitter();
 
+  @dynamic('ExperienceFeedbackView')
+  private _experienceFeedbackView?: ExperienceFeedbackView;
+
   @delegate('server')
-  async onUpdateCallLog(newData: CallLogFormViewPanelProps['task']) {
-    this._onUpdateCallLog(newData);
+  async onUpdateCallLog(
+    newData: CallLogFormViewPanelProps['task'],
+    options?: UpdateCallLogOptions,
+  ) {
+    this._onUpdateCallLog(newData, options);
   }
 
   @delegate('server')
-  async onSaveCallLog() {
-    this._onSaveCallLog();
+  private async onSaveCallLog() {
+    return this._onSaveCallLog();
   }
 
-  _onSaveCallLog() {
+  async _onSaveCallLog() {
     // should be override
+
+    return false;
   }
-  _onUpdateCallLog(_newData: CallLogFormViewPanelProps['task']) {
+  _onUpdateCallLog(
+    _newData: CallLogFormViewPanelProps['task'],
+    _options?: UpdateCallLogOptions,
+  ) {
     // should be override
   }
 
@@ -92,12 +102,15 @@ export class CallLogFormView extends RcViewModule {
     _: CallLogFormViewProps,
   ): UIFunctions<CallLogFormViewPanelProps> {
     return {
-      onUpdateCallLog: (newData: CallLogFormViewPanelProps['task']) =>
-        this.onUpdateCallLog(newData),
+      onUpdateCallLog: (
+        newData: CallLogFormViewPanelProps['task'],
+        options?: UpdateCallLogOptions,
+      ) => this.onUpdateCallLog(newData, options),
     };
   }
 
   // should be override
+  @computed
   get editSectionSchema(): CallLogFormViewPanelProps['editSectionSchema'] {
     return {
       uiOrder: [],
@@ -107,10 +120,12 @@ export class CallLogFormView extends RcViewModule {
   }
 
   // should be override
+  @computed
   get referenceFields(): CallLogFormViewPanelProps['referenceFields'] {
     return {};
   }
 
+  @computed
   get task(): CallLogFormViewPanelProps['task'] {
     return {};
   }
@@ -130,9 +145,9 @@ export class CallLogFormView extends RcViewModule {
   }
 
   Save = forwardRef<HTMLDivElement, {}>((_, ref) => {
-    const { t } = useLocale(panelI18n);
+    const { t } = useLocale(i18n);
 
-    const { isSaving, disabled, show } = useConnector(() => {
+    const { isSaved, isSaving, disabled, show } = useConnector(() => {
       const currentLogState = this.currentLogState;
 
       const isSaving = currentLogState?.isSaving;
@@ -145,25 +160,32 @@ export class CallLogFormView extends RcViewModule {
           this.saveButtonDisabled ||
           isSaved ||
           isSaving,
+        isSaved,
         isSaving,
         show: !activeSyncTab || activeSyncTab === CallLogSyncTabId.LOG,
       };
     });
 
+    const label = t(isSaved ? 'saved' : 'saveToCRM');
+
     // currently we only show save button in log tab, once we support log AI note, we need to update this logic
     return show ? (
       <div
         ref={ref}
-        className="p-4 border-t border-neutral-b4/50 mt-auto flex-none"
+        className="p-3 border-t border-neutral-b4/50 mt-auto flex-none"
       >
         <Button
           fullWidth
           data-sign="save-button"
           disabled={disabled}
           loading={isSaving}
-          onClick={() => this.onSaveCallLog()}
+          onClick={async () => {
+            const result = await this.onSaveCallLog();
+
+            if (result) this._experienceFeedbackView?.track();
+          }}
         >
-          {t('save')}
+          {label}
         </Button>
       </div>
     ) : null;

@@ -27,12 +27,12 @@ import React from 'react';
 
 import { SmsTemplate } from '../../services';
 
+import i18n, { t } from './i18n';
 import type {
   SmsTemplateViewOptions,
   SmsTemplateViewProps,
 } from './SmsTemplate.view.interface';
 import { TemplatePopover } from './TemplatePopover';
-import i18n, { t } from './i18n';
 
 type UpdateTemplateType = 'add' | 'replace';
 

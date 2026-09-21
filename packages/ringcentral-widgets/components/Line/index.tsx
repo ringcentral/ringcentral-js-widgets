@@ -4,6 +4,7 @@ import React from 'react';
 import styles from './styles.scss';
 
 type LineProps = {
+  children?: React.ReactNode;
   dataSign?: string;
   className?: string;
   onClick?: (...args: any[]) => any;

@@ -1,16 +1,18 @@
-import { whenStateChange } from '@ringcentral-integration/next-core/test';
+import { whenStateOrTimerChange } from '@ringcentral-integration/next-core/test';
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import { waitForRenderReady } from '@ringcentral-integration/test-utils';
-import { screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { fireEvent, screen } from '@testing-library/react';
 
 export const ClickFromField: StepFunction = async () => {
-  await whenStateChange(() => {
+  await whenStateOrTimerChange(() => {
     expect(screen.queryByTestId('dropdownSelect')).not.toBeNull();
   });
   jest.useFakeTimers();
-  userEvent.click(screen.getByTestId('selectedItem'));
-  await waitForRenderReady();
-  jest.runOnlyPendingTimers();
-  jest.useRealTimers();
+  try {
+    fireEvent.click(screen.getByTestId('selectedItem'));
+    await waitForRenderReady();
+    jest.runOnlyPendingTimers();
+  } finally {
+    jest.useRealTimers();
+  }
 };

@@ -7,5 +7,7 @@ export * from './ComposeTextViewSpring';
 export * from './ConversationsViewSpring';
 export * from './ConversationViewSpring';
 export * from './MessageThreadsView';
+export * from './SmsConsentDialogView';
+export * from './SmsConsentManagementView';
 export * from './SmsTemplateView';
 export * from './SmsOptOutView';

@@ -1,6 +1,6 @@
 import { mockAllLogs } from '@ringcentral-integration/test-utils';
 import { fireEvent } from '@testing-library/react';
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 
 import { usePageAutoFocus } from '../../src/usePageAutoFocus';
 

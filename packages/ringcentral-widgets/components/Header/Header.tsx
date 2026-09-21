@@ -15,6 +15,7 @@ export interface ButtonDefinition extends ButtonProps {
 }
 
 interface HeaderProps {
+  children?: ReactNode;
   className?: string;
   onClick?(): void;
   buttons?: ButtonDefinition[];

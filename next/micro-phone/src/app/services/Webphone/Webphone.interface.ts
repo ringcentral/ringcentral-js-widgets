@@ -28,7 +28,6 @@ export interface WebphoneOptions {
   webphoneSDKOptions?: WebPhoneOptions;
   permissionCheck?: boolean;
   connectDelay?: number;
-  enableContactMatchWhenNewCall?: boolean;
   /**
    * Maximum time (ms) to wait for websocket/subscription recovery after SIP reconnects.
    * Default handled in implementation when value not provided.

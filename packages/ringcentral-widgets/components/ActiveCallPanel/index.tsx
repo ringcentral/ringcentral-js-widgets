@@ -14,6 +14,7 @@ import MergeInfo from './MergeInfo';
 import styles from './styles.scss';
 
 type ActiveCallPanelProps = {
+  children?: React.ReactNode;
   phoneNumber?: string;
   nameMatches: { name: string }[];
   fallBackName: string;
@@ -45,6 +46,7 @@ type ActiveCallPanelProps = {
   brand?: string;
   showContactDisplayPlaceholder?: boolean;
   onFlip?: (...args: any[]) => any;
+  onTransfer: (...args: any[]) => any;
   disableFlip?: boolean;
   onPark?: (...args: any[]) => any;
   showPark?: boolean;
@@ -101,7 +103,6 @@ const ActiveCallPanel: React.FC<ActiveCallPanelProps> = ({
   onAdd,
   onMerge,
   onFlip,
-  // @ts-expect-error TS(2339): Property 'onTransfer' does not exist on type 'Prop... Remove this comment to see the full error message
   onTransfer,
   gotoParticipantsCtrl,
   children,

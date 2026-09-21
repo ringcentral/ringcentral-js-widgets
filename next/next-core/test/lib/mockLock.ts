@@ -11,7 +11,11 @@ export const createMockLock = () => {
       name: string,
       callback: (lock: { name: string; mode: 'exclusive' }) => Promise<void>,
     ) => {
-      clockResolve = () => callback({ name, mode: 'exclusive' });
+      return new Promise<void>((resolve, reject) => {
+        clockResolve = () => {
+          callback({ name, mode: 'exclusive' }).then(resolve, reject);
+        };
+      });
     },
   };
   return async (app: App<any, any, any>) => {

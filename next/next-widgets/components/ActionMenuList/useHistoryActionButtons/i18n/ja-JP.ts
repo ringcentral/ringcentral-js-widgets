@@ -5,6 +5,8 @@ export default {
   addRecord: '新しいレコードを作成',
   call: '電話',
   text: 'テキスト',
+  manageConsent: '同意の管理',
+  viewConsent: '同意を表示',
   more: 'その他',
   mark: '未読にする',
   unmark: '既読にする',
@@ -27,6 +29,8 @@ export default {
 // @key: @#@"addRecord"@#@ @source: @#@"Create new record"@#@
 // @key: @#@"call"@#@ @source: @#@"Phone"@#@
 // @key: @#@"text"@#@ @source: @#@"Text"@#@
+// @key: @#@"manageConsent"@#@ @source: @#@"Manage Consent"@#@
+// @key: @#@"viewConsent"@#@ @source: @#@"View Consent"@#@
 // @key: @#@"more"@#@ @source: @#@"More"@#@
 // @key: @#@"mark"@#@ @source: @#@"Mark as unread"@#@
 // @key: @#@"unmark"@#@ @source: @#@"Mark as read"@#@

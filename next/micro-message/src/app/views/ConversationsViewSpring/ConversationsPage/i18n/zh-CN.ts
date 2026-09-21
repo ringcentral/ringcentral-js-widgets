@@ -17,6 +17,13 @@ export default {
   IntegrationNumber: '集成',
   all: '全部',
   unread: '未读',
+  draft: '草稿',
+  failed: '失败',
+  done: '完成',
+  cancel: '取消',
+  byCallQueue: '按通话队列',
+  allCallQueues: '所有通话队列',
+  searchCallQueues: '搜索通话队列',
   noMessages: '无消息',
   noText: '暂无短信',
   noUnreadText: '暂无未读短信',
@@ -28,6 +35,7 @@ export default {
   searchFax: '搜索传真',
   searchText: '搜索短信',
   composeText: '发送新短信',
+  sendNewTextDisabled: '无法发送新短信',
   composeFax: '编辑传真',
 } as const;
 
@@ -48,6 +56,13 @@ export default {
 // @key: @#@"IntegrationNumber"@#@ @source: @#@"Integration"@#@
 // @key: @#@"all"@#@ @source: @#@"All"@#@
 // @key: @#@"unread"@#@ @source: @#@"Unread"@#@
+// @key: @#@"draft"@#@ @source: @#@"Draft"@#@
+// @key: @#@"failed"@#@ @source: @#@"Failed"@#@
+// @key: @#@"done"@#@ @source: @#@"Done"@#@
+// @key: @#@"cancel"@#@ @source: @#@"Cancel"@#@
+// @key: @#@"byCallQueue"@#@ @source: @#@"By call queue"@#@
+// @key: @#@"allCallQueues"@#@ @source: @#@"All call queues"@#@
+// @key: @#@"searchCallQueues"@#@ @source: @#@"Search call queues"@#@
 // @key: @#@"noMessages"@#@ @source: @#@"No Messages"@#@
 // @key: @#@"noText"@#@ @source: @#@"No text messages yet"@#@
 // @key: @#@"noUnreadText"@#@ @source: @#@"No unread text messages yet"@#@
@@ -59,4 +74,5 @@ export default {
 // @key: @#@"searchFax"@#@ @source: @#@"Search faxes"@#@
 // @key: @#@"searchText"@#@ @source: @#@"Search texts"@#@
 // @key: @#@"composeText"@#@ @source: @#@"Send new text"@#@
+// @key: @#@"sendNewTextDisabled"@#@ @source: @#@"Send new text disabled"@#@
 // @key: @#@"composeFax"@#@ @source: @#@"Compose fax"@#@

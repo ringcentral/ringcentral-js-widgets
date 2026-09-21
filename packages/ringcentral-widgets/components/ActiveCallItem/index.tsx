@@ -98,7 +98,10 @@ WebphoneButtons.defaultProps = {
   showAnswer: true,
 };
 
-class ActiveCallItem extends Component {
+class ActiveCallItem extends Component<any, any> {
+  static propTypes: any;
+  static defaultProps: any;
+
   _mounted: any;
   _userSelection: any;
   contactDisplay: any;
@@ -117,40 +120,33 @@ class ActiveCallItem extends Component {
     this.contactDisplay = null;
 
     this.toggleExtended = (e: any) => {
-      // @ts-expect-error TS(2339): Property 'isOnConferenceCall' does not exist on ty... Remove this comment to see the full error message
       if (this.props.isOnConferenceCall) {
         return;
       }
       if (this.contactDisplay && this.contactDisplay.contains(e.target)) {
         return;
       }
-      this.setState((preState) => ({
-        // @ts-expect-error TS(2339): Property 'extended' does not exist on type 'Readon... Remove this comment to see the full error message
+      this.setState((preState: any) => ({
         extended: !preState.extended,
       }));
     };
 
     this.webphoneToVoicemail = (sessionId: any) => {
-      // @ts-expect-error TS(2339): Property 'webphoneToVoicemail' does not exist on t... Remove this comment to see the full error message
       if (typeof this.props.webphoneToVoicemail !== 'function') {
         return;
       }
-      // @ts-expect-error TS(2339): Property 'webphoneToVoicemail' does not exist on t... Remove this comment to see the full error message
       this.props.webphoneToVoicemail(sessionId);
       this.toVoicemailTimeout = setTimeout(() => {
-        // @ts-expect-error TS(2339): Property 'webphoneReject' does not exist on type '... Remove this comment to see the full error message
         this.props.webphoneReject(sessionId);
       }, 3000);
     };
   }
 
-  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
-  componentDidMount() {
+  override componentDidMount() {
     this._mounted = true;
   }
 
-  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
-  componentWillUnmount() {
+  override componentWillUnmount() {
     this._mounted = false;
     if (this.toVoicemailTimeout) {
       clearTimeout(this.toVoicemailTimeout);
@@ -167,22 +163,17 @@ class ActiveCallItem extends Component {
     this.setState({
       selected,
     });
-    // @ts-expect-error TS(2339): Property 'call' does not exist on type 'Readonly<{... Remove this comment to see the full error message
     if (this.props.call.activityMatches.length > 0 && this.props.autoLog) {
       this.logCall({ redirect: false, selected });
     }
   };
 
   getFallbackContactName() {
-    // @ts-expect-error TS(2339): Property 'call' does not exist on type 'Readonly<{... Remove this comment to see the full error message
     return isInbound(this.props.call)
-      ? // @ts-expect-error TS(2339): Property 'call' does not exist on type 'Readonly<{... Remove this comment to see the full error message
-        this.props.call.from.name
-      : // @ts-expect-error TS(2339): Property 'call' does not exist on type 'Readonly<{... Remove this comment to see the full error message
-        this.props.call.to.name;
+      ? this.props.call.from.name
+      : this.props.call.to.name;
   }
 
-  // @ts-expect-error TS(2339): Property 'selected' does not exist on type 'Readon... Remove this comment to see the full error message
   getSelectedContact = (selected = this.state.selected) => {
     const contactMatches = this.getContactMatches();
     return (
@@ -193,45 +184,30 @@ class ActiveCallItem extends Component {
   };
 
   getContactMatches(nextProps = this.props) {
-    // @ts-expect-error TS(2339): Property 'call' does not exist on type 'Readonly<{... Remove this comment to see the full error message
     return isInbound(nextProps.call)
-      ? // @ts-expect-error TS(2339): Property 'call' does not exist on type 'Readonly<{... Remove this comment to see the full error message
-        nextProps.call.fromMatches
-      : // @ts-expect-error TS(2339): Property 'call' does not exist on type 'Readonly<{... Remove this comment to see the full error message
-        nextProps.call.toMatches;
+      ? nextProps.call.fromMatches
+      : nextProps.call.toMatches;
   }
 
   getPhoneNumber() {
-    // @ts-expect-error TS(2339): Property 'call' does not exist on type 'Readonly<{... Remove this comment to see the full error message
     return isInbound(this.props.call)
-      ? // @ts-expect-error TS(2339): Property 'call' does not exist on type 'Readonly<{... Remove this comment to see the full error message
-        this.props.call.from.phoneNumber || this.props.call.from.extensionNumber
-      : // @ts-expect-error TS(2339): Property 'call' does not exist on type 'Readonly<{... Remove this comment to see the full error message
-        this.props.call.to.phoneNumber || this.props.call.to.extensionNumber;
+      ? this.props.call.from.phoneNumber || this.props.call.from.extensionNumber
+      : this.props.call.to.phoneNumber || this.props.call.to.extensionNumber;
   }
 
   getMyPhoneNumber() {
-    // @ts-expect-error TS(2339): Property 'call' does not exist on type 'Readonly<{... Remove this comment to see the full error message
     return isInbound(this.props.call)
-      ? // @ts-expect-error TS(2339): Property 'call' does not exist on type 'Readonly<{... Remove this comment to see the full error message
-        this.props.call.to.phoneNumber || this.props.call.to.extensionNumber
-      : // @ts-expect-error TS(2339): Property 'call' does not exist on type 'Readonly<{... Remove this comment to see the full error message
-        this.props.call.from.phoneNumber ||
-          // @ts-expect-error TS(2339): Property 'call' does not exist on type 'Readonly<{... Remove this comment to see the full error message
+      ? this.props.call.to.phoneNumber || this.props.call.to.extensionNumber
+      : this.props.call.from.phoneNumber ||
           this.props.call.from.extensionNumber;
   }
 
   getCallInfo() {
     const {
-      // @ts-expect-error TS(2339): Property 'call' does not exist on type 'Readonly<{... Remove this comment to see the full error message
       call: { telephonyStatus, startTime, webphoneSession, offset },
-      // @ts-expect-error TS(2339): Property 'disableLinks' does not exist on type 'Re... Remove this comment to see the full error message
       disableLinks,
-      // @ts-expect-error TS(2339): Property 'currentLocale' does not exist on type 'R... Remove this comment to see the full error message
       currentLocale,
-      // @ts-expect-error TS(2339): Property 'formatPhone' does not exist on type 'Rea... Remove this comment to see the full error message
       formatPhone,
-      // @ts-expect-error TS(2339): Property 'showCallDetail' does not exist on type '... Remove this comment to see the full error message
       showCallDetail,
     } = this.props;
 
@@ -244,7 +220,6 @@ class ActiveCallItem extends Component {
       return (
         <div className={styles.callDetail}>
           <span className={styles.label}>
-            {/* @ts-expect-error TS(2339): Property 'call' does not exist on type 'Readonly<{... Remove this comment to see the full error message */}
             {isInbound(this.props.call)
               ? i18n.getString('to', currentLocale)
               : i18n.getString('from', currentLocale)}
@@ -271,23 +246,18 @@ class ActiveCallItem extends Component {
   }
 
   clickToSms = () => {
-    // @ts-expect-error TS(2339): Property 'onClickToSms' does not exist on type 'Re... Remove this comment to see the full error message
     if (this.props.onClickToSms) {
       const phoneNumber = this.getPhoneNumber();
       const contact = this.getSelectedContact();
       if (contact) {
-        // @ts-expect-error TS(2339): Property 'onClickToSms' does not exist on type 'Re... Remove this comment to see the full error message
         this.props.onClickToSms({
           ...contact,
           phoneNumber,
         });
       } else {
-        // @ts-expect-error TS(2339): Property 'formatPhone' does not exist on type 'Rea... Remove this comment to see the full error message
         const formatted = this.props.formatPhone(phoneNumber);
-        // @ts-expect-error TS(2339): Property 'onClickToSms' does not exist on type 'Re... Remove this comment to see the full error message
         this.props.onClickToSms(
           {
-            // @ts-expect-error TS(2339): Property 'enableContactFallback' does not exist on... Remove this comment to see the full error message
             name: this.props.enableContactFallback
               ? this.getFallbackContactName()
               : formatted,
@@ -302,10 +272,8 @@ class ActiveCallItem extends Component {
   createSelectedContact = async (entityType: any) => {
     // console.log('click createSelectedContact!!', entityType);
     if (
-      // @ts-expect-error TS(2339): Property 'onCreateContact' does not exist on type ... Remove this comment to see the full error message
       typeof this.props.onCreateContact === 'function' &&
       this._mounted &&
-      // @ts-expect-error TS(2339): Property 'isCreating' does not exist on type 'Read... Remove this comment to see the full error message
       !this.state.isCreating
     ) {
       this.setState({
@@ -313,10 +281,8 @@ class ActiveCallItem extends Component {
       });
       // console.log('start to create: isCreating...', this.state.isCreating);
       const phoneNumber = this.getPhoneNumber();
-      // @ts-expect-error TS(2339): Property 'onCreateContact' does not exist on type ... Remove this comment to see the full error message
       await this.props.onCreateContact({
         phoneNumber,
-        // @ts-expect-error TS(2339): Property 'enableContactFallback' does not exist on... Remove this comment to see the full error message
         name: this.props.enableContactFallback
           ? this.getFallbackContactName()
           : '',
@@ -333,9 +299,7 @@ class ActiveCallItem extends Component {
   };
 
   viewSelectedContact = () => {
-    // @ts-expect-error TS(2339): Property 'onViewContact' does not exist on type 'R... Remove this comment to see the full error message
     if (typeof this.props.onViewContact === 'function') {
-      // @ts-expect-error TS(2339): Property 'onViewContact' does not exist on type 'R... Remove this comment to see the full error message
       this.props.onViewContact({
         contact: this.getSelectedContact(),
       });
@@ -344,19 +308,15 @@ class ActiveCallItem extends Component {
 
   async logCall({ redirect = true, selected }: any) {
     if (
-      // @ts-expect-error TS(2339): Property 'onLogCall' does not exist on type 'Reado... Remove this comment to see the full error message
       typeof this.props.onLogCall === 'function' &&
       this._mounted &&
-      // @ts-expect-error TS(2339): Property 'isLogging' does not exist on type 'Reado... Remove this comment to see the full error message
       !this.state.isLogging
     ) {
       this.setState({
         isLogging: true,
       });
-      // @ts-expect-error TS(2339): Property 'onLogCall' does not exist on type 'Reado... Remove this comment to see the full error message
       await this.props.onLogCall({
         contact: this.getSelectedContact(selected),
-        // @ts-expect-error TS(2339): Property 'call' does not exist on type 'Readonly<{... Remove this comment to see the full error message
         call: this.props.call,
         redirect,
       });
@@ -368,81 +328,42 @@ class ActiveCallItem extends Component {
     }
   }
 
-  // @ts-expect-error TS(2300): Duplicate identifier 'logCall'.
-  logCall = this.logCall.bind(this);
-
-  // @ts-expect-error TS(2339): Property 'externalViewEntity' does not exist on ty... Remove this comment to see the full error message
   externalViewEntity = () => this.props.externalViewEntity(this.props.call);
-  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
-  render() {
+  override render() {
     const {
-      // @ts-expect-error TS(2339): Property 'call' does not exist on type 'Readonly<{... Remove this comment to see the full error message
       call: { direction, activityMatches, webphoneSession },
-      // @ts-expect-error TS(2339): Property 'disableLinks' does not exist on type 'Re... Remove this comment to see the full error message
       disableLinks,
-      // @ts-expect-error TS(2339): Property 'currentLocale' does not exist on type 'R... Remove this comment to see the full error message
       currentLocale,
-      // @ts-expect-error TS(2339): Property 'areaCode' does not exist on type 'Readon... Remove this comment to see the full error message
       areaCode,
-      // @ts-expect-error TS(2339): Property 'countryCode' does not exist on type 'Rea... Remove this comment to see the full error message
       countryCode,
-      // @ts-expect-error TS(2339): Property 'outboundSmsPermission' does not exist on... Remove this comment to see the full error message
       outboundSmsPermission,
-      // @ts-expect-error TS(2339): Property 'internalSmsPermission' does not exist on... Remove this comment to see the full error message
       internalSmsPermission,
-      // @ts-expect-error TS(2339): Property 'enableContactFallback' does not exist on... Remove this comment to see the full error message
       enableContactFallback,
-      // @ts-expect-error TS(2339): Property 'isLogging' does not exist on type 'Reado... Remove this comment to see the full error message
       isLogging,
-      // @ts-expect-error TS(2339): Property 'brand' does not exist on type 'Readonly<... Remove this comment to see the full error message
       brand,
-      // @ts-expect-error TS(2339): Property 'showContactDisplayPlaceholder' does not ... Remove this comment to see the full error message
       showContactDisplayPlaceholder,
-      // @ts-expect-error TS(2339): Property 'onClickToSms' does not exist on type 'Re... Remove this comment to see the full error message
       onClickToSms,
-      // @ts-expect-error TS(2339): Property 'onViewContact' does not exist on type 'R... Remove this comment to see the full error message
       onViewContact,
-      // @ts-expect-error TS(2339): Property 'onCreateContact' does not exist on type ... Remove this comment to see the full error message
       onCreateContact,
-      // @ts-expect-error TS(2339): Property 'createEntityTypes' does not exist on typ... Remove this comment to see the full error message
       createEntityTypes,
-      // @ts-expect-error TS(2339): Property 'onLogCall' does not exist on type 'Reado... Remove this comment to see the full error message
       onLogCall,
-      // @ts-expect-error TS(2339): Property 'webphoneAnswer' does not exist on type '... Remove this comment to see the full error message
       webphoneAnswer,
-      // @ts-expect-error TS(2339): Property 'webphoneHangup' does not exist on type '... Remove this comment to see the full error message
       webphoneHangup,
-      // @ts-expect-error TS(2339): Property 'webphoneResume' does not exist on type '... Remove this comment to see the full error message
       webphoneResume,
-      // @ts-expect-error TS(2339): Property 'sourceIcons' does not exist on type 'Rea... Remove this comment to see the full error message
       sourceIcons,
-      // @ts-expect-error TS(2339): Property 'phoneTypeRenderer' does not exist on typ... Remove this comment to see the full error message
       phoneTypeRenderer,
-      // @ts-expect-error TS(2339): Property 'phoneSourceNameRenderer' does not exist ... Remove this comment to see the full error message
       phoneSourceNameRenderer,
-      // @ts-expect-error TS(2339): Property 'renderContactName' does not exist on typ... Remove this comment to see the full error message
       renderContactName,
-      // @ts-expect-error TS(2339): Property 'renderExtraButton' does not exist on typ... Remove this comment to see the full error message
       renderExtraButton,
-      // @ts-expect-error TS(2339): Property 'contactDisplayStyle' does not exist on t... Remove this comment to see the full error message
       contactDisplayStyle,
-      // @ts-expect-error TS(2339): Property 'externalViewEntity' does not exist on ty... Remove this comment to see the full error message
       externalViewEntity,
-      // @ts-expect-error TS(2339): Property 'externalHasEntity' does not exist on typ... Remove this comment to see the full error message
       externalHasEntity,
-      // @ts-expect-error TS(2339): Property 'readTextPermission' does not exist on ty... Remove this comment to see the full error message
       readTextPermission,
-      // @ts-expect-error TS(2339): Property 'isOnConferenceCall' does not exist on ty... Remove this comment to see the full error message
       isOnConferenceCall,
-      // @ts-expect-error TS(2339): Property 'hasActionMenu' does not exist on type 'R... Remove this comment to see the full error message
       hasActionMenu,
-      // @ts-expect-error TS(2339): Property 'showAnswer' does not exist on type 'Read... Remove this comment to see the full error message
       showAnswer,
-      // @ts-expect-error TS(2339): Property 'avatarUrl' does not exist on type 'Reado... Remove this comment to see the full error message
       avatarUrl,
-      // @ts-expect-error TS(2339): Property 'showAvatar' does not exist on type 'Read... Remove this comment to see the full error message
       showAvatar,
-      // @ts-expect-error TS(2339): Property 'formatPhone' does not exist on type 'Rea... Remove this comment to see the full error message
       formatPhone,
     } = this.props;
     const phoneNumber = this.getPhoneNumber();
@@ -459,18 +380,15 @@ class ActiveCallItem extends Component {
     );
     const contactMatches = this.getContactMatches();
     const fallbackContactName = this.getFallbackContactName();
-    // @ts-expect-error TS(2339): Property 'call' does not exist on type 'Readonly<{... Remove this comment to see the full error message
     const ringing = isRinging(this.props.call);
     const callDetail = this.getCallInfo();
     const contactName =
       typeof renderContactName === 'function'
-        ? // @ts-expect-error TS(2339): Property 'call' does not exist on type 'Readonly<{... Remove this comment to see the full error message
-          renderContactName(this.props.call)
+        ? renderContactName(this.props.call)
         : undefined;
     const extraButton =
       typeof renderExtraButton === 'function'
-        ? // @ts-expect-error TS(2339): Property 'call' does not exist on type 'Readonly<{... Remove this comment to see the full error message
-          renderExtraButton(this.props.call)
+        ? renderExtraButton(this.props.call)
         : undefined;
 
     return (
@@ -480,7 +398,6 @@ class ActiveCallItem extends Component {
           <CallIcon
             direction={direction}
             ringing={ringing}
-            // @ts-expect-error TS(2322): Type '{ direction: any; ringing: boolean; active: ... Remove this comment to see the full error message
             active
             missed={false}
             inboundTitle={i18n.getString('inboundCall', currentLocale)}
@@ -501,11 +418,9 @@ class ActiveCallItem extends Component {
                   : clsx(styles.contactDisplay, contactDisplayStyle)
               }
               contactMatches={contactMatches}
-              // @ts-expect-error TS(2339): Property 'selected' does not exist on type 'Readon... Remove this comment to see the full error message
               selected={this.state.selected}
               onSelectContact={this.onSelectContact}
               disabled={disableLinks}
-              // @ts-expect-error TS(2339): Property 'isLogging' does not exist on type 'Reado... Remove this comment to see the full error message
               isLogging={isLogging || this.state.isLogging}
               fallBackName={fallbackContactName}
               enableContactFallback={enableContactFallback}
@@ -517,7 +432,6 @@ class ActiveCallItem extends Component {
               showPlaceholder={showContactDisplayPlaceholder}
               showType={false}
               sourceIcons={sourceIcons}
-              // @ts-expect-error TS(2322): Type '{ formatPhone: any; isOnConferenceCall: any;... Remove this comment to see the full error message
               phoneTypeRenderer={phoneTypeRenderer}
               phoneSourceNameRenderer={phoneSourceNameRenderer}
               stopPropagation
@@ -537,7 +451,6 @@ class ActiveCallItem extends Component {
         </div>
         {hasActionMenu ? (
           <ActionMenu
-            // @ts-expect-error TS(2339): Property 'extended' does not exist on type 'Readon... Remove this comment to see the full error message
             extended={this.state.extended}
             onToggle={this.toggleExtended}
             currentLocale={currentLocale}
@@ -545,8 +458,7 @@ class ActiveCallItem extends Component {
             phoneNumber={phoneNumber}
             onClickToSms={
               readTextPermission
-                ? // @ts-expect-error TS(2554): Expected 0 arguments, but got 1.
-                  () => this.clickToSms({ countryCode, areaCode })
+                ? () => this.clickToSms()
                 : undefined
             }
             hasEntity={!!contactMatches.length}
@@ -555,10 +467,8 @@ class ActiveCallItem extends Component {
             createEntityTypes={createEntityTypes}
             textTitle={i18n.getString('text', currentLocale)}
             onLog={onLogCall}
-            // @ts-expect-error TS(2339): Property 'isLogging' does not exist on type 'Reado... Remove this comment to see the full error message
             isLogging={isLogging || this.state.isLogging}
             isLogged={activityMatches.length > 0}
-            // @ts-expect-error TS(2339): Property 'isCreating' does not exist on type 'Read... Remove this comment to see the full error message
             isCreating={this.state.isCreating}
             addLogTitle={i18n.getString('addLog', currentLocale)}
             editLogTitle={i18n.getString('editLog', currentLocale)}
@@ -566,7 +476,6 @@ class ActiveCallItem extends Component {
             viewEntityTitle={i18n.getString('viewDetails', currentLocale)}
             externalViewEntity={externalViewEntity && this.externalViewEntity}
             externalHasEntity={
-              // @ts-expect-error TS(2339): Property 'call' does not exist on type 'Readonly<{... Remove this comment to see the full error message
               externalHasEntity && externalHasEntity(this.props.call)
             }
             disableClickToSms={disableClickToSms}
@@ -577,7 +486,6 @@ class ActiveCallItem extends Component {
   }
 }
 
-// @ts-expect-error TS(2339): Property 'propTypes' does not exist on type 'typeo... Remove this comment to see the full error message
 ActiveCallItem.propTypes = {
   call: PropTypes.shape({
     direction: PropTypes.string.isRequired,
@@ -637,7 +545,6 @@ ActiveCallItem.propTypes = {
   showCallDetail: PropTypes.bool,
 };
 
-// @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'ty... Remove this comment to see the full error message
 ActiveCallItem.defaultProps = {
   onLogCall: undefined,
   onClickToSms: undefined,

@@ -80,6 +80,13 @@ export interface CallLogOptions {
    * @default is false which means fetchList of all
    */
   limitSupplementList?: boolean;
+
+  /**
+   * enable transient side-loaded calls that are merged into the final call list
+   *
+   * @default false
+   */
+  enableSideLoadedCalls?: boolean;
 }
 
 export type CallLogRecord = Pick<

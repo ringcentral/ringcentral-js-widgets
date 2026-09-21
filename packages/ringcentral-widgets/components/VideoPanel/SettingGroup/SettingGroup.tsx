@@ -4,12 +4,13 @@ import {
   RcAccordionSummary,
   RcFormGroup,
 } from '@ringcentral/juno';
-import type { FunctionComponent, ReactElement } from 'react';
+import type { FunctionComponent, ReactElement, ReactNode } from 'react';
 import React from 'react';
 
 import styles from './styles.scss';
 
 interface SettingGroupProps {
+  children?: ReactNode;
   dataSign: string;
   summary?: ReactElement | string;
   defaultExpanded?: boolean;

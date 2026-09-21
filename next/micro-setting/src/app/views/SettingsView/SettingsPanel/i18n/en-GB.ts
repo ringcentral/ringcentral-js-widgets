@@ -45,6 +45,8 @@ export default {
   selectToDialHint:
     'For a better experience, select the phone number you want to dial with {brandName} on the bulk phone numbers page.',
   phone: 'Phone',
+  text: 'Text',
+  consentManagement: 'Consent management',
   log: 'Log',
   general: 'General',
   showMatches: 'Show matches for inbound calls',
@@ -97,6 +99,8 @@ export default {
 // @key: @#@"contactSupport"@#@ @source: @#@"Contact support"@#@
 // @key: @#@"selectToDialHint"@#@ @source: @#@"For your better experience, select phone number to dial with {brandName} in large quantity phone number page."@#@
 // @key: @#@"phone"@#@ @source: @#@"Phone"@#@
+// @key: @#@"text"@#@ @source: @#@"Text"@#@
+// @key: @#@"consentManagement"@#@ @source: @#@"Consent management"@#@
 // @key: @#@"log"@#@ @source: @#@"Log"@#@
 // @key: @#@"general"@#@ @source: @#@"General"@#@
 // @key: @#@"showMatches"@#@ @source: @#@"Show matches for inbound calls"@#@

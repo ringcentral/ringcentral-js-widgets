@@ -159,7 +159,7 @@ export const PresenceSetting: FunctionComponent<PresenceSettingProps> = ({
           setStatusAnchor(showSelects ? null : iconRef.current);
           toggleShow();
         }}
-        className="cursor-pointer gap-2"
+        className="cursor-pointer gap-2 flex-wrap"
       >
         <div data-sign="label" className="text-neutral-b1 truncate">
           {t('status')}

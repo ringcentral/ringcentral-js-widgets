@@ -6,4 +6,6 @@ export default {
   optOutSingleRecipient: 'This recipient has opted out.',
   optOutMultipleRecipients: 'Some recipients have opted out.',
   optOutRemove: 'Remove',
+  incomingTextsOnly: 'Incoming texts only',
+  notSetUpForTexting: 'Not set up for texting',
 } as const;

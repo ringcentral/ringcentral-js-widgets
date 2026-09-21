@@ -4,6 +4,7 @@ import React from 'react';
 import styles from './styles.scss';
 
 type InputFieldProps = {
+  children?: React.ReactNode;
   label?: React.ReactNode;
   labelHint?: React.ReactNode;
   className?: string;
@@ -25,7 +26,6 @@ const InputField: React.FC<InputFieldProps> = (props) => {
   );
 };
 InputField.defaultProps = {
-  // @ts-expect-error TS(2322): Type '{ children: undefined; label: undefined; lab... Remove this comment to see the full error message
   children: undefined,
   label: undefined,
   labelHint: undefined,

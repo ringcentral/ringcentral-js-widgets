@@ -3,8 +3,8 @@ export default {
   specialNumber:
     '緊急サービスまたは特別なサービスの番号へのテキスト送信はサポートされていません。',
   textEmpty: '送信するテキストを入力してください。',
-  textTooLong: 'テキストが長すぎます(最大1000文字)',
-  multipartTextTooLong: 'テキストが長すぎます(最大5000文字)',
+  textTooLong: '最大1,000文字まで入力できます。',
+  multipartTextTooLong: '最大5,000文字まで入力できます。',
   recipientsEmpty: '有効な受信者の番号を入力してください。',
   senderNumberInvalid:
     '社外の受信者にテキストメッセージを送信するには、有効な電話番号が必要です。管理者に連絡して、アカウントにダイレクトナンバーを追加してください。',

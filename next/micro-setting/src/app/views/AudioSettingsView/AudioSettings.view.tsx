@@ -3,17 +3,17 @@ import {
   type Theme,
 } from '@ringcentral-integration/micro-core/src/app/services';
 import { slideOutViewTransition } from '@ringcentral-integration/micro-core/src/app/views';
-import {
+import type {
   AudioInfo,
-  TEST_STATE,
-  type CallAction,
-  type AudioSettings,
-  type CallingSettings,
-  type CallMonitor,
-  type RingtoneConfiguration,
-  type VolumeInspector,
-  type Webphone,
+  AudioSettings,
+  CallAction,
+  CallingSettings,
+  CallMonitor,
+  RingtoneConfiguration,
+  VolumeInspector,
+  Webphone,
 } from '@ringcentral-integration/micro-phone/src/app/services';
+import { TEST_STATE } from '@ringcentral-integration/micro-phone/src/app/services/VolumeInspector';
 import {
   delegate,
   dynamic,
@@ -28,8 +28,8 @@ import {
 } from '@ringcentral-integration/next-core';
 import { OmitFunctions } from '@ringcentral-integration/utils/src/typeFunctions/OmitFunctions';
 import { AudioSettingsPanel } from '@ringcentral-integration/widgets/components/AudioSettingsPanel';
-import { AudioSettingsPanel as AudioSettingsPanelV2 } from '@ringcentral-integration/widgets/components/AudioSettingsPanelV2';
 import type { AudioSettingsPanelProps as AudioSettingsPanelV2Props } from '@ringcentral-integration/widgets/components/AudioSettingsPanelV2';
+import { AudioSettingsPanel as AudioSettingsPanelV2 } from '@ringcentral-integration/widgets/components/AudioSettingsPanelV2';
 import React, { useRef } from 'react';
 import { v4 as uuid } from 'uuid';
 
@@ -37,6 +37,7 @@ import type {
   AudioSettingsPanelProps,
   AudioSettingsViewOptions,
   AudioSettingsViewProps,
+  NoiseReductionLike,
 } from './AudioSettings.view.interface';
 import {
   AudioSettingsPanel as SpringAudioSettingsPanel,
@@ -79,6 +80,9 @@ export class AudioSettingsView extends RcViewModule {
 
   @dynamic('CallAction')
   protected readonly _callAction?: CallAction;
+
+  @dynamic('NoiseReduction')
+  protected readonly _noiseReduction?: NoiseReductionLike;
 
   get showSetting() {
     return !!this._audioSettings;
@@ -173,7 +177,8 @@ export class AudioSettingsView extends RcViewModule {
 
   getUIProps():
     | UIProps<AudioSettingsPanelProps>
-    | UIProps<AudioSettingsPanelV2Props> {
+    | UIProps<AudioSettingsPanelV2Props>
+    | UIProps<SpringAudioSettingsPanelProps> {
     const isHavingCall = !!(
       (this._webphone && this._webphone.sessions.length > 0) ||
       this._callMonitor.activeRingCalls.length +
@@ -219,8 +224,20 @@ export class AudioSettingsView extends RcViewModule {
         ),
       showCallVolume: this._audioSettingsViewOptions?.showCallVolume,
       showRingToneVolume: this._audioSettingsViewOptions?.showRingToneVolume,
-      volumeTestData: this._volumeInspector?.data,
-      selectedRingtoneId: this._ringtoneConfiguration?.selectedRingtoneId,
+      showNoiseReductionToggle:
+        this._noiseReduction?.showNoiseReductionSetting ?? false,
+      isNoiseReductionEnabled: this._noiseReduction?.enabled ?? false,
+      disableNoiseReductionSetting: this._webphone
+        ? this._webphone.sessions.length > 0
+        : false,
+      volumeTestData: this._volumeInspector?.data ?? {
+        volume: 0,
+        countDown: 0,
+        testState: TEST_STATE.IDLE,
+        isRecording: false,
+        type: null,
+      },
+      selectedRingtoneId: this._ringtoneConfiguration?.selectedRingtoneId ?? '',
       fullRingtoneList: this._ringtoneConfiguration?.fullRingtoneList || [],
       isUploadRingtoneDisabled:
         this._ringtoneConfiguration?.isUploadRingtoneDisabled,
@@ -272,6 +289,9 @@ export class AudioSettingsView extends RcViewModule {
       },
       showDangerAlert: (message) => {
         this._ringtoneConfiguration?.showDangerAlert(message);
+      },
+      onNoiseReductionChange: (enabled: boolean) => {
+        this._audioSettings.setNoiseReductionEnabled(enabled);
       },
       onExit: async () => {
         if (this.enableActiveCallAudioControl) {

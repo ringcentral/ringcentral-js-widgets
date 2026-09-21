@@ -12,7 +12,7 @@ export const OptOutAlert = () => {
     <div className="flex items-center gap-1">
       {t('optOutAlert')}
       <Tooltip title={t('optOutAlertTooltip')}>
-        <Icon symbol={InfoMd} size="small" />
+        <Icon symbol={InfoMd} size="small" data-sign="optOutAlertIcon" />
       </Tooltip>
     </div>
   );

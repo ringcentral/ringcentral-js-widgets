@@ -59,7 +59,9 @@ export const TimeInput: React.FC<TimeInputProps> = ({
       </span>
       <RcBox marginLeft={spacing(2)({ theme })} clone>
         <TimeButton
-          onClick={(e) => handleSelectTimeUnit(e, MINS)}
+          onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+            handleSelectTimeUnit(e, MINS)
+          }
           variant={timeUnit === MINS ? 'contained' : 'text'}
         >
           {i18n.getString('min', currentLocale)}
@@ -67,13 +69,17 @@ export const TimeInput: React.FC<TimeInputProps> = ({
       </RcBox>
       <TimeButton
         variant={timeUnit === HOURS ? 'contained' : 'text'}
-        onClick={(e) => handleSelectTimeUnit(e, HOURS)}
+        onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+          handleSelectTimeUnit(e, HOURS)
+        }
       >
         {i18n.getString('hours', currentLocale)}
       </TimeButton>
       <TimeButton
         variant={timeUnit === DAYS ? 'contained' : 'text'}
-        onClick={(e) => handleSelectTimeUnit(e, DAYS)}
+        onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+          handleSelectTimeUnit(e, DAYS)
+        }
       >
         {i18n.getString('days', currentLocale)}
       </TimeButton>

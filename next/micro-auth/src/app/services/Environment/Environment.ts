@@ -47,7 +47,15 @@ export class Environment extends RcModule {
   ) {
     super();
     this._storage.enable(this, {
-      whitelist: ['server', 'recordingHostState', 'enabled', 'mfeDepsInfo'],
+      whitelist: [
+        'server',
+        'aiApiUrl',
+        'smartNotesIframe',
+        'smartNotesEnv',
+        'recordingHostState',
+        'enabled',
+        'mfeDepsInfo',
+      ],
     });
     this.recordingHostState = this._defaultRecordingHost;
     if (globalThis.localStorage && this.mfeName) {
@@ -136,6 +144,18 @@ export class Environment extends RcModule {
 
   @globalStorage
   @state
+  aiApiUrl = '';
+
+  @globalStorage
+  @state
+  smartNotesIframe = '';
+
+  @globalStorage
+  @state
+  smartNotesEnv = '';
+
+  @globalStorage
+  @state
   recordingHostState: string | null = null;
 
   @globalStorage
@@ -152,12 +172,18 @@ export class Environment extends RcModule {
   @action
   private _setEnvData({
     server,
+    aiApiUrl = '',
+    smartNotesIframe = '',
+    smartNotesEnv = '',
     recordingHost,
     enabled,
     allowDataTracking,
     mfeDepsInfo,
   }: SetDataOptions) {
     this.server = server;
+    this.aiApiUrl = aiApiUrl;
+    this.smartNotesIframe = smartNotesIframe;
+    this.smartNotesEnv = smartNotesEnv;
     this.recordingHostState = recordingHost;
     this.enabled = enabled;
     this.mfeDepsInfo = JSON.parse(mfeDepsInfo || '[]');
@@ -201,13 +227,16 @@ export class Environment extends RcModule {
   @delegate('server')
   async setData({
     server,
+    aiApiUrl = '',
+    smartNotesIframe = '',
+    smartNotesEnv = '',
     recordingHost,
     enabled,
     allowDataTracking = false,
     environmentChanged = false,
     mfeDepsInfo,
   }: SetDataOptions) {
-    // `recordingHost` change no need to set to SDK
+    // `recordingHost`, `aiApiUrl`, `smartNotesIframe`, and `smartNotesEnv` changes do not need SDK re-init
     const isEnvChanged =
       environmentChanged ||
       this.enabled !== enabled ||
@@ -215,6 +244,9 @@ export class Environment extends RcModule {
 
     this._setEnvData({
       server,
+      aiApiUrl,
+      smartNotesIframe,
+      smartNotesEnv,
       recordingHost,
       enabled,
       allowDataTracking,
@@ -260,8 +292,8 @@ export class Environment extends RcModule {
         process.env.NODE_ENV === 'test') &&
         process.env.BUILD_ENVIRONMENT &&
         ['dev', 'local', 'reg'].includes(process.env.BUILD_ENVIRONMENT)) ||
-        // in development mode always use data tracking setting, to avoid data tracking in dev mode
-        process.env.NODE_ENV === 'development',
+      // in development mode always use data tracking setting, to avoid data tracking in dev mode
+      process.env.NODE_ENV === 'development',
     );
   }
 

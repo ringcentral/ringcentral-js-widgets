@@ -59,7 +59,7 @@ export const FieldLine = styled.div`
   }
 `;
 
-export const StyledRcChip = styled(RcChip)`
+export const StyledRcChip: typeof RcChip = styled(RcChip)`
   margin: 2px 0;
   padding: 0;
 `;

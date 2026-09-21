@@ -14,7 +14,7 @@ export type SharedSearchForm = {
   filter: SharedFilterType;
   statusFilter: StatusFilterType;
   selectedAssignees: AssignmentOptionValue[];
-  selectedCallQueues: string[];
+  selectedRecipientExtensionIds: string[];
 };
 
 export type MessageThreadsViewProps = Pick<

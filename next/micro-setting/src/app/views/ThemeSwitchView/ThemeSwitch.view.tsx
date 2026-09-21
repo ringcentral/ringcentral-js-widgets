@@ -80,7 +80,7 @@ export class ThemeSwitchView extends RcViewModule {
         this._theme.updateThemeType(type);
       },
       onThemeIdChange: (themeId) => {
-        console.log('🐞 ~ themeId:', themeId);
+        this._theme.setThemeId(themeId);
       },
       onPrefersReducedMotionChange: (val) => {
         this.logger.log('update prefers reduced motion', val);

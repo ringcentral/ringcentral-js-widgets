@@ -2,6 +2,7 @@ import type { AppFeatures } from '@ringcentral-integration/micro-auth/src/app/se
 import type {
   MessageStore,
   MessageThread,
+  QueueConversations,
 } from '@ringcentral-integration/micro-message/src/app/services';
 import type { CallHistory } from '@ringcentral-integration/micro-phone/src/app/services';
 import type { UIFunctions, UIProps } from '@ringcentral-integration/next-core';
@@ -37,6 +38,8 @@ export class HeaderNavViewSpring extends RcViewModule {
   protected readonly _messageStore?: MessageStore;
   @dynamic('MessageThread')
   protected readonly _messageThread?: MessageThread;
+  @dynamic('QueueConversations')
+  protected readonly _queueConversations?: QueueConversations;
   @dynamic('AppFeatures')
   protected readonly _appFeatures?: AppFeatures;
 
@@ -52,7 +55,8 @@ export class HeaderNavViewSpring extends RcViewModule {
   get textUnReadCounts() {
     return (
       (this._messageStore?.textUnreadCounts ?? 0) +
-      (this._messageThread?.threadUnreadCount ?? 0)
+      (this._messageThread?.threadUnreadCount ?? 0) +
+      (this._queueConversations?.unreadCount ?? 0)
     );
   }
 

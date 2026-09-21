@@ -1,8 +1,8 @@
-import { whenStateChange } from '@ringcentral-integration/next-core/test';
 import {
   StepFunction,
-  within,
   screen,
+  waitFor,
+  within,
 } from '@ringcentral-integration/test-utils';
 
 interface CheckUploadFileProps {
@@ -13,10 +13,12 @@ export const CheckAttachment: StepFunction<CheckUploadFileProps> = async ({
   expectedFiles,
 }) => {
   if (!expectedFiles.length) {
-    expect(screen.queryByTestId('file-info')).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.queryByTestId('file-info')).not.toBeInTheDocument();
+    });
     return;
   }
-  await whenStateChange(() => {
+  await waitFor(() => {
     const allAttachmentFiles = screen.getAllByTestId('file-info');
     expectedFiles.forEach((file, idx) => {
       const fileInfoElement = allAttachmentFiles[idx];

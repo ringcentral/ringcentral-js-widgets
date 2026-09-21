@@ -35,7 +35,7 @@ const TestComponent = ({ onFocus }: any) => {
 };
 
 describe('useEffectOnDocumentFocus', () => {
-  it('should call effect when document is focused and deps change', () => {
+  it('should call effect when document is focused and deps change', async () => {
     const onFocusMock = jest.fn();
 
     // Simulate document focus
@@ -49,12 +49,12 @@ describe('useEffectOnDocumentFocus', () => {
     // Assert that the effect has been called
     expect(onFocusMock).toHaveBeenCalledTimes(1);
 
-    userEvent.click(screen.getByText('increase'));
+    await userEvent.click(screen.getByText('increase'));
 
     expect(onFocusMock).toHaveBeenCalledTimes(2);
 
     // when other state change
-    userEvent.click(screen.getByText('other state'));
+    await userEvent.click(screen.getByText('other state'));
     // should still be 2
     expect(onFocusMock).toHaveBeenCalledTimes(2);
 
@@ -65,7 +65,7 @@ describe('useEffectOnDocumentFocus', () => {
     });
 
     // change value again, but not focused
-    userEvent.click(screen.getByText('increase'));
+    await userEvent.click(screen.getByText('increase'));
     // still be same
     expect(onFocusMock).toHaveBeenCalledTimes(2);
   });

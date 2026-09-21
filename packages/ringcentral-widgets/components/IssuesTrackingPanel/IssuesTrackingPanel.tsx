@@ -71,7 +71,7 @@ const _IssuesTrackingPanel: FunctionComponent<IssuesTrackingPanelProps> = ({
               labelPlacement: 'start',
             }}
             checked={enabled}
-            onChange={(_, checked) => toggleEnable(checked)}
+            onChange={(_: any, checked: boolean) => toggleEnable(checked)}
             label={
               <RcTypography color="action.grayDark" weight="bold">
                 {i18n.getString('toggleTitle', currentLocale)}

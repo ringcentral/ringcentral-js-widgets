@@ -1,29 +1,15 @@
-import type FeedbackPanel from '@ringcentral-integration/widgets/components/FeedbackPanel';
+export type FeedbackStep = 'rating' | 'helpImprove' | 'thankYou';
+
+export interface FeedbackViewProps {}
+
+/** Payload sent to guide iframe via postMessage when feedback dialog closes */
+export interface FeedbackDataPayload {
+  feedbackText: string;
+  selectedTags: string[];
+  rating: number;
+}
 
 export interface FeedbackViewOptions {
-  component?: typeof FeedbackPanel;
-}
-
-export interface FeedbackPanelProps {
-  brandName: string;
-  currentLocale: string;
-  email: string;
-  topic: string;
-  subject: string;
-  description: string;
-  onBackClick: () => void;
-  onEmailChange: (email: string) => void;
-  onTopicChange: (topic: string) => void;
-  onSubjectChange: (subject: string) => void;
-  onDescriptionChange: (description: string) => void;
-  onRevertClick: () => void;
-  sendFeedback: (url: string) => void;
-}
-
-export interface FeedbackContainerProps {
-  sendFeedback?: (url: string) => void;
-}
-
-export interface FeedbackViewProps {
-  //
+  /** Optional review link for "Share review" (e.g. marketplace link) */
+  reviewLink?: string;
 }

@@ -5,6 +5,7 @@ import React from 'react';
 import styles from './styles.scss';
 
 type AnimationPanelProps = {
+  children?: React.ReactNode;
   open: boolean;
   className?: string;
 } & Pick<HTMLAttributes<HTMLDivElement>, 'style'>;

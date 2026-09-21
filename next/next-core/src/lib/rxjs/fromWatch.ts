@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { storeKey, ThisService, watch } from 'reactant-share';
+import { storeKey, ThisService, watch } from 'reactant';
 import {
   defer,
   filter,

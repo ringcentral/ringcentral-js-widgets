@@ -1,8 +1,16 @@
+/* eslint-disable no-invalid-regexp, no-useless-escape, no-undef */
 (() => {
+  const shouldCheckUnsupportedWorkerUserAgent =
+    '<%= shouldCheckUnsupportedWorkerUserAgent %>';
+
   if (
     !localStorage.getItem('<%= disableRcSharedWorkerKey %>') &&
     window.SharedWorker &&
-    !/^((?!chrome|android).)*safari/i.test(navigator.userAgent)
+    /* __BROADCAST_CHANNEL_CONDITION__ */
+    !(
+      shouldCheckUnsupportedWorkerUserAgent &&
+      /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
+    )
   ) {
     // source: https://github.com/ringcentral/ringcentral-mfe/blob/main/packages/shared/src/satisfiesVersion.ts
     const satisfiesVersion = (version, range) => {
@@ -139,16 +147,23 @@
     const mfeConfig = '<%= mfeConfig %>';
     const _mfeConfig = JSON.parse(mfeConfig || '{}');
     const dependencies = JSON.parse(
-      JSON.stringify(_mfeConfig.dependencies) || '{}',
+      JSON.stringify(_mfeConfig.dependencies || {}),
     );
+    const hasMfeDependencies = Object.keys(dependencies).length > 0;
     const getWorkerName = (name) => {
-      // prefix from `libs/next-micro/src/onUpdateEntry.ts`
-      const storageKey = 'rc-mfe:storage:' + _mfeConfig.name;
+      if (!hasMfeDependencies) {
+        return name;
+      }
+
       let localMfe = {};
-      try {
-        localMfe = JSON.parse(localStorage.getItem(storageKey) || '{}');
-      } catch (e) {
-        console.error('parse local mfe fail', e);
+      if (_mfeConfig.name) {
+        // prefix from `libs/next-micro/src/onUpdateEntry.ts`
+        const storageKey = 'rc-mfe:storage:' + _mfeConfig.name;
+        try {
+          localMfe = JSON.parse(localStorage.getItem(storageKey) || '{}');
+        } catch (e) {
+          console.error('parse local mfe fail', e);
+        }
       }
       Object.keys(dependencies).forEach((key) => {
         const dependencyVersion = dependencies[key].dependencyVersion || '*';
@@ -160,32 +175,17 @@
           dependencies[key].meta = options.meta;
         }
       });
-      console.log('rc worker mfe:', dependencies);
       const depsString = btoa(JSON.stringify(dependencies));
       return name + '#' + depsString;
     };
-    const name = getWorkerName('<%= chunkName %>');
-    const worker = new SharedWorker(
-      url,
-      dependencies
-        ? {
-            name,
-          }
-        : {},
-    );
+    const name = getWorkerName('<%= workerName %>');
+    __WORKER_CONSTRUCTOR__;
     window['<%= nameSpace %>'] = {
       // !!! don't use js string template, it will be replaced by webpack script
-      url: dependencies ? url + '?' + name : url,
+      url: hasMfeDependencies ? url + '?' + name : url,
       worker,
     };
 
-    worker.addEventListener('error', (event) => {
-      // eslint-disable-next-line no-console
-      console.error('load <%= nameSpace %> worker fail', event);
-
-      if (window.workerScriptsFail && window.workerScriptsFail.renderLoadFail) {
-        window.workerScriptsFail.renderLoadFail();
-      }
-    });
+    __WORKER_ERROR_LISTENER__;
   }
 })();

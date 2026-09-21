@@ -4,6 +4,7 @@ import React from 'react';
 import styles from './styles.scss';
 
 type FooterProps = {
+  children?: React.ReactNode;
   className?: string;
 };
 const Footer: React.FC<FooterProps> = (props) => {

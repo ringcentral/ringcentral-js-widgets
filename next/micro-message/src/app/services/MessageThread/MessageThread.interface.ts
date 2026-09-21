@@ -1,3 +1,5 @@
+import type { Attachment } from '../MessageSender/MessageSender.interface';
+
 export interface MessageThreadOptions {
   /**
    * enable message thread service
@@ -42,6 +44,15 @@ export interface MessageThreadRecord {
   assignee?: Initiator;
   previousAssignee?: Initiator;
   author?: Author;
+  attachments?: Array<{
+    id: string;
+    filename: string;
+    contentType: string;
+    contentUri: string;
+    size: number;
+    width?: number;
+    height?: number;
+  }>;
 }
 
 interface Initiator {
@@ -199,6 +210,13 @@ export interface MessageThreadMessageResponse {
   messageStatus: string;
   text: string;
   author: Author;
+}
+
+export interface SendNewThreadMessagePayload {
+  fromNumber: string;
+  toNumbers: string[];
+  text: string;
+  attachments?: Attachment[];
 }
 
 interface Author {

@@ -1,7 +1,8 @@
-import { whenStateChange } from '@ringcentral-integration/next-core/test';
+import { whenStateOrTimerChange } from '@ringcentral-integration/next-core/test';
 import {
   screen,
   userEvent,
+  waitForRenderReady,
   within,
   type StepFunction,
 } from '@ringcentral-integration/test-utils';
@@ -11,6 +12,10 @@ interface ClickItemByDataSignProps {
   containerDataSign?: string;
   index?: number;
 }
+
+const getClickTarget = (element: HTMLElement) =>
+  (element.closest('button,input,[role="button"]') as HTMLElement | null) ??
+  element;
 
 export const ClickItemByDataSign: StepFunction<
   ClickItemByDataSignProps
@@ -27,16 +32,27 @@ export const ClickItemByDataSign: StepFunction<
     if (index < 0) {
       throw new Error('"index" must be >= 0');
     }
-    await whenStateChange(() => {
+    await whenStateOrTimerChange(() => {
       element = queryRoot.queryAllByTestId(dataSign)[index];
       expect(element).toBeInTheDocument();
+      expect(getClickTarget(element!)).not.toBeDisabled();
+      expect(getClickTarget(element!)).not.toHaveAttribute(
+        'aria-disabled',
+        'true',
+      );
     });
   } else {
-    await whenStateChange(() => {
+    await whenStateOrTimerChange(() => {
       element = queryRoot.getByTestId(dataSign);
       expect(element).toBeInTheDocument();
+      expect(getClickTarget(element!)).not.toBeDisabled();
+      expect(getClickTarget(element!)).not.toHaveAttribute(
+        'aria-disabled',
+        'true',
+      );
     });
   }
 
-  userEvent.click(element!);
+  await userEvent.click(getClickTarget(element!));
+  await waitForRenderReady();
 };

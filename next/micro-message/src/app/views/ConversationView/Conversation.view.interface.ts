@@ -8,9 +8,8 @@ import type GetMessageInfoResponse from 'ringcentral-client/build/definitions/Ge
 
 import type {
   Attachment,
-  ConversationMatch,
   CurrentConversation,
-  FormattedConversation,
+  MessageThreadMessageResponse,
 } from '../../services';
 
 export interface ConversationViewOptions {
@@ -131,7 +130,7 @@ export interface ConversationPanelProps {
   replyToReceivers: (
     text: string,
     attachments?: Attachment[],
-  ) => Promise<GetMessageInfoResponse | null>;
+  ) => Promise<GetMessageInfoResponse | MessageThreadMessageResponse | null>;
   unloadConversation: () => Promise<void>;
   loadConversation: (id: string) => Promise<void>;
   updateMessageText: (text: string) => Promise<boolean>;

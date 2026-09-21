@@ -4,6 +4,7 @@ import React from 'react';
 import styles from './styles.scss';
 
 type BadgeProps = {
+  children?: React.ReactNode;
   onClick?: (...args: any[]) => any;
   className?: string;
   name: string;

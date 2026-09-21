@@ -179,7 +179,7 @@ const _EmojiMenu = forwardRef<HTMLButtonElement, EmojiMenuProps>(
           ref={anchorElRef}
           title={i18n.getString('emoji', currentLocale)}
           symbol={Emoji}
-          onMouseDown={(e) => {
+          onMouseDown={(e: React.MouseEvent) => {
             e.preventDefault();
           }}
           onClick={toggle}

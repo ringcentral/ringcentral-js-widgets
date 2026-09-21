@@ -58,7 +58,7 @@ export class RCI2603 extends Step {
   );
   run() {
     const { CreateMock, Login } = this;
-    let checkConnectionFuncSpy: jest.SpyInstance;
+    let checkConnectionFuncSpy: jest.Spied;
     return (
       <Scenario
         desc="Verify the app should recover normal from offline mode when connected network"

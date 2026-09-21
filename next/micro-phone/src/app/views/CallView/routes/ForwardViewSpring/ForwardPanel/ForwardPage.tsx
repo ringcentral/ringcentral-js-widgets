@@ -52,25 +52,37 @@ export const ForwardPage: FunctionComponent<ForwardViewPanelProps> = (
       >
         {t('forwardTitle')}
       </PageHeader>
-      <div
-        data-sign="forwardPage"
-        className="flex flex-col items-center gap-8 pt-8 flex-auto"
-      >
-        <Dialer>
-          {/* @ts-ignore */}
-          <ToContactSearch
-            defaultTab="company"
-            open={contactSearchExpanded}
-            componentType="DialTextField"
-            inputValue={toNumber}
-            recipient={recipients[0]}
-            onInputValueChange={onToNumberChange}
-            onSelect={setRecipients}
-            onRemove={clearRecipient}
-            onExpanded={setContactSearchExpanded}
-          />
+      <Dialer>
+        <div
+          data-sign="forwardPage"
+          className="flex flex-col items-center pt-4 flex-auto"
+        >
+          <div
+            className={clsx(
+              'w-full flex flex-col',
+              contactSearchExpanded ? 'flex-auto min-h-0' : 'flex-none',
+            )}
+          >
+            {/* @ts-ignore */}
+            <ToContactSearch
+              defaultTab="company"
+              open={contactSearchExpanded}
+              componentType="DialTextField"
+              inputValue={toNumber}
+              recipient={recipients[0]}
+              onInputValueChange={setToNumber}
+              onSelect={setRecipients}
+              onRemove={clearRecipient}
+              onExpanded={setContactSearchExpanded}
+            />
+          </div>
 
-          <div className={clsx(contactSearchExpanded && 'hidden')}>
+          <main
+            className={clsx(
+              'flex flex-col flex-auto items-center overflow-auto pb-2 gap-8 pt-6 w-full h-0',
+              contactSearchExpanded && 'hidden',
+            )}
+          >
             <DialPad
               data-sign="dialPad"
               volume={callVolume}
@@ -79,27 +91,27 @@ export const ForwardPage: FunctionComponent<ForwardViewPanelProps> = (
               sinkId={outputDeviceId}
               className="gap-y-2"
             />
-          </div>
 
-          <div className={clsx(contactSearchExpanded && 'hidden')}>
-            <IconButton
-              TooltipProps={{
-                title: t('forward'),
-              }}
-              symbol={ForwardMd}
-              color="success"
-              variant="contained"
-              size="xxxlarge"
-              iconSize="large"
-              data-sign="forwardButton"
-              disabled={actionButtonDisabled}
-              onClick={() => {
-                onAction('startForward');
-              }}
-            />
-          </div>
-        </Dialer>
-      </div>
+            <div className={clsx(contactSearchExpanded && 'hidden')}>
+              <IconButton
+                TooltipProps={{
+                  title: t('forward'),
+                }}
+                symbol={ForwardMd}
+                color="success"
+                variant="contained"
+                size="xxxlarge"
+                iconSize="large"
+                data-sign="forwardButton"
+                disabled={actionButtonDisabled}
+                onClick={() => {
+                  onAction('startForward');
+                }}
+              />
+            </div>
+          </main>
+        </div>
+      </Dialer>
     </>
   );
 };

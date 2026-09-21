@@ -5,6 +5,7 @@ import IconField from '../IconField';
 import Line from '../Line';
 
 type IconLineProps = {
+  children?: React.ReactNode;
   dataSign?: string;
   icon?: React.ReactNode;
   className?: string;

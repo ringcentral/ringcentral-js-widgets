@@ -15,8 +15,8 @@ import { filter, firstValueFrom, of, timeout } from 'rxjs';
 import { trackEvent } from '../Analytics';
 import { Auth } from '../Auth';
 
-import type { OAuthBaseOptions } from './OAuthBase.interface';
 import { t } from './i18n';
+import type { OAuthBaseOptions } from './OAuthBase.interface';
 
 const DEFAULT_UI_OPTIONS: string[] = [];
 
@@ -55,8 +55,11 @@ export abstract class OAuthBase extends RcModule {
     this.oAuthReady = val;
   }
 
-  async handleCallbackLogin(callbackUri: string) {
-    const result = await this._handleCallbackUri(callbackUri);
+  async handleCallbackLogin(callbackUri: string, redirectUriOverride?: string) {
+    const result = await this._handleCallbackUri(
+      callbackUri,
+      redirectUriOverride,
+    );
 
     if (result) {
       // wait ownerId be exist the track able to event, because our state change inside onLoginSuccess callback event with server state set, so we need wait the ownerId state be sync into client
@@ -85,11 +88,14 @@ export abstract class OAuthBase extends RcModule {
   }
 
   @delegate('server')
-  protected async _handleCallbackUri(callbackUri: string) {
+  protected async _handleCallbackUri(
+    callbackUri: string,
+    redirectUriOverride?: string,
+  ) {
     try {
       const query = parseCallbackUri(callbackUri);
 
-      await this._loginWithCallbackQuery(query);
+      await this._loginWithCallbackQuery(query, redirectUriOverride);
       return true;
     } catch (error: any) {
       console.error('oauth error: ', error);
@@ -131,16 +137,18 @@ export abstract class OAuthBase extends RcModule {
 
   protected async _loginWithCallbackQuery(
     query: RefreshWithCallbackQueryParams,
+    redirectUriOverride?: string,
   ) {
     if (!(query.code || query.access_token)) {
       return;
     }
+    const redirectUri = redirectUriOverride ?? this.redirectUri;
     await this._auth.login({
       code: query.code,
       accessToken: query.access_token,
       expiresIn: query.expires_in,
       endpointId: query.endpoint_id,
-      redirectUri: this.redirectUri,
+      redirectUri,
       tokenType: query.token_type,
       scope: query.scope,
       tokenUri: query.token_uri,
@@ -174,9 +182,9 @@ export abstract class OAuthBase extends RcModule {
 
   abstract openOAuthPage(): Promise<void>;
 
-  async getOAuthUri() {
+  async getOAuthUri(redirectUriOverride?: string) {
     const authState = await this.getAuthState();
-    const redirectUri = await this.getRedirectUri();
+    const redirectUri = redirectUriOverride ?? (await this.getRedirectUri());
     const loginUrl = await this._auth.getLoginUrl({
       redirectUri,
       brandId: this._brand.defaultConfig.id,

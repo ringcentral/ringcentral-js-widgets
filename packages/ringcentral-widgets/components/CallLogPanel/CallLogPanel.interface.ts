@@ -1,7 +1,7 @@
 import type { IContact } from '@ringcentral-integration/commons/interfaces/Contact.model';
 import type { DateTimeFormatter } from '@ringcentral-integration/commons/lib/getIntlDateTimeFormatter';
 import type { RcIconProps } from '@ringcentral/juno';
-import type { MutableRefObject } from 'react';
+import type { MutableRefObject, ReactNode } from 'react';
 
 import type { Call, CallLog, CallLogTitle } from './CallLog.interface';
 
@@ -28,6 +28,7 @@ type CallLogPanelGroup<T> = {
 };
 
 export interface CallLogPanelProps extends CallLogPanelConfig {
+  children?: ReactNode;
   rootLayout?: boolean;
   currentLog: CallLog;
   currentDelaySavingState?: any;

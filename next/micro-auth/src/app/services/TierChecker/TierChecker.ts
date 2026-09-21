@@ -12,8 +12,8 @@ import {
 import { Auth, loginStatus } from '../Auth';
 import { ExtensionFeatures } from '../ExtensionFeatures';
 
-import type { TierCheckerOptions } from './TierChecker.interface';
 import { t } from './i18n';
+import type { TierCheckerOptions } from './TierChecker.interface';
 
 @injectable({
   name: 'TierChecker',

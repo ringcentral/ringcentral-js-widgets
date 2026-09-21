@@ -6,5 +6,8 @@ export default {
   threadUnassignedHint: 'Conversation has been unassigned.',
   threadDeletedHint: 'This conversation has been deleted.',
   threadExpiredHint: 'Conversation resolved automatically.',
+  assignedToYouTooltip: 'Conversation assigned to you',
+  attachmentCountLimitation: 'You can attach up to 10 files.',
+  attachmentSizeLimitation: 'Attachments cannot exceed 1.5 MB in total.',
   someone: 'someone',
 } as const;

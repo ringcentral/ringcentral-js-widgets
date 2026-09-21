@@ -1,5 +1,6 @@
 import type ForwardingNumberInfo from '@rc-ex/core/lib/definitions/ForwardingNumberInfo';
 import type { Call } from '@ringcentral-integration/commons/interfaces/Call.interface';
+import type { PropsWithChildren } from 'react';
 
 import { ICallAction } from '../../../../hooks';
 import type { CallMetaInfo, OnCallActionType } from '../../../../services';
@@ -14,7 +15,7 @@ export type IncomingCallViewProps = {
   call: Call;
 } & Pick<CallMetaInfo, 'actionsDisabled' | 'minimized'>;
 
-export interface IncomingCallViewPanelProps {
+export interface IncomingCallViewPanelProps extends PropsWithChildren<{}> {
   call: Call;
   actions: ICallAction[];
   /**

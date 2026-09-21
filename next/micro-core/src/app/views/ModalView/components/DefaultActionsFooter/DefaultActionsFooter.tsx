@@ -27,7 +27,9 @@ export const DefaultActionsFooter: FunctionComponent<{}> = () => {
           data-sign="DialogCancelButton"
           fullWidth={isXsmall}
           variant="text"
-          onClick={(e) => onCancel?.(e, 'cancelClick')}
+          onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+            onCancel?.(e, 'cancelClick')
+          }
           disabled={loading}
           {...cancelButtonProps}
         >

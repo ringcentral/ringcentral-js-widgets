@@ -198,7 +198,7 @@ const Expanded: FunctionComponent<IncomingCallViewPanelProps> = ({
           ) : undefined
         }
       />
-      <div data-sign="callerInfo">
+      <div data-sign="callerInfo" className="overflow-auto flex-auto pb-2">
         <div className="mt-6 flex justify-center">
           <Avatar size="xxlarge" />
         </div>
@@ -234,10 +234,10 @@ const Expanded: FunctionComponent<IncomingCallViewPanelProps> = ({
             </p>
           )}
         </div>
-      </div>
 
-      <div className="flex flex-col justify-center items-center mt-6">
-        {children}
+        <div className="flex flex-col justify-center items-center mt-6">
+          {children}
+        </div>
       </div>
       <AppFooterNav />
     </div> // </FocusTrap>);
@@ -340,8 +340,8 @@ export const IncomingCallPage: FunctionComponent<IncomingCallViewPanelProps> = (
                 onlyOneButton
                   ? 'justify-center'
                   : minimizedTwoColumn
-                  ? 'justify-center gap-2'
-                  : 'justify-between'
+                    ? 'justify-center gap-2'
+                    : 'justify-between'
               }`,
 
           {

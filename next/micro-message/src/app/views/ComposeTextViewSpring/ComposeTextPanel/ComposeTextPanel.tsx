@@ -12,7 +12,9 @@ import { useAsyncState } from '@ringcentral-integration/react-hooks';
 import { fileToBase64 } from '@ringcentral-integration/utils';
 import { InfoMd } from '@ringcentral/spring-icon';
 import {
+  Alert,
   Checkbox,
+  CircularProgressIndicator,
   FormLabel,
   Icon,
   Link,
@@ -23,6 +25,7 @@ import clsx from 'clsx';
 import React, { useMemo, useState } from 'react';
 
 import { FileItem } from '../../../services';
+import { SmsConsentRequiredAlert } from '../../ConversationViewSpring/ConversationPanel';
 import type {
   ComposeTextPanelSpringProps,
   SalesforceContact,
@@ -43,6 +46,7 @@ export const ComposeTextPanel: React.FunctionComponent<
   messageText: originalMessageText,
   allowedCreateGroupText,
   showSpinner = false,
+  sending = false,
   senderNumber,
   maxRecipients,
   addAttachments,
@@ -63,6 +67,9 @@ export const ComposeTextPanel: React.FunctionComponent<
   ContactSearch: ToContactSearch,
   disabledGroupMessage = false,
   endAdornment,
+  requiredOptInCount = 0,
+  canAddSmsConsent = false,
+  onAddSmsConsentClick,
 }) => {
   const [messageText, setMessageText] = useAsyncState(
     originalMessageText,
@@ -108,7 +115,10 @@ export const ComposeTextPanel: React.FunctionComponent<
       </AppHeaderNav>
       <SpinnerOverlay loading={showSpinner}>
         <div
-          className={clsx('h-full flex flex-col px-4 py-2 gap-2', className)}
+          className={clsx(
+            'h-full flex flex-col px-4 py-2 gap-2 relative',
+            className,
+          )}
         >
           <FromField
             fromNumber={senderNumber}
@@ -121,6 +131,7 @@ export const ComposeTextPanel: React.FunctionComponent<
           />
           {/* @ts-ignore */}
           <ToContactSearch
+            strictErrorMode
             filterCallQueueExtension
             defaultTab="thirdParty"
             open={contactSearchExpanded}
@@ -185,40 +196,60 @@ export const ComposeTextPanel: React.FunctionComponent<
               />
             </FormLabel>
           )}
+
+          {sending && (
+            <div className="absolute bottom-2 left-2">
+              <CircularProgressIndicator size="xsmall" />
+            </div>
+          )}
         </div>
       </SpinnerOverlay>
 
       <AppFooterNav>
-        <div className="border-t border-neutral-b0-t20">
-          <MessageInput
-            inputRef={inputRef}
-            inputText={messageText}
-            acceptFileTypes={acceptFileTypes}
-            onChange={setMessageText}
-            toolbar={toolbar}
-            sendDisabled={sendButtonDisabled}
-            onSend={send}
-            attachments={attachments as FileItem[]}
-            supportAttachment={supportAttachment}
-            onAddAttachment={async (data) => {
-              const files = await Promise.all(
-                data.map(async (file) => {
-                  const { name, size } = file;
-                  const base64Url = await fileToBase64(file);
-                  return {
-                    name,
-                    size,
-                    file,
-                    base64Url,
-                  };
-                }),
-              );
-              addAttachments(files);
-            }}
-            endAdornment={endAdornment}
-            onRemoveAttachment={removeAttachment}
-          />
-        </div>
+        {requiredOptInCount > 0 ? (
+          <Alert
+            className="m-4"
+            severity={requiredOptInCount > 1 ? 'error' : 'info'}
+            startSlot={null}
+          >
+            <SmsConsentRequiredAlert
+              multiple={requiredOptInCount > 1}
+              canAddConsent={canAddSmsConsent}
+              onAddConsentClick={onAddSmsConsentClick}
+            />
+          </Alert>
+        ) : (
+          <div className="border-t border-neutral-b0-t20">
+            <MessageInput
+              inputRef={inputRef}
+              inputText={messageText}
+              acceptFileTypes={acceptFileTypes}
+              onChange={setMessageText}
+              toolbar={toolbar}
+              sendDisabled={sendButtonDisabled}
+              onSend={send}
+              attachments={attachments as FileItem[]}
+              supportAttachment={supportAttachment}
+              onAddAttachment={async (data) => {
+                const files = await Promise.all(
+                  data.map(async (file) => {
+                    const { name, size } = file;
+                    const base64Url = await fileToBase64(file);
+                    return {
+                      name,
+                      size,
+                      file,
+                      base64Url,
+                    };
+                  }),
+                );
+                addAttachments(files);
+              }}
+              endAdornment={endAdornment}
+              onRemoveAttachment={removeAttachment}
+            />
+          </div>
+        )}
       </AppFooterNav>
     </>
   );

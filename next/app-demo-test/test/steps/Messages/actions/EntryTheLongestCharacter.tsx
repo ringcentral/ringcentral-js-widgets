@@ -1,5 +1,5 @@
 import type { StepFunction } from '@ringcentral-integration/test-utils';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 interface EntryTheLongestCharacterProps {
@@ -8,8 +8,11 @@ interface EntryTheLongestCharacterProps {
 }
 export const EntryTheLongestCharacter: StepFunction<
   EntryTheLongestCharacterProps
-> = ({ longest, dataSign }) => {
+> = async ({ longest, dataSign }) => {
   const selector = screen.getByTestId(dataSign);
 
-  userEvent.type(selector, new Array(longest + 1).join('0'));
+  await userEvent.type(selector, new Array(longest + 1).join('0'));
+  await waitFor(() => {
+    expect((selector as HTMLInputElement).value.length).toBe(longest);
+  });
 };

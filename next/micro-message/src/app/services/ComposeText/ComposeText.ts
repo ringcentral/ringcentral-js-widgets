@@ -30,6 +30,8 @@ import { finalize, firstValueFrom, merge, NEVER, switchMap, timer } from 'rxjs';
 import { FilteredConversation } from '../Conversations';
 import type { Attachment } from '../MessageSender';
 import { ATTACHMENT_SIZE_LIMITATION, MessageSender } from '../MessageSender';
+import { t as messageSenderT } from '../MessageSender/i18n';
+import { type PhoneNumberPair, SmsConsent } from '../SmsConsent';
 import { SmsOptOut } from '../SmsOptOut';
 
 import type { ComposeTextOptions, ToNumber } from './ComposeText.interface';
@@ -53,6 +55,11 @@ export class ComposeText extends RcModule {
     typingToNumber: string;
   }) => Promise<boolean>;
 
+  // SMS hooks
+  protected _smsHooks: Array<
+    ({ recipients }: { recipients: ToNumber[] }) => Promise<void> | void
+  > = [];
+
   constructor(
     protected _toast: Toast,
     protected _auth: Auth,
@@ -66,6 +73,7 @@ export class ComposeText extends RcModule {
     @optional('ComposeTextOptions')
     protected _composeTextOptions?: ComposeTextOptions,
     @optional() protected _router?: RouterPlugin,
+    @optional() protected _smsConsent?: SmsConsent,
   ) {
     super();
     this._storage.enable(this, {
@@ -94,19 +102,61 @@ export class ComposeText extends RcModule {
   }
 
   @computed
+  get requiredOptInToNumbers() {
+    return this.toNumbers.filter(
+      (toNumber) => toNumber.errorReason === 'requiredOptIn',
+    );
+  }
+
+  @computed
+  get recipientConsentNumberPairs(): PhoneNumberPair[] {
+    return this._toNumbers
+      .map((number) => number.phoneNumber)
+      .filter((to) => !isBlank(to))
+      .map((to) => ({
+        from: this.senderNumber,
+        to,
+      }));
+  }
+
+  @delegate('server')
+  async loadRecipientConsentData() {
+    await Promise.all([
+      this._smsConsent?.ensureSmsConfigurationState(this.senderNumber),
+      this._smsConsent?.ensureEffectiveConsentForNumberPairs(
+        this.recipientConsentNumberPairs,
+      ),
+    ]);
+  }
+
+  getConsentStatus(toNumber: string) {
+    return (
+      this._smsConsent?.getConsentStatus({
+        from: this.senderNumber,
+        to: toNumber,
+      }) ?? {}
+    );
+  }
+
+  @computed
   get toNumbers() {
     return this._toNumbers.map((number) => {
+      const { isOptOut: consentOptOut, requiredOptInLoss } =
+        this.getConsentStatus(number.phoneNumber);
       const isOptOut = Boolean(
+        consentOptOut ||
         this._smsOptOut?.isOptOut(number.phoneNumber, this.senderNumber),
       );
-      const error = number.error || isOptOut;
+      const error = number.error || isOptOut || requiredOptInLoss;
       const value: ToNumber = {
         ...number,
         error,
         errorReason: error
           ? isOptOut
             ? 'optOut'
-            : 'invalidPhoneNumber'
+            : requiredOptInLoss
+              ? 'requiredOptIn'
+              : 'invalidPhoneNumber'
           : undefined,
       };
 
@@ -335,9 +385,8 @@ export class ComposeText extends RcModule {
   ): Promise<T extends string ? boolean : boolean[]> {
     const isList = Array.isArray(phoneNumbers);
     const phoneNumberArray: string[] = isList ? phoneNumbers : [phoneNumbers];
-    const isOnlyPagerResults = await this._validateIsOnlyPager(
-      phoneNumberArray,
-    );
+    const isOnlyPagerResults =
+      await this._validateIsOnlyPager(phoneNumberArray);
     const isOnlyPagerArray = Array.isArray(isOnlyPagerResults)
       ? isOnlyPagerResults
       : [isOnlyPagerResults];
@@ -419,12 +468,44 @@ export class ComposeText extends RcModule {
 
   @delegate('server')
   async send(text: string, attachments: Attachment[] = []) {
+    await this.loadRecipientConsentData();
+
+    if (this.hasInvalidToNumbers) {
+      return null;
+    }
+
     const toNumbers = this._toNumbers.map((number) => number.phoneNumber);
     const { typingToNumber } = this;
     if (!isBlank(typingToNumber)) {
-      if (await this._validatePhoneNumber(typingToNumber)) {
+      await this._smsConsent?.loadEffectiveConsentForNumbers({
+        from: this.senderNumber,
+        to: typingToNumber,
+      });
+      const {
+        isOptOut: typingToConsentOptOut,
+        requiredOptInLoss: typingToRequiredOptInLoss,
+      } = this.getConsentStatus(typingToNumber);
+      const typingToOptOut = Boolean(
+        typingToConsentOptOut ||
+        this._smsOptOut?.isOptOut(typingToNumber, this.senderNumber),
+      );
+
+      if (
+        (await this._validatePhoneNumber(typingToNumber)) &&
+        !typingToOptOut &&
+        !typingToRequiredOptInLoss
+      ) {
         toNumbers.push(typingToNumber);
       } else {
+        if (process.env.THEME_SYSTEM === 'spring-ui') {
+          // addToNumber to reflect error state in UI
+          this.cleanTypingToNumber();
+          this._addToNumber({
+            name: typingToNumber,
+            phoneNumber: typingToNumber,
+            freeSolo: true,
+          });
+        }
         return null;
       }
     }
@@ -433,6 +514,11 @@ export class ComposeText extends RcModule {
       ? await this.smsVerify({ toNumbers: this._toNumbers, typingToNumber })
       : true;
     if (!continueSend) return null;
+
+    // Call SMS hooks to preserve context
+    for (const hook of this._smsHooks) {
+      await hook({ recipients: this._toNumbers });
+    }
 
     let toastPortalInstance: PortalInstance | undefined;
     const responses = await firstValueFrom(
@@ -504,7 +590,7 @@ export class ComposeText extends RcModule {
   @delegate('server')
   async updateTypingToNumber(number: string) {
     if (number.length > 30) {
-      this._alertWarning(t('recipientNumberInvalids'));
+      this._alertWarning(messageSenderT('recipientNumberInvalids'));
       return;
     }
     this._setTypingToNumber(number);
@@ -583,7 +669,7 @@ export class ComposeText extends RcModule {
         this._appFeatures.hasOutboundSMSPermission &&
         this._toNumbers.some((x) => x && x.type !== 'company')
       ) {
-        this._alertWarning(t('senderNumberInvalid'), 0);
+        this._alertWarning(messageSenderT('senderNumberInvalid'), 0);
       }
       this.resetCreateGroupChecked();
     }
@@ -617,7 +703,7 @@ export class ComposeText extends RcModule {
   @delegate('server')
   async updateMessageText(text: string) {
     if (text.length > 1000) {
-      this._alertWarning(t('textTooLong'));
+      this._alertWarning(messageSenderT('textTooLong'));
       return;
     }
     this._setMessageText(text);

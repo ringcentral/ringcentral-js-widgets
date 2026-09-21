@@ -7,6 +7,7 @@ import { SleepDetector } from '@ringcentral-integration/micro-core/src/app/servi
 import {
   action,
   delegate,
+  fromWatchValue,
   injectable,
   logger,
   optional,
@@ -18,7 +19,7 @@ import {
 } from '@ringcentral-integration/next-core';
 import type { SDK } from '@ringcentral/sdk';
 import WebSocket from 'isomorphic-ws';
-import { tap } from 'rxjs';
+import { filter, map, scan, share, tap } from 'rxjs';
 
 import { Auth } from '../Auth';
 import { Client } from '../Client';
@@ -339,6 +340,39 @@ export class RingCentralExtensions extends RcModule {
     }
     this.webSocketReadyState = state;
   }
+
+  /**
+   * Emits when the WebSocket connection becomes ready again after a real
+   * disconnect (closed/closing -> ... -> ready). A normal reconnect
+   * transitions closed -> connecting -> open -> ready, so a previous-state
+   * check at ready never matches; consumers should react to this stream
+   * instead of watching raw state transitions.
+   */
+  webSocketRecovered$ = fromWatchValue(
+    this,
+    () => this.webSocketReadyState,
+  ).pipe(
+    scan(
+      (acc, state) => {
+        const recovered =
+          acc.disconnected && state === webSocketReadyStates.ready;
+        return {
+          // reset after a recovery so a later ready without a new
+          // disconnect does not emit a false positive
+          disconnected: recovered
+            ? false
+            : state === webSocketReadyStates.closed ||
+              state === webSocketReadyStates.closing ||
+              acc.disconnected,
+          recovered,
+        };
+      },
+      { disconnected: false, recovered: false },
+    ),
+    filter(({ recovered }) => recovered),
+    map(() => undefined),
+    share(),
+  );
 
   @state
   webSocketReadyState?: WebSocketReadyState | null = null;

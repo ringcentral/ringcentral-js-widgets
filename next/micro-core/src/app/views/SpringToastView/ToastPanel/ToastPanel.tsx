@@ -1,16 +1,15 @@
 import { useViewTransitionState } from '@ringcentral-integration/react-hooks';
+import { RcFade, RcSlide, RcSlideProps } from '@ringcentral/juno';
 import {
   ClickAwayListener,
-  RcFade,
-  RcPortal,
-  RcSlide,
-  RcSlideProps,
+  Portal,
   useChange,
   useEventCallback,
   useEventListener,
   useRefState,
   useResultRef,
-} from '@ringcentral/juno';
+  useTheme,
+} from '@ringcentral/spring-ui';
 import clsx from 'clsx';
 import React, { FunctionComponent, memo, useEffect, useRef } from 'react';
 
@@ -27,6 +26,7 @@ type MemoItemProps = ToastItemPanelProps &
   Pick<RcSlideProps, 'in'> &
   Pick<ToastPanelProps, 'getRenderer' | 'brand'> & {
     onExited: (id: string) => void;
+    position: 'top' | 'bottom';
   };
 
 const MemoToastItem: FunctionComponent<
@@ -46,6 +46,7 @@ const MemoToastItem: FunctionComponent<
     backdrop,
     brand,
     in: inProp,
+    position,
     getRenderer = DEFAULT_TOAST_GET_RENDERER,
     dismiss,
     onExited,
@@ -69,7 +70,12 @@ const MemoToastItem: FunctionComponent<
   const { currentLocale } = useLocale();
 
   return (
-    <RcSlide key={id} in={inProp} onExited={() => onExited(id)} direction="up">
+    <RcSlide
+      key={id}
+      in={inProp}
+      onExited={() => onExited(id)}
+      direction={position === 'top' ? 'down' : 'up'}
+    >
       <div
         className="flex bg-neutral-base rounded-sui-sm"
         // below view transition api may cause the toast item be opacity background, so we need to set the background color to that to avoid that
@@ -105,6 +111,7 @@ export const ToastPanel: FunctionComponent<ToastPanelProps> = ({
   const listening = useRef(false);
 
   const deleteMapRef = useResultRef(() => new Map<string, boolean>());
+  const { scope } = useTheme();
 
   useChange(
     (prev, next) => {
@@ -203,45 +210,55 @@ export const ToastPanel: FunctionComponent<ToastPanelProps> = ({
     currentMessages.some((msg) => !deleteMap.get(msg.id) && msg.backdrop);
 
   return (
-    <RcPortal>
+    <Portal>
       <div
-        data-sign="toast-container"
-        className={clsx(
-          'fixed top-0 left-0 w-full h-full z-snackbar pointer-events-none pt-3 flex flex-col',
-          className,
-          position === 'top' ? 'justify-start' : 'justify-end',
-        )}
+        // add scope to ensure the scope work as expect
+        data-sui-theme-scope={scope}
       >
-        <RcFade in={showBackdrop}>
-          <div className="absolute left-0 top-0 w-full h-full bg-neutral-100 bg-opacity-40 z-[-1] pointer-events-auto" />
-        </RcFade>
-        <ClickAwayListener onClickAway={handleClickAway}>
-          <section
-            className={clsx(
-              'inline-flex flex-col justify-end gap-3 px-5 mb-4 items-center [view-transition-name:toast]',
-              fullWidth && 'w-full',
-            )}
-          >
-            {currentMessages.map(
-              ({ disableBackdropClick, disableEscapeKeyDown, ...message }) => (
-                <MemoToastItem
-                  key={message.id}
-                  fullWidth={fullWidth}
-                  size={size}
-                  component={component}
-                  messageAlign={messageAlign}
-                  onExited={handleExited}
-                  in={!deleteMap.get(message.id)}
-                  dismiss={dismiss}
-                  {...message}
-                  {...rest}
-                />
-              ),
-            )}
-          </section>
-        </ClickAwayListener>
-        {renderHeight ? <div style={{ height: renderHeight }}></div> : null}
+        <div
+          data-sign="toast-container"
+          className={clsx(
+            'fixed top-0 left-0 w-full h-full z-snackbar pointer-events-none pt-3 flex flex-col',
+            className,
+            position === 'top' ? 'justify-start' : 'justify-end',
+          )}
+        >
+          <RcFade in={showBackdrop}>
+            <div className="absolute left-0 top-0 w-full h-full bg-neutral-100 bg-opacity-40 z-[-1] pointer-events-auto" />
+          </RcFade>
+          <ClickAwayListener onClickAway={handleClickAway}>
+            <section
+              className={clsx(
+                'inline-flex flex-col justify-end gap-3 px-5 mb-4 items-center [view-transition-name:toast]',
+                fullWidth && 'w-full',
+              )}
+            >
+              {currentMessages.map(
+                ({
+                  disableBackdropClick,
+                  disableEscapeKeyDown,
+                  ...message
+                }) => (
+                  <MemoToastItem
+                    key={message.id}
+                    position={position}
+                    fullWidth={fullWidth}
+                    size={size}
+                    component={component}
+                    messageAlign={messageAlign}
+                    onExited={handleExited}
+                    in={!deleteMap.get(message.id)}
+                    dismiss={dismiss}
+                    {...message}
+                    {...rest}
+                  />
+                ),
+              )}
+            </section>
+          </ClickAwayListener>
+          {renderHeight ? <div style={{ height: renderHeight }}></div> : null}
+        </div>
       </div>
-    </RcPortal>
+    </Portal>
   );
 };

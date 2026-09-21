@@ -7,6 +7,7 @@ import {
 } from '@ringcentral/juno';
 import { Close } from '@ringcentral/juno-icon';
 import React, { forwardRef } from 'react';
+import type { PropsWithChildren } from 'react';
 
 import { useLocale } from '../../../../hooks';
 import i18n from '../../ModalItemView/ModalItemPanel/i18n';
@@ -14,7 +15,7 @@ import { useModalItemView } from '../../ModalItemView/contexts';
 
 import { modalTitleWithCloseStyle } from './styles';
 
-export type ModalTitleWithCloseProps = {};
+export type ModalTitleWithCloseProps = PropsWithChildren<{}>;
 
 const Title = styled(RcText)`
   margin-right: ${spacing(3)};

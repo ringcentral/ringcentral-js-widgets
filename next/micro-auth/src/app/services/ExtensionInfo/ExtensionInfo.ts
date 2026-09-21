@@ -184,6 +184,10 @@ export class ExtensionInfo extends DataFetcherConsumer<GetExtensionInfoResponse>
     return this.info.regionalSettings?.homeCountry?.isoCode;
   }
 
+  get isAdminUser() {
+    return !!this.info.permissions?.admin?.enabled;
+  }
+
   /**
    * check target user id is current login user
    */

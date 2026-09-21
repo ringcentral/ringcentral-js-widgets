@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  matchedRecordsTips: '{matchedCount} enregistrements suggérés',
+  matchedRecordsTips: '{matchedCount} suggérés',
 } as const;
 
 // @key: @#@"matchedRecordsTips"@#@ @source: @#@"{matchedCount} suggested records"@#@

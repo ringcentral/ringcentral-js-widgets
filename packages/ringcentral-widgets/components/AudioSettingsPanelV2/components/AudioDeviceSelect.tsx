@@ -8,7 +8,7 @@ import {
   RcTooltip,
 } from '@ringcentral/juno';
 import React from 'react';
-import type { FC } from 'react';
+import type { ChangeEvent, FC } from 'react';
 
 import { t } from '../i18n';
 import styles from '../styles.scss';
@@ -75,7 +75,7 @@ export const AudioDeviceSelect: FC<{
     <SelectDevice
       data-sign={dataSign}
       value={deviceId}
-      onChange={(e) => {
+      onChange={(e: ChangeEvent<{ value: unknown }>) => {
         const deviceId = e.target.value;
         onChange(deviceId as string);
       }}

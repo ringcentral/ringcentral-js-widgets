@@ -6,9 +6,9 @@ import {
   watch,
 } from '@ringcentral-integration/core';
 import {
-  loggerV2,
+  logger,
   toggleLogger,
-} from '@ringcentral-integration/core/lib/logger/loggerV2';
+} from '@ringcentral-integration/core/lib/logger/logger';
 import { StorageTransport } from '@ringcentral/mfe-logger';
 
 import { Module } from '../../lib/di';
@@ -108,7 +108,7 @@ export class BrowserLogger extends RcModuleV2<Deps> {
   }
 
   get logger() {
-    return this._deps.browserLoggerOptions?.logger ?? loggerV2;
+    return this._deps.browserLoggerOptions?.logger ?? logger;
   }
 
   @proxify

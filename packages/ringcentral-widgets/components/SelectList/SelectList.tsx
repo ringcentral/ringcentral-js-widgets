@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import type { ComponentProps, FunctionComponent } from 'react';
+import type { ComponentProps, FunctionComponent, ReactNode } from 'react';
 import React, { useEffect, useState } from 'react';
 
 import { SelectListBasic, type SelectListBasicProps } from '../SelectListBasic';
@@ -14,6 +14,7 @@ export const SelectListBasicWithScrollCheck: FunctionComponent<SelectListBasicPr
   WithScrollCheck(SelectListBasic);
 
 export type SelectListProps = {
+  children?: ReactNode;
   title: string;
   otherOptions?: object[];
   associatedOptions?: object[];

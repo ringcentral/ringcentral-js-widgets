@@ -8,6 +8,9 @@ import { TabTitle } from './TabTitle';
 import styles from './styles.scss';
 
 type TabContentPanelProps = {
+  children?:
+    | React.ReactNode
+    | ((props: { showTabs?: boolean }) => React.ReactNode);
   showTabs?: boolean;
   tabs: {
     path: string;

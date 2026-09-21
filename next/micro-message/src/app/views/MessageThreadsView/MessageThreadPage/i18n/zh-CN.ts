@@ -10,6 +10,7 @@ export default {
   open: '未结',
   resolved: '已解决',
   assignment: '分配',
+  selectAll: '全选',
   done: '完成',
   cancel: '取消',
   clear: '清除',
@@ -29,6 +30,7 @@ export default {
 // @key: @#@"open"@#@ @source: @#@"Open"@#@
 // @key: @#@"resolved"@#@ @source: @#@"Resolved"@#@
 // @key: @#@"assignment"@#@ @source: @#@"Assignment"@#@
+// @key: @#@"selectAll"@#@ @source: @#@"Select all"@#@
 // @key: @#@"done"@#@ @source: @#@"Done"@#@
 // @key: @#@"cancel"@#@ @source: @#@"Cancel"@#@
 // @key: @#@"clear"@#@ @source: @#@"Clear"@#@

@@ -7,6 +7,8 @@ export default {
   optOutSingleRecipient: 'Dieser Empfänger hat sich abgemeldet.',
   optOutMultipleRecipients: 'Einige Empfänger haben sich abgemeldet.',
   optOutRemove: 'Entfernen',
+  incomingTextsOnly: 'Nur eingehende Textnachrichten',
+  notSetUpForTexting: 'Nicht für Textnachrichten eingerichtet',
 } as const;
 
 // @key: @#@"createNewText"@#@ @source: @#@"Create new text"@#@
@@ -15,3 +17,5 @@ export default {
 // @key: @#@"optOutSingleRecipient"@#@ @source: @#@"This recipient has opted out."@#@
 // @key: @#@"optOutMultipleRecipients"@#@ @source: @#@"Some recipients have opted out."@#@
 // @key: @#@"optOutRemove"@#@ @source: @#@"Remove"@#@
+// @key: @#@"incomingTextsOnly"@#@ @source: @#@"Incoming texts only"@#@
+// @key: @#@"notSetUpForTexting"@#@ @source: @#@"Not set up for texting"@#@

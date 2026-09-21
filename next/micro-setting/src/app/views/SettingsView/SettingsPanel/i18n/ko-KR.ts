@@ -45,6 +45,8 @@ export default {
   selectToDialHint:
     '더 나은 경험을 위해 대량 전화번호 페이지에서 {brandName}로 전화를 걸 전화번호를 선택하세요.',
   phone: '전화',
+  text: '문자',
+  consentManagement: '동의 관리',
   log: '로그',
   general: '일반',
   showMatches: '수신 통화에 대한 일치 항목 표시',
@@ -97,6 +99,8 @@ export default {
 // @key: @#@"contactSupport"@#@ @source: @#@"Contact support"@#@
 // @key: @#@"selectToDialHint"@#@ @source: @#@"For your better experience, select phone number to dial with {brandName} in large quantity phone number page."@#@
 // @key: @#@"phone"@#@ @source: @#@"Phone"@#@
+// @key: @#@"text"@#@ @source: @#@"Text"@#@
+// @key: @#@"consentManagement"@#@ @source: @#@"Consent management"@#@
 // @key: @#@"log"@#@ @source: @#@"Log"@#@
 // @key: @#@"general"@#@ @source: @#@"General"@#@
 // @key: @#@"showMatches"@#@ @source: @#@"Show matches for inbound calls"@#@

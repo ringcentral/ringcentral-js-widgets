@@ -1,7 +1,10 @@
 import { whenStateChange } from '@ringcentral-integration/next-core/test';
-import type { StepFunction } from '@ringcentral-integration/test-utils';
-import { act, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import {
+  type StepFunction,
+  userEvent,
+  waitForRenderReady,
+} from '@ringcentral-integration/test-utils';
+import { screen } from '@testing-library/react';
 
 interface ClickActionButtonProps {
   testId: string;
@@ -18,7 +21,6 @@ export const ClickActionButton: StepFunction<ClickActionButtonProps> = async ({
     return actionButton;
   });
 
-  act(() => {
-    userEvent.click(actionButton);
-  });
+  await userEvent.click(actionButton);
+  await waitForRenderReady();
 };

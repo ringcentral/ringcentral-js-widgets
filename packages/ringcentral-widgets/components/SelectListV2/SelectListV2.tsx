@@ -12,6 +12,7 @@ import { SearchPanel } from '../SearchPanel';
 import styles from './styles.scss';
 
 export type SelectListV2Props = {
+  children?: React.ReactNode;
   classes?: {
     root?: string;
     search?: SearchPanelProps['classes'];

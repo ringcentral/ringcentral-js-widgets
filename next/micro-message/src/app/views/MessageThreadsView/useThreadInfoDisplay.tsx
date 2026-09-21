@@ -17,12 +17,13 @@ import clsx from 'clsx';
 import React, { useCallback, useMemo, useRef } from 'react';
 
 import type { ThreadInfoRecord, ThreadMetaData } from '../../services';
+import messageThreadI18n from '../../services/MessageThread/i18n';
 import type { OnConversationsActionsType } from '../ConversationsViewSpring';
 
 import i18n from './i18n';
 
 export type UseThreadInfoDisplayProps = {
-  extensionId?: number;
+  extensionId?: string;
   info?: ThreadInfoRecord;
   metadata?: ThreadMetaData;
   onAction?: OnConversationsActionsType;
@@ -34,7 +35,7 @@ const AlertBanner: React.FC<{
   actions: React.ReactNode;
 }> = ({ severity = 'info', title, actions }) => {
   return (
-    <Alert severity={severity} className="m-4">
+    <Alert severity={severity} className="m-4" data-sign="thread-banner">
       <div className="flex flex-col gap-2">
         <h4>{title}</h4>
         <div className="flex gap-3">{actions}</div>
@@ -49,7 +50,7 @@ export const useThreadInfoDisplay = ({
   onAction,
   metadata,
 }: UseThreadInfoDisplayProps) => {
-  const { t } = useLocale(i18n);
+  const { t } = useLocale(i18n, messageThreadI18n);
 
   const isLoading = metadata?.loading ?? false;
   const isReopened = metadata?.reopen ?? false;
@@ -61,9 +62,8 @@ export const useThreadInfoDisplay = ({
 
     const isResolved = threadInfo.status === 'Resolved';
     const isAssigned = !!threadInfo.assignee;
-    const currentExtensionId = extensionId?.toString();
-    const isAssignedToMe =
-      threadInfo.assignee?.extensionId === currentExtensionId;
+
+    const isAssignedToMe = threadInfo.assignee?.extensionId === extensionId;
 
     const showInput = (!isResolved && isAssignedToMe) || isReopened;
 
@@ -80,6 +80,7 @@ export const useThreadInfoDisplay = ({
         color: isAssignedToMe ? 'warning' : 'primary',
         variant: isAssignedToMe ? 'filled' : 'outlined',
         className: isAssignedToMe ? 'border-none' : '',
+        'data-status': 'assignee',
       };
     } else if (isResolved) {
       const isExpired = threadInfo.statusReason === 'ThreadExpired';
@@ -88,6 +89,7 @@ export const useThreadInfoDisplay = ({
         assigneeBadge = {
           children: <Icon symbol={CheckMd} size="xsmall" />,
           color: 'primary',
+          'data-status': 'resolved',
         };
         assigneeBadgeTooltip = t('resolved');
       } else {
@@ -100,6 +102,7 @@ export const useThreadInfoDisplay = ({
           ),
           color: 'primary',
           className: 'border-none',
+          'data-status': 'auto-resolved',
         };
         assigneeBadgeTooltip = t('autoResolved');
       }
@@ -263,7 +266,7 @@ export const useThreadInfoDisplay = ({
       <Tag
         {...assigneeBadge}
         className={clsx(
-          'flex items-center justify-center rounded-full',
+          'flex items-center justify-center rounded-full flex-none',
           assigneeBadge.className,
         )}
         variant={assigneeBadge.variant || 'filled'}

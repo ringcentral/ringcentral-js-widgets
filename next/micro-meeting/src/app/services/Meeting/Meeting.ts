@@ -86,6 +86,24 @@ import {
 } from './helper';
 import { t } from './i18n';
 import { MeetingErrors } from './meetingErrors';
+import {
+  createMeetingOperationError,
+  getMeetingOperationLocale,
+  meetingOperationErrorHandling,
+  meetingOperationMessageKey,
+  meetingOperationMessageSource,
+  meetingOperationErrorReason,
+  resolveMeetingOperationNotification,
+} from './meetingOperationResult';
+import type {
+  MeetingDeleteOptions,
+  MeetingDeleteReturn,
+  MeetingLookupOptions,
+  MeetingLookupReturn,
+  MeetingOperationErrorResult,
+  MeetingOperationOptions,
+  MeetingOperationReturn,
+} from './meetingOperationResult';
 
 dayjs.extend(utc);
 
@@ -95,7 +113,9 @@ dayjs.extend(utc);
 export class Meeting extends RcModule implements IMeeting {
   protected _fetchDelegatorsTimeout: NodeJS.Timeout | null = null;
   private _fetchPersonMeetingTimeout: NodeJS.Timeout | null = null;
-  private _createMeetingPromise?: Promise<ScheduleMeetingResponse | null> | null;
+  private _createMeetingPromise?: Promise<
+    ScheduleMeetingResponse | MeetingOperationErrorResult | null
+  > | null;
 
   constructor(
     protected _brand: Brand,
@@ -660,13 +680,24 @@ export class Meeting extends RcModule implements IMeeting {
   }
 
   @delegate('server')
-  async scheduleDirectly(
+  async scheduleDirectly<
+    TOptions extends MeetingOperationOptions = MeetingOperationOptions,
+  >(
     meeting?: RcMMeetingModel,
-    { isAlertSuccess = true }: { isAlertSuccess?: boolean } = {},
-  ): Promise<ScheduleMeetingResponse | null> {
+    options?: TOptions,
+  ): Promise<MeetingOperationReturn<TOptions, ScheduleMeetingResponse>> {
+    const {
+      errorHandling = meetingOperationErrorHandling.toast,
+      isAlertSuccess = true,
+    } = options ?? {};
+    const operationLocale = getMeetingOperationLocale(
+      options,
+      this.currentLocale,
+    );
+
     try {
       meeting = meeting || this.meeting!;
-      const result = await this._scheduleDirectly(meeting);
+      const result = await this._scheduleDirectly(meeting, operationLocale);
 
       // Notify user the meeting has been scheduled
       if (isAlertSuccess) {
@@ -676,16 +707,30 @@ export class Meeting extends RcModule implements IMeeting {
           });
         }, 50);
       }
-      return result;
+      return result as MeetingOperationReturn<
+        TOptions,
+        ScheduleMeetingResponse
+      >;
     } catch (errors) {
-      await this._errorHandle(errors);
-      return null;
+      const operationError = await this._createOperationError(errors);
+      if (errorHandling === meetingOperationErrorHandling.result) {
+        return operationError as MeetingOperationReturn<
+          TOptions,
+          ScheduleMeetingResponse
+        >;
+      }
+
+      this._showOperationError(operationError);
+      return null as MeetingOperationReturn<TOptions, ScheduleMeetingResponse>;
     } finally {
       this.updateIsScheduling(false);
     }
   }
 
-  private async _scheduleDirectly(meeting: RcMMeetingModel) {
+  private async _scheduleDirectly(
+    meeting: RcMMeetingModel,
+    invitationLocale = this.currentLocale,
+  ) {
     this.updateIsScheduling(true);
     // Validate meeting
     this._validate(meeting);
@@ -702,7 +747,7 @@ export class Meeting extends RcModule implements IMeeting {
 
     const invitationInfo = await this.getMeetingInvitation(
       resp.id!,
-      this.currentLocale,
+      invitationLocale,
     );
     this.updateLastMeetingSetting({
       ...formattedMeeting,
@@ -747,34 +792,58 @@ export class Meeting extends RcModule implements IMeeting {
   }
 
   @delegate('server')
-  async schedule(
+  async schedule<
+    TOptions extends MeetingOperationOptions = MeetingOperationOptions,
+  >(
     meeting?: RcMMeetingModel,
-    { isAlertSuccess = true }: { isAlertSuccess?: boolean } = {},
-  ): Promise<ScheduleMeetingResponse | undefined | null> {
-    if (this.isScheduling) return this._createMeetingPromise;
+    options?: TOptions,
+  ): Promise<
+    MeetingOperationReturn<TOptions, ScheduleMeetingResponse> | undefined
+  > {
+    if (this.isScheduling) {
+      return this._createMeetingPromise as Promise<
+        MeetingOperationReturn<TOptions, ScheduleMeetingResponse>
+      >;
+    }
 
-    this._createMeetingPromise = this.scheduleDirectly(meeting, {
-      isAlertSuccess,
-    });
+    this._createMeetingPromise = this.scheduleDirectly(meeting, options);
 
     const result = await this._createMeetingPromise;
     this._createMeetingPromise = null;
-    return result;
+    return result as MeetingOperationReturn<TOptions, ScheduleMeetingResponse>;
   }
 
   @delegate('server')
-  async updateMeeting(
+  async updateMeeting<
+    TOptions extends MeetingOperationOptions = MeetingOperationOptions,
+  >(
     meetingId: string,
     meeting: RcMMeetingModel,
-    { isAlertSuccess = false }: { isAlertSuccess?: boolean } = {},
-  ) {
+    options?: TOptions,
+  ): Promise<MeetingOperationReturn<TOptions, ScheduleMeetingResponse>> {
+    const {
+      errorHandling = meetingOperationErrorHandling.toast,
+      isAlertSuccess = false,
+    } = options ?? {};
+    const operationLocale = getMeetingOperationLocale(
+      options,
+      this.currentLocale,
+    );
+
     try {
       if (this._isUpdating(meetingId)) {
-        return (this.updateMeeting as any)._promise;
+        return (this.updateMeeting as any)._promise as MeetingOperationReturn<
+          TOptions,
+          ScheduleMeetingResponse
+        >;
       }
       meeting = meeting || this.meeting;
 
-      const result = await this._updateMeeting(meetingId, meeting);
+      const result = await this._updateMeeting(
+        meetingId,
+        meeting,
+        operationLocale,
+      );
 
       // Notify user the meeting has been updated
       if (isAlertSuccess) {
@@ -784,17 +853,32 @@ export class Meeting extends RcModule implements IMeeting {
           });
         }, 50);
       }
-      return result;
+      return result as MeetingOperationReturn<
+        TOptions,
+        ScheduleMeetingResponse
+      >;
     } catch (errors) {
-      await this._errorHandle(errors);
-      return null;
+      const operationError = await this._createOperationError(errors);
+      if (errorHandling === meetingOperationErrorHandling.result) {
+        return operationError as MeetingOperationReturn<
+          TOptions,
+          ScheduleMeetingResponse
+        >;
+      }
+
+      this._showOperationError(operationError);
+      return null as MeetingOperationReturn<TOptions, ScheduleMeetingResponse>;
     } finally {
       delete (this.updateMeeting as any)._promise;
       this.removeUpdatingStatus(meetingId);
     }
   }
 
-  private async _updateMeeting(meetingId: string, meeting: RcMMeetingModel) {
+  private async _updateMeeting(
+    meetingId: string,
+    meeting: RcMMeetingModel,
+    invitationLocale = this.currentLocale,
+  ) {
     this.addUpdatingStatus(meetingId);
     // Validate meeting
     this._validate(meeting);
@@ -812,7 +896,7 @@ export class Meeting extends RcModule implements IMeeting {
 
     const invitationInfo = await this.getMeetingInvitation(
       meetingId,
-      this.currentLocale,
+      invitationLocale,
     );
 
     const result = await this._createDialingNumberTpl(
@@ -847,13 +931,26 @@ export class Meeting extends RcModule implements IMeeting {
   }
 
   @delegate('server')
-  async deleteMeeting(meetingId: string) {
+  async deleteMeeting<
+    TOptions extends MeetingDeleteOptions = MeetingDeleteOptions,
+  >(
+    meetingId: string,
+    options?: TOptions,
+  ): Promise<MeetingDeleteReturn<TOptions>> {
+    const { errorHandling = meetingOperationErrorHandling.toast } =
+      options ?? {};
+
     try {
       await this._client.account().extension().meeting(meetingId).delete();
-      return true;
+      return true as MeetingDeleteReturn<TOptions>;
     } catch (errors) {
-      await this._errorHandle(errors);
-      return false;
+      const operationError = await this._createOperationError(errors);
+      if (errorHandling === meetingOperationErrorHandling.result) {
+        return operationError as MeetingDeleteReturn<TOptions>;
+      }
+
+      this._showOperationError(operationError);
+      return false as MeetingDeleteReturn<TOptions>;
     }
   }
 
@@ -990,7 +1087,17 @@ export class Meeting extends RcModule implements IMeeting {
   }
 
   @delegate('server')
-  async getMeeting(meetingId: string, { isAlertError = true } = {}) {
+  async getMeeting<
+    TOptions extends MeetingLookupOptions = MeetingLookupOptions,
+  >(
+    meetingId: string,
+    options?: TOptions,
+  ): Promise<MeetingLookupReturn<TOptions, MeetingInfoResponse>> {
+    const {
+      errorHandling = meetingOperationErrorHandling.toast,
+      isAlertError = true,
+    } = options ?? {};
+
     try {
       const settings = await this._client
         .account()
@@ -1001,17 +1108,24 @@ export class Meeting extends RcModule implements IMeeting {
         ...settings,
         // TODO: can we remove this?
         _requireMeetingPassword: !!settings.password,
-      };
+      } as unknown as MeetingLookupReturn<TOptions, MeetingInfoResponse>;
     } catch (e: any) {
-      const { errorCode, message } = await (e as ApiError)
-        .response!.clone()
-        .json();
+      const responseBody = await this._getErrorResponse(e as ApiError);
+      const { errorCode, message = '' } = responseBody;
       console.log(
         `failed to get meeting info: ${meetingId}, ${errorCode}, ${message}`,
       );
       const isMeetingDeleted =
         errorCode === 'CMN-102' &&
         message.indexOf('[meetingId] is not found') > -1;
+
+      if (errorHandling === meetingOperationErrorHandling.result) {
+        return (await this._createOperationError(
+          e,
+          responseBody,
+        )) as MeetingLookupReturn<TOptions, MeetingInfoResponse>;
+      }
+
       if (isAlertError && isMeetingDeleted) {
         setTimeout(() => {
           this._toast.danger({
@@ -1130,19 +1244,21 @@ export class Meeting extends RcModule implements IMeeting {
    */
   _validate(meeting: RcMMeetingModel) {
     if (!meeting) {
-      throw new MeetingErrors(t('invalidMeetingInfo'));
+      const errors = new MeetingErrors();
+      errors.pushLocalized(meetingOperationMessageKey.invalidMeetingInfo);
+      throw errors;
     }
     const { topic, password, schedule, _requireMeetingPassword } = meeting;
     const errors = new MeetingErrors();
     if (topic.length <= 0) {
-      errors.push(t('emptyTopic'));
+      errors.pushLocalized(meetingOperationMessageKey.emptyTopic);
     }
     if (_requireMeetingPassword && (!password || password.length <= 0)) {
-      errors.push(t('noPassword'));
+      errors.pushLocalized(meetingOperationMessageKey.noPassword);
     }
     if (schedule) {
       if (schedule.durationInMinutes! < 0) {
-        errors.push(t('durationIncorrect'));
+        errors.pushLocalized(meetingOperationMessageKey.durationIncorrect);
       }
     }
     if (errors.length > 0) {
@@ -1238,38 +1354,114 @@ export class Meeting extends RcModule implements IMeeting {
   }
 
   async _errorHandle(errors: any) {
+    const operationError = await this._createOperationError(errors);
+    this._showOperationError(operationError);
+  }
+
+  private async _createOperationError(
+    errors: any,
+    responseBody?: Record<string, any>,
+  ): Promise<MeetingOperationErrorResult> {
     if (errors instanceof MeetingErrors) {
-      for (const error of errors.all) {
-        this._toast.warning(error);
-      }
-    } else if (errors && errors.response) {
-      const { message, errorCode, permissionName } = await errors.response
-        .clone()
-        .json();
+      return createMeetingOperationError(
+        meetingOperationErrorReason.validation,
+        errors.all.map((message) => ({
+          level: 'warning',
+          ...message,
+        })),
+      );
+    }
+
+    if (errors?.response) {
+      const {
+        errorCode,
+        message = '',
+        permissionName,
+      } = responseBody ?? (await this._getErrorResponse(errors));
+
       if (errorCode === 'InsufficientPermissions' && permissionName) {
-        this._toast.danger({
-          message: t('insufficientPermissions', {
-            application: this._brand.appName as string,
-            permissionName,
-          }),
-        });
-      } else if (
+        return createMeetingOperationError(
+          meetingOperationErrorReason.insufficientPermissions,
+          [
+            {
+              level: 'danger',
+              messageKey: meetingOperationMessageKey.insufficientPermissions,
+              messageParams: {
+                application: this._brand.appName as string,
+                permissionName,
+              },
+              messageSource: meetingOperationMessageSource.meeting,
+            },
+          ],
+        );
+      }
+
+      if (
         errorCode === 'CMN-102' &&
         message.indexOf('[meetingId] is not found') > -1
       ) {
-        this._toast.danger({
-          message: t('meetingIsDeleted'),
-        });
-      } else if (
-        !this._availabilityMonitor ||
-        !(await this._availabilityMonitor.checkIfHAError(errors))
-      ) {
-        this._toast.danger({ message: t('internalError') });
+        return createMeetingOperationError(
+          meetingOperationErrorReason.deleted,
+          [
+            {
+              level: 'danger',
+              messageKey: meetingOperationMessageKey.meetingIsDeleted,
+              messageSource: meetingOperationMessageSource.meeting,
+            },
+          ],
+        );
       }
-    } else {
-      console.log('errors:', errors);
-      this._toast.danger({ message: t('internalError') });
+
+      if (
+        this._availabilityMonitor &&
+        (await this._availabilityMonitor.checkIfHAError(errors))
+      ) {
+        return createMeetingOperationError(
+          meetingOperationErrorReason.availability,
+          [],
+        );
+      }
+
+      return createMeetingOperationError(meetingOperationErrorReason.internal, [
+        {
+          level: 'danger',
+          messageKey: meetingOperationMessageKey.internalError,
+          messageSource: meetingOperationMessageSource.meeting,
+        },
+      ]);
     }
+
+    console.log('errors:', errors);
+    return createMeetingOperationError(meetingOperationErrorReason.internal, [
+      {
+        level: 'danger',
+        messageKey: meetingOperationMessageKey.internalError,
+        messageSource: meetingOperationMessageSource.meeting,
+      },
+    ]);
+  }
+
+  private async _getErrorResponse(error: ApiError) {
+    try {
+      return (await error.response?.clone().json()) as Record<string, any>;
+    } catch (responseError) {
+      console.log('failed to read meeting error response:', responseError);
+      return {};
+    }
+  }
+
+  private _showOperationError(error: MeetingOperationErrorResult) {
+    error.notifications.forEach((notification) => {
+      const message = resolveMeetingOperationNotification(
+        notification,
+        (messageKey, messageParams) =>
+          messageParams
+            ? t(messageKey as never, messageParams as never)
+            : t(messageKey as never),
+      );
+      const { level } = notification;
+      this._toast[level]({ message });
+    });
   }
 
   enforcePmiPassword(

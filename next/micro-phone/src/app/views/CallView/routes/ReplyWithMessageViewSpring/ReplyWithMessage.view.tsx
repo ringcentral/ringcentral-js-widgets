@@ -23,6 +23,7 @@ import { tap } from 'rxjs';
 import { CallAction, CallMonitor } from '../../../../services';
 import { CallViewState } from '../../services';
 
+import { t } from './i18n';
 import type {
   ReplyOption,
   ReplyWithMessageViewContainerProps,
@@ -31,7 +32,6 @@ import type {
 } from './ReplyWithMessage.view.interface';
 import { ReplyWithPattern } from './ReplyWithMessage.view.interface';
 import { ReplyWithMessagePanel } from './ReplyWithMessagePanel';
-import { t } from './i18n';
 
 type ReplayDrawerProps = { call: Call; option: ReplyOption };
 

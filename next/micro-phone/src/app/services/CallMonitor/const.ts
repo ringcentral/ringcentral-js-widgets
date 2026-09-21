@@ -1,1 +1,2 @@
 export const MAX_EXIST_CALLS_COUNT = 10;
+export const RECENT_CALL_DIRECTIONS_LIMIT = 30;

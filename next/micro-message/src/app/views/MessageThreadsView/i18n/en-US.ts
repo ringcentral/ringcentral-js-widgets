@@ -1,6 +1,4 @@
 export default {
-  personal: 'Personal',
-  shared: 'Shared',
   resolveThread: 'Resolve',
   assignThread: 'Assign',
   unassignThread: 'Unassign',
@@ -15,7 +13,6 @@ export default {
   assignToMeText: 'Assign to me',
   resolved: 'Conversation resolved.',
   autoResolved: 'Conversation auto-resolved.',
-  assignedToYouTooltip: 'Conversation assigned to You',
   assignedToOtherTooltip: 'Conversation assigned to {name}',
   conversationUnassigned: 'Conversation unassigned.',
   failedToAssignThread: 'Failed to assign conversation',

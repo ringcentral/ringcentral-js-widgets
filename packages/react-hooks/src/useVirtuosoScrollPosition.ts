@@ -68,5 +68,9 @@ export const useVirtuosoScrollPosition = (
     virtuosoActionsRef,
     handleScroll,
     scrollerRef,
+  } as {
+    virtuosoActionsRef: React.RefObject<VirtuosoHandle>;
+    handleScroll: () => void;
+    scrollerRef: (element: HTMLElement | Window | null) => void;
   };
 };

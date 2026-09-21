@@ -18,6 +18,7 @@ import { t } from './i18n';
 import styles from './styles.scss';
 
 type RegionSettingsProps = {
+  children?: React.ReactNode;
   className?: string;
   onBackButtonClick?: (...args: any[]) => any;
   currentLocale: string;

@@ -21,7 +21,12 @@ import {
   TabsProps,
 } from '@ringcentral/spring-ui';
 import clsx from 'clsx';
-import React, { forwardRef, useMemo, useState } from 'react';
+import React, {
+  type ComponentType,
+  forwardRef,
+  useMemo,
+  useState,
+} from 'react';
 import { tap } from 'rxjs';
 
 import { useLocale } from '../../hooks';
@@ -44,7 +49,7 @@ const MenuItemComponent = forwardRef<any, React.PropsWithChildren<TabProps>>(
       </MenuItem>
     );
   },
-);
+) as ComponentType<TabProps>;
 
 /**
  * Sync Tab View will use router state to sync the active tab between different tabs.
@@ -132,12 +137,16 @@ export class SyncTabView extends RcViewModule {
   /**
    * that should only use when target tabId's tab be rendered
    */
-  setActive(tabId: string, activeTab: string | number | null) {
+  setActive(
+    tabId: string,
+    activeTab: string | number | null,
+    { currentPath }: { currentPath?: string } = {},
+  ) {
     this.setTabInfo(tabId, {
       active: activeTab,
     });
 
-    this._router.push(this._router.currentPath, {
+    this._router.push(currentPath ?? this._router.currentPath, {
       ...this.locationState,
       [tabId]: activeTab,
     });
@@ -166,12 +175,12 @@ export class SyncTabView extends RcViewModule {
     id,
     tabs,
     defaultValue: defaultValueProp,
+    onActiveChange,
     className,
     children,
     variant: variantProp,
-    tabsContainerClassName,
     tabClassName,
-    tabRootClassName,
+    tabLabelClassName,
     ...rest
   }: SyncTabProps) {
     const tabInfo = useConnector(() => this.tabInfo[id]);
@@ -231,18 +240,14 @@ export class SyncTabView extends RcViewModule {
       [moreMenuBadgeCount, t, tabs, variant],
     );
 
-    const tabRootClasses = clsx(
-      'h-7 p-0 pl-2 pr-2 flex items-center',
-      tabRootClassName,
-    );
     const tabWidthClasses = clsx('flex-1', tabClassName);
-
 
     return (
       <TabContext
         defaultValue={defaultValue}
         value={currentTab}
         onChange={(_, value) => {
+          onActiveChange?.(value);
           this.setActive(id, value);
         }}
       >
@@ -251,7 +256,7 @@ export class SyncTabView extends RcViewModule {
           tabs.length > 1 && (
             <Tabs
               variant={variant}
-              className={clsx(className, 'h-7', tabsContainerClassName)}
+              className={className}
               {...moreProps}
               {...rest}
             >
@@ -265,7 +270,7 @@ export class SyncTabView extends RcViewModule {
                   BadgeProps={BadgeProps}
                   className={tabWidthClasses}
                   classes={{
-                    root: tabRootClasses,
+                    label: tabLabelClassName,
                   }}
                 />
               ))}
@@ -292,4 +297,5 @@ export enum CallLogSyncTabId {
 export enum ConversationsSyncTabId {
   PERSONAL = 'personal',
   SHARED = 'shared',
+  QUEUE = 'queue',
 }

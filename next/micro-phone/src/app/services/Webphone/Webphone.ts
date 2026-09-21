@@ -32,6 +32,7 @@ import {
   applyMethod,
   computed,
   delegate,
+  dynamic,
   fromWatchValue,
   getRef,
   Initiator,
@@ -59,7 +60,12 @@ import {
 } from 'rxjs';
 
 import { AudioSettings } from '../AudioSettings';
+import type { NoiseReductionLike } from '../AudioSettings/NoiseReductionLike';
 
+import { EVENTS } from './events';
+import { t } from './i18n';
+import { recordStatus } from './recordStatus';
+import { sessionStatus } from './sessionStatus';
 import type {
   BeforeCallEndHandler,
   BeforeCallResumeHandler,
@@ -77,10 +83,6 @@ import type {
   WebphoneOptions,
 } from './Webphone.interface';
 import { WebphoneBase } from './WebphoneBase';
-import { EVENTS } from './events';
-import { t } from './i18n';
-import { recordStatus } from './recordStatus';
-import { sessionStatus } from './sessionStatus';
 import {
   extractHeadersData,
   isOnHold,
@@ -89,6 +91,10 @@ import {
   normalizeSession,
   sortByLastActiveTimeDesc,
 } from './webphoneHelper';
+import {
+  formatTransportEventSummary,
+  formatWebphoneSessionSummary,
+} from './webphoneLogSanitizer';
 
 export const INCOMING_CALL_INVALID_STATE_ERROR_CODE = 2;
 const customClientDelegateName = 'customClientDelegateName';
@@ -105,6 +111,11 @@ export class NumberValidError extends Error {
   name: 'Webphone',
 })
 export class Webphone extends WebphoneBase {
+  private _noiseReductionBoundHandlers = new WeakSet<object>();
+
+  @dynamic('NoiseReduction')
+  protected _noiseReduction?: NoiseReductionLike;
+
   private get _permissionCheck() {
     return this._webphoneOptions?.permissionCheck ?? true;
   }
@@ -185,9 +196,7 @@ export class Webphone extends WebphoneBase {
     globalThis.externalClearTimeout = clearTimeout;
     globalThis.externalSetTimeout = setTimeout;
 
-    const enableContactMatchWhenNewCall =
-      this._webphoneOptions?.enableContactMatchWhenNewCall ?? true;
-    if (enableContactMatchWhenNewCall && this._contactMatcher) {
+    if (this._contactMatcher) {
       this._contactMatcher.addQuerySource({
         getQueriesFn: () => this.sessionPhoneNumbers,
         readyCheckFn: () => this.ready,
@@ -469,7 +478,10 @@ export class Webphone extends WebphoneBase {
    * the process when accept the call, both for inbound and outbound call
    */
   private _onAccepted(session: WebphoneSession) {
-    this.logger.log('initWebphoneSessionEvents', session);
+    this.logger.log(
+      'initWebphoneSessionEvents',
+      formatWebphoneSessionSummary(session),
+    );
 
     session.on('accepted', async (incomingResponse) => {
       if (session.__rc_callStatus === sessionStatus.finished) {
@@ -487,7 +499,9 @@ export class Webphone extends WebphoneBase {
       }
     });
     session.on('progress', async (incomingResponse) => {
-      this.logger.log('progress...', incomingResponse);
+      this.logger.log(
+        formatTransportEventSummary('progress', incomingResponse),
+      );
       session.__rc_callStatus = sessionStatus.connecting;
       extractHeadersData(session, incomingResponse.headers);
       this.invite$.next(session);
@@ -499,12 +513,12 @@ export class Webphone extends WebphoneBase {
       await this._onCallEnd(session);
     });
     session.on('failed', async (response, cause) => {
-      this.logger.log('Failed', cause);
+      this.logger.log(formatTransportEventSummary('Failed', cause));
       session.__rc_callStatus = sessionStatus.finished;
       await this._onCallEnd(session);
     });
     session.on('terminated', async (e) => {
-      this.logger.log('Terminated', e);
+      this.logger.log(formatTransportEventSummary('Terminated', e));
       this._end$.next([session, e]);
       session.__rc_callStatus = sessionStatus.finished;
       await this._onCallEnd(session);
@@ -516,7 +530,7 @@ export class Webphone extends WebphoneBase {
     });
     // @ts-ignore
     session.on('replaced', async (newSession: WebphoneSession) => {
-      this.logger.log('replaced', newSession);
+      this.logger.log('replaced', formatWebphoneSessionSummary(newSession));
       session.__rc_callStatus = sessionStatus.replaced;
       newSession.__rc_callStatus = sessionStatus.connected;
       newSession.__rc_direction = callDirections.inbound;
@@ -536,10 +550,37 @@ export class Webphone extends WebphoneBase {
       await this._updateSessions();
     });
     session.on('SessionDescriptionHandler-created', () => {
-      // @ts-ignore
-      session.sessionDescriptionHandler.on('userMediaFailed', () => {
-        this._audioSettings.onGetUserMediaError();
-      });
+      this._bindSessionDescriptionHandler(session);
+    });
+    this._bindSessionDescriptionHandler(session);
+    session.on('terminated', () => {
+      this._noiseReduction?.reset(session.id);
+    });
+  }
+
+  private _bindSessionDescriptionHandler(session: WebphoneSession) {
+    type SessionDescriptionHandlerWithNoiseReductionEvents = object & {
+      on(event: 'userMediaFailed', listener: () => void): void;
+      on(event: 'userMedia', listener: (stream: MediaStream) => void): void;
+    };
+    // @ts-ignore - sessionDescriptionHandler comes from SIP.js / ringcentral-web-phone
+    const sessionDescriptionHandler =
+      session.sessionDescriptionHandler as unknown as
+        | SessionDescriptionHandlerWithNoiseReductionEvents
+        | undefined;
+    if (
+      !sessionDescriptionHandler ||
+      this._noiseReductionBoundHandlers.has(sessionDescriptionHandler)
+    ) {
+      return;
+    }
+
+    this._noiseReductionBoundHandlers.add(sessionDescriptionHandler);
+    sessionDescriptionHandler.on('userMediaFailed', () => {
+      this._audioSettings.onGetUserMediaError();
+    });
+    sessionDescriptionHandler.on('userMedia', (stream: MediaStream) => {
+      this._noiseReduction?.denoiser(session.id, stream);
     });
   }
 
@@ -555,7 +596,7 @@ export class Webphone extends WebphoneBase {
       await this._onCallEnd(session);
     });
     session.on('terminated', async (e) => {
-      this.logger.log('Ringing Terminated', e);
+      this.logger.log(formatTransportEventSummary('Ringing Terminated', e));
       this._end$.next([session, e]);
       await this._onCallEnd(session);
     });

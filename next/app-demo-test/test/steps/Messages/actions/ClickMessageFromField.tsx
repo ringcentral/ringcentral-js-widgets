@@ -1,3 +1,4 @@
+import { whenStateOrTimerChange } from '@ringcentral-integration/next-core/test';
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   userEvent,
@@ -10,13 +11,22 @@ export const ClickMessageFromField: StepFunction = async (_, { app }) => {
   // old ui
   if (dropdownInput) {
     jest.useFakeTimers();
-    userEvent.click(screen.getByTestId('selectedItem'));
-    await waitForRenderReady();
-    jest.runOnlyPendingTimers();
-    jest.useRealTimers();
+    try {
+      fireEvent.click(screen.getByTestId('selectedItem'));
+      await waitForRenderReady();
+      jest.runOnlyPendingTimers();
+    } finally {
+      jest.useRealTimers();
+    }
     return;
   }
 
   dropdownInput = within(screen.getByTestId('phoneNumber')).getByRole('button');
   fireEvent.mouseDown(dropdownInput!);
+  await waitForRenderReady();
+  await whenStateOrTimerChange(() => {
+    expect(
+      screen.getAllByTestId('selectMenuItem', { exact: false }).length,
+    ).toBeGreaterThan(0);
+  });
 };

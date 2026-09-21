@@ -2,8 +2,8 @@
 export default {
   specialNumber: '不支持向紧急/特殊服务号码发送短信。',
   textEmpty: '请输入要发送的文本。',
-  textTooLong: '文本过长，上限为 1000',
-  multipartTextTooLong: '文本过长，上限为 5000 个字符',
+  textTooLong: '您最多可以输入 1,000 个字符。',
+  multipartTextTooLong: '您最多可以输入 5,000 个字符。',
   recipientsEmpty: '请输入有效的接收方电话号码。',
   senderNumberInvalid:
     '必须输入有效的电话号码，才能向您公司之外的收件人发送短信。请联系管理员为您的帐户添加直拨号码。',

@@ -1,4 +1,3 @@
-import type { Manifest } from '@ringcentral-integration/integration-sdk';
 import type { AppFeatures } from '@ringcentral-integration/micro-auth/src/app/services';
 import type { MessageStore } from '@ringcentral-integration/micro-message/src/app/services';
 import type {
@@ -26,7 +25,7 @@ import React, { useRef } from 'react';
 
 import { Locale } from '../../services';
 
-import type { HeaderNavViewOptions } from './HeaderNav.view.interface';
+import type { HeaderNavViewOptions, Manifest } from './HeaderNav.view.interface';
 import { t } from './i18n';
 import { defaultTabMap } from './utils/tabs';
 

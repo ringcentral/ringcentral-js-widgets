@@ -3,7 +3,7 @@ import type { IContact } from '@ringcentral-integration/commons/interfaces/Conta
 import type { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
 import type { NormalizedSession } from '@ringcentral-integration/commons/interfaces/Webphone.interface';
 import type { IncomingCallView } from '@ringcentral-integration/widgets/components/IncomingCallView';
-import type { ComponentType, ReactElement } from 'react';
+import type { ComponentType, ReactElement, ReactNode } from 'react';
 
 import type { Webphone } from '../../services';
 
@@ -11,13 +11,16 @@ export interface IncomingCallViewOptions {
   component?: typeof IncomingCallView;
 }
 
-export interface IncomingCallViewProps
-  extends Pick<IncomingCallViewPanelProps, 'getAvatarUrl'> {
+export interface IncomingCallViewProps extends Pick<
+  IncomingCallViewPanelProps,
+  'getAvatarUrl'
+> {
   showContactDisplayPlaceholder?: boolean;
   phoneSourceNameRenderer?: (type: string) => string;
   showCallQueueName: boolean;
-  sourceIcons?: Record<string, ComponentType>;
+  sourceIcons?: Record<string, ComponentType | null>;
   phoneTypeRenderer?: (type: string) => ReactElement;
+  children?: ReactNode;
 }
 
 export interface IncomingCallViewPanelProps {
@@ -40,7 +43,7 @@ export interface IncomingCallViewPanelProps {
    * current call should should name if not match any contact
    */
   name: string | undefined | null;
-  sourceIcons?: Record<string, ComponentType>;
+  sourceIcons?: Record<string, ComponentType | null>;
   phoneTypeRenderer?: (type: string) => ReactElement;
   phoneSourceNameRenderer?: (type: string) => string;
   showCallQueueName: boolean;

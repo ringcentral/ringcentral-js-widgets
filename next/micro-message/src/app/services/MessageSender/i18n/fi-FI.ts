@@ -3,8 +3,8 @@ export default {
   specialNumber:
     'Tekstiviestien lähettämistä hätä-/erikoispalvelunumeroihin ei tueta.',
   textEmpty: 'Anna lähetettävän viestin teksti.',
-  textTooLong: 'Teksti on liian pitkä, rajoitus 1 000 merkkiä',
-  multipartTextTooLong: 'Teksti on liian pitkä, rajoitus 5 000 merkkiä',
+  textTooLong: 'Voit syöttää enintään 1 000 merkkiä.',
+  multipartTextTooLong: 'Voit syöttää enintään 5 000 merkkiä.',
   recipientsEmpty: 'Anna kelvollinen vastaanottajan puhelinnumero.',
   senderNumberInvalid:
     'Tarvitset kelvollisen puhelinnumeron, jotta voit lähettää tekstiviestejä yrityksen ulkopuolisille vastaanottajille. Lisää suora numero tiliisi ottamalla yhteyttä järjestelmänvalvojaasi.',

@@ -1,4 +1,6 @@
+import type { Call as ICall } from '@ringcentral-integration/commons/interfaces/Call.interface';
 import type { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
+import { NumberFormatter } from '@ringcentral-integration/micro-auth/src/app/services';
 import {
   DataMatcher,
   TriggerMatchOptions,
@@ -22,6 +24,7 @@ import type {
 })
 export class ContactMatcher<T = Entity> extends DataMatcher<T> {
   constructor(
+    protected _numberFormatter: NumberFormatter,
     @optional('ContactMatcherOptions')
     protected _contactMatcherOptions?: ContactMatcherOptions,
     @optional() protected override _storage?: StoragePlugin,
@@ -87,5 +90,35 @@ export class ContactMatcher<T = Entity> extends DataMatcher<T> {
         ignoreQueue,
       });
     }
+  }
+
+  findMatchesFromNumber(
+    phoneNumber: string | undefined,
+    extensionNumber: string | undefined,
+  ) {
+    const contactMapping = this.dataMapping ?? {};
+    const toNumber =
+      (phoneNumber &&
+        // normalize number for ensure the number is matcher mapping with same key
+        this._numberFormatter.normalizeNumber(phoneNumber)) ||
+      extensionNumber;
+    const matches = (toNumber && contactMapping[toNumber]) || [];
+    return matches;
+  }
+
+  findMatchesFromCall(call: ICall) {
+    const fromMatches = this.findMatchesFromNumber(
+      call.from?.phoneNumber,
+      call.from?.extensionNumber,
+    );
+    const toMatches = this.findMatchesFromNumber(
+      call.to?.phoneNumber,
+      call.to?.extensionNumber,
+    );
+
+    return {
+      fromMatches,
+      toMatches,
+    };
   }
 }

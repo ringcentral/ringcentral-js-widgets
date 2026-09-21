@@ -4,9 +4,24 @@ import React, { Component } from 'react';
 
 import styles from './styles.scss';
 
-class SlideMenu extends Component {
+type SlideMenuProps = {
+  children?: React.ReactNode;
+  extended?: boolean;
+  onToggle?: (...args: any[]) => any;
+  className?: string;
+  extendIconClassName?: string;
+  minHeight?: number;
+  maxHeight?: number;
+  withAnimation?: boolean;
+};
+
+type SlideMenuState = {
+  extended: boolean;
+};
+
+class SlideMenu extends Component<SlideMenuProps, SlideMenuState> {
   _mounted: any;
-  constructor(props: any) {
+  constructor(props: SlideMenuProps) {
     super(props);
     this.state = {
       extended: false,
@@ -14,7 +29,6 @@ class SlideMenu extends Component {
   }
   // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   UNSAFE_componentWillReceiveProps(nextProps: any) {
-    // @ts-expect-error TS(2339): Property 'extended' does not exist on type 'Readon... Remove this comment to see the full error message
     const { extended } = this.props;
     if (nextProps.extended !== extended) {
       this.setState({
@@ -33,9 +47,7 @@ class SlideMenu extends Component {
 
   onToggle = (e: any) => {
     e.stopPropagation();
-    // @ts-expect-error TS(2339): Property 'extended' does not exist on type 'Readon... Remove this comment to see the full error message
     this.setState((prevState) => ({ extended: !prevState.extended }));
-    // @ts-expect-error TS(2339): Property 'onToggle' does not exist on type 'Readon... Remove this comment to see the full error message
     const { onToggle } = this.props;
     if (onToggle) {
       onToggle(e);
@@ -45,22 +57,15 @@ class SlideMenu extends Component {
   // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const {
-      // @ts-expect-error TS(2339): Property 'className' does not exist on type 'Reado... Remove this comment to see the full error message
       className,
-      // @ts-expect-error TS(2339): Property 'minHeight' does not exist on type 'Reado... Remove this comment to see the full error message
       minHeight,
-      // @ts-expect-error TS(2339): Property 'maxHeight' does not exist on type 'Reado... Remove this comment to see the full error message
       maxHeight,
       children,
-      // @ts-expect-error TS(2339): Property 'withAnimation' does not exist on type 'R... Remove this comment to see the full error message
       withAnimation,
-      // @ts-expect-error TS(2339): Property 'extendIconClassName' does not exist on t... Remove this comment to see the full error message
       extendIconClassName,
-      // @ts-expect-error TS(2339): Property 'extended' does not exist on type 'Readon... Remove this comment to see the full error message
       extended: propsExtended,
     } = this.props;
 
-    // @ts-expect-error TS(2339): Property 'extended' does not exist on type 'Readon... Remove this comment to see the full error message
     const { extended: stateExtended } = this.state;
 
     const extended = propsExtended || stateExtended;

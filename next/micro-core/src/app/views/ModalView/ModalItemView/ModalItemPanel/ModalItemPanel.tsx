@@ -282,6 +282,10 @@ export const ModalItemPanel: FunctionComponent<ModalItemPanelProps> = memo(
             onClose={handleClose}
             open={open}
             {...restApplyProps}
+            PaperProps={{
+              role: 'dialog',
+              ...restApplyProps.PaperProps,
+            }}
           >
             {render}
           </Dialog>

@@ -8,6 +8,7 @@ import IconLine from '../IconLine';
 import styles from './styles.scss';
 
 type LinkLineProps = {
+  children?: React.ReactNode;
   className?: string;
   hideUnderline?: boolean;
   hrefClassName?: string;

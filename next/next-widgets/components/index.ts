@@ -24,3 +24,5 @@ export * from './HoverAction';
 export * from './SelectableTextField';
 export * from './Drawer';
 export * from './SanitizeHtml';
+export * from './TimeSlotsGrid';
+export * from './WeekCalendarStrip';

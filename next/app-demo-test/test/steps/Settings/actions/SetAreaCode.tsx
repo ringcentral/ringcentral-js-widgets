@@ -2,7 +2,7 @@ import { RegionSettings } from '@ringcentral-integration/micro-auth/src/app/serv
 import { whenStateChange } from '@ringcentral-integration/next-core/test';
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import { fireEvent, screen } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
+import { act } from 'react';
 
 interface SetAreaCodeInt {
   areaCode: string;

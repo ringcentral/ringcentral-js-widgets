@@ -15,6 +15,7 @@ import {
   RcSwitch,
   RcTypography,
 } from '@ringcentral/juno';
+import type { ChangeEvent } from 'react';
 import React, { useEffect, useCallback } from 'react';
 
 import { VideoPanelProps } from '../GenericMeetingPanel/interface';
@@ -237,7 +238,7 @@ export const MeetingSettingsCard: React.FC<MeetingSettingsCardProps> = (
               );
             }
           }}
-          onChange={(e) => {
+          onChange={(e: ChangeEvent<{ value: unknown }>) => {
             const selectedValue = e.target.value;
 
             switch (selectedValue) {
@@ -323,7 +324,7 @@ export const MeetingSettingsCard: React.FC<MeetingSettingsCardProps> = (
               data-sign="enableWaitingRoom"
               checked={!!meeting.waitingRoomMode}
               disabled={isWaitingRoomDisabled}
-              onChange={(ev, checked) => {
+              onChange={(ev: any, checked: boolean) => {
                 update(
                   {
                     waitingRoomMode: checked
@@ -359,9 +360,9 @@ export const MeetingSettingsCard: React.FC<MeetingSettingsCardProps> = (
                   );
                 }
               }}
-              onChange={(e) => {
+              onChange={(e: ChangeEvent<{ value: unknown }>) => {
                 const waitingRoomValue = e.target
-                  .value as RcvWaitingRoomModeProps;
+                  .value as unknown as RcvWaitingRoomModeProps;
 
                 update(
                   {

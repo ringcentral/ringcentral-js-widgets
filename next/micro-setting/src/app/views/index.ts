@@ -3,6 +3,7 @@ export * from './AutoCallLogICSettingsView';
 export * from './CallingSettingsView';
 export * from './CallQueueManagementView';
 export * from './CPRClientView';
+export * from './ExperienceFeedbackView';
 export * from './FeedbackView';
 export * from './IssuesTrackingView';
 export * from './RegionSettingsView';

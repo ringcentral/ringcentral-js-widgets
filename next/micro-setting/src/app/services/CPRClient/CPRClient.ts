@@ -16,10 +16,8 @@ import {
   inject,
   injectable,
   optional,
-  PortManager,
   RcModule,
 } from '@ringcentral-integration/next-core';
-import JSZip from 'jszip';
 import { defaultTo, head } from 'ramda';
 
 import type {
@@ -42,7 +40,6 @@ export class CPRClient extends RcModule {
     private _brand: Brand,
     private _client: Client,
     private _extensionInfo: ExtensionInfo,
-    private _portManager: PortManager,
     private _toast: Toast,
     private _browserLogger: BrowserLogger,
     private _UAParsedInfo: UAParsedInfo,
@@ -86,7 +83,7 @@ export class CPRClient extends RcModule {
         return null;
       }
 
-      const merged = await this.processAndSendToCPR({ extraFiles });
+      const merged = await this.collectAndZipCPRLogs({ extraFiles });
 
       if (!merged) {
         throw new Error('failed to build log archive');
@@ -122,64 +119,35 @@ export class CPRClient extends RcModule {
     }
   }
 
-  async processAndSendToCPR({ extraFiles = [] }: { extraFiles: FileMeta[] }) {
-    const storageTransport = this._browserLogger.storageTransport;
-    if (!storageTransport) {
-      this.logger.error('StorageTransport not available on Client');
-      return;
-    }
+  /**
+   * Collect sanitized logs through BrowserLogger without downloading.
+   * Additional provider files and extra attachments are merged in BrowserLogger.
+   */
+  async collectAndZipCPRLogs({
+    scope,
+    extraFiles = [],
+  }: {
+    /**
+     * the additional logs to include in the CPR zip, use for define different logs downloading scope
+     */
+    scope?: string[];
+    /**
+     * Extra files to include in the CPR zip, such as user attachments.
+     * Each file should have a name and a base64Url (data URL format).
+     */
+    extraFiles: FileMeta[];
+  }) {
+    const archive = await this._browserLogger.collectSanitizedLogs({
+      extraFiles,
+      scope,
+    });
 
-    try {
-      const { name } = this._portManager.portDetector.sharedAppOptions;
-      await storageTransport.saveDB();
-      const logsData = await storageTransport.getLogs({ name });
+    if (!archive) return;
 
-      if (!logsData?.content) return;
-
-      const zip = await JSZip.loadAsync(logsData.content);
-
-      // Add additional logs if provider exists (e.g., Jupiter, GA logs)
-      if (this._cPRClientOptions?.additionalLogProvider) {
-        try {
-          await this._cPRClientOptions.additionalLogProvider.addAdditionalLogs(
-            zip,
-          );
-        } catch (error) {
-          this.logger.warn('Failed to add additional logs:', error);
-        }
-      }
-
-      if (extraFiles.length > 0) {
-        const attachmentsFolder = zip.folder(`${logsData.name}/attachments`);
-
-        if (attachmentsFolder) {
-          for (const { name, base64Url } of extraFiles) {
-            // Extract base64 data from data URL
-            const base64Data = base64Url.split(',')[1];
-
-            // Add the file to zip
-            attachmentsFolder.file(name, base64Data, { base64: true });
-          }
-        } else {
-          this.logger.error('Attachments folder not found');
-        }
-      }
-
-      const mergedBlob = await zip.generateAsync({
-        type: 'blob',
-        compression: 'DEFLATE',
-        compressionOptions: {
-          level: 9,
-        },
-      });
-
-      return {
-        content: mergedBlob,
-        name: this.logsFilename,
-      };
-    } catch (error) {
-      this.logger.error('Error retrieving logs:', error);
-    }
+    return {
+      content: archive.content,
+      name: this.logsFilename,
+    };
   }
 
   /**

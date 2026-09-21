@@ -3,10 +3,11 @@ import JSZip from 'jszip';
 
 interface MockCPRCallProps {
   onResponse?: (payload: { reportJson: any; zipBuffer: Buffer }) => void;
+  status?: number;
 }
 
 export const MockCPRCall: StepFunction<MockCPRCallProps> = (
-  { onResponse },
+  { onResponse, status = 200 },
   { rcMock },
 ) => {
   rcMock.defaultInitMocks.add(() => {
@@ -24,7 +25,16 @@ export const MockCPRCall: StepFunction<MockCPRCallProps> = (
       },
     );
 
-    rcMock.fetchMock.mock(/\/cpr-api\/v1\/problem-reports$/, 200, {
+    if (status >= 400) {
+      rcMock.fetchMock.mock(
+        /\/cpr-api\/v1\/problem-reports$/,
+        { status, body: { error: 'submit failed' } },
+        { method: 'POST' },
+      );
+      return;
+    }
+
+    rcMock.fetchMock.mock(/\/cpr-api\/v1\/problem-reports$/, status, {
       method: 'POST',
       response: async (_url, opts) => {
         const form = opts.body as FormData;

@@ -1,7 +1,9 @@
 import { messageTypes } from '@ringcentral-integration/commons/enums/messageTypes';
 import { useLocale } from '@ringcentral-integration/micro-core/src/app/hooks';
+import { Alert } from '@ringcentral/spring-ui';
 import React, { forwardRef, useMemo } from 'react';
 
+import { SmsAccountCapabilityAlertContent } from '../../ConversationViewSpring/ConversationPanel';
 import type { ConversationsPanelSpringProps } from '../Conversations.view.interface';
 
 import { ConversationsList } from './ConversationsList';
@@ -14,6 +16,7 @@ export const ConversationsPage = forwardRef<any, ConversationsPanelSpringProps>(
       typeFilter,
       searchInput,
       readStatusFilter,
+      smsPermissionReason,
       updateReadStatusFilterMap,
       onSearchInputChange,
       createNewEntityTooltip,
@@ -52,6 +55,11 @@ export const ConversationsPage = forwardRef<any, ConversationsPanelSpringProps>(
             }}
             onSearchInputChange={onSearchInputChange}
           />
+          {smsPermissionReason ? (
+            <Alert severity="info" className="mx-3 my-2">
+              <SmsAccountCapabilityAlertContent reason={smsPermissionReason} />
+            </Alert>
+          ) : null}
           <ConversationsList
             className="flex-auto overflow-auto"
             typeFilter={typeFilter}

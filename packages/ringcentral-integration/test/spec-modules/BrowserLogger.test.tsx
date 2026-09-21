@@ -1,4 +1,4 @@
-import { toggleLogger } from '@ringcentral-integration/core/lib/logger/loggerV2';
+import { toggleLogger } from '@ringcentral-integration/core/lib/logger/logger';
 
 import { BrowserLogger } from '../../modules/BrowserLogger';
 
@@ -9,8 +9,8 @@ jest.mock('@ringcentral-integration/core', () => ({
   state: jest.fn(),
   globalStorage: jest.fn(),
 }));
-jest.mock('@ringcentral-integration/core/lib/logger/loggerV2', () => ({
-  ...jest.requireActual('@ringcentral-integration/core/lib/logger/loggerV2'),
+jest.mock('@ringcentral-integration/core/lib/logger/logger', () => ({
+  ...jest.requireActual('@ringcentral-integration/core/lib/logger/logger'),
   toggleLogger: jest.fn(),
 }));
 

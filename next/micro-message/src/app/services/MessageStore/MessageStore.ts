@@ -83,12 +83,13 @@ export class MessageStore extends MessageStoreBase {
     return messageHelper.messageIsAcceptable(message);
   }
 
-  @track(trackEvents.clickToSMSVoicemailList)
   @delegate('server')
+  @track(trackEvents.clickToSMSVoicemailList)
   async onClickToSMS() {
     // for track click to sms in message list
   }
 
+  @delegate('server')
   @track((_: MessageStore, action: { fromType?: Message['type'] }) => {
     if (action.fromType === 'Pager' || action.fromType === 'SMS') {
       return [trackEvents.clickToDialTextList];
@@ -97,18 +98,17 @@ export class MessageStore extends MessageStoreBase {
       return [trackEvents.clickToDialVoicemailList];
     }
   })
-  @delegate('server')
   async onClickToCall({ fromType = '' }) {
     // for track click to call in message list
     this.onClickToCallWithRingout();
   }
 
+  @delegate('server')
   @track((that: MessageStore) => {
     if (that._callingSettings?.callingMode === callingModes.ringout) {
       return [trackEvents.callPlaceRingOutCallSMSHistory];
     }
   })
-  @delegate('server')
   async onClickToCallWithRingout() {
     // for track click to call with Ringout in message list
   }

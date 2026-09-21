@@ -9,7 +9,7 @@ import { CommunicationSetupPanel } from '@ringcentral-integration/widgets/compon
 import { TabsEnum } from '@ringcentral-integration/widgets/components/ContactSearchPanel/ContactSearchPanelEnum';
 import { RcDialerPadSoundsMPEG, RcIconButton } from '@ringcentral/juno';
 import { Phone } from '@ringcentral/juno-icon';
-import type { FunctionComponent } from 'react';
+import type { FunctionComponent, PropsWithChildren } from 'react';
 import React, { useEffect, useState } from 'react';
 
 import type { DialerViewCallParams } from '../../DialerView';
@@ -24,7 +24,7 @@ import {
   StyledRcDialPad,
 } from './StyledAddCallPanelPanel';
 
-export type AddCallPanelProps = {
+export type AddCallPanelProps = PropsWithChildren<{
   currentLocale: string;
   ContactSearch: FunctionComponent<any>;
   onBack: (...args: any[]) => any;
@@ -36,7 +36,7 @@ export type AddCallPanelProps = {
   outputDeviceId?: string;
   onAddCall: (params: DialerViewCallParams<RecipientProps>) => void;
   hasCalls: boolean;
-};
+}>;
 
 export const AddCallPanel: FunctionComponent<AddCallPanelProps> = (props) => {
   const {
@@ -118,11 +118,11 @@ export const AddCallPanel: FunctionComponent<AddCallPanelProps> = (props) => {
           <DialerWrapper>
             <StyledRcDialPad
               data-sign="dialPad"
-              onChange={(value) => {
+              onChange={(value: string) => {
                 onToNumberChange(toNumber + value);
               }}
               sounds={RcDialerPadSoundsMPEG}
-              getDialPadButtonProps={(v) => ({
+              getDialPadButtonProps={(v: string) => ({
                 'data-test-id': `${v}`,
                 'data-sign': `dialPadBtn${v}`,
               })}

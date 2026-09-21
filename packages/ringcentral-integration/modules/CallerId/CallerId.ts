@@ -45,6 +45,8 @@ export class CallerId extends DataFetcherV2Consumer<
 
   @computed(({ byFeature }: CallerId) => [byFeature])
   get ringOut() {
+    // TODO: Review whether this RcModuleV2 implementation should align with
+    // next-core CallerId default fallback after legacy app ownership is clear.
     return find((item) => item.feature === 'RingOut', this.byFeature)?.callerId;
   }
 }

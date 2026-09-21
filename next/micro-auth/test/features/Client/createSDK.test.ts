@@ -102,4 +102,19 @@ describe('createSDK', () => {
     // Assert
     expect(result).toBe(mockSdkInstance);
   });
+
+  it('should still set brandId for partner brands when brandConfig is passed', () => {
+    const brandConfig = {
+      id: '3460',
+      code: 'bt',
+      name: 'BT Cloud Work',
+    } as BrandConfig;
+
+    createSDK(mockSdkConfig, brandConfig);
+
+    expect(SDK).toHaveBeenCalledWith({
+      ...mockSdkConfig,
+      brandId: '3460',
+    });
+  });
 });

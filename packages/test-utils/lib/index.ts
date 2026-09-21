@@ -6,3 +6,4 @@ export * from './jestFakeTimersAreEnabled';
 export * from './render';
 export * from './step';
 export * from './socketMockUrl';
+export * from './createGetAppConfig';

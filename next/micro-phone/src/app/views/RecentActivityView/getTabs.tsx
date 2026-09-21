@@ -5,7 +5,6 @@ import type {
   RecentMessage,
   RecentMessages,
 } from '@ringcentral-integration/micro-message/src/app/services';
-import dynamicsFont from '@ringcentral-integration/widgets/assets/DynamicsFont/DynamicsFont.scss';
 import FaxIcon from '@ringcentral-integration/widgets/assets/images/Fax.svg';
 import VoicemailIcon from '@ringcentral-integration/widgets/assets/images/VoicemailIcon.svg';
 import _RecentActivityCalls from '@ringcentral-integration/widgets/components/RecentActivityCalls';
@@ -16,6 +15,7 @@ import React from 'react';
 import type { HistoryCall, RecentCalls } from '../../services';
 
 import { t } from './i18n';
+import dynamicsFont from '@ringcentral-integration/widgets/assets/DynamicsFont/DynamicsFont.scss';
 
 // TODO: fix type
 const RecentActivityCalls = _RecentActivityCalls as ComponentType<any>;

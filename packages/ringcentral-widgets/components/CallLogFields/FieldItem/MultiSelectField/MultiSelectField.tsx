@@ -80,14 +80,14 @@ export const MultiSelectField: FunctionComponent<MultiSelectFieldProps> = ({
 
   const displayValue = useMemo(() => {
     return filteredValues.length > 0
-      ? filteredValues
-          .map((value) => {
-            const option = options.find((o) => o.value === value);
-            return option?.label || value;
-          })
-          .join(', ')
-      : '';
-  }, [options, filteredValues]);
+    ? filteredValues
+        .map((value) => {
+          const option = options.find((o) => o.value === value);
+          return option?.label || value;
+        })
+        .join(', ')
+    : '';
+}, [options, filteredValues]);
 
   return (
     <div ref={fieldRef}>

@@ -23,6 +23,7 @@ import type { recipientProps } from './TransferPanel.interface';
 import i18n from './i18n';
 
 export type TransferPanelProps = {
+  children?: React.ReactNode;
   setActiveSessionId: (...args: any[]) => any;
   onTransfer: (...args: any[]) => any;
   onWarmTransfer: (...args: any[]) => any;
@@ -186,11 +187,11 @@ export const TransferPanel: FunctionComponent<TransferPanelProps> = (props) => {
           <DialerWrapper>
             <StyledRcDialPad
               data-sign="dialPad"
-              onChange={(value) => {
+              onChange={(value: string) => {
                 onToNumberChange(toNumber + value);
               }}
               sounds={RcDialerPadSoundsMPEG}
-              getDialPadButtonProps={(v) => ({
+              getDialPadButtonProps={(v: string) => ({
                 'data-test-id': `${v}`,
                 'data-sign': `dialPadBtn${v}`,
               })}

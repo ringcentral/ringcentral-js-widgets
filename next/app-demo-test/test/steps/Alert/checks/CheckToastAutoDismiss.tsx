@@ -21,11 +21,10 @@ export const CheckToastAutoDismiss: StepFunction<{
   const toast = app.container.got(Toast)!;
 
   toastIds.forEach((id) => {
-    const toastItem = toast.toasts.find((item) => id === item.id);
+    const toastItem = toast['_toasts'].find((item) => id === item.id);
 
     if (toastItem) {
-      const props = (toastItem as any).toast.getProps();
-      expect(props.ttl).toBe(ttl);
+      expect(toastItem.ttl).toBe(ttl);
       return;
     } else {
       throw new Error(`Toast ${id} not found, Message: \r\n ${message}`);

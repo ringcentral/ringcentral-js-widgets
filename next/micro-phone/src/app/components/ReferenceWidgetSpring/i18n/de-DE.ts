@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  matchedRecordsTips: '{matchedCount} vorgeschlag. Datensätze',
+  matchedRecordsTips: '{matchedCount} Vorschläge',
 } as const;
 
 // @key: @#@"matchedRecordsTips"@#@ @source: @#@"{matchedCount} suggested records"@#@

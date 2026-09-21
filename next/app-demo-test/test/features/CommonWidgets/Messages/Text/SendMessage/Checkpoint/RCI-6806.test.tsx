@@ -252,10 +252,6 @@ export class RCI6806 extends Step {
               selectFileFn.mockImplementation((args, cb) => {
                 cb([{ file: TEST_FILE.file }]);
               });
-
-              jest
-                .spyOn(app.modules.MessageSender, '_validateSenderNumber')
-                .mockReturnValue(true);
             }) as StepFunction,
           ]}
         />

@@ -27,9 +27,9 @@ import {
 } from '../../services';
 import conversationPanelI18n from '../ConversationViewSpring/ConversationPanel/i18n';
 
+import i18n from './i18n';
 // TODO: wait spring-ui release a new version to get the icon component
 import smsMdIcon from './SMSMD.svg';
-import i18n from './i18n';
 
 export interface SmsOptOutViewProps {
   conversation: FilteredConversation;
@@ -39,7 +39,10 @@ export interface SmsOptOutViewProps {
   name: 'SmsOptOutView',
 })
 export class SmsOptOutView extends RcViewModule {
-  constructor(private _smsOptOut: SmsOptOut, private _storage: StoragePlugin) {
+  constructor(
+    private _smsOptOut: SmsOptOut,
+    private _storage: StoragePlugin,
+  ) {
     super();
     this._storage.enable(this);
   }
@@ -134,7 +137,11 @@ export class SmsOptOutView extends RcViewModule {
             data-sign="optOutButton"
           />
         </GuideAnchor>
-        <GuidePopover anchorRef={anchorRef} popoverOpen={popoverOpen}>
+        <GuidePopover
+          anchorRef={anchorRef}
+          popoverOpen={popoverOpen}
+          onBackdropClick={close}
+        >
           <div className="mb-3">
             <div className="typography-subtitleBold text-neutral-b0 mb-2">
               {t('optOutPopoverTitle')}

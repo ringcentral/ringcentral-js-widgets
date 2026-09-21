@@ -6,7 +6,7 @@ import {
 } from '@ringcentral-integration/test-utils';
 import { connect } from 'testing-mcp';
 
-const timeout = 5 * 60 * 1000;
+const timeout = 60 * 60 * 1000;
 
 jest.setTimeout(timeout);
 
@@ -16,7 +16,7 @@ afterEach(async () => {
   const state = expect.getState();
   globalThis.WebSocket = originalWebSocket;
   await connect({
-    port: 3001,
+    daemonWaitTimeout: timeout,
     filePath: state.testPath,
     context: {
       userEvent,

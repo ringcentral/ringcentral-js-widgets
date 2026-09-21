@@ -6,7 +6,12 @@ import {
   IconButtonProps,
   useResizeObserver,
 } from '@ringcentral/spring-ui';
-import React, { type FunctionComponent, forwardRef, useRef } from 'react';
+import React, {
+  type FunctionComponent,
+  forwardRef,
+  useCallback,
+  useRef,
+} from 'react';
 
 import i18n from './i18n';
 
@@ -58,6 +63,13 @@ export const PageHeaderBackButton: FunctionComponent<IconButtonProps> = ({
   );
 };
 
+const resizeObserverOptions = {
+  mode: 'throttle',
+  options: {
+    trailing: true,
+  },
+} as const;
+
 export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
   (
     {
@@ -73,57 +85,70 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
   ) => {
     const startRef = useRef<HTMLDivElement>(null);
     const endRef = useRef<HTMLDivElement>(null);
+    const startContentRef = useRef<HTMLDivElement>(null);
+    const endContentRef = useRef<HTMLDivElement>(null);
 
+    const syncAdornmentWidth = useCallback(() => {
+      const start = startRef.current;
+      const end = endRef.current;
+      const startContent = startContentRef.current;
+      const endContent = endContentRef.current;
+      if (!start || !end || !startContent || !endContent) {
+        return;
+      }
+      const maxWidth = Math.max(
+        startContent.offsetWidth,
+        endContent.offsetWidth,
+      );
+      start.style.minWidth = `${maxWidth}px`;
+      end.style.minWidth = `${maxWidth}px`;
+    }, []);
+
+    // observe the unsized content wrappers so the sizing applied on the outer
+    // boxes never suppresses further resize notifications
     useResizeObserver(
-      endRef,
-      () => {
-        if (startRef.current && endRef.current) {
-          const startWidth = startRef.current.offsetWidth;
-          const endWidth = endRef.current.offsetWidth;
-          if (startWidth === endWidth) {
-            return;
-          }
-          const maxWidth = Math.max(startWidth, endWidth);
-          if (endWidth > startWidth) {
-            startRef.current.style.width = `${maxWidth}px`;
-          } else {
-            endRef.current.style.width = `${maxWidth}px`;
-          }
-        }
-      },
-      {
-        mode: 'throttle',
-      },
+      startContentRef,
+      syncAdornmentWidth,
+      resizeObserverOptions,
     );
+    useResizeObserver(endContentRef, syncAdornmentWidth, resizeObserverOptions);
+
+    const isTypeOfChildrenString = typeof children === 'string';
+
     return (
       <div
         ref={ref}
         className={twMerge(
-          'w-full h-[50px] py-0.5 flex items-center gap-3 justify-between flex-none px-2',
+          'w-full min-h-9 py-2 flex items-center justify-between flex-none px-3',
           className,
         )}
         {...rest}
       >
         <div
           className={twMerge(
-            'flex justify-start items-center h-full flex-none',
+            'justify-start h-full flex-none',
             classes?.startAdornment,
           )}
           ref={startRef}
         >
-          {onBackClick && <PageHeaderBackButton onClick={onBackClick} />}
-          {startAdornment}
+          <div ref={startContentRef} className="flex items-center h-full">
+            {onBackClick && <PageHeaderBackButton onClick={onBackClick} />}
+            {startAdornment}
+          </div>
         </div>
         {children && (
-          <div className="flex justify-center flex-auto overflow-hidden typography-subtitle">
-            {children}
+          <div className="flex justify-center flex-auto overflow-hidden typography-subtitle min-w-0">
+            {isTypeOfChildrenString ? (
+              <span className="truncate">{children}</span>
+            ) : (
+              children
+            )}
           </div>
         )}
-        <div
-          ref={endRef}
-          className="flex justify-end items-center h-full flex-none"
-        >
-          {endAdornment}
+        <div ref={endRef} className="justify-end h-full flex-none">
+          <div ref={endContentRef} className="flex items-center h-full">
+            {endAdornment}
+          </div>
         </div>
       </div>
     );

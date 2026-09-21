@@ -77,7 +77,7 @@ RefreshContacts.defaultProps = {
   className: undefined,
 };
 
-class ContactsView extends Component {
+class ContactsView extends Component<{ children?: React.ReactNode }, any> {
   // @ts-expect-error
   constructor(props) {
     super(props);
@@ -141,7 +141,6 @@ class ContactsView extends Component {
 
   // @ts-expect-error
   UNSAFE_componentWillUpdate(nextProps, nextState) {
-    // @ts-expect-error
     const { lastInputTimestamp } = this.state;
     // @ts-expect-error
     const { searchString: searchStringProp } = this.props;
@@ -152,7 +151,6 @@ class ContactsView extends Component {
     }
     // default to the first contact source when current selected contact source is removed
     if (!includes(nextProps.searchSource, nextProps.contactSourceNames)) {
-      // @ts-expect-error
       const { searchString } = this.state;
       this.search({
         searchSource: nextProps.contactSourceNames[0],
@@ -176,7 +174,6 @@ class ContactsView extends Component {
         lastInputTimestamp: Date.now(),
       },
       () => {
-        // @ts-expect-error
         const { searchString } = this.state;
         // @ts-expect-error
         const { searchSource } = this.props;
@@ -201,7 +198,6 @@ class ContactsView extends Component {
       // @ts-expect-error
       this.contactList.current.resetScrollTop();
     }
-    // @ts-expect-error
     const { searchString } = this.state;
     this.search({
       searchSource,
@@ -278,7 +274,6 @@ class ContactsView extends Component {
       // @ts-expect-error
       isMultipleSiteEnabled,
     } = this.props;
-    // @ts-expect-error
     const { refreshing, searchString, unfold, contentWidth, contentHeight } =
       this.state;
 

@@ -6,6 +6,7 @@ import Modal from '../Modal';
 import styles from './styles.scss';
 
 type InsideModalProps = {
+  children?: React.ReactNode;
   show?: boolean;
   onClose?: (...args: any[]) => any;
   title?: string;
@@ -56,7 +57,6 @@ InsideModal.defaultProps = {
   clickOutToClose: true,
   show: undefined,
   onClose: undefined,
-  // @ts-expect-error TS(2322): Type '{ title: string; showTitle: true; showCloseB... Remove this comment to see the full error message
   children: undefined,
   containerStyles: undefined,
   maskStyle: undefined,

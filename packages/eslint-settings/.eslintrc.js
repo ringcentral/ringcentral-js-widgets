@@ -30,6 +30,7 @@ module.exports = {
         },
       },
       rules: {
+        'no-nested-ternary': 'error',
         'lodash/import-scope': 'error',
         'react/display-name': 'off',
         'react/prop-types': 'off',

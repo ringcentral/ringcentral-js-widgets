@@ -5,8 +5,8 @@ import rc from '../../micro-core/config/rc';
 
 export interface AppConfig extends BaseAppConfig {
   brandConfig: BrandConfig & { enableDiscovery?: boolean };
-  pendoApiKey?: string;
 }
 
 export const appConfig = rc;
+
 export { BrandConfig };

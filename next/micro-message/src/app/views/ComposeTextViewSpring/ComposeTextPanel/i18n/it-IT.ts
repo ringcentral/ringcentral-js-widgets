@@ -7,6 +7,8 @@ export default {
   optOutSingleRecipient: "Il destinatario ha annullato l'abbonamento.",
   optOutMultipleRecipients: "Alcuni destinatari hanno annullato l'abbonamento.",
   optOutRemove: 'Rimuovi',
+  incomingTextsOnly: 'Solo SMS in entrata',
+  notSetUpForTexting: 'Non configurato per SMS',
 } as const;
 
 // @key: @#@"createNewText"@#@ @source: @#@"Create new text"@#@
@@ -15,3 +17,5 @@ export default {
 // @key: @#@"optOutSingleRecipient"@#@ @source: @#@"This recipient has opted out."@#@
 // @key: @#@"optOutMultipleRecipients"@#@ @source: @#@"Some recipients have opted out."@#@
 // @key: @#@"optOutRemove"@#@ @source: @#@"Remove"@#@
+// @key: @#@"incomingTextsOnly"@#@ @source: @#@"Incoming texts only"@#@
+// @key: @#@"notSetUpForTexting"@#@ @source: @#@"Not set up for texting"@#@

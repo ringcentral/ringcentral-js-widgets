@@ -13,6 +13,7 @@ import fabMP3 from './audio/Fairy.mp3';
 import fastBellsMP3 from './audio/FastBells.mp3';
 import highGongMP3 from './audio/HighGong.mp3';
 import immersionMP3 from './audio/Immersion.mp3';
+import incomingMP3 from './audio/incoming.mp3';
 import indeedMP3 from './audio/Indeed.mp3';
 import lazyDayMP3 from './audio/LazyDay.mp3';
 import neuralFunkMP3 from './audio/NeuralFunk.mp3';
@@ -23,7 +24,6 @@ import ringingBellsMP3 from './audio/RingingBells.mp3';
 import simpleMP3 from './audio/Simple.mp3';
 import soothingMP3 from './audio/Soothing.mp3';
 import sunshineMP3 from './audio/Sunshine.mp3';
-import incomingMP3 from './audio/incoming.mp3';
 
 export enum RINGS_TYPE {
   Phone_Ring1 = 'phone_ring1',

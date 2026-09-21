@@ -7,7 +7,9 @@ import {
   When,
   Then,
   Step,
+  waitForRenderReady,
 } from '@ringcentral-integration/test-utils';
+import { act } from 'react';
 
 import {
   injectable,
@@ -32,7 +34,9 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  unmountComponentAtNode(element);
+  act(() => {
+    unmountComponentAtNode(element);
+  });
   element.remove();
 });
 
@@ -135,7 +139,9 @@ class TriggerAction extends Step {
               render,
             });
             expect(componentRenderFn.mock.calls).toEqual([]);
-            app.bootstrap(element);
+            await act(async () => {
+              await app.bootstrap(element);
+            });
           }}
         />
         <When
@@ -144,12 +150,15 @@ class TriggerAction extends Step {
             expect(app.instance.counter.count).toBe(0);
             expect(app.instance.counter.count1).toBe(0);
             expect(componentRenderFn.mock.calls).toEqual([[0]]);
-            app.instance.counter.increment();
+            act(() => {
+              app.instance.counter.increment();
+            });
           }}
         />
         <Then
           desc="Check the state and component render"
           action={async () => {
+            await waitForRenderReady();
             expect(app.instance.counter.count).toBe(1);
             expect(app.instance.counter.count1).toBe(0);
             expect(componentRenderFn.mock.calls).toEqual([[0], [1]]);
@@ -167,6 +176,7 @@ class TriggerAction extends Step {
         <Then
           desc="Check the state and component render"
           action={async () => {
+            await waitForRenderReady();
             expect(app.instance.counter.count).toBe(1);
             expect(app.instance.counter.count1).toBe(1);
             expect(componentRenderFn.mock.calls).toEqual([[0], [1]]);

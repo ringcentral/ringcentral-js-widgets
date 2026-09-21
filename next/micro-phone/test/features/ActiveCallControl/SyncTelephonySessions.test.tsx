@@ -21,8 +21,8 @@ import { LoginWithMock } from '../../steps/Entry';
 class SyncTelephonySessionsTest extends Step {
   run() {
     let activeCallControl: ActiveCallControl;
-    let fetchDataSpy: jest.SpyInstance;
-    let syncDataSpy: jest.SpyInstance;
+    let fetchDataSpy: jest.Spied;
+    let syncDataSpy: jest.Spied;
     return (
       <Scenario desc="Sync telephony sessions test">
         <Given
@@ -47,8 +47,9 @@ class SyncTelephonySessionsTest extends Step {
             // test single fetch
             const promise1 = activeCallControl.fetchData();
             const promise2 = activeCallControl.fetchData();
-            expect(promise1).toEqual(promise2);
-            await promise1;
+            expect((activeCallControl as any)._promise).toBeTruthy();
+            await Promise.all([promise1, promise2]);
+            expect(syncDataSpy).toHaveBeenCalledTimes(1);
           }}
         />
         <Then

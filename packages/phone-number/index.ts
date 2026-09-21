@@ -9,7 +9,12 @@ import {
 
 import { customFormat } from './lib/customFormat/customFormat';
 import detect from './lib/detect';
-import format, { formatTypes, isUSOrCAOrPR } from './lib/format';
+import format, {
+  formatWithParserResult,
+  formatTypes,
+  isUSOrCAOrPR,
+  type PhoneNumberFormatType,
+} from './lib/format';
 import isE164 from './lib/isE164';
 import isSameLocalNumber from './lib/isSameLocalNumber';
 import parse from './lib/parse';
@@ -18,7 +23,9 @@ export {
   AsYouType,
   customFormat,
   detect,
+  type PhoneNumberFormatType,
   format,
+  formatWithParserResult,
   formatNumber,
   formatTypes,
   getCountryCallingCode,

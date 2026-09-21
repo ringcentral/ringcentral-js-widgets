@@ -6,6 +6,7 @@ import { Button } from '../Button';
 import styles from './styles.scss';
 
 type SaveButtonProps = {
+  children?: React.ReactNode;
   isSaving?: boolean;
   onClick?: (...args: any[]) => any;
   overlapped?: boolean;

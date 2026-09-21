@@ -9,6 +9,6 @@ export const NavigateTo: StepFunction<{ path: string }> = async (
   { app },
 ) => {
   const router = app.container.got(RouterPlugin)!;
-  router.push(path);
+  await router.push(path);
   await waitForRenderReady();
 };

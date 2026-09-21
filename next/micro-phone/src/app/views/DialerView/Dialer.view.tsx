@@ -4,7 +4,6 @@ import { getCallingOption } from '@ringcentral-integration/commons/lib/getCallin
 import { normalizeNumber } from '@ringcentral-integration/commons/lib/normalizeNumber';
 import {
   AccountInfo,
-  type AppFeatures,
   type CallMadeLocation,
   ConnectivityManager,
   ExtensionFeatures,
@@ -47,6 +46,7 @@ import {
   type Recipient,
   Webphone,
 } from '../../services';
+import { ConnectingView } from '../ConnectingView';
 
 import type {
   DialerViewOptions,
@@ -71,8 +71,8 @@ export type DialerViewCallParams<T = Recipient> = {
   name: 'DialerView',
 })
 export class DialerView extends RcViewModule {
-  @dynamic('AppFeatures')
-  private _appFeatures?: AppFeatures;
+  @dynamic('ConnectingView')
+  protected _connectingView?: ConnectingView;
 
   @dynamic('CallAction')
   private _callAction?: CallAction;
@@ -81,8 +81,11 @@ export class DialerView extends RcViewModule {
   protected readonly _contactSearchView?: ContactSearchView;
 
   _latestCallTime = 0;
-  _lastSearchInput = '';
 
+  /**
+   * register hook for call, will be called before make call
+   * only execute when callVerify pass in server port(worker mode)
+   */
   _callHooks: ((params: DialerViewCallParams) => Promise<void>)[] = [];
 
   /**
@@ -91,6 +94,18 @@ export class DialerView extends RcViewModule {
   protected callVerify?: (
     params: DialerViewCallParams<any>,
   ) => Promise<boolean>;
+
+  /**
+   * verify is that call can be continue before make call
+   */
+  @delegate('server')
+  private async callVerifyOnServer(params: DialerViewCallParams<any>) {
+    if (this.callVerify) {
+      return this.callVerify(params);
+    }
+
+    return true;
+  }
 
   constructor(
     protected _callingSettings: CallingSettings,
@@ -119,6 +134,7 @@ export class DialerView extends RcViewModule {
   private _setToNumberField(val: string) {
     this.toNumberField = val;
   }
+
   @state
   isLastInputFromDialpad = false;
 
@@ -157,6 +173,7 @@ export class DialerView extends RcViewModule {
 
   get isCallButtonDisabled() {
     return (
+      this._connectingView?.isConnecting ||
       !this._call.isIdle ||
       this._connectivityManager.isOfflineMode ||
       this._connectivityManager.isWebphoneUnavailableMode ||
@@ -192,12 +209,12 @@ export class DialerView extends RcViewModule {
   }
 
   override onReset() {
+    this._connectingView?.resetPreinsertConnecting();
     this.resetState({
       toNumberField: '',
       isLastInputFromDialpad: false,
       recipient: null,
     });
-    this._lastSearchInput = '';
   }
 
   @action
@@ -218,6 +235,43 @@ export class DialerView extends RcViewModule {
     this.toNumberField = toNumberField;
     this.isLastInputFromDialpad = isLastInputFromDialpad;
     this.recipient = recipient;
+  }
+
+  @delegate('server')
+  private async _prepareCallState({
+    toNumberField,
+    recipient,
+    callerId,
+    latestCallTime,
+    usePreinsertConnecting,
+  }: {
+    toNumberField: string;
+    recipient: Recipient | null;
+    callerId: string;
+    latestCallTime: number;
+    usePreinsertConnecting: boolean;
+  }) {
+    this._latestCallTime = latestCallTime;
+    const preinsertConnectingToken =
+      usePreinsertConnecting && this._connectingView
+        ? this._connectingView.preparePreinsertConnecting({
+            callerId,
+            recipient,
+            toNumberField,
+          })
+        : 0;
+    this.resetState({
+      toNumberField,
+      isLastInputFromDialpad: false,
+      recipient,
+    });
+
+    return preinsertConnectingToken;
+  }
+
+  @delegate('server')
+  private async _resetCallState() {
+    this.resetState();
   }
 
   @delegate('server')
@@ -268,7 +322,6 @@ export class DialerView extends RcViewModule {
 
   @delegate('server')
   async setRecipient(recipient: Recipient) {
-    this._lastSearchInput = this.toNumberField;
     this.resetState({
       toNumberField: '',
       isLastInputFromDialpad: false,
@@ -285,7 +338,8 @@ export class DialerView extends RcViewModule {
     });
   }
 
-  async triggerHook({
+  @delegate('server')
+  private async triggerHook({
     phoneNumber = '',
     recipient,
     fromNumber,
@@ -313,7 +367,6 @@ export class DialerView extends RcViewModule {
     //
   }
 
-  @delegate('server')
   async call({
     phoneNumber = '',
     recipient,
@@ -321,6 +374,16 @@ export class DialerView extends RcViewModule {
     trackCallMadeFrom,
     clickDialerToCall = false,
   }: DialerViewCallParams) {
+    const usePreinsertConnecting = this._callingSettings.isWebphoneMode;
+
+    if (
+      this._connectingView &&
+      usePreinsertConnecting &&
+      this._connectingView.isConnecting
+    ) {
+      return;
+    }
+
     if (process.env.THEME_SYSTEM === 'spring-ui') {
       const hasReachedMaxCalls =
         await this._callAction?.checkReachToMaxExistCalls?.();
@@ -331,40 +394,130 @@ export class DialerView extends RcViewModule {
     if (phoneNumber) {
       phoneNumber = phoneNumber.trim();
     }
-    if (recipient?.phoneNumber) {
-      recipient.phoneNumber = recipient.phoneNumber.trim();
-    }
-    if (phoneNumber || recipient) {
-      this._latestCallTime = Date.now();
-      this.resetState({
+    const normalizedRecipient = recipient
+      ? {
+          ...recipient,
+          phoneNumber: recipient.phoneNumber
+            ? recipient.phoneNumber.trim()
+            : recipient.phoneNumber,
+        }
+      : undefined;
+    if (phoneNumber || normalizedRecipient) {
+      const preinsertConnectingToken = await this._prepareCallState({
         toNumberField: phoneNumber,
-        isLastInputFromDialpad: false,
-        recipient: recipient || null,
+        recipient: normalizedRecipient || null,
+        callerId: fromNumber || this._callingSettings.fromNumber || '',
+        latestCallTime: Date.now(),
+        usePreinsertConnecting,
       });
 
-      const continueCall = this.callVerify
-        ? await this.callVerify({ phoneNumber, recipient })
-        : true;
-
-      if (!continueCall) return;
-
-      // * trigger hooks after pass verification
-      await this.triggerHook({ phoneNumber, recipient, fromNumber });
-
-      // for data tracking
-      const { hasInvalidChars, isValid } = parse({
-        input: this._lastSearchInput || this.toNumberField,
+      const continueCall = await this.callVerifyOnServer({
+        phoneNumber,
+        recipient: normalizedRecipient,
       });
-      const isValidNumber = !hasInvalidChars && isValid;
+
+      if (
+        usePreinsertConnecting &&
+        this._connectingView?.isPreinsertConnectingCancelled(
+          preinsertConnectingToken,
+        )
+      ) {
+        this._connectingView.clearPreinsertConnectingCancel(
+          preinsertConnectingToken,
+        );
+        return;
+      }
+
+      if (!continueCall) {
+        if (this._connectingView && usePreinsertConnecting) {
+          await this._connectingView.setPreinsertConnectingOnServer(false);
+        }
+        return;
+      }
 
       try {
-        await this._call.call({
-          phoneNumber: this.toNumberField,
-          recipient: this.recipient!,
+        if (
+          usePreinsertConnecting &&
+          this._connectingView?.isPreinsertConnectingCancelled(
+            preinsertConnectingToken,
+          )
+        ) {
+          this._connectingView.clearPreinsertConnectingCancel(
+            preinsertConnectingToken,
+          );
+          return;
+        }
+
+        // * trigger hooks after pass verification
+        await this.triggerHook({
+          phoneNumber,
+          recipient: normalizedRecipient,
+          fromNumber,
+        });
+
+        if (
+          this._connectingView &&
+          usePreinsertConnecting &&
+          this._connectingView.isPreinsertConnectingCancelled(
+            preinsertConnectingToken,
+          )
+        ) {
+          this._connectingView.clearPreinsertConnectingCancel(
+            preinsertConnectingToken,
+          );
+          return;
+        }
+
+        // for data tracking
+        const { hasInvalidChars, isValid } = parse({
+          input:
+            phoneNumber ||
+            normalizedRecipient?.phoneNumber ||
+            normalizedRecipient?.extension ||
+            '',
+        });
+        const isValidNumber = !hasInvalidChars && isValid;
+
+        const session = await this._call.call({
+          phoneNumber,
+          recipient: normalizedRecipient!,
           fromNumber: fromNumber!,
           clickDialerToCall,
           isValidNumber,
         });
+
+        if (this._connectingView && usePreinsertConnecting) {
+          await this._connectingView.setPreinsertConnectingWebphoneSessionIdOnServer(
+            preinsertConnectingToken,
+            session?.id,
+          );
+        }
+
+        if (
+          this._connectingView &&
+          usePreinsertConnecting &&
+          this._connectingView.isPreinsertConnectingCancelled(
+            preinsertConnectingToken,
+          )
+        ) {
+          if (session?.id) {
+            // when already have session id, we need hang-up the connecting call on server side
+            await this._connectingView.cancelPreinsertConnectingCall(
+              session.id,
+            );
+          }
+          this._connectingView.clearPreinsertConnectingCancel(
+            preinsertConnectingToken,
+          );
+          return;
+        }
+
+        if (session === null) {
+          if (this._connectingView && usePreinsertConnecting) {
+            await this._connectingView.setPreinsertConnectingOnServer(false);
+          }
+          return;
+        }
 
         if (
           // spring-ui project have new data tracking system, not need this track anymore
@@ -374,9 +527,15 @@ export class DialerView extends RcViewModule {
           this.trackCallMade(trackCallMadeFrom);
         }
 
-        this.resetState();
+        await this._resetCallState();
       } catch (error) {
-        console.log('[DialerView] make call error', error);
+        if (this._connectingView && usePreinsertConnecting) {
+          this._connectingView.clearPreinsertConnectingCancel(
+            preinsertConnectingToken,
+          );
+          await this._connectingView.setPreinsertConnectingOnServer(false);
+        }
+        this.logger.log('make call error', error);
       }
     }
   }
@@ -539,6 +698,7 @@ export class DialerView extends RcViewModule {
     const { current: uiFunctions } = useRef(this.getUIFunctions(props));
 
     const { t } = useLocale(i18n);
+
     // TODO: fix type
     const _props: any = useConnector(() => {
       const uiProps = this.getUIProps(props);
@@ -560,6 +720,7 @@ export class DialerView extends RcViewModule {
             {...uiFunctions}
             ContactSearch={this._contactSearchView?.component}
           />
+          {this._connectingView && <this._connectingView.component />}
         </>
       );
     }

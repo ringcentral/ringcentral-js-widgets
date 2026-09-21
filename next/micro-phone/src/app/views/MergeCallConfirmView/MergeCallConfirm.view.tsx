@@ -109,8 +109,8 @@ export class MergeCallConfirmView extends RcViewModule {
     if (!call) return;
 
     const contactName = isInbound(call)
-      ? call.fromName ?? call.from?.phoneNumber
-      : call.toName ?? call.to?.phoneNumber;
+      ? (call.fromName ?? call.from?.phoneNumber)
+      : (call.toName ?? call.to?.phoneNumber);
     return contactName;
   }
 

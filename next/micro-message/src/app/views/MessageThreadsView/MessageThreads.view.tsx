@@ -1,13 +1,10 @@
-import { ExtensionInfo } from '@ringcentral-integration/micro-auth/src/app/services';
+import { Auth } from '@ringcentral-integration/micro-auth/src/app/services';
 import { ContactAvatar } from '@ringcentral-integration/micro-contacts/src/app/components';
 import contactsI18n from '@ringcentral-integration/micro-contacts/src/app/views/ContactSearchView/ContactSearchPanel/i18n';
 import { useLocale } from '@ringcentral-integration/micro-core/src/app/hooks';
 import { Toast } from '@ringcentral-integration/micro-core/src/app/services';
 import {
-  ConversationsSyncTabId,
   ModalView,
-  SyncTabId,
-  SyncTabView,
   useModalItemView,
 } from '@ringcentral-integration/micro-core/src/app/views';
 import { CallQueues } from '@ringcentral-integration/micro-phone/src/app/services';
@@ -57,14 +54,11 @@ import {
   tap,
 } from 'rxjs';
 
-import {
-  type FilteredConversation,
-  MessageStore,
-  MessageThread,
-} from '../../services';
-import { ConversationAlert } from '../ConversationViewSpring/ConversationAlert';
+import { type FilteredConversation, MessageThread } from '../../services';
 import conversationsI18n from '../ConversationsViewSpring/ConversationsPage/i18n';
+import { ConversationAlert } from '../ConversationViewSpring/ConversationAlert';
 
+import i18n, { t } from './i18n';
 import { MessageThreadPage } from './MessageThreadPage';
 import messageThreadsI18n from './MessageThreadPage/i18n';
 import type {
@@ -72,7 +66,6 @@ import type {
   MessageThreadsViewProps,
   SharedSearchForm,
 } from './MessageThreads.view.interface';
-import i18n, { t } from './i18n';
 import { assignmentOptionMap, assignmentOptions } from './utils';
 
 const loadingList = [1, 2, 3];
@@ -116,11 +109,11 @@ export class MessageThreadsView extends RcViewModule {
       '__ASSIGNED_TO_OTHERS__',
       '__UNASSIGNED__',
     ],
-    selectedCallQueues: [],
+    selectedRecipientExtensionIds: [],
   };
 
-  get smsRecipientCallQueues() {
-    return this._messageThread.smsRecipientCallQueues;
+  private get smsRecipients() {
+    return this._messageThread.smsRecipients;
   }
 
   @action
@@ -134,7 +127,8 @@ export class MessageThreadsView extends RcViewModule {
           '__ASSIGNED_TO_OTHERS__',
           '__UNASSIGNED__',
         ],
-        selectedCallQueues: this.allCallQueueIds,
+        selectedRecipientExtensionIds:
+          this._messageThread.smsRecipientExtensionIds,
       } as SharedSearchForm);
 
       return;
@@ -144,19 +138,15 @@ export class MessageThreadsView extends RcViewModule {
   }
 
   @computed
-  get allCallQueueIds() {
-    return this.smsRecipientCallQueues.map((queue) => queue.id);
-  }
-
-  @computed
   get filteredThreadConversations(): FilteredConversation[] {
     const threads = this._messageThread.threadConversationsInfo.conversations;
     const filter = this.sharedSearchForm.filter;
     const statusFilter = this.sharedSearchForm.statusFilter;
     const searchInput = this.sharedSearchForm.searchInput.toLowerCase().trim();
     const selectedAssignees = this.sharedSearchForm.selectedAssignees;
-    const selectedCallQueues = this.sharedSearchForm.selectedCallQueues;
-    const currentExtensionId = this._extensionInfo.id?.toString();
+    const selectedRecipientExtensionIds =
+      this.sharedSearchForm.selectedRecipientExtensionIds;
+    const currentExtensionId = this._auth.ownerId;
 
     let filtered = threads;
 
@@ -224,13 +214,19 @@ export class MessageThreadsView extends RcViewModule {
     }
 
     // Filter by call queues
-    if (selectedCallQueues.length < this.smsRecipientCallQueues.length) {
+    if (
+      selectedRecipientExtensionIds.length > 0 &&
+      selectedRecipientExtensionIds.length < this.smsRecipients.length
+    ) {
       filtered = filtered.filter((conversation) => {
         const threadId = conversation.conversationId!;
         const threadInfo = this._messageThread.getThread(threadId)?.threadInfo;
-        const ownerExtensionId = threadInfo?.owner?.extensionId;
-        return (
-          ownerExtensionId && selectedCallQueues.includes(ownerExtensionId)
+        const ownerExtensionId =
+          threadInfo?.owner?.extensionId ??
+          (conversation as any).threadOwner?.extensionId;
+        return Boolean(
+          ownerExtensionId &&
+          selectedRecipientExtensionIds.includes(ownerExtensionId),
         );
       });
     }
@@ -348,10 +344,9 @@ export class MessageThreadsView extends RcViewModule {
         await this._messageThread.assignThread(threadId, extensionId);
 
         // Show appropriate success message based on who the thread was assigned to
-        const isAssignedToCurrentUser =
-          extensionId === String(this._extensionInfo.id);
+        const isAssignedToCurrentUser = extensionId === this._auth.ownerId;
         if (isAssignedToCurrentUser) {
-          this._toast.success({ message: t('assignedToYouTooltip') });
+          this._messageThread.showAssignedToYouToast();
         } else {
           // Find the recipient's name for the "assigned to other" message
           const recipient = recipients.find((r) => r.id === extensionId);
@@ -369,7 +364,7 @@ export class MessageThreadsView extends RcViewModule {
 
     const title = t('assignConversationTo');
     return (
-      <div className="flex flex-col h-full relative -my-4">
+      <div className="flex flex-col h-full relative -m-3">
         {/* Header */}
         <div className="px-6 py-3 border-b border-neutral-b4/50">
           <h3
@@ -384,6 +379,9 @@ export class MessageThreadsView extends RcViewModule {
         <div className="px-4 pt-3 pb-2">
           <TextField
             fullWidth
+            inputProps={{
+              'data-sign': 'assignRecipientSearch',
+            }}
             size="medium"
             placeholder={messageThreadsT('search')}
             value={searchText}
@@ -403,59 +401,62 @@ export class MessageThreadsView extends RcViewModule {
 
         {/* List Container */}
         <div className="flex-1 overflow-auto relative">
-          {loading && !hasData ? (
-            // First time loading - show skeleton
-            <div className="flex flex-col gap-4 py-2">
-              {loadingList.map((i) => (
-                <div key={i} className="flex flex-row gap-4 typography-label">
-                  <Skeleton variant="circular" className="w-9 h-9" />
-                  <div className="flex flex-col items-center justify-center grow [&>*]:grow-0">
-                    <Skeleton variant="text" className="w-3/5" />
-                    <Skeleton variant="text" className="w-2/5" />
+          {
+            // eslint-disable-next-line no-nested-ternary
+            loading && !hasData ? (
+              // First time loading - show skeleton
+              <div className="flex flex-col gap-4 py-2">
+                {loadingList.map((i) => (
+                  <div key={i} className="flex flex-row gap-4 typography-label">
+                    <Skeleton variant="circular" className="w-9 h-9" />
+                    <div className="flex flex-col items-center justify-center grow [&>*]:grow-0">
+                      <Skeleton variant="text" className="w-3/5" />
+                      <Skeleton variant="text" className="w-2/5" />
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          ) : !loading && filteredRecipients.length === 0 ? (
-            <div className="flex justify-center py-8 px-4">
-              <div className="typography-mainText text-neutral-b2">
-                {t('noSearchResults')}
+                ))}
               </div>
-            </div>
-          ) : (
-            <List>
-              {filteredRecipients.map((recipient) => (
-                <ListItem
-                  key={recipient.id}
-                  size="large"
-                  divider={false}
-                  onClick={() => !assignLoading && handleAssign(recipient.id)}
-                  className={
-                    assignLoading ? 'opacity-50 cursor-not-allowed' : ''
-                  }
-                  data-sign={`assignRecipient-${recipient.id}`}
-                >
-                  <ContactAvatar
+            ) : !loading && filteredRecipients.length === 0 ? (
+              <div className="flex justify-center py-8 px-4">
+                <div className="typography-mainText text-neutral-b2">
+                  {t('noSearchResults')}
+                </div>
+              </div>
+            ) : (
+              <List>
+                {filteredRecipients.map((recipient) => (
+                  <ListItem
+                    key={recipient.id}
                     size="large"
-                    // TODO: add contact to the contact avatar
-                    // contact={{
-                    //   id: recipient.id,
-                    //   name: recipient.name,
-                    //   type: 'company',
-                    // }}
-                    phoneNumber={recipient.extensionNumber}
-                    contactName={recipient.name}
-                  />
-                  <ListItemText
-                    primary={recipient.name}
-                    secondary={`${contactsT('extension')} ${
-                      recipient.extensionNumber
-                    }`}
-                  />
-                </ListItem>
-              ))}
-            </List>
-          )}
+                    divider={false}
+                    onClick={() => !assignLoading && handleAssign(recipient.id)}
+                    className={
+                      assignLoading ? 'opacity-50 cursor-not-allowed' : ''
+                    }
+                    data-sign={`assignRecipient-${recipient.id}`}
+                  >
+                    <ContactAvatar
+                      size="large"
+                      // TODO: add contact to the contact avatar
+                      // contact={{
+                      //   id: recipient.id,
+                      //   name: recipient.name,
+                      //   type: 'company',
+                      // }}
+                      phoneNumber={recipient.extensionNumber}
+                      contactName={recipient.name}
+                    />
+                    <ListItemText
+                      primary={recipient.name}
+                      secondary={`${contactsT('extension')} ${
+                        recipient.extensionNumber
+                      }`}
+                    />
+                  </ListItem>
+                ))}
+              </List>
+            )
+          }
         </div>
 
         {assignLoading && (
@@ -464,7 +465,7 @@ export class MessageThreadsView extends RcViewModule {
           </div>
         )}
 
-        <div className="absolute top-0 right-2">
+        <div className="absolute top-2 right-2">
           <IconButton
             variant="icon"
             size="small"
@@ -481,13 +482,11 @@ export class MessageThreadsView extends RcViewModule {
   constructor(
     private _conversationAlert: ConversationAlert,
     private _callQueues: CallQueues,
-    private _syncTabView: SyncTabView,
     private _modalView: ModalView,
     private _messageThread: MessageThread,
     private _router: RouterPlugin,
     private _toast: Toast,
-    private _extensionInfo: ExtensionInfo,
-    private _messageStore: MessageStore,
+    private _auth: Auth,
     private _portManager: PortManager,
   ) {
     super();
@@ -524,34 +523,36 @@ export class MessageThreadsView extends RcViewModule {
         return fromWatchValue(this, () => group?.unreadCount ?? 0).pipe(
           filter((unreadCount) => unreadCount > 0),
           tap(() => {
-            this._messageThread.markThreadAsViewed(threadId);
+            this._messageThread.setUnreadCount(threadId);
           }),
         );
       }),
     );
 
     // when able to selected queue change, should remove the not exist queue from the selected call queues
-    const verifySelectedCallQueues$ = fromWatchValue(
+    const verifySelectedRecipientExtensionIds$ = fromWatchValue(
       this,
-      () => this.smsRecipientCallQueues,
+      () => this.smsRecipients,
     ).pipe(
-      tap((selectedCallQueues) => {
-        const validQueues = this.sharedSearchForm.selectedCallQueues.filter(
-          (queue) => selectedCallQueues.some((q) => q.id === queue),
-        );
+      tap((selectedRecipientExtensionIds) => {
+        const validQueues =
+          this.sharedSearchForm.selectedRecipientExtensionIds.filter((queue) =>
+            selectedRecipientExtensionIds.some((q) => q.id === queue),
+          );
 
         const validQueuesLength = validQueues.length;
         // if that filter is same as the all call queue ids, should reset the selected call queues
         if (
           validQueuesLength === 0 ||
-          validQueuesLength === selectedCallQueues.length
+          validQueuesLength === selectedRecipientExtensionIds.length
         ) {
           this.updateSharedSearchForm({
-            selectedCallQueues: this.allCallQueueIds,
+            selectedRecipientExtensionIds:
+              this._messageThread.smsRecipientExtensionIds,
           });
         } else {
           this.updateSharedSearchForm({
-            selectedCallQueues: validQueues,
+            selectedRecipientExtensionIds: validQueues,
           });
         }
       }),
@@ -561,7 +562,7 @@ export class MessageThreadsView extends RcViewModule {
       .pipe(
         switchMap((permission) =>
           permission
-            ? merge(markThreadAsViewed$, verifySelectedCallQueues$)
+            ? merge(markThreadAsViewed$, verifySelectedRecipientExtensionIds$)
             : EMPTY,
         ),
         takeUntilAppDestroy,
@@ -590,11 +591,22 @@ export class MessageThreadsView extends RcViewModule {
     const thread = threads[conversationId];
     const threadInfo = thread?.threadInfo;
     const isResolved = threadInfo?.status === 'Resolved';
+    const currentPath = this._router.currentPath;
 
     const postAssignToMe = async () => {
-      // redirect to the conversation page if not in the conversation page
-      if (!this._router.currentPath.includes('/conversations')) {
+      // redirect to the conversation page when user still wait on same page after assign to me action
+      if (currentPath === this._router.currentPath) {
+        this.logger.log(
+          'assignToMe: redirect to conversation page',
+          conversationId,
+        );
         await this._router.push(`/conversations/${conversationId}`);
+      } else {
+        this.logger.log('assignToMe: current path changed, no redirect', {
+          conversationId,
+          prevPath: currentPath,
+          currentPath: this._router.currentPath,
+        });
       }
     };
 
@@ -605,7 +617,7 @@ export class MessageThreadsView extends RcViewModule {
     }
 
     try {
-      const extensionId = this._extensionInfo.id?.toString();
+      const extensionId = this._auth.ownerId;
       if (!extensionId) {
         logger.warn('assignToMe: extensionId not available');
         return;
@@ -613,7 +625,7 @@ export class MessageThreadsView extends RcViewModule {
 
       await this._messageThread.assignThread(conversationId, extensionId);
       await postAssignToMe();
-      this._toast.success({ message: t('assignedToYouTooltip') });
+      this._messageThread.showAssignedToYouToast();
     } catch (error) {
       this.logger.error('assignToMe error', error);
       this._toast.danger({ message: t('failedToAssignThread') });
@@ -646,7 +658,7 @@ export class MessageThreadsView extends RcViewModule {
       form: this.sharedSearchForm,
       lastPosition: this.lastPosition['shared'],
       loading: this._messageThread.historyLoading,
-      callQueues: this.smsRecipientCallQueues,
+      callQueues: this.smsRecipients,
       assignmentOptions,
     };
   }
@@ -680,7 +692,7 @@ export class MessageThreadsView extends RcViewModule {
           conversationId &&
           this._messageThread.hasPermission &&
           Boolean(this._messageThread.getThread(conversationId)),
-        extensionId: this._extensionInfo.id,
+        extensionId: this._auth.ownerId,
       }),
     );
 
@@ -804,67 +816,10 @@ export class MessageThreadsView extends RcViewModule {
     return true;
   }
 
-  component({ children, ...rest }: PropsWithChildren<MessageThreadsViewProps>) {
-    const { hasPermission, ...threadProps } = useConnector(() => {
-      return {
-        textUnreadCounts: this._messageStore.textUnreadCounts,
-        threadUnreadCount: this._messageThread.threadUnreadCount,
-        hasPermission: this._messageThread.hasPermission,
-        ...this.getUIProps(),
-      };
-    });
+  component(props: PropsWithChildren<MessageThreadsViewProps>) {
+    const _props = useConnector(() => this.getUIProps());
     const { current: uiFunctions } = useResultRef(() => this.getUIFunctions());
 
-    const { textUnreadCounts, threadUnreadCount, ..._props } = threadProps;
-
-    const tabs = useMemo(() => {
-      if (!hasPermission) {
-        return null;
-      }
-
-      return [
-        {
-          id: ConversationsSyncTabId.PERSONAL,
-          label: t('personal'),
-          BadgeProps: { count: textUnreadCounts },
-          component: children,
-        },
-        {
-          id: ConversationsSyncTabId.SHARED,
-          label: t('shared'),
-          BadgeProps: { count: threadUnreadCount },
-          component: (
-            <MessageThreadPage {..._props} {...rest} {...uiFunctions} />
-          ),
-        },
-      ];
-    }, [
-      _props,
-      children,
-      hasPermission,
-      rest,
-      threadUnreadCount,
-      uiFunctions,
-      textUnreadCounts,
-    ]);
-
-    return (
-      <>
-        {tabs ? (
-          <this._syncTabView.component
-            id={SyncTabId.CONVERSATIONS}
-            tabs={tabs}
-            defaultValue={ConversationsSyncTabId.PERSONAL}
-            data-sign="conversationsTabs"
-            className={
-              '[&_.sui-tab]:max-w-none [&_.sui-tab]:flex-none [&_.sui-tab]:w-1/2'
-            }
-            variant="standard"
-          />
-        ) : (
-          children
-        )}
-      </>
-    );
+    return <MessageThreadPage {..._props} {...props} {...uiFunctions} />;
   }
 }

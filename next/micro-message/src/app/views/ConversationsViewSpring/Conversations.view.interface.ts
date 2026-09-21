@@ -7,6 +7,7 @@ import type {
   FilteredConversation,
   ReadStatusFilter,
   ThreadInfoRecord,
+  SmsPermissionReason,
 } from '../../services';
 
 import type { UseConversationsActions } from './Conversations.view';
@@ -36,12 +37,15 @@ export type ConversationsPanelSpringProps = {
   crmName?: string;
   showLogPopover?: boolean;
   showNewButton?: boolean;
+  newButtonDisabled?: boolean;
+  smsPermissionReason?: SmsPermissionReason | null;
   //
   useConversationItemInfo: (conversation: FilteredConversation) => {
     info: ReturnType<typeof useContactRenderInfoFromConversation>;
     actions: HistoryAction[];
     threadInfo?: ThreadInfoRecord;
-    extensionId?: number;
+    extensionId?: string;
+    queueName?: string;
   };
   useActionsHandler: UseConversationsActions;
   useItemRender?: (conversation: FilteredConversation, index: number) => void;
@@ -52,4 +56,14 @@ export type ConversationsPanelSpringProps = {
     type: MessageTypes,
   ) => void;
   onSearchInputChange: (options: React.ChangeEvent<HTMLInputElement>) => void;
+  onEndReached?: () => void;
 } & ConversationsViewSpringProps;
+
+export type ConversationListViewProps = Pick<
+  ConversationsPanelSpringProps,
+  | 'useConversationItemInfo'
+  | 'useActionsHandler'
+  | 'useItemRender'
+  | 'showLogPopover'
+  | 'createNewEntityTooltip'
+>;

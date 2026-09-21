@@ -45,6 +45,8 @@ export default {
   selectToDialHint:
     '為了獲得更佳的體驗，請在大量電話號碼頁面中選取要使用 {brandName} 撥打的電話號碼。',
   phone: '電話',
+  text: '文字',
+  consentManagement: '同意管理',
   log: '記錄',
   general: '一般',
   showMatches: '顯示來電的相符項目',
@@ -97,6 +99,8 @@ export default {
 // @key: @#@"contactSupport"@#@ @source: @#@"Contact support"@#@
 // @key: @#@"selectToDialHint"@#@ @source: @#@"For your better experience, select phone number to dial with {brandName} in large quantity phone number page."@#@
 // @key: @#@"phone"@#@ @source: @#@"Phone"@#@
+// @key: @#@"text"@#@ @source: @#@"Text"@#@
+// @key: @#@"consentManagement"@#@ @source: @#@"Consent management"@#@
 // @key: @#@"log"@#@ @source: @#@"Log"@#@
 // @key: @#@"general"@#@ @source: @#@"General"@#@
 // @key: @#@"showMatches"@#@ @source: @#@"Show matches for inbound calls"@#@

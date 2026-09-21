@@ -13,7 +13,7 @@ interface FilterAndSearchHintProps {
   searchLimitLength?: number;
 }
 
-const lineStyle = 'flex gap-3 items-center w-full py-3.5 px-4';
+const lineStyle = 'flex gap-3 items-center w-full py-2.5 px-3';
 
 export const FilterAndSearchHint: React.FC<FilterAndSearchHintProps> = ({
   searchValue,

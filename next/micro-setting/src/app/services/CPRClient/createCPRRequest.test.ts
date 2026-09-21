@@ -1,23 +1,41 @@
 import type { ProblemReportResource } from './CPRClient.interface';
 import { createCPRRequest, CreateCPRRequestParams } from './createCPRRequest';
+import fetchMock = require('fetch-mock-jest');
 
 // Mock detect-browser
 jest.mock('detect-browser', () => ({
   detect: jest.fn(),
 }));
 
-// Mock fetch
-global.fetch = jest.fn();
+const mockFetch = fetchMock;
+const cprApiMatcher = /\/cpr-api\/v1\/problem-reports$/;
+
+const mockCprApiResponse = (response: unknown) => {
+  mockFetch.mock(
+    cprApiMatcher,
+    {
+      body: response,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
+    { method: 'POST' },
+  );
+};
 
 describe('createCPRRequest', () => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const mockDetectBrowser = require('detect-browser')
     .detect as jest.MockedFunction<any>;
-  const mockFetch = global.fetch as jest.MockedFunction<typeof fetch>;
+
+  beforeAll(() => {
+    global.fetch = mockFetch as unknown as typeof fetch;
+  });
 
   beforeEach(() => {
     jest.clearAllMocks();
     mockFetch.mockClear();
+    mockFetch.mockReset();
   });
 
   const mockProblemReportData: ProblemReportResource = {
@@ -54,21 +72,18 @@ describe('createCPRRequest', () => {
         os: 'Mac OS',
       });
 
-      const mockResponse = {
-        json: jest.fn().mockResolvedValue({
-          id: 'test-report-id',
-          ...mockProblemReportData,
-        }),
-      };
-
-      mockFetch.mockResolvedValue(mockResponse as any);
+      mockCprApiResponse({
+        id: 'test-report-id',
+        ...mockProblemReportData,
+      });
     });
 
     it('should create a CPR request with correct FormData structure', async () => {
       await createCPRRequest(mockUri, mockParams);
 
-      expect(mockFetch).toHaveBeenCalledWith(
-        `${mockUri}/cpr-api/v1/problem-reports`,
+      expect(mockFetch).toHaveBeenCalledTimes(1);
+      expect(mockFetch.lastUrl()).toBe(`${mockUri}/cpr-api/v1/problem-reports`);
+      expect(mockFetch.lastOptions()).toEqual(
         expect.objectContaining({
           body: expect.any(FormData),
           headers: { authorization: 'Bearer test-token' },
@@ -80,7 +95,7 @@ describe('createCPRRequest', () => {
     it('should append attachments to FormData', async () => {
       await createCPRRequest(mockUri, mockParams);
 
-      const formData = (mockFetch.mock.calls[0][1] as any).body as FormData;
+      const formData = mockFetch.lastOptions()?.body as FormData;
 
       // Check that attachments are appended
       expect(formData.has('attachments')).toBe(true);
@@ -89,7 +104,7 @@ describe('createCPRRequest', () => {
     it('should append problem report request as JSON blob', async () => {
       await createCPRRequest(mockUri, mockParams);
 
-      const formData = (mockFetch.mock.calls[0][1] as any).body as FormData;
+      const formData = mockFetch.lastOptions()?.body as FormData;
 
       // Check that problem report request is appended
       expect(formData.has('problemReportRequest')).toBe(true);
@@ -98,7 +113,7 @@ describe('createCPRRequest', () => {
     it('should include browser detection in client details', async () => {
       await createCPRRequest(mockUri, mockParams);
 
-      const formData = (mockFetch.mock.calls[0][1] as any).body as FormData;
+      const formData = mockFetch.lastOptions()?.body as FormData;
       const problemReportBlob = formData.get('problemReportRequest') as Blob;
 
       // We can't easily test the blob content without additional setup,
@@ -135,10 +150,7 @@ describe('createCPRRequest', () => {
         os: 'Windows',
       });
 
-      const mockResponse = {
-        json: jest.fn().mockResolvedValue({ id: 'test-id' }),
-      };
-      mockFetch.mockResolvedValue(mockResponse as any);
+      mockCprApiResponse({ id: 'test-id' });
 
       await createCPRRequest(mockUri, mockParams);
 
@@ -152,10 +164,7 @@ describe('createCPRRequest', () => {
         os: 'Linux',
       });
 
-      const mockResponse = {
-        json: jest.fn().mockResolvedValue({ id: 'test-id' }),
-      };
-      mockFetch.mockResolvedValue(mockResponse as any);
+      mockCprApiResponse({ id: 'test-id' });
 
       await createCPRRequest(mockUri, mockParams);
 
@@ -165,10 +174,7 @@ describe('createCPRRequest', () => {
     it('should handle null browser detection', async () => {
       mockDetectBrowser.mockReturnValue(null);
 
-      const mockResponse = {
-        json: jest.fn().mockResolvedValue({ id: 'test-id' }),
-      };
-      mockFetch.mockResolvedValue(mockResponse as any);
+      mockCprApiResponse({ id: 'test-id' });
 
       await createCPRRequest(mockUri, mockParams);
 
@@ -182,10 +188,7 @@ describe('createCPRRequest', () => {
         os: 'Mac OS X',
       });
 
-      const mockResponse = {
-        json: jest.fn().mockResolvedValue({ id: 'test-id' }),
-      };
-      mockFetch.mockResolvedValue(mockResponse as any);
+      mockCprApiResponse({ id: 'test-id' });
 
       await createCPRRequest(mockUri, mockParams);
 
@@ -196,22 +199,48 @@ describe('createCPRRequest', () => {
   describe('error handling', () => {
     it('should propagate fetch errors', async () => {
       const error = new Error('Network error');
-      mockFetch.mockRejectedValue(error);
+      mockFetch.mock(
+        cprApiMatcher,
+        { throws: error },
+        { method: 'POST' },
+      );
 
       await expect(createCPRRequest(mockUri, mockParams)).rejects.toThrow(
         'Network error',
       );
     });
 
-    it('should propagate JSON parsing errors', async () => {
-      const mockResponse = {
-        json: jest.fn().mockRejectedValue(new Error('Invalid JSON')),
-      };
-      mockFetch.mockResolvedValue(mockResponse as any);
+    it('should throw when the CPR API returns a non-OK status', async () => {
+      mockFetch.mock(
+        cprApiMatcher,
+        {
+          status: 500,
+          body: { error: 'submit failed' },
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+        { method: 'POST' },
+      );
 
       await expect(createCPRRequest(mockUri, mockParams)).rejects.toThrow(
-        'Invalid JSON',
+        'CPR request failed with status 500',
       );
+    });
+
+    it('should propagate JSON parsing errors', async () => {
+      mockFetch.mock(
+        cprApiMatcher,
+        {
+          body: '{',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+        { method: 'POST' },
+      );
+
+      await expect(createCPRRequest(mockUri, mockParams)).rejects.toThrow();
     });
   });
 
@@ -228,10 +257,7 @@ describe('createCPRRequest', () => {
         os: 'Windows',
       });
 
-      const mockResponse = {
-        json: jest.fn().mockResolvedValue({ id: 'test-id' }),
-      };
-      mockFetch.mockResolvedValue(mockResponse as any);
+      mockCprApiResponse({ id: 'test-id' });
 
       await createCPRRequest(mockUri, paramsWithNoAttachments);
 
@@ -258,10 +284,7 @@ describe('createCPRRequest', () => {
         os: 'Mac OS',
       });
 
-      const mockResponse = {
-        json: jest.fn().mockResolvedValue({ id: 'test-id' }),
-      };
-      mockFetch.mockResolvedValue(mockResponse as any);
+      mockCprApiResponse({ id: 'test-id' });
 
       await createCPRRequest(mockUri, customParams);
 
@@ -278,16 +301,12 @@ describe('createCPRRequest', () => {
         os: 'Windows',
       });
 
-      const mockResponse = {
-        json: jest.fn().mockResolvedValue({ id: 'test-id' }),
-      };
-      mockFetch.mockResolvedValue(mockResponse as any);
+      mockCprApiResponse({ id: 'test-id' });
 
       await createCPRRequest(customUri, mockParams);
 
-      expect(mockFetch).toHaveBeenCalledWith(
+      expect(mockFetch.lastUrl()).toBe(
         `${customUri}/cpr-api/v1/problem-reports`,
-        expect.any(Object),
       );
     });
   });

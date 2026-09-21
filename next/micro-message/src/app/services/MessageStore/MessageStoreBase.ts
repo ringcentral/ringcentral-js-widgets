@@ -40,6 +40,7 @@ import { filter, Subject, switchMap, tap } from 'rxjs';
 
 import { MessageStoreEventSubscriber } from '../MessageStoreEventSubscriber';
 
+import { t } from './i18n';
 import type {
   DispatchedMessageIds,
   MessageHandler,
@@ -51,7 +52,6 @@ import type {
   ProcessRawConversationStoreOptions,
   SyncFunctionOptions,
 } from './MessageStore.interface';
-import { t } from './i18n';
 import { getSyncParams } from './messageStoreHelper';
 
 const DEFAULT_CONVERSATIONS_LOAD_LENGTH = 10;
@@ -68,6 +68,18 @@ const UPDATE_MESSAGE_ONCE_COUNT = 20;
 const INVALID_TOKEN_ERROR_CODES = ['CMN-101', 'MSG-333'];
 
 export abstract class MessageStoreBase extends DataFetcherConsumer<MessageStoreModel> {
+  protected get _readyCheck() {
+    return this._appFeatures.ready;
+  }
+
+  protected get _shouldHandleInstantMessageEvent() {
+    return true;
+  }
+
+  protected get _shouldHandleMessageStoreEvent() {
+    return true;
+  }
+
   protected _conversationsLoadLength =
     this._messageStoreOptions?.conversationsLoadLength ??
     DEFAULT_CONVERSATIONS_LOAD_LENGTH;
@@ -84,6 +96,8 @@ export abstract class MessageStoreBase extends DataFetcherConsumer<MessageStoreM
   protected _messageType = this._messageStoreOptions?.messageType ?? undefined;
 
   protected _limitDateFrom = this._messageStoreOptions?.limitDateFrom ?? true;
+  protected _fSyncRequestParams =
+    this._messageStoreOptions?.fSyncRequestParams ?? {};
 
   protected _message$ = new Subject<Message>();
 
@@ -132,7 +146,7 @@ export abstract class MessageStoreBase extends DataFetcherConsumer<MessageStoreM
       pollingInterval,
       cleanOnReset: true,
       permissionCheckFunction: () => this._hasPermission,
-      readyCheckFunction: () => this._appFeatures.ready,
+      readyCheckFunction: () => this._readyCheck,
       fetchFunction: async () => this._syncData() as Promise<MessageStoreModel>,
     });
     this._dataFetcher.register(this._source);
@@ -174,15 +188,17 @@ export abstract class MessageStoreBase extends DataFetcherConsumer<MessageStoreM
     if (messageEvents) {
       messageEvents.messageStore$
         .pipe(
-          filter((body) =>
-            this.shouldHandleMessageTypes(this.extractTypes(body)),
+          filter(
+            (body) =>
+              this._shouldHandleMessageStoreEvent &&
+              this.shouldHandleMessageTypes(this.extractTypes(body)),
           ),
           switchMap(async (body) => {
             this.logger.log('fetchData on message event', body);
             try {
               await this.fetchData({ passive: true });
             } catch (ex) {
-              console.error(
+              this.logger.error(
                 '[MessageStoreBase] > handlerEventMessage > fetchData',
                 ex,
               );
@@ -195,7 +211,11 @@ export abstract class MessageStoreBase extends DataFetcherConsumer<MessageStoreM
 
       messageEvents.instantMessage$
         .pipe(
-          filter((_) => this.shouldHandleMessageTypes(['SMS'])),
+          filter(
+            (_) =>
+              this._shouldHandleInstantMessageEvent &&
+              this.shouldHandleMessageTypes(['SMS']),
+          ),
           switchMap((body) => {
             this.logger.log('fetchData on message event', body);
 
@@ -387,6 +407,12 @@ export abstract class MessageStoreBase extends DataFetcherConsumer<MessageStoreM
       syncToken,
       messageType,
     });
+
+    const fSyncRequestParams = this._fSyncRequestParams;
+    if (params.syncType === 'FSync' && fSyncRequestParams) {
+      Object.assign(params, fSyncRequestParams);
+    }
+
     const { records, syncInfo = {} } = (await this._client
       .account()
       .extension()
@@ -483,7 +509,7 @@ export abstract class MessageStoreBase extends DataFetcherConsumer<MessageStoreM
       }
     } catch (error) {
       if (this._auth.ownerId === ownerId) {
-        console.error('[MessageStoreBase] > _syncData', error);
+        this.logger.error('[MessageStoreBase] > _syncData', error);
         throw error;
       }
     }
@@ -793,8 +819,7 @@ export abstract class MessageStoreBase extends DataFetcherConsumer<MessageStoreM
 
       this.pushMessages(updatedMessages);
     } catch (error: any) {
-      // TODO: should check error type with instanceOf
-      console.error(error);
+      this.logger.error(error);
       if (
         !this._availabilityMonitor ||
         !(await this._availabilityMonitor.checkIfHAError(error))
@@ -818,8 +843,7 @@ export abstract class MessageStoreBase extends DataFetcherConsumer<MessageStoreM
       const message = await this._updateMessageApi(messageId, 'Unread');
       this.pushMessage(message);
     } catch (error: any) {
-      // TODO: should check error type with instanceOf
-      console.error(error);
+      this.logger.error(error);
       if (
         !this._availabilityMonitor ||
         !(await this._availabilityMonitor.checkIfHAError(error))
@@ -851,8 +875,8 @@ export abstract class MessageStoreBase extends DataFetcherConsumer<MessageStoreM
     //  for track delete message
   }
 
-  @track(trackEvents.flagVoicemail)
   @delegate('server')
+  @track(trackEvents.flagVoicemail)
   async onUnmarkMessages() {
     //  for track mark message
   }
@@ -896,7 +920,7 @@ export abstract class MessageStoreBase extends DataFetcherConsumer<MessageStoreM
       await this.deleteMessageApi(messageId);
       this._deleteConversation(conversationId);
     } catch (error: any) {
-      console.error(error);
+      this.logger.error(error);
       if (
         !this._availabilityMonitor ||
         !(await this._availabilityMonitor.checkIfHAError(error))

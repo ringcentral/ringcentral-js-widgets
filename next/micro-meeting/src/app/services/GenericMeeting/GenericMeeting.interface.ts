@@ -1,6 +1,13 @@
 import type { RcVMeetingModel } from '@ringcentral-integration/commons/interfaces/Rcv.model';
 
-import type { MeetingDelegator, RcMMeetingModel } from '../Meeting';
+import type {
+  MeetingDeleteOptions,
+  MeetingDelegator,
+  MeetingLookupOptions,
+  MeetingOperationErrorResult,
+  MeetingOperationOptions,
+  RcMMeetingModel,
+} from '../Meeting';
 import type { meetingProviderTypesProps } from '../VideoConfiguration';
 
 export type ExtensionInfoData = {
@@ -147,24 +154,28 @@ export interface IGenericMeeting {
   /**
    * requests
    */
+  deleteMeeting: (
+    meetingId: string,
+    config?: MeetingDeleteOptions,
+  ) => Promise<boolean | void | MeetingOperationErrorResult>;
+
   schedule: (
     meeting: ScheduleModel,
-    config?: {
-      isAlertSuccess: boolean;
-    },
+    config?: MeetingOperationOptions,
     opener?: Window,
-  ) => Promise<Maybe<MeetingData>>;
+  ) => Promise<Maybe<MeetingData | MeetingOperationErrorResult>>;
 
-  getMeeting: (meetingId: string) => Promise<Maybe<MeetingData>>;
+  getMeeting: (
+    meetingId: string,
+    config?: MeetingLookupOptions,
+  ) => Promise<Maybe<MeetingData | MeetingOperationErrorResult>>;
 
   updateMeeting(
     meetingId: string,
     meeting: ScheduleModel,
-    config?: {
-      isAlertSuccess: boolean;
-    },
+    config?: MeetingOperationOptions,
     opener?: Window,
-  ): Promise<Maybe<MeetingData>>;
+  ): Promise<Maybe<MeetingData | MeetingOperationErrorResult>>;
 
   updateScheduleFor: (userExtensionId: string | number) => void;
 

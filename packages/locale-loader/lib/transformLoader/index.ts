@@ -47,7 +47,9 @@ export default function transformLoader(options: TransformLoaderOptions = {}) {
 
     if (isLoaderFile(content)) {
       const folderPath = path.dirname(file.path);
-      const files = (await fs.readdir(folderPath)).filter(isLocaleFile);
+      const files = (await fs.readdir(folderPath)).filter((name) =>
+        isLocaleFile(name),
+      );
       const loader = generateLoaderContent({
         files,
         chunk,

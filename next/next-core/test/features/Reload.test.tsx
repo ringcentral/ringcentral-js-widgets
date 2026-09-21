@@ -9,22 +9,29 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
+import {
+  mockWindowLocation,
+  restoreWindowLocation,
+} from '@ringcentral-integration/test-utils/mock/locationMock.js';
 import { firstValueFrom, Subject } from 'rxjs';
 
-import { SharedAppOptions, testBed } from '../../';
+import { logger, SharedAppOptions, testBed } from '../../';
 import { Reload } from '../../src/modules/Reload';
 
 mockAllLogs();
+let locationMock: ReturnType<typeof mockWindowLocation>;
 
 beforeEach(() => {
-  Object.defineProperty(window, 'location', {
-    configurable: true,
-    value: { ...location, reload: jest.fn() },
+  locationMock = mockWindowLocation();
+
+  jest.spyOn(logger, 'log').mockImplementation((...args) => {
+    console.log(...args);
   });
 });
 
 afterEach(() => {
-  jest.mocked(global.location.reload).mockClear();
+  restoreWindowLocation();
+  jest.restoreAllMocks();
 });
 
 @autorun(test)
@@ -71,7 +78,7 @@ class ReloadTest extends Step {
                 '[debug] refresh',
                 reloadReason,
               );
-              expect(global.location.reload).toHaveBeenCalled();
+              expect(locationMock.reload).toHaveBeenCalled();
             });
           }}
         />
@@ -125,7 +132,7 @@ class ReloadGuardTest extends Step {
               expect(guard).toHaveBeenCalledWith(reloadReason);
             });
 
-            expect(global.location.reload).not.toHaveBeenCalled();
+            expect(locationMock.reload).not.toHaveBeenCalled();
           }}
         />
         <Then
@@ -134,7 +141,7 @@ class ReloadGuardTest extends Step {
             wait$.next();
 
             await waitTickFor(() => {
-              expect(global.location.reload).toHaveBeenCalled();
+              expect(locationMock.reload).toHaveBeenCalled();
             });
           }}
         />
@@ -193,7 +200,7 @@ class ReloadGuardMultipleTest extends Step {
               expect(guard).toHaveBeenCalledWith(reloadReason);
             });
 
-            expect(global.location.reload).not.toHaveBeenCalled();
+            expect(locationMock.reload).not.toHaveBeenCalled();
           }}
         />
         <Then
@@ -202,7 +209,7 @@ class ReloadGuardMultipleTest extends Step {
             wait$.next();
 
             await waitTickFor(() => {
-              expect(global.location.reload).toHaveBeenCalled();
+              expect(locationMock.reload).toHaveBeenCalled();
             });
           }}
         />

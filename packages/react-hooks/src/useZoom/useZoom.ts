@@ -25,7 +25,7 @@ export const useHammerZoom = (
     onDragChange: (state: boolean) => void;
   },
 ) => {
-  const zoomActionRef = useRef<ReturnType<typeof bindHammerZoom>>();
+  const zoomActionRef = useRef<ReturnType<typeof bindHammerZoom>>(null);
 
   useHammer(target, (manager) => {
     const targetRefElm = getRefElement(target as HTMLElement)!;

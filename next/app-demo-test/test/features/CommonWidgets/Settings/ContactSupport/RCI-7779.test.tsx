@@ -1,4 +1,6 @@
+import { whenStateChange } from '@ringcentral-integration/next-core/test';
 import {
+  AdvanceTimersByTime,
   autorun,
   common,
   Given,
@@ -12,6 +14,8 @@ import {
   title,
   UseFakeTimers,
   userEvent,
+  waitForRenderReady,
+  WaitForRenderReady,
   When,
 } from '@ringcentral-integration/test-utils';
 
@@ -57,7 +61,7 @@ export class RCI7779 extends Step {
           desc="Navigate to entry point and mock downloadLogs + sendCPR failure"
           action={[
             CreateMock,
-            <MockCPRCall />,
+            <MockCPRCall status={500} />,
             (async (_, { app }) => {
               // Mock URL APIs to avoid JSDOM issues
               Object.defineProperty(URL, 'createObjectURL', {
@@ -71,9 +75,7 @@ export class RCI7779 extends Step {
             }) as StepFunction,
             Login,
             NavigateToSettings,
-            () => {
-              userEvent.click(screen.getByTestId('ContactSupport'));
-            },
+            <ClickItemByDataSign dataSign="ContactSupport" />,
           ]}
         />
         <When
@@ -91,19 +93,22 @@ export class RCI7779 extends Step {
               });
             }) as StepFunction,
             <ClickItemByDataSign dataSign="attachFileBtn" />,
-            () => {
-              userEvent.type(
+            async () => {
+              await userEvent.type(
                 screen.getByPlaceholderText('Tell us what the problem is...'),
                 'Test description',
               );
+              await waitForRenderReady();
             },
           ]}
         />
 
         <Then
           desc="'Submit' button becomes enabled"
-          action={() => {
-            expect(screen.getByTestId('submitBtn')).toBeEnabled();
+          action={async () => {
+            await whenStateChange(() => {
+              expect(screen.getByTestId('submitBtn')).toBeEnabled();
+            });
           }}
         />
 
@@ -111,10 +116,16 @@ export class RCI7779 extends Step {
           desc="User clicks submit button"
           action={[
             UseFakeTimers,
-            () => {
+            async () => {
               const submitBtn = screen.getByTestId('submitBtn');
-              userEvent.click(submitBtn);
+              const user = userEvent.setup({
+                advanceTimers: jest.advanceTimersByTime,
+              });
+              await user.click(submitBtn);
             },
+            WaitForRenderReady,
+            <AdvanceTimersByTime ms={500} />,
+            WaitForRenderReady,
           ]}
         />
 

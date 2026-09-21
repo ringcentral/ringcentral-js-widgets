@@ -1,3 +1,4 @@
+import { useDebouncedFieldState } from '@ringcentral-integration/react-hooks';
 import { Textarea } from '@ringcentral/spring-ui';
 import {
   FormContextType,
@@ -30,7 +31,6 @@ export default function TextareaWidget<
     hideError,
     value,
     onChange,
-    onChangeOverride,
     onBlur,
     onFocus,
     autofocus,
@@ -43,14 +43,26 @@ export default function TextareaWidget<
     InputLabelProps,
     ...textFieldProps
   } = props;
+  const { inputValue, setInputValue, focusInput, blurInput } =
+    useDebouncedFieldState({
+      value: value ?? '',
+      onChange,
+      shouldDebounceOnChange: true,
+    });
   const _onChange = ({ target: { value } }: ChangeEvent<HTMLTextAreaElement>) =>
-    onChange(value);
-  const _onBlur: FocusEventHandler<HTMLTextAreaElement | HTMLInputElement> = ({
-    target: { value },
-  }: FocusEvent<HTMLTextAreaElement>) => onBlur(id, value);
-  const _onFocus: FocusEventHandler<HTMLTextAreaElement | HTMLInputElement> = ({
-    target: { value },
-  }: FocusEvent<HTMLTextAreaElement>) => onFocus(id, value);
+    setInputValue(value);
+  const _onBlur: FocusEventHandler<HTMLTextAreaElement | HTMLInputElement> = (
+    event: FocusEvent<HTMLTextAreaElement | HTMLInputElement>,
+  ) => {
+    blurInput();
+    onBlur(id, event?.target?.value ?? inputValue);
+  };
+  const _onFocus: FocusEventHandler<HTMLTextAreaElement | HTMLInputElement> = (
+    event: FocusEvent<HTMLTextAreaElement | HTMLInputElement>,
+  ) => {
+    focusInput();
+    onFocus(id, event?.target?.value ?? inputValue);
+  };
 
   const inputProps = useMemo(
     () => ({
@@ -63,10 +75,10 @@ export default function TextareaWidget<
     <Textarea
       {...props}
       inputProps={inputProps}
-      onChange={onChangeOverride || _onChange}
+      onChange={_onChange}
       onBlur={_onBlur}
       onFocus={_onFocus}
-      value={value ?? ''}
+      value={inputValue}
       minRows={4}
       maxRows={12}
       rows={options.rows}

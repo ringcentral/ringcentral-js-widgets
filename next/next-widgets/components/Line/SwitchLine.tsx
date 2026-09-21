@@ -4,15 +4,15 @@ import {
   type HTMLDataAttribute,
   Switch,
 } from '@ringcentral/spring-ui';
-import type { FunctionComponent } from 'react';
+import type { FunctionComponent, PropsWithChildren } from 'react';
 import React from 'react';
 
-export type SwitchLineProps = {
+export type SwitchLineProps = PropsWithChildren<{
   disabled?: boolean;
   checked?: boolean;
   onChange?(checked: boolean): any;
   loading?: boolean;
-} & HTMLDataAttribute;
+} & HTMLDataAttribute>;
 
 export const SwitchLine: FunctionComponent<SwitchLineProps> = ({
   disabled,

@@ -41,9 +41,12 @@ export const markAsRemoteMessage = (messages: GetMessageInfoResponse[]) => {
 
 export const dedup = (messages: (Message | RecentMessage)[]) => {
   const hash: Record<string, boolean> = {};
-  return messages.reduce((acc, cur) => {
-    if (hash[cur.id!]) return acc;
-    hash[cur.id!] = true;
-    return acc.concat(cur);
-  }, [] as (Message | RecentMessage)[]);
+  return messages.reduce(
+    (acc, cur) => {
+      if (hash[cur.id!]) return acc;
+      hash[cur.id!] = true;
+      return acc.concat(cur);
+    },
+    [] as (Message | RecentMessage)[],
+  );
 };

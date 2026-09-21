@@ -5,6 +5,8 @@ export default {
   addRecord: '新建記錄',
   call: '電話',
   text: '簡訊',
+  manageConsent: '管理同意',
+  viewConsent: '檢視同意',
   more: '更多',
   mark: '標示為未讀',
   unmark: '標示為已讀',
@@ -27,6 +29,8 @@ export default {
 // @key: @#@"addRecord"@#@ @source: @#@"Create new record"@#@
 // @key: @#@"call"@#@ @source: @#@"Phone"@#@
 // @key: @#@"text"@#@ @source: @#@"Text"@#@
+// @key: @#@"manageConsent"@#@ @source: @#@"Manage Consent"@#@
+// @key: @#@"viewConsent"@#@ @source: @#@"View Consent"@#@
 // @key: @#@"more"@#@ @source: @#@"More"@#@
 // @key: @#@"mark"@#@ @source: @#@"Mark as unread"@#@
 // @key: @#@"unmark"@#@ @source: @#@"Mark as read"@#@

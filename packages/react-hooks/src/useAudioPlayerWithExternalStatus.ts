@@ -7,6 +7,7 @@ import {
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useUnmount } from 'react-use';
 
+import { getNodeEnv } from './getNodeEnv';
 import { useAsyncState } from './useAsyncState';
 
 export interface VoicemailAudioStatus {
@@ -67,7 +68,7 @@ export const useAudioPlayerWithExternalStatus = ({
   );
   const tmpPlayingRef = useRef<boolean | null>(null);
   const audio = useAudio(
-    process.env.NODE_ENV === 'test' ? (a) => (a.src = '') : undefined,
+    getNodeEnv() === 'test' ? (a) => (a.src = '') : undefined,
   );
   const interactingRef = useRef(false);
   const audioStatusPropRef = useRef(audioStatusProp);

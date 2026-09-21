@@ -1,3 +1,5 @@
+import type { PropsWithChildren } from 'react';
+
 import type { HistoryCall } from '../../services';
 import type {
   UseCallHistoryItemInfo,
@@ -10,7 +12,7 @@ export interface CallDetailViewProps {
   //
 }
 
-export type CallDetailViewPanelProps = {
+export type CallDetailViewPanelProps = PropsWithChildren<{
   currentCallLog: HistoryCall;
   goBack: () => void;
   useCallHistoryItemInfo: UseCallHistoryItemInfo;
@@ -19,4 +21,4 @@ export type CallDetailViewPanelProps = {
    * the footer element of the page
    */
   footer?: React.ReactNode;
-};
+}>;

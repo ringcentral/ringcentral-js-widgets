@@ -1,4 +1,4 @@
-import type { BrandConfig } from '@ringcentral-integration/micro-core/src/app/services';
+import { BrandConfig } from '@ringcentral-integration/micro-core/src/app/services';
 
 export interface GeneralMeetingSettingsProps {
   // General Settings
@@ -32,6 +32,10 @@ export interface GeneralMeetingSettingsProps {
   isJoinBeforeHostLocked?: boolean;
   isWaitingRoomLocked?: boolean;
   isAuthUserTypeLocked?: boolean;
+
+  // Custom props
+  isCompact?: boolean; // use compact dialog for edit password dialog
+  variant?: 'compact' | 'spacious'; // UI spacing variant: compact for small window, spacious for large window
 }
 
 export interface GeneralMeetingSettingsFunctions {

@@ -1,17 +1,19 @@
+import { trackEvent } from '@ringcentral-integration/micro-auth/src/app/services';
 import {
   BrowserLogger,
   Toast,
 } from '@ringcentral-integration/micro-core/src/app/services';
-import { track } from '@ringcentral-integration/micro-auth/src/app/services';
 import {
   action,
   delegate,
   injectable,
+  optional,
   RcViewModule,
   state,
   useConnector,
 } from '@ringcentral-integration/next-core';
 import { FileInfoWithAction } from '@ringcentral-integration/next-widgets/components/MessageInput/FileAttacher';
+import { useAsyncState } from '@ringcentral-integration/react-hooks';
 import { fileToBase64 } from '@ringcentral-integration/utils';
 import { AttachMd, DownloadMd, FileMd, Xsm } from '@ringcentral/spring-icon';
 import {
@@ -26,10 +28,10 @@ import React from 'react';
 import { combineLatest, firstValueFrom, from, timer } from 'rxjs';
 import { useFileUpload } from 'use-file-upload';
 
-import { trackEvents } from '../../../enums/trackEvents';
 import { CPRClient } from '../../services/CPRClient';
 import type { FileMeta } from '../../services/CPRClient/CPRClient.interface';
 
+import type { CPRClientViewOptions } from './CPRClient.view.interface';
 import { t } from './i18n';
 
 const AUTO_LOG_META: FileMeta = {
@@ -62,13 +64,14 @@ export class CPRClientView extends RcViewModule {
     protected _cPRClient: CPRClient,
     protected _toast: Toast,
     protected _browserLogger: BrowserLogger,
+    @optional('CPRClientViewOptions')
+    protected _cPRClientViewOptions?: CPRClientViewOptions,
   ) {
     super();
   }
 
-  @track(trackEvents.cprLogsDownloaded)
-  protected downloadLogs() {
-    this._browserLogger.saveLog();
+  async downloadLogs() {
+    await this._browserLogger.saveLog();
   }
 
   @action
@@ -147,7 +150,6 @@ export class CPRClientView extends RcViewModule {
     this._setAttachments(this.attachments.filter((x) => x.id !== id));
   }
 
-  @track(trackEvents.cprSubmitted)
   async submitReport() {
     if (!this.details.trim()) return;
 
@@ -187,6 +189,14 @@ export class CPRClientView extends RcViewModule {
     );
 
     const [, selectFile] = useFileUpload();
+    const showDownloadLogs =
+      this._cPRClientViewOptions?.showDownloadLogs ?? true;
+    const showUserAttachments =
+      this._cPRClientViewOptions?.showUserAttachments ?? true;
+
+    const [inputValue, setInputValue] = useAsyncState(details, (value) =>
+      this.onDetailsValueChange(value),
+    );
 
     return (
       <>
@@ -211,98 +221,102 @@ export class CPRClientView extends RcViewModule {
               label={t('DescriptionLabel')}
               rows={3}
               fullWidth
-              value={details}
-              onChange={({ target: { value } }) =>
-                this.onDetailsValueChange(value)
-              }
+              value={inputValue}
+              onChange={({ target: { value } }) => setInputValue(value)}
               required
               disabled={isSubmitting}
             />
           </div>
-          <Button
-            className="typography-mainText mb-4"
-            data-sign="attachFileBtn"
-            variant="text"
-            color="primary"
-            size="small"
-            startIcon={<Icon symbol={AttachMd}></Icon>}
-            onClick={() => {
-              selectFile({ accept: '*', multiple: true }, async (result) => {
-                if (Array.isArray(result)) {
-                  const files = await Promise.all(
-                    result.map(async (uploadFile) => {
-                      const { name, size, file } = uploadFile;
-                      const base64Url = await fileToBase64(file);
-                      return {
-                        id: crypto.randomUUID(),
-                        name,
-                        size,
-                        base64Url,
-                      };
-                    }),
-                  );
+          {showUserAttachments && (
+            <Button
+              className="typography-mainText mb-4"
+              data-sign="attachFileBtn"
+              variant="text"
+              color="primary"
+              size="small"
+              startIcon={<Icon symbol={AttachMd}></Icon>}
+              onClick={() => {
+                selectFile({ accept: '*', multiple: true }, async (result) => {
+                  if (Array.isArray(result)) {
+                    const files = await Promise.all(
+                      result.map(async (uploadFile) => {
+                        const { name, size, file } = uploadFile;
+                        const base64Url = await fileToBase64(file);
+                        return {
+                          id: crypto.randomUUID(),
+                          name,
+                          size,
+                          base64Url,
+                        };
+                      }),
+                    );
 
-                  this.addAttachments(files);
-                }
-              });
-            }}
-            disabled={isSubmitting}
-          >
-            {t('attachFile')}
-          </Button>
+                    this.addAttachments(files);
+                  }
+                });
+              }}
+              disabled={isSubmitting}
+            >
+              {t('attachFile')}
+            </Button>
+          )}
 
           <div className="typography-mainText mb-4" data-sign="attachments">
-            <FileInfoWithAction
-              key={AUTO_LOG_META.id}
-              symbol={FileMd}
-              fileName={AUTO_LOG_META.name}
-              FileIconProps={{ className: 'mr-2 text-neutral-b1' }}
-              action={
-                downloading ? (
-                  <div className="flex items-center justify-center size-9">
-                    <CircularProgressIndicator
-                      variant="indeterminate"
-                      size="small"
-                      data-sign="downloading"
-                    />
-                  </div>
-                ) : (
-                  <IconButton
-                    symbol={DownloadMd}
-                    data-sign="downloadButton"
-                    disabled={isSubmitting}
-                    variant="icon"
-                    onClick={() => {
-                      this.downloadLogs();
-                    }}
-                    TooltipProps={{
-                      title: t('downloadLogs'),
-                      placement: 'top',
-                    }}
-                  />
-                )
-              }
-            />
-            {attachments.map((file) => (
+            {showDownloadLogs && (
               <FileInfoWithAction
-                key={file.id}
+                key={AUTO_LOG_META.id}
                 symbol={FileMd}
-                fileName={file.name}
-                fileSize={file.size}
+                fileName={AUTO_LOG_META.name}
                 FileIconProps={{ className: 'mr-2 text-neutral-b1' }}
                 action={
-                  <IconButton
-                    symbol={Xsm}
-                    data-sign="removeBtn"
-                    disabled={isSubmitting}
-                    variant="icon"
-                    onClick={() => {
-                      this.removeAttachment(file.id);
-                    }}
-                  />
+                  downloading ? (
+                    <div className="flex items-center justify-center size-9">
+                      <CircularProgressIndicator
+                        variant="indeterminate"
+                        size="small"
+                        data-sign="downloading"
+                      />
+                    </div>
+                  ) : (
+                    <IconButton
+                      symbol={DownloadMd}
+                      data-sign="downloadButton"
+                      disabled={isSubmitting}
+                      variant="icon"
+                      onClick={() => {
+                        trackEvent('CPR_Logs_Downloaded', {});
+                        this.downloadLogs();
+                      }}
+                      TooltipProps={{
+                        title: t('downloadLogs'),
+                        placement: 'top',
+                      }}
+                    />
+                  )
                 }
               />
-            ))}
+            )}
+            {showUserAttachments &&
+              attachments.map((file) => (
+                <FileInfoWithAction
+                  key={file.id}
+                  symbol={FileMd}
+                  fileName={file.name}
+                  fileSize={file.size}
+                  FileIconProps={{ className: 'mr-2 text-neutral-b1' }}
+                  action={
+                    <IconButton
+                      symbol={Xsm}
+                      data-sign="removeBtn"
+                      disabled={isSubmitting}
+                      variant="icon"
+                      onClick={() => {
+                        this.removeAttachment(file.id);
+                      }}
+                    />
+                  }
+                />
+              ))}
           </div>
 
           <div data-sign="submitButton">
@@ -310,7 +324,10 @@ export class CPRClientView extends RcViewModule {
               className="typography-subtitle mb-4"
               data-sign="submitBtn"
               fullWidth
-              onClick={() => this.submitReport()}
+              onClick={() => {
+                trackEvent('CPR_Submitted', {});
+                this.submitReport();
+              }}
               disabled={!details.trim() || isSubmitting || downloading}
             >
               {isSubmitting ? (

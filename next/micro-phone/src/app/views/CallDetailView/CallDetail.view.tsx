@@ -32,9 +32,9 @@ import type { SetOptional } from 'type-fest';
 
 import { CallLogTasks } from '../../services';
 import { CallLogFormView } from '../CallLogFormView';
+import { CallsListViewSpring } from '../CallsListViewSpring';
 import { CallView } from '../CallView';
 import { CallViewState } from '../CallView/services';
-import { CallsListViewSpring } from '../CallsListViewSpring';
 
 import type {
   CallDetailViewOptions,

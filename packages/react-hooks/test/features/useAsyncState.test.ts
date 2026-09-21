@@ -1,5 +1,5 @@
 import { useDebounce } from '@ringcentral/spring-ui';
-import { renderHook, act } from '@testing-library/react-hooks';
+import { renderHook, act } from '@testing-library/react';
 import { useState } from 'react';
 
 import { useAsyncState } from '../../src/useAsyncState';
@@ -8,6 +8,12 @@ jest.mock('@ringcentral/spring-ui', () => ({
   ...jest.requireActual('@ringcentral/spring-ui'),
   useDebounce: jest.fn(),
 }));
+
+const flushDebouncedUpdate = async () => {
+  await act(async () => {
+    await Promise.resolve();
+  });
+};
 
 describe('useAsyncState', () => {
   let debounceMock: jest.Mock;
@@ -35,7 +41,7 @@ describe('useAsyncState', () => {
     expect(result.current[0]).toBe('initial');
   });
 
-  it('same value update, not trigger debounce, but different value should', () => {
+  it('same value update, not trigger debounce, but different value should', async () => {
     const { result, rerender } = renderHook(
       ({ inputValue }) => useAsyncState(inputValue),
       { initialProps: { inputValue: 'initial' } },
@@ -59,6 +65,8 @@ describe('useAsyncState', () => {
     rerender({ inputValue: 'updated3' });
 
     expect(debounceMock).toHaveBeenCalled();
+
+    await flushDebouncedUpdate();
   });
 
   it('should debounce state update when updateState is called with typing=true', async () => {
@@ -78,6 +86,8 @@ describe('useAsyncState', () => {
     expect(result.current[0]).toBe('updated');
 
     expect(debounceMock).toHaveBeenCalled();
+
+    await flushDebouncedUpdate();
   });
 
   it('should call asyncOnChange when updateState is called', () => {
@@ -121,7 +131,7 @@ describe('useAsyncState', () => {
 
     expect(debounceMock).toHaveBeenCalled();
 
-    await Promise.resolve();
+    await flushDebouncedUpdate();
 
     expect(result.current[0]).toBe('updated');
   });

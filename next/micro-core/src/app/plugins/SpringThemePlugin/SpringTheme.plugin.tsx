@@ -9,7 +9,7 @@ import {
 } from '@ringcentral-integration/next-core';
 import {
   suiHighContrast,
-  suiDark,
+  suiJunoDark,
   suiJunoLight,
   ThemeProvider,
 } from '@ringcentral/spring-theme';
@@ -24,7 +24,7 @@ import type {
 } from './SpringTheme.plugin.interface';
 
 const sprintDefaultThemeMap = {
-  dark: suiDark,
+  dark: suiJunoDark,
   contrast: suiHighContrast,
 };
 
@@ -72,6 +72,17 @@ export class SpringThemePlugin extends PluginModule {
     }
 
     const curr = brand.suiThemeMap[type as keyof typeof brand.suiThemeMap];
+
+    if (this._theme.themeId) {
+      const targetTheme = curr.find(
+        (item) => item.id === this._theme.themeId,
+      )?.theme;
+
+      if (targetTheme) {
+        return targetTheme;
+      }
+    }
+
     return curr?.[0]?.theme || suiJunoLight;
   }
 
@@ -91,6 +102,12 @@ export class SpringThemePlugin extends PluginModule {
       () => this.themeProps,
     );
 
+    const { mode, scope, className } = useConnector(() => ({
+      mode: this._springThemePluginOptions?.mode,
+      scope: this._springThemePluginOptions?.scope,
+      className: this._springThemePluginOptions?.className,
+    }));
+
     useEffect(() => {
       logger.log(`[${getRef(this).identifier}] theme info`, {
         themeType,
@@ -98,7 +115,12 @@ export class SpringThemePlugin extends PluginModule {
     }, [themeType]);
 
     return (
-      <ThemeProvider theme={theme}>
+      <ThemeProvider
+        theme={theme}
+        mode={mode}
+        scope={scope}
+        className={className}
+      >
         <MotionConfig reducedMotion={prefersReducedMotion}>
           {children}
         </MotionConfig>

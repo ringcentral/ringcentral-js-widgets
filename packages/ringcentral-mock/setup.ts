@@ -40,3 +40,24 @@ jest.mock('isomorphic-ws', () => {
     default: WebSocket,
   };
 });
+
+global.navigator.mediaDevices = {
+  getUserMedia: jest.fn().mockReturnValue(true),
+  enumerateDevices: jest.fn().mockReturnValue([
+    {
+      deviceId: 'default',
+      kind: 'audioinput',
+      label: 'Default - Internal Microphone (Built-in)',
+      groupId:
+        '2303aeba3eb3b5b69d8712798dc9f41b1f1a526f23d032cf53353248d9f6ba83',
+    },
+    {
+      deviceId:
+        'b2473af34652a04d9f8d463a4f11640695162b9c08db67d73e2a37f1a2e062a8',
+      kind: 'audioinput',
+      label: 'Internal Microphone (Built-in)',
+      groupId:
+        '2303aeba3eb3b5b69d8712798dc9f41b1f1a526f23d032cf53353248d9f6ba83',
+    },
+  ]),
+};

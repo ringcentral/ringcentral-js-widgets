@@ -1,5 +1,6 @@
 import { useContext } from 'react';
-import { ContainerContext, PortDetector, getRef } from 'reactant-share';
+import { PortDetector } from 'reactant-share';
+import { ContainerContext, getRef } from 'reactant';
 
 /**
  * Get the container from the context.

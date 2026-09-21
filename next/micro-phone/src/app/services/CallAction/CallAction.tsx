@@ -59,8 +59,8 @@ import type {
   CallMetaInfo,
 } from './CallAction.interface';
 import { ConferenceCallAction } from './ConferenceCallAction';
-import { SwitchCallConfirm } from './SwitchCallConfirm';
 import { t } from './i18n';
+import { SwitchCallConfirm } from './SwitchCallConfirm';
 import { lastAvailableValue, mapActionTypeToCallActions } from './utils';
 
 type OpenAndNavigateOptions = {
@@ -83,7 +83,7 @@ type CallAllInfo<T extends boolean = false> = {
   session: ActiveSession;
 };
 
-const CALLING_ROUTE_PATH = '/calling';
+export const CALLING_ROUTE_PATH = '/calling';
 
 /**
  * group all call actions in this service, which use in latest version of spring-ui
@@ -124,17 +124,20 @@ export class CallAction extends RcModule {
 
   @computed
   get callMetaInfoMap() {
-    return Object.keys(this._callMetaInfoMap).reduce((acc, key) => {
-      const metaInfo = this._callMetaInfoMap[key];
-      acc[key] = metaInfo
-        ? {
-            ...metaInfo,
-            actionsDisabled:
-              metaInfo?.actionsDisabled || this.callActionsDisabled,
-          }
-        : undefined;
-      return acc;
-    }, {} as Record<string, CallMetaInfo | undefined>);
+    return Object.keys(this._callMetaInfoMap).reduce(
+      (acc, key) => {
+        const metaInfo = this._callMetaInfoMap[key];
+        acc[key] = metaInfo
+          ? {
+              ...metaInfo,
+              actionsDisabled:
+                metaInfo?.actionsDisabled || this.callActionsDisabled,
+            }
+          : undefined;
+        return acc;
+      },
+      {} as Record<string, CallMetaInfo | undefined>,
+    );
   }
 
   getCallMetaInfo(telephonySessionId: string) {
@@ -417,27 +420,6 @@ export class CallAction extends RcModule {
     return this._callMonitor.allCalls.map((call) =>
       this.getAllInfoByTelephonySessionId<true>(call.telephonySessionId!),
     );
-  }
-
-  @computed
-  get preInsertCallInfoList() {
-    return this._preinsertCall.preinsertCalls.map((call) => {
-      const isInbound = call.direction === 'Inbound';
-      const meta = this.getCallMetaInfo(call.telephonySessionId!) || {
-        open: true,
-        currentPath: isInbound ? 'incoming' : 'controls',
-        minimized: isInbound
-          ? this.existRingingOpenCallMetaInfo?.meta?.minimized ?? true
-          : false,
-        actionsDisabled: true,
-        expanded: null,
-      };
-
-      return {
-        call,
-        meta,
-      };
-    });
   }
 
   @computed
@@ -729,9 +711,8 @@ export class CallAction extends RcModule {
     const control = this._activeCallControl;
 
     const hangUp = this.processing(control.hangUp.bind(control), 'end');
-    const isConferenceCall = await control.checkIfConferenceCall(
-      telephonySessionId,
-    );
+    const isConferenceCall =
+      await control.checkIfConferenceCall(telephonySessionId);
 
     if (isConferenceCall && control.enableLeaveConferenceAsHost) {
       const hangupOnlyHost =
@@ -753,9 +734,8 @@ export class CallAction extends RcModule {
 
     const switchFn = this.processing(control.switch.bind(control));
 
-    const result = await this._switchCallConfirm.confirmProcess(
-      telephonySessionId,
-    );
+    const result =
+      await this._switchCallConfirm.confirmProcess(telephonySessionId);
 
     if (!result) return;
 
@@ -1259,7 +1239,7 @@ export class CallAction extends RcModule {
   trackCallEventResult(call: Call) {
     if (process.env.NODE_ENV !== 'production') {
       if (this._portManager.shared && !this._portManager.isServer) {
-        console.warn(
+        this.logger.warn(
           'trackCallEventResult should not be called in client port',
         );
       }
@@ -1300,8 +1280,8 @@ export class CallAction extends RcModule {
             !extensionNumber && !phoneNumber
               ? 'Anonymous'
               : extensionNumber
-              ? 'Extension'
-              : 'PSTN',
+                ? 'Extension'
+                : 'PSTN',
           callContactMatch,
           callActions,
           callQueueCall: isQueueCall(call),

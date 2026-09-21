@@ -25,9 +25,12 @@ import {
 import React, { useEffect, useRef } from 'react';
 
 import {
+  buildToNumbersFromConversation,
   ConversationLogger,
   Conversations,
+  conversationsStatus,
   MessageStore,
+  SmsConsent,
   SmsConversations,
   type SmsConversationsOptions,
 } from '../../services';
@@ -41,7 +44,10 @@ import type {
   ConversationViewSpringProps,
 } from './Conversation.view.interface';
 import { ConversationAlert } from './ConversationAlert';
-import { ConversationPanel } from './ConversationPanel';
+import {
+  ConversationNoAccessPanel,
+  ConversationPanel,
+} from './ConversationPanel';
 
 function sortByCreationTimeDesc<T extends { creationTime?: number }>(
   a: T,
@@ -92,13 +98,15 @@ export class PersonalConversationViewSpring extends RcViewModule {
     @optional('SmsConversationsOptions')
     private _smsConversationsOptions?: SmsConversationsOptions,
     @optional() private _smsOptOutView?: SmsOptOutView,
+    @optional() private _smsConsent?: SmsConsent,
   ) {
     super();
   }
 
   getUIProps(
     _: ConversationViewSpringProps,
-  ): UIProps<ConversationViewSpringPanelProps> {
+  ): UIProps<ConversationViewSpringPanelProps> &
+    Pick<ConversationViewSpringPanelProps, 'renderLogIndicator'> {
     const disableLinks =
       this._rateLimiter.restricted || !this._connectivityMonitor.connectivity;
     const conversationId = this._conversations.currentConversationId!;
@@ -116,12 +124,20 @@ export class PersonalConversationViewSpring extends RcViewModule {
         this._conversations.messageText.length > 0) ||
       (this._conversations.attachments &&
         this._conversations.attachments.length > 0);
+    const sending =
+      this._conversations.conversationStatus[conversationId] ===
+      conversationsStatus.pushing;
 
     const conversation =
-      this._conversations.formattedConversationsMap.get(conversationId)!;
+      this._conversations.formattedConversationsMap.get(conversationId);
 
-    const { showAlert, alertProps } =
-      this._conversationAlert.getAlertInfo(conversation);
+    const { showAlert, alertProps } = this._conversationAlert.getAlertInfo(
+      conversation,
+      {
+        onReplyInSharedTab: () =>
+          this._conversationsViewSpring.replyInSharedTab(conversation),
+      },
+    );
 
     return {
       messages: this.messages,
@@ -129,13 +145,12 @@ export class PersonalConversationViewSpring extends RcViewModule {
       acceptFileTypes: this._conversations.acceptFileTypes,
       createNewEntityTooltip: this._integrationConfig.createNewEntityTooltip,
       showLogPopover: this._conversationViewOptions?.showLogPopover,
+      renderLogIndicator: this._conversationViewOptions?.renderLogIndicator,
       conversation,
       messageText: this._conversations.messageText,
       sendButtonDisabled:
-        this._conversations.pushing ||
-        disableLinks ||
-        !hasInputContent ||
-        showSpinner,
+        sending || disableLinks || !hasInputContent || showSpinner,
+      sending,
       displayLogStatus: this._smsConversations.checkIsSupportLog(conversation),
       supportAttachment: this._appFeatures.hasSendMMSPermission,
       showAlert,
@@ -156,23 +171,31 @@ export class PersonalConversationViewSpring extends RcViewModule {
         const currentConversationId = this._conversations.currentConversationId;
         if (!currentConversationId) return;
 
-        const sendPromise = this._conversations.replyToReceivers(
-          text,
-          attachments,
+        const conversation = this._conversations.formattedConversationsMap.get(
+          currentConversationId,
         );
+        const toNumbers = buildToNumbersFromConversation(
+          conversation,
+          this._smsConversationsOptions?.dncEntityTypes,
+        );
+        const onDncVerify =
+          this._smsConversationsOptions?.onDncVerifyBeforeReply;
+        if (onDncVerify && toNumbers.length > 0) {
+          const canSend = await onDncVerify(toNumbers, currentConversationId);
+          if (!canSend) return;
+        }
 
-        sendPromise
-          .then(() => {
-            this._smsConversationsOptions?.checkDncStatusOfConversation?.(
-              currentConversationId,
-            );
-            this._smsConversationsOptions?.autoLogTaskIfEnabled?.(
-              currentConversationId,
-            );
-          })
-          .catch((error) => {
-            this.logger.error('[SMS] auto-log failed', error);
-          });
+        try {
+          await this._conversations.replyToReceivers(text, attachments);
+          this._smsConversationsOptions?.checkDncStatusOfConversation?.(
+            currentConversationId,
+          );
+          this._smsConversationsOptions?.autoLogTaskIfEnabled?.(
+            currentConversationId,
+          );
+        } catch (error) {
+          this.logger.error('[SMS] auto-log failed', error);
+        }
       },
       updateMessageText: async (text) => {
         return !!(await this._conversations.updateMessageText(text));
@@ -240,6 +263,13 @@ export class PersonalConversationViewSpring extends RcViewModule {
 
     const conversationId = conversation?.conversationId;
 
+    useEffect(() => {
+      if (!this._portManager.shared || this._portManager.isMainTab) {
+        this._smsConsent?.loadConversationConsentData(conversation!);
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [conversationId]);
+
     // when enter this page, mark all messages as read
     useEffect(() => {
       if (!conversationId || messages.length === 0) return;
@@ -254,7 +284,11 @@ export class PersonalConversationViewSpring extends RcViewModule {
     }, [conversationId, messages]);
 
     if (!conversation) {
-      return null;
+      this.logger.error('Conversation not found', {
+        conversationId,
+      });
+
+      return <ConversationNoAccessPanel goBack={uiFunctions.goBack} />;
     }
 
     const Component =
@@ -263,6 +297,7 @@ export class PersonalConversationViewSpring extends RcViewModule {
       <Component
         {..._props}
         {...uiFunctions}
+        conversation={conversation}
         inputRef={inputRef}
         toolbar={
           <>

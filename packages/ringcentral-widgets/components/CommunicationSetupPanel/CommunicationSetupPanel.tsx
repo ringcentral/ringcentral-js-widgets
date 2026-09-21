@@ -74,7 +74,7 @@ const FromField: FunctionComponent<FromFieldProps> = ({
         fullWidth
         textVariant="caption1"
         data-sign="phoneNumber"
-        renderValue={(val) => {
+        renderValue={(val: any) => {
           const text =
             val === BLOCKED_ID_VALUE ? blockedLabel : formatPhone(val);
           return <span data-sign="fromLabel">{text}</span>;
@@ -133,6 +133,7 @@ const FromField: FunctionComponent<FromFieldProps> = ({
 // `;
 
 export type CommunicationSetupPanelProps = {
+  children?: React.ReactNode;
   // To field
   onToNumberChange: (...args: any[]) => any;
   label?: string;
@@ -317,7 +318,7 @@ const CommunicationSetupWrapper: FunctionComponent<
                     : placeholder ?? undefined
                 }
                 title={placeholder ?? undefined}
-                onPaste={async (ev) => {
+                onPaste={async (ev: React.ClipboardEvent<HTMLInputElement>) => {
                   if (
                     detectPhoneNumbers &&
                     ev.clipboardData &&

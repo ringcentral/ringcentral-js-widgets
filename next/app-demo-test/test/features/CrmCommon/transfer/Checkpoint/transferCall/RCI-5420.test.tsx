@@ -46,7 +46,9 @@ import {
 import { CheckContainsAlertMessage } from '../../../../../steps/Alert';
 import {
   AnswerCall,
-  ClickCircleButton,
+  CheckTransferPage,
+  ClickMoreButton,
+  GoToTransferPage,
   MakeCall,
 } from '../../../../../steps/Call';
 import { CheckInCallLogPageByTitle } from '../../../../../steps/CallLog';
@@ -190,9 +192,9 @@ export class RCI5420 extends Step {
               }
             },
             CheckInCallLogPageByTitle,
-            <ClickCircleButton dataSign="more" />,
-            <ClickItemByDataSign dataSign="transfer" />,
-            WaitForRenderReady,
+            ClickMoreButton,
+            GoToTransferPage,
+            CheckTransferPage,
           ]}
         />
         <And

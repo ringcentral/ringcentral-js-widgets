@@ -43,7 +43,13 @@ import {
 import { Divider } from '@ringcentral/spring-ui';
 import clsx from 'clsx';
 import isEqual from 'lodash/isEqual';
-import React, { type FC, useLayoutEffect, useMemo, useRef } from 'react';
+import React, {
+  type FC,
+  type PropsWithChildren,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+} from 'react';
 import {
   combineLatest,
   defer,
@@ -74,13 +80,13 @@ import {
   isQueueCall,
   isRingingCall,
   PreinsertCall,
-  useActiveCallInfoWithPreinsert,
   useLatestExistCall,
   Webphone,
 } from '../../services';
 import type { CallLogFormViewProps } from '../CallLogFormView';
 import { CallLogFormView } from '../CallLogFormView';
 import { QuickCallActionView } from '../QuickCallActionView';
+import { SmartNotesLogView } from '../SmartNotesLogView';
 
 import type { CallViewOptions } from './Call.view.interface';
 import i18n from './i18n';
@@ -95,7 +101,7 @@ import { ReplyWithMessageView } from './routes/ReplyWithMessageViewSpring';
 import { TransferView } from './routes/TransferViewSpring';
 import { CallViewState } from './services';
 
-const FullWrapper: FC = ({ children }) => (
+const FullWrapper: FC<PropsWithChildren<{}>> = ({ children }) => (
   <>
     {/* <FocusTrap open> */}
     <div
@@ -181,6 +187,8 @@ export class CallView extends RcViewModule implements ModalRef {
     @optional() private _callLogFormView?: CallLogFormView,
     @optional('CallViewOptions')
     private _callViewOptions?: CallViewOptions,
+    @optional()
+    protected _smartNotesLogView?: SmartNotesLogView,
   ) {
     super();
 
@@ -450,8 +458,8 @@ export class CallView extends RcViewModule implements ModalRef {
       {
         currentPath: isRingingView ? 'incoming' : 'controls',
         minimized: isRingingView
-          ? this._callAction.existRingingOpenCallMetaInfo?.meta?.minimized ??
-            true
+          ? (this._callAction.existRingingOpenCallMetaInfo?.meta?.minimized ??
+            true)
           : false,
       },
       {
@@ -555,6 +563,24 @@ export class CallView extends RcViewModule implements ModalRef {
 
     if (!isDisplayCall) return;
 
+    const targetTelephonySessionId =
+      transferringOriginalTelephonySessionId || newTelephonySessionId;
+    const isPreinsertCancelled =
+      this._preInsertCall.isCancelledPreinsertSession(targetTelephonySessionId);
+
+    if (
+      (isPreinsertCancelled &&
+        this._preInsertCall.isPreinsertStatusEnd(targetTelephonySessionId)) ||
+      this._preInsertCall.isPreinsertStatusIgnored(targetTelephonySessionId)
+    ) {
+      this.logger.log(
+        `preinsert call ended, not into post call page`,
+        targetTelephonySessionId,
+      );
+
+      return;
+    }
+
     const transferringOriginalInfo =
       transferringOriginalTelephonySessionId &&
       this._callAction.getAllInfoByTelephonySessionId(
@@ -572,8 +598,6 @@ export class CallView extends RcViewModule implements ModalRef {
 
     if (!shouldIntoPostCall) return;
 
-    const targetTelephonySessionId =
-      transferringOriginalTelephonySessionId || newTelephonySessionId;
     this.logger.log(`redirect to post call page`, targetTelephonySessionId);
 
     this._callViewState._setPostCallView(targetTelephonySessionId);
@@ -646,6 +670,16 @@ export class CallView extends RcViewModule implements ModalRef {
                 variant={afterCallEnd ? 'history' : 'expanded'}
                 info={info!}
                 mode="post-call"
+                logNotesButton={
+                  <>
+                    {this._smartNotesLogView && (
+                      <this._smartNotesLogView.component
+                        telephonySessionId={info?.telephonySessionId!}
+                        sessionId={info?.sessionId!}
+                      />
+                    )}
+                  </>
+                }
                 data-sign="ai-notes-panel"
                 data-tab-type="history"
               />
@@ -686,12 +720,22 @@ export class CallView extends RcViewModule implements ModalRef {
           <this._syncTabView.component
             id={SyncTabId.CALL_LOG}
             data-sign="call-log-tabs"
-            variant="standard"
+            variant={!afterCallEnd ? 'scrollable' : 'standard'} // scrollable for during call
             pill={afterCallEnd}
             tabs={tabs}
-            className={clsx('flex-none', afterCallEnd && 'px-4')}
+            onActiveChange={(value) => {
+              if (value === CallLogSyncTabId.AI_NOTE) {
+                this._callViewOptions?.onAiNotesTabViewed?.();
+              }
+            }}
+            className={clsx('flex-none', afterCallEnd && 'px-3')}
             tabClassName="flex-none w-auto"
-            tabRootClassName="h-8"
+            {...(afterCallEnd && {
+              tabLabelClassName: 'typography-mainText max-w-[40%]',
+              classes: {
+                tabList: '!py-0',
+              },
+            })}
           />
         )}
       </>
@@ -878,10 +922,17 @@ export class CallView extends RcViewModule implements ModalRef {
 
   component() {
     const view = useConnector(() => this._callViewState.view);
+    const activeCallInfo = useConnector(() => this._callAction.activeCallInfo);
+    const latestActiveCall = useLatestExistCall(activeCallInfo);
 
-    const activeRenderCallInfo = useActiveCallInfoWithPreinsert(
-      this._callAction,
-    );
+    const activeRenderCallInfo = useMemo(() => {
+      if (activeCallInfo) {
+        return !activeCallInfo.call
+          ? // when active call be ended, the call will be not exist directly, but the end event still not emit to other service, like callHistory, so need to use latest call to avoid that render a blank page cause the page jump to dialer then to history, keep the call instance to avoid that
+            { ...activeCallInfo, call: latestActiveCall }
+          : activeCallInfo;
+      }
+    }, [activeCallInfo, latestActiveCall]);
 
     const modeView = useMemo(() => {
       switch (view) {

@@ -1,5 +1,6 @@
 import cp from 'child_process';
 import path from 'path';
+import babelIstanbul from 'babel-istanbul';
 import fs from 'fs-extra';
 import gulp from 'gulp';
 import babel from 'gulp-babel';
@@ -77,6 +78,7 @@ function preCoverage() {
           testSources.length === 2 &&
           (testSources[0] === './**/*.test.js' ||
             testSources[0] === './**/*.test.ts'),
+        instrumenter: babelIstanbul.Instrumenter,
       }),
     )
     .pipe(istanbul.hookRequire());

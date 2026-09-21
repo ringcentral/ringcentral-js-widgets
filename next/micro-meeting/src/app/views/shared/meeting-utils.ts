@@ -119,8 +119,8 @@ export function calculateUseWaitingRoomUpdates(use: boolean): Partial<any> {
  */
 export function calculateWaitingRoomParticipantsUpdates(
   value: string,
-  settingLock: any = {},
-  preferences: RcVPreferencesGET,
+  _settingLock: any = {},
+  _preferences: RcVPreferencesGET,
 ): Partial<any> {
   // Map string values back to numeric waiting room modes
   let waitingRoomMode: number;
@@ -142,24 +142,13 @@ export function calculateWaitingRoomParticipantsUpdates(
     waitingRoomMode,
   };
 
-  /* Handle allowJoinBeforeHost logic */
-  let shouldUpdateAllowJoinBeforeHost = false;
-  let newAllowJoinBeforeHost: boolean | undefined;
-
-  // If allowJoinBeforeHost is locked, use preferences value at first
-  if (settingLock.allowJoinBeforeHost) {
-    newAllowJoinBeforeHost = preferences.join_before_host;
-    shouldUpdateAllowJoinBeforeHost = true;
-  }
+  // Keep settingLock/preferences in the signature for existing call sites.
+  // Do not restore locked join_before_host when leaving ALL: widgets
+  // patchWaitingRoomRelated only forces join-after-me while mode is ALL,
+  // then leaves that checked state sticky (RCI-1977).
 
   if (waitingRoomMode === WAITING_ROOM_MODE.ALL) {
-    newAllowJoinBeforeHost = false;
-    shouldUpdateAllowJoinBeforeHost = true;
-  }
-
-  // Update regardless of lock status (linkage changed)
-  if (shouldUpdateAllowJoinBeforeHost) {
-    updates.allowJoinBeforeHost = newAllowJoinBeforeHost;
+    updates.allowJoinBeforeHost = false;
   }
 
   return updates;

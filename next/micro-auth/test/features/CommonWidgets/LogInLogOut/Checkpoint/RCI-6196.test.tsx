@@ -38,7 +38,7 @@ const exampleData: ExampleData[] = [
       ],
     },
     requestUrl:
-      'https://api-rcapps-labs_domain/restapi/v1.0/account/~/extension/~/device',
+      'https://api-rcapps-xmrupxmnrclab_domain/restapi/v1.0/account/~/extension/~/device',
     matches: [],
   },
 ];

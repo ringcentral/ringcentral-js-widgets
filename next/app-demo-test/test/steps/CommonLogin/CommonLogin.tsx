@@ -4,21 +4,24 @@ import {
   AudioSettings,
   Webphone,
 } from '@ringcentral-integration/micro-phone/src/app/services';
+import { UserGuide } from '@ringcentral-integration/micro-setting/src/app/services';
 import {
+  waitSubscribeSuccess,
   whenStateChange,
   whenStateOrTimerChange,
 } from '@ringcentral-integration/next-core/test';
-import type { StepFunction } from '@ringcentral-integration/test-utils';
+import {
+  type StepFunction,
+  waitForRenderReady,
+} from '@ringcentral-integration/test-utils';
 import { screen, waitForElementToBeRemoved } from '@testing-library/react';
 import { connect } from 'mock-mcp';
 
-import { DEFAULT_DEVICES } from '../../__mock__/mockAudioDevices';
 import { TriggerWebphoneEvent } from '../Call';
 import {
   CreateInstance as DefaultCreateInstance,
   CreateInstanceProps,
 } from '../CreateInstance';
-import { MockDevice, MockDeviceProps } from '../Mock/MockDevice';
 
 export interface LoginProps extends CreateInstanceProps {
   username?: string;
@@ -48,29 +51,42 @@ export const CommonLogin: StepFunction<LoginProps> = async ({
           const auth = app.container.got(Auth)!;
           const audioSettings = app.container.got(AudioSettings)!;
           const activeCallControl = app.container.got(ActiveCallControl)!;
-          await whenStateOrTimerChange(() => {
-            expect(auth.ready).toBeTruthy();
-          });
+          const userGuide = app.container.got(UserGuide)!;
+          await whenStateOrTimerChange(
+            () => {
+              expect(auth.ready).toBeTruthy();
+            },
+            {
+              // in CI the login process may block by other tests, so we need to set a longer timeout to avoid timeout error
+              timeout: global.__CI__ ? 30_000 : 5_000,
+            },
+          );
           if (isMockUserMedia) {
             Object.defineProperties(audioSettings, {
               userMedia: { value: true },
             });
           }
-          expect(auth.loggedIn).toBeFalsy();
-          expect(screen.queryByTestId('loginButton')).toBeInTheDocument();
-          await auth.login({
-            username,
-            password,
-          });
-          const mockMcpClient: Awaited<ReturnType<typeof connect>> =
-            global.mockMcpClient;
-          // wait for all mock mcp requests to be processed
-          await mockMcpClient?.waitForPendingRequests();
-          await waitForElementToBeRemoved(
-            () => screen.getByTestId('loginButton'),
-            { timeout: 9000 },
-          );
+          if (!auth.loggedIn) {
+            await waitForRenderReady();
+            await auth.login({
+              username,
+              password,
+            });
+            await waitForRenderReady();
+            const mockMcpClient: Awaited<ReturnType<typeof connect>> =
+              global.mockMcpClient;
+            // wait for all mock mcp requests to be processed
+            await mockMcpClient?.waitForPendingRequests();
+            if (screen.queryByTestId('loginButton')) {
+              await waitForElementToBeRemoved(
+                () => screen.queryByTestId('loginButton'),
+                { timeout: 9000 },
+              );
+            }
+          }
           expect(auth.loggedIn).toBeTruthy();
+          await userGuide?.dismiss();
+          await waitForRenderReady();
 
           if (waitActiveCallControlReady) {
             await whenStateChange(() => {
@@ -85,11 +101,11 @@ export const CommonLogin: StepFunction<LoginProps> = async ({
         (async (_, { app }) => {
           if (shouldMockWebphone) {
             const webphone = app.container.got(Webphone)!;
-            await whenStateChange(() => {
-              const shouldRegisteredWebphone =
-                webphone.connecting && webphone._webphone;
-
-              expect(shouldRegisteredWebphone).toBeTruthy();
+            if (webphone.connected) {
+              return;
+            }
+            await waitSubscribeSuccess(webphone.rcWebphoneInstance$, (it) => {
+              expect(it).toBeDefined();
             });
 
             return <TriggerWebphoneEvent eventName="registered" />;

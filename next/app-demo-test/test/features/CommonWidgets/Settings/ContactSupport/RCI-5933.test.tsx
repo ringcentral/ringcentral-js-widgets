@@ -23,10 +23,14 @@ import {
   Then,
   title,
   userEvent,
+  waitForRenderReady,
   When,
 } from '@ringcentral-integration/test-utils';
 
-import { CheckTextContent } from '../../../../../../app-demo-test/test/steps/Common';
+import {
+  CheckTextContent,
+  ClickItemByDataSign,
+} from '../../../../../../app-demo-test/test/steps/Common';
 import { Entry } from '../../../../../../app-demo-test/test/steps/Entry';
 import { Login } from '../../../../steps/Login';
 import { NavigateToSettings } from '../../../../steps/Navigate';
@@ -72,11 +76,7 @@ export class RCI5933 extends Step {
         />
         <When
           desc="Click on 'Contact support'"
-          action={
-            ((_, { app }) => {
-              screen.getByTestId('ContactSupport').click();
-            }) as StepFunction
-          }
+          action={<ClickItemByDataSign dataSign="ContactSupport" />}
         />
         <Then
           desc="Verify 'Contact support' screen header with back button"
@@ -113,7 +113,8 @@ export class RCI5933 extends Step {
               const openSpy = jest
                 .spyOn(window, 'open')
                 .mockImplementation(() => null);
-              userEvent.click(createCaseBtn);
+              await userEvent.click(createCaseBtn);
+              await waitForRenderReady();
               expect(openSpy).toHaveBeenCalledWith(
                 brand.brandConfig.supportLink,
                 '_blank',
@@ -173,16 +174,17 @@ export class RCI5933 extends Step {
 
         <When
           desc="User types any characters into 'Description'"
-          action={() => {
+          action={async () => {
             const descInput = screen.getByPlaceholderText(
               'Tell us what the problem is...',
             ) as HTMLInputElement;
-            descInput.value = 'test problem';
+            await userEvent.type(descInput, 'test problem');
           }}
         />
         <Then
           desc="Submit button becomes enabled"
-          action={() => {
+          action={async () => {
+            await waitForRenderReady();
             const submitBtn = screen.getByTestId('submitButton');
             expect(submitBtn).toBeEnabled();
           }}

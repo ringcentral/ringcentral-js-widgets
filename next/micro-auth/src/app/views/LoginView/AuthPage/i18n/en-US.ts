@@ -1,9 +1,11 @@
 export default {
-  loginButton: 'Sign In',
-  newUser: 'New user?',
-  tryForFree: 'Try for free',
+  loginButton: 'Sign in',
+  newUser: 'New to {brandName}?',
+  tryForFree: 'Sign up now',
   version: 'Version',
-  title: 'Welcome to {brandName}',
   description:
     '{appName} provides a native integration for a seamless calling experience.',
+  tagline: 'The AI communications platform',
 } as const;
+
+// @key: @#@"tagline"@#@ @source: @#@"The AI communications platform"@#@

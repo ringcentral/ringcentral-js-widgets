@@ -68,7 +68,6 @@ export class Softphone extends RcModule {
     this.connectingPhoneNumber = null;
   }
 
-  @delegate('mainClient')
   async detectPlatform() {
     return bowser.parse(
       (window.navigator && window.navigator.userAgent) || 'unknown',
@@ -132,7 +131,6 @@ export class Softphone extends RcModule {
     );
   }
 
-  @delegate('mainClient')
   async makeCall(phoneNumber: string, callingMode: string) {
     await this.startToConnect(phoneNumber);
 

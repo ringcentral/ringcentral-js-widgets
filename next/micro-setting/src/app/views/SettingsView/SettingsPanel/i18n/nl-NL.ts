@@ -45,6 +45,8 @@ export default {
   selectToDialHint:
     'Voor een betere ervaring selecteert u het telefoonnummer om te bellen met {brandName} op de pagina voor grote hoeveelheden telefoonnummers.',
   phone: 'Telefoon',
+  text: 'Tekst',
+  consentManagement: 'Toestemmingsbeheer',
   log: 'Lijst',
   general: 'Algemeen',
   showMatches: 'Overeenkomsten tonen voor inkomende oproepen',
@@ -97,6 +99,8 @@ export default {
 // @key: @#@"contactSupport"@#@ @source: @#@"Contact support"@#@
 // @key: @#@"selectToDialHint"@#@ @source: @#@"For your better experience, select phone number to dial with {brandName} in large quantity phone number page."@#@
 // @key: @#@"phone"@#@ @source: @#@"Phone"@#@
+// @key: @#@"text"@#@ @source: @#@"Text"@#@
+// @key: @#@"consentManagement"@#@ @source: @#@"Consent management"@#@
 // @key: @#@"log"@#@ @source: @#@"Log"@#@
 // @key: @#@"general"@#@ @source: @#@"General"@#@
 // @key: @#@"showMatches"@#@ @source: @#@"Show matches for inbound calls"@#@

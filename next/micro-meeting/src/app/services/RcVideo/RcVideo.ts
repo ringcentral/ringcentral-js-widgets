@@ -46,10 +46,27 @@ import {
   storage,
   StoragePlugin,
 } from '@ringcentral-integration/next-core';
+import { format } from '@ringcentral-integration/utils';
 import { RcvMainParams } from '@ringcentral-integration/widgets/lib/MeetingCalendarHelper/index.interface';
 import { filter, find } from 'ramda';
 
-import { MeetingErrors } from '../Meeting';
+import {
+  createMeetingOperationError,
+  getMeetingOperationLocale,
+  meetingOperationErrorHandling,
+  meetingOperationMessageKey,
+  meetingOperationMessageSource,
+  meetingOperationErrorReason,
+  MeetingErrors,
+  resolveMeetingOperationNotification,
+} from '../Meeting';
+import type {
+  MeetingLookupOptions,
+  MeetingLookupReturn,
+  MeetingOperationErrorResult,
+  MeetingOperationOptions,
+  MeetingOperationReturn,
+} from '../Meeting';
 import { VideoConfiguration } from '../VideoConfiguration';
 
 import type {
@@ -64,7 +81,7 @@ import {
   RCV_E2EE_API_KEYS,
   RCV_WAITING_ROOM_API_KEYS,
 } from './constants';
-import { t } from './i18n';
+import i18n, { t } from './i18n';
 import {
   assignObject,
   comparePreferences,
@@ -107,8 +124,8 @@ export class RcVideo extends RcModule implements IMeeting {
   protected _enableInvitationApiFailedToast?: boolean;
   protected _enableV2Api: boolean;
   protected _currentLocale: string;
-  private _createMeetingPromise: ReturnType<
-    RcVideo['createMeetingDirectly']
+  private _createMeetingPromise: Promise<
+    RcvMainParams | MeetingOperationErrorResult | null
   > | null = null;
 
   constructor(
@@ -486,10 +503,21 @@ export class RcVideo extends RcModule implements IMeeting {
   }
 
   @delegate('server')
-  async createMeetingDirectly(
+  async createMeetingDirectly<
+    TOptions extends MeetingOperationOptions = MeetingOperationOptions,
+  >(
     meeting: RcVMeetingModel,
-    { isAlertSuccess = true }: { isAlertSuccess?: boolean } = {},
-  ) {
+    options?: TOptions,
+  ): Promise<MeetingOperationReturn<TOptions, RcvMainParams>> {
+    const {
+      errorHandling = meetingOperationErrorHandling.toast,
+      isAlertSuccess = true,
+    } = options ?? {};
+    const operationLocale = getMeetingOperationLocale(
+      options,
+      this.currentLocale,
+    );
+
     try {
       this._updateVideoStatus(videoStatus.creating);
 
@@ -501,9 +529,7 @@ export class RcVideo extends RcModule implements IMeeting {
 
       // when meeting is rcv pmi, use pmi default name
       if (meeting?.usePersonalMeetingId) {
-        meetingDetail.name = t('rcvPmiMeetingTitle', {
-          extensionName: this.extensionName as string,
-        });
+        meetingDetail.name = await this._getPmiMeetingTitle(operationLocale);
       }
 
       const [newMeeting, dialInNumber, extensionInfo] = await Promise.all([
@@ -529,7 +555,7 @@ export class RcVideo extends RcModule implements IMeeting {
         meetingPasswordMasked: newMeeting.meetingPasswordMasked,
         joinUri: newMeeting.joinUri || '',
         dialInNumbers: dialInNumber as RcVDialInNumberObj[],
-        currentLocale: this.currentLocale,
+        currentLocale: operationLocale,
         brandName: this._brand.name,
         brandId: this._brand.id,
         isSIPAvailable: this._appFeatures.hasRoomConnectorBeta,
@@ -563,28 +589,43 @@ export class RcVideo extends RcModule implements IMeeting {
       return {
         ...meetingResponse,
         ...meeting,
-      } as RcvMainParams;
+      } as MeetingOperationReturn<TOptions, RcvMainParams>;
     } catch (errors) {
       this.logger.error('failed to create rcv:', errors);
       this._updateVideoStatus(videoStatus.idle);
-      this._errorHandle(errors);
-      return null;
+      const operationError = await this._createOperationError(
+        errors,
+        errorHandling === meetingOperationErrorHandling.result,
+      );
+      if (errorHandling === meetingOperationErrorHandling.result) {
+        return operationError as MeetingOperationReturn<
+          TOptions,
+          RcvMainParams
+        >;
+      }
+
+      this._showOperationError(operationError);
+      return null as MeetingOperationReturn<TOptions, RcvMainParams>;
     }
   }
 
   @delegate('server')
-  async createMeeting(
+  async createMeeting<
+    TOptions extends MeetingOperationOptions = MeetingOperationOptions,
+  >(
     meeting: RcVMeetingModel,
-    { isAlertSuccess = true }: { isAlertSuccess?: boolean } = {},
-  ) {
-    if (this.isScheduling) return this._createMeetingPromise;
+    options?: TOptions,
+  ): Promise<MeetingOperationReturn<TOptions, RcvMainParams>> {
+    if (this.isScheduling) {
+      return this._createMeetingPromise as Promise<
+        MeetingOperationReturn<TOptions, RcvMainParams>
+      >;
+    }
 
-    this._createMeetingPromise = this.createMeetingDirectly(meeting, {
-      isAlertSuccess,
-    });
+    this._createMeetingPromise = this.createMeetingDirectly(meeting, options);
     const result = await this._createMeetingPromise;
     this._createMeetingPromise = null;
-    return result;
+    return result as MeetingOperationReturn<TOptions, RcvMainParams>;
   }
 
   async startMeeting(meeting: RcVMeetingModel, isAlertSuccess = true) {
@@ -613,6 +654,7 @@ export class RcVideo extends RcModule implements IMeeting {
           }`,
         );
       const invitationParams: InvitationBridgesResponse = await response.json();
+      await i18n._load(invitationRequest.currentLocale);
       return formatRcvInvitationRequestDataV2({
         ...invitationRequest,
         phoneNumbers: invitationParams.phoneNumbers,
@@ -837,18 +879,26 @@ export class RcVideo extends RcModule implements IMeeting {
   }
 
   @delegate('server')
-  async getMeeting(
+  async getMeeting<
+    TOptions extends MeetingLookupOptions = MeetingLookupOptions,
+  >(
     shortId: string,
     accountId: number = this.accountId,
     extensionId: number = this.extensionId,
-  ): Promise<RcVideoAPI> {
-    if (this._enableV2Api) {
-      const result = await this._client.service
-        .platform()
-        .get(`/rcvideo/v2/bridges/pin/web/${shortId}`);
-      const meeting = await result.json();
-      return transformV2ResponseToV1(meeting) as RcVideoAPI;
-    } else {
+    options?: TOptions,
+  ): Promise<MeetingLookupReturn<TOptions, RcVideoAPI>> {
+    try {
+      if (this._enableV2Api) {
+        const result = await this._client.service
+          .platform()
+          .get(`/rcvideo/v2/bridges/pin/web/${shortId}`);
+        const meeting = await result.json();
+        return transformV2ResponseToV1(meeting) as MeetingLookupReturn<
+          TOptions,
+          RcVideoAPI
+        >;
+      }
+
       const result = await this._client.service
         .platform()
         .get('/rcvideo/v1/bridges', {
@@ -857,16 +907,36 @@ export class RcVideo extends RcModule implements IMeeting {
           extensionId,
         });
       const meeting = (await result.json()) as RcVideoAPI;
-      return meeting;
+      return meeting as MeetingLookupReturn<TOptions, RcVideoAPI>;
+    } catch (errors) {
+      if (options?.errorHandling === meetingOperationErrorHandling.result) {
+        return (await this._createOperationError(
+          errors,
+          true,
+        )) as MeetingLookupReturn<TOptions, RcVideoAPI>;
+      }
+
+      throw errors;
     }
   }
 
   @delegate('server')
-  async updateMeeting(
+  async updateMeeting<
+    TOptions extends MeetingOperationOptions = MeetingOperationOptions,
+  >(
     meetingId: string,
     meeting: RcVMeetingModel,
-    { isAlertSuccess = false }: { isAlertSuccess?: boolean } = {},
-  ) {
+    options?: TOptions,
+  ): Promise<MeetingOperationReturn<TOptions, RcVideoResponse>> {
+    const {
+      errorHandling = meetingOperationErrorHandling.toast,
+      isAlertSuccess = false,
+    } = options ?? {};
+    const operationLocale = getMeetingOperationLocale(
+      options,
+      this.currentLocale,
+    );
+
     try {
       this._updateVideoStatus(videoStatus.updating);
 
@@ -875,6 +945,10 @@ export class RcVideo extends RcModule implements IMeeting {
       }
 
       const meetingDetail = this.pruneMeetingObject(meeting);
+
+      if (meeting.usePersonalMeetingId) {
+        meetingDetail.name = await this._getPmiMeetingTitle(operationLocale);
+      }
 
       const [newMeeting, dialInNumber, extensionInfo] = await Promise.all([
         this.patchBridges(
@@ -898,7 +972,7 @@ export class RcVideo extends RcModule implements IMeeting {
         meetingPasswordMasked: newMeeting.meetingPasswordMasked,
         joinUri: newMeeting.joinUri || '',
         dialInNumbers: dialInNumber as RcVDialInNumberObj[],
-        currentLocale: this.currentLocale,
+        currentLocale: operationLocale,
         brandName: this._brand.name,
         brandId: this._brand.id,
         isSIPAvailable: this._appFeatures.hasRoomConnectorBeta,
@@ -930,12 +1004,26 @@ export class RcVideo extends RcModule implements IMeeting {
         meeting: { ...meeting, ...newMeeting },
       } as RcVideoResponse;
 
-      return meetingResponse;
+      return meetingResponse as MeetingOperationReturn<
+        TOptions,
+        RcVideoResponse
+      >;
     } catch (errors) {
       this.logger.error('updateMeeting errors:', errors);
       this._updateVideoStatus(videoStatus.idle);
-      this._errorHandle(errors);
-      return null;
+      const operationError = await this._createOperationError(
+        errors,
+        errorHandling === meetingOperationErrorHandling.result,
+      );
+      if (errorHandling === meetingOperationErrorHandling.result) {
+        return operationError as MeetingOperationReturn<
+          TOptions,
+          RcVideoResponse
+        >;
+      }
+
+      this._showOperationError(operationError);
+      return null as MeetingOperationReturn<TOptions, RcVideoResponse>;
     }
   }
 
@@ -949,6 +1037,13 @@ export class RcVideo extends RcModule implements IMeeting {
         ...this.defaultVideoSetting,
       });
     }
+  }
+
+  protected async _getPmiMeetingTitle(locale: string) {
+    await i18n._load(locale);
+    return format(i18n.getString('rcvPmiMeetingTitle', locale), {
+      extensionName: this.extensionName as string,
+    });
   }
 
   @delegate('server')
@@ -1006,33 +1101,104 @@ export class RcVideo extends RcModule implements IMeeting {
   }
 
   protected async _errorHandle(errors: any) {
+    const operationError = await this._createOperationError(errors);
+    this._showOperationError(operationError);
+  }
+
+  private async _createOperationError(
+    errors: any,
+    includeConnectivityNotification = false,
+  ): Promise<MeetingOperationErrorResult> {
     if (errors instanceof MeetingErrors) {
-      for (const error of errors.all) {
-        this._toast.warning(error);
-      }
-    } else if (errors && errors.response) {
-      const { errorCode, permissionName } = await errors.response
-        .clone()
-        .json();
-      if (errorCode === 'InsufficientPermissions' && permissionName) {
-        this._toast.danger({
-          message: t('insufficientPermissions', {
-            permissionName,
-            application: this._brand.appName as string,
-          }),
-        });
-      } else if (
-        !this._availabilityMonitor ||
-        !(await this._availabilityMonitor.checkIfHAError(errors))
-      ) {
-        this._toast.danger({
-          message: t('internalError'),
-        });
-      }
-    } else {
-      this.logger.log('errors:', errors);
-      this._toast.danger({ message: t('internalError') });
+      return createMeetingOperationError(
+        meetingOperationErrorReason.validation,
+        errors.all.map((message) => ({
+          level: 'warning',
+          ...message,
+        })),
+      );
     }
+
+    if (errors?.response) {
+      const { errorCode, permissionName } = await this._getErrorResponse(
+        errors,
+      );
+      if (errorCode === 'InsufficientPermissions' && permissionName) {
+        return createMeetingOperationError(
+          meetingOperationErrorReason.insufficientPermissions,
+          [
+            {
+              level: 'danger',
+              messageKey: meetingOperationMessageKey.insufficientPermissions,
+              messageParams: {
+                application: this._brand.appName as string,
+                permissionName,
+              },
+              messageSource: meetingOperationMessageSource.rcVideo,
+            },
+          ],
+        );
+      }
+
+      if (
+        this._availabilityMonitor &&
+        (await this._availabilityMonitor.checkIfHAError(errors))
+      ) {
+        return createMeetingOperationError(
+          meetingOperationErrorReason.availability,
+          [],
+        );
+      }
+
+      return createMeetingOperationError(meetingOperationErrorReason.internal, [
+        {
+          level: 'danger',
+          messageKey: meetingOperationMessageKey.internalError,
+          messageSource: meetingOperationMessageSource.rcVideo,
+        },
+      ]);
+    }
+
+    this.logger.log('errors:', errors);
+    return createMeetingOperationError(meetingOperationErrorReason.internal, [
+      {
+        level: 'danger',
+        messageKey: meetingOperationMessageKey.internalError,
+        messageSource: meetingOperationMessageSource.rcVideo,
+      },
+      ...(includeConnectivityNotification
+        ? [
+            {
+              level: 'danger' as const,
+              messageKey: meetingOperationMessageKey.offline,
+              messageSource: meetingOperationMessageSource.connectivity,
+            },
+          ]
+        : []),
+    ]);
+  }
+
+  private async _getErrorResponse(errors: any) {
+    try {
+      return (await errors.response?.clone().json()) as Record<string, any>;
+    } catch (responseError) {
+      this.logger.log('failed to read RCV error response:', responseError);
+      return {};
+    }
+  }
+
+  private _showOperationError(error: MeetingOperationErrorResult) {
+    error.notifications.forEach((notification) => {
+      const message = resolveMeetingOperationNotification(
+        notification,
+        (messageKey, messageParams) =>
+          messageParams
+            ? t(messageKey as never, messageParams as never)
+            : t(messageKey as never),
+      );
+      const { level } = notification;
+      this._toast[level]({ message });
+    });
   }
 
   get personalMeeting(): Partial<RcVideoAPI> | null {

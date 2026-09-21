@@ -13,6 +13,7 @@ import React, {
   useMemo,
   useState,
 } from 'react';
+import type { PropsWithChildren } from 'react';
 import { noop } from 'rxjs';
 
 import { useAppHeader } from '../../../components';
@@ -30,7 +31,8 @@ export type HeaderProps = {
   menuHeader: React.ReactNode;
   menuList: React.ReactNode;
   action?: Ref<HeaderAction>;
-} & Pick<HeaderViewProps, 'onActionClick'>;
+} & Pick<HeaderViewProps, 'onActionClick'> &
+  PropsWithChildren<{}>;
 
 export const Header: FunctionComponent<HeaderProps> = ({
   title,

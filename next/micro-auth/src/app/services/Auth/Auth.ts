@@ -55,6 +55,7 @@ import {
 import { getProfileImage } from './getProfileImage';
 import { t } from './i18n';
 import { loginStatus } from './loginStatus';
+import { sanitizeResponseBodyForLog } from './sanitizeResponseBodyForLog';
 
 export const LoginStatusChangeEvent = 'loginStatusChange';
 export const TriggerSyncTokenEvent = 'triggerSyncTokenEvent';
@@ -191,7 +192,7 @@ export class Auth extends RcModule {
 
   private refreshTokenHelper = createRefreshTokenHelper(
     () => this._client.service.platform(),
-    logger,
+    logger as unknown as Console,
   );
 
   constructor(
@@ -239,6 +240,15 @@ export class Auth extends RcModule {
         )
         .subscribe();
     }
+  }
+
+  protected _showSessionExpiredToast() {
+    if (this._authOptions?.enableSessionExpiredToast === false) return;
+
+    this._toast.danger({
+      message: t('sessionExpired'),
+      ttl: 0,
+    });
   }
 
   /**
@@ -390,7 +400,10 @@ export class Auth extends RcModule {
     log.endTime = Date.now();
     log.duration = log.startTime ? log.endTime - log.startTime : undefined;
     log.responseHeaders = extractHeaders(response);
-    log.responseBody = await extractBody(response);
+    log.responseBody = sanitizeResponseBodyForLog(
+      request?.url,
+      await extractBody(response),
+    );
     if (requestError) {
       log.requestError = requestError;
     }
@@ -470,10 +483,7 @@ export class Auth extends RcModule {
             signOutSource: 'Token expired',
           });
 
-          this._toast.danger({
-            message: t('sessionExpired'),
-            ttl: 0,
-          });
+          this._showSessionExpiredToast();
         },
       });
 
@@ -734,7 +744,7 @@ export class Auth extends RcModule {
       this.setBeforeLogout();
       if (dismissAllAlert) {
         const rateLimiterId = this._rateLimiter?.identifier;
-        // fix bug [https://jira_domain/browse/RCINT-17381]
+        // fix bug [https://jia_domain/browse/RCINT-17381]
         if (rateLimiterId) {
           await this._toast.dismissAllExpectSpecifiedGroup(rateLimiterId);
         } else {

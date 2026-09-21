@@ -1,5 +1,5 @@
 import { waitUntil } from '@ringcentral-integration/commons/utils';
-import { renderHook, act } from '@testing-library/react-hooks';
+import { renderHook, act } from '@testing-library/react';
 
 import { useHammerZoom } from '../../src/useZoom/useZoom';
 

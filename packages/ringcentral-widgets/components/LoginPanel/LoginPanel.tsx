@@ -16,6 +16,7 @@ import { SpinnerOverlay } from '../SpinnerOverlay';
 import i18n from './i18n';
 
 export type LoginPanelProps = {
+  children?: React.ReactNode;
   className?: string;
   currentLocale: string;
   onLoginButtonClick: React.MouseEventHandler<HTMLButtonElement>;

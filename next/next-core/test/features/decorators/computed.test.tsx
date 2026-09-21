@@ -7,7 +7,9 @@ import {
   When,
   Then,
   Step,
+  waitForRenderReady,
 } from '@ringcentral-integration/test-utils';
+import { act } from 'react';
 
 import {
   injectable,
@@ -31,7 +33,9 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  unmountComponentAtNode(element);
+  act(() => {
+    unmountComponentAtNode(element);
+  });
   element.remove();
   currentApp.destroy();
 });
@@ -109,7 +113,9 @@ class Base extends Step {
           desc="Bootstrap app"
           action={async () => {
             expect(componentRenderFn.mock.calls).toEqual([]);
-            app.bootstrap(element);
+            await act(async () => {
+              await app.bootstrap(element);
+            });
           }}
         />
         <When
@@ -123,12 +129,15 @@ class Base extends Step {
             expect(app.instance.count1).toBe(0);
             expect(app.instance.count2).toBe(0);
             expect(app.instance.sum).toBe(0);
-            app.instance.increment();
+            act(() => {
+              app.instance.increment();
+            });
           }}
         />
         <Then
           desc="check the values"
-          action={() => {
+          action={async () => {
+            await waitForRenderReady();
             expect(componentRenderFn.mock.calls).toEqual([[0], [1]]);
             expect(computedFn).toHaveBeenCalledTimes(2);
             expect(app.instance.ready).toBeTruthy();
@@ -147,7 +156,8 @@ class Base extends Step {
         />
         <Then
           desc="no change for the sum value and no render"
-          action={() => {
+          action={async () => {
+            await waitForRenderReady();
             expect(componentRenderFn.mock.calls).toEqual([[0], [1]]);
             expect(computedFn).toHaveBeenCalledTimes(2);
             expect(app.instance.ready).toBeTruthy();
@@ -166,7 +176,8 @@ class Base extends Step {
         />
         <Then
           desc="change for the sum value and no render"
-          action={() => {
+          action={async () => {
+            await waitForRenderReady();
             expect(app.instance.sum).toBe(1);
             expect(componentRenderFn.mock.calls).toEqual([[0], [1]]);
             expect(computedFn).toHaveBeenCalledTimes(2);
@@ -185,7 +196,8 @@ class Base extends Step {
         />
         <Then
           desc="no change for the sum value and no render"
-          action={() => {
+          action={async () => {
+            await waitForRenderReady();
             expect(app.instance.sum).toBe(1);
             expect(componentRenderFn.mock.calls).toEqual([[0], [1]]);
             expect(computedFn).toHaveBeenCalledTimes(2);

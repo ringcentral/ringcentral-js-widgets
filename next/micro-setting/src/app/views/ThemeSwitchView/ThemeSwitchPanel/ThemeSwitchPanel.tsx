@@ -8,6 +8,7 @@ import {
   PageHeader,
   SelectLine,
 } from '@ringcentral-integration/next-widgets/components';
+import { ThemeProvider } from '@ringcentral/spring-theme';
 import React from 'react';
 
 import { Section } from '../../../components/Section';
@@ -20,7 +21,7 @@ export function formatCountryDisplay(callingCode: string, countryName: string) {
 }
 
 export const ThemeSwitchPanel: React.FC<ThemeSwitchViewPanelProps> = ({
-  themeId,
+  themeId: themeIdProp,
   onThemeIdChange,
   themeType,
   themeTypeOptions,
@@ -32,6 +33,8 @@ export const ThemeSwitchPanel: React.FC<ThemeSwitchViewPanelProps> = ({
   reducedMotionOptions,
 }) => {
   const { t } = useLocale(i18n);
+
+  const themeId = themeIdProp || themeMap.light?.[0]?.id;
 
   return (
     <>
@@ -54,13 +57,20 @@ export const ThemeSwitchPanel: React.FC<ThemeSwitchViewPanelProps> = ({
             </span>
           </Line>
           {/* TODO: support theme id change, but currently that not have target theme map and info */}
-          {/* <Line className="pt-2">
+          <Line className="pt-2">
             {themeMap.light.map(({ id, theme }) => (
               <ThemeProvider scope={`scope-${id}`} theme={theme} key={id}>
-                <button className="bg-primary-f size-4"></button>
+                <button
+                  className="bg-primary-f size-6 flex items-center justify-center p-2 rounded text-neutral-b5"
+                  onClick={() => {
+                    onThemeIdChange(id);
+                  }}
+                >
+                  {id === themeId ? '✓' : ''}
+                </button>
               </ThemeProvider>
             ))}
-          </Line> */}
+          </Line>
         </Section>
         <Section label={t('accessibility')}>
           <SelectLine

@@ -26,6 +26,8 @@ export const subBrands = [
 
 export type ServiceInfoWithUBrand = ServiceInfo & { uBrand?: BrandInfo };
 
+const tcrSupportedCountryIds = ['1', '39']; // US and CA
+
 @injectable({
   name: 'AccountInfo',
 })
@@ -125,14 +127,29 @@ export class AccountInfo extends DataFetcherConsumer<GetAccountInfoResponse> {
     return this.serviceInfo.uBrand?.id;
   }
 
+  get brandId() {
+    return this.serviceInfo.brand?.id;
+  }
+
+  @computed
+  get isTCRSupported() {
+    if (!this.serviceInfo.contractedCountry?.id) {
+      return false;
+    }
+    // only US & CA
+    return tcrSupportedCountryIds.includes(
+      this.serviceInfo.contractedCountry.id,
+    );
+  }
+
+  /**
+   * the brand id of the user, it is the uBrandId if it is a sub brand, otherwise it is the brandId
+   */
   @computed
   get userBrandId() {
-    const serviceInfo = this.serviceInfo;
     const uBrandId = this.uBrandId;
     const brandId =
-      uBrandId && subBrands.includes(uBrandId)
-        ? uBrandId
-        : serviceInfo.brand?.id;
+      uBrandId && subBrands.includes(uBrandId) ? uBrandId : this.brandId;
     return brandId;
   }
 }

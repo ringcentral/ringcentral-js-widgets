@@ -157,9 +157,10 @@ export class RCI575 extends Step {
         <When
           desc="Choose another number item '(818) 858-7301' from dropdown list"
           action={async () => {
-            userEvent.click(
+            await userEvent.click(
               screen.getAllByTestId('selectMenuItem', { exact: false })[1],
             );
+            await waitForRenderReady();
           }}
         />
         <Then

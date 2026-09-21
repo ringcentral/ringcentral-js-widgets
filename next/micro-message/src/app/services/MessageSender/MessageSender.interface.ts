@@ -8,6 +8,11 @@ export interface SendErrorResponse {
   errors?: SendErrorResponseError[];
 }
 
+export type SmsPermissionReason =
+  | 'noComposePermission'
+  | 'noNumberAvailable'
+  | 'receiveOnlyNumber';
+
 export interface MessageSenderOptions {}
 
 export interface SenderNumber {

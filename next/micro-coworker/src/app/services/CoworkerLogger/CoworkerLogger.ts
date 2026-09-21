@@ -8,12 +8,13 @@ import {
   injectable,
   optional,
   PortManager,
+  pushPiiDeviceKeyToWorker,
   RcModule,
   SymmetricTransport,
-  Transport,
   watch,
 } from '@ringcentral-integration/next-core';
 import { type SerializedMessage } from '@ringcentral/mfe-logger';
+import type { SharedWorkerClientTransport } from 'data-transport';
 
 import type { CoworkerLoggerOptions } from './CoworkerLogger.interface';
 
@@ -79,16 +80,20 @@ export class CoworkerLogger extends RcModule {
   protected initializeOnClient() {
     if (this._portManager.shared && this._portManager.isWorkerMode) {
       this._portManager.onMainTab(() => {
-        this.transport = createTransport('SharedWorkerClient', {
+        const transport = createTransport('SharedWorkerClient', {
           worker: this._coworkerOptions.worker as SharedWorker,
           prefix: 'logger',
         });
-        this.transport.listen('syncLog', (data: SerializedMessage) => {
+        this.transport = transport;
+        transport.onConnect(() => {
+          pushPiiDeviceKeyToWorker(transport);
+        });
+        transport.listen('syncLog', (data: SerializedMessage) => {
           this._browserLogger!.storageTransport!.write(data);
         });
       });
     }
   }
 
-  protected transport?: Transport;
+  protected transport?: SharedWorkerClientTransport;
 }

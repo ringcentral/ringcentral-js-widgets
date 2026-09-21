@@ -70,6 +70,7 @@ type ContactDisplayProps = {
   brand?: string;
   stopPropagation?: boolean;
   sourceIcons?: ContactDisplayItemProps['sourceIcons'];
+  phoneTypeRenderer?: (...args: any[]) => any;
   phoneSourceNameRenderer?: (...args: any[]) => any;
   showGroupNumberName?: boolean;
   contactName?: any;
@@ -360,8 +361,7 @@ export const ContactDisplay: React.FC<ContactDisplayProps> = ({
             color={unread ? 'interactive.f01' : 'neutral.f06'}
             onClick={handleClick}
             disabled={disabled || isLogging}
-            // @ts-expect-error TS(2322): Type 'string | null | undefined' is not assignable... Remove this comment to see the full error message
-            title={title}
+            title={title ?? undefined}
             endIcon={
               <RcIcon
                 symbol={open ? ArrowUp2 : ArrowDown2}
@@ -378,7 +378,7 @@ export const ContactDisplay: React.FC<ContactDisplayProps> = ({
           <StyledMenu
             open={open}
             anchorEl={anchorEl}
-            onClose={(e: any, reason) => {
+            onClose={(e: any, reason: string) => {
               // stop event propagation to prevent click event on item
               if (reason === 'backdropClick') {
                 e.stopPropagation();
@@ -432,7 +432,7 @@ export const ContactDisplay: React.FC<ContactDisplayProps> = ({
                   value={itemValue}
                   key={i}
                   selected={value === itemValue}
-                  onClick={(e) => {
+                  onClick={(e: React.MouseEvent) => {
                     e.preventDefault();
                     e.stopPropagation();
 

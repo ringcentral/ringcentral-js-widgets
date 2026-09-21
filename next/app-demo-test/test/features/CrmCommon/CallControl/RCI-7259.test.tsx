@@ -16,6 +16,7 @@
  * Entry point(/s): Another user make a call to the call queue that include user A -> User A receive the incoming call from the call queue.
  */
 import { Webphone } from '@ringcentral-integration/micro-phone/src/app/services/Webphone';
+import { whenStateOrTimerChange } from '@ringcentral-integration/next-core/test';
 import {
   p2,
   it,
@@ -106,11 +107,15 @@ export class RCI7259Base extends Step {
               expect(webphone.reject).toHaveBeenCalled();
             }) as StepFunction,
 
-            () => {
+            async () => {
               const smallCtrlButtons = screen.queryByTestId('smallCallControl');
               expect(smallCtrlButtons).not.toBeInTheDocument();
-              const backButton = screen.getByTestId('backButton');
-              userEvent.click(backButton);
+              const backButton = await whenStateOrTimerChange(() => {
+                const button = screen.getByTestId('backButton');
+                expect(button).toBeInTheDocument();
+                return button;
+              });
+              await userEvent.click(backButton);
 
               const callsList = screen.queryByTestId('callsList');
               expect(callsList).not.toBeInTheDocument();

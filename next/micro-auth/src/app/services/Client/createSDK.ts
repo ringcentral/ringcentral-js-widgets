@@ -23,9 +23,7 @@ export const createSDK = (
   const config = removeSDKNonISO8859Chars(sdkConfig);
 
   if (brandConfig) {
-    config.brandId =
-      // when code be rc, always not set brandId, because rc is a partner brand login
-      brandConfig.code === 'rc' ? undefined : brandConfig.id;
+    config.brandId = brandConfig.code === 'rc' ? undefined : brandConfig.id;
   }
 
   return new SDK(config);

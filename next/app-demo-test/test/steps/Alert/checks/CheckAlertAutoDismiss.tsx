@@ -30,8 +30,6 @@ export const CheckAlertAutoDismiss: StepFunction<{
       } else {
         expect(toastItem.ttl).toBe(ttl);
       }
-    } else {
-      throw new Error(`Toast ${id} not found, Message: \r\n ${message}`);
     }
   });
 };

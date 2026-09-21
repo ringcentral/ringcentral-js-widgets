@@ -49,7 +49,7 @@ const ISOCode_PR = 'PR';
 export const isUSOrCAOrPR = (countryCode: CountryCode) =>
   [ISOCode_US, ISOCode_CA, ISOCode_PR].includes(countryCode);
 
-type PhoneNumberFormatType = {
+export type PhoneNumberFormatType = {
   phoneNumber: string;
   countryCode?: CountryCode;
   areaCode?: string;
@@ -61,18 +61,52 @@ type PhoneNumberFormatType = {
   maxExtensionLength?: number;
   isEDPEnabled?: boolean;
 };
-export default function format({
-  phoneNumber,
-  countryCode = 'US',
-  areaCode = '',
-  siteCode = '',
-  type = formatTypes.local,
-  removeExtension = false,
-  isMultipleSiteEnabled = false,
-  extensionDelimiter = ' * ',
-  maxExtensionLength = 6,
-  isEDPEnabled = false,
-}: PhoneNumberFormatType) {
+
+/**
+ * Format a phone number string based on parsing and formatting options.
+ *
+ * This method only returns the formatted number. If you also need the parser result,
+ * use `formatWithParserResult` instead.
+ */
+export default function format(option: PhoneNumberFormatType) {
+  return formatWithParserResult(option).number;
+}
+
+/**
+ * Format a phone number and return both formatted output and parser result.
+ *
+ * Use this method when caller logic depends on parse details such as
+ * `isValid`, `isExtension`, `parsedCountry`, or `extension`.
+ */
+export function formatWithParserResult(option: PhoneNumberFormatType) {
+  const { phoneNumber, countryCode = 'US', maxExtensionLength = 6 } = option;
+
+  const result: ParseResult = parse({
+    input: phoneNumber,
+    countryCode,
+    maxExtensionLength,
+  });
+
+  return {
+    parserResult: result,
+    number: getNumberResult(result, option),
+  };
+}
+
+const getNumberResult = (
+  result: ParseResult,
+  option: Omit<PhoneNumberFormatType, 'phoneNumber' | 'maxExtensionLength'>,
+) => {
+  const {
+    countryCode = 'US',
+    areaCode = '',
+    siteCode = '',
+    type = formatTypes.local,
+    removeExtension = false,
+    isMultipleSiteEnabled = false,
+    extensionDelimiter = ' * ',
+    isEDPEnabled = false,
+  } = option;
   const {
     phoneNumber: number,
     extension,
@@ -83,11 +117,7 @@ export default function format({
     isValid,
     hasPlus,
     countryCallingCode,
-  }: ParseResult = parse({
-    input: phoneNumber,
-    countryCode,
-    maxExtensionLength,
-  });
+  } = result;
 
   if (!isValid) {
     return '';
@@ -109,7 +139,7 @@ export default function format({
   if (type === formatTypes.e164) {
     finalType = 'E.164';
   } else if (type === formatTypes.international) {
-    finalType = 'International';
+    finalType = 'INTERNATIONAL';
   } else {
     finalType =
       // parsedCountry is the country of phoneNumber country, countryCode is the country of caller
@@ -117,8 +147,8 @@ export default function format({
         isUSOrCAOrPR(parsedCountry as CountryCode)) ||
       parsedCountry === countryCode ||
       countryCallingCode === getCountryCallingCode(countryCode)
-        ? 'National'
-        : 'International';
+        ? 'NATIONAL'
+        : 'INTERNATIONAL';
   }
 
   let formattedNumber;
@@ -154,4 +184,4 @@ export default function format({
   return extension && !removeExtension
     ? `${formattedNumber}${extensionDelimiter}${extension}`
     : formattedNumber;
-}
+};

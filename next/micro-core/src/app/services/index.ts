@@ -7,6 +7,7 @@ export * from './Toast';
 export * from './DataMatcher';
 export * from './LoggerBase';
 export * from './DateTimeFormat';
+export * from './StaticTimezoneService';
 export * from './PerfTracker';
 export * from './Beforeunload';
 export * from './BrowserLogger';

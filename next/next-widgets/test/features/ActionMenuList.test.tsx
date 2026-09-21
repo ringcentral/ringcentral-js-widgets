@@ -1,5 +1,5 @@
 import { waitForRenderReady } from '@ringcentral-integration/test-utils';
-import { act, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { HistoryAction, SubmenuAction } from '../../components/ActionMenuList';
@@ -40,7 +40,7 @@ describe('ActionMenuList', () => {
     });
     expect(screen.queryByTestId('call')).not.toBeInTheDocument();
 
-    userEvent.click(screen.getByTestId('more'));
+    await userEvent.click(screen.getByTestId('more'));
 
     expect(screen.getByTestId('call')).toBeInTheDocument();
   });
@@ -52,7 +52,7 @@ describe('ActionMenuList', () => {
       onAction: onActionFn,
     });
 
-    userEvent.click(screen.getByTestId('addEntity'));
+    await userEvent.click(screen.getByTestId('addEntity'));
 
     expect(onActionFn.mock.calls[0][0]).toBe('addEntity');
   });
@@ -66,12 +66,12 @@ describe('ActionMenuList', () => {
     });
 
     expect(screen.queryByTestId('moreActionList')).not.toBeInTheDocument();
-    userEvent.click(screen.getByTestId('more'));
+    await userEvent.click(screen.getByTestId('more'));
     expect(screen.getByTestId('moreActionList')).toBeInTheDocument();
     expect(screen.getByTestId('call')).toBeInTheDocument();
 
     jest.useFakeTimers();
-    userEvent.click(screen.getByTestId('call'));
+    fireEvent.click(screen.getByTestId('call'));
     await act(async () => {
       jest.advanceTimersByTime(200);
       await waitForRenderReady();
@@ -134,6 +134,15 @@ describe('ActionMenuList', () => {
       },
     ];
 
+    const openViewEntitySubmenu = async () => {
+      const viewEntity = screen.getByTestId('viewEntity');
+      viewEntity.focus();
+      fireEvent.keyDown(viewEntity, { key: 'ArrowRight' });
+      await waitFor(() => {
+        expect(screen.getByText('Submenu Action 1')).toBeInTheDocument();
+      });
+    };
+
     it('should render submenu in visible actions when isSubmenu is true', async () => {
       await renderComponent({
         actions: mockActionsWithSubmenu,
@@ -160,7 +169,7 @@ describe('ActionMenuList', () => {
       expect(screen.getByTestId('more')).toBeInTheDocument();
 
       // Click more button to open menu
-      userEvent.click(screen.getByTestId('more'));
+      await userEvent.click(screen.getByTestId('more'));
 
       // Should render the submenu in the menu
       expect(screen.getByTestId('viewEntity')).toBeInTheDocument();
@@ -178,10 +187,9 @@ describe('ActionMenuList', () => {
       });
 
       // Open the main menu
-      userEvent.click(screen.getByTestId('more'));
+      await userEvent.click(screen.getByTestId('more'));
 
-      // Click on the submenu button
-      userEvent.click(screen.getByTestId('viewEntity'));
+      await openViewEntitySubmenu();
 
       // Should render submenu items
       expect(screen.getByTestId('submenuAction1')).toBeInTheDocument();
@@ -225,13 +233,12 @@ describe('ActionMenuList', () => {
       });
 
       // Open the main menu
-      userEvent.click(screen.getByTestId('more'));
+      await userEvent.click(screen.getByTestId('more'));
 
-      // Click on the submenu button
-      userEvent.click(screen.getByTestId('viewEntity'));
+      await openViewEntitySubmenu();
 
       // Click on first submenu action
-      userEvent.click(screen.getByTestId('submenuAction1'));
+      await userEvent.click(screen.getByTestId('submenuAction1'));
 
       expect(submenuAction1Click).toHaveBeenCalledTimes(1);
       expect(submenuAction2Click).not.toHaveBeenCalled();
@@ -266,10 +273,9 @@ describe('ActionMenuList', () => {
       });
 
       // Open the main menu
-      userEvent.click(screen.getByTestId('more'));
+      await userEvent.click(screen.getByTestId('more'));
 
-      // Click on the submenu button
-      userEvent.click(screen.getByTestId('viewEntity'));
+      await openViewEntitySubmenu();
 
       // Should render custom icon text
       expect(screen.getByText('Custom Icon Text')).toBeInTheDocument();
@@ -313,21 +319,19 @@ describe('ActionMenuList', () => {
       });
 
       // Open the main menu
-      userEvent.click(screen.getByTestId('more'));
+      await userEvent.click(screen.getByTestId('more'));
 
-      // Click on the submenu button
-      userEvent.click(screen.getByTestId('viewEntity'));
+      await openViewEntitySubmenu();
       // Click on the submenu action
-      userEvent.click(screen.getByText('Submenu Action 1'));
+      await userEvent.click(screen.getByText('Submenu Action 1'));
 
       // Should call the onClick handler
       expect(submenuAction1Click).toHaveBeenCalledTimes(1);
       expect(action).not.toHaveBeenCalled();
 
-      // Click on the submenu button
-      userEvent.click(screen.getByTestId('viewEntity'));
+      await openViewEntitySubmenu();
       // Click on the submenu action
-      userEvent.click(screen.getByText('Submenu Action 2'));
+      await userEvent.click(screen.getByText('Submenu Action 2'));
 
       // Should call the onClick handler
       expect(submenuAction2Click).toHaveBeenCalledTimes(1);
@@ -369,18 +373,15 @@ describe('ActionMenuList', () => {
       });
 
       // Open the main menu
-      userEvent.click(screen.getByTestId('more'));
+      await userEvent.click(screen.getByTestId('more'));
 
-      // Click on the submenu button
-      userEvent.click(screen.getByTestId('viewEntity'));
+      await openViewEntitySubmenu();
 
-      // Check that disabled action is disabled
       const disabledAction = screen.getByTestId('submenuAction1');
-      expect(disabledAction).toHaveAttribute('disabled');
+      expect(disabledAction).toHaveAttribute('aria-disabled', 'true');
 
-      // Check that enabled action is not disabled
       const enabledAction = screen.getByTestId('submenuAction2');
-      expect(enabledAction).not.toHaveAttribute('disabled');
+      expect(enabledAction).not.toHaveAttribute('aria-disabled');
     });
 
     it('should handle disabled visible submenu button', async () => {

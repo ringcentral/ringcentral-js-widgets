@@ -1,8 +1,10 @@
 const __CI__ = process.argv.includes('--ci');
+const path = require('path');
 const {
   ignores,
 } = require('@ringcentral-integration/babel-settings/lib/ignores');
 const globals = { __CI__, EXEC_ROOT_DIR: process.env.EXEC_ROOT_DIR };
+const isPreviewMode = process.env.L10N_CAPTURE === '1';
 
 function getReporters(reporterPrefix = '', outputRoot = '<rootDir>/') {
   const reporters = [];
@@ -45,38 +47,53 @@ const getBaseJestConfig = ({
   reporterPrefix = '',
   useNextConfig = false,
 } = {}) => {
+  const transformIgnorePatterns = isPreviewMode
+    ? [
+        'node_modules/(?!((@rjsf|culori)/|(@ringcentral/spring)|.*\\.(css|scss|sass|less)$))',
+      ]
+    : [...ignores];
+  const transform = {
+    'loadLocale\\.(js|jsx|ts|tsx)$':
+      '@ringcentral-integration/test-utils/mock/loadLocale.js',
+    '^.+\\.(js|jsx|ts|tsx)$': useNextConfig
+      ? '@ringcentral-integration/babel-settings/lib/nextTransform.js'
+      : '@ringcentral-integration/babel-settings/lib/jestTransform.js',
+  };
+  if (isPreviewMode) {
+    transform['^.+\\.(css|scss|sass|less)$'] = 'jest-preview/transforms/css';
+    transform['^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|scss|sass|less|json)$)'] =
+      'jest-preview/transforms/file';
+  }
+  const moduleNameMapper = {
+    // SVG
+    '\\.svg$': '@ringcentral-integration/test-utils/mock/svgMock.js',
+
+    // File mocks
+    '\\.(jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga|ogg)$':
+      '@ringcentral-integration/test-utils/mock/fileMock.js',
+
+    // URL mocks
+    '\\.*\\?(url|raw|inline)$':
+      '@ringcentral-integration/test-utils/mock/fileMock.js',
+
+    // Package resolutions
+    '^axios$': require.resolve('axios'),
+    'serialize-error': require.resolve('serialize-error'),
+  };
+  if (!isPreviewMode) {
+    moduleNameMapper['\\.(css|less|scss)$'] =
+      '@ringcentral-integration/test-utils/mock/styleMock.js';
+  }
   return {
     testMatch: ['**/?(*.)+(spec|test).[jt]s?(x)'],
     testEnvironment: 'jsdom',
+    cacheDirectory:
+      process.env.JEST_CACHE_DIRECTORY ||
+      path.resolve(__dirname, '../../..', '.cache/jest'),
     // some package be esm module, need transform
-    transformIgnorePatterns: [...ignores],
-    transform: {
-      'loadLocale\\.(js|jsx|ts|tsx)$':
-        '@ringcentral-integration/test-utils/mock/loadLocale.js',
-      '^.+\\.(js|jsx|ts|tsx)$': useNextConfig
-        ? '@ringcentral-integration/babel-settings/lib/nextTransform.js'
-        : '@ringcentral-integration/babel-settings/lib/jestTransform.js',
-    },
-    moduleNameMapper: {
-      // SVG
-      '\\.svg$': '@ringcentral-integration/test-utils/mock/svgMock.js',
-
-      // File mocks
-      '\\.(jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga|ogg)$':
-        '@ringcentral-integration/test-utils/mock/fileMock.js',
-
-      // Style mocks
-      '\\.(css|less|scss)$':
-        '@ringcentral-integration/test-utils/mock/styleMock.js',
-
-      // URL mocks
-      '\\.*\\?(url|raw|inline)$':
-        '@ringcentral-integration/test-utils/mock/fileMock.js',
-
-      // Package resolutions
-      '^axios$': require.resolve('axios'),
-      'serialize-error': require.resolve('serialize-error'),
-    },
+    transformIgnorePatterns,
+    transform,
+    moduleNameMapper,
     setupFiles: ['@ringcentral-integration/test-utils/scripts/jest.setup.ts'],
     setupFilesAfterEnv: [
       ...(process.env.TESTING_MCP

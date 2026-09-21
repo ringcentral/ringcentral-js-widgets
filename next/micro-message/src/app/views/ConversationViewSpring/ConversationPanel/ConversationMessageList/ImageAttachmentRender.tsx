@@ -9,7 +9,7 @@ import { CONTENT_TYPE_TO_EXTENSION } from '@ringcentral-integration/utils/src/ut
 import { useResizeObserver } from '@ringcentral/spring-ui';
 import clsx from 'clsx';
 import type { ComponentProps, FunctionComponent } from 'react';
-import React, { Suspense, useMemo, useRef, useState } from 'react';
+import React, { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 
 import styles from './styles.scss';
 
@@ -75,15 +75,75 @@ export const ImageAttachmentRender: FunctionComponent<
 > = (props) => {
   const { attachment, direction, handleImageLoad, ...rest } = props;
 
-  const uri = attachment.uri;
-  const fileNameWithoutExt = attachment.fileName
-    ? removeExtension(attachment.fileName)
-    : attachment.id;
-  const fileExt = attachment.fileName
-    ? getFileExtension(attachment.fileName)
-    : CONTENT_TYPE_TO_EXTENSION[attachment.contentType!];
-  const fileName = `${fileNameWithoutExt}.${fileExt}`;
-  const isTiff = fileExt.indexOf('tif') > -1;
+  const { uri, fileNameWithoutExt, fileExt, fileName, isTiff } = useMemo(() => {
+    const nextUri = attachment.uri;
+    const nextFileNameWithoutExt = attachment.fileName
+      ? removeExtension(attachment.fileName)
+      : attachment.id;
+    const nextFileExt = attachment.fileName
+      ? getFileExtension(attachment.fileName)
+      : CONTENT_TYPE_TO_EXTENSION[attachment.contentType!];
+    return {
+      uri: nextUri,
+      fileNameWithoutExt: nextFileNameWithoutExt,
+      fileExt: nextFileExt,
+      fileName: `${nextFileNameWithoutExt}.${nextFileExt}`,
+      isTiff: nextFileExt.indexOf('tif') > -1,
+    };
+  }, [
+    attachment.contentType,
+    attachment.fileName,
+    attachment.id,
+    attachment.uri,
+  ]);
+  const [resolvedSize, setResolvedSize] = useState<{
+    width: number;
+    height: number;
+  } | null>(
+    attachment.width && attachment.height
+      ? {
+          width: attachment.width,
+          height: attachment.height,
+        }
+      : null,
+  );
+
+  useEffect(() => {
+    if (isTiff) {
+      return;
+    }
+
+    if (attachment.width && attachment.height) {
+      setResolvedSize({
+        width: attachment.width,
+        height: attachment.height,
+      });
+      return;
+    }
+
+    if (!uri) {
+      return;
+    }
+
+    let active = true;
+    const img = new Image();
+    img.onload = () => {
+      if (!active) {
+        return;
+      }
+      const width = img.naturalWidth;
+      const height = img.naturalHeight;
+      if (width > 0 && height > 0) {
+        setResolvedSize({ width, height });
+      }
+    };
+    img.src = uri;
+
+    return () => {
+      active = false;
+      img.onload = null;
+    };
+  }, [attachment.height, attachment.width, isTiff, uri]);
 
   return (
     <div
@@ -101,10 +161,10 @@ export const ImageAttachmentRender: FunctionComponent<
         <Suspense fallback={null}>
           <TiffViewer tiffUrl={uri!} onLoad={handleImageLoad} />
         </Suspense>
-      ) : (
+      ) : resolvedSize ? (
         <PreviewMedia
-          height={attachment.height || 100}
-          width={attachment.width || 100}
+          height={resolvedSize.height}
+          width={resolvedSize.width}
           loading="lazy"
           tabIndex={0}
           src={uri}
@@ -113,6 +173,8 @@ export const ImageAttachmentRender: FunctionComponent<
           draggable="false"
           onLoad={handleImageLoad}
         />
+      ) : (
+        <div className="w-24 h-24" />
       )}
       <div
         className={clsx(

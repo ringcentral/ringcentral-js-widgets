@@ -38,7 +38,9 @@ export const VolumeSlider: FC<{
         value={toPercentValue(volume)}
         step={10}
         // cast value to number as we are not using ranged slider
-        onChange={(_, value) => onChange(toValue(value as number))}
+        onChange={(_: any, value: number | number[]) =>
+          onChange(toValue(value as number))
+        }
       />
       <VolumeIconContainer>
         <RcIcon symbol={Audio} />

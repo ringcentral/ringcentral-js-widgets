@@ -1,5 +1,5 @@
 import type { StepFunction } from '@ringcentral-integration/test-utils';
-import { screen, within } from '@testing-library/react';
+import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 export const InputRecipients: StepFunction<{
@@ -11,8 +11,10 @@ export const InputRecipients: StepFunction<{
   if (containerSelector) {
     container = within(screen.queryByTestId(containerSelector)!);
   }
-  userEvent.type(container.getByTestId('recipientsInput'), content);
+  await userEvent.type(container.getByTestId('recipientsInput'), content);
   if (checkValue) {
-    expect(container.getByTestId('recipientsInput')).toHaveValue(content);
+    await waitFor(() => {
+      expect(container.getByTestId('recipientsInput')).toHaveValue(content);
+    });
   }
 };

@@ -1,13 +1,15 @@
-import { telephonyStatus } from '@ringcentral-integration/commons/enums/telephonyStatus';
-import { Call } from '@ringcentral-integration/commons/interfaces/Call.interface';
+import type TelephonySessionsEventBody from '@rc-ex/core/lib/definitions/TelephonySessionsEventBody';
 import { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcher';
-import { NumberFormatter } from '@ringcentral-integration/micro-auth/src/app/services';
+import {
+  NumberFormatter,
+  type WebSocketSubscription as Subscription,
+} from '@ringcentral-integration/micro-auth/src/app/services';
 import {
   action,
-  computed,
   delegate,
   dynamic,
   fromWatchValue,
+  inject,
   injectable,
   logger,
   optional,
@@ -20,10 +22,7 @@ import {
   combineLatest,
   concatMap,
   defer,
-  delay,
-  EMPTY,
   filter,
-  firstValueFrom,
   map,
   merge,
   Observable,
@@ -36,16 +35,23 @@ import {
 import { ActiveCallControlSessionData } from '../ActiveCallControl/ActiveCallControl.interface';
 import { mapTelephonyStatus } from '../ActiveCallControl/helpers';
 import type { CallMonitor } from '../CallMonitor';
-import { sessionStatus, Webphone } from '../Webphone';
-import { getWebphoneSessionStartTime } from '../Webphone/webphoneHelper';
+import {
+  formatWebphoneSessionSummary,
+  sessionStatus,
+  Webphone,
+} from '../Webphone';
 
 import type { PreinsertCallStatus } from './PreinsertCall.interface';
 import {
   createConferenceParticipantRemovalId,
-  getPreinsertFakeId,
-  isPreinsertCallByTelephoneSessionId,
   parseConferenceParticipantRemovalId,
 } from './utils';
+
+const telephonySessionsEndPoint = /\/telephony\/sessions$/;
+
+type PreinsertServerHandlerOptions = {
+  dropTelephonySession?: (telephonySessionId: string) => Promise<void> | void;
+};
 
 @injectable({
   name: 'PreinsertCall',
@@ -53,6 +59,10 @@ import {
 export class PreinsertCall extends RcModule {
   @dynamic('CallMonitor')
   callMonitor!: CallMonitor;
+
+  private readonly _cancelledPreinsertWebphoneSessionIds = new Set<string>();
+  private readonly _cancelledPreinsertTelephonySessionIds = new Set<string>();
+  private readonly _cancellingPreinsertTelephonySessionIds = new Set<string>();
 
   @state
   preinsertStatusMap: Record<string, PreinsertCallStatus> = {};
@@ -93,71 +103,10 @@ export class PreinsertCall extends RcModule {
     }
   }
 
-  @computed
-  get preinsertCalls() {
-    return this._webphone.sessions.reduce((acc, session) => {
-      const telephonySessionId = session.partyData?.sessionId;
-      if (
-        // non have telephonySessionId should preinsert
-        !telephonySessionId ||
-        // have id but not in activeCallControl.sessions, should preinsert
-        (telephonySessionId &&
-          !this.callMonitor.callsInfo.telephonySessionIdCallMap[
-            telephonySessionId
-          ] &&
-          !this.isPreinsertStatusEnd(telephonySessionId) &&
-          // only outbound call should preinsert, inbound currently not want that, that will got a blank call when inbound call
-          session.direction === 'Outbound')
-      ) {
-        // normalize number for ensure the number is matcher mapping with same key
-        const fromNumber = this._numberFormatter.normalizeNumber(session.from);
-        const toNumber = this._numberFormatter.normalizeNumber(session.to);
-
-        const direction = session.direction;
-        const toName = '';
-        const fromName = '';
-        const partyId = session.partyData?.partyId;
-
-        const contactMapping = this._contactMatcher?.dataMapping ?? {};
-
-        const fromMatches = (fromNumber && contactMapping[fromNumber]) || [];
-        const toMatches = (toNumber && contactMapping[toNumber]) || [];
-
-        const sessionId = getPreinsertFakeId(session.id);
-        const callItem: Call = {
-          partyId,
-          direction,
-          telephonySessionId: session.partyData?.sessionId || sessionId,
-          toName,
-          fromName,
-          from: {
-            phoneNumber: fromNumber,
-          },
-          to: {
-            phoneNumber: toNumber,
-          },
-          webphoneSession: session,
-          startTime: getWebphoneSessionStartTime(session),
-          sessionId,
-          telephonyStatus:
-            session.callStatus === sessionStatus.connected
-              ? telephonyStatus.callConnected
-              : telephonyStatus.ringing,
-          fromMatches,
-          toMatches,
-          activityMatches: [],
-        };
-
-        acc.push(callItem);
-      }
-
-      return acc;
-    }, [] as Call[]);
-  }
-
   constructor(
     private _webphone: Webphone,
     protected _numberFormatter: NumberFormatter,
+    @inject('Subscription') private _subscription: Subscription,
     @optional() protected _contactMatcher?: ContactMatcher,
   ) {
     super();
@@ -215,7 +164,7 @@ export class PreinsertCall extends RcModule {
           const telephonySessionId = session.__rc_partyData?.sessionId;
 
           logger.log(`[${this.identifier}] end call trigger`, {
-            session,
+            session: formatWebphoneSessionSummary(session),
             telephonySessionId,
           });
 
@@ -243,6 +192,7 @@ export class PreinsertCall extends RcModule {
     sessionsMap$: Observable<
       Record<string, ActiveCallControlSessionData | undefined>
     >,
+    options: PreinsertServerHandlerOptions = {},
   ) {
     // clear not exist session id in preinsertStatusMap
     const clearPreinsertStatus$ = sessionsMap$.pipe(
@@ -275,19 +225,22 @@ export class PreinsertCall extends RcModule {
       map(([preinsertStatusMap, sessionsMap]) => {
         const preinsertEndSessionStatusMap = Object.entries(
           preinsertStatusMap,
-        ).reduce((acc, [telephonySessionId, status]) => {
-          if (status === 'end') {
-            const session = sessionsMap[telephonySessionId];
+        ).reduce(
+          (acc, [telephonySessionId, status]) => {
+            if (status === 'end') {
+              const session = sessionsMap[telephonySessionId];
 
-            const telephonyStatus = mapTelephonyStatus(
-              session?.party?.status?.code!,
-            );
+              const telephonyStatus = mapTelephonyStatus(
+                session?.party?.status?.code!,
+              );
 
-            acc[telephonySessionId] = telephonyStatus;
-          }
+              acc[telephonySessionId] = telephonyStatus;
+            }
 
-          return acc;
-        }, {} as Record<string, ReturnType<typeof mapTelephonyStatus>>);
+            return acc;
+          },
+          {} as Record<string, ReturnType<typeof mapTelephonyStatus>>,
+        );
         return preinsertEndSessionStatusMap;
       }),
       pairwise(),
@@ -315,19 +268,188 @@ export class PreinsertCall extends RcModule {
       }),
     );
 
-    merge(clearPreinsertStatus$, connectInOtherDevice$)
+    const markCancelledPreinsertFromMessage$ = this._subscription
+      .fromMessage$<TelephonySessionsEventBody>(telephonySessionsEndPoint)
+      .pipe(
+        tap((message) => {
+          const telephonySessionId = message?.telephonySessionId;
+
+          if (
+            telephonySessionId &&
+            this._isCancelledPreinsertSession(telephonySessionId)
+          ) {
+            this._cancelledPreinsertTelephonySessionIds.add(telephonySessionId);
+            void this.setPreinsert(telephonySessionId, 'end');
+          }
+        }),
+      );
+
+    const cancelPreinsertCall$ = sessionsMap$.pipe(
+      tap((sessionsMap) => {
+        Object.values(sessionsMap).forEach((session) => {
+          if (!session?.telephonySessionId) {
+            return;
+          }
+
+          const webphoneSessionId = this._getCurrentDeviceCallsBySessionId(
+            session.telephonySessionId,
+          );
+          const shouldCancel =
+            this._cancelledPreinsertTelephonySessionIds.has(
+              session.telephonySessionId,
+            ) ||
+            (webphoneSessionId &&
+              this._cancelledPreinsertWebphoneSessionIds.has(
+                webphoneSessionId,
+              ));
+
+          if (shouldCancel) {
+            void this._hangupCancelledPreinsertCall(
+              session.telephonySessionId,
+              webphoneSessionId,
+              options,
+            );
+          }
+        });
+
+        this._cleanCancelledPreinsertWebphoneSessionIds();
+      }),
+    );
+
+    merge(
+      clearPreinsertStatus$,
+      connectInOtherDevice$,
+      markCancelledPreinsertFromMessage$,
+      cancelPreinsertCall$,
+    )
       .pipe(takeUntilAppDestroy)
       .subscribe();
+  }
+
+  private _cleanCancelledPreinsertWebphoneSessionIds() {
+    Array.from(this._cancelledPreinsertWebphoneSessionIds).forEach(
+      (webphoneSessionId) => {
+        if (
+          !this._webphone.sessions.some(
+            (session) => session.id === webphoneSessionId,
+          )
+        ) {
+          this._cancelledPreinsertWebphoneSessionIds.delete(webphoneSessionId);
+        }
+      },
+    );
+  }
+
+  private _getCurrentDeviceCallsBySessionId(telephonySessionId: string) {
+    return this._webphone.sessions.find(
+      (session) => session.partyData?.sessionId === telephonySessionId,
+    )?.id;
+  }
+
+  isCurrentDeviceWebphoneSession(
+    telephonySessionId: string,
+    webphoneSessionId: string,
+  ) {
+    return (
+      this._getCurrentDeviceCallsBySessionId(telephonySessionId) ===
+      webphoneSessionId
+    );
+  }
+
+  private _isCancelledPreinsertSession(telephonySessionId: string) {
+    const webphoneSessionId =
+      this._getCurrentDeviceCallsBySessionId(telephonySessionId);
+
+    return (
+      this._cancelledPreinsertTelephonySessionIds.has(telephonySessionId) ||
+      Boolean(
+        webphoneSessionId &&
+        this._cancelledPreinsertWebphoneSessionIds.has(webphoneSessionId),
+      )
+    );
+  }
+
+  isCancelledPreinsertSession(telephonySessionId: string) {
+    return this._isCancelledPreinsertSession(telephonySessionId);
+  }
+
+  private _getPreinsertWebphoneSession(webphoneSessionId?: string | null) {
+    if (webphoneSessionId) {
+      return this._webphone.sessions.find(
+        (session) => session.id === webphoneSessionId,
+      );
+    }
+
+    return this._webphone.sessions.find(
+      (session) =>
+        session.direction === 'Outbound' &&
+        session.callStatus !== sessionStatus.finished,
+    );
+  }
+
+  @delegate('server')
+  async cancelPreinsertConnectingCall(webphoneSessionId?: string | null) {
+    const webphoneSession =
+      this._getPreinsertWebphoneSession(webphoneSessionId);
+
+    if (!webphoneSession) {
+      return null;
+    }
+
+    this._cancelledPreinsertWebphoneSessionIds.add(webphoneSession.id);
+
+    const telephonySessionId = webphoneSession.partyData?.sessionId;
+    if (telephonySessionId) {
+      this._cancelledPreinsertTelephonySessionIds.add(telephonySessionId);
+      await this.setPreinsert(telephonySessionId, 'end');
+    }
+
+    await this._hangupPreinsertWithWebphone(webphoneSession.id);
+    return webphoneSession.id;
+  }
+
+  private async _hangupCancelledPreinsertCall(
+    telephonySessionId: string,
+    webphoneSessionId: string | undefined,
+    options: PreinsertServerHandlerOptions,
+  ) {
+    if (this._cancellingPreinsertTelephonySessionIds.has(telephonySessionId)) {
+      return;
+    }
+
+    this._cancellingPreinsertTelephonySessionIds.add(telephonySessionId);
+    this._cancelledPreinsertTelephonySessionIds.add(telephonySessionId);
+
+    try {
+      await this.setPreinsert(telephonySessionId, 'end');
+
+      if (webphoneSessionId) {
+        this._cancelledPreinsertWebphoneSessionIds.add(webphoneSessionId);
+        await this._hangupPreinsertWithWebphone(webphoneSessionId);
+        return;
+      }
+
+      await options.dropTelephonySession?.(telephonySessionId);
+    } catch (error) {
+      logger.log(`[${this.identifier}] cancel preinsert call failed`, error);
+    } finally {
+      this._cancellingPreinsertTelephonySessionIds.delete(telephonySessionId);
+    }
+  }
+
+  @delegate('mainClient')
+  protected async _hangupPreinsertWithWebphone(
+    currentDeviceWebphoneId: string,
+  ) {
+    await this._webphone.hangup(currentDeviceWebphoneId, (error) => {
+      logger.log(`[${this.identifier}] preinsert hangup failed`, error);
+    });
   }
 
   isPreinsertStatusEnd(telephonySessionId: string) {
     const currStatus = this.preinsertStatusMap[telephonySessionId];
 
-    return (
-      currStatus === 'end' ||
-      // currStatus === 'forceTerminate' ||
-      currStatus === 'partyRemoved'
-    );
+    return currStatus === 'end' || currStatus === 'partyRemoved';
   }
 
   isPreinsertStatusIgnored(telephonySessionId: string) {
@@ -354,35 +476,4 @@ export class PreinsertCall extends RcModule {
 
     return true;
   }
-
-  // TODO: outbound call still not completed
-  // async isPreinsertCallBySessionId(telephonySessionId: string) {
-  //   if (isPreinsertCallByTelephoneSessionId(telephonySessionId)) {
-  //     this.setPreinsert(telephonySessionId, 'forceTerminate');
-  //     // wait preinsert call telephonySessionId ready
-  //     const readyPartyCall = await firstValueFrom(
-  //       fromWatchValue(this, () => this.preinsertCalls).pipe(
-  //         map((preinsertCalls) => {
-  //           const partyReadyPreinsertItem = preinsertCalls.find((call) => {
-  //             return Boolean(
-  //               call.sessionId === telephonySessionId &&
-  //                 // when that have party id and be connected
-  //                 !isPreinsertCallByTelephoneSessionId(
-  //                   call.telephonySessionId,
-  //                 ) &&
-  //                 // must wait that become connected then can hung up, otherwise server will emit error
-  //                 call.telephonyStatus === telephonyStatus.callConnected,
-  //             );
-  //           });
-
-  //           return partyReadyPreinsertItem;
-  //         }),
-  //         filter(Boolean),
-  //         delay(0),
-  //       ),
-  //     );
-
-  //     telephonySessionId = readyPartyCall.telephonySessionId!;
-  //   }
-  // }
 }

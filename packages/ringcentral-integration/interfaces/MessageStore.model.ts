@@ -8,6 +8,12 @@ export interface ConversationItem {
   messageId: GetMessageInfoResponse['id'];
 }
 
+export interface ThreadParty {
+  extensionId: string;
+  extensionType: string;
+  name: string;
+}
+
 export type Message = Pick<
   GetMessageInfoResponse,
   Exclude<
@@ -37,6 +43,8 @@ export type Message = Pick<
    * @default 'message'
    */
   messageType?: 'message' | 'info';
+  threadOwner?: ThreadParty;
+  threadAuthor?: ThreadParty;
 };
 
 export type Messages = Message[];

@@ -2,13 +2,7 @@ import type { Call as ICall } from '@ringcentral-integration/commons/interfaces/
 
 export type CallEventCallback = (call: ICall) => void | Promise<void>;
 
-export interface CallMonitorOptions {
-  /**
-   * Use telephony session, default `false`
-   */
-  useTelephonySession?: boolean;
-  enableContactMatchWhenNewCall?: boolean;
-}
+export interface CallMonitorOptions {}
 
 export type DeviceCallsMap = {
   all: ICall[];

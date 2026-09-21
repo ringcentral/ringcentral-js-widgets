@@ -1,10 +1,5 @@
-// import { Xmd } from '@ringcentral/spring-icon';
-
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import {
-  AlertProps, // IconButton,
-  SnackbarContent,
-} from '@ringcentral/spring-ui';
+import { AlertMd, InfoMd, SuccessMd } from '@ringcentral/spring-icon';
+import { AlertProps, SnackbarContent } from '@ringcentral/spring-ui';
 import clsx from 'clsx';
 import React, { FunctionComponent, useEffect, useRef } from 'react';
 
@@ -43,11 +38,38 @@ export const ToastItemPanel: FunctionComponent<ToastItemPanelProps> = ({
   messageAlign,
   fullWidth,
   className,
+
   ...rest
 }) => {
   const type = getLevelType(level);
 
   const snackbarContentRef = useRef<HTMLDivElement>(null);
+
+  // Extract startSlot from rest if provided
+  const { startSlot, ...restProps } = rest as {
+    startSlot?: React.ReactNode | null;
+  };
+
+  const DEFAULT_ICON_MAP = {
+    info: InfoMd,
+    error: AlertMd,
+    success: SuccessMd,
+    warning: AlertMd,
+    neutral: InfoMd,
+  } as const;
+
+  // Determine the icon to use based on severity - Same as SpringUI logic
+  const defaultIcon = DEFAULT_ICON_MAP[type] ?? InfoMd;
+
+  // Logic:
+  // - If startSlot is explicitly null, don't pass startSlot prop (no icon)
+  // - If startSlot is undefined, use default icon from map [Backward compatibility]
+  // - If startSlot has a value, use that value
+  const shouldShowIcon = startSlot !== null;
+  const iconToUse: React.ComponentType | React.ReactElement | null | undefined =
+    startSlot !== undefined
+      ? (startSlot as React.ComponentType | React.ReactElement | null)
+      : defaultIcon;
 
   const handleClose =
     action === undefined
@@ -74,34 +96,10 @@ export const ToastItemPanel: FunctionComponent<ToastItemPanelProps> = ({
       data-sign="Toast"
       data-sign-type={type}
       severity={type}
-      // TODO: currently always show icon
-      // icon={typeof children === 'string'}
-      icon
-      // TODO: still not support loading
-      // loading={loading}
-      // TODO: that action is render in wrong place, need wait spring update
-      // action={
-      //   action === undefined ? (
-      //     <IconButton
-      //       className="sui-snackbar-content-close"
-      //       symbol={Xmd}
-      //       variant="icon"
-      //       shape="squircle"
-      //       color="secondary"
-      //       size="small"
-      //       background={false}
-      //       data-sign="dismiss"
-      //       onClick={() => {
-      //         dismiss(id, 'removeButtonClick');
-      //       }}
-      //     />
-      //   ) : (
-      //     action
-      //   )
-      // }
+      {...(shouldShowIcon ? { startSlot: iconToUse } : {})}
       action={action}
       onClose={handleClose}
-      {...rest}
+      {...restProps}
       className={clsx('min-w-auto flex-none', className)}
     >
       {children}

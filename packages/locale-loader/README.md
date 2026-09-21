@@ -153,6 +153,87 @@ importLocale(config).then(() => {
 });
 ```
 
+## Single File APIs
+
+The package also supports exporting, importing, and checking one locale file at a time.
+
+```javascript
+import {
+    exportLocaleFile,
+    importLocaleFile,
+    isLocaleFile,
+} from '@ringcentral-integration/locale-loader';
+
+const sourceRelativePath = 'src/components/Foo/i18n/en-US.ts';
+
+isLocaleFile(sourceRelativePath); // true
+isLocaleFile(sourceRelativePath, 'en-US'); // true
+isLocaleFile(sourceRelativePath, 'fr-FR'); // false
+
+const sourceData = exportLocaleFile({
+    sourceFolder: process.cwd(), // optional, default to cwd()
+    sourceRelativePath,
+    sourceLocale: 'en-US',
+});
+
+await importLocaleFile({
+    sourceFolder: process.cwd(), // optional, default to cwd()
+    targetLocale: 'fr-FR',
+    targetRelativePath: sourceRelativePath,
+    rawData: {
+        title: 'Bonjour',
+        '[constants.fetchError]': 'Erreur de chargement',
+    },
+});
+```
+
+### `exportLocaleFile`
+
+- `sourceRelativePath`: locale file path relative to `sourceFolder`
+- `sourceFolder`: optional base folder, defaults to `process.cwd()`
+- `sourceLocale`: expected source locale for that file, such as `en-US`
+
+Returns a flat object of source strings:
+
+```javascript
+{
+    title: 'Hello World',
+    '[constants.fetchError]': 'Fetch Error',
+}
+```
+
+### `importLocaleFile`
+
+- `targetRelativePath`: locale file path relative to `sourceFolder`
+- `targetLocale`: locale to write, such as `fr-FR`
+- `sourceFolder`: optional base folder, defaults to `process.cwd()`
+- `sourceLocale`: optional source locale, defaults to `en-US` when `targetRelativePath` already points to the target file
+- `rawData`: translated key-value payload
+
+`targetRelativePath` may point to either the source file or the target file:
+
+- `src/components/Foo/i18n/en-US.ts` + `targetLocale: 'fr-FR'` will write `fr-FR.ts`
+- `src/components/Foo/i18n/fr-FR.ts` + `targetLocale: 'fr-FR'` will update `fr-FR.ts` and infer the source file
+
+`rawData` supports both formats:
+
+```javascript
+{
+    title: 'Bonjour',
+}
+```
+
+```javascript
+{
+    title: {
+        source: 'Hello World',
+        value: 'Bonjour',
+    },
+}
+```
+
+When `rawData` includes `source`, the import will skip that key if the current source text no longer matches.
+
 ## Consolidate Locale Data
 
 Consolidate locale will do the following:

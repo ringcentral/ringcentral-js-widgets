@@ -1,18 +1,14 @@
 import { useEffect, useMemo } from 'react';
 import { RouterState } from 'reactant-router';
 import {
-  inject,
-  injectable,
   PortDetector,
   Router as BaseRouter,
   RouterOptions,
   SharedAppOptions,
-  watch,
   IRouterOptions as BaseIRouterOptions,
   type ISharedAppOptions,
-  getRef,
-  state,
 } from 'reactant-share';
+import { getRef, inject, injectable, state, watch } from 'reactant';
 import { matchPath, useRouteMatch } from 'reactant-web';
 
 import { action, delegate } from '../lib';

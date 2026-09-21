@@ -1,6 +1,7 @@
 export * from './useHammer';
 export * from './useMutationObserver';
 export * from './useAsyncState';
+export * from './useDebouncedFieldState';
 export * from './useEffectOnDocumentFocus';
 export * from './useEverVisible';
 export * from './usePanMove';

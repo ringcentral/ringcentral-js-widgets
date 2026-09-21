@@ -82,7 +82,7 @@ export default function SelectWidget<
       autoFocus={autofocus}
       placeholder={placeholder}
       error={rawErrors.length > 0}
-      onChange={({ target: { value } }) =>
+      onChange={({ target: { value } }: ChangeEvent<{ value: any }>) =>
         onChange(
           enumOptionsValueForIndex<S>(value as any, enumOptions, optEmptyVal),
         )

@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import linkifyHtml from 'linkify-html';
 import React from 'react';
 
@@ -17,6 +18,7 @@ interface SanitizeHtmlProps {
    * The options for linkifyjs
    */
   linkifyOptions?: LinkifyOptions;
+  className?: string;
 }
 
 const DEFAULT_LINKIFY_OPTIONS = {
@@ -31,6 +33,8 @@ const DEFAULT_LINKIFY_OPTIONS = {
 export const SanitizeHtml: React.FC<SanitizeHtmlProps> = ({
   content,
   linkifyOptions,
+  className,
+  ...rest
 }) => {
   const sanitizedContent = useSanitizeHtml(content);
   if (!sanitizedContent) {
@@ -39,13 +43,17 @@ export const SanitizeHtml: React.FC<SanitizeHtmlProps> = ({
 
   return (
     <span
-      className="whitespace-pre-wrap break-words [&_a]:sui-link [&_a]:sui-link-root [&_a]:sui-link-primary [&_a]:sui-link-always"
+      className={clsx(
+        'whitespace-pre-wrap break-words [&_a]:sui-link [&_a]:sui-link-root [&_a]:sui-link-primary [&_a]:sui-link-always',
+        className,
+      )}
       dangerouslySetInnerHTML={{
         __html: linkifyHtml(
           sanitizedContent,
           linkifyOptions ?? DEFAULT_LINKIFY_OPTIONS,
         ),
       }}
+      {...rest}
     />
   );
 };

@@ -1,4 +1,5 @@
 import type { ContactModel } from '@ringcentral-integration/commons/interfaces/Contact.model';
+import type { ReactNode } from 'react';
 
 import type { GetPresenceFn } from '../../react-hooks/usePresence';
 import type {
@@ -10,6 +11,7 @@ import type {
 } from '../ContactDetails/ContactDetails.interface';
 
 export interface ContactDetailsViewProps {
+  children?: ReactNode;
   currentLocale: string;
   contact: ContactModel | null;
   isMultipleSiteEnabled: boolean;

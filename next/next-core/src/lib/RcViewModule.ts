@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-declaration-merging */
-import { loggerV2 } from '@ringcentral-integration/core/lib/logger/loggerV2';
-import { ViewModule } from 'reactant-share';
+import { ViewModule } from 'reactant';
 import { filter, map } from 'rxjs';
 
 import {
@@ -10,6 +9,7 @@ import {
 } from '../constant';
 
 import { RcModule } from './RcModule';
+import { logger } from './logger';
 import { fromWatchValue } from './rxjs';
 
 export interface RcViewModule {
@@ -24,7 +24,7 @@ export interface RcViewModule {
 }
 
 export abstract class RcViewModule extends ViewModule {
-  protected logger = loggerV2.create(this);
+  protected logger = logger.create(this);
 
   status$ = fromWatchValue(this, () => this.status);
 

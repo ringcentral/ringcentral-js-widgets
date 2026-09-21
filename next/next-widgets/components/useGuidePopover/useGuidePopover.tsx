@@ -36,6 +36,7 @@ const rightTopHintClasses =
 type GuidePopoverProps = React.PropsWithChildren<{
   anchorRef: React.RefObject<HTMLDivElement>;
   popoverOpen: boolean;
+  onBackdropClick?: React.MouseEventHandler<HTMLDivElement>;
 }>;
 
 /**
@@ -46,13 +47,14 @@ export const GuidePopover: FunctionComponent<GuidePopoverProps> = ({
   children,
   anchorRef,
   popoverOpen,
+  onBackdropClick,
 }) => {
   if (!popoverOpen) return null;
 
   return (
     <>
       <Portal>
-        <Backdrop className="z-0" />
+        <Backdrop className="z-0" onClick={onBackdropClick} />
       </Portal>
       <Popper
         anchorEl={() => anchorRef.current}
@@ -134,9 +136,12 @@ export const GuideAnchor = forwardRef<HTMLDivElement, GuideAnchorProps>(
         {children}
         {showHint && (
           <>
-            <div className={hintClassName} />
+            <div data-sign="guideHint" className={hintClassName} />
             {animateHint && (
-              <div className={clsx(hintClassName, 'animate-ping')} />
+              <div
+                data-sign="guideHintAnimation"
+                className={clsx(hintClassName, 'animate-ping')}
+              />
             )}
           </>
         )}

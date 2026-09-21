@@ -60,7 +60,6 @@ const UserInfo: FunctionComponent<any> = ({
           brand={brand}
           showPlaceholder={showContactDisplayPlaceholder}
           sourceIcons={sourceIcons}
-          // @ts-expect-error TS(2322): Type '{ name: any; className: string; selectClassN... Remove this comment to see the full error message
           phoneTypeRenderer={phoneTypeRenderer}
           phoneSourceNameRenderer={phoneSourceNameRenderer}
         />

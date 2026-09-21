@@ -5,6 +5,6 @@ import {
 import { screen } from '@testing-library/react';
 
 export const ClickDialButton = async () => {
-  userEvent.click(screen.getByTestId('callButton'));
+  await userEvent.click(screen.getByTestId('callButton'));
   await waitForRenderReady();
 };

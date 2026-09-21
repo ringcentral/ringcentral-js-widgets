@@ -38,10 +38,10 @@ import { ForwardingNumber } from '../ForwardingNumber';
 import { Softphone } from '../Softphone';
 import { Webphone } from '../Webphone';
 
-import type { CallingSettingsOptions } from './CallingSettings.interface';
 import { callingModes } from './callingModes';
 import type { CallingOptionsType } from './callingOptions';
 import { callingOptions } from './callingOptions';
+import type { CallingSettingsOptions } from './CallingSettings.interface';
 import i18n, { t } from './i18n';
 import { mapOptionToMode } from './mapOptionToMode';
 
@@ -81,7 +81,7 @@ class CallingSettings extends RcModule {
     protected _appFeatures: AppFeatures,
     protected _extensionFeatures: ExtensionFeatures,
     protected _extensionPhoneNumber: ExtensionPhoneNumber,
-    @optional() protected _callerId?: CallerId,
+    protected _callerId: CallerId,
     @optional() protected _webphone?: Webphone,
     @optional() protected _softphone?: Softphone,
     @optional('TabManager') protected _tabManager?: any,
@@ -417,26 +417,130 @@ class CallingSettings extends RcModule {
       !fromNumber ||
       (fromNumber === BLOCKED_ID_VALUE && this.isBlockedIdDisabled)
     ) {
-      let defaultCallerId = this.fromNumbers[0];
-      if (this._callerId?.ringOut) {
-        if (
-          this._callerId.ringOut.type === 'Blocked' &&
-          !this.isBlockedIdDisabled
-        ) {
-          defaultCallerId = { phoneNumber: BLOCKED_ID_VALUE };
-        } else if (this._callerId.ringOut.type === 'PhoneNumber') {
-          const defaultPhoneNumber =
-            this._callerId?.ringOut.phoneInfo?.phoneNumber;
-          const defaultEntry = this.fromNumbers.find(
-            (item) => item.phoneNumber === defaultPhoneNumber,
-          );
-          if (defaultEntry) {
-            defaultCallerId = defaultEntry;
-          }
-        }
-      }
-      await this.updateFromNumber(defaultCallerId);
+      await this.updateFromNumber(this._getDefaultFromNumberByCallerId());
     }
+  }
+
+  private _getDefaultFromNumberByCallerId() {
+    // CallerId must be ready because selectable caller ID can be disabled;
+    // the API default still needs to drive the initial from number.
+    const includeBlocked = !this.isBlockedIdDisabled;
+    const fromNumbers = this.fromNumbers;
+    const fallback = fromNumbers[0] ?? {};
+    const callerIdByFeature = this._callerId.getDefaultCallerIdWithFeature({
+      includeBlocked,
+    });
+    const callerId = callerIdByFeature?.callerId;
+    const phoneInfo = callerId?.phoneInfo;
+    const baseLogContext = {
+      callerIdFeature: callerIdByFeature?.feature,
+      callerId: this._getCallerIdLogData(callerId),
+      includeBlocked,
+      isBlockedIdDisabled: this.isBlockedIdDisabled,
+      fromNumbersCount: fromNumbers.length,
+    };
+
+    if (callerId?.type === 'Blocked' && !this.isBlockedIdDisabled) {
+      this.logger.info('default caller ID resolved to blocked', {
+        ...baseLogContext,
+        selectedFromNumber: { phoneNumber: BLOCKED_ID_VALUE },
+      });
+      return { phoneNumber: BLOCKED_ID_VALUE };
+    }
+
+    let matchedBy: 'uri' | 'id' | 'phoneNumber' | undefined;
+    const defaultEntry = fromNumbers.find((item) => {
+      if (phoneInfo?.uri && item.uri === phoneInfo.uri) {
+        matchedBy = 'uri';
+        return true;
+      }
+      if (phoneInfo?.id && `${item.id}` === phoneInfo.id) {
+        matchedBy = 'id';
+        return true;
+      }
+      if (
+        phoneInfo?.phoneNumber &&
+        item.phoneNumber === phoneInfo.phoneNumber
+      ) {
+        matchedBy = 'phoneNumber';
+        return true;
+      }
+      return false;
+    });
+
+    if (!callerId) {
+      this.logger.warn(
+        'no configured default caller ID found; using first from number',
+        {
+          ...baseLogContext,
+          callerIdByFeature: this._getCallerIdFeaturesLogData(),
+          fallbackFromNumber: this._getFromNumberLogData(fallback),
+        },
+      );
+      return fallback;
+    }
+
+    if (!defaultEntry) {
+      this.logger.warn(
+        'default caller ID not available in from number list; using first from number',
+        {
+          ...baseLogContext,
+          availableFromNumbers: fromNumbers.map((item) =>
+            this._getFromNumberLogData(item),
+          ),
+          fallbackFromNumber: this._getFromNumberLogData(fallback),
+        },
+      );
+      return fallback;
+    }
+
+    this.logger.info('default caller ID matched from number', {
+      ...baseLogContext,
+      matchedBy,
+      selectedFromNumber: this._getFromNumberLogData(defaultEntry),
+    });
+
+    return defaultEntry;
+  }
+
+  private _getCallerIdLogData(
+    callerId?: ReturnType<CallerId['getDefaultCallerId']>,
+  ) {
+    return callerId
+      ? {
+          type: callerId.type,
+          phoneInfo: {
+            id: callerId.phoneInfo?.id,
+            hasUri: !!callerId.phoneInfo?.uri,
+            hasPhoneNumber: !!callerId.phoneInfo?.phoneNumber,
+          },
+        }
+      : null;
+  }
+
+  private _getCallerIdFeaturesLogData() {
+    return this._callerId.byFeature.map(({ feature, callerId }) => ({
+      feature,
+      callerId: this._getCallerIdLogData(callerId),
+    }));
+  }
+
+  private _getFromNumberLogData(number?: {
+    id?: string | number;
+    uri?: string;
+    usageType?: string;
+    features?: string[];
+    phoneNumber?: string;
+  }) {
+    return number
+      ? {
+          id: number.id,
+          usageType: number.usageType,
+          features: number.features,
+          hasUri: !!number.uri,
+          hasPhoneNumber: !!number.phoneNumber,
+        }
+      : null;
   }
 
   @delegate('server')

@@ -27,6 +27,7 @@ It supports building shared web applications that support multiple windows.
             -   [@action](#action)
             -   [@computed()](#computed)
             -   [delegate](#delegate)
+            -   [delegateRole](#delegaterole)
             -   [logger](#logger)
         -   [RcViewModule APIs](#rcviewmodule-apis)
         -   [State Subscription APIs](#state-subscription-apis)
@@ -408,6 +409,37 @@ Parallel execution, run that method in all `clients`.
 -   `@delegate('mainClient')`
 
 Delegate execution in `main client`.
+
+#### delegateRole
+
+`delegateRole()` is separate from legacy `delegate()`. Register and claim a
+named domain role through `PortManager`, then route role-owned work with the
+static decorator.
+
+```ts
+const mediaOwnerRole = {
+  role: 'webphone.mediaOwner',
+  allowMultiple: false,
+  autoElect: false,
+} as const satisfies RoleDefinition;
+
+await portManager.registerRole(mediaOwnerRole, {
+  onAcquire,
+  onRelease,
+});
+await portManager.claimRole(mediaOwnerRole.role);
+
+@delegateRole(mediaOwnerRole)
+async startCall() {}
+```
+
+Use `invokeRole(module, method, args, { role })` for imperative calls. See
+[role delegation design](./docs/role-delegation.md) for ownership, system
+routes, deadlines, and compatibility boundaries.
+
+Built-in routes are exported as `systemRoles`. `server`, `connectedClients`,
+and `all` use derived topology membership; `electedClient` is the only
+claimable system role.
 
 #### logger
 

@@ -120,6 +120,17 @@ export class CallLogTasks extends RcModule {
     };
   }
 
+  @action
+  updateCallStates(updates: Record<string, Partial<CallLogStatus>>) {
+    Object.entries(updates).forEach(([identify, newValue]) => {
+      const originalState = this.callsMappingState[identify];
+      this.callsMappingState[identify] = {
+        ...originalState,
+        ...newValue,
+      };
+    });
+  }
+
   @delegate('server')
   async updateCallLogState(identify: string) {
     this.update(identify, {
@@ -248,10 +259,13 @@ export class CallLogTasks extends RcModule {
 
   @computed
   get loggedMap() {
-    return Object.keys(this.callsMappingState).reduce((acc, key) => {
-      acc[key] = this.callsMappingState[key].isSucceed;
-      return acc;
-    }, {} as Record<string, boolean>);
+    return Object.keys(this.callsMappingState).reduce(
+      (acc, key) => {
+        acc[key] = this.callsMappingState[key].isSucceed;
+        return acc;
+      },
+      {} as Record<string, boolean>,
+    );
   }
 
   get callSelectionMap(): CallSelectionMap {

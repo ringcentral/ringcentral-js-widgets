@@ -47,9 +47,7 @@ const MoreActionWithIncomingCall: FunctionComponent<
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handleForwardListClick = (
-    event: React.MouseEvent<HTMLButtonElement>,
-  ) => {
+  const handleForwardListClick = (event: React.MouseEvent<HTMLLIElement>) => {
     clickForwardTrack();
     // @ts-expect-error TS(2345): Argument of type 'Element' is not assignable to pa... Remove this comment to see the full error message
     setForwardListEl(event.currentTarget.children?.[0]);
@@ -58,7 +56,7 @@ const MoreActionWithIncomingCall: FunctionComponent<
     setForwardListEl(null);
   };
 
-  const onForward = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const onForward = (event: React.MouseEvent<HTMLLIElement>) => {
     // @ts-expect-error TS(7015): Element implicitly has an 'any' type because index... Remove this comment to see the full error message
     const selectedValue = event.currentTarget.attributes['data-value'].value;
     if (selectedValue === 'custom') {
@@ -100,7 +98,6 @@ const MoreActionWithIncomingCall: FunctionComponent<
       >
         <StyledMenuList data-sign="moreList">
           <RcMenuItem
-            // @ts-expect-error TS(2322): Type '(event: React.MouseEvent<HTMLButtonElement>)... Remove this comment to see the full error message
             onClick={handleForwardListClick}
             data-sign="forward"
           >
@@ -190,7 +187,6 @@ const MoreActionWithIncomingCall: FunctionComponent<
             const isCustomOption = item.phoneNumber === 'custom';
             return (
               <RcMenuItem
-                // @ts-expect-error TS(2322): Type '(event: React.MouseEvent<HTMLButtonElement>)... Remove this comment to see the full error message
                 onClick={onForward}
                 key={item.phoneNumber}
                 data-value={item.phoneNumber}

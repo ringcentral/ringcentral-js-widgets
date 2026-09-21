@@ -78,6 +78,21 @@ describe('parse', () => {
     });
   });
 
+  test('parse US number with 835 area code', () => {
+    expect(parse({ input: '835-555-1234', countryCode: 'US' })).toMatchObject({
+      input: '835-555-1234',
+      isServiceNumber: false,
+      hasInvalidChars: false,
+      isExtension: false,
+      parsedCountry: 'US',
+      phoneNumber: '8355551234',
+      parsedNumber: '8355551234',
+      extension: null,
+      isValid: true,
+      hasPlus: false,
+    });
+  });
+
   test('parse number with extension', () => {
     expect(parse({ input: '650-361-8700 * 123' })).toMatchObject({
       input: '650-361-8700 * 123',

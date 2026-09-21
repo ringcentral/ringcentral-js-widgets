@@ -136,7 +136,6 @@ export class DialerPadView extends RcViewModule {
     return tabs.length > 0 ? (
       <this._syncTabView.component
         id={SyncTabId.DIALPAD}
-        className={clsx('[&_.sui-tab]:max-w-none [&_.sui-tab]:flex-grow')}
         variant="scrollable"
         tabs={tabs}
       />

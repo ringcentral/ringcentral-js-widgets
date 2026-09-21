@@ -6,14 +6,14 @@ The Analytics module is a tracking service for RingCentral applications that pro
 
 ## Features
 
--   Cross-tab tracking via worker mode
--   Support for Mixpanel and Pendo integration
--   Extended event properties functionality
--   Debug mode for development
--   Route-based tracking targets
--   Automatic user identification with owner ID
--   Compliance with EU privacy policies (IP address tracking disabled)
--   Observable stream of tracking events
+- Cross-tab tracking via worker mode
+- Support for Mixpanel and Pendo integration
+- Extended event properties functionality
+- Debug mode for development
+- Route-based tracking targets
+- Automatic user identification with owner ID
+- Compliance with EU privacy policies (IP address tracking disabled)
+- Observable stream of tracking events
 
 ## Installation
 
@@ -70,11 +70,11 @@ You can add custom properties that will be included in specific events:
 ```typescript
 // Add extended properties to specific events
 this._analytics.addEventsExtendedProps({
-    events: ['login', 'logout'],
-    extendedProps: {
-        appVersion: '1.0.0',
-        userRole: 'admin',
-    },
+  events: ['login', 'logout'],
+  extendedProps: {
+    appVersion: '1.0.0',
+    userRole: 'admin',
+  },
 });
 ```
 
@@ -109,20 +109,20 @@ or implement the class with same DI name
 
 ```ts
 @injectable({
-    name: 'AdditionalTrackProps',
+  name: 'AdditionalTrackProps',
 })
 export class AdditionalTrackProps
-    extends RcModule
-    implements IAdditionalTrackProps
+  extends RcModule
+  implements IAdditionalTrackProps
 {
-    get trackProps() {
-        // some properties that you want to add into every track
-        const initProps = this.getInitTrackProps();
-        return {
-            ...initProps,
-            ...this.trackPropsValue,
-        };
-    }
+  get trackProps() {
+    // some properties that you want to add into every track
+    const initProps = this.getInitTrackProps();
+    return {
+      ...initProps,
+      ...this.trackPropsValue,
+    };
+  }
 }
 ```
 
@@ -142,7 +142,7 @@ if you need addition trigger event when track
 ```typescript
 // Subscribe to all tracked events
 this._analytics.track$.subscribe(({ event, trackProps }) => {
-    console.log(`Event tracked: ${event}`, trackProps);
+  console.log(`Event tracked: ${event}`, trackProps);
 });
 ```
 
@@ -152,23 +152,23 @@ The Analytics module is configured via `AnalyticsOptions` interface:
 
 ```typescript
 export interface AnalyticsOptions {
-    // Enable console logging of track events
-    useLog?: boolean;
+  // Enable console logging of track events
+  useLog?: boolean;
 
-    // Enable Mixpanel integration
-    enableMixpanel?: boolean;
+  // Enable Mixpanel integration
+  enableMixpanel?: boolean;
 
-    // Mixpanel project token
-    analyticsKey: string;
+  // Mixpanel project token
+  analyticsKey: string;
 
-    // Custom track routers configuration (optional)
-    trackRouters?: TrackRouter[];
+  // Custom track routers configuration (optional)
+  trackRouters?: TrackRouter[];
 }
 
 // TrackRouter interface
 export interface TrackRouter {
-    router: string;
-    target: string;
+  router: string;
+  target: string;
 }
 ```
 

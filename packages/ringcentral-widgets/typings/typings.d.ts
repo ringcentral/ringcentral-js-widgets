@@ -40,6 +40,8 @@ declare module 'webpack-bundle-analyzer' {
   export const BundleAnalyzerPlugin: any;
 }
 
+declare module 'react-virtualized';
+
 interface Window {
   oAuthCallback?: ((callbackUri: string) => void) | null;
 }

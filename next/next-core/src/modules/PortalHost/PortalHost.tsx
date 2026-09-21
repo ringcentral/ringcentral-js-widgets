@@ -2,13 +2,9 @@
 import { sleep } from '@ringcentral-integration/utils';
 import { filter } from 'ramda';
 import {
-  action,
   fork,
-  injectable,
-  optional,
-  state,
-  getRef,
 } from 'reactant-share';
+import { action, getRef, injectable, optional, state } from 'reactant';
 import { v4 } from 'uuid';
 
 import { delegate, RcModule, globalStorage } from '../../lib';

@@ -8,6 +8,7 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
+import { act } from 'react';
 
 import {
   App,
@@ -30,7 +31,9 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  unmountComponentAtNode(element);
+  act(() => {
+    unmountComponentAtNode(element);
+  });
   element.remove();
   currentApp.destroy();
 });
@@ -88,7 +91,9 @@ class DelegateInWorkerShouldSerialize extends Step {
           desc="Bootstrap app"
           action={async () => {
             expect(componentRenderFn.mock.calls).toEqual([]);
-            await app.bootstrap(element);
+            await act(async () => {
+              await app.bootstrap(element);
+            });
           }}
         />
         <Then

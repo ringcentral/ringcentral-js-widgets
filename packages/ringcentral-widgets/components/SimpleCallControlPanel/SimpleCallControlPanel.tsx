@@ -36,7 +36,7 @@ const SimpleCallControlPanel: FunctionComponent<
 }) => {
   const [selectedMatcherIndex, setSelectedMatcherIndex] = useState(0);
   const formatPhone = useCallback(
-    (phoneNumber) =>
+    (phoneNumber: string) =>
       formatNumber({
         phoneNumber,
         areaCode,
@@ -46,7 +46,7 @@ const SimpleCallControlPanel: FunctionComponent<
     [areaCode, countryCode],
   );
   const onSelectMatcherName = useCallback(
-    (option) => {
+    (option: { id?: string }) => {
       let selectedMatcherIndex = (nameMatches ?? []).findIndex(
         (match) => match.id === option.id,
       );

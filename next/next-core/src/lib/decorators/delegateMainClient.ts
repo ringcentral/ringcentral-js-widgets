@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 /* eslint-disable func-names */
-import { getRef, delegate } from 'reactant-share';
+import { delegate } from 'reactant-share';
+import { getRef } from 'reactant';
 
 import type { PortManager } from '../../modules/PortManager';
 import { handleMainClientOnServer } from '../handleMainClient';

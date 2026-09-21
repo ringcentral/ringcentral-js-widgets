@@ -7,6 +7,8 @@ export default {
   optOutSingleRecipient: 'この受信者はオプトアウトしました。',
   optOutMultipleRecipients: '一部の受信者がオプトアウトしました。',
   optOutRemove: '削除',
+  incomingTextsOnly: '着信テキストのみ',
+  notSetUpForTexting: 'テキスト用に設定されていません',
 } as const;
 
 // @key: @#@"createNewText"@#@ @source: @#@"Create new text"@#@
@@ -15,3 +17,5 @@ export default {
 // @key: @#@"optOutSingleRecipient"@#@ @source: @#@"This recipient has opted out."@#@
 // @key: @#@"optOutMultipleRecipients"@#@ @source: @#@"Some recipients have opted out."@#@
 // @key: @#@"optOutRemove"@#@ @source: @#@"Remove"@#@
+// @key: @#@"incomingTextsOnly"@#@ @source: @#@"Incoming texts only"@#@
+// @key: @#@"notSetUpForTexting"@#@ @source: @#@"Not set up for texting"@#@

@@ -8,7 +8,7 @@ import {
   SharedAppOptions,
   testBed,
 } from '@ringcentral-integration/next-core';
-import { SharedWorkerClientTransport } from 'reactant-share';
+import { SharedWorkerClientTransport } from 'data-transport';
 import { firstValueFrom, Subject } from 'rxjs';
 
 import { CoworkerLogger } from './CoworkerLogger';
@@ -52,9 +52,9 @@ describe('CoworkerLogger', () => {
           provide: 'SdkConfig',
           useFactory: () =>
             ({
-              clientId: 'Bj3NT8EzS7xxxxx',
+              clientId: 'test-client-id'
               cachePrefix: 'custom-prefix-',
-              clientSecret: 'xxxxxxxx',
+              clientSecret: 'test-client-secret',
             } satisfies SDKConfig),
         },
       ],
@@ -127,9 +127,9 @@ describe('CoworkerLogger', () => {
           provide: 'SdkConfig',
           useFactory: () =>
             ({
-              clientId: 'Bj3NT8EzS7i4zzzzz',
+              clientId: 'test-client-id'
               cachePrefix: 'custom-prefix-',
-              clientSecret: 'edoKIzzzzzz',
+              clientSecret: 'test-client-secret',
             } satisfies SDKConfig),
         },
       ],
@@ -165,7 +165,23 @@ describe('CoworkerLogger', () => {
     );
     expect(listenSpy).toHaveBeenCalledWith('syncLog', expect.any(Function));
 
-    const syncLogSpy = listenSpy.mock.calls[1][1];
+    const emitSpy = jest.spyOn(coworkerLogger['transport']!, 'emit');
+    const connectCallbacks = (
+      coworkerLogger['transport'] as any
+    )._onConnectCallback as Set<() => void>;
+    connectCallbacks.forEach((callback) => callback());
+
+    expect(emitSpy).toHaveBeenCalledWith(
+      {
+        name: 'setPiiDeviceKey',
+        respond: false,
+      },
+      expect.stringMatching(/^[0-9a-f]+$/i),
+    );
+
+    const syncLogSpy = listenSpy.mock.calls.find(
+      (call) => call[0] === 'syncLog',
+    )![1];
     expect(syncLogSpy).toBeInstanceOf(Function);
 
     const writeSpy = jest.fn();
@@ -241,9 +257,9 @@ describe('CoworkerLogger', () => {
         {
           provide: 'SdkConfig',
           useValue: {
-            clientId: 'Bj3NT8xxxx',
-            cachePrefix: 'custom-prefix-',
-            clientSecret: 'edoKIN8xxxxxx',
+              clientId: 'test-client-id'
+              cachePrefix: 'custom-prefix-',
+              clientSecret: 'test-client-secret',
           } satisfies SDKConfig,
         },
       ],

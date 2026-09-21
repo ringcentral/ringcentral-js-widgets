@@ -21,13 +21,13 @@ import React, { useRef } from 'react';
 
 import { RecentCalls } from '../../services';
 
+import type { getTabs } from './getTabs';
+import { t } from './i18n';
 import type {
   RecentActivityContainerProps,
   RecentActivityViewOptions,
   RecentActivityViewProps,
 } from './RecentActivity.view.interface';
-import type { getTabs } from './getTabs';
-import { t } from './i18n';
 
 export const trackTabsMap = {
   recentCalls: trackEvents.clickRecentActivityCall,
@@ -64,15 +64,16 @@ export class RecentActivityView extends RcViewModule {
   @dynamic('RecentMessages')
   protected readonly _recentMessages?: RecentMessages;
 
+  @delegate('server')
   @track((_: RecentActivityView, entry: string) => [
     trackEvents.clickRecentActivity,
     { Entry: entry },
   ])
-  @delegate('server')
   async trackClickToggle(entry: string) {
     //
   }
 
+  @delegate('server')
   @track(
     (
       _: RecentActivityView,
@@ -80,7 +81,6 @@ export class RecentActivityView extends RcViewModule {
       entry: string,
     ) => [trackTabsMap[tabName], { Entry: entry }],
   )
-  @delegate('server')
   async trackClickTab(tabName: string, entry: string) {
     //
   }

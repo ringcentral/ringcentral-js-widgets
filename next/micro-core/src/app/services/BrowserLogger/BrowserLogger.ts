@@ -1,36 +1,47 @@
-import {
-  checkLoggerEnabled,
-  DEFAULT_LOGGER_ENABLED,
-  loggerV2,
-  toggleLogger,
-} from '@ringcentral-integration/core/lib/logger/loggerV2';
 import type { TrackPropsService } from '@ringcentral-integration/micro-auth/src/app/services';
 import {
   action,
+  checkLoggerEnabled,
   createTransport,
+  DEFAULT_LOGGER_ENABLED,
   delegate,
   dynamic,
   globalStorage,
   injectable,
+  logger,
+  logParamsWithSanitizationPolicy,
   optional,
   PortManager,
+  pushPiiDeviceKeyToWorker,
   RcModule,
   state,
   StoragePlugin,
   takeUntilAppDestroy,
+  toggleLogger,
   watch,
 } from '@ringcentral-integration/next-core';
+import { downloadFile } from '@ringcentral-integration/utils';
 import {
-  LogTypes,
+  type LogTypes,
   type SerializedMessage,
   StorageTransport,
 } from '@ringcentral/mfe-logger';
 import type { SharedWorkerClientTransport } from 'data-transport';
+import type JSZip from 'jszip';
 import { finalize, NEVER } from 'rxjs';
 
 import { UAParsedInfo } from '../UAParsedInfo';
 
-import type { BrowserLoggerOptions } from './BrowserLogger.interface';
+import type {
+  BrowserLoggerOptions,
+  CollectSanitizedLogsOptions,
+  ExtraLogFile,
+  SanitizedLogArchive,
+} from './BrowserLogger.interface';
+import {
+  captureTrustedBrowserLogEntries,
+  sanitizeLogZip,
+} from './sanitizeLogZip';
 
 checkLoggerEnabled(DEFAULT_LOGGER_ENABLED);
 
@@ -56,15 +67,18 @@ export class BrowserLogger extends RcModule {
       this._browserLoggerOptions?.worker
     ) {
       this._portManager.onMainTab(() => {
-        this.transport = createTransport('SharedWorkerClient', {
+        const transport = createTransport('SharedWorkerClient', {
           worker: this._browserLoggerOptions!.worker!,
           prefix: 'logger',
         });
-        this.transport.onConnect(() => {
+        this.transport = transport;
+        transport.onConnect(() => {
+          // Align worker HMAC key with this tab's persistent installation key.
+          pushPiiDeviceKeyToWorker(transport);
           this.logger.log('[BrowserLogger] SharedWorkerClient - connected');
         });
         this.logger.log('storageTransport:', !!this.storageTransport);
-        this.transport.listen('syncLog', (data: SerializedMessage) => {
+        transport.listen('syncLog', (data: SerializedMessage) => {
           this.storageTransport?.write(data);
         });
       });
@@ -189,19 +203,134 @@ export class BrowserLogger extends RcModule {
     this._setDownloading(val);
   }
 
-  override logger = this._browserLoggerOptions?.logger ?? loggerV2;
+  override logger = this._browserLoggerOptions?.logger ?? logger;
+
+  private async _addAdditionalLogs(zip: JSZip, scope?: string[]) {
+    const additionalLogProvider =
+      this._browserLoggerOptions?.additionalLogProvider;
+    if (!additionalLogProvider) return;
+
+    try {
+      await additionalLogProvider.addAdditionalLogs(zip, scope);
+    } catch (error) {
+      this.logger.warn('Failed to add additional logs:', error);
+    }
+  }
+
+  private async _addAdditionalLogsWithoutSanitize(
+    zip: JSZip,
+    scope?: string[],
+  ) {
+    const additionalLogProvider =
+      this._browserLoggerOptions?.additionalLogProvider;
+    if (!additionalLogProvider) return;
+
+    try {
+      await additionalLogProvider.addAdditionalLogsWithoutSanitize(zip, scope);
+    } catch (error) {
+      this.logger.warn('Failed to add additional logs:', error);
+    }
+  }
+
+  private _addExtraFiles(
+    zip: JSZip,
+    logName: string,
+    extraFiles: ExtraLogFile[] = [],
+  ) {
+    if (extraFiles.length === 0) return;
+
+    const attachmentsFolder = zip.folder(`${logName}/attachments`);
+    if (!attachmentsFolder) {
+      this.logger.error('Attachments folder not found');
+      return;
+    }
+
+    for (const { name, base64Url } of extraFiles) {
+      const base64Data = base64Url.split(',')[1];
+      attachmentsFolder.file(name, base64Data, { base64: true });
+    }
+  }
+
+  /**
+   * Build a sanitized log archive, including additional provider files and
+   * extra attachments. Used by both local download and CPR submission.
+   */
+  protected async buildSanitizedLogArchive(
+    storageTransport: StorageTransport,
+    options: CollectSanitizedLogsOptions = {},
+  ): Promise<SanitizedLogArchive | undefined> {
+    try {
+      const { name } = this._portManager.portDetector.sharedAppOptions;
+      await storageTransport.saveDB();
+      const data = await storageTransport.queryLogs({ name });
+
+      if (!data) return;
+
+      const trustedBrowserLogEntries = captureTrustedBrowserLogEntries(
+        data.zip,
+        data.name,
+      );
+
+      this._addExtraFiles(data.zip, data.name, options.extraFiles);
+      await this._addAdditionalLogs(data.zip, options.scope);
+      await sanitizeLogZip(data.zip, { trustedBrowserLogEntries });
+
+      await this._addAdditionalLogsWithoutSanitize(data.zip, options.scope);
+      const content = await storageTransport.zipLogs(data.zip);
+
+      return {
+        content,
+        name: data.name,
+      };
+    } catch (error) {
+      this.logger.error('Error retrieving logs:', error);
+      return;
+    }
+  }
+
+  /**
+   * Collect sanitized logs without downloading. Used by CPR and other callers
+   * that need the archive blob.
+   */
+  async collectSanitizedLogs(options?: CollectSanitizedLogsOptions) {
+    if (!this.storageTransport) {
+      this.logger.error('StorageTransport not found');
+      return;
+    }
+
+    return this.buildSanitizedLogArchive(this.storageTransport, options);
+  }
 
   /**
    * save log to local
    */
+  protected async downloadSanitizedLogs(
+    storageTransport: StorageTransport,
+    options?: CollectSanitizedLogsOptions,
+  ) {
+    const archive = await this.buildSanitizedLogArchive(
+      storageTransport,
+      options,
+    );
+
+    if (archive) {
+      const blobUrl = URL.createObjectURL(archive.content);
+
+      downloadFile(blobUrl, `${archive.name}.zip`);
+
+      // Revoke blob URL after 100ms to prevent memory leaks once download starts
+      setTimeout(() => {
+        URL.revokeObjectURL(blobUrl);
+      }, 100);
+    }
+  }
 
   async saveLog() {
     if (this.downloading) return;
     await this.setDownloading(true);
     try {
       if (this.storageTransport) {
-        const { name } = this._portManager.portDetector.sharedAppOptions;
-        await this.storageTransport.downloadLogs({ name });
+        await this.downloadSanitizedLogs(this.storageTransport);
       } else {
         throw new Error('StorageTransport not found');
       }
@@ -211,8 +340,11 @@ export class BrowserLogger extends RcModule {
   }
 
   get storageTransport() {
-    return this.logger.transports?.find(
-      (transport) => transport.type === 'storage',
+    const transports = this.logger.transports ?? [];
+    return transports.find(
+      (transport) =>
+        transport.type === 'storage' &&
+        typeof (transport as StorageTransport).queryLogs === 'function',
     ) as StorageTransport | void;
   }
 
@@ -228,5 +360,10 @@ export class BrowserLogger extends RcModule {
 
   log(...args: any[]) {
     this._log('info', ...args);
+  }
+
+  /** Logs parameters with a registered, path-scoped sanitization policy. */
+  logWithSanitizationPolicy(policyId: string, ...args: any[]) {
+    this._log('info', logParamsWithSanitizationPolicy(policyId, args));
   }
 }

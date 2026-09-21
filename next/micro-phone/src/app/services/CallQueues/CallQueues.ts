@@ -1,6 +1,4 @@
-import { subscriptionFilters } from '@ringcentral-integration/commons/enums/subscriptionFilters';
 import fetchList from '@ringcentral-integration/commons/lib/fetchList';
-import type { WebSocketSubscription as Subscription } from '@ringcentral-integration/micro-auth/src/app/services';
 import {
   Client,
   DataFetcher,
@@ -13,31 +11,20 @@ import {
   computed,
   delegate,
   injectable,
-  optional,
   state,
   storage,
   StoragePlugin,
-  takeUntilAppDestroy,
 } from '@ringcentral-integration/next-core';
-import { tap } from 'rxjs';
 
 import type {
   CallQueueInfo,
-  ExtensionGrantRecord,
   SmsRecipient,
   SmsRecipientsCacheEntry,
 } from './CallQueues.interface';
 
 const DEFAULT_TTL = 5 * 60 * 1000; // 5 min
 
-type CallQueueMetadata = {
-  queueId: string;
-  queueInfo: CallQueueInfo;
-  smsRecipients?: SmsRecipientsCacheEntry;
-  grant?: ExtensionGrantRecord;
-};
-
-type CallQueuesMap = Record<string, CallQueueMetadata>;
+type CallQueuesMap = Record<string, CallQueueInfo>;
 
 @injectable({
   name: 'CallQueues',
@@ -59,64 +46,26 @@ export class CallQueues extends DataFetcherConsumer<CallQueueInfo[]> {
       return data;
     },
     readyCheckFunction: () => this.readyCheckFunction(),
-    permissionCheckFunction: () => this.permissionCheckFunction(),
-  });
-
-  private _grantSource = new DataSource({
-    key: 'extensionGrants',
-    polling: false,
-    disableCache: false,
-    cleanOnReset: true,
-    ttl: DEFAULT_TTL,
-    fetchFunction: async () => {
-      const data = (await fetchList(async (params: any) => {
-        const response = await this._client.service
-          .platform()
-          .get('/restapi/v1.0/account/~/extension/~/grant', params);
-        return response.json();
-      })) as ExtensionGrantRecord[];
-
-      return data;
-    },
-    readyCheckFunction: () => this.readyCheckFunction(),
-    permissionCheckFunction: () => this.permissionCheckFunction(),
+    permissionCheckFunction: () => this.callQueuePermissionCheckFunction(),
   });
 
   @storage
   @state
   smsRecipientsCache: Record<string, SmsRecipientsCacheEntry> = {};
 
-  get grants() {
-    return this._dataFetcher.getData(this._grantSource) || [];
-  }
-
   @computed
-  get grantsMap() {
-    const result: Record<string, ExtensionGrantRecord> = {};
-    for (const grant of this.grants) {
-      result[grant.extension.id] = grant;
-    }
-    return result;
-  }
-
-  @computed
-  private get map(): CallQueuesMap {
+  private get map() {
     if (!this.data) {
       return {};
     }
     const result: CallQueuesMap = {};
     for (const queue of this.data) {
-      result[queue.id] = {
-        queueId: queue.id,
-        queueInfo: queue,
-        smsRecipients: this.smsRecipientsCache[queue.id],
-        grant: this.grantsMap[queue.id],
-      };
+      result[queue.id] = queue;
     }
     return result;
   }
 
-  getQueueMetadata(queueId: string): CallQueueMetadata | undefined {
+  getQueue(queueId: string) {
     return this.map[queueId];
   }
 
@@ -125,35 +74,11 @@ export class CallQueues extends DataFetcherConsumer<CallQueueInfo[]> {
     private _extensionFeatures: ExtensionFeatures,
     private _storage: StoragePlugin,
     protected override _dataFetcher: DataFetcher,
-    @optional('Subscription') protected _subscription?: Subscription,
   ) {
     super(_dataFetcher);
     this._storage.enable(this);
 
     this._dataFetcher.register(this._source);
-    this._dataFetcher.register(this._grantSource);
-
-    this._subscription?.register(this, {
-      filters: [subscriptionFilters.extensionGrants],
-    });
-  }
-
-  override onInitOnce() {
-    super.onInitOnce();
-
-    this._subscription
-      ?.fromMessage$(/\/extension\/.*.\/grant/)
-      .pipe(
-        tap(async () => {
-          try {
-            await this.refetchGrants();
-          } catch (error) {
-            this.logger.error('grant update error', error);
-          }
-        }),
-        takeUntilAppDestroy,
-      )
-      .subscribe();
   }
 
   @action
@@ -165,8 +90,7 @@ export class CallQueues extends DataFetcherConsumer<CallQueueInfo[]> {
    * Check if cache entry is expired
    */
   private isCacheExpired(queueId: string): boolean {
-    const map = this.map[queueId];
-    const cacheEntry = map?.smsRecipients;
+    const cacheEntry = this.smsRecipientsCache[queueId];
     if (!cacheEntry) {
       return true;
     }
@@ -178,8 +102,7 @@ export class CallQueues extends DataFetcherConsumer<CallQueueInfo[]> {
    * Get loading state for SMS recipients
    */
   getSmsRecipientsLoading(queueId: string): boolean {
-    const map = this.map[queueId];
-    const cacheEntry = map?.smsRecipients;
+    const cacheEntry = this.smsRecipientsCache[queueId];
     return cacheEntry?.loading || false;
   }
 
@@ -244,8 +167,7 @@ export class CallQueues extends DataFetcherConsumer<CallQueueInfo[]> {
    * Get SMS recipients with caching
    */
   getSmsRecipients(queueId: string): SmsRecipient[] {
-    const map = this.map[queueId];
-    const cacheEntry = map?.smsRecipients;
+    const cacheEntry = this.smsRecipientsCache[queueId];
     return cacheEntry?.data || [];
   }
 
@@ -256,20 +178,14 @@ export class CallQueues extends DataFetcherConsumer<CallQueueInfo[]> {
     return this.fetchData();
   }
 
-  /**
-   * Fetch function for DataSource
-   */
-  refetchGrants() {
-    return this._dataFetcher.fetchData(this._grantSource);
-  }
-
   private readyCheckFunction() {
     return this._extensionFeatures.ready;
   }
 
-  private permissionCheckFunction() {
-    return (
-      this._extensionFeatures.features?.CallQueuePickup?.available ?? false
+  private callQueuePermissionCheckFunction() {
+    return !!(
+      this._extensionFeatures.features?.CallQueuePickup?.available ||
+      this._extensionFeatures.features?.CallQueueSmsRecipient?.available
     );
   }
 
@@ -282,7 +198,7 @@ export class CallQueues extends DataFetcherConsumer<CallQueueInfo[]> {
     try {
       const res = await this._client.service
         .platform()
-        .get(`/restapi/v1.0/account/~/call-queues/${queueId}/sms-recipients`);
+        .get(`/restapi/v1.0/account/~/extension/${queueId}/sms-recipients`);
 
       const data = await res.json();
       return data.smsRecipients || [];

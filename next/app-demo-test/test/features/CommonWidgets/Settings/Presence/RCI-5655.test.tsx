@@ -22,7 +22,6 @@ import {
   StepFunction,
   Then,
   title,
-  WaitForRenderReady,
   When,
 } from '@ringcentral-integration/test-utils';
 
@@ -34,10 +33,10 @@ import {
   MockMessageSync,
   MockPresence,
 } from '../../../../steps/Mock';
+import { Relogin } from '../../../../steps/Relogin';
 import { NavigateTo } from '../../../../steps/Router';
 import {
   CheckAcceptCallQueueCalls,
-  ClickLogoutButton,
   SetAcceptCallQueueCalls,
   SetPresenceStatus,
 } from '../../../../steps/Settings';
@@ -63,7 +62,7 @@ class KeepAcceptCallQueueCalls extends Step {
             CreateMock,
             <MockPostAuthentication repeat={0} />,
             MockMessageSync,
-            MockPresence,
+            <MockPresence repeat={0} />,
             <MockFeaturePermission
               featureId="AcceptQueueCalls"
               available
@@ -82,17 +81,27 @@ class KeepAcceptCallQueueCalls extends Step {
           action={[
             // Turn off the 'Accept call queue calls' toggle
             <SetAcceptCallQueueCalls isAccept={false} />,
+            <CheckAcceptCallQueueCalls isAccept={false} isDisabled={false} />,
 
-            // logout
-            ClickLogoutButton,
-            WaitForRenderReady,
-
-            // login again
-            <CommonLogin
-              CreateInstance={() => {
-                global.instance.rcMock.init();
-              }}
-            />,
+            ((_, { rcMock }) => {
+              rcMock.postAuthRevoke();
+              rcMock.getCallerId();
+              rcMock.getFeatures();
+              rcMock.getAccount();
+              rcMock.getAddressBookSync();
+              rcMock.getDevice();
+              rcMock.getPhoneNumber();
+              rcMock.getExtension();
+              rcMock.getCallLogSync();
+              rcMock.getContacts();
+              rcMock.getForwardingNumber();
+              rcMock.getDialingPlan();
+              rcMock.postSipProvision();
+              rcMock.putMessageStore();
+              rcMock.getMessageSync();
+            }) as StepFunction,
+            <MockFeaturePermission featureId="AcceptQueueCalls" available />,
+            Relogin,
 
             // Select 'Do not disturb' in the 'Status' section
             <NavigateTo path="/settings" />,

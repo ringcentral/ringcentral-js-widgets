@@ -1,3 +1,4 @@
+import { whenStateOrTimerChange } from '@ringcentral-integration/next-core/test';
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import { screen } from '@testing-library/react';
 
@@ -14,13 +15,17 @@ interface CheckConnectivityBadgeProps {
 export const CheckConnectivityBadge: StepFunction<
   CheckConnectivityBadgeProps
 > = async ({ exists = true, textContent }) => {
-  const connectivityBadge = await screen.queryByTestId('ConnectivityBadge');
-  if (exists) {
-    expect(connectivityBadge).toBeInTheDocument();
-    if (connectivityBadge && textContent) {
-      expect(connectivityBadge.textContent).toBe(textContent);
+  await whenStateOrTimerChange(() => {
+    const connectivityBadges = screen.queryAllByTestId('ConnectivityBadge');
+    if (exists) {
+      expect(connectivityBadges.length).toBeGreaterThanOrEqual(1);
+      if (textContent) {
+        expect(
+          connectivityBadges.map((badge) => badge.textContent?.trim()),
+        ).toContain(textContent);
+      }
+    } else {
+      expect(connectivityBadges).toHaveLength(0);
     }
-  } else {
-    expect(connectivityBadge).not.toBeInTheDocument();
-  }
+  });
 };

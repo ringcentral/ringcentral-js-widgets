@@ -4,6 +4,8 @@ export default {
   addRecord: 'Create new record',
   call: 'Phone',
   text: 'Text',
+  manageConsent: 'Manage Consent',
+  viewConsent: 'View Consent',
   more: 'More',
   mark: 'Mark as unread',
   unmark: 'Mark as read',

@@ -37,7 +37,6 @@
   clear: both;
   position: relative;
   display: inline-block;
-  margin-bottom: 10px;
   max-width: 90%;
   text-align: left;
   hyphens: auto;
@@ -67,6 +66,7 @@
   border: 0;
   font: inherit;
   vertical-align: baseline;
+  margin-bottom: 10px;
 }
 
 .loading {

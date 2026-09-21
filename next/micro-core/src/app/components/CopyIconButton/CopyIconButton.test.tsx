@@ -1,8 +1,8 @@
 import { leaveTooltipHost } from '@ringcentral-integration/app-demo-test/test/steps/Tooltip';
 import { renderViewPanel } from '@ringcentral-integration/app-demo-test/test/steps/renderView';
 import {
+  fireEvent,
   screen,
-  userEvent,
   waitForRenderReady,
 } from '@ringcentral-integration/test-utils';
 import writeText from 'copy-to-clipboard';
@@ -33,7 +33,7 @@ describe('CopyIconButton render', () => {
 
     jest.useFakeTimers();
     // click
-    userEvent.click(actionButton!);
+    fireEvent.click(actionButton!);
 
     const copied = screen.queryByRole('button', {
       description: 'Copied',

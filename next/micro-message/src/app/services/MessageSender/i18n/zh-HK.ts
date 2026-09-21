@@ -2,8 +2,8 @@
 export default {
   specialNumber: '不支援傳送文字簡訊給緊急/特別服務號碼。',
   textEmpty: '請輸入要傳送的文字簡訊。',
-  textTooLong: '文字過長，上限為 1000',
-  multipartTextTooLong: '文字過長，上限為 5000 字',
+  textTooLong: '您最多可以輸入 1,000 個字元。',
+  multipartTextTooLong: '您最多可以輸入 5,000 個字元。',
   recipientsEmpty: '請輸入有效的接收者號碼。',
   senderNumberInvalid:
     '需要有效的電話號碼，才能將簡訊傳送給您公司外的收件者。請聯絡管理員，為您的帳戶加入直撥號碼。',

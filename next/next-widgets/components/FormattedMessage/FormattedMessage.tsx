@@ -1,8 +1,8 @@
 import { format } from '@ringcentral-integration/utils';
-import type { ElementType, FunctionComponent } from 'react';
+import type { ElementType, FunctionComponent, PropsWithChildren } from 'react';
 import React, { isValidElement, useMemo } from 'react';
 
-export type FormattedMessageProps = {
+export type FormattedMessageProps = PropsWithChildren<{
   message: string;
   values?: Record<string, string | React.ReactNode>;
   /**
@@ -10,12 +10,12 @@ export type FormattedMessageProps = {
    * @default `span`
    */
   tagName?: ElementType;
-};
+}>;
 
 export const FormattedMessage: FunctionComponent<FormattedMessageProps> = (
   props,
 ) => {
-  const { message, values = {}, tagName: Component = 'span' } = props;
+  const { message, values = {}, tagName: Component = 'span', children } = props;
 
   const nodes = useMemo(() => {
     const uid = Math.floor(Math.random() * 0x10000000000).toString(16);
@@ -43,5 +43,10 @@ export const FormattedMessage: FunctionComponent<FormattedMessageProps> = (
     return nodes;
   }, [message, values]);
 
-  return <Component>{nodes}</Component>;
+  return (
+    <Component>
+      {nodes}
+      {children}
+    </Component>
+  );
 };

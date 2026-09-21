@@ -1,10 +1,11 @@
 import { useHammer } from '@ringcentral-integration/react-hooks';
 import { px } from '@ringcentral/juno';
 import React, { FC, useRef } from 'react';
+import type { PropsWithChildren } from 'react';
 
 import { isCoordInViewport } from './utils';
 
-export const Draggable: FC = ({ children }) => {
+export const Draggable: FC<PropsWithChildren<{}>> = ({ children }) => {
   const ref = useRef<HTMLDivElement | null>(null);
   const elementPos = useRef<Record<'x' | 'y', number>>({ x: 0, y: 0 });
   const isDragging = useRef(false);

@@ -1,5 +1,5 @@
-import type RestException from '@rc-ex/core/lib/RestException';
 import type GetRingOutStatusResponse from '@rc-ex/core/lib/definitions/GetRingOutStatusResponse';
+import type RestException from '@rc-ex/core/lib/RestException';
 import {
   Auth,
   Client,

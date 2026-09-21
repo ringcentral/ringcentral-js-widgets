@@ -3,9 +3,8 @@ export default {
   specialNumber:
     'Het verzenden van berichten naar noodnummers/speciale servicenummers wordt niet ondersteund.',
   textEmpty: 'Voer de te verzenden tekst in.',
-  textTooLong: 'Tekst is te lang, mag niet langer zijn dan 1000 tekens',
-  multipartTextTooLong:
-    'Tekst is te lang, mag niet langer zijn dan 5000 tekens',
+  textTooLong: 'U kunt maximaal 1000 tekens invoeren.',
+  multipartTextTooLong: 'Je kunt maximaal 5.000 tekens invoeren.',
   recipientsEmpty: 'Voer een geldig nummer van de ontvanger in.',
   senderNumberInvalid:
     'Een geldig telefoonnummer is vereist om tekstberichten te verzenden naar ontvangers buiten uw bedrijf. Neem contact op met uw beheerder om een direct nummer toe te voegen aan uw account.',

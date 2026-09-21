@@ -125,9 +125,11 @@ export const SettingsPanel: FunctionComponent<SettingsViewPanelProps> = ({
   enableAcceptQueueCallsControl = true,
   customRenderInfo,
   onCallQueueManagementClick,
+  onConsentManagementClick,
   autoLogTextUpdating,
   onRefreshLog,
   isLogRefreshing,
+  showConsentManagement = false,
 }) => {
   const { t } = useLocale(i18n);
 
@@ -226,6 +228,17 @@ export const SettingsPanel: FunctionComponent<SettingsViewPanelProps> = ({
                     )}
                   </SwitchLine>
                 )}
+              </Section>
+            )}
+
+            {showConsentManagement && (
+              <Section label={t('text')}>
+                <LinkLine
+                  data-sign="consentManagement"
+                  onClick={onConsentManagementClick}
+                >
+                  {t('consentManagement')}
+                </LinkLine>
               </Section>
             )}
 

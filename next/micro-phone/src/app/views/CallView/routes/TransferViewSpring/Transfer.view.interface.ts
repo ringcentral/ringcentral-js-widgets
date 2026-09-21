@@ -12,6 +12,7 @@ export interface TransferViewOptions {
   component?: typeof TransferPage;
   onTransferDataTrack?: (recipients: Recipient[], toNumber: string) => void;
   onToVoicemailDataTrack?: (recipients: Recipient[], toNumber: string) => void;
+  onToVoicemailFailedDataTrack?: () => void;
   onWarmTransferDataTrack?: (recipients: Recipient[], toNumber: string) => void;
 }
 

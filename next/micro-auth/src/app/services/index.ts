@@ -1,7 +1,6 @@
 export * from './Auth';
 export * from './AccountInfo';
 export * from './Analytics';
-export * from './PendoAnalytics';
 export * from './TrackPropsService';
 export * from './Client';
 export * from './DataFetcher';
@@ -29,3 +28,4 @@ export * from './NumberFormatter';
 export * from './Timezone';
 export * from './UserInfo';
 export * from './KeepBeat';
+export * from './UserpilotService';

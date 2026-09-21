@@ -54,26 +54,38 @@ export const TransferPage: FunctionComponent<TransferViewPanelProps> = ({
       <PageHeader onBackClick={() => onAction('activeCall')}>
         {t('transferTo')}
       </PageHeader>
-      <div
-        data-sign="transferPage"
-        className="flex flex-col items-center gap-8 pt-8 flex-auto"
-      >
-        <Dialer>
-          {/* @ts-ignore */}
-          <ToContactSearch
-            defaultTab="company"
-            source="transfer"
-            open={contactSearchExpanded}
-            componentType="DialTextField"
-            inputValue={toNumber}
-            recipient={recipients[0]}
-            onInputValueChange={setToNumber}
-            onSelect={setRecipients}
-            onRemove={clearRecipient}
-            onExpanded={setContactSearchExpanded}
-          />
+      <Dialer>
+        <div
+          data-sign="transferPage"
+          className="flex flex-col items-center pt-4 flex-auto"
+        >
+          <div
+            className={clsx(
+              'w-full flex flex-col',
+              contactSearchExpanded ? 'flex-auto min-h-0' : 'flex-none',
+            )}
+          >
+            {/* @ts-ignore */}
+            <ToContactSearch
+              defaultTab="company"
+              source="transfer"
+              open={contactSearchExpanded}
+              componentType="DialTextField"
+              inputValue={toNumber}
+              recipient={recipients[0]}
+              onInputValueChange={setToNumber}
+              onSelect={setRecipients}
+              onRemove={clearRecipient}
+              onExpanded={setContactSearchExpanded}
+            />
+          </div>
 
-          <div className={clsx(contactSearchExpanded && 'hidden')}>
+          <main
+            className={clsx(
+              'flex flex-col flex-auto items-center overflow-auto pb-3 gap-8 pt-6 w-full h-0',
+              contactSearchExpanded && 'hidden',
+            )}
+          >
             <DialPad
               data-sign="dialPad"
               volume={callVolume}
@@ -82,61 +94,61 @@ export const TransferPage: FunctionComponent<TransferViewPanelProps> = ({
               size="medium"
               className="gap-y-2"
             />
-          </div>
 
-          <div
-            className={clsx(
-              'grid grid-cols-3 gap-x-1',
-              contactSearchExpanded && 'hidden',
-            )}
-          >
-            {enableWarmTransfer && (
+            <div
+              className={clsx(
+                'grid grid-cols-3 gap-x-1',
+                contactSearchExpanded && 'hidden',
+              )}
+            >
+              {enableWarmTransfer && (
+                <div className={iconContainerClassName}>
+                  <IconButton
+                    size="xlarge"
+                    color="primary"
+                    data-sign="warmTransferBtn"
+                    disabled={actionButtonDisabled}
+                    symbol={AskFirstMd}
+                    value="warmTransfer"
+                    onClick={() => onAction('startWarmTransfer')}
+                  />
+                  <div className="typography-descriptorMini text-center">
+                    {t('warmTransfer')}
+                  </div>
+                </div>
+              )}
               <div className={iconContainerClassName}>
                 <IconButton
                   size="xlarge"
                   color="primary"
-                  data-sign="warmTransferBtn"
+                  data-sign="transferBtn"
                   disabled={actionButtonDisabled}
-                  symbol={AskFirstMd}
-                  value="warmTransfer"
-                  onClick={() => onAction('startWarmTransfer')}
+                  symbol={TransferCallMd}
+                  value="blindTransfer"
+                  onClick={() => onAction('startTransfer')}
                 />
                 <div className="typography-descriptorMini text-center">
-                  {t('warmTransfer')}
+                  {t('blindTransfer')}
                 </div>
               </div>
-            )}
-            <div className={iconContainerClassName}>
-              <IconButton
-                size="xlarge"
-                color="primary"
-                data-sign="transferBtn"
-                disabled={actionButtonDisabled}
-                symbol={TransferCallMd}
-                value="blindTransfer"
-                onClick={() => onAction('startTransfer')}
-              />
-              <div className="typography-descriptorMini text-center">
-                {t('blindTransfer')}
+              <div className={iconContainerClassName}>
+                <IconButton
+                  size="xlarge"
+                  symbol={VoicemailMd}
+                  color="primary"
+                  variant="outlined"
+                  disabled={actionButtonDisabled}
+                  data-sign="toVoicemailBtn"
+                  onClick={() => onAction('startTransferToVoicemail')}
+                />
+                <div className="typography-descriptorMini text-center">
+                  {t('toVoicemail')}
+                </div>
               </div>
             </div>
-            <div className={iconContainerClassName}>
-              <IconButton
-                size="xlarge"
-                symbol={VoicemailMd}
-                color="primary"
-                variant="outlined"
-                disabled={actionButtonDisabled}
-                data-sign="toVoicemailBtn"
-                onClick={() => onAction('startTransferToVoicemail')}
-              />
-              <div className="typography-descriptorMini text-center">
-                {t('toVoicemail')}
-              </div>
-            </div>
-          </div>
-        </Dialer>
-      </div>
+          </main>
+        </div>
+      </Dialer>
     </>
   );
 };

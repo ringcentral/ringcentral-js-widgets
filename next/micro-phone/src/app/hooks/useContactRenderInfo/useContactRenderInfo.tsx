@@ -45,6 +45,7 @@ import {
   Tooltip,
 } from '@ringcentral/spring-ui';
 import clsx from 'clsx';
+import type { PropsWithChildren } from 'react';
 import React, { FunctionComponent, useCallback, useMemo } from 'react';
 
 import {
@@ -99,7 +100,7 @@ export type ContactRendererOptions = {
         },
   ) => void;
   getDisplayedSelectedEntity?: (
-    selection: EntityOrCorrespondentMatch[],
+    matches: EntityOrCorrespondentMatch[],
     conversationId?: string,
   ) => EntityOrCorrespondentMatch | undefined;
   getDefaultCrmMatch?: (
@@ -147,17 +148,31 @@ export const useContactRenderInfoFromCall = (
 
   const callSelectionInfo = call.callSelectionInfo;
 
-  const renderInfo = getContactDisplayInfo({
-    callerId,
-    queueName: callQueueName,
-    matches,
-    phoneNumber,
-    extensionNumber,
-    phoneNumberDisplayMode,
-    displaySelection: callSelectionInfo?.displayedSelection,
-    selections: callSelectionInfo?.selections,
-    getDefaultCrmMatch: contactRendererOptions?.getDefaultCrmMatch,
-  });
+  const renderInfo = useMemo(
+    () =>
+      getContactDisplayInfo({
+        callerId,
+        queueName: callQueueName,
+        matches,
+        phoneNumber,
+        extensionNumber,
+        phoneNumberDisplayMode,
+        displaySelection: callSelectionInfo?.displayedSelection,
+        selections: callSelectionInfo?.selections,
+        getDefaultCrmMatch: contactRendererOptions?.getDefaultCrmMatch,
+      }),
+    [
+      callerId,
+      callQueueName,
+      matches,
+      phoneNumber,
+      extensionNumber,
+      phoneNumberDisplayMode,
+      callSelectionInfo?.displayedSelection,
+      callSelectionInfo?.selections,
+      contactRendererOptions?.getDefaultCrmMatch,
+    ],
+  );
   const getContactDisplayTextFn = useGetContactDisplayTextFn();
 
   // TODO: the conference view able still not support
@@ -184,7 +199,7 @@ export const useContactRenderInfoFromCall = (
             });
             const participantBeQueue = Boolean(
               participantQueueName ||
-                participantRenderInfo.matchedContact?.isCallQueueNumber,
+              participantRenderInfo.matchedContact?.isCallQueueNumber,
             );
 
             const Avatar = ({ size }: Pick<AvatarProps, 'size'>) => (
@@ -236,7 +251,7 @@ export const useContactRenderInfoFromCall = (
     return t('activeCall');
   }, [holding, ringing, t]);
 
-  const CallStatus = useCallback<FunctionComponent>(
+  const CallStatus = useCallback<FunctionComponent<PropsWithChildren<{}>>>(
     ({ children }) => (
       <div
         className={clsx(
@@ -297,8 +312,8 @@ export const useContactRenderInfoFromCall = (
     [isConferenceCall, renderInfo, isQueue],
   );
 
-  return {
-    DisplayName: (props: Pick<ContactDisplayRenderProps, 'displayControl'>) => {
+  const DisplayName = useCallback(
+    (props: Pick<ContactDisplayRenderProps, 'displayControl'>) => {
       if (isConferenceCall) {
         const text = conferenceParticipantsInfoFnList
           ?.map((fn) =>
@@ -324,6 +339,17 @@ export const useContactRenderInfoFromCall = (
         />
       );
     },
+    [
+      isConferenceCall,
+      conferenceParticipantsInfoFnList,
+      renderInfo,
+      callQueueName,
+    ],
+  );
+
+  return {
+    DisplayName,
+    // eslint-disable-next-line no-nested-ternary
     displayPhoneNumber: isInbound
       ? options?.hideBlockedFromInfo
         ? fromInfoHideBlocked
@@ -331,7 +357,13 @@ export const useContactRenderInfoFromCall = (
       : toInfo,
     Avatar,
     myCallerId: isInbound ? toInfo : fromInfo,
-    duration: <DurationCounter startTime={startTime} offset={offset} />,
+    duration: (
+      <DurationCounter
+        startTime={startTime}
+        offset={offset}
+        compensateSystemTime
+      />
+    ),
     CallStatus,
     OnOtherDevice: otherDevice ? OnOtherDevice : null,
     // basic info
@@ -428,6 +460,21 @@ export const useContactRenderInfoFromCallHistory = (
 
   const answeredByDelegate = currentCallLog.delegate;
   const hasAiNotes = currentCallLog.hasSmartNote;
+  const aiNoteNode = useMemo(() => {
+    if (hasAiNotes) {
+      const text = t('notes');
+      return (
+        <div className="flex items-center gap-1" title={text}>
+          <Icon size="small" symbol={SmartNotesMd} />
+          <span data-sign="aiNote" className="truncate min-w-0">
+            {text}
+          </span>
+        </div>
+      );
+    }
+
+    return null;
+  }, [hasAiNotes, t]);
 
   const Status = useCallback<
     FunctionComponent<{
@@ -439,6 +486,17 @@ export const useContactRenderInfoFromCallHistory = (
   >(
     ({ mode = 'text' }) => {
       if (!result || !direction) return null;
+
+      let statusIconSign = 'outgoing-icon';
+      let statusIcon = OutgoingCallMd;
+      if (isInbound) {
+        statusIconSign = 'incoming-icon';
+        statusIcon = IncomingCallMd;
+      }
+      if (isMissed) {
+        statusIconSign = 'missed-icon';
+        statusIcon = MissedCallMd;
+      }
 
       const queueCallRender = () => {
         const answeredByText = answeredByDelegate
@@ -501,38 +559,21 @@ export const useContactRenderInfoFromCallHistory = (
         >
           <Icon
             size="small"
-            data-sign={
-              isMissed
-                ? 'missed-icon'
-                : isInbound
-                ? 'incoming-icon'
-                : 'outgoing-icon'
-            }
-            symbol={
-              isMissed
-                ? MissedCallMd
-                : isInbound
-                ? IncomingCallMd
-                : OutgoingCallMd
-            }
+            data-sign={statusIconSign}
+            symbol={statusIcon}
             className={isMissed ? 'text-inherit' : undefined}
           />
           <span data-sign="duration">{isMissed ? t('Missed') : duration}</span>
-          {hasAiNotes && (
-            <>
-              <Icon size="small" symbol={SmartNotesMd} />
-              <span data-sign="aiNote">{t('notes')}</span>
-            </>
-          )}
+          {aiNoteNode}
         </div>
       );
     },
     [
       queueCallDisplayMode,
       answeredByDelegate,
+      aiNoteNode,
       direction,
       duration,
-      hasAiNotes,
       isInbound,
       isMissed,
       result,
@@ -558,17 +599,31 @@ export const useContactRenderInfoFromCallHistory = (
   const serverName = isInbound ? callFrom.name : callTo.name;
   const callSelectionInfo = currentCallLog.callSelectionInfo;
 
-  const renderInfo = getContactDisplayInfo({
-    serverName,
-    queueName: callQueueName,
-    matches,
-    phoneNumber,
-    extensionNumber,
-    phoneNumberDisplayMode,
-    displaySelection: callSelectionInfo?.displayedSelection,
-    selections: callSelectionInfo?.selections,
-    getDefaultCrmMatch: contactRendererOptions?.getDefaultCrmMatch,
-  });
+  const renderInfo = useMemo(
+    () =>
+      getContactDisplayInfo({
+        serverName,
+        queueName: callQueueName,
+        matches,
+        phoneNumber,
+        extensionNumber,
+        phoneNumberDisplayMode,
+        displaySelection: callSelectionInfo?.displayedSelection,
+        selections: callSelectionInfo?.selections,
+        getDefaultCrmMatch: contactRendererOptions?.getDefaultCrmMatch,
+      }),
+    [
+      serverName,
+      callQueueName,
+      matches,
+      phoneNumber,
+      extensionNumber,
+      phoneNumberDisplayMode,
+      callSelectionInfo?.displayedSelection,
+      callSelectionInfo?.selections,
+      contactRendererOptions?.getDefaultCrmMatch,
+    ],
+  );
 
   const isConferenceCall = Boolean(currentCallLog.isConferenceCall);
 
@@ -622,10 +677,11 @@ export const useContactRenderInfoFromCallHistory = (
     return undefined;
   };
 
-  return {
-    DisplayName: (props: Pick<ContactDisplayRenderProps, 'displayControl'>) => {
+  const DisplayName = useCallback(
+    (props: Pick<ContactDisplayRenderProps, 'displayControl'>) => {
       // in call history be conference call, we show that be conference call
-      if (isConferenceCall) return <span>{t('conferenceCall')}</span>;
+      if (isConferenceCall)
+        return <span className="truncate w-full">{t('conferenceCall')}</span>;
 
       return (
         <ContactDisplayRender
@@ -636,6 +692,12 @@ export const useContactRenderInfoFromCallHistory = (
         />
       );
     },
+    [isConferenceCall, renderInfo, callQueueName, isMissed, t],
+  );
+
+  return {
+    DisplayName,
+    // eslint-disable-next-line no-nested-ternary
     displayPhoneNumber: isInbound
       ? hideBlockedFromInfo
         ? fromInfoHideBlocked
@@ -720,8 +782,8 @@ export const useContactRenderInfoFromConversation = (
   const messageStatus = conversation.messageStatus;
   const faxAttachmentExist = Boolean(
     isFax &&
-      (messageStatus === 'Sent' || messageStatus === 'Received') &&
-      conversation.faxAttachment?.uri,
+    (messageStatus === 'Sent' || messageStatus === 'Received') &&
+    conversation.faxAttachment?.uri,
   );
   const voicemailAttachmentExist = Boolean(
     isVoicemail && conversation.voicemailAttachment?.uri,
@@ -803,14 +865,15 @@ export const useContactRenderInfoFromConversation = (
         phoneNumber: correspondent.phoneNumber,
         extensionNumber: correspondent.extensionNumber,
         matches: correspondentMatchesList[index],
+        // eslint-disable-next-line no-nested-ternary
         displaySelection: contactRendererOptions?.getDisplayedSelectedEntity
           ? contactRendererOptions?.getDisplayedSelectedEntity(
               conversationMatches,
               conversation.conversationId,
             )
           : selectedIndex
-          ? correspondentMatchesList[index][selectedIndex]
-          : undefined,
+            ? correspondentMatchesList[index][selectedIndex]
+            : undefined,
         selections: nonSupportSelectionType ? undefined : conversationMatches,
         // TODO: support the multiple match display in multiple correspondents scenario
         alwaysShowFirstMatch: isMultipleCorrespondent,
@@ -849,7 +912,12 @@ export const useContactRenderInfoFromConversation = (
       {isOptOut ? (
         <>
           <Tooltip title={t('optOutAlertTooltip')}>
-            <Icon symbol={InfoMd} className="text-warning-f" size="small" />
+            <Icon
+              symbol={InfoMd}
+              className="text-warning-f"
+              size="small"
+              data-sign="optOutAlertIcon"
+            />
           </Tooltip>
           <span className="truncate" title={t('optedOut')}>
             {t('optedOut')}
@@ -876,7 +944,8 @@ export const useContactRenderInfoFromConversation = (
 
   const signalSourceInfo = useMemo(() => {
     if (signalTo) {
-      return isInbound ? callFrom : callTo ? callTo[0] : undefined;
+      if (isInbound) return callFrom;
+      if (callTo) return callTo[0];
     }
     return undefined;
   }, [callFrom, callTo, isInbound, signalTo]);
@@ -953,8 +1022,23 @@ export const useContactRenderInfoFromConversation = (
     return undefined;
   };
 
-  return {
-    DisplayName: (props: Pick<ContactDisplayRenderProps, 'displayControl'>) => {
+  const Unread = useCallback(
+    (props: Omit<BadgeProps, 'count'>) =>
+      unreadCounts > 0 ? (
+        <Badge
+          variant="contained"
+          type="dot"
+          size="medium"
+          color="warning"
+          count={unreadCounts}
+          {...props}
+        />
+      ) : null,
+    [unreadCounts],
+  );
+
+  const DisplayName = useCallback(
+    (props: Pick<ContactDisplayRenderProps, 'displayControl'>) => {
       if (
         displayInfoList?.length > 1 ||
         displayInfoList[0].type === 'phoneNumber'
@@ -968,21 +1052,16 @@ export const useContactRenderInfoFromConversation = (
 
       return <ContactDisplayRender info={displayInfoList[0]} {...props} />;
     },
+    [displayInfoList, displayName],
+  );
+
+  return {
+    DisplayName,
     formattedPhoneNumber,
     correspondentsDisplayInfoMap,
     displayType: signalTo ? displayInfoList[0].type : 'multiple',
     displayDescription,
-    Unread: (props: Omit<BadgeProps, 'count'>) =>
-      unreadCounts > 0 ? (
-        <Badge
-          variant="contained"
-          type="dot"
-          size="medium"
-          color="warning"
-          count={unreadCounts}
-          {...props}
-        />
-      ) : null,
+    Unread,
     Avatar,
     creationTime,
     // basic info

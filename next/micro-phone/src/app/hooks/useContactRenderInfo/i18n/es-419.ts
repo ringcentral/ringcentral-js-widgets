@@ -13,8 +13,8 @@ export default {
   onHold: 'En espera',
   day: 'día',
   hr: 'h',
-  min: 'min',
-  sec: 's',
+  min: 'mín.',
+  sec: 'seg',
   yesterday: 'Ayer',
   notes: 'Notas por IA',
   logged: 'Registrada',
@@ -89,7 +89,7 @@ export default {
   maybe: 'Quizás: {contactName}',
   optedOut: 'El destinatario canceló la suscripción.',
   optOutAlertTooltip:
-    'El destinatario debe volver a suscribirse para recibir mensajes de este número.',
+    'El destinatario debe volver a suscribirse para recibir mensajes de texto de este número.',
 } as const;
 
 // @key: @#@"to"@#@ @source: @#@"To"@#@
@@ -177,5 +177,4 @@ export default {
 // @key: @#@"matches"@#@ @source: @#@"{numberOfMatches} matches"@#@
 // @key: @#@"maybe"@#@ @source: @#@"Maybe: {contactName}"@#@
 // @key: @#@"optedOut"@#@ @source: @#@"Recipient has opted out."@#@
-
 // @key: @#@"optOutAlertTooltip"@#@ @source: @#@"The recipient must opt back in to receive texts from this number."@#@

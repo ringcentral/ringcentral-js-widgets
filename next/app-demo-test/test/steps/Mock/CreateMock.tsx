@@ -14,7 +14,7 @@ export const CreateMock: StepFunction<CreateMockProps> = async (
   { autoLogout = true, useRcm },
   context,
 ) => {
-  if (context.rcMock) {
+  if (context.rcMock && context.rcMock === global.instance?.rcMock) {
     return;
   }
   const rcMock = new RcMock({

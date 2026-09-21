@@ -24,7 +24,7 @@ type TextMiddleEllipsisProps = {
     React.HTMLAttributes<HTMLSpanElement>,
     HTMLSpanElement
   >,
-  'children'
+  'children' | 'ref'
 >;
 
 /**

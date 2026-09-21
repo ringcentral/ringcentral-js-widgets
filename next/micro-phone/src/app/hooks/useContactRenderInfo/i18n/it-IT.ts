@@ -89,7 +89,7 @@ export default {
   maybe: 'Forse: {contactName}',
   optedOut: "Il destinatario ha annullato l'adesione.",
   optOutAlertTooltip:
-    "Il destinatario deve effettuare nuovamente l'abbonamento per ricevere SMS da questo numero.",
+    'Il destinatario deve riattivare la ricezione per ricevere SMS da questo numero.',
 } as const;
 
 // @key: @#@"to"@#@ @source: @#@"To"@#@
@@ -177,5 +177,4 @@ export default {
 // @key: @#@"matches"@#@ @source: @#@"{numberOfMatches} matches"@#@
 // @key: @#@"maybe"@#@ @source: @#@"Maybe: {contactName}"@#@
 // @key: @#@"optedOut"@#@ @source: @#@"Recipient has opted out."@#@
-
 // @key: @#@"optOutAlertTooltip"@#@ @source: @#@"The recipient must opt back in to receive texts from this number."@#@

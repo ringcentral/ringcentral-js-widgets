@@ -233,10 +233,6 @@ export class Attach10Files extends Step {
                   })),
                 );
               });
-
-              jest
-                .spyOn(app.modules.MessageSender, '_validateSenderNumber')
-                .mockReturnValue(true);
             }) as StepFunction,
             <ClickItemByDataSign dataSign="attachButton" />,
             <CheckAttachment

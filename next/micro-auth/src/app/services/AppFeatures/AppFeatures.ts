@@ -21,9 +21,11 @@ export const defaultConfiguration: Required<FeatureConfiguration> = {
   Conferencing: true,
 
   // Messages
+  ConsentManagement: true,
   Fax: true,
   Voicemail: true,
   Pages: true,
+  ReadConsents: true,
   SMS: true,
 
   // Call
@@ -136,8 +138,51 @@ export class AppFeatures<
     );
   }
 
+  get hasConsentManagementPermission() {
+    return !!(
+      this._extensionFeatures.features?.ConsentManagement?.available &&
+      this.config.ConsentManagement
+    );
+  }
+
+  get hasReadConsentsPermission() {
+    return !!(
+      this._extensionFeatures.features?.ReadConsents?.available &&
+      this.config.ReadConsents
+    );
+  }
+
+  get hasMessageThreadsPermission() {
+    return !!(
+      this._extensionFeatures.features?.MessageThreads?.available &&
+      this.config.SMS
+    );
+  }
+
+  @computed
+  get hasMessageThreadCallQueueSupported() {
+    if (!this.hasMessageThreadsPermission) return false;
+
+    const param = this._getMessageThreadsParam('callQueueSupported');
+
+    return param?.value === 'true';
+  }
+
+  @computed
+  get hasMessageThreadSiteSupported() {
+    if (!this.hasMessageThreadsPermission) return false;
+
+    const param = this._getMessageThreadsParam('siteSupported');
+
+    return param?.value === 'true';
+  }
+
   get hasCallRecordingPermission() {
-    return !!this._extensionFeatures.features?.OnDemandCallRecording?.available;
+    // On-demand recording, or ACR mute/pause (AutoCallRecordingMute).
+    return !!(
+      this._extensionFeatures.features?.OnDemandCallRecording?.available ||
+      this._extensionFeatures.features?.AutoCallRecordingMute?.available
+    );
   }
 
   get hasReadPagesPermission() {
@@ -389,6 +434,12 @@ export class AppFeatures<
       this._auth.token.scope?.includes('EditPresence') &&
       // user must have permission to edit presence status
       !!this._extensionFeatures.features?.EditPresenceStatus?.available
+    );
+  }
+
+  private _getMessageThreadsParam(names: string) {
+    return this._extensionFeatures.features?.MessageThreads?.params?.find(
+      (param) => !!param.name && names === param.name,
     );
   }
 }

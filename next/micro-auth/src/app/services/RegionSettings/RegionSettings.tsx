@@ -35,11 +35,11 @@ import { ExtensionInfo } from '../ExtensionInfo';
 import { ExtensionNumberAreaCode } from '../ExtensionNumberAreaCode';
 import { ExtensionPhoneNumber } from '../ExtensionPhoneNumber';
 
+import i18n, { t } from './i18n';
 import type {
   RegionSettingsData,
   RegionSettingsOptions,
 } from './RegionSettings.interface';
-import i18n, { t } from './i18n';
 
 @injectable({
   name: 'RegionSettings',

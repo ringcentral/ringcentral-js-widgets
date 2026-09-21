@@ -31,12 +31,18 @@ afterEach(async () => {
           await app.modules.Auth.logout({ reason: 'teardown' });
           // wait for logout success or jest timeout
           await new Promise((resolve) => {
+            let timeoutId;
             const timerId = setInterval(() => {
               if (!app.modules.Auth.loggedIn) {
+                clearTimeout(timeoutId);
                 clearInterval(timerId);
                 resolve(null);
               }
             }, 100);
+            timeoutId = setTimeout(() => {
+              clearInterval(timerId);
+              resolve(null);
+            }, 5000);
           });
         } catch (error) {
           // ignore any error
@@ -53,19 +59,31 @@ afterEach(async () => {
         await app.modules.Storage?.purge();
         global.localStorage.clear();
       }
+      app?.unmount?.();
       app.destroy();
+    } else {
+      app?.unmount?.();
     }
 
     rcMock?.reset();
-    app?.unmount?.();
   }
 
-  if (window.analytics) {
+  if (typeof window !== 'undefined' && window.analytics) {
     window.analytics.invoked = false;
   }
 
-  if (!window.wsCleanDisabled) {
+  if (typeof window === 'undefined' || !window.wsCleanDisabled) {
     WS.clean();
+  }
+
+  if (typeof document !== 'undefined') {
+    document
+      .querySelectorAll(
+        '#theme-plugin-host, [data-sui-theme-scope], video, audio',
+      )
+      .forEach((element) => {
+        element.remove();
+      });
   }
 
   global.destroyApp?.();

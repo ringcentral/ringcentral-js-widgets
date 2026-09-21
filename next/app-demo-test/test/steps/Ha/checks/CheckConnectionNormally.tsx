@@ -7,7 +7,7 @@ import { NavigateTo } from '../../Router';
 import { CheckConnectivityBadge } from './CheckConnectivityBadge';
 
 interface CheckConnectionNormallyProps {
-  checkConnectionSpy?: jest.SpyInstance;
+  checkConnectionSpy?: jest.Spied;
 }
 
 /**

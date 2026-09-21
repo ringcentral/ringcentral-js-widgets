@@ -1,6 +1,6 @@
 {
   "name": "@ringcentral-integration/next-integration",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Integration utilities for RingCentral Integration next-generation architecture.",
   "homepage": "https://github.com/ringcentral/ringcentral-js-widgets/tree/master/next/next-integration#readme",
   "bugs": {
@@ -24,12 +24,7 @@
     "@ringcentral-integration/utils": "*"
   },
   "devDependencies": {
-    "@ringcentral-integration/babel-settings": "*",
-    "@ringcentral-integration/test-utils": "*",
-    "fs-extra": "^10.1.0",
-    "gulp": "^4.0.2",
-    "gulp-babel": "^8.0.0",
-    "gulp-sourcemaps": "^2.6.5"
+    "@ringcentral-integration/test-utils": "*"
   },
   "common": true,
   "nx": {

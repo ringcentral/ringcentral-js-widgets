@@ -20,3 +20,4 @@ export * from './RingtoneConfiguration';
 export * from './VolumeInspector';
 export * from './CallLogTasks';
 export * from './CallQueues';
+export * from './Grant';

@@ -15,6 +15,7 @@ import { SpinnerOverlay } from '../SpinnerOverlay';
 import styles from './styles.scss';
 
 export interface DialerPanelProps {
+  children?: React.ReactNode;
   currentLocale: string;
   className?: string;
   dialButtonsClassName?: string;

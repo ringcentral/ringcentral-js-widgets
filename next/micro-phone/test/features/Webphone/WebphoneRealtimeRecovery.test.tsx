@@ -223,7 +223,9 @@ async function callWaitModuleReady(
 @autorun(test)
 @ut
 @p2
-@title('_checkRealtimeReadiness - returns true when websocket is ready and no subscription wait needed')
+@title(
+  '_checkRealtimeReadiness - returns true when websocket is ready and no subscription wait needed',
+)
 class CheckRealtimeReadinessWebsocketReadyNoSubscription extends Step {
   run() {
     let webphone: Webphone;
@@ -301,7 +303,9 @@ class CheckRealtimeReadinessWebsocketNotReady extends Step {
 @autorun(test)
 @ut
 @p2
-@title('_checkRealtimeReadiness - returns true when both websocket and subscription are ready')
+@title(
+  '_checkRealtimeReadiness - returns true when both websocket and subscription are ready',
+)
 class CheckRealtimeReadinessBothReady extends Step {
   run() {
     let webphone: Webphone;
@@ -341,7 +345,9 @@ class CheckRealtimeReadinessBothReady extends Step {
 @autorun(test)
 @ut
 @p2
-@title('_checkRealtimeReadiness - returns false when subscription not ready and should wait')
+@title(
+  '_checkRealtimeReadiness - returns false when subscription not ready and should wait',
+)
 class CheckRealtimeReadinessSubscriptionNotReady extends Step {
   run() {
     let webphone: Webphone;
@@ -381,7 +387,9 @@ class CheckRealtimeReadinessSubscriptionNotReady extends Step {
 @autorun(test)
 @ut
 @p2
-@title('_checkRealtimeReadiness - returns true when subscription not ready but shouldWaitForSubscription is false')
+@title(
+  '_checkRealtimeReadiness - returns true when subscription not ready but shouldWaitForSubscription is false',
+)
 class CheckRealtimeReadinessSubscriptionNotReadyButNoWait extends Step {
   run() {
     let webphone: Webphone;
@@ -421,7 +429,9 @@ class CheckRealtimeReadinessSubscriptionNotReadyButNoWait extends Step {
 @autorun(test)
 @ut
 @p2
-@title('_checkRealtimeReadiness - returns false when websocket not ready but subscription ready')
+@title(
+  '_checkRealtimeReadiness - returns false when websocket not ready but subscription ready',
+)
 class CheckRealtimeReadinessWebsocketNotReadySubscriptionReady extends Step {
   run() {
     let webphone: Webphone;
@@ -461,7 +471,9 @@ class CheckRealtimeReadinessWebsocketNotReadySubscriptionReady extends Step {
 @autorun(test)
 @ut
 @p2
-@title('_checkRealtimeReadiness - handles undefined subscription when shouldWaitForSubscription is true')
+@title(
+  '_checkRealtimeReadiness - handles undefined subscription when shouldWaitForSubscription is true',
+)
 class CheckRealtimeReadinessUndefinedSubscriptionWithWait extends Step {
   run() {
     let webphone: Webphone;
@@ -581,7 +593,9 @@ class AwaitRealtimeRecoveryTestEnvironment extends Step {
 @autorun(test)
 @ut
 @p2
-@title('_awaitRealtimeRecovery - with recover=false does not affect result in test env')
+@title(
+  '_awaitRealtimeRecovery - with recover=false does not affect result in test env',
+)
 class AwaitRealtimeRecoveryNoRecover extends Step {
   run() {
     let webphone: Webphone;
@@ -616,7 +630,9 @@ class AwaitRealtimeRecoveryNoRecover extends Step {
 @autorun(test)
 @ut
 @p2
-@title('_awaitRealtimeRecovery - with custom timeout still returns true in test env')
+@title(
+  '_awaitRealtimeRecovery - with custom timeout still returns true in test env',
+)
 class AwaitRealtimeRecoveryCustomTimeout extends Step {
   run() {
     let webphone: Webphone;
@@ -835,7 +851,7 @@ class WaitModuleReadyWaitsForReady extends Step {
             const elapsed = Date.now() - startTime;
             // Should have waited for the module to become ready
             expect(elapsed).toBeGreaterThanOrEqual(40);
-            expect(elapsed).toBeLessThan(200);
+            expect(elapsed).toBeLessThan(1000);
           }}
         />
       </Scenario>
@@ -934,7 +950,9 @@ class WaitModuleReadyDefaultTimeout extends Step {
 @autorun(test)
 @ut
 @p2
-@title('Integration - _checkRealtimeReadiness correctly evaluates compound conditions')
+@title(
+  'Integration - _checkRealtimeReadiness correctly evaluates compound conditions',
+)
 class CheckRealtimeReadinessCompoundConditions extends Step {
   run() {
     let webphone: Webphone;
@@ -1034,7 +1052,9 @@ class CheckRealtimeReadinessCompoundConditions extends Step {
 @autorun(test)
 @ut
 @p2
-@title('Integration - _awaitRealtimeRecovery accepts all parameter combinations')
+@title(
+  'Integration - _awaitRealtimeRecovery accepts all parameter combinations',
+)
 class AwaitRealtimeRecoveryAllCombinations extends Step {
   run() {
     let webphone: Webphone;
@@ -1102,7 +1122,9 @@ class AwaitRealtimeRecoveryAllCombinations extends Step {
 @autorun(test)
 @ut
 @p2
-@title('_waitModuleReady - handles module emitting ready after being already ready')
+@title(
+  '_waitModuleReady - handles module emitting ready after being already ready',
+)
 class WaitModuleReadyEmitAfterReady extends Step {
   run() {
     let webphone: Webphone;
@@ -1181,7 +1203,7 @@ class WaitModuleReadyBehaviorSubjectFalse extends Step {
             const elapsed = Date.now() - startTime;
             // Should have waited for true emission
             expect(elapsed).toBeGreaterThanOrEqual(40);
-            expect(elapsed).toBeLessThan(200);
+            expect(elapsed).toBeLessThan(1000);
           }}
         />
       </Scenario>

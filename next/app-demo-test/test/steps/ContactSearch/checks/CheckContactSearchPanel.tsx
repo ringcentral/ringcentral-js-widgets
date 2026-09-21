@@ -1,3 +1,4 @@
+import { whenStateOrTimerChange } from '@ringcentral-integration/next-core/test';
 import {
   StepFunction,
   screen,
@@ -24,26 +25,33 @@ export const CheckContactSearchPanel: StepFunction<
   appName = '',
 }) => {
   if (!present) {
-    expect(screen.queryByTestId('contactSearchPanel')).not.toBeInTheDocument();
+    await whenStateOrTimerChange(() => {
+      expect(
+        screen.queryByTestId('contactSearchPanel'),
+      ).not.toBeInTheDocument();
+    });
     return;
   }
-  const searchView = screen.queryByTestId('contactSearchPanel');
-  expect(searchView).toBeInTheDocument();
-  const searchSummary = within(searchView!).queryByTestId('contactTabsTitle');
-  expect(
-    within(searchSummary!).queryByTestId('thirdPartyContactSearchResult')
-      ?.textContent,
-  ).toBe(`${appName} (${thirdPartyCount})`);
-  expect(
-    within(searchSummary!).queryByTestId('companyContactSearchResult')
-      ?.textContent,
-  ).toBe(`Company (${companyCount})`);
-  expect(
-    within(searchSummary!).queryByTestId('personalContactSearchResult')
-      ?.textContent,
-  ).toBe(`Personal (${personalCount})`);
-  expect(
-    within(searchSummary!).queryByTestId('otherContactSearchResult')
-      ?.textContent,
-  ).toBe(`Other (${otherCount})`);
+  await whenStateOrTimerChange(() => {
+    const searchView = screen.queryByTestId('contactSearchPanel');
+    expect(searchView).toBeInTheDocument();
+    const searchSummary = within(searchView!).queryByTestId('contactTabsTitle');
+    expect(searchSummary).toBeInTheDocument();
+    expect(
+      within(searchSummary!).queryByTestId('thirdPartyContactSearchResult')
+        ?.textContent,
+    ).toBe(`${appName} (${thirdPartyCount})`);
+    expect(
+      within(searchSummary!).queryByTestId('companyContactSearchResult')
+        ?.textContent,
+    ).toBe(`Company (${companyCount})`);
+    expect(
+      within(searchSummary!).queryByTestId('personalContactSearchResult')
+        ?.textContent,
+    ).toBe(`Personal (${personalCount})`);
+    expect(
+      within(searchSummary!).queryByTestId('otherContactSearchResult')
+        ?.textContent,
+    ).toBe(`Other (${otherCount})`);
+  });
 };

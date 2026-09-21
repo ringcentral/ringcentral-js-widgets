@@ -1,12 +1,12 @@
 import clsx from 'clsx';
-import React, { type FunctionComponent } from 'react';
+import React, { type FunctionComponent, type PropsWithChildren } from 'react';
 
-type HoverActionProps = {
+type HoverActionProps = PropsWithChildren<{
   /**
    * when be true, always keep the action be visible
    */
   open?: boolean;
-};
+}>;
 
 export const HoverAction: FunctionComponent<HoverActionProps> = ({
   children,

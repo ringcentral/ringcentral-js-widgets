@@ -1,5 +1,5 @@
-import { MicLevel } from './MicLevel';
 import { LEVEL_CHECK_INTERVAL } from './const';
+import { MicLevel } from './MicLevel';
 
 export class MicLevelHelper {
   private readonly micLevel = new MicLevel();

@@ -25,7 +25,7 @@ export const DownloadButton: FC<DownloadButtonProps> = ({
       variant="plain"
       title={t('download')}
       aria-label="download file"
-      onClick={async (e) => {
+      onClick={async (e: React.MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
 

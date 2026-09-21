@@ -2,6 +2,7 @@ import type GetPresenceInfo from '@rc-ex/core/lib/definitions/GetPresenceInfo';
 import type { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
 
 import type { Auth } from '../Auth';
+import type { AvailabilityMonitor } from '../AvailabilityMonitor';
 import type { ConnectivityMonitor } from '../ConnectivityMonitor';
 import type {
   DataFetcherV2ConsumerBaseDeps,
@@ -19,6 +20,7 @@ export interface Deps extends DataFetcherV2ConsumerBaseDeps {
   connectivityMonitor: ConnectivityMonitor;
   extensionFeatures: ExtensionFeatures;
   subscription: Subscription;
+  availabilityMonitor?: AvailabilityMonitor;
   tabManager?: TabManager;
   presenceOptions?: PresenceOptions;
 }

@@ -29,6 +29,7 @@ type RenderComponent = <T>(
      * @default true
      */
     disableAutoThemeProvider?: boolean;
+    legacyRoot?: boolean;
   },
 ) => ReturnTypeOfRender;
 
@@ -43,15 +44,17 @@ export const renderComponent: RenderComponent = (
   {
     disableAutoThemeProvider = false,
     container,
+    legacyRoot,
   }: {
     disableAutoThemeProvider?: boolean;
     container?: HTMLElement;
+    legacyRoot?: boolean;
   } = {},
 ) => {
   // @ts-ignore
   const element = <Component {...props} />;
   let app: RenderResult;
-  const options = container ? { container } : {};
+  const options = { ...(container ? { container } : {}), legacyRoot };
   if (disableAutoThemeProvider) {
     app = render(element, options);
   } else {

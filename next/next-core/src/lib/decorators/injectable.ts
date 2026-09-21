@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { injectable as originalInjectable } from 'reactant-share';
-import type { ModuleDecoratorOptions } from 'reactant-share';
+import { injectable as originalInjectable } from 'reactant';
+import type { ModuleDecoratorOptions } from 'reactant';
 
 export const injectable =
   process.env.NODE_ENV !== 'production'

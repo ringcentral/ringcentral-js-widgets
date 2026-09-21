@@ -1,13 +1,19 @@
 import clsx from 'clsx';
 import propTypes from 'prop-types';
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import { createPortal } from 'react-dom';
 
 import styles from './styles.scss';
 
+type ModalContext = {
+  modalRoot?: {
+    current?: HTMLElement;
+  };
+};
+
 // TODO: consider refactoring onClose + clickOutToClose to onOverlayClick
 function createModal(Comp: any) {
-  return class KModal extends Component {
+  return class KModal extends Component<any> {
     static propTypes = {
       className: propTypes.string,
       modalClassName: propTypes.string,
@@ -36,10 +42,10 @@ function createModal(Comp: any) {
     }
     // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
     componentDidMount() {
+      const context = this.context as ModalContext;
       const root =
-        // @ts-expect-error TS(2339): Property 'appendDOM' does not exist on type 'Reado... Remove this comment to see the full error message
         this.props.appendDOM ||
-        (this.context.modalRoot && this.context.modalRoot.current) ||
+        (context.modalRoot && context.modalRoot.current) ||
         document.body;
       root.appendChild(this._container);
     }
@@ -51,17 +57,11 @@ function createModal(Comp: any) {
     }
     renderDialog() {
       const {
-        // @ts-expect-error TS(2339): Property 'className' does not exist on type 'Reado... Remove this comment to see the full error message
         className,
-        // @ts-expect-error TS(2339): Property 'maskClassName' does not exist on type 'R... Remove this comment to see the full error message
         maskClassName,
-        // @ts-expect-error TS(2339): Property 'modalClassName' does not exist on type '... Remove this comment to see the full error message
         modalClassName,
-        // @ts-expect-error TS(2339): Property 'show' does not exist on type 'Readonly<{... Remove this comment to see the full error message
         show,
-        // @ts-expect-error TS(2339): Property 'onClose' does not exist on type 'Readonl... Remove this comment to see the full error message
         onClose,
-        // @ts-expect-error TS(2339): Property 'clickOutToClose' does not exist on type ... Remove this comment to see the full error message
         clickOutToClose,
         ...props
       } = this.props;
@@ -91,7 +91,7 @@ function createModal(Comp: any) {
     }
     // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
     render() {
-      return ReactDOM.createPortal(this.renderDialog(), this._container);
+      return createPortal(this.renderDialog(), this._container);
     }
   };
 }

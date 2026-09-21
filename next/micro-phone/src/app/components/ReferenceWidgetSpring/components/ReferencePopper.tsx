@@ -1,3 +1,4 @@
+import { flip, shift, size } from '@floating-ui/react-dom';
 import { PopperProps, Popper } from '@ringcentral/spring-ui';
 import React, { forwardRef, useCallback, useMemo } from 'react';
 
@@ -9,8 +10,25 @@ import {
 } from '../ReferenceWidget.interface';
 
 import { FilterAndSearchHint } from './FilterAndSearchHint';
-import { ReferenceList } from './ReferenceList';
 import { t } from './i18n';
+import { ReferenceList } from './ReferenceList';
+
+export const referencePopperMiddlewares = [
+  flip({ padding: 12 }),
+  shift({ padding: 12 }),
+  size({
+    padding: 12,
+    apply({ availableWidth, availableHeight, elements }) {
+      // jsdom reports 0 available space; do not collapse the popper to 0px.
+      if (availableWidth > 0) {
+        elements.floating.style.maxWidth = `${availableWidth}px`;
+      }
+      if (availableHeight > 0) {
+        elements.floating.style.maxHeight = `${availableHeight}px`;
+      }
+    },
+  }),
+];
 
 interface ReferenceProps {
   filterTerm: string;
@@ -34,7 +52,6 @@ interface ReferencePopperComponentProps extends PopperProps {
 
 export const ReferenceMainContent = ({
   filterTerm,
-  formKey,
   allDisplayList,
   currentValue,
   onItemClick,
@@ -109,7 +126,7 @@ export const ReferenceMainContent = ({
         enableSearch={enableSearch}
         errorHint={errorHint}
       />
-      <div className="overflow-y-auto overflow-x-hidden max-h-80">
+      <div className="overflow-y-auto overflow-x-hidden flex-auto">
         {displayList.map((displayListItem) => {
           return (
             <ReferenceList
@@ -140,12 +157,10 @@ const ReferencePopperComponent = forwardRef(
         {...rest}
         ref={ref as any}
         data-sign={'call-log-reference-popper'}
-        padding={{
-          bottom: 60,
-        }}
+        middlewares={referencePopperMiddlewares}
       >
         <div
-          className="bg-neutral-base rounded-sui-sm shadow-sui-md border border-neutral-b4 overflow-hidden"
+          className="bg-neutral-base rounded-sui-sm shadow-sui-md border border-neutral-b4 overflow-hidden flex flex-col h-full"
           data-sign={`${referenceProps.formKey}-popper`}
         >
           <ReferenceMainContent {...referenceProps} />

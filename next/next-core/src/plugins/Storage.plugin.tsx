@@ -2,22 +2,24 @@ import localForage from 'localforage';
 import {
   IStorageOptions as BaseIStorageOptions,
   SetStorageOptions,
-  getRef,
+  PortDetector,
+  Storage as BaseStorage,
+  StorageOptions,
+} from 'reactant-share';
+import {
   action,
   defaultStateKey,
+  getRef,
   getStagedState,
   initStateKey,
   injectable,
-  optional,
-  PortDetector,
-  stateKey,
-  Storage as BaseStorage,
-  StorageOptions,
-  watch,
-  state,
   isEqual,
+  optional,
   signalMapKey,
-} from 'reactant-share';
+  state,
+  stateKey,
+  watch,
+} from 'reactant';
 import type { Reducer } from 'redux';
 
 import {

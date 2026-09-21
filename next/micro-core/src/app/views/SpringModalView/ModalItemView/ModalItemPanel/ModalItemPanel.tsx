@@ -102,7 +102,7 @@ export const ModalItemPanel: FunctionComponent<ModalItemPanelProps> = memo(
         ...restProps,
         ActionsProps: {
           className: isCompact
-            ? `pr-0 ${ActionsProps?.className}`
+            ? `pr-0 ${ActionsProps?.className ?? ''}`
             : ActionsProps?.className,
           ...ActionsProps,
         },
@@ -182,7 +182,7 @@ export const ModalItemPanel: FunctionComponent<ModalItemPanelProps> = memo(
                 'overflow-hidden',
                 fullScreen &&
                   'h-full w-full transform-none top-0 left-0 max-h-full max-w-full py-0 rounded-none',
-                isCompact && 'left-3 right-3 w-[276px] max-w-none p-3',
+                isCompact && 'w-[276px] max-w-none p-3',
                 classes?.root,
               ),
               root: className,

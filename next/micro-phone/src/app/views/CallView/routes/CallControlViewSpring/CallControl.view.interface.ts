@@ -1,6 +1,7 @@
 import type ForwardingNumberInfo from '@rc-ex/core/lib/definitions/ForwardingNumberInfo';
 import type { Call } from '@ringcentral-integration/commons/interfaces/Call.interface';
 import type { CallCtrlContainer } from '@ringcentral-integration/widgets/components/CallCtrlContainer';
+import type { PropsWithChildren } from 'react';
 
 import type { ICallAction } from '../../../../hooks';
 import type { CallMetaInfo, OnCallActionType } from '../../../../services';
@@ -14,7 +15,7 @@ export interface CallControlViewOptions {
   component?: typeof CallCtrlContainer;
 }
 
-export interface CallControlViewPanelProps {
+export interface CallControlViewPanelProps extends PropsWithChildren<{}> {
   call: Call;
   transferringCalls: readonly [Call, Call] | null;
   actions: ICallAction[];

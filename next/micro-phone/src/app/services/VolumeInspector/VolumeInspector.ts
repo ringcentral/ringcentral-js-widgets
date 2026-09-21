@@ -13,11 +13,8 @@ import { getBlobURL } from '@ringcentral-integration/utils';
 import { AudioSettings } from '../AudioSettings';
 import type { CallAction } from '../CallAction';
 
-import { AudioDetector } from './AudioDetector';
-import { MediaRecorderHelper } from './MediaRecorderHelper';
-import { MicLevelHelper } from './MicLevelHelper';
-import type { AUDIO_TYPE } from './VolumeInspector.interface';
 import soundBreakMp3 from './audio/break.mp3';
+import { AudioDetector } from './AudioDetector';
 import {
   LEVEL_CHECK_INTERVAL,
   MAX_RECORDING_SECS,
@@ -25,8 +22,11 @@ import {
   TEST_STATE,
   TEST_TYPE,
 } from './const';
+import { MediaRecorderHelper } from './MediaRecorderHelper';
+import { MicLevelHelper } from './MicLevelHelper';
 import { createAudioElement } from './utils/createAudioElement';
 import { stopStream } from './utils/stream';
+import type { AUDIO_TYPE } from './VolumeInspector.interface';
 
 @injectable({
   name: 'VolumeInspector',

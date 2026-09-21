@@ -11,8 +11,8 @@ import { IconButton, type IconButtonProps } from '@ringcentral/spring-ui';
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 
-import { TemplateForm } from './TemplateForm';
 import i18n from './i18n';
+import { TemplateForm } from './TemplateForm';
 
 export interface TemplateItemProps {
   template: {

@@ -83,14 +83,14 @@ export const IssuesTrackingCloseConfirmPanel: FunctionComponent<
           radius="round"
           variant="outlined"
           fullWidth
-          onClick={(e) => onCancel()}
+          onClick={() => onCancel()}
           data-sign="DialogCancelButton"
         >
           {t('cancel')}
         </RcButton>
         <RcButton
           radius="round"
-          onClick={(e) => onConfirm()}
+          onClick={() => onConfirm()}
           variant="contained"
           fullWidth
           data-sign="DialogOKButton"

@@ -1,5 +1,5 @@
 import type { StepFunction } from '@ringcentral-integration/test-utils';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 
 interface CheckControlButtonStatusProps {
   controlButtons: { name: string[]; status: 'disabled' | 'enabled' };
@@ -10,15 +10,15 @@ export const CheckControlButtonStatus: StepFunction<
 > = async ({ controlButtons }) => {
   const { name, status } = controlButtons;
 
-  name.forEach((item) => {
-    status === 'disabled'
-      ? expect(screen.queryByTestId(item)).toHaveAttribute(
+  await Promise.all(
+    name.map((item) =>
+      waitFor(() => {
+        const button = screen.queryByTestId(item);
+        expect(button).toHaveAttribute(
           'aria-disabled',
-          'true',
-        )
-      : expect(screen.queryByTestId(item)).toHaveAttribute(
-          'aria-disabled',
-          'false',
+          status === 'disabled' ? 'true' : 'false',
         );
-  });
+      }),
+    ),
+  );
 };

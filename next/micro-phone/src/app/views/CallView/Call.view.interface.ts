@@ -19,4 +19,6 @@ export interface CallViewOptions {
    *
    */
   brandAllowsSmartNotes?: boolean;
+
+  onAiNotesTabViewed?: () => void;
 }

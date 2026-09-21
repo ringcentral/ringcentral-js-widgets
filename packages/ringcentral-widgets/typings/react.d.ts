@@ -1,5 +1,27 @@
 /* eslint-disable no-var */
 import 'react';
+import type { PointerEventHandler, ReactEventHandler } from 'react';
+
+declare module 'react' {
+  interface HTMLAttributes<T> {
+    /**
+     * Compatibility for Spring UI/Juno declarations generated against the
+     * React 17 DOM attribute surface.
+     */
+    onPointerEnterCapture?: PointerEventHandler<T>;
+    onPointerLeaveCapture?: PointerEventHandler<T>;
+    onResize?: ReactEventHandler<T>;
+    onResizeCapture?: ReactEventHandler<T>;
+    placeholder?: string;
+  }
+
+  interface SVGAttributes<T> {
+    onPointerEnterCapture?: PointerEventHandler<T>;
+    onPointerLeaveCapture?: PointerEventHandler<T>;
+    onResize?: ReactEventHandler<T>;
+    onResizeCapture?: ReactEventHandler<T>;
+  }
+}
 
 declare global {
   namespace JSX {

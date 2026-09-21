@@ -65,7 +65,7 @@ export const useResizeAndToggle = (
   const widthRef = useRef(cacheState.width);
   const dragAnchorRef = useRef<HTMLDivElement>(null);
 
-  usePanMove(dragAnchorRef, {
+  usePanMove(dragAnchorRef as RefOrElementOrCallback, {
     onMove: (delta) => {
       const targetElm = getRefElement(target as HTMLElement)!;
 

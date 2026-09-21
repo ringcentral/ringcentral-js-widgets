@@ -1,13 +1,16 @@
 import {
+  Auth,
   ExtensionFeatures,
   RateLimiter,
   TierChecker,
 } from '@ringcentral-integration/micro-auth/src/app/services';
+import { Toast } from '@ringcentral-integration/micro-core/src/app/services';
 import { Meeting } from '@ringcentral-integration/micro-meeting/src/app/services';
 import {
   Conversations,
   MessageStore,
 } from '@ringcentral-integration/micro-message/src/app/services';
+import { whenStateChange } from '@ringcentral-integration/next-core/test';
 import {
   AdvanceTimersByTime,
   autorun,
@@ -21,6 +24,7 @@ import {
   title,
   UseFakeTimers,
   UseRealTimers,
+  waitForRenderReady,
   WaitForRenderReady,
   When,
 } from '@ringcentral-integration/test-utils';
@@ -32,6 +36,50 @@ import {
 } from '../steps/Alert';
 import { Entry } from '../steps/Entry';
 import { Login } from '../steps/Login';
+
+const INSUFFICIENT_PRIVILEGE_MESSAGE =
+  'Insufficient privilege. Please contact your account representative for an upgrade.';
+
+const CheckRateLimitToastMessage = (ttl: number): StepFunction => {
+  return () => {
+    expect(
+      screen.getByText(
+        `Request limit exceeded. App will resume in ${ttl} seconds.`,
+      ),
+    ).toBeInTheDocument();
+  };
+};
+
+const LoginWithInsufficientPrivilege: StepFunction<{
+  username?: string;
+  password?: string;
+}> = async ({ username = 'test', password = 'test' }, { app }) => {
+  const auth = app.container.got(Auth)!;
+  const toast = app.container.got(Toast)!;
+
+  await whenStateChange(() => {
+    expect(auth.ready).toBeTruthy();
+  });
+  expect(auth.loggedIn).toBeFalsy();
+
+  auth.login({
+    username,
+    password,
+  });
+
+  await whenStateChange(
+    () => {
+      expect(
+        toast.toasts.some(
+          ({ message }) => String(message) === INSUFFICIENT_PRIVILEGE_MESSAGE,
+        ),
+      ).toBeTruthy();
+    },
+    process.env.MOCK_MCP ? { timeout: 100 * 1000 } : {},
+  );
+
+  await waitForRenderReady();
+};
 
 @autorun(test)
 @common
@@ -59,7 +107,10 @@ export class TestToasts extends Step {
           />
         }
       >
-        <Given desc="User login app and go to dialer page" action={Login} />
+        <Given
+          desc="User login app and receive insufficient privilege toast"
+          action={LoginWithInsufficientPrivilege}
+        />
         <Then
           desc="ConversationsBase Toast"
           action={[
@@ -84,7 +135,7 @@ export class TestToasts extends Step {
         <Then
           desc="ExtensionFeatures Toast"
           action={[
-            <CheckAlertMessage message="Insufficient privilege. Please contact your account representative for an upgrade." />,
+            <CheckAlertMessage message={INSUFFICIENT_PRIVILEGE_MESSAGE} />,
             CloseAlertMessage,
             CheckNoAnyAlerts,
             (async (_, { app, rcMock }) => {
@@ -103,7 +154,7 @@ export class TestToasts extends Step {
               });
             }) as StepFunction,
             WaitForRenderReady,
-            <CheckAlertMessage message="Insufficient privilege. Please contact your account representative for an upgrade." />,
+            <CheckAlertMessage message={INSUFFICIENT_PRIVILEGE_MESSAGE} />,
           ]}
         />
       </Scenario>
@@ -137,11 +188,14 @@ export class TestToasts2 extends Step {
           />
         }
       >
-        <Given desc="User login app and go to dialer page" action={Login} />
+        <Given
+          desc="User login app and receive insufficient privilege toast"
+          action={LoginWithInsufficientPrivilege}
+        />
         <Then
           desc="ExtensionInfo Toast"
           action={[
-            <CheckAlertMessage message="Insufficient privilege. Please contact your account representative for an upgrade." />,
+            <CheckAlertMessage message={INSUFFICIENT_PRIVILEGE_MESSAGE} />,
           ]}
         />
       </Scenario>
@@ -380,21 +434,21 @@ export class TestToasts6 extends Step {
         <Then
           desc="RateLimiter Toast should only show once"
           action={[
-            <CheckAlertMessage message="Request limit exceeded. App will resume in 61 seconds." />,
+            CheckRateLimitToastMessage(61),
             ((_, { app }) => {
               const alerts = screen.queryAllByTestId('Toast');
               expect(alerts).toHaveLength(1);
             }) as StepFunction,
             <AdvanceTimersByTime ms={1000} />,
-            <CheckAlertMessage message="Request limit exceeded. App will resume in 60 seconds." />,
+            CheckRateLimitToastMessage(60),
             <AdvanceTimersByTime ms={1000} />,
-            <CheckAlertMessage message="Request limit exceeded. App will resume in 59 seconds." />,
+            CheckRateLimitToastMessage(59),
             <AdvanceTimersByTime ms={1000} />,
-            <CheckAlertMessage message="Request limit exceeded. App will resume in 58 seconds." />,
+            CheckRateLimitToastMessage(58),
             <AdvanceTimersByTime ms={1000} />,
-            <CheckAlertMessage message="Request limit exceeded. App will resume in 57 seconds." />,
+            CheckRateLimitToastMessage(57),
             <AdvanceTimersByTime ms={1000} />,
-            <CheckAlertMessage message="Request limit exceeded. App will resume in 56 seconds." />,
+            CheckRateLimitToastMessage(56),
             ((_, { app }) => {
               const alerts = screen.queryAllByTestId('Toast');
               expect(alerts).toHaveLength(1);
@@ -402,7 +456,7 @@ export class TestToasts6 extends Step {
             ...Array(55)
               .fill(0)
               .map((_, i) => <AdvanceTimersByTime ms={1000} />),
-            <CheckAlertMessage message="Request limit exceeded. App will resume in 0 seconds." />,
+            CheckRateLimitToastMessage(1),
             <AdvanceTimersByTime ms={1000} />,
             WaitForRenderReady,
             CheckNoAnyAlerts,

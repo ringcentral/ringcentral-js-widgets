@@ -1,7 +1,8 @@
 import { trackEvents } from '@ringcentral-integration/commons/enums/trackEvents';
 import {
+  AppFeatures,
+  Auth,
   ConnectivityMonitor,
-  ExtensionInfo,
   RateLimiter,
   RegionSettings,
   trackEvent,
@@ -14,15 +15,22 @@ import { IntegrationConfig } from '@ringcentral-integration/micro-setting/src/ap
 import {
   injectable,
   optional,
+  PortManager,
   RcViewModule,
   RouterPlugin,
   type UIFunctions,
   type UIProps,
   useConnector,
 } from '@ringcentral-integration/next-core';
-import React, { useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 
-import { ConversationLogger, MessageThread } from '../../services';
+import {
+  ConversationLogger,
+  Conversations,
+  MessageThread,
+  MessageThreadLogger,
+  SmsConsent,
+} from '../../services';
 import { ConversationsViewSpring } from '../ConversationsViewSpring';
 import { SmsOptOutView } from '../SmsOptOutView';
 import { SmsTemplateView } from '../SmsTemplateView';
@@ -32,7 +40,10 @@ import type {
   ConversationViewSpringPanelProps,
 } from './Conversation.view.interface';
 import { ConversationAlert } from './ConversationAlert';
-import { ConversationPanel } from './ConversationPanel';
+import {
+  ConversationNoAccessPanel,
+  ConversationPanel,
+} from './ConversationPanel';
 
 type SharedConversationViewProps = {
   conversationId: string;
@@ -45,9 +56,11 @@ export class SharedConversationView extends RcViewModule {
   constructor(
     private _smsTemplateView: SmsTemplateView,
     private _theme: Theme,
-    private _extensionInfo: ExtensionInfo,
+    private _conversations: Conversations,
+    private _auth: Auth,
     private _regionSettings: RegionSettings,
     private _rateLimiter: RateLimiter,
+    private _appFeatures: AppFeatures,
     private _connectivityMonitor: ConnectivityMonitor,
     private _router: RouterPlugin,
     private _integrationConfig: IntegrationConfig,
@@ -60,6 +73,9 @@ export class SharedConversationView extends RcViewModule {
     @optional('ConversationViewOptions')
     private _conversationViewOptions?: ConversationViewSpringOptions,
     @optional() private _smsOptOutView?: SmsOptOutView,
+    @optional() private _messageThreadLogger?: MessageThreadLogger,
+    @optional() private _smsConsent?: SmsConsent,
+    @optional() private _portManager?: PortManager,
   ) {
     super();
   }
@@ -70,7 +86,8 @@ export class SharedConversationView extends RcViewModule {
     UIProps<ConversationViewSpringPanelProps>,
     'messages' | 'conversation'
   > &
-    Partial<Pick<UIProps<ConversationViewSpringPanelProps>, 'conversation'>> {
+    Partial<Pick<UIProps<ConversationViewSpringPanelProps>, 'conversation'>> &
+    Pick<ConversationViewSpringPanelProps, 'renderLogIndicator'> {
     const disableLinks =
       this._rateLimiter.restricted || !this._connectivityMonitor.connectivity;
 
@@ -98,8 +115,11 @@ export class SharedConversationView extends RcViewModule {
     const thread = this._messageThread.getThread(threadConversationId);
     const threadMetadata =
       this._messageThread.getThreadMetadata(threadConversationId);
+    const sending = threadMetadata?.loading ?? false;
     const threadInputValue =
       this._messageThread.getInputValue(threadConversationId);
+    const attachments =
+      this._messageThread.getAttachments(threadConversationId);
 
     const { showAlert, alertProps } =
       this._conversationAlert.getAlertInfo(conversation);
@@ -107,20 +127,27 @@ export class SharedConversationView extends RcViewModule {
     return {
       createNewEntityTooltip: this._integrationConfig.createNewEntityTooltip,
       showLogPopover: this._conversationViewOptions?.showLogPopover,
+      // don't show log indicator for shared conversation for now
+      renderLogIndicator: undefined,
       conversation,
       messageText: threadInputValue,
+      attachments,
+      acceptFileTypes: this._conversations.acceptFileTypes,
       sendButtonDisabled: Boolean(
         disableLinks ||
-          !threadInputValue.length ||
-          showSpinner ||
-          threadMetadata?.loading,
+        !(threadInputValue.length || attachments.length > 0) ||
+        showSpinner ||
+        sending,
       ),
       threadInfo: thread?.threadInfo,
       threadMetadata,
-      extensionId: this._extensionInfo?.id,
-      supportAttachment: false,
+      sending,
+      extensionId: this._auth.ownerId,
+      supportAttachment: this._appFeatures.hasSendMMSPermission,
       showAlert,
       alertProps,
+      showSharedSmsLogReminder:
+        this._messageThreadLogger?.shouldShowSharedSmsLogReminder ?? false,
     };
   }
 
@@ -133,7 +160,7 @@ export class SharedConversationView extends RcViewModule {
           pageType: 'text',
         }),
       useActionsHandler: this._conversationsViewSpring.useActionsHandler,
-      replyToReceivers: async (text) => {
+      replyToReceivers: async (text, attachments) => {
         if (!conversationId) return;
 
         const threads = this._messageThread.data.threads;
@@ -148,6 +175,7 @@ export class SharedConversationView extends RcViewModule {
               text,
               // For resolved threads, don't send threadId (backend will create new thread)
               true,
+              attachments,
             );
 
             if (response) {
@@ -159,13 +187,22 @@ export class SharedConversationView extends RcViewModule {
         }
 
         // For active threads, use sendThreadMessage
-        await this._messageThread.sendThreadMessage(conversationId, text);
+        await this._messageThread.sendThreadMessage(
+          conversationId,
+          text,
+          false,
+          attachments,
+        );
       },
       updateMessageText: async (text) => {
         if (!conversationId) return;
         this._messageThread.setInputValue(conversationId, text);
         return true;
       },
+      addAttachments: (attachments) =>
+        this._messageThread.addAttachments(conversationId, attachments),
+      removeAttachment: (attachment) =>
+        this._messageThread.removeAttachment(conversationId, attachment),
       onLinkClick: (href: string) => {
         let linkType = 'website';
         if (href.startsWith('mailto:')) {
@@ -181,6 +218,9 @@ export class SharedConversationView extends RcViewModule {
           () => this._router.push('/messages'),
           this._theme?.reducedMotion,
         );
+      },
+      onDismissSharedSmsLogReminder: () => {
+        this._messageThreadLogger?.dismissSharedSmsLogReminder();
       },
     };
   }
@@ -205,11 +245,19 @@ export class SharedConversationView extends RcViewModule {
 
     const { conversation, ...rest } = _props;
 
+    useEffect(() => {
+      if (!this._portManager?.shared || this._portManager?.isMainTab) {
+        this._smsConsent?.loadConversationConsentData(conversation!);
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [conversation?.conversationId]);
+
     if (!conversation) {
       this.logger.error('Conversation not found', {
         conversationId: props.conversationId,
       });
-      return null;
+
+      return <ConversationNoAccessPanel goBack={uiFunctions.goBack} />;
     }
 
     const Component =

@@ -11,6 +11,7 @@ import React from 'react';
 import styles from './styles.scss';
 
 interface VideoSettingGroupProps {
+  children?: React.ReactNode;
   dataSign: string;
   summary?: string;
   expandable: boolean;
@@ -36,8 +37,7 @@ export const VideoSettingGroup: FunctionComponent<VideoSettingGroupProps> = ({
         <RcAccordionSummary
           classes={{
             root: styles.accordionSummary,
-            // @ts-expect-error TS(2322): Type 'string | null' is not assignable to type 'st... Remove this comment to see the full error message
-            disabled: expandable ? null : styles.accordionSummaryDisabled,
+            disabled: expandable ? undefined : styles.accordionSummaryDisabled,
           }}
           expandIcon={expandable ? arrowDownSvg : undefined}
           data-sign={`${dataSign}Summary`}

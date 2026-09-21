@@ -354,7 +354,7 @@ export const ContactSearchPanel: FunctionComponent<ContactSearchPanelProps> = ({
           key={tabsKey}
           data-sign="contactTabsTitle"
           value={activeTab}
-          onChange={(e, v) => {
+          onChange={(e: any, v: TabsEnumType) => {
             inputRef.current?.focus();
             setActiveTab(v);
             changeTabTrack(
@@ -424,7 +424,7 @@ export const ContactSearchPanel: FunctionComponent<ContactSearchPanelProps> = ({
             getMenuProps={getMenuProps}
             getItemProps={getItemProps}
             {...additionProps}
-            renderOption={(props: IContactSearchItem, state) => {
+            renderOption={(props: IContactSearchItem, state: any) => {
               const {
                 name,
                 phoneNumber,
@@ -545,12 +545,12 @@ export const ContactSearchPanel: FunctionComponent<ContactSearchPanelProps> = ({
                 </RcMenuItem>
               );
             }}
-            itemsRendered={(items) => {
+            itemsRendered={(items: { data?: IContactSearchItem }[]) => {
               if (activeTab !== TabsEnum.company) return;
 
               const ids = items
                 .filter(({ data }) => data && data.isPrimary && data.id)
-                .map(({ data }) => data.id);
+                .map(({ data }) => data!.id);
 
               if (ids.length > 0) {
                 getCompanyExtraInfoByIds(ids);

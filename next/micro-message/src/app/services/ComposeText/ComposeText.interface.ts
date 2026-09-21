@@ -27,5 +27,5 @@ export interface ToNumber extends SuggestionListItemData {
   /**
    * the reason why the phone number is invalid
    */
-  errorReason?: 'optOut' | 'invalidPhoneNumber';
+  errorReason?: 'optOut' | 'requiredOptIn' | 'invalidPhoneNumber';
 }

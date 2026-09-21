@@ -21,18 +21,18 @@ export const CheckComposeTestPage: StepFunction = async () => {
 
   const selector = screen.getAllByTestId('phoneNumber')[0].querySelector('div');
   if (selector) {
-    userEvent.click(selector);
+    await userEvent.click(selector);
   } else {
-    userEvent.click(screen.getAllByTestId('phoneNumber')[0]);
+    await userEvent.click(screen.getAllByTestId('phoneNumber')[0]);
   }
 
-  await whenStateChange(() =>
-    expect(
-      screen.queryAllByTestId('selectMenuItem', { exact: false }),
-    ).not.toBeNull(),
-  );
+  const menuItems = await whenStateChange(() => {
+    const items = screen.queryAllByTestId('selectMenuItem', { exact: false });
+    expect(items.length).toBeGreaterThan(0);
+    return items;
+  });
 
-  const list = screen.getAllByTestId('selectMenuItem', { exact: false })[0];
+  const list = menuItems[0];
   expect(list).toBeInTheDocument();
-  userEvent.click(list);
+  await userEvent.click(list);
 };

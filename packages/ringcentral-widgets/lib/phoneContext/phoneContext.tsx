@@ -4,6 +4,7 @@ import type { FunctionComponent } from 'react';
 import React from 'react';
 
 export interface PhoneProviderProps<T = any> {
+  children?: React.ReactNode;
   phone: T;
   theme?: RcThemeProviderProps['theme'];
 }

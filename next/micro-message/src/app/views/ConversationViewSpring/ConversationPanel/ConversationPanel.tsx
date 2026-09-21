@@ -2,6 +2,7 @@ import {
   AppFooterNav,
   AppHeaderNav,
 } from '@ringcentral-integration/micro-core/src/app/components';
+import { useLocale } from '@ringcentral-integration/micro-core/src/app/hooks';
 import { useContactRenderInfoFromConversation } from '@ringcentral-integration/micro-phone/src/app/hooks';
 import { ContactDisplayRender } from '@ringcentral-integration/micro-phone/src/app/hooks/useContactRenderInfo/components';
 import {
@@ -22,9 +23,11 @@ import {
   ConversationMessageList,
   type ConversationMessageListProps,
 } from './ConversationMessageList';
+import i18n from './i18n';
 
 export const ConversationPanel: FC<
-  ConversationViewSpringPanelProps &
+  Omit<ConversationViewSpringPanelProps, 'conversation'> &
+    Required<Pick<ConversationViewSpringPanelProps, 'conversation'>> &
     Pick<ConversationMessageListProps, 'timeKey'>
 > = ({
   messageText: _messageText = '',
@@ -47,14 +50,19 @@ export const ConversationPanel: FC<
   showAlert,
   displayLogStatus = false,
   showLogPopover,
+  renderLogIndicator,
   useConversationItemInfo,
   useActionsHandler,
   threadInfo,
   extensionId,
   threadMetadata,
+  sending = false,
   timeKey,
   endAdornment,
+  showSharedSmsLogReminder = false,
+  onDismissSharedSmsLogReminder,
 }) => {
+  const { t } = useLocale(i18n);
   const viewLogAnchorRef = useRef<HTMLDivElement>(null);
   const [messageText, setMessageText] = useAsyncState(
     _messageText,
@@ -86,7 +94,6 @@ export const ConversationPanel: FC<
     metadata: threadMetadata,
   });
 
-  const isLoading = threadMetadata?.loading ?? false;
   // Hide input when alert is shown (e.g., opt out)
   const showInput = !showAlert && threadShowInput;
 
@@ -113,11 +120,26 @@ export const ConversationPanel: FC<
               displayControl={{
                 maybe: true,
                 matchCounts: true,
+                align: 'center',
               }}
             />
             <ThreadStatus />
           </div>
         </PageHeader>
+        {showSharedSmsLogReminder ? (
+          <div className="px-4 pb-2 border-b border-neutral-b0-t10">
+            <Alert
+              data-sign="sharedSmsLogReminder"
+              severity="info"
+              onClose={() => {
+                onDismissSharedSmsLogReminder?.();
+              }}
+              className="typography-mainText text-neutral-b1"
+            >
+              {t('sharedSmsLogReminder')}
+            </Alert>
+          </div>
+        ) : null}
       </AppHeaderNav>
 
       <div
@@ -125,7 +147,7 @@ export const ConversationPanel: FC<
         ref={viewLogAnchorRef}
         className="relative h-full"
       >
-        {isLoading && (
+        {sending && (
           <div className="absolute bottom-2 left-2">
             <CircularProgressIndicator size="xsmall" />
           </div>
@@ -151,6 +173,7 @@ export const ConversationPanel: FC<
               </div>
             );
           }}
+          renderLogIndicator={renderLogIndicator}
           onLinkClick={onLinkClick}
         />
       </div>

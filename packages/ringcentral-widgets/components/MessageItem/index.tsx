@@ -683,7 +683,6 @@ class MessageItem extends Component<MessageItemProps, MessageItemState> {
           {extraButton}
         </div>
         <SlideMenu
-          // @ts-expect-error TS(2322): Type '{ children: Element[]; extended: boolean; on... Remove this comment to see the full error message
           extended={this.state.extended}
           onToggle={this.toggleExtended}
           extendIconClassName={styles.extendIcon}

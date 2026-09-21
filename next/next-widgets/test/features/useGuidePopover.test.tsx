@@ -140,12 +140,12 @@ const TestPopoverNoAnimation = () => {
 };
 
 describe('useGuidePopover', () => {
-  it('opens and closes the popover via exposed handlers', () => {
+  it('opens and closes the popover via exposed handlers', async () => {
     render(<TestPopover />);
 
     expect(screen.queryByTestId('popover-content')).not.toBeInTheDocument();
 
-    userEvent.click(screen.getByTestId('open-button'));
+    await userEvent.click(screen.getByTestId('open-button'));
 
     expect(screen.getByTestId('popover-content')).toBeInTheDocument();
 
@@ -153,7 +153,7 @@ describe('useGuidePopover', () => {
       'bg-neutral-base',
     );
 
-    userEvent.click(screen.getByTestId('close-button'));
+    await userEvent.click(screen.getByTestId('close-button'));
 
     expect(screen.queryByTestId('popover-content')).not.toBeInTheDocument();
     expect(screen.getByTestId('guide-anchor').className).not.toContain(
@@ -204,7 +204,7 @@ describe('useGuidePopover', () => {
     expect(anchor.className).toContain('custom-class');
   });
 
-  it('applies custom activeClassName when popover is open', () => {
+  it('applies custom activeClassName when popover is open', async () => {
     const TestComponent = () => {
       const { anchorRef, popoverOpen, close, open } = useGuidePopover({});
       return (
@@ -232,7 +232,7 @@ describe('useGuidePopover', () => {
     const anchor = screen.getByTestId('guide-anchor');
     expect(anchor.className).not.toContain('custom-active-class');
 
-    userEvent.click(screen.getByText('Open'));
+    await userEvent.click(screen.getByText('Open'));
 
     expect(anchor.className).toContain('custom-active-class');
   });
@@ -260,7 +260,7 @@ describe('useGuidePopover', () => {
     expect(hints.length).toBeGreaterThan(0);
   });
 
-  it('closes popover when anchor unmounts', () => {
+  it('closes popover when anchor unmounts', async () => {
     const TestComponent = ({ showAnchor }: { showAnchor: boolean }) => {
       const { anchorRef, popoverOpen, open, close } = useGuidePopover({});
 
@@ -288,7 +288,7 @@ describe('useGuidePopover', () => {
 
     const { rerender } = render(<TestComponent showAnchor />);
 
-    userEvent.click(screen.getByText('Open'));
+    await userEvent.click(screen.getByText('Open'));
     expect(screen.getByTestId('popover-content')).toBeInTheDocument();
 
     rerender(<TestComponent showAnchor={false} />);
@@ -313,7 +313,7 @@ describe('useGuidePopover', () => {
     expect(screen.queryByTestId('popover-content')).not.toBeInTheDocument();
   });
 
-  it('renders popover with Portal and Backdrop when open', () => {
+  it('renders popover with Portal and Backdrop when open', async () => {
     const TestComponent = () => {
       const { anchorRef, popoverOpen, open } = useGuidePopover({});
       return (
@@ -329,13 +329,44 @@ describe('useGuidePopover', () => {
     };
 
     render(<TestComponent />);
-    userEvent.click(screen.getByTestId('open-button'));
+    await userEvent.click(screen.getByTestId('open-button'));
 
     expect(screen.getByTestId('popover-content')).toBeInTheDocument();
     expect(screen.getByTestId('guidePopover')).toBeInTheDocument();
   });
 
-  it('scrolls into view when scrollIntoView is true', () => {
+  it('closes the popover through backdrop click when a handler is provided', async () => {
+    const TestComponent = () => {
+      const { anchorRef, popoverOpen, open, close } = useGuidePopover({});
+      return (
+        <>
+          <button type="button" onClick={open} data-sign="open-button">
+            Open
+          </button>
+          <GuidePopover
+            anchorRef={anchorRef}
+            popoverOpen={popoverOpen}
+            onBackdropClick={close}
+          >
+            <div data-sign="popover-content">Content</div>
+          </GuidePopover>
+        </>
+      );
+    };
+
+    render(<TestComponent />);
+    await userEvent.click(screen.getByTestId('open-button'));
+
+    expect(screen.getByTestId('popover-content')).toBeInTheDocument();
+
+    await userEvent.click(
+      document.querySelector<HTMLElement>('.sui-backdrop')!,
+    );
+
+    expect(screen.queryByTestId('popover-content')).not.toBeInTheDocument();
+  });
+
+  it('scrolls into view when scrollIntoView is true', async () => {
     const scrollIntoViewSpy = jest.fn();
     const TestComponent = () => {
       const { anchorRef, popoverOpen, open, close } = useGuidePopover({
@@ -369,7 +400,7 @@ describe('useGuidePopover', () => {
     };
 
     render(<TestComponent />);
-    userEvent.click(screen.getByTestId('open-button'));
+    await userEvent.click(screen.getByTestId('open-button'));
 
     expect(scrollIntoViewSpy).toHaveBeenCalledWith({
       behavior: 'smooth',
@@ -378,7 +409,7 @@ describe('useGuidePopover', () => {
     });
   });
 
-  it('scrolls into view when scrollIntoView is visible and element is not in viewport', () => {
+  it('scrolls into view when scrollIntoView is visible and element is not in viewport', async () => {
     const scrollIntoViewSpy = jest.fn();
     const getBoundingClientRectSpy = jest.fn(
       () =>
@@ -428,13 +459,13 @@ describe('useGuidePopover', () => {
     };
 
     render(<TestComponent />);
-    userEvent.click(screen.getByTestId('open-button'));
+    await userEvent.click(screen.getByTestId('open-button'));
 
     expect(getBoundingClientRectSpy).toHaveBeenCalled();
     expect(scrollIntoViewSpy).toHaveBeenCalled();
   });
 
-  it('does not scroll when scrollIntoView is visible and element is in viewport', () => {
+  it('does not scroll when scrollIntoView is visible and element is in viewport', async () => {
     const scrollIntoViewSpy = jest.fn();
     const getBoundingClientRectSpy = jest.fn(
       () =>
@@ -495,13 +526,13 @@ describe('useGuidePopover', () => {
     };
 
     render(<TestComponent />);
-    userEvent.click(screen.getByTestId('open-button'));
+    await userEvent.click(screen.getByTestId('open-button'));
 
     expect(getBoundingClientRectSpy).toHaveBeenCalled();
     expect(scrollIntoViewSpy).not.toHaveBeenCalled();
   });
 
-  it('does not scroll when scrollIntoView is false', () => {
+  it('does not scroll when scrollIntoView is false', async () => {
     const scrollIntoViewSpy = jest.fn();
     const TestComponent = () => {
       const { anchorRef, popoverOpen, open, close } = useGuidePopover({
@@ -535,12 +566,12 @@ describe('useGuidePopover', () => {
     };
 
     render(<TestComponent />);
-    userEvent.click(screen.getByTestId('open-button'));
+    await userEvent.click(screen.getByTestId('open-button'));
 
     expect(scrollIntoViewSpy).not.toHaveBeenCalled();
   });
 
-  it('uses custom scrollIntoViewOptions', () => {
+  it('uses custom scrollIntoViewOptions', async () => {
     const scrollIntoViewSpy = jest.fn();
     const customOptions = {
       behavior: 'auto' as ScrollBehavior,
@@ -581,12 +612,12 @@ describe('useGuidePopover', () => {
     };
 
     render(<TestComponent />);
-    userEvent.click(screen.getByTestId('open-button'));
+    await userEvent.click(screen.getByTestId('open-button'));
 
     expect(scrollIntoViewSpy).toHaveBeenCalledWith(customOptions);
   });
 
-  it('handles open when anchorRef is null', () => {
+  it('handles open when anchorRef is null', async () => {
     const TestComponent = () => {
       const { anchorRef, popoverOpen, open } = useGuidePopover({
         scrollIntoView: true,
@@ -605,9 +636,7 @@ describe('useGuidePopover', () => {
     };
 
     render(<TestComponent />);
-    expect(() => {
-      userEvent.click(screen.getByTestId('open-button'));
-    }).not.toThrow();
+    await userEvent.click(screen.getByTestId('open-button'));
     expect(screen.getByTestId('popover-content')).toBeInTheDocument();
   });
 });

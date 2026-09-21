@@ -29,7 +29,7 @@ import {
   RCV_WAITING_ROOM_MODE_V2,
   RCV_WAITING_ROOM_MODE_V2_REVERSE,
 } from './constants';
-import { t } from './i18n';
+import i18n from './i18n';
 
 /* TODO: this meetingProviderTypes is only used for calender-addon
  * if you want to use meetingProviderTypes
@@ -590,7 +590,7 @@ const sortDialInNumbers = (
       number: item.phoneNumber,
       unformattedNumber: item.phoneNumber,
       country: item.country.name,
-      location: `${t('tollFree')}`,
+      location: i18n.getString('tollFree', currentLocale),
     }));
   return [...defaultPhoneNumbers, ...premiumNumbers, ...tollFreeNumbers];
 };

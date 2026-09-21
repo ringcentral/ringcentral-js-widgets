@@ -74,9 +74,9 @@ export class RCI2625 extends Step {
   run() {
     const { CreateMock, Login } = this;
     let ringout: Ringout;
-    let fetchRingoutStatusSpy: jest.SpyInstance;
+    let fetchRingoutStatusSpy: jest.Spied;
     const checkConnectionFuncSpy = jest.fn();
-    let retrySpy: jest.SpyInstance;
+    let retrySpy: jest.Spied;
     return (
       <Scenario desc="Verify the app should recover normal mode when API return 200 in the Ringout mode">
         <Given

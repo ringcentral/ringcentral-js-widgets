@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
-  getRef,
   PortDetector,
   delegate,
   proxyExecutorKey,
 } from 'reactant-share';
+import { getRef } from 'reactant';
 
 import { isSerializable } from './validateArgsToWorker';
 

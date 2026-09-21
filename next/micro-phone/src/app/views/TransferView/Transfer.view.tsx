@@ -36,12 +36,12 @@ import {
   Webphone,
 } from '../../services';
 
+import { t } from './i18n';
 import type {
   TransferViewOptions,
   TransferViewPanelProps,
   TransferViewProps,
 } from './Transfer.view.interface';
-import { t } from './i18n';
 
 type IParams = {
   sessionId?: string;

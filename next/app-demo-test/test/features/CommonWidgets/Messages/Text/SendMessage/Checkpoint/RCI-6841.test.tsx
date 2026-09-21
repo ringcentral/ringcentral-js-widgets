@@ -243,10 +243,6 @@ export class RCI6841 extends Step {
                   })),
                 );
               });
-
-              jest
-                .spyOn(app.modules.MessageSender, '_validateSenderNumber')
-                .mockReturnValue(true);
             }) as StepFunction,
             <ClickItemByDataSign dataSign="attachButton" />,
             <CheckButton expectDisabled={false} />,

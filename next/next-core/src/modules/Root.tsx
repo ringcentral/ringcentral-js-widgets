@@ -1,4 +1,4 @@
-import { optional, state } from 'reactant-share';
+import { optional, state } from 'reactant';
 import { EMPTY, isObservable, Observable, switchMap, takeUntil } from 'rxjs';
 
 import { DEFAULT_APP_WINDOW_SIZE } from '../constant';
@@ -14,7 +14,7 @@ export type RootOptions = {
   /**
    * in current design, the root width is 344px, if we need have custom of that, use DI to provide the value with options
    *
-   * by default will base on does set `onExpand` to use default value `w-[344px] min-w-[344px] max-w-[344px]`
+   * by default will base on does set `onExpand` to use default value `w-[300px] min-w-[300px] max-w-[300px]`
    */
   expandedLayoutMainClass?: string;
 };
@@ -51,7 +51,7 @@ export class Root extends RcModule {
   expandedLayoutMainClass =
     this._rootOptions?.expandedLayoutMainClass ??
     (this._rootOptions?.onExpand !== undefined
-      ? // w-[344px] min-w-[344px] max-w-[344px]
+      ? // w-[300px] min-w-[300px] max-w-[300px]
         `w-[${DEFAULT_WIDTH}px] min-w-[${DEFAULT_WIDTH}px] max-w-[${DEFAULT_WIDTH}px]`
       : undefined);
 

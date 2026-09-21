@@ -1,6 +1,6 @@
 {
   "name": "@ringcentral-integration/babel-settings",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "RingCentral Integration shared babel settings",
   "repository": {
     "type": "git",
@@ -35,14 +35,12 @@
   },
   "peerDependencies": {
     "@babel/polyfill": "^7.10.4",
-    "babel-jest": "^29.7.0"
+    "babel-jest": "^30.2.0"
   },
   "engines": {
     "node": ">=20.0.0"
   },
-  "ci": {
-    "ringcentral-widgets-test": "**"
-  },
+  "ci": {},
   "nx": {
     "tags": [
       "scope:ci-group-1",

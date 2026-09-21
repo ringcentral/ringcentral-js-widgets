@@ -31,6 +31,8 @@ export interface ContactSearchPanelProps extends BaseContactSearchPanelProps {
   toNumbers: ToNumber[];
   placeholder?: string;
   keyToTags?: string[];
+  // if true, will only show helpText when specific errorReason or helpText provided
+  strictErrorMode?: boolean;
   onExpanded: (expanded: boolean) => void;
   onSelect?: (contact: unknown[]) => void;
   onInputValueChange: (value: string) => void;
@@ -57,13 +59,14 @@ export const ContactSearchPanel: React.FunctionComponent<
   placeholder,
   ThirdPartyAvatar,
   keyToTags = ['↵', ',', ';'],
+  strictErrorMode = false,
   changeTabTrack,
   onSelect,
   onInputValueChange,
   onRemove,
   setFilterString,
   onExpanded,
-  helperText,
+  helperText: helperTextProp,
 }) => {
   const { t } = useLocale(i18n);
   const [value, _setValue] = useAsyncState(inputValue, (value) => {
@@ -103,6 +106,11 @@ export const ContactSearchPanel: React.FunctionComponent<
           onDelete={() => {
             onRemove(phoneNumber);
           }}
+          DeleteIconProps={
+            {
+              'data-sign': 'remove-chip-button',
+            } as any
+          }
           truncate
         />
       );
@@ -216,6 +224,21 @@ export const ContactSearchPanel: React.FunctionComponent<
     [toNumbers],
   );
 
+  const helperText = useMemo(() => {
+    if (helperTextProp) {
+      return helperTextProp;
+    }
+    if (error) {
+      if (strictErrorMode) {
+        const invalidCount = toNumbers.filter(
+          (toNumber) => toNumber.errorReason === 'invalidPhoneNumber',
+        ).length;
+        return invalidCount > 0 ? t('invalidPhoneNumber') : undefined;
+      }
+      return t('invalidPhoneNumber');
+    }
+  }, [toNumbers, error, t, helperTextProp, strictErrorMode]);
+
   return (
     <div className={clsx('flex flex-col gap-2', openProp && 'flex-auto')}>
       <Autocomplete
@@ -245,7 +268,7 @@ export const ContactSearchPanel: React.FunctionComponent<
         }}
         label={t('to')}
         value={toNumbers}
-        helperText={error ? helperText || t('invalidPhoneNumber') : helperText}
+        helperText={helperText}
         renderTags={renderTags}
         onClick={(e) => {
           if (value.length) {

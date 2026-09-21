@@ -23,4 +23,16 @@ describe('process i18n test', () => {
     const actual = processI18n(givenData, locale);
     expect(actual.appName).toEqual(expected);
   });
+
+  it('leaves null and undefined values unchanged on nested keys', () => {
+    const input = {
+      appName: givenData.appName,
+      empty: null as null,
+      missing: undefined as undefined,
+    };
+    const actual = processI18n(input, 'en-US');
+    expect(actual.appName).toBe('Test app name');
+    expect(actual.empty).toBeNull();
+    expect(actual.missing).toBeUndefined();
+  });
 });

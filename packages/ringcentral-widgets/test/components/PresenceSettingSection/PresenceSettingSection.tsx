@@ -1,6 +1,6 @@
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import { render } from '@ringcentral-integration/test-utils';
-import { screen, fireEvent } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 import React from 'react';
 
 import { PresenceSettingSection } from '../../../components/PresenceSettingSection';
@@ -8,8 +8,10 @@ import { PresenceSettingSection } from '../../../components/PresenceSettingSecti
 export const PresenceSetting: StepFunction<{
   presenceListIndex: string;
 }> = async ({ presenceListIndex }) => {
-  const IconLineToggleShowButton = screen.queryByTestId('statusToggleShow');
-  IconLineToggleShowButton.click();
+  const IconLineToggleShowButton = await screen.findByTestId(
+    'statusToggleShow',
+  );
+  fireEvent.click(IconLineToggleShowButton);
 
   const { container } = render(
     <PresenceSettingSection
@@ -28,9 +30,10 @@ export const PresenceSetting: StepFunction<{
 
   const IconLineSwitchButton = container
     .querySelector('[data-sign="acceptQueueSwitch"]')
-    .querySelector('input');
+    ?.querySelector('input');
+  expect(IconLineSwitchButton).toBeInTheDocument();
 
-  fireEvent.click(IconLineSwitchButton);
+  fireEvent.click(IconLineSwitchButton!);
 
   const status = document.querySelector(
     `[class*="presenceList"] [class*=RcListItem]:nth-child(${
@@ -38,7 +41,8 @@ export const PresenceSetting: StepFunction<{
     })`,
   );
 
-  fireEvent.click(status);
+  expect(status).toBeInTheDocument();
+  fireEvent.click(status!);
 
   expect(IconLineSwitchButton).toBeInTheDocument();
   expect(IconLineToggleShowButton).toBeInTheDocument();

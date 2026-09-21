@@ -8,6 +8,7 @@ import ConfirmMergeModal from '../ConfirmMergeModal';
 import { SpinnerOverlay } from '../SpinnerOverlay';
 
 type CallCtrlPanelProps = {
+  children?: React.ReactNode;
   callStatus?: string;
   sessionId?: string;
   phoneNumber?: string;

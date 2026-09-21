@@ -17,7 +17,7 @@ export interface ConversationLoggerOptions {
   accordWithLogRequirement: (conversation: ConversationLogItem) => boolean;
   logFunction: <P, S>(options: BaseLogOptions<P, S>) => Promise<void>;
   readyCheckFunction: () => boolean;
-  getIsInLoggedStatus?: (conversationId: string) => boolean;
+  getIsInLoggedStatus?: (conversationLogId: string) => boolean;
 }
 
 export interface ConversationLogItem {

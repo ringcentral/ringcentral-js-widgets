@@ -6,6 +6,9 @@ export interface EnvironmentOptions {
 
 export interface SetDataOptions {
   server: SDKConfig['server'];
+  aiApiUrl?: string;
+  smartNotesIframe?: string;
+  smartNotesEnv?: string;
   recordingHost: string;
   enabled: boolean;
   environmentChanged?: boolean;

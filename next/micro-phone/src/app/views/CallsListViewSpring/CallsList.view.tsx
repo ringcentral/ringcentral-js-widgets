@@ -17,6 +17,7 @@ import {
 } from '@ringcentral-integration/micro-core/src/app/views';
 import {
   ComposeText,
+  MessageSender,
   MessageStore,
 } from '@ringcentral-integration/micro-message/src/app/services';
 import { IntegrationConfig } from '@ringcentral-integration/micro-setting/src/app/services';
@@ -106,6 +107,9 @@ export class CallsListViewSpring extends RcViewModule {
   @dynamic('Theme')
   private _theme?: Theme;
 
+  @dynamic('MessageSender')
+  private _messageSender?: MessageSender;
+
   constructor(
     private _callViewState: CallViewState,
     private _connectivityManager: ConnectivityManager,
@@ -171,6 +175,7 @@ export class CallsListViewSpring extends RcViewModule {
       disableLinks,
       hasInternalSMSPermission,
       hasOutboundSMSPermission,
+      hasSmsPermission,
       // isCDCEnabled,
     } = useConnector(() => ({
       disableLinks: this.disableLinks,
@@ -182,6 +187,9 @@ export class CallsListViewSpring extends RcViewModule {
       isIdle: Boolean(this._call && this._call.isIdle),
       hasInternalSMSPermission: this._appFeatures.hasInternalSMSPermission,
       hasOutboundSMSPermission: this._appFeatures.hasOutboundSMSPermission,
+      hasSmsPermission:
+        this._messageSender?.hasSmsPermission ??
+        this._appFeatures.hasComposeTextPermission,
       // isCDCEnabled: this._appFeatures.isCDCEnabled,
     }));
 
@@ -231,7 +239,7 @@ export class CallsListViewSpring extends RcViewModule {
             disableLinks,
         });
 
-        if (this._appFeatures.hasComposeTextPermission) {
+        if (hasSmsPermission) {
           actions.push({
             type: 'text',
             disabled:
@@ -277,6 +285,7 @@ export class CallsListViewSpring extends RcViewModule {
       formattedPhoneNumber,
       hasInternalSMSPermission,
       hasOutboundSMSPermission,
+      hasSmsPermission,
       isConferenceCall,
       isIdle,
       isOfflineMode,

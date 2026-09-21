@@ -65,6 +65,7 @@ export class RCI860 extends Step {
             Login,
             <MakeOutboundCall />,
             <NavigateTo path={pagePath} />,
+            <CheckRoutePathIs path={pagePath} />,
           ]}
         />
         <When desc="> Make an inbound call" action={<MakeInboundCall />} />

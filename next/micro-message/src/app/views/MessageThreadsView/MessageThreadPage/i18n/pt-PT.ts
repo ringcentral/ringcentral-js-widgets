@@ -10,6 +10,7 @@ export default {
   open: 'Em aberto',
   resolved: 'Resolvidas',
   assignment: 'Atribuição',
+  selectAll: 'Selecionar tudo',
   done: 'Concluído',
   cancel: 'Cancelar',
   clear: 'Limpar',
@@ -29,6 +30,7 @@ export default {
 // @key: @#@"open"@#@ @source: @#@"Open"@#@
 // @key: @#@"resolved"@#@ @source: @#@"Resolved"@#@
 // @key: @#@"assignment"@#@ @source: @#@"Assignment"@#@
+// @key: @#@"selectAll"@#@ @source: @#@"Select all"@#@
 // @key: @#@"done"@#@ @source: @#@"Done"@#@
 // @key: @#@"cancel"@#@ @source: @#@"Cancel"@#@
 // @key: @#@"clear"@#@ @source: @#@"Clear"@#@

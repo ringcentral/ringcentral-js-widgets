@@ -34,12 +34,48 @@ type SpringAppRootProps = {
   overflowHidden?: boolean;
 };
 
-const verticalContentStyles = 'flex flex-col overflow-auto relative w-full';
+// ! we use overflow hidden to the full screen to ensure the scrollbar is show on inner of some content, instead of the full page
+const verticalContentStyles = 'flex flex-col overflow-hidden relative w-full';
+
+export type UseMainContentOverride = () =>
+  | React.ReactNode
+  | {
+      /**
+       * instead of replace whole element, just use display none to make element still exist but never should on the page
+       */
+      hiddenMode: true;
+      children: React.ReactNode;
+    }
+  | null
+  | false;
+
+const useDefaultMainContentOverride: UseMainContentOverride = () => false;
 
 export type AppRootViewOptions = {
   mainProps?: React.ComponentProps<'div'>;
   expandedProps?: React.ComponentProps<'div'>;
+  /**
+   * allow to fully override the main content, if return undefined or false, will render the default main content
+   */
+  useMainContentOverride?: UseMainContentOverride;
 };
+
+type MainContentHiddenOverride = Extract<
+  ReturnType<UseMainContentOverride>,
+  { hiddenMode: true }
+>;
+
+function isMainContentHiddenOverride(
+  mainContentOverride: ReturnType<UseMainContentOverride>,
+): mainContentOverride is MainContentHiddenOverride {
+  return (
+    !!mainContentOverride &&
+    typeof mainContentOverride === 'object' &&
+    !React.isValidElement(mainContentOverride) &&
+    'hiddenMode' in mainContentOverride &&
+    mainContentOverride.hiddenMode === true
+  );
+}
 
 /**
  * spring app root view, include modal view and toast view
@@ -125,15 +161,40 @@ export class SpringAppRootView extends RcViewModule {
     header,
     overflowHidden = true,
   }: PropsWithChildren<SpringAppRootProps>) {
-    return (
-      <AppProvider>
-        <div className="flex flex-col h-full">
-          {header}
-          <this.Main overflowHidden={overflowHidden}>{children}</this.Main>
-        </div>
-        <this._modalView.component {...ModalViewProps} />
-        <this._toastView.component {...ToastViewProps} />
-      </AppProvider>
-    );
+    const useMainContentOverride =
+      this._appRootViewOptions?.useMainContentOverride ??
+      useDefaultMainContentOverride;
+    const mainContentOverride = useMainContentOverride();
+
+    const beHiddenMode = isMainContentHiddenOverride(mainContentOverride);
+
+    const mainContent =
+      typeof mainContentOverride === 'undefined' ||
+      mainContentOverride === false ||
+      // be hidden mode, should still show the main content but hidden
+      beHiddenMode ? (
+        <>
+          <div
+            className={clsx('flex flex-col h-full', beHiddenMode && 'hidden')}
+          >
+            {header}
+            <this.Main overflowHidden={overflowHidden}>{children}</this.Main>
+          </div>
+          {
+            // only show when non hidden mode
+            !beHiddenMode && (
+              <>
+                <this._modalView.component {...ModalViewProps} />
+                <this._toastView.component {...ToastViewProps} />
+              </>
+            )
+          }
+          {beHiddenMode ? mainContentOverride.children : null}
+        </>
+      ) : (
+        mainContentOverride
+      );
+
+    return <AppProvider>{mainContent}</AppProvider>;
   }
 }

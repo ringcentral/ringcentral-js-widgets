@@ -1,4 +1,7 @@
-import type { StepFunction } from '@ringcentral-integration/test-utils';
+import {
+  type StepFunction,
+  waitForRenderReady,
+} from '@ringcentral-integration/test-utils';
 import { fireEvent, screen } from '@testing-library/react';
 
 interface PasteMessageRecipientsProps {
@@ -13,4 +16,5 @@ export const PasteMessageRecipients: StepFunction<
   fireEvent.paste(recipientsInput, {
     clipboardData: { getData: () => pasteData },
   });
+  await waitForRenderReady();
 };

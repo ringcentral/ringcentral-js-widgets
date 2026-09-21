@@ -8,6 +8,7 @@ import IncomingCallPanel from '../IncomingCallPanel';
 import i18n from './i18n';
 
 export type IncomingCallViewProps = {
+  children?: React.ReactNode;
   session: {
     id?: string;
     direction?: string;

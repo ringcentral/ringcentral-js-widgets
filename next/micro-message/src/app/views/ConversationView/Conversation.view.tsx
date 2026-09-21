@@ -83,7 +83,7 @@ export class ConversationView extends RcViewModule {
     supportAttachment = process.env.THEME_SYSTEM === 'spring-ui',
     supportEmoji = process.env.THEME_SYSTEM === 'spring-ui',
     showContactDisplayPlaceholder = process.env.THEME_SYSTEM === 'spring-ui',
-    inputExpandable = process.env.THEME_SYSTEM === 'spring-ui',
+    inputExpandable = true,
     perPage = 20,
   }: ConversationViewProps): UIProps<ConversationPanelProps> {
     const disableLinks =
@@ -98,16 +98,12 @@ export class ConversationView extends RcViewModule {
       (!this._conversationLogger || this._conversationLogger.ready)
     );
     const currentConversation = this._conversations.currentConversation;
+    const conversationId = this.conversationId;
     const hasInputContent =
       (this._conversations.messageText &&
         this._conversations.messageText.length > 0) ||
       (this._conversations.attachments &&
         this._conversations.attachments.length > 0);
-    const conversationId = this.conversationId;
-    const isLogged = !!(
-      conversationId &&
-      this._conversationLogger?.getIsInLoggedStatus?.(conversationId)
-    );
     return {
       brand: this._brand.name as string,
       enableContactFallback,

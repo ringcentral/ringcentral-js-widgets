@@ -13,6 +13,7 @@ import {
 } from '@ringcentral/spring-ui';
 import React, {
   FunctionComponent,
+  PropsWithChildren,
   Ref,
   useEffect,
   useImperativeHandle,
@@ -160,7 +161,9 @@ export type ActionMenuListProps = {
 /**
  * a wrapper component to ignore rest props pass into fragment
  */
-const FragmentWrap: FunctionComponent = ({ children }) => (
+const FragmentWrap: FunctionComponent<PropsWithChildren<{ open?: boolean }>> = ({
+  children,
+}) => (
   <React.Fragment>{children}</React.Fragment>
 );
 
@@ -358,13 +361,16 @@ export const ActionMenuList: React.FC<ActionMenuListProps> = ({
                     {showIconAtMenuList && (
                       <Icon size="small" symbol={symbol} />
                     )}
-                    <MenuItemText>{label}</MenuItemText>
+                    <MenuItemText
+                      classes={{
+                        primaryText: 'truncate min-w-0',
+                      }}
+                    >
+                      {label}
+                    </MenuItemText>
                   </>
                 }
-                className="h-8 px-1"
-                classes={{
-                  container: 'py-0 h-8 min-h-0',
-                }}
+                className="px-1 py-0"
               >
                 {submenuActions.map((action) => (
                   <MenuItem
@@ -402,7 +408,13 @@ export const ActionMenuList: React.FC<ActionMenuListProps> = ({
               {...(propsMap?.[actionType] as any)}
             >
               {showIconAtMenuList && <Icon size="small" symbol={symbol} />}
-              <MenuItemText>{label}</MenuItemText>
+              <MenuItemText
+                classes={{
+                  primaryText: 'truncate min-w-0',
+                }}
+              >
+                {label}
+              </MenuItemText>
             </MenuItem>
           );
         },

@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  textTooLong: 'Textnachricht ist zu lang, auf 1.000 beschränkt',
+  textTooLong: 'Sie können bis zu 1.000 Zeichen eingeben.',
   attachmentCountLimitation: 'Pro Nachricht sind maximal 10 Anhänge zulässig',
   attachmentSizeLimitation:
     'Die Gesamtgröße der Anhänge darf 1,5 MB pro Nachricht nicht überschreiten.',
