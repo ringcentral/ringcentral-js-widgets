@@ -4,6 +4,7 @@ import React from 'react';
 import styles from './styles.scss';
 
 type IconFieldProps = {
+  children?: React.ReactNode;
   icon?: React.ReactNode;
   className?: string;
   iconClassName?: string;

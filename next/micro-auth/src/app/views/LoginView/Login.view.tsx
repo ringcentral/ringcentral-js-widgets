@@ -1,6 +1,8 @@
 import {
   Brand,
   Locale,
+  Theme,
+  type ThemeType,
 } from '@ringcentral-integration/micro-core/src/app/services';
 import {
   action,
@@ -19,7 +21,6 @@ import {
   useConnector,
   useMainTabSyncState,
 } from '@ringcentral-integration/next-core';
-import { AuthPage as JunoAuthPage } from '@ringcentral-integration/next-widgets/deprecated/Auth/AuthPage';
 import React, { useRef } from 'react';
 import {
   concatMap,
@@ -51,7 +52,6 @@ import type {
 
 /**
  * View module for handling login functionality and UI
- * Supports both Spring UI and Juno themes
  *
  * @class
  */
@@ -63,7 +63,7 @@ export class LoginView extends RcViewModule {
   private _appFeatures?: AppFeatures;
 
   constructor(
-    public _brand: Brand,
+    protected _brand: Brand,
     protected _auth: Auth,
     protected _connectivityMonitor: ConnectivityMonitor,
     protected _locale: Locale,
@@ -71,6 +71,7 @@ export class LoginView extends RcViewModule {
     protected _rateLimiter: RateLimiter,
     protected _portManager: PortManager,
     protected _router: RouterPlugin,
+    protected _theme: Theme,
     @optional('LoginViewOptions')
     protected _loginViewOptions?: LoginViewOptions,
   ) {
@@ -155,29 +156,24 @@ export class LoginView extends RcViewModule {
   }
 
   getUIProps(): UIProps<LoginViewPanelProps> {
-    if (process.env.THEME_SYSTEM === 'spring-ui') {
-      return {
-        description: this._loginViewOptions?.getDescription?.(),
-        welcomePicture: this._loginViewOptions?.welcomePicture,
-        currentLocale: this._locale.currentLocale,
-        brandName: this._brand.name,
-        appName: this._brand.appName as string,
-        disabled:
-          !this._oAuth.oAuthReady ||
-          this._rateLimiter.restricted ||
-          !this._connectivityMonitor.connectivity,
-        showSpinner:
-          !this._auth.ready ||
-          this._auth.loginStatus === loginStatus.loggingIn ||
-          this._auth.loginStatus === loginStatus.loggingOut ||
-          this._auth.loginStatus === loginStatus.beforeLogout ||
-          this._auth.loginStatus === loginStatus.loggedIn,
-        logoUrl: this._brand.assets?.['logo'] as string,
-        showSignUp: !!this._brand.brandConfig.signupUrl,
-      };
-    }
+    const authPageTexts = this._loginViewOptions?.getAuthPageTexts?.();
+    const signInButtonLabel = authPageTexts?.signInButtonLabel;
+    const description = authPageTexts?.description;
+    const title = authPageTexts?.title;
+    const variant = this._loginViewOptions?.variant ?? 'hero';
+    const isRcBrand = this._brand.code === 'rc';
 
+    const showSignUp =
+      this._loginViewOptions?.showSignUp ??
+      // only when be rc brand and signup url exist, the sign up button will be shown by default
+      (isRcBrand && !!this._brand.brandConfig.signupUrl);
     return {
+      variant,
+      description,
+      title,
+      signInButtonLabel,
+      newUserLabel: authPageTexts?.newUserLabel,
+      tryForFreeLabel: authPageTexts?.tryForFreeLabel,
       currentLocale: this._locale.currentLocale,
       brandName: this._brand.name,
       appName: this._brand.appName as string,
@@ -191,7 +187,11 @@ export class LoginView extends RcViewModule {
         this._auth.loginStatus === loginStatus.loggingOut ||
         this._auth.loginStatus === loginStatus.beforeLogout ||
         this._auth.loginStatus === loginStatus.loggedIn,
-      showSignUp: !!this._brand.brandConfig.signupUrl,
+      logoUrl:
+        this._loginViewOptions?.logoUrl ??
+        (this._brand.assets?.['logo'] as string),
+      showSignUp,
+      themeType: this._theme.themeType as ThemeType,
     };
   }
 
@@ -211,9 +211,6 @@ export class LoginView extends RcViewModule {
   /**
    * Renders the login component with the appropriate theming
    * Handles state synchronization and spinner display
-   *
-   * @param {LoginViewProps} props - Props for the login view
-   * @returns {React.ReactNode} Rendered component
    */
   component(props: LoginViewProps) {
     const syncCompleted = useMainTabSyncState();
@@ -231,16 +228,15 @@ export class LoginView extends RcViewModule {
 
     const showSpinner = !syncCompleted || _props.showSpinner;
 
-    if (process.env.THEME_SYSTEM === 'spring-ui') {
-      const Component = this._loginViewOptions?.component || AuthPage;
+    const Component = this._loginViewOptions?.component || AuthPage;
 
-      return (
-        <Component {..._props} {...uiFunctions} showSpinner={showSpinner} />
-      );
-    }
-
-    const Component = this._loginViewOptions?.component || JunoAuthPage;
-
-    return <Component {..._props} {...uiFunctions} showSpinner={showSpinner} />;
+    return (
+      <Component
+        {..._props}
+        {...uiFunctions}
+        showSpinner={showSpinner}
+        footer={this._loginViewOptions?.footer}
+      />
+    );
   }
 }

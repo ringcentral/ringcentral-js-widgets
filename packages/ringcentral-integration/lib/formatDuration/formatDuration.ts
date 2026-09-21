@@ -88,14 +88,17 @@ export const formatDurationWithLocale = (
    */
   { day, hr, min, sec }: LocaleMessages,
 ) => {
-  const dur = getDuration(duration);
+  const totalSeconds =
+    typeof duration === 'number'
+      ? duration
+      : duration
+      ? parseInt(duration, 10)
+      : 0;
 
-  if (!dur) return '';
-
-  const totalDays = Math.floor(dur.asDays());
-  const hours = dur.hours();
-  const minutes = dur.minutes();
-  const seconds = dur.seconds();
+  const totalDays = Math.floor(totalSeconds / 86400);
+  const hours = Math.floor((totalSeconds % 86400) / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
 
   const parts: string[] = [];
 

@@ -2,6 +2,7 @@
 const path = require('path');
 const fs = require('fs-extra');
 const execa = require('execa');
+const { exitWithChildResult } = require('./exitWithChildResult');
 const { writeTscFailToReport } = require('./writeTscFailToReport');
 
 const args = process.argv.slice(2);
@@ -9,6 +10,9 @@ const __CI__ = args.includes('--ci');
 const onlyFailures = args.includes('--only-failures');
 const currentDir = process.cwd();
 const rootDir = path.resolve(__dirname, '../../../');
+const isPreviewMode =
+  process.env.PREVIEW === 'true' ||
+  process.env.DEBUG?.split(',').includes('preview');
 const {
   testPaths = ['.'],
   testMaxWorkers,
@@ -26,21 +30,62 @@ process.chdir(rootDir);
 const outputResult = __CI__
   ? `--json --outputFile=${currentDir}/jest-result.json`
   : '';
+const passWithNoTests =
+  __CI__ && args.some((arg) => arg.startsWith('--shard'))
+    ? '--passWithNoTests'
+    : '';
 
-const argv = (
+const stripMaxWorkersArgs = (argv) => {
+  const result = [];
+
+  for (let index = 0; index < argv.length; index += 1) {
+    const arg = argv[index];
+
+    if (arg === '--maxWorkers') {
+      index += 1;
+      continue;
+    }
+
+    if (arg.startsWith('--maxWorkers=')) {
+      continue;
+    }
+
+    result.push(arg);
+  }
+
+  return result;
+};
+
+const rawArgv = (
   args.includes('--projects') ? args : args.concat(['--projects', projectPaths])
-)
-  .concat([outputResult])
+).concat([outputResult, passWithNoTests]);
+const argv = (__CI__ && testMaxWorkers ? stripMaxWorkersArgs(rawArgv) : rawArgv)
+  .filter(Boolean)
   .join(' ');
 
-if (process.env.DEBUG?.split(',').includes('preview')) {
-  execa
-    .command(`yarn jest-preview`, {
+const getJestEnv = (extraEnv = {}) => {
+  const debugValues = new Set(
+    `${process.env.DEBUG || ''},${extraEnv.DEBUG || ''}`
+      .split(',')
+      .filter(Boolean),
+  );
+  if (isPreviewMode) {
+    debugValues.add('preview');
+  }
+  const DEBUG = Array.from(debugValues).join(',');
+  return {
+    ...process.env,
+    ...extraEnv,
+    ...(DEBUG ? { DEBUG } : {}),
+  };
+};
+
+if (isPreviewMode) {
+  exitWithChildResult(
+    execa.command(`yarn jest-preview`, {
       stdio: 'inherit',
-    })
-    .finally(() => {
-      process.exit();
-    });
+    }),
+  );
 }
 const workerArgv = __CI__
   ? testMaxWorkers
@@ -75,31 +120,27 @@ if (__CI__) {
 
   // in ci, build idb for ensure brand-config is built
   // eslint-disable-next-line no-console
-  // console.log('🧪 build brand-config for test starting...');
+  console.log('🧪 build brand-config for test starting...');
 
-  // execa.commandSync(
-  //   'yarn nx run @ringcentral-integration/internal-mock:buildIDB',
-  // );
+  execa.commandSync(
+    'yarn nx run @ringcentral-integration/internal-mock:buildIDB',
+  );
 
   execa.commandSync(command, {
     stdio: 'inherit',
-    env: {
-      ...process.env,
+    env: getJestEnv({
       // when be ci, also use debug mode to should debug log
       DEBUG: 'log',
       DEBUG_HIDE_DATE: 'true',
-    },
+    }),
   });
 } else {
-  execa
-    .command(command, {
+  exitWithChildResult(
+    execa.command(command, {
       stdio: 'inherit',
-      env: {
-        ...process.env,
+      env: getJestEnv({
         EXEC_ROOT_DIR: currentDir,
-      },
-    })
-    .finally(() => {
-      process.exit();
-    });
+      }),
+    }),
+  );
 }

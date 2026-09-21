@@ -32,7 +32,9 @@ interface ViewableManagerOptions<T extends Record<any, any>> {
  *
  * that you can easily to know what items still on the screen in the worker thread.
  */
-export abstract class ViewableManager<T extends Record<any, any>> {
+export abstract class ViewableManager<
+  T extends Record<any, any>,
+> extends RcModule {
   protected viewableManager = createRepeatTrackingManager<T>({
     ...this._options.viewableManagerOptions,
     sendToServer: (data) => this.emit(this._portManager?.clientId!, data),
@@ -47,6 +49,8 @@ export abstract class ViewableManager<T extends Record<any, any>> {
     protected _portManager: PortManager,
     protected _options: ViewableManagerOptions<T>,
   ) {
+    super();
+
     this.setupViewableManager();
   }
 

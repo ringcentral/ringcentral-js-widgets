@@ -1,9 +1,0 @@
-@import '../../scss/variables.scss';
-
-.ellipsis {
-  @include text-ellipsis;
-}
-
-.listItem {
-  @include selectList();
-}

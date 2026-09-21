@@ -4,8 +4,8 @@ import { IconButton, Select, Option, Text } from '@ringcentral/spring-ui';
 import clsx from 'clsx';
 import React, { FC, useCallback, useState } from 'react';
 
-import type { CoverInfo } from '../../../services/Fax/FaxCover/interfaces';
 import { FAX_COVER_NONE_VALUE } from '../../../services/Fax/constant';
+import type { CoverInfo } from '../../../services/Fax/FaxCover/interfaces';
 
 import i18n from './i18n';
 

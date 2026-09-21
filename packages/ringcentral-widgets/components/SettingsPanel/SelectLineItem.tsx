@@ -1,6 +1,6 @@
 import { RcMenuItem, RcSelect } from '@ringcentral/juno';
 import clsx from 'clsx';
-import type { FunctionComponent } from 'react';
+import type { ChangeEvent, FunctionComponent } from 'react';
 import React from 'react';
 
 import Line from '../Line';
@@ -51,7 +51,9 @@ export const SelectLineItem: FunctionComponent<{
         variant="box"
         value={value}
         className={styles.selectSection}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e: ChangeEvent<{ value: any }>) =>
+          onChange(e.target.value)
+        }
       >
         {options.map(({ value, label }) => {
           return (

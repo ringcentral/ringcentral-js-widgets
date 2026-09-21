@@ -51,7 +51,7 @@ export class RCI2602 extends Step {
   );
   run() {
     const { CreateMock, Login } = this;
-    let checkConnectionFuncSpy: jest.SpyInstance;
+    let checkConnectionFuncSpy: jest.Spied;
     return (
       <Scenario
         desc="The user is making an inbound /outbound call"

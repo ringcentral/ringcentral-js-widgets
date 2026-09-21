@@ -1,4 +1,5 @@
 import type { StepFunction } from '@ringcentral-integration/crius';
+import { act } from '@testing-library/react';
 
 interface AdvanceTimersByTimeProps {
   ms: number;
@@ -7,5 +8,8 @@ interface AdvanceTimersByTimeProps {
 export const AdvanceTimersByTime: StepFunction<
   AdvanceTimersByTimeProps
 > = async ({ ms }) => {
-  jest.advanceTimersByTime(ms);
+  await act(async () => {
+    jest.advanceTimersByTime(ms);
+    await Promise.resolve();
+  });
 };

@@ -3,8 +3,8 @@ export default {
   specialNumber:
     'Textnachrichten an Notrufnummern/bestimmte Servicenummern werden nicht unterstützt.',
   textEmpty: 'Geben Sie die Textnachricht ein, den Sie senden möchten.',
-  textTooLong: 'Textnachricht ist zu lang, auf 1.000 beschränkt',
-  multipartTextTooLong: 'Textnachricht ist zu lang, auf 5.000 beschränkt',
+  textTooLong: 'Sie können bis zu 1.000 Zeichen eingeben.',
+  multipartTextTooLong: 'Sie können bis zu 5.000 Zeichen eingeben.',
   recipientsEmpty: 'Geben Sie eine gültige Empfängernummer ein.',
   senderNumberInvalid:
     'Um eine Textnachricht an einen Empfänger außerhalb Ihres Unternehmens zu senden, ist eine gültige Telefonnummer nötig. Wenden Sie sich an Ihren Administrator, um eine Durchwahlnummer zu Ihrem Konto hinzuzufügen.',

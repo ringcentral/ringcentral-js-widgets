@@ -7,12 +7,14 @@ export interface FeatureConfiguration {
   CallLog?: boolean;
   ConferenceCall?: boolean;
   Conferencing?: boolean;
+  ConsentManagement?: boolean;
   Fax?: boolean;
   Glip?: boolean;
   Meetings?: boolean;
   Pages?: boolean;
   RingCentralApp?: boolean;
   RingOut?: boolean;
+  ReadConsents?: boolean;
   SMS?: boolean;
   Softphone?: boolean;
   Voicemail?: boolean;

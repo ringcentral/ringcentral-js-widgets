@@ -1,6 +1,6 @@
 import { Subject, switchMap, take, tap } from 'rxjs';
 
-import { injectable, logger } from '../lib';
+import { injectable, logger, reloadRuntimeLocation } from '../lib';
 import { StoragePlugin } from '../plugins/Storage.plugin';
 
 import { takeUntilAppDestroy } from './destroy';
@@ -32,7 +32,7 @@ export class Reload {
 
       logger.log('[debug] refresh', reason);
     }),
-    tap(() => globalThis.location.reload()),
+    tap(() => reloadRuntimeLocation()),
     take(1),
     takeUntilAppDestroy,
   );

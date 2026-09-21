@@ -68,7 +68,7 @@ const exampleData: ExampleData[] = [
     ],
   },
   {
-    requestUrl: 'https://api-rcapps-labs_domain/restapi/oauth/token',
+    requestUrl: 'https://api-rcapps-xmrupxmnrclab_domain/restapi/oauth/token',
     responseBody: {
       errors: [
         {
@@ -87,7 +87,7 @@ const exampleData: ExampleData[] = [
     ],
   },
   {
-    requestUrl: 'https://api-rcapps-labs_domain/restapi/oauth/token',
+    requestUrl: 'https://api-rcapps-xmrupxmnrclab_domain/restapi/oauth/token',
     responseBody: {
       errors: [
         {
@@ -107,7 +107,7 @@ const exampleData: ExampleData[] = [
   },
   {
     requestUrl:
-      'https://api-rcapps-labs_domain/restapi/v1.0/account/~/extension/~/device',
+      'https://api-rcapps-xmrupxmnrclab_domain/restapi/v1.0/account/~/extension/~/device',
     responseBody: {
       errors: [
         {
@@ -120,7 +120,7 @@ const exampleData: ExampleData[] = [
   },
   {
     requestUrl:
-      'https://api-rcapps-labs_domain/restapi/v1.0/account/~/extension/~/device',
+      'https://api-rcapps-xmrupxmnrclab_domain/restapi/v1.0/account/~/extension/~/device',
     responseBody: {
       errors: [
         {

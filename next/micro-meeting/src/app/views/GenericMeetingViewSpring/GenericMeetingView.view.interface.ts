@@ -1,4 +1,4 @@
-import type { BrandConfig } from '@ringcentral-integration/micro-core/src/app/services';
+import { BrandConfig } from '@ringcentral-integration/micro-core/src/app/services';
 import { ComponentType } from 'react';
 
 export interface GenericMeetingPanelSpringProps {

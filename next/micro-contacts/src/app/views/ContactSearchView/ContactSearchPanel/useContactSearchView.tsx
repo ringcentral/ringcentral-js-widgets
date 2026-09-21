@@ -354,7 +354,7 @@ export const useContactSearchView = (
             })}
           </Tabs>
           <SuggestionList
-            className="flex-auto m-0"
+            className="flex-auto m-0 p-0"
             highlightedIndex={highlightedIndex}
             components={components}
             options={optionItems}
@@ -396,7 +396,10 @@ export const useContactSearchView = (
                       const formattedPhoneNumber =
                         phoneNumberRender(phoneNumber);
                       return (
-                        <span title={formattedPhoneNumber}>
+                        <span
+                          data-sign="phoneNumber"
+                          title={formattedPhoneNumber}
+                        >
                           {formattedPhoneNumber}
                         </span>
                       );
@@ -410,7 +413,7 @@ export const useContactSearchView = (
 
               return (
                 <ListItem
-                  size={isPrimary || freeSolo ? 'large' : 'small'}
+                  size="auto"
                   selected={state.highlighted}
                   divider={false}
                   {...{
@@ -424,11 +427,12 @@ export const useContactSearchView = (
                     onMouseUp,
                     role,
                   }}
+                  className="p-0"
                   data-sign={`${freeSolo ? 'freeSolo' : 'contact'}Item`}
                 >
                   <div className="flex flex-col w-full h-full">
                     {isPrimary && !isFirstItem && (
-                      <Divider className="w-full" />
+                      <Divider className="w-full absolute top-0" />
                     )}
                     {freeSolo ? (
                       <div className="flex flex-auto items-center">
@@ -459,9 +463,8 @@ export const useContactSearchView = (
                             contactName={name}
                           />
                         )}
-
                         <ListItemText
-                          className={clsx(!isPrimary && 'pl-11')}
+                          className={!isPrimary ? 'pl-12' : undefined}
                           primary={
                             isPrimary
                               ? (() => {
@@ -492,16 +495,20 @@ export const useContactSearchView = (
                                 })()
                               : undefined
                           }
-                          secondary={secondaryContent}
+                          secondary={
+                            <>
+                              {secondaryContent}
+                              {' - '}
+                              <span
+                                data-sign="phoneType"
+                                className="text-neutral-b2 typography-descriptor text-nowrap sui-text-root flex-none"
+                                title={phoneTypeI18nString}
+                              >
+                                {phoneTypeI18nString}
+                              </span>
+                            </>
+                          }
                         />
-
-                        <span
-                          data-sign="phoneType"
-                          className="text-neutral-b2 typography-descriptor text-nowrap sui-text-root flex-none"
-                          title={phoneTypeI18nString}
-                        >
-                          {phoneTypeI18nString}
-                        </span>
                       </div>
                     )}
                   </div>

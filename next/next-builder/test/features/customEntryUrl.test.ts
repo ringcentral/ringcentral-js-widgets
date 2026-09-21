@@ -1,4 +1,8 @@
 import { mockAllLogs } from '@ringcentral-integration/test-utils';
+import {
+  mockWindowLocation,
+  restoreWindowLocation,
+} from '@ringcentral-integration/test-utils/mock/locationMock.js';
 
 beforeEach(() => {
   mockAllLogs();
@@ -10,23 +14,21 @@ const mockLegacyScripts = [
   'http://localhost:3000/legacy-script2.js',
 ];
 const mockNewScripts = ['http://localhost:3000/new-script1.js'];
+let locationMock: ReturnType<typeof mockWindowLocation>;
 
 beforeEach(() => {
   // Mock global variables that would be defined in adapter.html
   (global as any).legacyScripts = mockLegacyScripts;
   (global as any).newScripts = mockNewScripts;
-
-  Object.defineProperty(window, 'location', {
-    configurable: true,
-    value: { reload: jest.fn() },
-  });
+  locationMock = mockWindowLocation();
 
   jest.spyOn(document, 'createElement');
   jest.spyOn(document.head, 'appendChild');
 });
 
 afterEach(() => {
-  jest.clearAllMocks();
+  restoreWindowLocation();
+  jest.restoreAllMocks();
   document.body.innerHTML = '';
   document.head.innerHTML = '';
 
@@ -50,7 +52,7 @@ describe('Inline Script', () => {
         setCustomEntryUrl(testUrl);
 
         expect(localStorage.getItem('_RC_CUSTOM_ENTRY_')).toBe(testUrl);
-        expect(location.reload).toHaveBeenCalled();
+        expect(locationMock.reload).toHaveBeenCalled();
       });
     });
   });
@@ -68,7 +70,7 @@ describe('clearCustomEntryUrl function', () => {
 
       clearCustomEntryUrl();
       expect(localStorage.getItem('_RC_CUSTOM_ENTRY_')).toBe(null);
-      expect(location.reload).toHaveBeenCalled();
+      expect(locationMock.reload).toHaveBeenCalled();
     });
   });
 });
@@ -109,7 +111,7 @@ describe('IIFE script loading logic', () => {
 
 ${customUrl}
 
-use %c"clearCustomAdapterUrl()"%c to clear the custom entry URL`,
+use %c"clearCustomEntryUrl()"%c to clear the custom entry URL`,
         'font-size:2em',
         'color:red;font-size:2em',
         'font-size:2em',

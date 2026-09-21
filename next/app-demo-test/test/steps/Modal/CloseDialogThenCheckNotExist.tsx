@@ -4,6 +4,7 @@ import {
   screen,
   StepFunction,
   userEvent,
+  waitFor,
   waitForRenderReady,
   within,
 } from '@ringcentral-integration/test-utils';
@@ -29,6 +30,7 @@ export const CloseDialogThenCheckNotExist: StepFunction<
   action,
 }) => {
   jest.useFakeTimers();
+  const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
   await waitForRenderReady();
   const dialogScreen = within(screen.getByRole('dialog', dialogOptions));
 
@@ -40,11 +42,11 @@ export const CloseDialogThenCheckNotExist: StepFunction<
             name: 'Cancel',
           });
 
-      userEvent.click(cancelButton);
+      await user.click(cancelButton);
       break;
     }
     case 'esc':
-      userEvent.keyboard('{esc}');
+      await user.keyboard('{esc}');
       break;
     case 'confirmButton':
       {
@@ -53,16 +55,16 @@ export const CloseDialogThenCheckNotExist: StepFunction<
           : dialogScreen.getByRole('button', {
               name: 'OK',
             });
-        userEvent.click(confirmButton);
+        await user.click(confirmButton);
       }
       break;
     case 'backdrop': {
       // if juno backdrop exists, click it, if not click body directly
       const junoBackdrop = document.querySelector('.RcBackdrop-root');
       if (junoBackdrop) {
-        userEvent.click(junoBackdrop);
+        await user.click(junoBackdrop);
       } else {
-        userEvent.click(document.body);
+        await user.click(document.body);
       }
       break;
     }
@@ -78,6 +80,8 @@ export const CloseDialogThenCheckNotExist: StepFunction<
   jest.advanceTimersByTime(195);
 
   jest.useRealTimers();
-  expect(screen.queryByRole('dialog', dialogOptions)).not.toBeInTheDocument();
+  await waitFor(() => {
+    expect(screen.queryByRole('dialog', dialogOptions)).not.toBeInTheDocument();
+  });
   await waitForRenderReady();
 };

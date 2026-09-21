@@ -1,7 +1,0 @@
-@import '../../scss/variables.scss';
-
-.menuItem {
-  @include textOverflowEllipsis();
-  line-height: normal;
-  width: 100%;
-}

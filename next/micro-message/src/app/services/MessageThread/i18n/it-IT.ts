@@ -7,6 +7,10 @@ export default {
   threadUnassignedHint: "L'assegnazione della conversazione è stata annullata.",
   threadDeletedHint: 'Questa conversazione è stata eliminata.',
   threadExpiredHint: 'Conversazione risolta automaticamente.',
+  assignedToYouTooltip: 'Conversazione assegnata a te',
+  attachmentCountLimitation: 'È possibile allegare fino a 10 file.',
+  attachmentSizeLimitation:
+    'Gli allegati non possono superare complessivamente 1,5 MB.',
   someone: 'qualcuno',
 } as const;
 
@@ -17,4 +21,7 @@ export default {
 // @key: @#@"threadUnassignedHint"@#@ @source: @#@"Conversation has been unassigned."@#@
 // @key: @#@"threadDeletedHint"@#@ @source: @#@"This conversation has been deleted."@#@
 // @key: @#@"threadExpiredHint"@#@ @source: @#@"Conversation resolved automatically."@#@
+// @key: @#@"assignedToYouTooltip"@#@ @source: @#@"Conversation assigned to you"@#@
+// @key: @#@"attachmentCountLimitation"@#@ @source: @#@"You can attach up to 10 files."@#@
+// @key: @#@"attachmentSizeLimitation"@#@ @source: @#@"Attachments cannot exceed 1.5 MB in total."@#@
 // @key: @#@"someone"@#@ @source: @#@"someone"@#@

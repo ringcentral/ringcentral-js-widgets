@@ -9,11 +9,11 @@ import i18n from './i18n';
 import styles from './styles.scss';
 
 const FlatButton = ({
-  className,
-  disabled,
-  onClick,
-  children,
-  dataSign,
+  className = undefined,
+  disabled = false,
+  onClick = undefined,
+  children = undefined,
+  dataSign = '',
 }: any) => {
   return (
     <div
@@ -38,30 +38,22 @@ FlatButton.propTypes = {
   dataSign: propTypes.string,
 };
 
-FlatButton.defaultProps = {
-  className: undefined,
-  disabled: false,
-  onClick: undefined,
-  children: undefined,
-  dataSign: '',
-};
-
 const Dialog = ({
-  children,
-  title,
-  onConfirm,
-  onCancel,
-  textConfirm,
-  textCancel,
-  currentLocale,
-  className,
-  cancelBtnClassName,
-  confirmBtnClassName,
-  showTitle,
-  showCloseBtn,
-  headerClassName,
-  contentClassName,
-  footerClassName,
+  children = undefined,
+  title = '',
+  onConfirm = undefined,
+  onCancel = undefined,
+  textConfirm = '',
+  textCancel = '',
+  currentLocale = '',
+  className = '',
+  cancelBtnClassName = '',
+  confirmBtnClassName = '',
+  showTitle = true,
+  showCloseBtn = true,
+  headerClassName = undefined,
+  contentClassName = undefined,
+  footerClassName = undefined,
 }: any) => {
   const footer =
     !currentLocale || (!onCancel && !onConfirm) ? null : (
@@ -129,22 +121,4 @@ Dialog.propTypes = {
   contentClassName: propTypes.string,
   footerClassName: propTypes.string,
 };
-Dialog.defaultProps = {
-  currentLocale: '',
-  className: '',
-  cancelBtnClassName: '',
-  confirmBtnClassName: '',
-  children: undefined,
-  onConfirm: undefined,
-  onCancel: undefined,
-  title: '',
-  textConfirm: '',
-  textCancel: '',
-  showCloseBtn: true,
-  showTitle: true,
-  headerClassName: undefined,
-  contentClassName: undefined,
-  footerClassName: undefined,
-};
-
 export default Dialog;

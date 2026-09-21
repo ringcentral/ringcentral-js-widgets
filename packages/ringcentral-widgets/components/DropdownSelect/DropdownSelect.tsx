@@ -418,7 +418,7 @@ class DropdownSelect extends Component<
                 placeholder && styles.placeholder,
               )}
               title={this.renderTitle(option, option.value || display)}
-              onClick={(e) => {
+              onClick={(e: React.MouseEvent) => {
                 if (!isOptionDisabled) {
                   this.onChange(e, option, idx);
                 }

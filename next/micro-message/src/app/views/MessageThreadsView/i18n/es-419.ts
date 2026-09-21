@@ -6,7 +6,7 @@ export default {
   assignThread: 'Asignar',
   unassignThread: 'Anular asignación',
   assignToMe: 'Responder',
-  assignConversationTo: 'Asignar conversación a',
+  assignConversationTo: 'Asignar Conversación a',
   companyContacts: 'Contactos de la empresa',
   resolvedBanner: 'Esta conversación está resuelta.',
   unassignedBannerText: 'Esta conversación está sin asignar.',
@@ -16,8 +16,7 @@ export default {
   assignToMeText: 'Asignar a mí',
   resolved: 'Se resolvió la conversación.',
   autoResolved: 'Se resolvió la conversación de forma automática.',
-  assignedToYouTooltip: 'Se asignó la conversación a usted.',
-  assignedToOtherTooltip: 'Se asignó la conversación a {name}.',
+  assignedToOtherTooltip: 'Conversación asignada a {name}',
   conversationUnassigned: 'La conversación no está asignada.',
   failedToAssignThread: 'No se pudo asignar la conversación.',
   failedToResolveThread: 'No se pudo resolver la conversación.',
@@ -32,7 +31,7 @@ export default {
 // @key: @#@"unassignThread"@#@ @source: @#@"Unassign"@#@
 // @key: @#@"assignToMe"@#@ @source: @#@"Reply"@#@
 // @key: @#@"assignConversationTo"@#@ @source: @#@"Assign conversation to"@#@
-// @key:  @#@"companyContacts"@#@ @source: @#@"Company contacts"@#@
+// @key: @#@"companyContacts"@#@ @source: @#@"Company contacts"@#@
 // @key: @#@"resolvedBanner"@#@ @source: @#@"This conversation is resolved."@#@
 // @key: @#@"unassignedBannerText"@#@ @source: @#@"This conversation is unassigned."@#@
 // @key: @#@"assignedToOtherBanner"@#@ @source: @#@"This conversation is assigned to {name}."@#@
@@ -41,7 +40,6 @@ export default {
 // @key: @#@"assignToMeText"@#@ @source: @#@"Assign to me"@#@
 // @key: @#@"resolved"@#@ @source: @#@"Conversation resolved."@#@
 // @key: @#@"autoResolved"@#@ @source: @#@"Conversation auto-resolved."@#@
-// @key: @#@"assignedToYouTooltip"@#@ @source: @#@"Conversation assigned to You"@#@
 // @key: @#@"assignedToOtherTooltip"@#@ @source: @#@"Conversation assigned to {name}"@#@
 // @key: @#@"conversationUnassigned"@#@ @source: @#@"Conversation unassigned."@#@
 // @key: @#@"failedToAssignThread"@#@ @source: @#@"Failed to assign conversation"@#@

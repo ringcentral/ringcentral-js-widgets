@@ -5,6 +5,8 @@ export default {
   addRecord: '新建记录',
   call: '电话',
   text: '短信',
+  manageConsent: '管理同意',
+  viewConsent: '查看同意',
   more: '更多',
   mark: '标记为未读',
   unmark: '标记为已读',
@@ -27,6 +29,8 @@ export default {
 // @key: @#@"addRecord"@#@ @source: @#@"Create new record"@#@
 // @key: @#@"call"@#@ @source: @#@"Phone"@#@
 // @key: @#@"text"@#@ @source: @#@"Text"@#@
+// @key: @#@"manageConsent"@#@ @source: @#@"Manage Consent"@#@
+// @key: @#@"viewConsent"@#@ @source: @#@"View Consent"@#@
 // @key: @#@"more"@#@ @source: @#@"More"@#@
 // @key: @#@"mark"@#@ @source: @#@"Mark as unread"@#@
 // @key: @#@"unmark"@#@ @source: @#@"Mark as read"@#@

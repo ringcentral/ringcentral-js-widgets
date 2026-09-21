@@ -23,10 +23,10 @@ import {
 } from '@ringcentral-integration/next-core';
 import {
   concatMap,
-  defer,
   distinctUntilChanged,
   EMPTY,
   filter,
+  from,
   fromEvent,
   switchMap,
   take,
@@ -78,6 +78,10 @@ export class Locale extends RcModule {
     return this._localeOptions?.detectBrowser ?? true;
   }
 
+  protected get _syncServerLocaleToClients() {
+    return this._localeOptions?.syncServerLocaleToClients ?? true;
+  }
+
   @computed
   get supportedLocales() {
     return (
@@ -116,10 +120,40 @@ export class Locale extends RcModule {
     return this.clientLocales[this._portManager.clientId];
   }
 
+  private _clientLocaleReady: Promise<void> = Promise.resolve();
+
+  get clientLocaleReady() {
+    return this._clientLocaleReady;
+  }
+
   @delegate('server')
   async setClientLocaleSuccess(clientId: string, locale: string | null) {
     if (this.clientLocales[clientId] !== locale) {
       this._setClientLocaleSuccess(clientId, locale);
+    }
+  }
+
+  /**
+   * Loads a locale in the current shared client without replacing the server locale.
+   * Non-shared runtimes keep the existing global locale behavior.
+   */
+  async setClientLocale(locale: string, normalize = true) {
+    const clientId = this._portManager.clientId;
+
+    if (!this._portManager.isClient || !clientId) {
+      await this.setLocale(locale, normalize);
+      return;
+    }
+
+    try {
+      const nextLocale = normalize ? this.normalizeLocale(locale) : locale;
+
+      await this.clientLocaleReady;
+      await this._innerSetAndLoadLocale(nextLocale);
+      this._setClientLocaleSuccess(clientId, nextLocale);
+      await this.setClientLocaleSuccess(clientId, nextLocale);
+    } catch (error) {
+      this.logger.error('load client locale fail', error);
     }
   }
 
@@ -150,29 +184,31 @@ export class Locale extends RcModule {
   }
 
   private _listenServerToClientLocaleLoad() {
-    const initClientLocale$ = defer(() => {
+    const initClientLocale = (async () => {
       const initLocale = this.initLocale;
 
       this.logger.log('client initLocale', initLocale);
 
-      return this._innerSetAndLoadLocale(initLocale);
-    }).pipe(
-      take(1),
-      switchMap((locale) => {
-        // set local state async to make we can get the locale client state as soon as possible
-        this._setClientLocaleSuccess(this._portManager.clientId!, locale);
+      const locale = await this._innerSetAndLoadLocale(initLocale);
 
-        // also sync to server
-        return this.setClientLocaleSuccess(this._portManager.clientId!, locale);
-      }),
-    );
+      // Set local state first so currentLocale is available before server sync.
+      this._setClientLocaleSuccess(this._portManager.clientId!, locale);
+      await this.setClientLocaleSuccess(this._portManager.clientId!, locale);
+
+      return locale;
+    })();
+    this._clientLocaleReady = initClientLocale.then(() => undefined);
 
     // wait server ready, then set the locale state to load the locale
-    initClientLocale$
+    from(initClientLocale)
       .pipe(
         switchMap(() => this.ready$),
         take(1),
-        switchMap(() => fromWatchValue(this, () => this.locale)),
+        switchMap(() =>
+          this._syncServerLocaleToClients
+            ? fromWatchValue(this, () => this.locale)
+            : EMPTY,
+        ),
         filter(Boolean),
         concatMap(async (locale) => {
           if (locale !== this.clientLocale) {

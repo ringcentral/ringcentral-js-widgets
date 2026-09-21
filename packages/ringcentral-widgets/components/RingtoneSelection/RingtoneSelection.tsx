@@ -172,7 +172,7 @@ export const RingtoneSelection = ({
               key={id}
               className={styles.ringtoneItem}
               value={id}
-              onClick={(e) => {
+              onClick={(e: React.MouseEvent) => {
                 e.stopPropagation();
                 if (selectedRingtoneId !== id) {
                   updateCurrentRingtone(id);
@@ -194,7 +194,7 @@ export const RingtoneSelection = ({
                         size="small"
                         className={styles.deleteIcon}
                         color="action.grayDark"
-                        onClick={(e) => {
+                        onClick={(e: React.MouseEvent) => {
                           e.stopPropagation();
                           turnOffAudio();
                           setOpen(false);
@@ -212,7 +212,7 @@ export const RingtoneSelection = ({
                           ? 'action.primary'
                           : 'action.grayDark'
                       }
-                      onClick={async (e) => {
+                      onClick={async (e: React.MouseEvent) => {
                         e.stopPropagation();
                         try {
                           turnOffAudio();

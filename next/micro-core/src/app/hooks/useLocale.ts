@@ -8,7 +8,7 @@ import {
 } from '@ringcentral-integration/utils';
 import { useCallback } from 'react';
 
-import type { Locale } from '../../app/services';
+import type { Locale } from '../services/Locale';
 
 /**
  * get `currentLocale` and that i18n method `t` for easy use i18n in component

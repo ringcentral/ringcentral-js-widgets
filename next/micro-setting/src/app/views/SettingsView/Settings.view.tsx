@@ -9,6 +9,7 @@ import {
   Presence,
   RegionSettings,
   track,
+  trackEvent,
   UserInfo,
 } from '@ringcentral-integration/micro-auth/src/app/services';
 import {
@@ -18,6 +19,7 @@ import {
   Theme,
 } from '@ringcentral-integration/micro-core/src/app/services';
 import { slideInViewTransition } from '@ringcentral-integration/micro-core/src/app/views';
+import type { SmsConsent } from '@ringcentral-integration/micro-message/src/app/services';
 import type { CallingSettings } from '@ringcentral-integration/micro-phone/src/app/services';
 import {
   CallQueueManagementView,
@@ -55,11 +57,11 @@ import { SettingsPanel as SpringSettingsPanel } from './SettingsPanel';
 const DEFAULT_REGION_SETTINGS_URL = '/settings/region';
 const DEFAULT_CALLING_SETTINGS_URL = '/settings/calling';
 const DEFAULT_AUDIO_SETTINGS_URL = '/settings/audio';
-const DEFAULT_FEEDBACK_SETTINGS_URL = '/settings/feedback';
 const DEFAULT_ISSUE_TACKING_SETTINGS_URL = '/settings/issuesTracking';
 const DEFAULT_THEME_SWITCH_URL = '/settings/theme';
 const DEFAULT_AUTO_LOG_SETTINGS_URL = '/settings/autoCallLogSettings';
 const DEFAULT_CALL_QUEUE_MANAGEMENT_URL = '/settings/callQueueManagement';
+const DEFAULT_CONSENT_MANAGEMENT_URL = '/settings/consentManagement';
 
 @injectable({
   name: 'SettingsView',
@@ -73,6 +75,9 @@ export class SettingsView extends RcViewModule {
 
   @dynamic('IntegrationConfig')
   private _integrationConfig?: IntegrationConfig;
+
+  @dynamic('SmsConsent')
+  private _smsConsent?: SmsConsent;
 
   @state
   private autoLogTextUpdating: boolean = false;
@@ -185,6 +190,9 @@ export class SettingsView extends RcViewModule {
       eulaLabel: this._brand.brandConfig.eulaLabel as string,
       eulaLink: this._brand.brandConfig.eulaLink as string,
       outboundSMS: this._appFeatures.hasComposeTextPermission,
+      showConsentManagement:
+        this._appFeatures.hasComposeTextPermission &&
+        !!this._smsConsent?.canReadConsent,
       isCallQueueMember: this._extensionInfo.isCallQueueMember,
       dndStatus: this._presence?.dndStatus!,
       userStatus:
@@ -256,7 +264,6 @@ export class SettingsView extends RcViewModule {
     regionSettingsUrl = DEFAULT_REGION_SETTINGS_URL,
     callingSettingsUrl = DEFAULT_CALLING_SETTINGS_URL,
     audioSettingsUrl = DEFAULT_AUDIO_SETTINGS_URL,
-    feedbackSettingsUrl = DEFAULT_FEEDBACK_SETTINGS_URL,
     autoCallLogSettingsUrl = DEFAULT_AUTO_LOG_SETTINGS_URL,
   }: SettingsViewProps): UIFunctions<SettingsViewPanelProps> {
     return {
@@ -278,8 +285,6 @@ export class SettingsView extends RcViewModule {
       onFeedbackSettingsLinkClick: () => {
         if (this._settingsViewOptions?.onFeedBackSettingsLink) {
           this._settingsViewOptions.onFeedBackSettingsLink();
-        } else {
-          this._navigateTo(feedbackSettingsUrl);
         }
         this.trackOnFeedbackClick();
       },
@@ -318,6 +323,10 @@ export class SettingsView extends RcViewModule {
             this._navigateTo(DEFAULT_CALL_QUEUE_MANAGEMENT_URL);
           }
         : undefined,
+      onConsentManagementClick: () => {
+        trackEvent('Int_SMS_consentManagement', {});
+        this._navigateTo(DEFAULT_CONSENT_MANAGEMENT_URL);
+      },
     };
   }
 
@@ -330,25 +339,6 @@ export class SettingsView extends RcViewModule {
       return {
         ...props,
         ...uiProps,
-        // only spring-ui support those additional items
-        ...(process.env.THEME_SYSTEM === 'spring-ui'
-          ? {
-              additional: this._settingsViewOptions?.additional,
-              additionalLogItems: (
-                <>
-                  {
-                    // when have inject the AutoCallLoggingSwitchView, it will be show the AutoCallLoggingSwitchView in the SettingsView
-                    this._autoCallLoggingSwitchView ? (
-                      <this._autoCallLoggingSwitchView.component />
-                    ) : null
-                  }
-                  {this._settingsViewOptions?.additionalLogItems}
-                </>
-              ),
-              additionalAnalytics:
-                this._settingsViewOptions?.additionalAnalytics,
-            }
-          : undefined),
       };
     });
 
@@ -361,7 +351,24 @@ export class SettingsView extends RcViewModule {
       const Component =
         this._settingsViewOptions?.component || SpringSettingsPanel;
       return (
-        <Component {..._props} {...uiFunctions} {...connectorUpdateFunctions} />
+        <Component
+          {..._props}
+          additional={this._settingsViewOptions?.additional}
+          additionalLogItems={
+            <>
+              {
+                // when have inject the AutoCallLoggingSwitchView, it will be show the AutoCallLoggingSwitchView in the SettingsView
+                this._autoCallLoggingSwitchView ? (
+                  <this._autoCallLoggingSwitchView.component />
+                ) : null
+              }
+              {this._settingsViewOptions?.additionalLogItems}
+            </>
+          }
+          additionalAnalytics={this._settingsViewOptions?.additionalAnalytics}
+          {...uiFunctions}
+          {...connectorUpdateFunctions}
+        />
       );
     }
 

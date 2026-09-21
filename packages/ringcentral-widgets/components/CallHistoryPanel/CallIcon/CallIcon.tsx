@@ -53,8 +53,7 @@ export const CallIcon: FunctionComponent<CallIconProps> = ({
     <RcIcon
       data-sign="callIcon"
       title={title || direction}
-      // @ts-expect-error TS(2322): Type 'MemoExoticComponent<ForwardRefExoticComponen... Remove this comment to see the full error message
-      symbol={icon}
+      symbol={icon ?? undefined}
       size="medium"
       color={color}
     />

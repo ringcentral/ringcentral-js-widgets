@@ -8,6 +8,7 @@ import { useScrollIntoView } from '../../react-hooks/useScrollIntoView';
 import styles from './styles.scss';
 
 export interface ListItemProps {
+  children?: React.ReactNode;
   onClick?(): void;
   selected?: boolean;
   className?: string;
@@ -44,7 +45,7 @@ export const ListItem: FunctionComponent<ListItemProps> = ({
       classes={{
         root: clsx(styles.listItem, className),
       }}
-      onClick={(e) => {
+      onClick={(e: React.MouseEvent) => {
         e.preventDefault();
         // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
         onClick();

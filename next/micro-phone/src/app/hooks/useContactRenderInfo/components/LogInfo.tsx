@@ -29,11 +29,23 @@ export const LogInfo = ({
           durationMinutes={delaySavingState.delayUpdatingMinutes}
         />
       ) : logged ? (
-        <Tag data-sign="loggedCall" color="success" variant="inverted">
+        <Tag
+          data-sign="loggedCall"
+          color="success"
+          variant="inverted"
+          className="max-w-full truncate"
+          title={t('logged')}
+        >
           {t('logged')}
         </Tag>
       ) : (
-        <Tag data-sign="unloggedCall" color="neutral" variant="inverted">
+        <Tag
+          data-sign="unloggedCall"
+          color="neutral"
+          variant="inverted"
+          className="max-w-full truncate"
+          title={t('unlogged')}
+        >
           {t('unlogged')}
         </Tag>
       )}

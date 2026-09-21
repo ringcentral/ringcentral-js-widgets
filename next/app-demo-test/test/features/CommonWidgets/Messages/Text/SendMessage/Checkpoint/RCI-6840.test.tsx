@@ -171,9 +171,7 @@ export class SendEmoji extends Step {
           this.CommonLogin,
           this.example.Entry,
           ((_, { app }) => {
-            jest
-              .spyOn(app.modules.MessageSender, '_validateSenderNumber')
-              .mockReturnValue(true);
+
           }) as StepFunction,
         ]}
       >

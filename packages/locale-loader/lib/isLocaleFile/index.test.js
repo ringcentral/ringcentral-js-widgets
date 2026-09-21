@@ -65,4 +65,11 @@ describe('isLocaleFile', () => {
       ['', '.wrong'],
     );
   });
+  describe('Path and locale matching:', () => {
+    test('should support relative paths and a specified locale', () => {
+      expect(isLocaleFile('apps/foo/i18n/en-US.ts', 'en-US')).toBe(true);
+      expect(isLocaleFile('apps/foo/i18n/en_US.ts', 'en-US')).toBe(true);
+      expect(isLocaleFile('apps/foo/i18n/en-US.ts', 'fr-FR')).toBe(false);
+    });
+  });
 });

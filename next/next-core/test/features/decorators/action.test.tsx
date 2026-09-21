@@ -8,7 +8,9 @@ import {
   Then,
   Step,
   And,
+  waitForRenderReady,
 } from '@ringcentral-integration/test-utils';
+import { act } from 'react';
 
 import {
   injectable,
@@ -31,7 +33,9 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  unmountComponentAtNode(element);
+  act(() => {
+    unmountComponentAtNode(element);
+  });
   element.remove();
   currentApp.destroy();
 });
@@ -90,7 +94,9 @@ class Base extends Step {
           desc="Bootstrap app"
           action={async () => {
             expect(componentRenderFn.mock.calls).toEqual([]);
-            app.bootstrap(element);
+            await act(async () => {
+              await app.bootstrap(element);
+            });
             expect(componentRenderFn.mock.calls).toEqual([[0]]);
             expect(app.instance.count).toBe(0);
             expect(app.instance.ready).toBeTruthy();
@@ -100,12 +106,15 @@ class Base extends Step {
           desc="call increment"
           action={() => {
             expect(app.instance.count).toBe(0);
-            app.instance.increment();
+            act(() => {
+              app.instance.increment();
+            });
           }}
         />
         <Then
           desc="check the count"
-          action={() => {
+          action={async () => {
+            await waitForRenderReady();
             expect(componentRenderFn.mock.calls).toEqual([[0], [1]]);
             expect(app.instance.count).toBe(1);
           }}

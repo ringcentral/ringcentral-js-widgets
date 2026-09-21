@@ -11,11 +11,9 @@ import {
   common,
   screen,
 } from '@ringcentral-integration/test-utils';
-import { MockAccountInfo } from 'ringcentral-widgets-test/test/steps/Mock';
-
 import { MakeOutboundCall } from '../../../steps/Call';
 import { CommonLogin } from '../../../steps/CommonLogin';
-import { CreateMock } from '../../../steps/Mock';
+import { CreateMock, MockAccountInfo } from '../../../steps/Mock';
 
 @autorun(test)
 @common

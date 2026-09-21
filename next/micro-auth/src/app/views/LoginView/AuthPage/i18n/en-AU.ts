@@ -1,17 +1,17 @@
 /* eslint-disable */
 export default {
-  loginButton: 'Sign In',
-  newUser: 'New user?',
-  tryForFree: 'Try for free',
+  loginButton: 'Sign in',
+  newUser: 'New to {brandName}?',
+  tryForFree: 'Sign up now',
   version: 'Version',
-  title: 'Welcome to {brandName}',
   description:
     '{appName} provides a native integration for a seamless calling experience.',
+  tagline: 'The AI communications platform',
 } as const;
 
-// @key: @#@"loginButton"@#@ @source: @#@"Sign In"@#@
-// @key: @#@"newUser"@#@ @source: @#@"New user?"@#@
-// @key: @#@"tryForFree"@#@ @source: @#@"Try for free"@#@
+// @key: @#@"loginButton"@#@ @source: @#@"Sign in"@#@
+// @key: @#@"newUser"@#@ @source: @#@"New to {brandName}?"@#@
+// @key: @#@"tryForFree"@#@ @source: @#@"Sign up now"@#@
 // @key: @#@"version"@#@ @source: @#@"Version"@#@
-// @key: @#@"title"@#@ @source: @#@"Welcome to {brandName}"@#@
 // @key: @#@"description"@#@ @source: @#@"{appName} provides a native integration for a seamless calling experience."@#@
+// @key: @#@"tagline"@#@ @source: @#@"The AI communications platform"@#@

@@ -44,6 +44,7 @@ import { DialerView } from '../DialerView';
 import type {
   CallsListPanelProps,
   CallsListViewOptions,
+  CallsListViewProps,
   OnCreateContactOptions,
 } from './CallsList.view.interface';
 
@@ -81,7 +82,7 @@ export class CallsListView extends RcViewModule {
   getUIProps({
     showContactDisplayPlaceholder = false,
     enableContactFallback = false,
-  }: CallsListPanelProps): UIProps<CallsListPanelProps> {
+  }: CallsListViewProps): UIProps<CallsListPanelProps> {
     return {
       adaptive: true,
       useNewList: true,
@@ -160,7 +161,7 @@ export class CallsListView extends RcViewModule {
     onViewContact = this._defaultOnViewContact,
     dateTimeFormatter = this._defaultDateTimeFormatter,
     dialerRoute = '/dialer',
-  }: CallsListPanelProps): UIFunctions<CallsListPanelProps> {
+  }: CallsListViewProps): UIFunctions<CallsListPanelProps> {
     return {
       formatPhone: (phoneNumber: string) =>
         formatNumber({
@@ -239,7 +240,7 @@ export class CallsListView extends RcViewModule {
     };
   }
 
-  component(props: CallsListPanelProps) {
+  component(props: CallsListViewProps) {
     const { current: uiFunctions } = useRef(this.getUIFunctions(props));
 
     const _props = useConnector(() => {

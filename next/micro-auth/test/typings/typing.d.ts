@@ -1,4 +1,4 @@
-/// <reference path='../../../../packages/test-utils/lib/global.d.ts'/>
+/// <reference path='../../../../ringcentral-js-widgets/test-utils/lib/global.d.ts'/>
 
 declare const global: typeof globalThis & {
   instance: {

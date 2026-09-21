@@ -17,13 +17,16 @@ export interface ConversationViewSpringOptions {
   showLogPopover?: boolean;
   showAlert?: () => boolean;
   alertProps?: () => AlertProps;
+  renderLogIndicator?: (message: Message) => React.ReactNode;
 }
 export interface ConversationViewSpringProps {}
 
 export interface ConversationViewSpringPanelProps {
-  conversation: FilteredConversation;
+  conversation?: FilteredConversation;
   messages: Message[];
-
+  /**
+   * send message to the current conversation, with text and attachments as parameters
+   */
   replyToReceivers: (text: any, attachments: any) => void;
   updateMessageText?: (text: string) => void;
   messageText?: string;
@@ -51,6 +54,11 @@ export interface ConversationViewSpringPanelProps {
    */
   displayLogStatus?: boolean;
   /**
+   * optional render function for per-message log indicator
+   * receives the message data and should return a ReactNode
+   */
+  renderLogIndicator?: (message: Message) => React.ReactNode;
+  /**
    * Provide conversation item info and actions generator from ConversationsView.
    * It should compute actions for the current conversation with pageType "detail".
    */
@@ -72,15 +80,27 @@ export interface ConversationViewSpringPanelProps {
   /**
    * extension id of current user
    */
-  extensionId?: number;
+  extensionId?: string;
   /**
    * thread metadata
    */
   threadMetadata?: ThreadMetaData;
   /**
+   * sending status for current conversation
+   */
+  sending?: boolean;
+  /**
    * additional end adornment element for MessageInput
    */
   endAdornment?: React.ReactNode;
+  /**
+   * Shared inbox: show reminder to log messages before resolving (CRM integrations).
+   */
+  showSharedSmsLogReminder?: boolean;
+  /**
+   * Persist dismissal of the shared SMS log reminder banner.
+   */
+  onDismissSharedSmsLogReminder?: () => void;
 }
 
 export type ConversationViewSpringIParams = {

@@ -3,17 +3,21 @@ import BackHeader from '@ringcentral-integration/widgets/components/BackHeaderV2
 import type { CallLog } from '@ringcentral-integration/widgets/components/CallLogPanel/CallLog.interface';
 import type { CallLogPanelProps } from '@ringcentral-integration/widgets/components/CallLogPanel/CallLogPanel.interface';
 import { t } from '@ringcentral-integration/widgets/components/CallLogPanel/i18n';
-import styles from '@ringcentral-integration/widgets/components/CallLogPanel/styles.scss';
 import LogBasicInfo from '@ringcentral-integration/widgets/components/LogBasicInfoV2';
 import { SpinnerOverlay } from '@ringcentral-integration/widgets/components/SpinnerOverlay';
 import { environment } from '@ringcentral-integration/widgets/lib';
 import validator from '@rjsf/validator-ajv8';
-
 /**
  * Call log enhancement
  */
 import clsx from 'clsx';
 import React, { Component } from 'react';
+
+import styles from '@ringcentral-integration/widgets/components/CallLogPanel/styles.scss';
+
+type CallLogPanelSimpleProps = CallLogPanelProps & {
+  children?: React.ReactNode;
+};
 
 const getWarmTransferSession = ({
   mainLog,
@@ -42,10 +46,10 @@ const getWarmTransferSession = ({
 };
 
 export default class CallLogPanel extends Component<
-  CallLogPanelProps,
+  CallLogPanelSimpleProps,
   { showConferenceCallParticipants: boolean }
 > {
-  constructor(props: CallLogPanelProps) {
+  constructor(props: CallLogPanelSimpleProps) {
     super(props);
     this.state = {
       showConferenceCallParticipants: false,
@@ -338,7 +342,7 @@ export default class CallLogPanel extends Component<
       rootLayout,
     } = this.props;
     const _root =
-      root ?? typeof rootLayout === 'boolean'
+      (root ?? typeof rootLayout === 'boolean')
         ? rootLayout
           ? styles.callLogPanelClassLeftNav
           : styles.callLogPanelClass

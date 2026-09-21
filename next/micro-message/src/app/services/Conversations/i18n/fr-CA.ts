@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  textTooLong: 'Le texte est trop long (limite : 1 000).',
+  textTooLong: 'Vous pouvez entrer jusquʼà 1 000 caractères.',
   attachmentCountLimitation:
     'Un message ne peut pas contenir plus de 10 pièces jointes',
   attachmentSizeLimitation:

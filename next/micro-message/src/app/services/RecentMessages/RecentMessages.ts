@@ -21,6 +21,7 @@ import {
 import type { MessageStoreConversations } from '../MessageStore';
 import { MessageStore } from '../MessageStore';
 
+import { MessageStatus } from './messageStatus';
 import type {
   CleanUpMessagesOptions,
   FetchMessageListOptions,
@@ -29,7 +30,6 @@ import type {
   LoadSuccessOptions,
   RecentMessage,
 } from './RecentMessages.interface';
-import { MessageStatus } from './messageStatus';
 import {
   dedup,
   filterPhoneNumber,
@@ -101,13 +101,16 @@ export class RecentMessages extends RcModule {
 
   @computed((that: RecentMessages) => [that.messages])
   get unreadMessageCounts() {
-    return Object.keys(this.messages).reduce((unreadCounts, contactId) => {
-      unreadCounts[contactId] = this.messages[contactId].reduce(
-        (acc, cur) => acc + (cur.readStatus !== 'Read' ? 1 : 0),
-        0,
-      );
-      return unreadCounts;
-    }, {} as Record<string, number>);
+    return Object.keys(this.messages).reduce(
+      (unreadCounts, contactId) => {
+        unreadCounts[contactId] = this.messages[contactId].reduce(
+          (acc, cur) => acc + (cur.readStatus !== 'Read' ? 1 : 0),
+          0,
+        );
+        return unreadCounts;
+      },
+      {} as Record<string, number>,
+    );
   }
 
   get isMessagesLoaded() {

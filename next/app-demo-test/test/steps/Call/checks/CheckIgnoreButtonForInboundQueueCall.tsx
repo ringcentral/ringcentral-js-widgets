@@ -7,7 +7,7 @@ import {
   waitForRenderReady,
   type StepFunction,
 } from '@ringcentral-integration/test-utils';
-import userEvent from '@testing-library/user-event';
+import { fireEvent, waitFor } from '@testing-library/react';
 
 import { ClickBackButton } from '../actions';
 
@@ -40,15 +40,17 @@ export const CheckIgnoreButtonForInboundQueueCall: StepFunction<
     return <ClickBackButton />;
   }
 
-  const toVoiceMail = document.querySelector(
-    '[data-sign="toVoiceMail"] circle',
-  );
-  const ignoreBtn = document.querySelector('[data-sign="ignore"] circle');
+  const toVoiceMail = document.querySelector('[data-sign="toVoiceMail"]');
+  const ignoreBtn =
+    document.querySelector('[data-sign="ignore"] circle') ??
+    document.querySelector('[data-sign="ignore"]');
 
   expect(toVoiceMail).toBe(null);
   expect(ignoreBtn).not.toBe(null);
 
-  if (ignoreBtn) userEvent.click(ignoreBtn);
+  if (ignoreBtn) fireEvent.click(ignoreBtn);
 
-  expect(ignoreCall).toHaveBeenCalledTimes(1);
+  await waitFor(() => {
+    expect(ignoreCall).toHaveBeenCalledTimes(1);
+  });
 };

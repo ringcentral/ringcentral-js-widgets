@@ -1,6 +1,7 @@
 export * from './MultiPartUTF8FormData';
 export * from './base64Handler';
 export * from './cleanNumber';
+export * from './closeAllTransientOverlays';
 export * from './createRepeatTrackingManager';
 export * from './downloadFile';
 export * from './empty';
@@ -29,4 +30,3 @@ export * from './detectDevice';
 export * from './getOsInfo';
 export * from './getTiffInfo';
 export * from './getHostPath';
-export * from './maskSensitiveData';

@@ -384,7 +384,10 @@ export abstract class ConversationsBase<
   }
 
   @action
-  _addCorrespondentResponses(responses: Message[] = [], phoneNumber = '') {
+  _addCorrespondentResponses(
+    responses: GetMessageInfoResponse[] = [],
+    phoneNumber = '',
+  ) {
     this.correspondentResponse = responses.reduce(
       (accumulator: any, response: any) => {
         const {
@@ -1135,13 +1138,19 @@ export abstract class ConversationsBase<
     return getEarliestTime(this.typeFilteredConversations);
   }
 
+  /**
+   * @deprecated this is use in old component
+   */
   @computed
   get currentConversation(): CurrentConversation {
     const conversationId = this.currentConversationId!;
     return this.getConversationFullInfo(conversationId);
   }
 
-  getConversationFullInfo(conversationId: string) {
+  /**
+   * @deprecated this is use in old component
+   */
+  private getConversationFullInfo(conversationId: string) {
     const extensionNumber = this._extensionInfo.extensionNumber!;
     const contactMapping =
       (this._contactMatcher && this._contactMatcher.dataMapping) || {};
@@ -1270,7 +1279,7 @@ export abstract class ConversationsBase<
     this._removeCorrespondentMatchEntity(entity);
   }
 
-  addResponses(responses: Message[]) {
+  addResponses(responses: GetMessageInfoResponse[]) {
     this._addCorrespondentResponses(responses);
   }
 
@@ -1278,7 +1287,7 @@ export abstract class ConversationsBase<
     this._removeCorrespondentResponses(phoneNumber);
   }
 
-  relateCorrespondentEntity(responses: Message[]) {
+  relateCorrespondentEntity(responses: GetMessageInfoResponse[]) {
     if (
       !this._contactMatcher ||
       !this._conversationLogger ||
@@ -1320,18 +1329,15 @@ export abstract class ConversationsBase<
   /**
    * use phone number and current all senderNumbersList to find all matching conversations
    */
-  getConversationByPhoneNumbers(
-    phoneNumbers: string[],
-    senderNumbersList = this._messageSender?.senderNumbersList || [],
-  ) {
+  getConversationByPhoneNumbers(phoneNumbers: string[]) {
     const matchingConversations = [];
     let latestConversation = undefined;
     let latestTime = 0;
 
-    for (const senderNumber of senderNumbersList) {
+    for (const numberInfo of this._messageSender?.numbers || []) {
       const currentUniqueId = buildConversationId(
         phoneNumbers,
-        senderNumber.phoneNumber!,
+        numberInfo.phoneNumber!,
       );
 
       const conversation =

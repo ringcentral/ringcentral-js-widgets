@@ -9,4 +9,6 @@ export default {
   ForwardedNumber: 'Forwarded',
   from: 'Text from',
   delete: 'Delete',
+  numberRegistrationTooltip:
+    'Your number must be registered by an admin to send texts.',
 } as const;

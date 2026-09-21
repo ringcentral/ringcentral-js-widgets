@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks';
+import { act, renderHook } from '@testing-library/react';
 
 import { useEverVisible } from '../../src/useEverVisible';
 
@@ -67,7 +67,9 @@ describe('useEverVisible', () => {
     });
 
     // Trigger visibilitychange event
-    document.dispatchEvent(new Event('visibilitychange'));
+    act(() => {
+      document.dispatchEvent(new Event('visibilitychange'));
+    });
 
     expect(result.current).toBe(true);
   });
@@ -91,7 +93,9 @@ describe('useEverVisible', () => {
         return 'visible';
       },
     });
-    document.dispatchEvent(new Event('visibilitychange'));
+    act(() => {
+      document.dispatchEvent(new Event('visibilitychange'));
+    });
     expect(result.current).toBe(true);
 
     // Change back to hidden
@@ -101,7 +105,9 @@ describe('useEverVisible', () => {
         return 'hidden';
       },
     });
-    document.dispatchEvent(new Event('visibilitychange'));
+    act(() => {
+      document.dispatchEvent(new Event('visibilitychange'));
+    });
 
     // Should still be true as it tracks if it was "ever" visible
     expect(result.current).toBe(true);

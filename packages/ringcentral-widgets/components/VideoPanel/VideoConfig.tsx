@@ -144,12 +144,12 @@ export const VideoConfig: FunctionComponent<VideoPanelProps> = (props) => {
   }, [meeting.startTime!]);
 
   /* Scrollbar */
-  const configRef = useRef<HTMLDivElement>();
+  const configRef = useRef<HTMLDivElement>(null);
   const [hasScrollBar, setHasScrollBar] = useState<boolean>(false);
   useEffect(() => {
     setHasScrollBar(
-      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
-      configRef.current.scrollHeight > configRef.current.clientHeight,
+      !!configRef.current &&
+        configRef.current.scrollHeight > configRef.current.clientHeight,
     );
   }, []);
 
@@ -187,7 +187,6 @@ export const VideoConfig: FunctionComponent<VideoPanelProps> = (props) => {
   }, [personalMeetingId, personalMeetingName, currentLocale]);
 
   return (
-    // @ts-expect-error TS(2322): Type '{ children: Element; ref: MutableRefObject<H... Remove this comment to see the full error message
     <PanelRoot
       ref={configRef}
       className={styles.videoConfig}
@@ -230,9 +229,8 @@ export const VideoConfig: FunctionComponent<VideoPanelProps> = (props) => {
                 size={datePickerSize}
                 locale={currentLocale}
                 todayButtonText={i18n.getString('today', currentLocale)}
-                onChange={(value) => {
+                onChange={(value: any) => {
                   update({
-                    // @ts-expect-error TS(2345): Argument of type 'Date | null' is not assignable t... Remove this comment to see the full error message
                     startTime: updateFullYear(startTime, value),
                   });
                 }}
@@ -268,8 +266,7 @@ export const VideoConfig: FunctionComponent<VideoPanelProps> = (props) => {
                 gutterBottom
                 data-sign="durationHour"
                 value={Math.floor(meeting.duration! / 60)}
-                onChange={(e) => {
-                  // @ts-expect-error TS(2571): Object is of type 'unknown'.
+                onChange={(e: any) => {
                   const value = +e.target.value;
                   const restMinutes = Math.floor(meeting.duration! % 60);
                   const durationInMinutes = value * 60 + restMinutes;
@@ -300,8 +297,7 @@ export const VideoConfig: FunctionComponent<VideoPanelProps> = (props) => {
                 data-sign="durationMinute"
                 required
                 value={Math.floor(meeting.duration! % 60)}
-                onChange={(e) => {
-                  // @ts-expect-error TS(2571): Object is of type 'unknown'.
+                onChange={(e: any) => {
                   const value = +e.target.value;
                   const restHours = Math.floor(meeting.duration! / 60);
                   // @ts-expect-error TS(2339): Property 'value' does not exist on type 'never'.
@@ -376,7 +372,7 @@ export const VideoConfig: FunctionComponent<VideoPanelProps> = (props) => {
                     symbol={InfoBorder}
                     data-sign="scheduleForGuidanceIcon"
                     className={styles.allowCursor}
-                    onClick={(e) => {
+                    onClick={(e: React.MouseEvent) => {
                       e.stopPropagation();
                     }}
                   />
@@ -391,7 +387,7 @@ export const VideoConfig: FunctionComponent<VideoPanelProps> = (props) => {
                 className={styles.boxSelect}
                 data-sign="scheduleFor"
                 disabled={disabled}
-                onChange={(e) => {
+                onChange={(e: any) => {
                   updateScheduleFor(e.target.value as string);
                   // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
                   trackSettingChanges(RCV_ITEM_NAME.scheduleFor);
@@ -439,7 +435,7 @@ export const VideoConfig: FunctionComponent<VideoPanelProps> = (props) => {
                   disabled={isPersonalMeetingDisabled || disabled}
                   size={checkboxSize}
                   checked={meeting.usePersonalMeetingId}
-                  onChange={(ev, checked) => {
+                  onChange={(ev: any, checked: boolean) => {
                     switchUsePersonalMeetingId(checked);
                   }}
                 />
@@ -541,7 +537,7 @@ export const VideoConfig: FunctionComponent<VideoPanelProps> = (props) => {
                 checked={meeting.e2ee}
                 disabled={isE2EEDisabled || disabled}
                 size={checkboxSize}
-                onChange={(ev, value) => {
+                onChange={(ev: any, value: boolean) => {
                   e2eeInteractFunc(value);
                   // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
                   trackSettingChanges(RCV_ITEM_NAME.e2ee);
@@ -602,7 +598,7 @@ export const VideoConfig: FunctionComponent<VideoPanelProps> = (props) => {
                 inputProps={{
                   maxLength: 255,
                 }}
-                onChange={(e) => {
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   update({
                     meetingPassword: e.target.value,
                   });
@@ -666,7 +662,7 @@ export const VideoConfig: FunctionComponent<VideoPanelProps> = (props) => {
                   checked={!!meeting.waitingRoomMode}
                   disabled={isWaitingRoomDisabled}
                   size={checkboxSize}
-                  onChange={(ev, checked) => {
+                  onChange={(ev: any, checked: boolean) => {
                     update(
                       {
                         waitingRoomMode: checked
@@ -691,7 +687,7 @@ export const VideoConfig: FunctionComponent<VideoPanelProps> = (props) => {
                     className={styles.boxSelect}
                     fullWidth
                     disabled={isWaitingRoomTypeDisabled}
-                    onChange={(e) => {
+                    onChange={(e: any) => {
                       update(
                         {
                           waitingRoomMode: e.target
@@ -749,7 +745,7 @@ export const VideoConfig: FunctionComponent<VideoPanelProps> = (props) => {
               checked={meeting.isOnlyAuthUserJoin}
               disabled={isAuthenticatedCanJoinDisabled}
               size={checkboxSize}
-              onChange={(ev, checked) => {
+              onChange={(ev: any, checked: boolean) => {
                 update(
                   {
                     isOnlyAuthUserJoin: checked,
@@ -775,7 +771,7 @@ export const VideoConfig: FunctionComponent<VideoPanelProps> = (props) => {
                 disabled={isAuthUserTypeDisabled}
                 className={styles.boxSelect}
                 fullWidth
-                onChange={(e) => {
+                onChange={(e: any) => {
                   update(
                     {
                       isOnlyCoworkersJoin:
@@ -842,7 +838,7 @@ export const VideoConfig: FunctionComponent<VideoPanelProps> = (props) => {
                 className={styles.boxSelect}
                 fullWidth
                 disabled={isAllowToRecordDisabled}
-                onChange={(e) => {
+                onChange={(e: any) => {
                   update(
                     {
                       allowAnyoneRecord: e.target.value === 'true',
@@ -889,7 +885,7 @@ export const VideoConfig: FunctionComponent<VideoPanelProps> = (props) => {
                 className={styles.boxSelect}
                 disabled={isAllowAnyoneTranscribeDisabled}
                 fullWidth
-                onChange={(e) => {
+                onChange={(e: any) => {
                   update(
                     {
                       allowAnyoneTranscribe: e.target.value === 'true',

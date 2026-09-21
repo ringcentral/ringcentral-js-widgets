@@ -13,7 +13,7 @@ export default {
   onHold: 'In de wacht',
   day: 'dag',
   hr: 'uur',
-  min: 'min',
+  min: 'min.',
   sec: 's',
   yesterday: 'Gisteren',
   notes: 'AI-notities',
@@ -177,5 +177,4 @@ export default {
 // @key: @#@"matches"@#@ @source: @#@"{numberOfMatches} matches"@#@
 // @key: @#@"maybe"@#@ @source: @#@"Maybe: {contactName}"@#@
 // @key: @#@"optedOut"@#@ @source: @#@"Recipient has opted out."@#@
-
 // @key: @#@"optOutAlertTooltip"@#@ @source: @#@"The recipient must opt back in to receive texts from this number."@#@

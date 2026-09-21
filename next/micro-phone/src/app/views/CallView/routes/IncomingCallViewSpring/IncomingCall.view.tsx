@@ -129,8 +129,8 @@ export class IncomingCallView extends RcViewModule {
       mode: beQueueCall
         ? 'queue'
         : this._callMonitor.currDeviceHasActiveCalls
-        ? 'multiple'
-        : 'single',
+          ? 'multiple'
+          : 'single',
       expanded: Boolean(this._root.expanded),
       forwardingNumbers: this.forwardingNumbers,
       classes: this.classes,

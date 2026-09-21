@@ -4,6 +4,7 @@ import {
   messageIsTextMessage,
 } from '@ringcentral-integration/commons/lib/messageHelper';
 import {
+  AccountInfo,
   AppFeatures,
   type CallMadeLocation,
   ConnectivityManager,
@@ -18,9 +19,11 @@ import {
   Toast,
 } from '@ringcentral-integration/micro-core/src/app/services';
 import {
+  ConversationsSyncTabId,
   ModalView,
   slideInViewTransition,
   SyncTabId,
+  SyncTabView,
 } from '@ringcentral-integration/micro-core/src/app/views';
 import { useContactRenderInfoFromConversation } from '@ringcentral-integration/micro-phone/src/app/hooks';
 import type { Call } from '@ringcentral-integration/micro-phone/src/app/services';
@@ -52,18 +55,26 @@ import type { StateSnapshot } from 'react-virtuoso';
 import { distinctUntilChanged, filter, tap } from 'rxjs';
 
 import {
+  buildToNumbersFromConversation,
   ComposeText,
   ConversationLogger,
   Conversations,
   type FilteredConversation,
+  type FormattedConversation,
+  getConversationNumbers,
+  MessageThread,
+  MessageSender,
   MessageStore,
+  SmsConsent,
   SmsConversations,
   SmsOptOut,
   ThreadInfoRecord,
   VoicemailAudio,
 } from '../../services';
 import type { SmsConversationsOptions } from '../../services/Sms/SmsConversations.interface';
+import { COMPOSE_TEXT_BACK_PATH } from '../ComposeTextViewSpring/ComposeText.view';
 import { MessageThreadsView } from '../MessageThreadsView';
+import { SmsConsentDialogView } from '../SmsConsentDialogView';
 
 import type {
   ConversationsPanelSpringProps,
@@ -71,11 +82,25 @@ import type {
   ConversationsViewSpringProps,
 } from './Conversations.view.interface';
 import { ConversationsHeader, ConversationsPage } from './ConversationsPage';
+import { ConversationsTabsView } from './ConversationsTabs.view';
 import type { ConversationsViewableManager } from './ConversationsViewableManager';
 import { t } from './i18n';
 
 const dangerButtonProps = {
   color: 'danger',
+};
+
+const getConversationSenderPhoneNumber = (
+  conversation: FormattedConversation | undefined,
+) => {
+  if (!conversation) {
+    return undefined;
+  }
+  return (
+    (conversation.direction === 'Outbound'
+      ? conversation.from?.phoneNumber
+      : conversation.to?.[0]?.phoneNumber) || conversation.self?.phoneNumber
+  );
 };
 
 @injectable({
@@ -87,6 +112,18 @@ export class ConversationsViewSpring extends RcViewModule {
 
   @dynamic('MessageThreadsView')
   protected _messageThreadsView?: MessageThreadsView;
+
+  @dynamic('MessageSender')
+  protected _messageSender?: MessageSender;
+
+  @dynamic('AccountInfo')
+  protected _accountInfo?: AccountInfo;
+
+  @dynamic('SmsConsent')
+  protected _smsConsent?: SmsConsent;
+
+  @dynamic('SmsConsentDialogView')
+  protected _smsConsentDialogView?: SmsConsentDialogView;
 
   @portal
   private confirmDeleteModal = this._modalView.create<{
@@ -142,8 +179,11 @@ export class ConversationsViewSpring extends RcViewModule {
     protected _voicemailAudio: VoicemailAudio,
     protected _integrationConfig: IntegrationConfig,
     protected _smsConversations: SmsConversations,
+    protected _conversationsTabsView: ConversationsTabsView,
+    protected _syncTabView: SyncTabView,
     @optional() protected _contactMatcher?: ContactMatcher,
     @optional() protected _conversationLogger?: ConversationLogger,
+    @optional() protected _messageThread?: MessageThread,
     @optional() protected _smsOptOut?: SmsOptOut,
     @optional('ConversationsViewOptions')
     protected _conversationsViewOptions?: ConversationsViewSpringOptions,
@@ -203,6 +243,41 @@ export class ConversationsViewSpring extends RcViewModule {
     });
   }
 
+  async replyInSharedTab(conversation: FormattedConversation | undefined) {
+    const fromNumber = getConversationSenderPhoneNumber(conversation);
+    const toNumbers = buildToNumbersFromConversation(
+      conversation,
+      this._smsConversationsOptions?.dncEntityTypes,
+    );
+    const toNumber = toNumbers[0]?.phoneNumber;
+
+    if (fromNumber && toNumber) {
+      const threadId = this._messageThread?.getLatestThreadIdByParties(
+        fromNumber,
+        toNumber,
+      );
+      if (threadId) {
+        this._syncTabView.setActive(
+          SyncTabId.CONVERSATIONS,
+          ConversationsSyncTabId.SHARED,
+          { currentPath: `/conversations/${threadId}` },
+        );
+        return;
+      }
+    }
+
+    await this._composeText.clean();
+
+    await this._router.push('/composeText', {
+      [COMPOSE_TEXT_BACK_PATH]: this._router.currentPath,
+    });
+
+    await Promise.all([
+      fromNumber && this._composeText.updateSenderNumber(fromNumber),
+      toNumbers.length > 0 && this._composeText.addToNumbers(toNumbers),
+    ]);
+  }
+
   useConversationItemInfo = (
     conversation: FilteredConversation,
     {
@@ -211,11 +286,11 @@ export class ConversationsViewSpring extends RcViewModule {
   ): {
     info: ReturnType<typeof useContactRenderInfoFromConversation>;
     actions: HistoryAction[];
-    extensionId?: number;
+    extensionId?: string;
     threadInfo?: ThreadInfoRecord;
   } => {
     const beTextMessage = messageIsTextMessage(conversation);
-    const conversationId = conversation.conversationId;
+    const conversationLogId = conversation.conversationLogId;
     const {
       disableLinks,
       isOfflineMode,
@@ -225,8 +300,9 @@ export class ConversationsViewSpring extends RcViewModule {
       isIdle,
       hasInternalSMSPermission,
       hasOutboundSMSPermission,
+      hasSmsPermission,
+      canReadConsent,
       isCallingEnabled,
-      hasComposeTextPermission,
       displayCRMLog,
       isLogged,
       autoLog,
@@ -240,14 +316,17 @@ export class ConversationsViewSpring extends RcViewModule {
       isIdle: Boolean(this._call && this._call.isIdle),
       hasInternalSMSPermission: this._appFeatures.hasInternalSMSPermission,
       hasOutboundSMSPermission: this._appFeatures.hasOutboundSMSPermission,
+      hasSmsPermission:
+        this._messageSender?.hasSmsPermission ??
+        this._appFeatures.hasComposeTextPermission, // for backward compatibility, if MessageSender not exist, fallback to appFeatures
+      canReadConsent: this._smsConsent?.canReadConsent ?? false,
       isCallingEnabled: this._appFeatures.isCallingEnabled,
-      hasComposeTextPermission: this._appFeatures.hasComposeTextPermission,
       displayCRMLog: this._smsConversations.checkIsSupportLog(conversation),
       isLogged:
         // only text message able to log to avoid accidental match the dataMapping
         beTextMessage &&
-        !!conversationId &&
-        this._conversationLogger?.getIsInLoggedStatus(conversationId),
+        !!conversationLogId &&
+        this._conversationLogger?.getIsInLoggedStatus(conversationLogId),
       autoLog:
         !!this._conversationLogger?.autoLog ||
         !!this._conversationLogger?.serverAutoLog,
@@ -285,6 +364,12 @@ export class ConversationsViewSpring extends RcViewModule {
       formattedPhoneNumber,
       matchedContact,
     } = info;
+    const canManageConsent =
+      (pageType === 'list' || pageType === 'text') &&
+      isTextMessage &&
+      canReadConsent &&
+      signalTo &&
+      !!getConversationNumbers(conversation);
 
     const actions = useMemo(() => {
       const enableModifyLog = this._smsConversationsOptions?.enableModifyLog;
@@ -364,7 +449,7 @@ export class ConversationsViewSpring extends RcViewModule {
           !isFax &&
           !isTextMessage &&
           formattedPhoneNumber &&
-          hasComposeTextPermission
+          hasSmsPermission
         ) {
           actions.push({
             type: 'text',
@@ -387,6 +472,13 @@ export class ConversationsViewSpring extends RcViewModule {
           isLogged,
         });
         actions.push(...integrateActions);
+      }
+
+      if (canManageConsent) {
+        actions.push({
+          type: pageType === 'list' ? 'manageConsent' : 'viewConsent',
+          disabled: disableLinks,
+        });
       }
 
       // Mark actions - only available on list page
@@ -440,6 +532,7 @@ export class ConversationsViewSpring extends RcViewModule {
       disableLinks,
       faxAttachmentDownloadUri,
       isTextMessage,
+      canManageConsent,
       matchedContact,
       isOfflineMode,
       isWebphoneUnavailableMode,
@@ -450,8 +543,8 @@ export class ConversationsViewSpring extends RcViewModule {
       signalSourceInfo?.phoneNumber,
       hasInternalSMSPermission,
       hasOutboundSMSPermission,
+      hasSmsPermission,
       isCallingEnabled,
-      hasComposeTextPermission,
       unreadCounts,
       voicemailAttachmentUri,
     ]);
@@ -558,6 +651,19 @@ export class ConversationsViewSpring extends RcViewModule {
           }
           break;
         }
+        case 'viewConsent':
+        case 'manageConsent': {
+          const numbers = getConversationNumbers(conversation);
+          if (!numbers) return;
+
+          await this._smsConsentDialogView?.viewConsentDetails({
+            numbers,
+            contactName: info.matchedContact?.name,
+            consentEntry:
+              actionType === 'viewConsent' ? 'Text conversation' : 'Text list',
+          });
+          break;
+        }
         case 'mark':
           if (!conversationId) return;
           this._messageStore.unreadMessage(conversationId);
@@ -625,7 +731,15 @@ export class ConversationsViewSpring extends RcViewModule {
   }: ConversationsViewSpringProps): UIProps<ConversationsPanelSpringProps> {
     const readStatusFilter =
       this._conversations.readStatusFilterMap[typeFilter];
-
+    const smsPermissionReason =
+      typeFilter === 'Text' && this._accountInfo?.isTCRSupported
+        ? (this._messageSender?.smsPermissionReason ?? null)
+        : null;
+    const hasSmsPermission =
+      this._messageSender?.hasSmsPermission ??
+      this._appFeatures.hasComposeTextPermission;
+    const isNewButtonDisabled =
+      typeFilter === 'Text' ? !hasSmsPermission : false;
     return {
       lastPosition: this.lastPosition[`${typeFilter}-${readStatusFilter}`],
       preparing: !(
@@ -647,8 +761,10 @@ export class ConversationsViewSpring extends RcViewModule {
         typeFilter === 'Text'
           ? true
           : typeFilter === 'Fax'
-          ? this._appFeatures.hasSendFaxPermission
-          : false,
+            ? this._appFeatures.hasSendFaxPermission
+            : false,
+      newButtonDisabled: isNewButtonDisabled,
+      smsPermissionReason,
       conversations:
         this._conversations.typeFilteredConversationsMap[typeFilter],
       loadingNextPage: this._conversations.loadingOldConversations,
@@ -695,8 +811,6 @@ export class ConversationsViewSpring extends RcViewModule {
   component(props: ConversationsViewSpringProps) {
     const { current: uiFunctions } = useRef(this.getUIFunctions(props));
 
-    const isText = props.typeFilter === messageTypes.text;
-
     const _props = useConnector(() => {
       const uiProps = this.getUIProps(props);
 
@@ -712,7 +826,9 @@ export class ConversationsViewSpring extends RcViewModule {
     const header = <ConversationsHeader {..._props} {...uiFunctions} />;
     const children = <PersonalComponent {..._props} {...uiFunctions} />;
 
-    if (!this._messageThreadsView || !isText) {
+    const isText = props.typeFilter === messageTypes.text;
+
+    if (!isText) {
       return (
         <>
           {header}
@@ -724,9 +840,9 @@ export class ConversationsViewSpring extends RcViewModule {
     return (
       <>
         {header}
-        <this._messageThreadsView.component {...uiFunctions}>
+        <this._conversationsTabsView.component {...uiFunctions}>
           {children}
-        </this._messageThreadsView.component>
+        </this._conversationsTabsView.component>
       </>
     );
   }

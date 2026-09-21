@@ -42,13 +42,23 @@ describe('VoicemailPlayer', () => {
     updateAudioStatus: jest.fn(),
   };
 
-  const actionSpy = createMockAction();
+  let actionSpy: ReturnType<typeof createMockAction>;
 
   beforeEach(() => {
     jest.clearAllMocks();
+    actionSpy = createMockAction();
     const instance = require('@ringcentral/spring-ui').useAudio();
 
+    instance.src = '';
+    instance.currentTime = 0;
+    instance.duration = 0;
+    instance.paused = true;
     instance.addEventListener.mockImplementation(actionSpy.addListener);
+    instance.removeEventListener.mockImplementation(actionSpy.removeListener);
+  });
+
+  afterEach(() => {
+    actionSpy.destroy();
   });
 
   it('renders correctly in initial state', () => {
@@ -75,11 +85,11 @@ describe('VoicemailPlayer', () => {
     expect(screen.queryByTestId('pause')).not.toBeInTheDocument();
   });
 
-  it('changes to playing state when play button is clicked', () => {
+  it('changes to playing state when play button is clicked', async () => {
     render(<VoicemailPlayer {...mockProps} />);
 
     const playButton = screen.getByTestId('play');
-    userEvent.click(playButton);
+    await userEvent.click(playButton);
 
     expect(mockProps.onStartLoad).toHaveBeenCalledWith(mockProps.uri);
     expect(mockProps.updateAudioStatus).toHaveBeenCalledWith({
@@ -93,7 +103,7 @@ describe('VoicemailPlayer', () => {
     });
   });
 
-  it('resumes audio when play button is clicked', () => {
+  it('resumes audio when play button is clicked', async () => {
     render(
       <VoicemailPlayer
         {...mockProps}
@@ -106,10 +116,11 @@ describe('VoicemailPlayer', () => {
     );
 
     const mockAudio = require('@ringcentral/spring-ui').useAudio();
+    mockAudio.src = 'blob:test-url';
     expect(mockAudio.play).not.toHaveBeenCalled();
 
     const playButton = screen.getByTestId('play');
-    userEvent.click(playButton);
+    await userEvent.click(playButton);
 
     expect(mockAudio.play).toHaveBeenCalled();
   });
@@ -134,7 +145,7 @@ describe('VoicemailPlayer', () => {
     expect(mockAudio.pause).toHaveBeenCalled();
   });
 
-  it('changes to paused state when pause button is clicked', () => {
+  it('changes to paused state when pause button is clicked', async () => {
     render(
       <VoicemailPlayer
         {...mockProps}
@@ -143,7 +154,7 @@ describe('VoicemailPlayer', () => {
     );
 
     const pauseButton = screen.getByTestId('pause');
-    userEvent.click(pauseButton);
+    await userEvent.click(pauseButton);
 
     expect(mockProps.updateAudioStatus).toHaveBeenCalledWith({
       currentTime: 0,
@@ -155,11 +166,11 @@ describe('VoicemailPlayer', () => {
     });
   });
 
-  it('calls onDownload when download button is clicked', () => {
+  it('calls onDownload when download button is clicked', async () => {
     render(<VoicemailPlayer {...mockProps} />);
 
     const downloadButton = screen.getByTestId('download');
-    userEvent.click(downloadButton);
+    await userEvent.click(downloadButton);
 
     expect(mockProps.onDownload).toHaveBeenCalled();
   });
@@ -321,6 +332,7 @@ describe('VoicemailPlayer', () => {
         {...mockProps}
         audioStatus={{
           ...mockProps.audioStatus,
+          currentTime: 10,
           loading: true,
           isPlaying: true,
         }}
@@ -329,11 +341,13 @@ describe('VoicemailPlayer', () => {
 
     const mockAudio = require('@ringcentral/spring-ui').useAudio();
 
+    mockAudio.currentTime = 10;
     mockAudio.paused = false;
 
     actionSpy.action$.next(['error', {}]);
 
     expect(mockProps.updateAudioStatus).toHaveBeenCalledWith({
+      blobUrl: undefined,
       currentTime: 10,
       duration: 120,
       isNetworkError: true,

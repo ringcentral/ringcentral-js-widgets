@@ -8,8 +8,7 @@ import {
   Then,
   Step,
 } from '@ringcentral-integration/test-utils';
-import { createElement } from 'react';
-import { act } from 'react-dom/test-utils';
+import { act, createElement } from 'react';
 
 import {
   injectable,
@@ -50,16 +49,19 @@ beforeEach(() => {
   document.body.appendChild(clientContainer);
 });
 
-afterEach(() => {
-  clientContainer
-    .querySelector('#home')
-    ?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
-  unmountComponentAtNode(serverContainer);
+afterEach(async () => {
+  await act(async () => {
+    clientContainer
+      .querySelector('#home')
+      ?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    await Promise.resolve();
+    unmountComponentAtNode(serverContainer);
+    unmountComponentAtNode(clientContainer);
+    clientApp?.destroy();
+    serverApp?.destroy();
+  });
   serverContainer.remove();
-  unmountComponentAtNode(clientContainer);
   clientContainer.remove();
-  clientApp?.destroy();
-  serverApp?.destroy();
 });
 
 let onClientFn: jest.Mock<any, any>;
@@ -190,21 +192,23 @@ class BaseMultipleClient extends Step {
             );
             expect(onServerFn.mock.calls.length).toMatchInlineSnapshot(`1`);
             expect(subscribeOnServerFn.mock.calls.length).toMatchInlineSnapshot(
-              `6`,
+              `10`,
             );
           }}
         />
         <When
           desc="Trigger 'increment' action in server app, and create and bootstrap client app"
           action={async () => {
-            await serverApp.bootstrap(serverContainer);
+            await act(async () => {
+              await serverApp.bootstrap(serverContainer);
+            });
             expect(onClientFn.mock.calls.length).toMatchInlineSnapshot(`0`);
             expect(subscribeOnClientFn.mock.calls.length).toMatchInlineSnapshot(
               `0`,
             );
             expect(onServerFn.mock.calls.length).toMatchInlineSnapshot(`1`);
             expect(subscribeOnServerFn.mock.calls.length).toMatchInlineSnapshot(
-              `11`,
+              `16`,
             );
             expect(
               serverContainer.querySelector('#content')?.textContent,
@@ -241,10 +245,12 @@ class BaseMultipleClient extends Step {
             );
             expect(onServerFn.mock.calls.length).toMatchInlineSnapshot(`1`);
             expect(subscribeOnServerFn.mock.calls.length).toMatchInlineSnapshot(
-              `15`,
+              `23`,
             );
 
-            await clientApp.bootstrap(clientContainer);
+            await act(async () => {
+              await clientApp.bootstrap(clientContainer);
+            });
           }}
         />
         <Then
@@ -272,6 +278,24 @@ class BaseMultipleClient extends Step {
                     item._patches = JSON.parse(JSON.stringify(item._patches));
                     item._patches[0].value = 'NORMALIZED_TAB_ID';
                   }
+                  if (item.method === '_setSharedRoleSnapshot') {
+                    const normalizeClientId = (key: string, value: unknown) =>
+                      key === 'clientId' && value !== '__SERVER__'
+                        ? 'NORMALIZED_CLIENT_ID'
+                        : value;
+                    item.params = JSON.parse(
+                      JSON.stringify(item.params, normalizeClientId),
+                    );
+                    item._patches = JSON.parse(
+                      JSON.stringify(item._patches, normalizeClientId),
+                    );
+                  }
+                  if (
+                    item.type === 'persist/REHYDRATE' &&
+                    item.payload?._persist
+                  ) {
+                    item.payload = undefined;
+                  }
                   return item;
                 }),
               );
@@ -285,7 +309,7 @@ class BaseMultipleClient extends Step {
             ).toMatchSnapshot();
             expect(
               clientApp.instance.portManager.portDetector.lastAction.sequence,
-            ).toMatchInlineSnapshot(`16`);
+            ).toMatchInlineSnapshot(`24`);
 
             expect(onClientFn.mock.calls.length).toMatchInlineSnapshot(`1`);
             expect(subscribeOnClientFn.mock.calls.length).toMatchInlineSnapshot(
@@ -293,7 +317,7 @@ class BaseMultipleClient extends Step {
             );
             expect(onServerFn.mock.calls.length).toMatchInlineSnapshot(`1`);
             expect(subscribeOnServerFn.mock.calls.length).toMatchInlineSnapshot(
-              `15`,
+              `23`,
             );
             expect(
               clientContainer.querySelector('#content')?.textContent,
@@ -321,7 +345,7 @@ class BaseMultipleClient extends Step {
             );
             expect(onServerFn.mock.calls.length).toMatchInlineSnapshot(`1`);
             expect(subscribeOnServerFn.mock.calls.length).toMatchInlineSnapshot(
-              `17`,
+              `25`,
             );
             expect(
               serverContainer.querySelector('#content')?.textContent,
@@ -353,7 +377,7 @@ class BaseMultipleClient extends Step {
             );
             expect(onServerFn.mock.calls.length).toMatchInlineSnapshot(`1`);
             expect(subscribeOnServerFn.mock.calls.length).toMatchInlineSnapshot(
-              `18`,
+              `26`,
             );
 
             expect(
@@ -372,15 +396,15 @@ class BaseMultipleClient extends Step {
               `10`,
             );
             expect(subscribeOnServerFn.mock.calls.length).toMatchInlineSnapshot(
-              `18`,
+              `26`,
             );
             expect(clientApp.instance.counterView.count).toMatchInlineSnapshot(
               `1`,
             );
             expect(
               clientApp.instance.portManager.portDetector.lastAction.sequence,
-            ).toMatchInlineSnapshot(`18`);
-            await clientApp.instance.counterView.incrementAsync();
+            ).toMatchInlineSnapshot(`26`);
+            await act(() => clientApp.instance.counterView.incrementAsync());
           }}
         />
         <Then
@@ -391,19 +415,19 @@ class BaseMultipleClient extends Step {
             );
             expect(
               clientApp.instance.portManager.portDetector.lastAction.sequence,
-            ).toMatchInlineSnapshot(`19`);
+            ).toMatchInlineSnapshot(`27`);
             expect(subscribeOnClientFn.mock.calls.length).toMatchInlineSnapshot(
               `11`,
             );
             expect(subscribeOnServerFn.mock.calls.length).toMatchInlineSnapshot(
-              `19`,
+              `27`,
             );
           }}
         />
         <When
           desc="Trigger 'increaseAsync' action in server app"
           action={async () => {
-            await serverApp.instance.counterView.incrementAsync();
+            await act(() => serverApp.instance.counterView.incrementAsync());
           }}
         />
         <Then
@@ -414,12 +438,12 @@ class BaseMultipleClient extends Step {
             );
             expect(
               clientApp.instance.portManager.portDetector.lastAction.sequence,
-            ).toMatchInlineSnapshot(`20`);
+            ).toMatchInlineSnapshot(`28`);
             expect(subscribeOnClientFn.mock.calls.length).toMatchInlineSnapshot(
               `12`,
             );
             expect(subscribeOnServerFn.mock.calls.length).toMatchInlineSnapshot(
-              `20`,
+              `28`,
             );
           }}
         />

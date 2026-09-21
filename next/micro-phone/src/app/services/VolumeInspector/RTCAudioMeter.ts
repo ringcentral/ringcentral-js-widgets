@@ -12,7 +12,7 @@ export class RTCAudioMeter {
     | MediaElementAudioSourceNode
     | undefined;
   private _analyser: AnalyserNode | undefined;
-  private _data: Uint8Array | undefined;
+  private _data: Uint8Array<ArrayBuffer> | undefined;
   private static _audioMeters: RTCAudioMeter[] = [];
 
   private static _prepareAudioContext(): void {
@@ -50,7 +50,9 @@ export class RTCAudioMeter {
       this._analyser.minDecibels = kMinDecibels;
       this._analyser.maxDecibels = kMaxDecibels;
       this._analyser.smoothingTimeConstant = kSmoothingTimeConstant;
-      this._data = new Uint8Array(this._analyser.frequencyBinCount);
+      this._data = new Uint8Array(
+        new ArrayBuffer(this._analyser.frequencyBinCount),
+      );
       console.info(
         LOG_TAG,
         `data length is ${this._data.length} ${this._data.byteLength}`,

@@ -65,17 +65,17 @@ describe('EnsureAudio in safari', () => {
       jest.spyOn(global, 'Audio');
 
       if (event === 'click') {
-        userEvent.click(document.body);
+        await userEvent.click(document.body);
 
         expect(global.Audio).toHaveBeenCalled();
 
-        userEvent.click(document.body);
+        await userEvent.click(document.body);
       } else {
-        userEvent.keyboard('1');
+        await userEvent.keyboard('1');
 
         expect(global.Audio).toHaveBeenCalled();
 
-        userEvent.keyboard('1');
+        await userEvent.keyboard('1');
       }
 
       // only called once so keep 1

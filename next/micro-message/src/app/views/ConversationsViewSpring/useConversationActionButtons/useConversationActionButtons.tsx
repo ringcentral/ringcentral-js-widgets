@@ -12,11 +12,10 @@ import type { FormattedConversation } from '../../../services';
 
 import { ConversationLogPopover } from './ConversationLogPopover';
 
-export interface UseConversationActionButtonsProps
-  extends Pick<
-    ActionMenuListProps,
-    'variant' | 'displayCount' | 'moreButtonProps'
-  > {
+export interface UseConversationActionButtonsProps extends Pick<
+  ActionMenuListProps,
+  'variant' | 'displayCount' | 'moreButtonProps'
+> {
   actions: HistoryAction[];
   conversation: FormattedConversation;
   showLogPopover?: boolean;

@@ -139,6 +139,11 @@ export interface ClickToDialProps {
   onClickToDialChange?(enableClickToDial: boolean): any;
 }
 
+export interface ConsentManagementProps {
+  showConsentManagement?: boolean;
+  onConsentManagementClick?(): any;
+}
+
 export interface VersionProps {
   version: string;
   versionContainer?: React.ReactNode;
@@ -186,6 +191,7 @@ export interface SettingsViewPanelProps
     AutoLogSMSProps,
     SelectToDialProps,
     ClickToDialProps,
+    ConsentManagementProps,
     FeedbackProps,
     QuickAccessLinkProps,
     UserGuideProps,
@@ -273,7 +279,6 @@ export interface SettingsViewProps extends AutoLogCallProps, AutoLogSMSProps {
   callingSettingsUrl?: string;
   autoCallLogSettingsUrl?: string;
   audioSettingsUrl?: string;
-  feedbackSettingsUrl?: string;
   showMatchesToggle?: boolean;
   showPopUpForInboundCall?: boolean;
   showMatches?: boolean;

@@ -38,6 +38,7 @@ import type {
   TrackRouter,
 } from './Analytics.interface';
 import { trackRoutersMap } from './analyticsRouters';
+import { loadMixpanel } from './loadMixpanel';
 import { globalTrackEvent$, trackEvent } from './trackEvent';
 
 export type TrackTarget = Exclude<TrackRouter, null | undefined>;
@@ -80,7 +81,7 @@ export class Analytics extends RcModule implements IAnalytics {
     // the load only need once, so take 1
     take(1),
     switchMap(async () => {
-      const mixpanel = (await import('mixpanel-browser')).default;
+      const mixpanel = await loadMixpanel();
       mixpanel.init(this._analyticsOptions.analyticsKey);
       // According to EU policy, we had to disable mixpanel to upload IP addresses
       mixpanel.set_config({ ip: false });
@@ -360,6 +361,8 @@ export class Analytics extends RcModule implements IAnalytics {
     } else if (routes.length > 1) {
       formatRoute = `/${routes[1]}`;
     }
-    return formatRoute ? this._trackRoutersMap.get(formatRoute) ?? null : null;
+    return formatRoute
+      ? (this._trackRoutersMap.get(formatRoute) ?? null)
+      : null;
   }
 }

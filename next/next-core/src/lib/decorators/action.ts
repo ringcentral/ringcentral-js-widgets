@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { action as originalAction, getRef } from 'reactant-share';
+import { action as originalAction, getRef } from 'reactant';
 
 export const action =
   process.env.NODE_ENV === 'development'

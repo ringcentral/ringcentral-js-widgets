@@ -1,13 +1,11 @@
 /* eslint-disable no-console */
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import type { ListenerOptions } from 'data-transport';
+import type { App, PartialKeys, Renderer } from 'reactant';
 import {
-  type App,
   createSharedApp as createApp,
-  type PartialKeys,
-  type Renderer,
   type SharedAppConfig as Config,
-  type ListenerOptions,
 } from 'reactant-share';
 
 import {

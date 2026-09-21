@@ -27,6 +27,7 @@ export type ContactSearchEntity = {
 };
 
 export type DialerPanelProps = {
+  children?: React.ReactNode;
   currentLocale: string;
   className?: string;
   dialButtonsClassName?: string;
@@ -134,7 +135,7 @@ export const DialerPanel: FunctionComponent<DialerPanelProps> = (props) => {
   // TODO: when have tag should check if need disable dial button
   // const hasTags = recipients.length > 0;
   const handleSelect = useCallback(
-    async (...args) => {
+    async (...args: ContactSearchEntity[]) => {
       await setRecipient(...args);
       onCallButtonClick();
     },
@@ -171,12 +172,12 @@ export const DialerPanel: FunctionComponent<DialerPanelProps> = (props) => {
           <DialerWrapper withTabs={withTabs}>
             <StyledRcDialPad
               data-sign="dialPad"
-              onChange={(value) => {
+              onChange={(value: string) => {
                 // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
                 onToNumberChange(toNumber + value, true);
               }}
               sounds={RcDialerPadSoundsMPEG}
-              getDialPadButtonProps={(v) => ({
+              getDialPadButtonProps={(v: string) => ({
                 'data-test-id': `${v}`,
                 'data-sign': `dialPadBtn${v}`,
               })}

@@ -1,5 +1,5 @@
 import { useVirtuosoScrollPosition } from '@ringcentral-integration/react-hooks';
-import NoText from '@ringcentral-integration/next-core/assets/no_text.svg';
+import NoText from '@ringcentral/juno-branding/assets/illustration/spot/no_text.svg';
 import {
   Skeleton,
   SkeletonContainer,

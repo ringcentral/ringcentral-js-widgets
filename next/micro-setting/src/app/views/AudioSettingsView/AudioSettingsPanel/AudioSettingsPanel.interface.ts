@@ -46,4 +46,8 @@ export interface AudioSettingsPanelProps {
   uploadCustomRingtone: (audioInfo: AudioInfo) => void;
   showDangerAlert: (message: string) => void;
   onExit: () => Promise<void>;
+  showNoiseReductionToggle?: boolean;
+  isNoiseReductionEnabled?: boolean;
+  disableNoiseReductionSetting?: boolean;
+  onNoiseReductionChange?: (enabled: boolean) => void;
 }

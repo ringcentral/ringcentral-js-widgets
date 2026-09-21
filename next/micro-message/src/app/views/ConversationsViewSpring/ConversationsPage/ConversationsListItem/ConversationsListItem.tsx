@@ -30,17 +30,23 @@ const _ConversationsListItem: React.FC<ConversationsListItemProps> = ({
   showLogPopover,
   createNewEntityTooltip,
 }) => {
-  const { info, actions, extensionId, threadInfo } =
-    useConversationItemInfo(conversation);
+  const {
+    info,
+    actions,
+    extensionId,
+    threadInfo,
+    queueName: itemQueueName,
+  } = useConversationItemInfo(conversation);
 
   const onAction = useActionsHandler(
     conversation,
     info,
+    // eslint-disable-next-line no-nested-ternary
     typeFilter === 'Text'
       ? 'Text list'
       : typeFilter === 'Fax'
-      ? 'Fax list'
-      : 'Voicemail list',
+        ? 'Fax list'
+        : 'Voicemail list',
   );
 
   useItemRender?.(conversation, index);
@@ -53,15 +59,17 @@ const _ConversationsListItem: React.FC<ConversationsListItemProps> = ({
     unreadCounts,
     displayDescription,
     isFax,
+    isTextMessage,
     creationTime,
     logged,
   } = info;
 
-  const { ThreadStatus, queueName } = useThreadInfoDisplay({
+  const { ThreadStatus, queueName: threadQueueName } = useThreadInfoDisplay({
     info: threadInfo,
     extensionId,
     onAction,
   });
+  const queueName = itemQueueName ?? threadQueueName;
 
   const buttons = useConversationActionButtons({
     actions,
@@ -107,18 +115,29 @@ const _ConversationsListItem: React.FC<ConversationsListItemProps> = ({
           }
           secondary={
             queueName ? (
-              <div>
-                {displayDescription}
-                {queueName}
-              </div>
+              <>
+                <div>{displayDescription}</div>
+                <div
+                  className="truncate text-neutral-b2"
+                  data-sign="conversationQueueName"
+                  title={queueName}
+                >
+                  {queueName}
+                </div>
+              </>
             ) : (
               displayDescription
             )
           }
         />
         <div className="text-right min-h-11">
-          <div className="flex items-center gap-1">
-            <Unread type="standard" color="secondary" size="small" />
+          <div className="flex items-center gap-1 justify-end">
+            {
+              // only text message need show the unread count, other types always only have one unread, so not need the unread count
+              isTextMessage ? (
+                <Unread type="standard" color="secondary" size="small" />
+              ) : null
+            }
             <ThreadStatus />
             <span
               className="typography-descriptor text-neutral-b2"

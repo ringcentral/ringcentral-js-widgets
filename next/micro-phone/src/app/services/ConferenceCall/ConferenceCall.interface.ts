@@ -84,33 +84,33 @@ export type AbstractParty<
         conferenceRole: Role;
       }
     : Role extends 'Participant'
-    ? {
-        conferenceRole: Role;
-      }
-    : never) &
+      ? {
+          conferenceRole: Role;
+        }
+      : never) &
   (PartySessionType extends 'RingOut'
     ? {
         ringOutRole: RingRole;
       }
     : PartySessionType extends 'RingMe'
-    ? {
-        ringMeRole: RingRole;
-      }
-    : {}) & {
+      ? {
+          ringMeRole: RingRole;
+        }
+      : {}) & {
     status: (Status extends 'Disconnected'
       ? {
           // Reason for call termination. For 'Disconnected' code only
           reason?: PartyDisconnectReason;
         }
       : Status extends 'Gone'
-      ? {
-          // Peer session/party details. Valid in 'Gone' state of a call
-          peerId: Pick<
-            NormalizedCall,
-            'sessionId' | 'telephonySessionId' | 'partyId'
-          >;
-        }
-      : {}) & {
+        ? {
+            // Peer session/party details. Valid in 'Gone' state of a call
+            peerId: Pick<
+              NormalizedCall,
+              'sessionId' | 'telephonySessionId' | 'partyId'
+            >;
+          }
+        : {}) & {
       code: Status;
       description?: string;
     };

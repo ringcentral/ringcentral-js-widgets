@@ -22,6 +22,69 @@ import {
 } from './GeneralMeetingSettings.interface';
 import { PasswordEditDialog } from './PasswordEditDialog';
 
+const variantConfig = {
+  compact: {
+    blockBorderRadius: 'small',
+    blockPadding: 'p-3',
+    mainContainerGap: 'gap-2',
+    titleLockIconGap: 'gap-1',
+    dropdownStyle: {
+      variant: 'outlined',
+      size: 'medium',
+      className: '',
+      classes: undefined,
+    },
+    requirePasswordSection: {
+      contentSwitchGap: 'gap-3',
+      leftContentGap: 'gap-1',
+      descriptionGap: 'gap-1',
+      passwordDescription: '',
+      passwordRowGap: 'gap-2',
+    },
+    manageWhoCanJoinSection: {
+      outerSpacing: 'gap-1',
+    },
+    useWaitingRoomSection: {
+      contentSwitchGap: 'gap-3',
+      outerSpacing: 'gap-2',
+    },
+    startMeetingAfterJoinSection: {
+      contentSwitchGap: 'gap-3',
+    },
+  },
+  spacious: {
+    blockBorderRadius: 'xsmall',
+    blockPadding: 'px-3 py-4',
+    mainContainerGap: 'gap-2',
+    titleLockIconGap: 'gap-1',
+    dropdownStyle: {
+      variant: 'contained',
+      size: 'large',
+      className: '',
+      classes: {
+        content: 'sui-block-border-radius-xsmall',
+      },
+    },
+    requirePasswordSection: {
+      contentSwitchGap: 'gap-3',
+      leftContentGap: '',
+      descriptionGap: '',
+      passwordDescription: 'mb-1',
+      passwordRowGap: 'mt-1 gap-2.5',
+    },
+    manageWhoCanJoinSection: {
+      outerSpacing: 'gap-1 py-1',
+    },
+    useWaitingRoomSection: {
+      contentSwitchGap: 'gap-2',
+      outerSpacing: 'gap-4 py-1',
+    },
+    startMeetingAfterJoinSection: {
+      contentSwitchGap: 'gap-3 pt-1',
+    },
+  },
+} as const;
+
 export const GeneralMeetingSettings: React.FC<
   GeneralMeetingSettingsProps & GeneralMeetingSettingsFunctions
 > = ({
@@ -58,9 +121,12 @@ export const GeneralMeetingSettings: React.FC<
   // Custom props
   className,
   brandConfig,
+  isCompact = false, //use compact dialog for edit password dialog
+  variant = 'compact',
 }) => {
   const { t } = useLocale(i18n);
   const [isPasswordDialogOpen, setIsPasswordDialogOpen] = useState(false);
+  const styles = variantConfig[variant];
 
   const handleEditPassword = () => {
     setIsPasswordDialogOpen(true);
@@ -88,28 +154,59 @@ export const GeneralMeetingSettings: React.FC<
     <>
       <Block
         bordered
-        borderRadius="small"
+        borderRadius={styles.blockBorderRadius}
         padding={false}
         className={clsx('w-full mx-auto', className)}
         classes={{
-          root: 'overflow-visible p-3',
+          root: clsx('overflow-visible', styles.blockPadding),
         }}
       >
-        <div className="flex flex-col gap-4 w-full">
+        <div className={clsx('flex flex-col w-full', styles.mainContainerGap)}>
           {/* Require password section */}
-          <div className="flex gap-3" data-sign="requirePasswordSection">
-            <div className="flex flex-col flex-1 gap-1">
-              <div className="typography-subtitleMini text-neutral-b0 flex items-center gap-1">
+          <div
+            className={clsx(
+              'flex',
+              styles.requirePasswordSection.contentSwitchGap,
+            )}
+            data-sign="requirePasswordSection"
+          >
+            <div
+              className={clsx(
+                'flex flex-col flex-1',
+                styles.requirePasswordSection.leftContentGap,
+              )}
+            >
+              <div
+                className={clsx(
+                  'typography-subtitleMini text-neutral-b0 flex items-center',
+                  styles.titleLockIconGap,
+                )}
+              >
                 {t('requirePassword')}
                 {renderLockIcon(isRequirePasswordLocked)}
               </div>
 
-              <div className="flex flex-col gap-1">
-                <div className="typography-descriptor text-neutral-b2">
+              <div
+                className={clsx(
+                  'flex flex-col',
+                  styles.requirePasswordSection.descriptionGap,
+                )}
+              >
+                <div
+                  className={clsx(
+                    'typography-descriptor text-neutral-b2',
+                    styles.requirePasswordSection.passwordDescription,
+                  )}
+                >
                   {t('requirePasswordDescription')}
                 </div>
                 {requirePassword && !isEditPasswordDisabled && (
-                  <div className="flex items-center gap-2">
+                  <div
+                    className={clsx(
+                      'flex items-center',
+                      styles.requirePasswordSection.passwordRowGap,
+                    )}
+                  >
                     <div
                       className="typography-descriptorMini text-neutral-b2"
                       data-sign="password"
@@ -147,22 +244,31 @@ export const GeneralMeetingSettings: React.FC<
 
           {/* Manage who can join section */}
           <div
-            className="flex flex-col gap-1"
+            className={clsx(
+              'flex flex-col',
+              styles.manageWhoCanJoinSection.outerSpacing,
+            )}
             data-sign="manageWhoCanJoinSection"
           >
             <div className="flex items-center justify-between">
-              <div className="typography-subtitleMini text-neutral-b0 flex items-center gap-1">
+              <div
+                className={clsx(
+                  'typography-subtitleMini text-neutral-b0 flex items-center',
+                  styles.titleLockIconGap,
+                )}
+              >
                 {t('manageWhoCanJoin')}
                 {renderLockIcon(isAuthUserTypeLocked)}
               </div>
             </div>
             <Select
-              variant="outlined"
-              size="medium"
+              variant={styles.dropdownStyle.variant}
+              size={styles.dropdownStyle.size}
               data-sign="manageWhoCanJoinField"
               value={getWhoCanJoinDisplayText(whoCanJoin, brandConfig)}
               onChange={(e) => onWhoCanJoinChange(e.target.value)}
-              className="w-full"
+              className={clsx('w-full', styles.dropdownStyle.className)}
+              classes={styles.dropdownStyle.classes}
               disabled={
                 disabled || isAuthUserTypeDisabled || isAuthUserTypeLocked
               }
@@ -179,12 +285,25 @@ export const GeneralMeetingSettings: React.FC<
 
           {/* Use waiting room section */}
           <div
-            className="flex flex-col gap-4"
+            className={clsx(
+              'flex flex-col',
+              styles.useWaitingRoomSection.outerSpacing,
+            )}
             data-sign="useWaitingRoomSection"
           >
-            <div className="flex gap-3">
+            <div
+              className={clsx(
+                'flex',
+                styles.useWaitingRoomSection.contentSwitchGap,
+              )}
+            >
               <div className="flex flex-col flex-1">
-                <div className="typography-subtitleMini text-neutral-b0 flex items-center gap-1">
+                <div
+                  className={clsx(
+                    'typography-subtitleMini text-neutral-b0 flex items-center',
+                    styles.titleLockIconGap,
+                  )}
+                >
                   {t('useWaitingRoom')}
                   {renderLockIcon(isWaitingRoomLocked)}
                 </div>
@@ -207,11 +326,12 @@ export const GeneralMeetingSettings: React.FC<
             {useWaitingRoom && (
               <div>
                 <Select
-                  variant="outlined"
+                  variant={styles.dropdownStyle.variant}
+                  size={styles.dropdownStyle.size}
                   data-sign="waitingRoomField"
-                  size="medium"
                   value={t(waitingRoomParticipants as keyof typeof t)}
-                  className="w-full"
+                  className={clsx('w-full', styles.dropdownStyle.className)}
+                  classes={styles.dropdownStyle.classes}
                   onChange={(e) =>
                     onWaitingRoomParticipantsChange(e.target.value)
                   }
@@ -232,17 +352,27 @@ export const GeneralMeetingSettings: React.FC<
           <Divider />
 
           {/* Start meeting after you join section */}
-          <div className="flex gap-3">
+          <div
+            className={clsx(
+              'flex',
+              styles.startMeetingAfterJoinSection.contentSwitchGap,
+            )}
+          >
             <div
               className="flex flex-col flex-1"
               data-sign="startMeetingAfterJoinSection"
             >
-              <div className="typography-subtitleMini text-neutral-b0 flex items-center gap-1">
+              <div
+                className={clsx(
+                  'typography-subtitleMini text-neutral-b0 flex items-center',
+                  styles.titleLockIconGap,
+                )}
+              >
                 {t('startMeetingAfterJoin')}
                 {renderLockIcon(isJoinBeforeHostLocked)}
               </div>
 
-              <div className="flex flex-col gap-1">
+              <div className={clsx('flex flex-col')}>
                 <div className="typography-descriptor text-neutral-b2">
                   {t('startMeetingAfterJoinDescription')}
                 </div>
@@ -269,6 +399,7 @@ export const GeneralMeetingSettings: React.FC<
         currentPassword={meetingPassword}
         onClose={handlePasswordDialogClose}
         onUpdate={handlePasswordUpdate}
+        isCompact={isCompact}
       />
     </>
   );

@@ -1,3 +1,4 @@
+import { useDebouncedFieldState } from '@ringcentral-integration/react-hooks';
 import { TextField, TextFieldProps } from '@ringcentral/spring-ui';
 import {
   ariaDescribedByIds,
@@ -37,7 +38,6 @@ export default function BaseInputTemplate<
     hideError,
     value,
     onChange,
-    onChangeOverride,
     onBlur,
     onFocus,
     autofocus,
@@ -62,18 +62,28 @@ export default function BaseInputTemplate<
     },
     ...rest,
   };
-  const _onChange = ({ target: { value } }: ChangeEvent<HTMLInputElement>) =>
-    onChange(value);
-  const _onBlur = ({ target: { value } }: FocusEvent<HTMLInputElement>) =>
-    onBlur(id, value);
-  const _onFocus = ({ target: { value } }: FocusEvent<HTMLInputElement>) =>
-    onFocus(id, value);
   const DisplayInputLabelProps = TYPES_THAT_SHRINK_LABEL.includes(type)
     ? {
         ...InputLabelProps,
         shrink: true,
       }
     : InputLabelProps;
+  const { inputValue, setInputValue, focusInput, blurInput } =
+    useDebouncedFieldState({
+      value: value || value === 0 ? value : '',
+      onChange,
+      shouldDebounceOnChange: true,
+    });
+  const _onChange = ({ target: { value } }: ChangeEvent<HTMLInputElement>) =>
+    setInputValue(value);
+  const _onBlur = ({ target: { value } }: FocusEvent<HTMLInputElement>) => {
+    blurInput();
+    onBlur(id, value);
+  };
+  const _onFocus = ({ target: { value } }: FocusEvent<HTMLInputElement>) => {
+    focusInput();
+    onFocus(id, value);
+  };
 
   return (
     <>
@@ -88,9 +98,9 @@ export default function BaseInputTemplate<
         required={required}
         disabled={disabled || readonly}
         {...otherProps}
-        value={value || value === 0 ? value : ''}
+        value={inputValue}
         error={rawErrors.length > 0}
-        onChange={onChangeOverride || _onChange}
+        onChange={_onChange}
         onBlur={_onBlur}
         onFocus={_onFocus}
         {...(textFieldProps as TextFieldProps)}

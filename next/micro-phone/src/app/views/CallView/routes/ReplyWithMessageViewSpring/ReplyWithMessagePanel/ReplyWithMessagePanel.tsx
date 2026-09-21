@@ -89,7 +89,10 @@ export const ReplyWithMessagePanel: FunctionComponent<
   const { textareaContainerRef, maxRow } = useSpringTextareaDynamicMaxRows();
 
   return (
-    <div data-sign="replyWithMessagePage" className="flex flex-col h-full">
+    <div
+      data-sign="replyWithMessagePage"
+      className="flex flex-col h-full overflow-hidden"
+    >
       <div
         data-sign="call-information"
         className="mt-5 mx-2 gap-1 flex items-center flex-none"
@@ -127,66 +130,68 @@ export const ReplyWithMessagePanel: FunctionComponent<
         </div>
       </div>
 
-      <List className="mt-8 flex-none">
-        {options.map((item, index) => (
-          <ListItem
-            key={index}
-            divider={false}
-            onClick={() => {
-              onOptionClick?.(item);
+      <div className="flex-auto flex flex-col overflow-auto">
+        <List className="mt-8 flex-none">
+          {options.map((item, index) => (
+            <ListItem
+              key={index}
+              divider={false}
+              onClick={() => {
+                onOptionClick?.(item);
+              }}
+              className="group"
+              data-sign={item.text}
+            >
+              <ListItemText primary={item.text} />
+              <i className="flex-auto" />
+              {!item.options && (
+                <Icon
+                  color="action.grayLight"
+                  size="small"
+                  symbol={SendMd}
+                  className="hidden group-hover:block"
+                  data-sign="sendIcon"
+                />
+              )}
+            </ListItem>
+          ))}
+        </List>
+        <div
+          className="mt-5 mb-3 mx-4 overflow-hidden flex-auto min-h-44"
+          ref={textareaContainerRef}
+          data-sign="customMessage"
+        >
+          <Textarea
+            fullWidth
+            value={replayMessage}
+            minRows={2}
+            maxRows={maxRow}
+            onChange={(event) => {
+              const result = sanitizedMessage(event.target.value);
+
+              onReplayMessageChange(result);
             }}
-            className="group"
-            data-sign={item.text}
-          >
-            <ListItemText primary={item.text} />
-            <i className="flex-auto" />
-            {!item.options && (
-              <Icon
-                color="action.grayLight"
-                size="small"
-                symbol={SendMd}
-                className="hidden group-hover:block"
-                data-sign="sendIcon"
-              />
-            )}
-          </ListItem>
-        ))}
-      </List>
-      <div
-        className="mt-5 mb-3 mx-4 flex-auto overflow-hidden"
-        ref={textareaContainerRef}
-        data-sign="customMessage"
-      >
-        <Textarea
-          fullWidth
-          value={replayMessage}
-          minRows={2}
-          maxRows={maxRow}
-          onChange={(event) => {
-            const result = sanitizedMessage(event.target.value);
+            label={t('customMessage')}
+            placeholder={t('customMessagePlaceholder')}
+            inputProps={{ maxLength: 100 }}
+            showCharacterCount
+            onKeyDown={(e) => {
+              // when in composition mode, do not handle enter key, user still typing
+              if (e.nativeEvent.isComposing) return;
 
-            onReplayMessageChange(result);
-          }}
-          label={t('customMessage')}
-          placeholder={t('customMessagePlaceholder')}
-          inputProps={{ maxLength: 100 }}
-          showCharacterCount
-          onKeyDown={(e) => {
-            // when in composition mode, do not handle enter key, user still typing
-            if (e.nativeEvent.isComposing) return;
+              const event = e as React.KeyboardEvent;
+              const value = (event.target as HTMLTextAreaElement)?.value;
 
-            const event = e as React.KeyboardEvent;
-            const value = (event.target as HTMLTextAreaElement)?.value;
-
-            if (!event.shiftKey && event.key === 'Enter') {
-              onAction('startReply', {
-                // remove leading and trailing spaces
-                replyWithText: value.trim(),
-              });
-              e.preventDefault();
-            }
-          }}
-        />
+              if (!event.shiftKey && event.key === 'Enter') {
+                onAction('startReply', {
+                  // remove leading and trailing spaces
+                  replyWithText: value.trim(),
+                });
+                e.preventDefault();
+              }
+            }}
+          />
+        </div>
       </div>
     </div>
   );

@@ -49,7 +49,7 @@ export const DialerPage = forwardRef<any, DialerPageProps>(
         <div
           ref={ref}
           className={clsx(
-            'flex flex-col pt-3 gap-2 w-full h-full relative overflow-auto',
+            'flex flex-col pt-3 gap-2 w-full h-full relative overflow-hidden',
             className,
           )}
         >
@@ -84,7 +84,7 @@ export const DialerPage = forwardRef<any, DialerPageProps>(
           />
           <main
             className={clsx(
-              'px-10 py-2 flex flex-col items-center flex-auto',
+              'px-10 py-2 flex flex-col items-center flex-auto overflow-auto pb-2',
               contactSearchExpanded && 'hidden',
             )}
           >

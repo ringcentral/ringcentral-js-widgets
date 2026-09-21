@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import styles from './styles.scss';
 
 type DraggableProps = {
+  children?: React.ReactNode;
   className?: string;
   onClick?: (...args: any[]) => any;
   positionOffsetX?: number;

@@ -101,11 +101,30 @@ type MethodSchema = {
   responses: Record<string, OpenAPIV3.SchemaObject> & DefaultSchemas;
 };
 
+type MockMcpResolvedResponse<T = unknown> = {
+  requestId: string;
+  data: T;
+  status?: number;
+  headers?: Record<string, string>;
+};
+
 const DEFAULT_STATUS = 200;
 
 const DEFAULT_METHOD = 'GET';
 
 const DEFAULT_REPEAT = 1;
+
+const isMockMcpResolvedResponse = (
+  value: unknown,
+): value is MockMcpResolvedResponse => {
+  if (!value || typeof value !== 'object') {
+    return false;
+  }
+
+  const response = value as Record<string, unknown>;
+
+  return typeof response.requestId === 'string' && 'data' in response;
+};
 
 export interface PlatformMockOptions {
   /**
@@ -269,6 +288,7 @@ export class PlatformMock {
       response: async (url: string, request: MockRequest = {}) => {
         let schema: OpenAPIV3.SchemaObject | null = null;
         let methodSchema: MethodSchema | null = null;
+        let mockMcpResponse: MockMcpResolvedResponse | undefined;
         const schemaItem = this.schemas.paths[matcher as never];
         if (schemaItem) {
           try {
@@ -312,7 +332,12 @@ export class PlatformMock {
                 properties: _properties,
               },
             });
-            mockData = response;
+            if (isMockMcpResolvedResponse(response)) {
+              mockMcpResponse = response;
+              mockData = response.data;
+            } else {
+              mockData = response;
+            }
           } else {
             const generatedData = this.generate({
               type: 'object',
@@ -425,9 +450,23 @@ export class PlatformMock {
                 body: parsedBody,
                 mockData,
               });
+        const {
+          headers: customHeaders,
+          ...mockResponseWithoutHeaders
+        } = mockResponse as IResponseObject<any> & {
+          headers?: Record<string, string>;
+        };
+        const headers = {
+          ...(mockMcpResponse?.headers ?? {}),
+          ...(customHeaders ?? {}),
+        };
         const response = {
           status,
-          ...mockResponse,
+          ...(mockMcpResponse?.status !== undefined
+            ? { status: mockMcpResponse.status }
+            : {}),
+          ...mockResponseWithoutHeaders,
+          ...(Object.keys(headers).length > 0 ? { headers } : {}),
         };
         try {
           this.debugger?.({

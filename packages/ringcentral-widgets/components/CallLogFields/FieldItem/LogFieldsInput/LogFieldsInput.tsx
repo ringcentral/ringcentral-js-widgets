@@ -69,7 +69,7 @@ export class LogFieldsInput extends Component<
           error={error}
           value={value}
           gutterBottom
-          onChange={(e) =>
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             this.updateValue(
               type === 'number' && e.target.value !== ''
                 ? Number(e.target.value)

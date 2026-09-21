@@ -105,7 +105,7 @@ export const RecipientsInput = forwardRef<
           fullWidth
           clearBtn={false}
           inputRef={inputRef}
-          onChange={(e) => {
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             onChange(e.target.value);
           }}
           classes={{

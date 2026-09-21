@@ -3,7 +3,7 @@ import {
   jestFakeTimersAreEnabled,
 } from '@ringcentral-integration/test-utils';
 import { waitUntilTo } from '@ringcentral-integration/utils';
-import { ThisService } from 'reactant-share';
+import type { ThisService } from 'reactant';
 import {
   concatAll,
   concatMap,
@@ -22,6 +22,17 @@ import {
 
 import { fromSubscribe, logger } from '../../src';
 
+type MaybePromise<T> = T | Promise<T>;
+
+const runCheckAfterReactFlush = async <T>(
+  cb: () => MaybePromise<T>,
+): Promise<T> => {
+  if (!jestFakeTimersAreEnabled()) {
+    await act(() => Promise.resolve());
+  }
+  return cb();
+};
+
 /**
  * ### ⚠️⚠️⚠️ this method only be used in test environment
  *
@@ -34,7 +45,7 @@ import { fromSubscribe, logger } from '../../src';
  */
 const waitSubscribeSuccess$ = <R, K, T extends Observable<R>>(
   obs$: T,
-  cb: (value?: R) => K,
+  cb: (value?: R) => MaybePromise<K>,
   options: {
     timeout?: number;
   } = {},
@@ -78,7 +89,7 @@ const waitSubscribeSuccess$ = <R, K, T extends Observable<R>>(
     obs$.pipe(
       concatMap(async (value) => {
         try {
-          const result = await cb(value);
+          const result = await runCheckAfterReactFlush(() => cb(value));
 
           lastResult = result;
           return true;
@@ -93,7 +104,7 @@ const waitSubscribeSuccess$ = <R, K, T extends Observable<R>>(
     timeout$.pipe(
       concatMap(async () => {
         try {
-          const result = await cb();
+          const result = await runCheckAfterReactFlush(() => cb());
           // when timeout but success, also emit that as success to make that pass-rate more higher
           logger.warn(
             'you use timer to pass the check, should use fakeTimer or other timer base api instead',
@@ -122,7 +133,7 @@ const waitSubscribeSuccess$ = <R, K, T extends Observable<R>>(
  */
 export const waitSubscribeSuccess = <R, K, T extends Observable<R>>(
   obs$: T,
-  cb: (value?: R) => K,
+  cb: (value?: R) => MaybePromise<K>,
   options: {
     timeout?: number;
   } = {},
@@ -158,14 +169,14 @@ export const waitSubscribeSuccess = <R, K, T extends Observable<R>>(
  */
 export const subscribeWaitUntilTo = async <T>(
   target: ThisService,
-  cb: () => T,
+  cb: () => MaybePromise<T>,
   options: {
     timeout?: number;
   } = {},
 ) => {
   try {
-    const value = cb();
-    return Promise.resolve(value);
+    const value = await runCheckAfterReactFlush(cb);
+    return value;
   } catch (error) {
     const obs$ = fromSubscribe(target);
 
@@ -181,7 +192,7 @@ export const subscribeWaitUntilTo = async <T>(
  * ### ⚠️⚠️⚠️ this method only be used in test environment
  */
 export const whenStateChange = <T>(
-  cb: () => T,
+  cb: () => MaybePromise<T>,
   options?: {
     timeout?: number;
   },
@@ -199,7 +210,7 @@ export const whenStateChange = <T>(
  * ### ⚠️⚠️⚠️ this method only be used in test environment
  */
 export const whenStateOrTimerChange = async <T>(
-  cb: () => T,
+  cb: () => MaybePromise<T>,
   options?: {
     timeout?: number;
   },
@@ -208,7 +219,7 @@ export const whenStateOrTimerChange = async <T>(
     throw new Error('waitStateChange can only be used in the test environment');
   }
 
-  const pollingCheck = waitUntilTo(cb, options);
+  const pollingCheck = waitUntilTo(() => runCheckAfterReactFlush(cb), options);
 
   const obs$ = fromSubscribe(global.app.instance);
 

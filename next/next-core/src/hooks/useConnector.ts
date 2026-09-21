@@ -1,9 +1,11 @@
 import {
-  getRef,
   PortDetector,
+} from 'reactant-share';
+import {
+  getRef,
   type ShallowEqual,
   useConnector as useConnectorWithReactant,
-} from 'reactant-share';
+} from 'reactant';
 
 export const useConnector = <T>(
   selector: (getModules: <P>(moduleKey: string) => P) => T,

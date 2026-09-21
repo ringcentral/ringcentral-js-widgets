@@ -11,7 +11,7 @@ import { useCallActionButtons } from '../../../../../hooks';
 import { CallControlViewPanelProps } from '../CallControl.view.interface';
 
 import { AiNoteTip } from './AiNoteTip';
-import { CallCtrlButton } from './CallCtrlButton';
+import { CallControlActionButtons } from './CallControlActionButtons';
 import { TransferringCall } from './TransferringCall';
 import { useCallControlLayout } from './useCallControlLayout';
 
@@ -35,58 +35,29 @@ export const CallControlPanel: React.FC<CallControlViewPanelProps> = (
 
   const actionButtons = useMemo(
     () => (
-      <div
-        className="flex flex-wrap gap-4 justify-center px-10"
-        data-sign="actionButtons"
-      >
-        {renderActions.map(
-          ({
-            actionType,
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            iconSize,
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            size,
-            ...rest
-          }) => {
-            return (
-              <CallCtrlButton
-                key={actionType}
-                menuPlacement={actionType === 'audio' ? 'right' : undefined}
-                menuList={
-                  actionType === 'flip' ? (
-                    <MenuList
-                      onChange={(value: string) => onAction('flip', value)}
-                    >
-                      {flipNumbers.map((item, index) => (
-                        <Option key={index} value={item.flipNumber}>
-                          <MenuItemText>
-                            <div className="text-neutral-b1">{item.label}</div>
-                            <div className="text-neutral-b2">
-                              <FormattedPhoneNumber
-                                phoneNumber={item.phoneNumber}
-                              />
-                            </div>
-                          </MenuItemText>
-                        </Option>
-                      ))}
-                    </MenuList>
-                  ) : actionType === 'audio' ? (
-                    AudioCard
-                  ) : undefined
-                }
-                data-sign={actionType}
-                {...rest}
-                value=""
-              />
-            );
-          },
-        )}
-        {process.env.NODE_ENV === 'test' && (
-          <span data-sign="actionTypes">
-            {renderActions.map((b) => b.actionType).join(',')}
-          </span>
-        )}
-      </div>
+      <CallControlActionButtons
+        actionButtons={renderActions}
+        getButtonProps={(actionType) => ({
+          menuPlacement: actionType === 'audio' ? 'right' : undefined,
+          menuList:
+            actionType === 'flip' ? (
+              <MenuList onChange={(value: string) => onAction('flip', value)}>
+                {flipNumbers.map((item, index) => (
+                  <Option key={index} value={item.flipNumber}>
+                    <MenuItemText>
+                      <div className="text-neutral-b1">{item.label}</div>
+                      <div className="text-neutral-b2">
+                        <FormattedPhoneNumber phoneNumber={item.phoneNumber} />
+                      </div>
+                    </MenuItemText>
+                  </Option>
+                ))}
+              </MenuList>
+            ) : actionType === 'audio' ? (
+              AudioCard
+            ) : undefined,
+        })}
+      />
     ),
     [flipNumbers, onAction, renderActions, AudioCard],
   );

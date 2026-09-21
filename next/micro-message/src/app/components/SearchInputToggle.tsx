@@ -51,7 +51,7 @@ export const SearchInputToggle: React.FC<SearchInputToggleProps> = ({
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   // If always expanded, ignore expansion logic
-  const expanded = alwaysExpanded ? true : controlledExpanded ?? false;
+  const expanded = alwaysExpanded ? true : (controlledExpanded ?? false);
 
   const handleSearchButtonClick = () => {
     if (!alwaysExpanded) {

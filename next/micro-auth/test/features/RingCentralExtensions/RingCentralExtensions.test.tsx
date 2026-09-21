@@ -74,6 +74,7 @@ const disposeFunctions: (() => void)[] = [];
 const fireSleepDetected = jest.fn();
 const fireBeforeLogoutHandler = jest.fn();
 const fireAfterLoggedInHandler = jest.fn();
+const recoveredEmissions: void[] = [];
 
 const initApp = () =>
   testBed({
@@ -146,6 +147,9 @@ class RingCentralExtensionsTest extends Step {
           action={async () => {
             const app = initApp();
             ringCentralExtensions = app.container.got(RingCentralExtensions)!;
+            ringCentralExtensions.webSocketRecovered$.subscribe((value) => {
+              recoveredEmissions.push(value);
+            });
             jest.spyOn(ringCentralExtensions, 'onInitSuccess');
             await waitFor(() =>
               expect(ringCentralExtensions.onInitSuccess).toHaveBeenCalledTimes(
@@ -252,6 +256,30 @@ class RingCentralExtensionsTest extends Step {
           action={() =>
             expect(ringCentralExtensions.webSocketReadyState).toBe(null)
           }
+        />
+        <When
+          desc="WS reconnects through the normal sequence: closed -> connecting -> open -> ready"
+          action={() => {
+            recoveredEmissions.length = 0;
+            mockWebSocketExtensionEventEmitter.emit(Events.connectionReady);
+            mockWebSocketExtensionWs.readyState = WebSocket.CLOSED;
+            mockWebSocketExtensionWs.emit('close');
+            mockWebSocketExtensionWs.readyState = WebSocket.CONNECTING;
+            mockWebSocketExtensionWs.emit('open');
+            mockWebSocketExtensionWs.readyState = WebSocket.OPEN;
+            mockWebSocketExtensionWs.emit('open');
+            mockWebSocketExtensionEventEmitter.emit(Events.connectionReady);
+            mockWebSocketExtensionWs.emit('open');
+          }}
+        />
+        <Then
+          desc="webSocketRecovered$ emits once the connection is ready again"
+          action={async () => {
+            await waitFor(() => expect(recoveredEmissions.length).toBe(1));
+            expect(ringCentralExtensions.webSocketReadyState).toBe(
+              webSocketReadyStates.ready,
+            );
+          }}
         />
         <Then
           desc="Teardown"

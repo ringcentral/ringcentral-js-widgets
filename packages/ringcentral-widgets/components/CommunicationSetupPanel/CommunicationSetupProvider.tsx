@@ -4,7 +4,9 @@ import React, { useRef } from 'react';
 import type { CommunicationSetupContextValue } from '../../contexts';
 import { CommunicationSetupContext } from '../../contexts';
 
-type ContextProps = {};
+type ContextProps = {
+  children?: React.ReactNode;
+};
 
 const CommunicationSetupProvider: FunctionComponent<ContextProps> = ({
   children,

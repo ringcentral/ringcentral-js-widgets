@@ -1,6 +1,6 @@
 {
   "name": "@ringcentral-integration/next-micro",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Micro-frontend utilities for RingCentral Integration next-generation architecture.",
   "homepage": "https://github.com/ringcentral/ringcentral-js-widgets/tree/master/next/next-micro#readme",
   "bugs": {
@@ -21,19 +21,19 @@
     "test": "yarn run-test"
   },
   "dependencies": {
-    "@ringcentral/mfe-react": "^0.4.18"
+    "@ringcentral/mfe-react": "^0.5.0"
   },
   "devDependencies": {
     "@ringcentral-integration/babel-settings": "*",
-    "@ringcentral-integration/test-utils": "*",
     "fs-extra": "^10.1.0",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
-    "gulp-sourcemaps": "^2.6.5"
+    "gulp-sourcemaps": "^2.6.5",
+    "@ringcentral-integration/test-utils": "*"
   },
   "peerDependencies": {
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react": "^17.0.2 || ^18.0.0",
+    "react-dom": "^17.0.2 || ^18.0.0"
   },
   "common": true,
   "nx": {

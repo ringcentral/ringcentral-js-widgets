@@ -6,12 +6,12 @@ import type {
 } from '@ringcentral-integration/commons/interfaces/Webphone.interface';
 import camelCase from 'lodash/camelCase';
 
+import { recordStatus } from './recordStatus';
+import { sessionStatus } from './sessionStatus';
 import type {
   IncomingRequest,
   WebphoneSessionRequestHeaders,
 } from './Webphone.interface';
-import { recordStatus } from './recordStatus';
-import { sessionStatus } from './sessionStatus';
 
 let environment: Window & typeof globalThis;
 if (typeof window !== 'undefined') {
@@ -86,10 +86,13 @@ export function readPartyDataFromHeaders(
     const data = rawValue
       .split(';')
       .map((sub) => sub.split('='))
-      .reduce((acc, [key, value]) => {
-        acc[camelCase(key)] = value;
-        return acc;
-      }, {} as { [key: string]: string });
+      .reduce(
+        (acc, [key, value]) => {
+          acc[camelCase(key)] = value;
+          return acc;
+        },
+        {} as { [key: string]: string },
+      );
 
     if (Object.keys(data).length) {
       return data as unknown as PartyData;

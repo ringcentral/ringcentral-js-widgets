@@ -38,9 +38,13 @@ import {
 import { sleep } from '@ringcentral-integration/utils';
 import { delay, EMPTY, filter, switchMap, tap } from 'rxjs';
 
+import { CallMonitor } from '../CallMonitor';
+
 import type {
   CallLogData,
   CallLogOptions,
+  CallLogRecord,
+  CallLogRecords,
   CallLogSyncData,
   SyncSuccessOptions,
 } from './CallLog.interface';
@@ -63,6 +67,8 @@ const SYNC_DELAY = 30 * 1000;
 // to not use $ at the end, presence with sipData has extra query parameters
 const presenceRegExp = /\/presence\?detailedTelephonyState=true/;
 
+type SideLoadedCallLogData = Pick<CallLogData, 'list' | 'map'>;
+
 @injectable({
   name: 'CallLog',
 })
@@ -81,6 +87,7 @@ export class CallLog extends RcModule {
     protected _client: Client,
     protected _extensionPhoneNumber: ExtensionPhoneNumber,
     protected _extensionInfo: ExtensionInfo,
+    protected _callMonitor: CallMonitor,
     @inject('Subscription') protected _subscription: Subscription,
     protected _appFeatures: AppFeatures,
     @optional() protected _storage?: StoragePlugin,
@@ -106,6 +113,12 @@ export class CallLog extends RcModule {
     timestamp: null,
   };
 
+  @state
+  protected _sideLoadedData: SideLoadedCallLogData = {
+    list: [],
+    map: {},
+  };
+
   @action
   resetData() {
     this.data = {
@@ -114,6 +127,37 @@ export class CallLog extends RcModule {
       token: null,
       timestamp: null,
     };
+  }
+
+  @action
+  clearSideLoadedCalls() {
+    this._sideLoadedData = {
+      list: [],
+      map: {},
+    };
+  }
+
+  @action
+  replaceSideLoadedCalls(records: CallLogRecords = []) {
+    if (!this._enableSideLoadedCalls) {
+      this.clearSideLoadedCalls();
+      return;
+    }
+
+    const nextData: SideLoadedCallLogData = {
+      list: [],
+      map: {},
+    };
+
+    processRecords(records).forEach((call) => {
+      if (!call.id || this._hasWrongRecentCallDirection(call)) {
+        return;
+      }
+      nextData.list.push(call.id);
+      nextData.map[call.id] = call;
+    });
+
+    this._sideLoadedData = nextData;
   }
 
   @action
@@ -154,7 +198,10 @@ export class CallLog extends RcModule {
     // filter old calls
     this.data.list.forEach((id) => {
       const call = this.data.map[id];
-      if (call.startTime > cutOffTime) {
+      if (
+        call.startTime > cutOffTime &&
+        !this._hasWrongRecentCallDirection(call)
+      ) {
         newState.push(id);
       } else {
         delete this.data.map[id];
@@ -162,6 +209,15 @@ export class CallLog extends RcModule {
     });
 
     processRecords(records, supplementRecords).forEach((call) => {
+      if (this._hasWrongRecentCallDirection(call)) {
+        const index = newState.indexOf(call.id!);
+        if (index > -1) {
+          newState.splice(index, 1);
+        }
+        delete this.data.map[call.id!];
+        return;
+      }
+
       const checkState =
         (this._limitDaySpan && call.startTime > cutOffTime) ||
         !this._limitDaySpan;
@@ -233,6 +289,10 @@ export class CallLog extends RcModule {
     return this._callLogOptions?.enableDeleted ?? false;
   }
 
+  protected get _enableSideLoadedCalls() {
+    return this._callLogOptions?.enableSideLoadedCalls ?? false;
+  }
+
   override _shouldInit() {
     return !!(super._shouldInit() && this._auth.loggedIn);
   }
@@ -269,6 +329,7 @@ export class CallLog extends RcModule {
     this._clearTimeout();
     this._promise = null;
     this.resetData();
+    this.clearSideLoadedCalls();
   }
 
   override onInitOnce() {
@@ -320,6 +381,60 @@ export class CallLog extends RcModule {
     }
   }
 
+  protected _isCallVisibleInCallLogList(
+    call: CallLogRecord,
+    cutoffTime: number | null,
+  ): boolean {
+    if (cutoffTime !== null && call.startTime <= cutoffTime) {
+      return false;
+    }
+    if (this._hasWrongRecentCallDirection(call)) {
+      return false;
+    }
+    // * in new version of app, only when the call have telephonySessionId will be show in our app
+    if (process.env.THEME_SYSTEM === 'spring-ui' && !call.telephonySessionId) {
+      return false;
+    }
+    if (
+      // [RCINT-3472] calls with result === 'stopped' seems to be useless
+      call.result === callResults.stopped ||
+      // [RCINT-51111] calls with result === 'busy'
+      call.result === callResults.busy ||
+      // [RCINT-6839] Call processing result is undefined
+      call.result === callResults.unknown ||
+      // Outgoing fax sending has failed
+      // TODO: Types of Legacy, remove for checking type?
+      // @ts-ignore
+      call.result === callResults.faxSendError ||
+      // Incoming fax has failed to be received
+      call.result === callResults.faxReceiptError ||
+      // Outgoing fax has failed because of no answer
+      call.result === callResults.callFailed ||
+      // Error Internal error occurred when receiving fax
+      // TODO: Types of Legacy, remove for checking type?
+      // @ts-ignore
+      call.result === callResults.faxReceipt
+    ) {
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * some how the call direction in call log is different from the call direction in call monitor, that is a wrong data from platform, we need remove that.
+   */
+  protected _hasWrongRecentCallDirection(
+    call: Pick<CallLogRecord, 'sessionId' | 'direction'>,
+  ) {
+    const recentDirection = this._callMonitor.getRecentCallDirection(
+      call.sessionId,
+    );
+
+    return Boolean(
+      recentDirection && call.direction && recentDirection !== call.direction,
+    );
+  }
+
   @computed
   get calls() {
     /**
@@ -329,40 +444,38 @@ export class CallLog extends RcModule {
       return [];
     }
 
+    let callIds: typeof this.data.list;
+    if (!this._enableSideLoadedCalls) {
+      callIds = this.data.list;
+    } else {
+      const sideLoadedIds = this._sideLoadedData.list.filter(
+        (id) => !this.data.map[id],
+      );
+      callIds =
+        sideLoadedIds.length > 0
+          ? [...this.data.list, ...sideLoadedIds]
+          : this.data.list;
+    }
+    const cutoffTime =
+      this._limitDaySpan && this._daySpan
+        ? getDateFrom(this._daySpan).getTime()
+        : null;
+
     // TODO: make sure removeDuplicateIntermediateCalls is necessary here
     const calls = removeInboundRingOutLegs(
       removeDuplicateIntermediateCalls(
         // https://developers.ringcentral.com/api-reference/Call-Log/readUserCallLog
         //@ts-ignore
-        this.data.list.reduce((acc, id) => {
-          const call = this.data.map[id];
+        callIds.reduce((acc, id) => {
+          const call =
+            this.data.map[id] ||
+            (this._enableSideLoadedCalls ? this._sideLoadedData.map[id] : null);
 
-          const valid =
-            // * in new version of app, only when the call have telephonySessionId will be show in our app
-            (process.env.THEME_SYSTEM === 'spring-ui'
-              ? call.telephonySessionId
-              : true) &&
-            // [RCINT-3472] calls with result === 'stopped' seems to be useless
-            call?.result !== callResults.stopped &&
-            // [RCINT-51111] calls with result === 'busy'
-            call?.result !== callResults.busy &&
-            // [RCINT-6839]
-            // Call processing result is undefined
-            call?.result !== callResults.unknown &&
-            // Outgoing fax sending has failed
-            // TODO: Types of Legacy, remove for checking type?
-            // @ts-ignore
-            call?.result !== callResults.faxSendError &&
-            // Incoming fax has failed to be received
-            call?.result !== callResults.faxReceiptError &&
-            // Outgoing fax has failed because of no answer
-            call?.result !== callResults.callFailed &&
-            // Error Internal error occurred when receiving fax
-            // TODO: Types of Legacy, remove for checking type?
-            // @ts-ignore
-            call?.result !== callResults.faxReceipt;
+          if (!call) {
+            return acc;
+          }
 
-          if (valid) {
+          if (this._isCallVisibleInCallLogList(call, cutoffTime)) {
             acc.push(call as ActiveCall);
           }
           return acc;

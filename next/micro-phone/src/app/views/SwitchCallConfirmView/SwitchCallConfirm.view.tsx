@@ -22,8 +22,8 @@ import React from 'react';
 
 import { ActiveCallControl, ActiveSession, Webphone } from '../../services';
 
-import type { SwitchCallConfirmationProps } from './SwitchCallConfirm.view.interface';
 import { t } from './i18n';
+import type { SwitchCallConfirmationProps } from './SwitchCallConfirm.view.interface';
 
 const modalClasses = {
   paper: 'switch-dialog-paper',

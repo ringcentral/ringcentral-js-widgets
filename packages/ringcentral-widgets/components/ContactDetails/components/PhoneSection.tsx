@@ -5,7 +5,7 @@ import {
   sortByPhoneTypes,
 } from '@ringcentral-integration/commons/lib/phoneTypeHelper';
 import clsx from 'clsx';
-import { keys, map, reduce } from 'ramda';
+import { keys, reduce } from 'ramda';
 import type { FunctionComponent } from 'react';
 import React from 'react';
 
@@ -25,6 +25,7 @@ import styles from '../styles.scss';
  */
 
 interface PhoneListProps {
+  children?: React.ReactNode;
   label: string;
 }
 
@@ -172,13 +173,12 @@ export const PhoneSection: FunctionComponent<PhoneSectionProps> = ({
         className={clsx(styles.section, styles.contacts)}
         aria-label="phone"
       >
-        {map(
-          (phoneType) => (
+        {keys(phoneMap).map((phoneType) => (
             <PhoneList
               key={phoneType}
               label={i18n.getString(phoneType, currentLocale)}
             >
-              {map(
+              {(phoneMap as Record<string, any[]>)[phoneType].map(
                 ({ phoneNumber, rawPhoneNumber }) => (
                   <PhoneListItem
                     key={phoneNumber}
@@ -197,12 +197,9 @@ export const PhoneSection: FunctionComponent<PhoneSectionProps> = ({
                     onClickToSMS={onClickToSMS}
                   />
                 ),
-                phoneMap[phoneType],
               )}
             </PhoneList>
-          ),
-          keys(phoneMap),
-        )}
+          ))}
       </section>
     );
   }

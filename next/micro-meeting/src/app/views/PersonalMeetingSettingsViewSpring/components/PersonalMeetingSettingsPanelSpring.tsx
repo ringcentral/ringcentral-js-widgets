@@ -166,6 +166,7 @@ export const PersonalMeetingSettingsPanelSpring: React.FC<
             <GeneralMeetingSettings
               {...generalMeetingSettingsProps}
               {...generalMeetingSettingsFunctions}
+              isCompact={true}
             />
           </>
         )}

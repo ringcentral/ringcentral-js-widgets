@@ -13,7 +13,6 @@ import {
 import {
   autorun,
   common,
-  type Context,
   Given,
   it,
   p3,
@@ -29,7 +28,6 @@ import {
 import { CheckAlertMessage, CheckNoAnyAlerts } from '../../../../steps/Alert';
 import { CommonLogin } from '../../../../steps/CommonLogin';
 import { CreateInstance } from '../../../../steps/CreateInstance';
-import { Logout } from '../../../../steps/Logout';
 import {
   CreateMock as CommonCreateMock,
   MockPermission,
@@ -38,6 +36,7 @@ import {
   NavigateToCallingSetting,
   NavigateToDialer,
 } from '../../../../steps/Navigate';
+import { Relogin } from '../../../../steps/Relogin';
 import { ExpandCallingSettingDropdown } from '../../../../steps/Settings';
 
 @autorun(test)
@@ -49,12 +48,9 @@ export class RCI761 extends Step {
   Login: StepFunction<any, any> = (props) => (
     <CommonLogin {...props} CreateInstance={CreateInstance} />
   );
-  Relogin: StepFunction<any, any> = (props) => (
-    <CommonLogin shouldMockWebphone={false} CreateInstance={() => {}} />
-  );
   CreateMock: StepFunction<any, any> = () => <CommonCreateMock />;
   run() {
-    const { Login, CreateMock, Relogin } = this;
+    const { Login, CreateMock } = this;
     return (
       <Scenario desc="Calling settings (WebPhone permission is removed)">
         <Given
@@ -128,15 +124,25 @@ export class RCI761 extends Step {
         <When
           desc="Logout and login again"
           action={[
-            <Logout />,
-            async (props: any, context: Context) => {
-              context.rcMock.reset();
-            },
-            CreateMock,
-            (_, { rcMock }) => {
-              rcMock.init();
-            },
-            Relogin,
+            ((_, { rcMock }) => {
+              rcMock.postAuthRevoke();
+              rcMock.getFeatures();
+              rcMock.getAccount();
+              rcMock.getAddressBookSync();
+              rcMock.getPhoneNumber();
+              rcMock.getExtension();
+              rcMock.getDialingPlan();
+              rcMock.getExtensionList();
+              rcMock.postNumberParserV2();
+              rcMock.getContacts();
+              rcMock.getCallLog();
+              rcMock.getCallLogSync();
+              rcMock.getForwardingNumber();
+              rcMock.postSipProvision();
+              rcMock.putMessageStore();
+              rcMock.getMessageSync({ repeat: 10 });
+            }) as StepFunction,
+            <Relogin shouldMockWebphone={false} />,
           ]}
         />
         <Then

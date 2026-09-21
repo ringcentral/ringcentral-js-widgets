@@ -1,3 +1,4 @@
+import { skipWebSocketClosedError } from '@ringcentral-integration/app-demo-test/test/lib/skipWebSocketClosedError';
 import { NavigateTo } from '@ringcentral-integration/app-demo-test/test/steps/Router';
 import { PartyStatusCode } from '@ringcentral-integration/commons/integration-test/mock/telephonySessionBuilder';
 import { ActiveCallControl } from '@ringcentral-integration/micro-phone/src/app/services';
@@ -22,6 +23,8 @@ import { CheckSectionByDataSign } from '../../../../steps/Call/checks/CheckSecti
 import { CheckTextContent } from '../../../../steps/Common';
 import { ClickItemByDataSign } from '../../../../steps/Common/actions/ClickItemByDataSign';
 import { Logout } from '../../../../steps/Logout';
+
+skipWebSocketClosedError();
 
 @autorun(test.skip)
 @it

@@ -1,7 +1,7 @@
 /* eslint-disable */
 export default {
   from: 'De',
-  to: 'Até',
+  to: 'Para',
   enterNameOrNumber: 'Introduzir número ou nome...',
   typeMessage: 'Escrever mensagem...',
   send: 'Enviar',

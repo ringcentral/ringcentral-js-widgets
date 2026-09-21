@@ -10,7 +10,7 @@ interface CheckConnectionBrokenProps {
   badge?: boolean;
   badgeText?: string;
   alertMessage?: string;
-  checkConnectionSpy?: jest.SpyInstance;
+  checkConnectionSpy?: jest.Spied;
   advanceTimersTime?: number;
 }
 

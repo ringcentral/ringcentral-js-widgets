@@ -74,14 +74,14 @@ export const FaxSendPanel: FC<FaxSendPanelProps> = ({
   return (
     <>
       <AppHeaderNav override>
-        <PageHeader onBackClick={onCancel!}>
+        <PageHeader onBackClick={onCancel!} className="h-9 py-0">
           <span className="sui-text sui-text-root truncate" title={title}>
             {title}
           </span>
         </PageHeader>
       </AppHeaderNav>
       <SpinnerOverlay loading={!!showSpinner}>
-        <div className="flex flex-col w-full h-full px-4 gap-4 overflow-auto">
+        <div className="flex flex-col w-full h-full px-4 gap-4 overflow-auto mb-2">
           <FromField
             fromNumber={senderNumber}
             fromPlaceholder={t('from')}
@@ -138,12 +138,12 @@ export const FaxSendPanel: FC<FaxSendPanelProps> = ({
                 }}
               />
             ) : null}
-            <div className={clsx('flex items-center gap-2')}>
+            <div className="flex items-center gap-2">
               <AttachButton
                 multiple
                 type="button"
-                size="medium"
-                startIcon={<Icon symbol={LinkMd} />}
+                size="xsmall"
+                startIcon={<Icon symbol={LinkMd} size="xsmall" />}
                 acceptTypes={acceptFileTypes}
                 label={t('attach')}
                 title={t('attachFiles')}
@@ -204,24 +204,23 @@ export const FaxSendPanel: FC<FaxSendPanelProps> = ({
             )}
           </div>
         </div>
-        <div>
-          <Divider />
-          <div className="px-4 py-2 flex justify-between items-center">
-            <Button variant="text" size="large" onClick={onCancel}>
-              {t('cancel')}
-            </Button>
-            <Button
-              variant="contained"
-              size="large"
-              disabled={!canSendNow}
-              onClick={onSendNow}
-            >
-              {t('sendNow')}
-            </Button>
-          </div>
-        </div>
       </SpinnerOverlay>
-      <AppFooterNav />
+      <AppFooterNav>
+        <Divider />
+        <div className="px-4 py-2 flex justify-between items-center">
+          <Button variant="text" size="large" onClick={onCancel}>
+            {t('cancel')}
+          </Button>
+          <Button
+            variant="contained"
+            size="large"
+            disabled={!canSendNow}
+            onClick={onSendNow}
+          >
+            {t('sendNow')}
+          </Button>
+        </div>
+      </AppFooterNav>
     </>
   );
 };

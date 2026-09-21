@@ -12,7 +12,7 @@ export interface SearchResultProps {
   renderListItem?(params: {
     option: object;
     index: number;
-  }): React.ReactNode | void;
+  }): React.ReactNode;
   currentLocale: string;
   tipWhenNoOptions?: string;
   classes?: {
@@ -22,7 +22,7 @@ export interface SearchResultProps {
 }
 
 export const SearchResult: FunctionComponent<SearchResultProps> = ({
-  renderListItem = emptyFn,
+  renderListItem = () => null,
   classes = {},
   tipWhenNoOptions = '',
   options,

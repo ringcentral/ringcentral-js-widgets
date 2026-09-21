@@ -16,6 +16,7 @@ import {
   CallingSettings,
   OnCallActionType,
 } from '../../../../services';
+import { ConnectingView } from '../../../ConnectingView';
 import { DialerView } from '../../../DialerView';
 import { CallViewState } from '../../services';
 
@@ -50,6 +51,7 @@ export class AddCallView extends RcViewModule {
     private _call: Call,
     private _dialerView: DialerView,
     private _contactSearchView: ContactSearchView,
+    private _connectingView: ConnectingView,
     @optional() private _audioSettings?: AudioSettings,
     @optional('AddCallViewOptions')
     private _addCallViewOptions?: AddCallViewOptions,
@@ -64,7 +66,9 @@ export class AddCallView extends RcViewModule {
       callVolume: this._audioSettings?.callVolume ?? 1,
       outputDeviceId: this._audioSettings?.outputDeviceId ?? '',
       actionButtonDisabled:
-        this._callAction.callActionsDisabled || !this._call.isIdle,
+        this._connectingView.isConnecting ||
+        this._callAction.callActionsDisabled ||
+        !this._call.isIdle,
       isWebphoneMode: this._callingSettings.isWebphoneMode,
       showAnonymous: this._dialerView.isShowAnonymous,
       disableFromField: this._dialerView.disableFromField,
@@ -78,7 +82,9 @@ export class AddCallView extends RcViewModule {
     const makeCallSuccess = await this._dialerView.onCallButtonClick({
       clickDialerToCall: true,
     });
-    if (makeCallSuccess) this._callViewState._setView('activeCall');
+    if (makeCallSuccess && !this._connectingView.isConnecting) {
+      this._callViewState._setView('activeCall');
+    }
   }
 
   getUIFunctions(): UIFunctions<AddCallViewPanelProps> {
@@ -128,11 +134,14 @@ export class AddCallView extends RcViewModule {
     const Component = this._addCallViewOptions?.component || AddCallPage;
 
     return (
-      <Component
-        {..._props}
-        {...uiFunctions}
-        ContactSearch={this._contactSearchView.component}
-      />
+      <>
+        <Component
+          {..._props}
+          {...uiFunctions}
+          ContactSearch={this._contactSearchView.component}
+        />
+        <this._connectingView.component />
+      </>
     );
   }
 }

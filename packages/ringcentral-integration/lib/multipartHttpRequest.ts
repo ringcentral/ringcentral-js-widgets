@@ -23,6 +23,12 @@ type MultipartHttpRequestOptions = {
    * when `batch` is `true`, the response will be a list of response
    */
   batch?: boolean;
+  /**
+   * when `checkAllFilesNameNotHaveASCII` is `true`, it will check all the files name in the `files` to determine whether to use `MultiPartUTF8FormData` to handle the request, which will add `filename*=` in the form data to avoid the `ASCII` encoding issue in multipart/form-data. and when it's false, it will not check and directly use platform API to send request with form data, which means if there are files with non-ASCII name, it may cause encoding issue in multipart/form-data. default is false.
+   *
+   * @default false
+   */
+  checkAllFilesNameNotHaveASCII?: boolean;
 } & MultiPartUTF8FormDataOptions;
 
 /**
@@ -85,6 +91,7 @@ export function multipartHttpRequest(platform: Platform) {
       query,
       headers = {},
       batch,
+      checkAllFilesNameNotHaveASCII: isCheckAllFilesNameNotHaveASCII,
       ...rest
     }: MultipartHttpRequestOptions,
   ) => {
@@ -107,7 +114,9 @@ export function multipartHttpRequest(platform: Platform) {
         break;
       default:
         {
-          const hasNonASCII = checkAllFilesNameNotHaveASCII(files);
+          const hasNonASCII = isCheckAllFilesNameNotHaveASCII
+            ? checkAllFilesNameNotHaveASCII(files)
+            : false;
 
           if (hasNonASCII) {
             const uTF8FormData =

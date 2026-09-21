@@ -8,6 +8,8 @@ export default {
   optOutMultipleRecipients:
     'Algunos destinatarios han cancelado la suscripción.',
   optOutRemove: 'Eliminar',
+  incomingTextsOnly: 'Solo mensajes de texto entrantes',
+  notSetUpForTexting: 'No configurado para enviar mensajes de texto',
 } as const;
 
 // @key: @#@"createNewText"@#@ @source: @#@"Create new text"@#@
@@ -16,3 +18,5 @@ export default {
 // @key: @#@"optOutSingleRecipient"@#@ @source: @#@"This recipient has opted out."@#@
 // @key: @#@"optOutMultipleRecipients"@#@ @source: @#@"Some recipients have opted out."@#@
 // @key: @#@"optOutRemove"@#@ @source: @#@"Remove"@#@
+// @key: @#@"incomingTextsOnly"@#@ @source: @#@"Incoming texts only"@#@
+// @key: @#@"notSetUpForTexting"@#@ @source: @#@"Not set up for texting"@#@

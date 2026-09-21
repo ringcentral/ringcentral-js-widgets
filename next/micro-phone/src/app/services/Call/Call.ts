@@ -28,7 +28,6 @@ import {
   takeUntilAppDestroy,
 } from '@ringcentral-integration/next-core';
 import extractControls from '@ringcentral-integration/phone-number/lib/extractControls';
-import { maskPhoneNumber } from '@ringcentral-integration/utils';
 import { merge, tap } from 'rxjs';
 
 import { ActiveCallControl } from '../ActiveCallControl';
@@ -191,6 +190,16 @@ export class Call<K extends Recipient = Recipient> extends RcModule {
     }
   }
 
+  @delegate('server')
+  async connectOnServer(options: ConnectOptions<K>) {
+    if (!this.isIdle) {
+      return false;
+    }
+
+    this.connect(options);
+    return true;
+  }
+
   @track((_: Call, callSettingMode) => [
     callSettingMode === callingModes.webphone
       ? trackEvents.outboundWebRTCCallConnected
@@ -202,9 +211,24 @@ export class Call<K extends Recipient = Recipient> extends RcModule {
     this.callStatus = callStatus.idle;
   }
 
+  @delegate('server')
+  async connectSuccessOnServer(callSettingMode: string) {
+    this.connectSuccess(callSettingMode);
+  }
+
   @action
   connectError() {
     this.callStatus = callStatus.idle;
+  }
+
+  @delegate('server')
+  async connectErrorOnServer() {
+    this.connectError();
+  }
+
+  @delegate('server')
+  async setLastValidatedToNumberOnServer(phoneNumber: string) {
+    this.setLastValidatedToNumber(phoneNumber);
   }
 
   override onReset() {
@@ -218,7 +242,6 @@ export class Call<K extends Recipient = Recipient> extends RcModule {
     }
   }
 
-  @delegate('server')
   async call({
     phoneNumber: input,
     recipient,
@@ -228,121 +251,127 @@ export class Call<K extends Recipient = Recipient> extends RcModule {
     isValidNumber,
   }: MakeCallParams<K>) {
     let session = null;
-    if (this.isIdle) {
-      const { phoneNumber, extendedControls } = extractControls(input);
-      const toNumber =
-        (recipient && (recipient.phoneNumber || recipient.extension)) ||
-        phoneNumber;
-      if (isBlank(toNumber)) {
-        this._toast.warning({
-          message: t('noToNumber'),
-        });
-      } else {
-        this.connect({
-          isConference,
-          phoneNumber,
-          recipient,
-          contactResourceType: recipient?.type || null,
-          callSettingMode: this._callingSettings.callingMode!,
-          isValidNumber,
-          clickDialerToCall,
-        });
-        try {
-          let validatedNumbers;
-          if (fromNumber === 'undefined') {
-            fromNumber = null;
-          }
-          if (
-            this._callingSettings.callingMode === callingModes.ringout &&
-            this._callingSettings.myLocation === toNumber
-          ) {
-            this._toast.danger({
-              message: t('fromAndToNumberIsSame'),
-              ttl: 0,
-            });
-            this.connectError();
-            return null;
-          }
-          if (this._appFeatures?.isEDPEnabled) {
-            validatedNumbers = await this._getValidatedNumbers({
-              toNumber,
-              fromNumber: fromNumber!,
-              isConference,
-            });
-          } else {
-            validatedNumbers = this._getNumbers({
-              toNumber,
-              fromNumber,
-              isConference,
-            });
-          }
-          if (validatedNumbers) {
-            validatedNumbers.toNumber &&
-              this.setLastValidatedToNumber(validatedNumbers.toNumber);
+    const { phoneNumber, extendedControls } = extractControls(input);
+    const toNumber =
+      (recipient && (recipient.phoneNumber || recipient.extension)) ||
+      phoneNumber;
+    if (isBlank(toNumber)) {
+      this._toast.warning({
+        message: t('noToNumber'),
+      });
+    } else {
+      const isConnected = await this.connectOnServer({
+        isConference,
+        phoneNumber,
+        recipient,
+        contactResourceType: recipient?.type || null,
+        callSettingMode: this._callingSettings.callingMode!,
+        isValidNumber,
+        clickDialerToCall,
+      });
 
-            session = await this._makeCall({
-              ...validatedNumbers,
-              extendedControls,
-              toNumber: validatedNumbers.toNumber!,
-              fromNumber: validatedNumbers.fromNumber!,
-            });
-            this.connectSuccess(this._callingSettings.callingMode!);
-          } else {
-            this.connectError();
-          }
-        } catch (error: any) {
-          const { feature } = (await error?.response?.clone().json()) || {};
-          const statusCode = error?.response?.status;
-          const errorType = error?.type;
+      if (!isConnected) {
+        return null;
+      }
 
-          if (
-            errorType &&
-            !error.message &&
-            // when error is in i18n map or be a noAreaCode error
-            (t(errorType) !== errorType || errorType === 'noAreaCode')
-          ) {
-            // validate format error
-            if (errorType === 'noAreaCode') {
-              this._numberValidate.openNoAreaCodeToast();
-            } else {
-              this._toast.warning({
-                message: t(errorType, { brand: this._brand.name }),
-                allowDuplicates: false,
-              });
-            }
-          } else if (error.message === ringoutErrors.firstLegConnectFailed) {
-            this._toast.warning({
-              message: t('connectFailed'),
-            });
-          } else if (error.message === 'Failed to fetch') {
-            this._toast.danger({
-              message: t('networkError'),
-            });
-          } else if (
-            feature &&
-            feature.includes('InternationalCalls') &&
-            statusCode === 403
-          ) {
-            // ringout call may not have international permission, then first leg can't be create
-            // directly, customer will not be able to hear the voice prompt, so show a warning
-            this._toast.danger({
-              message: t('noInternational', {
-                brand: this._brand.name,
-              }),
-            });
-          } else if (error.message !== 'Refresh token has expired') {
-            if (
-              !this._availabilityMonitor ||
-              !this._availabilityMonitor.checkIfHAError(error)
-            ) {
-              this._toast.danger({
-                message: t('internalError'),
-              });
-            }
-          }
-          this.connectError();
-          throw error;
+      try {
+        let validatedNumbers;
+        if (fromNumber === 'undefined') {
+          fromNumber = null;
         }
+        if (
+          this._callingSettings.callingMode === callingModes.ringout &&
+          this._callingSettings.myLocation === toNumber
+        ) {
+          this._toast.danger({
+            message: t('fromAndToNumberIsSame'),
+            ttl: 0,
+          });
+          await this.connectErrorOnServer();
+          return null;
+        }
+        if (this._appFeatures?.isEDPEnabled) {
+          validatedNumbers = await this._getValidatedNumbers({
+            toNumber,
+            fromNumber: fromNumber!,
+            isConference,
+          });
+        } else {
+          validatedNumbers = this._getNumbers({
+            toNumber,
+            fromNumber,
+            isConference,
+          });
+        }
+        if (validatedNumbers) {
+          if (validatedNumbers.toNumber) {
+            await this.setLastValidatedToNumberOnServer(
+              validatedNumbers.toNumber,
+            );
+          }
+
+          session = await this._makeCall({
+            ...validatedNumbers,
+            extendedControls,
+            toNumber: validatedNumbers.toNumber!,
+            fromNumber: validatedNumbers.fromNumber!,
+          });
+          await this.connectSuccessOnServer(this._callingSettings.callingMode!);
+        } else {
+          await this.connectErrorOnServer();
+        }
+      } catch (error: any) {
+        const { feature } = (await error?.response?.clone().json()) || {};
+        const statusCode = error?.response?.status;
+        const errorType = error?.type;
+
+        if (
+          errorType &&
+          !error.message &&
+          // when error is in i18n map or be a noAreaCode error
+          (t(errorType) !== errorType || errorType === 'noAreaCode')
+        ) {
+          // validate format error
+          if (errorType === 'noAreaCode') {
+            this._numberValidate.openNoAreaCodeToast();
+          } else {
+            this._toast.warning({
+              message: t(errorType, { brand: this._brand.name }),
+              allowDuplicates: false,
+            });
+          }
+        } else if (error.message === ringoutErrors.firstLegConnectFailed) {
+          this._toast.warning({
+            message: t('connectFailed'),
+          });
+        } else if (error.message === 'Failed to fetch') {
+          this._toast.danger({
+            message: t('networkError'),
+          });
+        } else if (
+          feature &&
+          feature.includes('InternationalCalls') &&
+          statusCode === 403
+        ) {
+          // ringout call may not have international permission, then first leg can't be create
+          // directly, customer will not be able to hear the voice prompt, so show a warning
+          this._toast.danger({
+            message: t('noInternational', {
+              brand: this._brand.name,
+            }),
+          });
+        } else if (error.message !== 'Refresh token has expired') {
+          if (
+            !this._availabilityMonitor ||
+            !this._availabilityMonitor.checkIfHAError(error)
+          ) {
+            this._toast.danger({
+              message: t('internalError'),
+            });
+          }
+        }
+        await this.connectErrorOnServer();
+        throw error;
       }
     }
     return session;
@@ -507,7 +536,6 @@ export class Call<K extends Recipient = Recipient> extends RcModule {
     };
   }
 
-  @delegate('server')
   async _makeCall({
     toNumber,
     fromNumber,
@@ -520,8 +548,8 @@ export class Call<K extends Recipient = Recipient> extends RcModule {
     extendedControls?: string[];
   }) {
     this.logger.log('make call', {
-      toNumber: maskPhoneNumber(toNumber),
-      fromNumber: maskPhoneNumber(fromNumber),
+      toNumber,
+      fromNumber,
       callingMode,
       extendedControls,
     });

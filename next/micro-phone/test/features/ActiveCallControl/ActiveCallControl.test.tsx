@@ -1,4 +1,4 @@
-import { CheckAlertMessage } from '@ringcentral-integration/app-demo-test/test/steps/Alert';
+import { SleepDetector } from '@ringcentral-integration/micro-core/src/app/services';
 import {
   autorun,
   Given,
@@ -22,7 +22,15 @@ class ActiveCallControlUT extends Step {
       <Scenario desc="UT for ActiveCallControl">
         <Given
           desc="App started with user logged in"
-          action={[<LoginWithMock />]}
+          action={[
+            <LoginWithMock />,
+            (async (_, { app }) => {
+              const activeCallControl = app.container.got(ActiveCallControl)!;
+
+              jest.spyOn(activeCallControl['_toast'], 'warning');
+              jest.spyOn(activeCallControl['_toast'], 'danger');
+            }) as StepFunction,
+          ]}
         />
         <Then
           desc="RingMessage utils work as expected"
@@ -61,9 +69,18 @@ class ActiveCallControlUT extends Step {
             (async (_, { app }) => {
               const activeCallControl = app.container.got(ActiveCallControl)!;
 
+              jest
+                .spyOn(
+                  activeCallControl,
+                  '_getCurrentDeviceCallsBySessionId' as never,
+                )
+                .mockImplementation(() => {
+                  throw new Error('general error');
+                });
+
               await activeCallControl.mute('example');
             }) as StepFunction,
-            <CheckAlertMessage message="Unexpected server error. Please try again later." />,
+            <CheckToastWarningMessage message="Unexpected server error. Please try again later." />,
             // normal process
             (async (_, { app }) => {
               const activeCallControl = app.container.got(ActiveCallControl)!;
@@ -118,7 +135,7 @@ class ActiveCallControlUT extends Step {
 
               await activeCallControl.mute('example');
             }) as StepFunction,
-            <CheckAlertMessage message="This call had been muted on other device. Please unmute the call before you control in this App." />,
+            <CheckToastWarningMessage message="This call had been muted on other device. Please unmute the call before you control in this App." />,
           ]}
         />
         <Then
@@ -128,9 +145,18 @@ class ActiveCallControlUT extends Step {
             (async (_, { app }) => {
               const activeCallControl = app.container.got(ActiveCallControl)!;
 
+              jest
+                .spyOn(
+                  activeCallControl,
+                  '_getCurrentDeviceCallsBySessionId' as never,
+                )
+                .mockImplementation(() => {
+                  throw new Error('general error');
+                });
+
               await activeCallControl.unmute('example');
             }) as StepFunction,
-            <CheckAlertMessage message="Unexpected server error. Please try again later." />,
+            <CheckToastWarningMessage message="Unexpected server error. Please try again later." />,
             // normal process
             (async (_, { app }) => {
               const activeCallControl = app.container.got(ActiveCallControl)!;
@@ -185,7 +211,7 @@ class ActiveCallControlUT extends Step {
 
               await activeCallControl.unmute('example');
             }) as StepFunction,
-            <CheckAlertMessage message="This call had been unmuted on other device. Please mute the call before you control in this App." />,
+            <CheckToastWarningMessage message="This call had been unmuted on other device. Please mute the call before you control in this App." />,
           ]}
         />
         <Then
@@ -227,7 +253,7 @@ class ActiveCallControlUT extends Step {
 
               await activeCallControl.startRecord('example');
             }) as StepFunction,
-            <CheckAlertMessage message="You cannot record the call at the moment. Error code: 500" />,
+            <CheckToastWarningMessage message="You cannot record the call at the moment. Error code: 500" />,
             // normal process
             (async (_, { app }) => {
               const activeCallControl = app.container.got(ActiveCallControl)!;
@@ -388,10 +414,9 @@ class ActiveCallControlUT extends Step {
 
                   throw customError;
                 });
-              activeCallControl.hangUp('example');
-              await Promise.resolve();
+              await activeCallControl.hangUp('example');
             }) as StepFunction,
-            <CheckAlertMessage message="Unexpected server error. Please try again later." />,
+            <CheckToastWarningMessage message="Unexpected server error. Please try again later." />,
           ]}
         />
         <Then
@@ -401,9 +426,18 @@ class ActiveCallControlUT extends Step {
             (async (_, { app }) => {
               const activeCallControl = app.container.got(ActiveCallControl)!;
 
+              jest
+                .spyOn(
+                  activeCallControl,
+                  '_getCurrentDeviceCallsBySessionId' as never,
+                )
+                .mockImplementation(() => {
+                  throw new Error('general error');
+                });
+
               await activeCallControl.hold('example');
             }) as StepFunction,
-            <CheckAlertMessage message="Unexpected server error. Please try again later." />,
+            <CheckToastWarningMessage message="Unexpected server error. Please try again later." />,
             // normal process
             (async (_, { app }) => {
               const activeCallControl = app.container.got(ActiveCallControl)!;
@@ -464,7 +498,7 @@ class ActiveCallControlUT extends Step {
 
               await activeCallControl.hold('example');
             }) as StepFunction,
-            <CheckAlertMessage message="This call had been unheld on other device. Please hold the call before you control in this App." />,
+            <CheckToastWarningMessage message="This call had been unheld on other device. Please hold the call before you control in this App." />,
           ]}
         />
         <Then
@@ -474,9 +508,15 @@ class ActiveCallControlUT extends Step {
             (async (_, { app }) => {
               const activeCallControl = app.container.got(ActiveCallControl)!;
 
+              jest
+                .spyOn(activeCallControl, 'getSession' as never)
+                .mockImplementation(() => {
+                  throw new Error('general error');
+                });
+
               await activeCallControl.switch('example');
             }) as StepFunction,
-            <CheckAlertMessage message="Unexpected server error. Please try again later." />,
+            <CheckToastWarningMessage message="Unexpected server error. Please try again later." />,
             // normal process
             (async (_, { app }) => {
               const activeCallControl = app.container.got(ActiveCallControl)!;
@@ -498,7 +538,65 @@ class ActiveCallControlUT extends Step {
             }) as StepFunction,
           ]}
         />
+        <Then
+          desc="fetchData is called again after sleep is detected"
+          action={[
+            (async (_, { app }) => {
+              const activeCallControl = app.container.got(ActiveCallControl)!;
+              const sleepDetector = app.container.got(SleepDetector)!;
+
+              const fetchDataSpy = jest
+                .spyOn(activeCallControl, 'fetchData')
+                .mockImplementation(async () => {});
+
+              sleepDetector['_detector']['_emitter'].emit(
+                sleepDetector.events.detected,
+                Date.now(),
+                Date.now(),
+                80 * 1000,
+              );
+              expect(fetchDataSpy).toHaveBeenCalledTimes(1);
+
+              fetchDataSpy.mockRestore();
+            }) as StepFunction,
+          ]}
+        />
+        <Then
+          desc="fetchData is called again after WebSocket recovery"
+          action={[
+            (async (_, { app }) => {
+              const activeCallControl = app.container.got(ActiveCallControl)!;
+              const subscription = app.container.got(
+                'Subscription' as never,
+              ) as any;
+
+              const fetchDataSpy = jest
+                .spyOn(activeCallControl, 'fetchData')
+                .mockImplementation(async () => {});
+
+              subscription._recovered$.next();
+              await Promise.resolve();
+              expect(fetchDataSpy).toHaveBeenCalledTimes(1);
+
+              fetchDataSpy.mockRestore();
+            }) as StepFunction,
+          ]}
+        />
       </Scenario>
     );
   }
 }
+
+const CheckToastWarningMessage: StepFunction<{ message: string }> = async (
+  { message },
+  { app },
+) => {
+  const activeCallControl = app.container.got(ActiveCallControl)!;
+  const warning = jest.mocked(activeCallControl['_toast'].warning);
+  const danger = jest.mocked(activeCallControl['_toast'].danger);
+  const calls = [...warning.mock.calls, ...danger.mock.calls];
+
+  expect(calls).toContainEqual([expect.objectContaining({ message })]);
+  warning.mockClear();
+  danger.mockClear();
+};

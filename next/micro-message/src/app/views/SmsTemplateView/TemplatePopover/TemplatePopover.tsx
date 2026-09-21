@@ -9,8 +9,8 @@ import React, { useMemo, useRef, useState } from 'react';
 import { usePromise } from 'react-use';
 
 import { AddTemplateForm } from './AddTemplateForm';
-import { TemplateItem } from './TemplateItem';
 import i18n from './i18n';
+import { TemplateItem } from './TemplateItem';
 import { useLeaveGuard } from './useLeaveGuard';
 
 export interface TemplatePopoverProps {

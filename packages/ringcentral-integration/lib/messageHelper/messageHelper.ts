@@ -289,6 +289,24 @@ export function getFaxAttachment(
   };
 }
 
+/**
+ * Build attachment URI with access token parameter for authenticated access
+ * @param contentUri - The base content URI of the attachment
+ * @param accessToken - The access token for authentication (optional)
+ * @returns The complete URI with access token if provided, otherwise the original URI
+ */
+export function buildAttachmentUri(
+  contentUri: string,
+  accessToken?: string,
+): string {
+  if (!accessToken) {
+    return contentUri;
+  }
+  return `${contentUri}?access_token=${decodeURIComponent(
+    accessToken,
+  )}&shouldCache=true`;
+}
+
 export function getMMSAttachments(
   message: Message,
   accessToken: string,
@@ -300,9 +318,7 @@ export function getMMSAttachments(
     (a) => a.type === 'MmsAttachment',
   );
   return attachments.map((attachment) => {
-    const uri = `${attachment.uri}?access_token=${decodeURIComponent(
-      accessToken,
-    )}&shouldCache=true`;
+    const uri = buildAttachmentUri(attachment.uri!, accessToken);
     return {
       ...attachment,
       uri,

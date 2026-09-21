@@ -20,6 +20,7 @@ import {
   state,
   action,
 } from '../..';
+import { waitForMockCallCount } from '../lib/waitForMockCallCount';
 
 @autorun(test)
 @title('RcModule should work with lifecycle state')
@@ -464,9 +465,7 @@ class BaseLifecycle extends Step {
             expect(getLifecycleStatus.mock.calls).toMatchSnapshot();
 
             // wait for async logic to finish(onInitOnce/onInit/onInitSuccess in counter and counterView)
-            await sleep(100);
-
-            expect(getLifecycleStatus).toHaveBeenCalledTimes(9);
+            await waitForMockCallCount(getLifecycleStatus, 9);
             expect(getLifecycleStatus.mock.calls).toMatchSnapshot();
 
             expect(app.instance.ready).toBeTruthy();
@@ -498,9 +497,7 @@ class BaseLifecycle extends Step {
             expect(getLifecycleStatus.mock.calls).toMatchSnapshot();
 
             // wait for async logic to finish in onReset in Foo
-            await sleep(100);
-
-            expect(getLifecycleStatus).toHaveBeenCalledTimes(12);
+            await waitForMockCallCount(getLifecycleStatus, 12);
             expect(getLifecycleStatus.mock.calls).toMatchSnapshot();
 
             expect(app.instance.ready).toBeFalsy();
@@ -532,9 +529,7 @@ class BaseLifecycle extends Step {
             expect(getLifecycleStatus.mock.calls).toMatchSnapshot();
 
             // wait for async logic to finish(onInit/onInitSuccess in counter and counterView)
-            await sleep(100);
-
-            expect(getLifecycleStatus).toHaveBeenCalledTimes(18);
+            await waitForMockCallCount(getLifecycleStatus, 18);
             expect(getLifecycleStatus.mock.calls).toMatchSnapshot();
 
             expect(app.instance.ready).toBeTruthy();

@@ -9,7 +9,7 @@
  * Entry point(/s):
  * > Click the 'Sign in ' button
  * > Enter the phone email address or phone number
- * >Press the 'Sign In' button
+ * >Press the 'Sign in' button
  */
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {

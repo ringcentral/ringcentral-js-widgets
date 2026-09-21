@@ -7,9 +7,10 @@ import {
   When,
   Then,
   Step,
+  waitForRenderReady,
 } from '@ringcentral-integration/test-utils';
 import { sleep } from '@ringcentral-integration/utils';
-import { createElement, JSXElementConstructor, ReactElement } from 'react';
+import { act, createElement, JSXElementConstructor, ReactElement } from 'react';
 
 import {
   injectable,
@@ -24,6 +25,7 @@ import {
   unmountComponentAtNode,
   subscribe,
 } from '../..';
+import { waitForMockCallCount } from '../lib/waitForMockCallCount';
 
 let componentRenderFn = jest.fn();
 let element: Element;
@@ -35,7 +37,9 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  unmountComponentAtNode(element);
+  act(() => {
+    unmountComponentAtNode(element);
+  });
   element.remove();
 });
 
@@ -104,11 +108,13 @@ class Base extends Step {
         />
         <When
           desc="Bootstrap app"
-          action={() => {
+          action={async () => {
             expect(componentRenderFn).toHaveBeenCalledTimes(0);
             expect(componentRenderFn).toMatchSnapshot();
             expect(app.instance.counterView.counter.count).toBe(0);
-            app.bootstrap(element);
+            await act(async () => {
+              await app.bootstrap(element);
+            });
           }}
         />
         <Then
@@ -125,12 +131,15 @@ class Base extends Step {
         <When
           desc="trigger counter increment"
           action={() => {
-            app.instance.counterView.counter.increment();
+            act(() => {
+              app.instance.counterView.counter.increment();
+            });
           }}
         />
         <Then
           desc="Check the render result"
-          action={() => {
+          action={async () => {
+            await waitForRenderReady();
             expect(app.instance.counterView.counter.count).toBe(1);
             expect(componentRenderFn).toHaveBeenCalledTimes(4);
             expect(componentRenderFn).toMatchSnapshot();
@@ -505,9 +514,7 @@ class BaseLifecycle extends Step {
             expect(getLifecycleStatus.mock.calls).toMatchSnapshot();
 
             // wait for async logic to finish(onInitOnce/onInit/onInitSuccess in counter and counterView)
-            await sleep(100);
-
-            expect(getLifecycleStatus).toHaveBeenCalledTimes(9);
+            await waitForMockCallCount(getLifecycleStatus, 9);
             expect(getLifecycleStatus.mock.calls).toMatchSnapshot();
 
             expect(app.instance.ready).toBeTruthy();
@@ -539,9 +546,7 @@ class BaseLifecycle extends Step {
             expect(getLifecycleStatus.mock.calls).toMatchSnapshot();
 
             // wait for async logic to finish in onReset in Foo
-            await sleep(100);
-
-            expect(getLifecycleStatus).toHaveBeenCalledTimes(12);
+            await waitForMockCallCount(getLifecycleStatus, 12);
             expect(getLifecycleStatus.mock.calls).toMatchSnapshot();
 
             expect(app.instance.ready).toBeFalsy();
@@ -573,9 +578,7 @@ class BaseLifecycle extends Step {
             expect(getLifecycleStatus.mock.calls).toMatchSnapshot();
 
             // wait for async logic to finish(onInit/onInitSuccess in counter and counterView)
-            await sleep(100);
-
-            expect(getLifecycleStatus).toHaveBeenCalledTimes(18);
+            await waitForMockCallCount(getLifecycleStatus, 18);
             expect(getLifecycleStatus.mock.calls).toMatchSnapshot();
 
             expect(app.instance.ready).toBeTruthy();

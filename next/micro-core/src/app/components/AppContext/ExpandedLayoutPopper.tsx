@@ -1,58 +1,34 @@
-import { Popper, PopperActions, useOnReRender } from '@ringcentral/spring-ui';
-import React, { FunctionComponent, useContext, useRef, useState } from 'react';
+import React, { FunctionComponent, useContext, useState } from 'react';
+import type { PropsWithChildren } from 'react';
 
-import { useAnnouncementHeight } from './AppAnnouncement';
-import { AppContext } from './AppContext';
+import { AnchorOverlay } from './AnchorOverlay';
+import { AppRefsContext } from './AppContext';
 import { AppExpandedContent } from './AppExpandedContent';
 
 /**
- * similar to the `AppExpandedContent`, but this component will render a Popper component to show the children.
- *
- * in some case, want your element want to render in the expanded layout, but not in the main content, you can use this component.
+ * Similar to `AppExpandedContent`, but renders children in an AnchorOverlay that covers the expanded area.
+ * Use this when you want content in the expanded layout but not in the main content flow.
  */
 export const ExpandedLayoutPopper: FunctionComponent<{
   expanded: boolean;
-}> = ({ children, expanded }) => {
+} & PropsWithChildren<{}>> = ({ children, expanded }) => {
   const [expandedElm, setExpandedElm] = useState<HTMLDivElement | null>(null);
-  const { announcementBottomAnchorRef } = useContext(AppContext);
-  const announcementHeight = useAnnouncementHeight();
-  const actionsRef = useRef<PopperActions>(null);
+  const { mainContentRef } = useContext(AppRefsContext);
 
-  useOnReRender(() => {
-    actionsRef.current?.update();
-  }, [announcementHeight]);
+  const anchorEl = () => (expanded ? expandedElm : mainContentRef.current);
 
-  const topFullScreenFullElmAnchor = announcementBottomAnchorRef.current;
   return (
     <>
-      <Popper
-        anchorEl={() => (expanded ? expandedElm : topFullScreenFullElmAnchor)}
-        placement="bottom"
-        offset={0}
-        // in test env not use matchAnchor width for us better debug
-        matchAnchorWidth={process.env.NODE_ENV !== 'test'}
-        className="z-drawer bg-neutral-base overflow-hidden"
-        style={{
-          height: `calc(100vh - ${announcementHeight}px)`,
-          // in test env use 100% for us better debug
-          width: process.env.NODE_ENV === 'test' ? '100%' : undefined,
-        }}
-        actions={actionsRef}
-        onClick={(e) => {
-          // TODO: spring-ui issue, click event will trigger the host item click event
-          e.stopPropagation();
-        }}
-      >
-        {children}
-      </Popper>
+      <AnchorOverlay anchorEl={anchorEl}>{children}</AnchorOverlay>
 
       <AppExpandedContent>
         <div
           ref={(elm) => {
             setExpandedElm(elm);
           }}
-          className="w-full h-0"
-        ></div>
+          // expanded area popper over must be full screen that should not be affected by others elements
+          className="size-full absolute top-0 left-0"
+        />
       </AppExpandedContent>
     </>
   );

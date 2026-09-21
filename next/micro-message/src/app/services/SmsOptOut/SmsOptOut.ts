@@ -21,12 +21,12 @@ import { tap } from 'rxjs';
 
 import type { FilteredConversation } from '../Conversations';
 
+import { t } from './i18n';
 import type {
   GetOptOutsOptions,
   OptOutListResponse,
   OptOutResponse,
 } from './SmsOptOut.interface';
-import { t } from './i18n';
 
 const DEFAULT_TTL = 5 * 60 * 1000; // 5 min
 

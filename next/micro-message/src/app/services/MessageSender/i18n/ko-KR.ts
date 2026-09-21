@@ -2,8 +2,8 @@
 export default {
   specialNumber: '긴급/특별 서비스 번호로 문자 보내기는 지원되지 않습니다.',
   textEmpty: '보낼 텍스트를 입력하세요.',
-  textTooLong: '텍스트가 너무 깁니다. 1,000자로 제한됩니다.',
-  multipartTextTooLong: '텍스트가 너무 깁니다. 5,000자로 제한됩니다.',
+  textTooLong: '최대 1,000자까지 입력할 수 있습니다.',
+  multipartTextTooLong: '최대 5,000자까지 입력할 수 있습니다.',
   recipientsEmpty: '유효한 수신자 번호를 입력하세요.',
   senderNumberInvalid:
     '회사 외부의 수신자에게 문자 메시지를 보내려면 유효한 전화번호가 필요합니다. 관리자에게 문의하여 계정에 직통 번호를 추가하세요.',

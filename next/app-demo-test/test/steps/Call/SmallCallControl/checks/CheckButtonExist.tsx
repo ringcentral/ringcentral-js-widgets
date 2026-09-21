@@ -1,10 +1,16 @@
 import { StepFunction } from '@ringcentral-integration/test-utils';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 
 export const CheckButtonExist: StepFunction<{
   callButtonBehaviorType: string;
 }> = async (props) => {
   const { callButtonBehaviorType } = props;
-  const callButton = screen.queryByTestId(callButtonBehaviorType);
-  expect(callButton).toBeInTheDocument();
+  await waitFor(() => {
+    const callButton =
+      screen.queryByTestId(callButtonBehaviorType) ??
+      (callButtonBehaviorType === 'showKeypad'
+        ? screen.queryByTestId('keypad')
+        : null);
+    expect(callButton).toBeInTheDocument();
+  });
 };

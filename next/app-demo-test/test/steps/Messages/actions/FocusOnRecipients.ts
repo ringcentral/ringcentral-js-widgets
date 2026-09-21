@@ -1,6 +1,5 @@
 import type { StepFunction } from '@ringcentral-integration/test-utils';
-import { screen, within } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { fireEvent, screen, within } from '@testing-library/react';
 
 /**
  * Focus on 'To' field input
@@ -12,5 +11,7 @@ export const FocusOnRecipients: StepFunction<{
   if (containerSelector) {
     container = within(screen.queryByTestId(containerSelector)!);
   }
-  userEvent.click(container.getByTestId('recipientsInput'));
+  const input = container.getByTestId('recipientsInput');
+  fireEvent.focus(input);
+  fireEvent.click(input);
 };

@@ -57,18 +57,28 @@ import {
 
 import type { AudioSettings } from '../AudioSettings';
 
-import { WebphoneAudioHelper } from './AudioHelper';
-import type { WebphoneOptions } from './Webphone.interface';
 import defaultIncomingAudio from './audio/incoming.mp3';
 import defaultOutgoingAudio from './audio/outgoing.mp3';
+import { WebphoneAudioHelper } from './AudioHelper';
 import { connectionStatus } from './connectionStatus';
 import { EVENTS } from './events';
 import { t } from './i18n';
+import {
+  isSinkIdPermissionError,
+  patchSafariSetSinkId,
+  setSinkIdSafely,
+  type SinkIdMediaElement,
+} from './setSinkId';
+import type { WebphoneOptions } from './Webphone.interface';
 import {
   isBrowserSupport,
   isChrome,
   isEnableMidLinesInSDP,
 } from './webphoneHelper';
+import {
+  formatTransportEventSummary,
+  truncateLogContent,
+} from './webphoneLogSanitizer';
 
 export const DEFAULT_AUDIO = 'default';
 
@@ -112,9 +122,7 @@ export class WebphoneBase extends RcModule {
     return this.rcWebphoneInstance$.value;
   }
 
-  _remoteVideo?:
-    | (HTMLVideoElement & { setSinkId?: (id: string) => void })
-    | null = null;
+  _remoteVideo?: (HTMLVideoElement & SinkIdMediaElement) | null = null;
   _localVideo?: HTMLVideoElement | null = null;
   protected _sipInstanceManager?: SipInstanceManager;
   protected _sipInstanceId?: string | null;
@@ -169,6 +177,7 @@ export class WebphoneBase extends RcModule {
     }
 
     if (globalThis.document) {
+      patchSafariSetSinkId();
       this.handleListeners();
       this._sipInstanceManager = new SipInstanceManager(
         `${this._prefix}-webphone-inactive-sip-instance`,
@@ -437,6 +446,24 @@ export class WebphoneBase extends RcModule {
     this.data.outgoingAudioDataUrl = null;
   }
 
+  private _setRemoteVideoSinkId() {
+    if (!this._remoteVideo || !this._audioSettings.supportDevices) {
+      return;
+    }
+
+    setSinkIdSafely(
+      this._remoteVideo,
+      this._audioSettings.outputDeviceId,
+      (error) => {
+        if (isSinkIdPermissionError(error)) {
+          return;
+        }
+
+        this.logger.warn('setSinkId failed', error);
+      },
+    );
+  }
+
   private _prepareVideoElement() {
     this._remoteVideo = document.createElement('video');
     this._remoteVideo.id = 'remoteVideo';
@@ -451,11 +478,7 @@ export class WebphoneBase extends RcModule {
     document.body.appendChild(this._localVideo);
 
     this._remoteVideo.volume = this._audioSettings.callVolume;
-    if (this._audioSettings.supportDevices) {
-      if (this._remoteVideo.setSinkId && this._audioSettings.outputDeviceId) {
-        this._remoteVideo.setSinkId(this._audioSettings.outputDeviceId);
-      }
-    }
+    this._setRemoteVideoSinkId();
   }
 
   private _destroyVideoElement() {
@@ -500,10 +523,9 @@ export class WebphoneBase extends RcModule {
         if (
           this.ready &&
           this._audioSettings.supportDevices &&
-          this._remoteVideo &&
-          this._remoteVideo.setSinkId
+          this._remoteVideo
         ) {
-          this._remoteVideo.setSinkId(this._audioSettings.outputDeviceId);
+          this._setRemoteVideoSinkId();
         }
       },
     );
@@ -752,19 +774,21 @@ export class WebphoneBase extends RcModule {
     });
   }
 
-  @delegate('server')
   protected async _webphoneLogConnector(
     level: 'debug' | 'log' | 'warn' | 'error',
     category: string,
     label: string,
     content: string,
   ) {
-    // TODO: filter by log level
-    this._browserLogger?.log(category, label, content);
+    // Cap length to avoid bloated logs and cyclic JSON from SIP/WebRTC (e.g. candidates)
+    const cappedContent = truncateLogContent(content);
+    this._browserLogger?.log(category, label, cappedContent);
   }
 
   async _createWebphone(provisionData: CreateSipRegistrationResponse) {
-    this.logger.log(`_createWebphone`, provisionData);
+    this.logger.log(
+      formatTransportEventSummary('_createWebphone', provisionData),
+    );
 
     await this._removeWebphone();
     if (!this._sipInstanceId) {
@@ -782,7 +806,6 @@ export class WebphoneBase extends RcModule {
       // use custom log connector to filter out time strings as it will be duplicated
       connector: (...args: Parameters<WebphoneBase['_webphoneLogConnector']>) =>
         this._webphoneLogConnector(...args),
-
       audioHelper: {
         enabled: true, // enables audio feedback when web phone is ringing or making a call
       },
@@ -791,10 +814,12 @@ export class WebphoneBase extends RcModule {
         local: this._localVideo,
       },
       enableQos: isChrome(),
-      enableMidLinesInSDP: isEnableMidLinesInSDP(),
       instanceId: this._sipInstanceId, // reuse sip instance id to avoid 603 issue at reconnection
       autoStop: false, // handle auto stop by this module, fix memory leak issue https://github.com/ringcentral/ringcentral-web-phone/pull/332
       ...(this._webphoneOptions.webphoneSDKOptions ?? {}),
+      enableDefaultModifiers: false,
+      enableMidLinesInSDP: isEnableMidLinesInSDP(),
+      modifiers: [],
     });
     this.rcWebphoneInstance$.next(webphone);
     // @ts-ignore
@@ -877,7 +902,7 @@ export class WebphoneBase extends RcModule {
       this._onConnectError({ errorCode, statusCode });
     });
     webphone.userAgent.on('invite', (session) => {
-      this.logger.log(`invite`, session);
+      this.logger.log(formatTransportEventSummary('invite', session));
       this._onInvite(session as WebphoneSession);
     });
     // webphone.userAgent.on('inviteSent', (session) => {
@@ -888,7 +913,7 @@ export class WebphoneBase extends RcModule {
     // TODO: should check that type issue in ringcentral-web-phone
     // @ts-ignore
     webphone.userAgent.on('provisionUpdate', (e) => {
-      this.logger.log(`provisionUpdate`, e);
+      this.logger.log(formatTransportEventSummary('provisionUpdate', e));
       if (Object.keys(this.originalSessions).length === 0) {
         this._toast.warning({
           message: t('provisionUpdate'),
@@ -908,7 +933,7 @@ export class WebphoneBase extends RcModule {
     });
     // websocket transport connecting event
     webphone.userAgent.transport.on('connecting', async (e) => {
-      this.logger.log(`connecting`, e);
+      this.logger.log(formatTransportEventSummary('connecting', e));
       // reconnecting event
       if (this.connected || this.connectError) {
         this._toast.warning({
@@ -921,7 +946,7 @@ export class WebphoneBase extends RcModule {
     });
     // Server connection closed event after 10 time retry with primary server and backup server
     webphone.userAgent.transport.on('closed', async (e) => {
-      this.logger.log(`closed`, e);
+      this.logger.log(formatTransportEventSummary('closed', e));
       await this.setRetryCounts(20);
       this._onConnectError({
         errorCode: 'connectFailed',
@@ -929,15 +954,15 @@ export class WebphoneBase extends RcModule {
       });
     });
     webphone.userAgent.transport.on('transportError', (e) => {
-      this.logger.log(`transportError`, e);
+      this.logger.log(formatTransportEventSummary('transportError', e));
     });
     webphone.userAgent.transport.on('wsConnectionError', async (e) => {
-      this.logger.log(`wsConnectionError`, e);
+      this.logger.log(formatTransportEventSummary('wsConnectionError', e));
       await this.setConnectionStatus(connectionStatus.connectError);
     });
     // Timeout to switch back to primary server
     webphone.userAgent.transport.on('switchBackProxy', (e) => {
-      this.logger.log(`switchBackProxy`, e);
+      this.logger.log(formatTransportEventSummary('switchBackProxy', e));
       if (Object.keys(this.originalSessions).length === 0) {
         this.connect({
           skipConnectDelay: true,

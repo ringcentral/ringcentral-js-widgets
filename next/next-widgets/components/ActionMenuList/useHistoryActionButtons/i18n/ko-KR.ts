@@ -5,6 +5,8 @@ export default {
   addRecord: '새 레코드 만들기',
   call: '전화',
   text: '텍스트',
+  manageConsent: '동의 관리',
+  viewConsent: '동의 보기',
   more: '더 보기',
   mark: '읽지 않은 상태로 표시',
   unmark: '읽은 상태로 표시',
@@ -27,6 +29,8 @@ export default {
 // @key: @#@"addRecord"@#@ @source: @#@"Create new record"@#@
 // @key: @#@"call"@#@ @source: @#@"Phone"@#@
 // @key: @#@"text"@#@ @source: @#@"Text"@#@
+// @key: @#@"manageConsent"@#@ @source: @#@"Manage Consent"@#@
+// @key: @#@"viewConsent"@#@ @source: @#@"View Consent"@#@
 // @key: @#@"more"@#@ @source: @#@"More"@#@
 // @key: @#@"mark"@#@ @source: @#@"Mark as unread"@#@
 // @key: @#@"unmark"@#@ @source: @#@"Mark as read"@#@

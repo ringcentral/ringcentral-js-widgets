@@ -11,7 +11,13 @@ import {
   ListItemText,
   Tooltip,
 } from '@ringcentral/spring-ui';
-import React, { type Ref, useImperativeHandle, useRef, useState } from 'react';
+import React, {
+  type PropsWithChildren,
+  type Ref,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from 'react';
 
 import {
   useCallActionButtons,
@@ -32,7 +38,8 @@ type ActiveCallInfoListItemProps = {
    * the item by default will show tooltip when mouse over, set tooltip to false to disable it
    */
   tooltip?: boolean;
-} & ListItemProps;
+} & ListItemProps &
+  PropsWithChildren<{}>;
 
 export const ActiveCallInfoListItem: React.FC<ActiveCallInfoListItemProps> = ({
   call,
@@ -214,8 +221,8 @@ export const ActiveCallsPanel: React.FC<ActiveCallsPanelProps> = ({
                   ringing
                     ? 'incomingCall'
                     : holding
-                    ? 'onHoldCall'
-                    : 'activeCall',
+                      ? 'onHoldCall'
+                      : 'activeCall',
                 )}
               </span>
             }

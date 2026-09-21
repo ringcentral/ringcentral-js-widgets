@@ -54,6 +54,14 @@ export const NavigationButton: FunctionComponent<NavigationButtonProps> = ({
   tooltipForceHide,
   dataSign,
 }) => {
+  const renderIcon = (buttonIcon: NavigationButtonIcon) => {
+    if (React.isValidElement(buttonIcon)) {
+      return buttonIcon;
+    }
+    const Icon = buttonIcon as ComponentType<NavigationButtonIconProps>;
+    return <Icon />;
+  };
+
   let notice = null;
   if (noticeCounts && noticeCounts > 0) {
     if (noticeCounts > 99) {
@@ -91,7 +99,7 @@ export const NavigationButton: FunctionComponent<NavigationButtonProps> = ({
               active ? activeClassName : inActiveClassName,
             )}
           >
-            {active ? activeIcon : icon}
+            {renderIcon(active ? activeIcon : icon)}
           </div>
           {notice}
         </div>

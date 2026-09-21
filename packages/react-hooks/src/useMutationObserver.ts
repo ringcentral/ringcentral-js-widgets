@@ -37,7 +37,7 @@ export function useMutationObserver(
   { startImmediately = true }: UseMutationObserverConfig = {},
 ) {
   const observerRef = useRef<MutationObserver | null>(null);
-  const isSupported = !!global.window?.MutationObserver;
+  const isSupported = !!globalThis.window?.MutationObserver;
 
   const cb = useEventCallback<MutationCallback>((...args) => {
     return callback(...args);
@@ -63,7 +63,7 @@ export function useMutationObserver(
 
     if (!isSupported || !elm) return stop;
 
-    const observer = new global.window.MutationObserver(cb);
+    const observer = new globalThis.window.MutationObserver(cb);
     observerRef.current = observer;
 
     if (startImmediately) {

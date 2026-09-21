@@ -10,6 +10,7 @@ import {
   getWhoCanJoinOptions,
   getWaitingRoomOptions,
   calculateDisabledStates,
+  calculateWaitingRoomParticipantsUpdates,
   createRequirePasswordChangeHandler,
   createPasswordChangeHandler,
   createWhoCanJoinChangeHandler,
@@ -138,6 +139,40 @@ describe('Meeting Utilities', () => {
           waitingRoomMode: WAITING_ROOM_MODE.NOT_COWORKER,
           isOnlyCoworkersJoin: false,
           isOnlyAuthUserJoin: true,
+        });
+      });
+    });
+
+    describe('Waiting Room Participants updates', () => {
+      const lockedJoinBeforeHost = {
+        allowJoinBeforeHost: true,
+      };
+      const joinBeforeHostOn = {
+        join_before_host: true,
+      };
+
+      it('should force join-after-me when waiting room is all participants', () => {
+        expect(
+          calculateWaitingRoomParticipantsUpdates(
+            WAITING_ROOM_PARTICIPANTS_OPTIONS.ALL_PARTICIPANTS,
+            lockedJoinBeforeHost,
+            joinBeforeHostOn as any,
+          ),
+        ).toEqual({
+          waitingRoomMode: WAITING_ROOM_MODE.ALL,
+          allowJoinBeforeHost: false,
+        });
+      });
+
+      it('should keep join-after-me sticky when leaving all participants', () => {
+        expect(
+          calculateWaitingRoomParticipantsUpdates(
+            WAITING_ROOM_PARTICIPANTS_OPTIONS.FOR_ANYONE_NOT_SIGNED_IN,
+            lockedJoinBeforeHost,
+            joinBeforeHostOn as any,
+          ),
+        ).toEqual({
+          waitingRoomMode: WAITING_ROOM_MODE.GUESTS,
         });
       });
     });

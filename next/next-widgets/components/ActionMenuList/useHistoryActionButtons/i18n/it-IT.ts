@@ -5,6 +5,8 @@ export default {
   addRecord: 'Crea nuovo record',
   call: 'Telefono',
   text: 'SMS',
+  manageConsent: 'Gestisci il consenso',
+  viewConsent: 'Visualizza il consenso',
   more: 'Altro',
   mark: 'Contrassegna come non letto',
   unmark: 'Contrassegna come letto',
@@ -27,6 +29,8 @@ export default {
 // @key: @#@"addRecord"@#@ @source: @#@"Create new record"@#@
 // @key: @#@"call"@#@ @source: @#@"Phone"@#@
 // @key: @#@"text"@#@ @source: @#@"Text"@#@
+// @key: @#@"manageConsent"@#@ @source: @#@"Manage Consent"@#@
+// @key: @#@"viewConsent"@#@ @source: @#@"View Consent"@#@
 // @key: @#@"more"@#@ @source: @#@"More"@#@
 // @key: @#@"mark"@#@ @source: @#@"Mark as unread"@#@
 // @key: @#@"unmark"@#@ @source: @#@"Mark as read"@#@

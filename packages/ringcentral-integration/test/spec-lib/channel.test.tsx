@@ -16,8 +16,8 @@ import { Channel } from '../../lib/channel';
 export class ChannelTest extends Step {
   run() {
     let channel: Channel;
-    let sendRuntimeMessage: jest.SpyInstance;
-    let sendTabMessageSpy: jest.SpyInstance;
+    let sendRuntimeMessage: jest.Spied;
+    let sendTabMessageSpy: jest.Spied;
     let onMessageHandler: (
       message: any,
       sender: chrome.runtime.MessageSender,

@@ -211,7 +211,7 @@ describe('Phone Section - Given at least one extension number', () => {
         expect(numberDisplay.title).toBe(toolTip);
         expect(numberDisplay).toHaveTextContent(displayNumber);
       });
-      test(`When click call button, should dial to correct number`, () => {
+      test(`When click call button, should dial to correct number`, async () => {
         const onClickToDial = jest.spyOn(mockedProps, 'onClickToDial');
         const { getByRole } = render(
           <ContactDetailsView
@@ -225,10 +225,10 @@ describe('Phone Section - Given at least one extension number', () => {
         const callButton = getByRole('button', {
           name: `Call ${btnToolTipNumber}`,
         });
-        userEvent.click(callButton);
+        await userEvent.click(callButton);
         expect(onClickToDial).toHaveBeenCalledWith(expectedContact, useNumber);
       });
-      test(`When click text button, should compose text to correct number`, () => {
+      test(`When click text button, should compose text to correct number`, async () => {
         const onClickToSMS = jest.spyOn(mockedProps, 'onClickToSMS');
         const { getByRole } = render(
           <ContactDetailsView
@@ -242,7 +242,7 @@ describe('Phone Section - Given at least one extension number', () => {
         const textButton = getByRole('button', {
           name: `Text ${btnToolTipNumber}`,
         });
-        userEvent.click(textButton);
+        await userEvent.click(textButton);
         expect(onClickToSMS).toHaveBeenCalledWith(expectedContact, useNumber);
       });
     },

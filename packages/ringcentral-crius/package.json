@@ -10,7 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "babel-jest": "^29.7.0",
+    "babel-jest": "^30.2.0",
     "crius-is": "*",
     "crius-test": "*"
   },

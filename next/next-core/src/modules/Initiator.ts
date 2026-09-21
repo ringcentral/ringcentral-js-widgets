@@ -1,17 +1,12 @@
 /* eslint-disable no-console */
 import { getHostPath } from '@ringcentral-integration/utils';
+import { action, getRef, injectable, optional, state, watch } from 'reactant';
+import type { ILastActionData } from 'reactant-last-action';
 import {
-  action,
   createBroadcastTransport,
-  injectable,
   type ISharedAppOptions,
-  optional,
   SharedAppOptions,
-  state,
   type Transport,
-  getRef,
-  watch,
-  ILastActionData,
 } from 'reactant-share';
 import { Subject, take, tap } from 'rxjs';
 
@@ -19,10 +14,12 @@ import {
   disableRcSharedWorkerKey,
   disableRcSharedWorkerLoggerKey,
 } from '../constant';
+import { reloadRuntimeLocation } from '../lib/browserLocation';
 import { delegate } from '../lib/decorators/delegate';
 import { getLocalMfeMeta } from '../lib/getMfeMetaLocal';
 import { logger } from '../lib/logger';
 
+import { isSameWorkerUrl } from './Initiator.utils';
 import { PortManager } from './PortManager';
 import { takeUntilAppDestroy } from './destroy';
 
@@ -42,6 +39,10 @@ export interface InitiatorOptions {
    * enable redirect to upgrade page when a new host is found with different shared worker url
    */
   enableNewHostDetection?: boolean;
+  /**
+   * compare shared worker urls by filename only when checking whether the app should reload
+   */
+  onlyComparisonWorkerFilename?: boolean;
   /**
    * get current locale
    */
@@ -130,8 +131,15 @@ export class Initiator {
               return;
             }
 
+            const onlyComparisonWorkerFilename =
+              this._initiatorOptions?.onlyComparisonWorkerFilename;
+
             if (
-              receiveWorkerUrl !== currWorkerUrl ||
+              !isSameWorkerUrl({
+                currentWorkerUrl: currWorkerUrl,
+                receivedWorkerUrl: receiveWorkerUrl,
+                onlyComparisonWorkerFilename,
+              }) ||
               (version && version !== this._version)
             ) {
               await this.reloadPromise;
@@ -145,7 +153,7 @@ export class Initiator {
                 },
               );
 
-              globalThis.location?.reload();
+              reloadRuntimeLocation();
             }
           });
           transport.emit(
@@ -298,7 +306,7 @@ export class Initiator {
 
   @delegate('clients')
   async reloadAllClients() {
-    globalThis.location?.reload();
+    reloadRuntimeLocation();
   }
 
   /**

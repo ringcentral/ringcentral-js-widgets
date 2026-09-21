@@ -43,6 +43,9 @@ export class EnvironmentView extends RcViewModule {
     const props = useConnector<UIProps<EnvironmentPanelProps>>(() => {
       return {
         server: this._environment.server || '',
+        aiApiUrl: this._environment.aiApiUrl || '',
+        smartNotesIframe: this._environment.smartNotesIframe || '',
+        smartNotesEnv: this._environment.smartNotesEnv || '',
         recordingHost: this._environment.recordingHost || '',
         enabled: this._environment.enabled,
         allowDataTracking: this._environment.allowDataTracking,

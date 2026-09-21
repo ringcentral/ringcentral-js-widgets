@@ -58,6 +58,10 @@ export const AudioSettingsPanel: FC<AudioSettingsPanelProps> = ({
   updateCurrentRingtone,
   removeCustomRingtone,
   onExit,
+  showNoiseReductionToggle = false,
+  isNoiseReductionEnabled = false,
+  disableNoiseReductionSetting = false,
+  onNoiseReductionChange,
 }) => {
   useEffect(() => {
     checkAudioAvailable();
@@ -124,6 +128,23 @@ export const AudioSettingsPanel: FC<AudioSettingsPanelProps> = ({
                     onSave({
                       isAGCEnabled: e.target.checked,
                     });
+                  }}
+                />
+              </FormLabel>
+            )}
+            {showNoiseReductionToggle && (
+              <FormLabel
+                label={t('noiseReduction')}
+                placement="start"
+                className="justify-between w-full"
+              >
+                <Switch
+                  data-sign="noiseReduction"
+                  disabled={disableNoiseReductionSetting}
+                  className="flex-none"
+                  checked={isNoiseReductionEnabled}
+                  onChange={(e) => {
+                    onNoiseReductionChange?.(e.target.checked);
                   }}
                 />
               </FormLabel>

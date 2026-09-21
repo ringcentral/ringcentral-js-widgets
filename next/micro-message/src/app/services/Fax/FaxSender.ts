@@ -32,6 +32,7 @@ import type GetMessageInfoResponse from 'ringcentral-client/build/definitions/Ge
 
 import { MessageStore } from '../MessageStore';
 
+import { FAX_CONTENT_LIMIT, FAX_COVER_NONE_VALUE } from './constant';
 import { type CoverInfo, COVER_US_LIST, COVER_NOT_US_LIST } from './FaxCover';
 import type {
   FaxEditingInfo,
@@ -40,7 +41,6 @@ import type {
   FileItem,
   Recipient,
 } from './FaxSender.interface';
-import { FAX_CONTENT_LIMIT, FAX_COVER_NONE_VALUE } from './constant';
 import { t } from './i18n';
 import { isSupportedFaxFile } from './utils/isSupportedFaxFile';
 

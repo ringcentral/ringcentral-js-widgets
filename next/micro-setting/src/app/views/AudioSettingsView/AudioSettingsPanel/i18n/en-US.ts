@@ -20,4 +20,5 @@ export default {
   stopPlaybackButton: 'Stop test',
   startTestButton: 'Test speaker',
   stopTestDescription: 'Playing sample sound...',
+  noiseReduction: 'Remove my background noise',
 } as const;

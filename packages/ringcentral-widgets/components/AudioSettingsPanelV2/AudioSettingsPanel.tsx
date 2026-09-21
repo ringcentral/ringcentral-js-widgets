@@ -112,7 +112,7 @@ export const AudioSettingsPanel: FC<AudioSettingsPanelProps> = ({
                 </RcTypography>
               }
               checked={isAGCEnabled}
-              onChange={(_, checked) => {
+              onChange={(_: any, checked: boolean) => {
                 onSave({
                   isAGCEnabled: checked,
                 });

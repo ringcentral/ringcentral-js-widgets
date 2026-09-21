@@ -4,6 +4,7 @@ import React from 'react';
 import styles from './styles.scss';
 
 type CheckBoxProps = {
+  children?: React.ReactNode;
   valueField?: string;
   textField?: string;
   selected?: any;
@@ -16,7 +17,6 @@ type CheckBoxProps = {
   checked?: boolean;
   disabled?: boolean;
 };
-// @ts-expect-error TS(2322): Type '{ ({ data, selected, onSelect, valueField, t... Remove this comment to see the full error message
 const CheckBox: React.FC<CheckBoxProps> = ({
   data,
   selected,
@@ -104,6 +104,7 @@ const CheckBox: React.FC<CheckBoxProps> = ({
     default:
       break;
   }
+  return null;
 };
 CheckBox.defaultProps = {
   // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message

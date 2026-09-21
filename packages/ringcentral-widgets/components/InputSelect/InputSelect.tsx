@@ -130,7 +130,9 @@ export default class InputSelect extends Component<
               />
             ),
           }}
-          onChange={(e) => this.updateValue(e.target, 500)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            this.updateValue(e.target, 500)
+          }
         />
         {this._renderPickList()}
       </div>

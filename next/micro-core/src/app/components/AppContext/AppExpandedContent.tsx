@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useContext } from 'react';
+import type { PropsWithChildren } from 'react';
 
-import { AppContext } from './AppContext';
+import { AppRefsContext } from './AppContext';
 import { PortalWithCheckAgain } from './PortalWithCheckAgain';
 
 /**
@@ -8,8 +9,10 @@ import { PortalWithCheckAgain } from './PortalWithCheckAgain';
  *
  * usually, the children be absolute position
  */
-export const AppExpandedContent: FunctionComponent<{}> = ({ children }) => {
-  const { expandedContentRef } = useContext(AppContext);
+export const AppExpandedContent: FunctionComponent<PropsWithChildren<{}>> = ({
+  children,
+}) => {
+  const { expandedContentRef } = useContext(AppRefsContext);
 
   return (
     <PortalWithCheckAgain container={expandedContentRef}>

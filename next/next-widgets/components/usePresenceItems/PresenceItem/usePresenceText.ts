@@ -12,11 +12,12 @@ export function usePresenceText({
 }) {
   const { t } = useLocale(i18n);
 
-  return useMemo(() => {
+  const title = useMemo(() => {
     if (dndStatus === 'DoNotAcceptAnyCalls') {
       return t(dndStatus);
     }
 
-    return t(presenceStatus as any);
+    return t((presenceStatus as any) || 'Available');
   }, [dndStatus, t, presenceStatus]);
+  return title;
 }

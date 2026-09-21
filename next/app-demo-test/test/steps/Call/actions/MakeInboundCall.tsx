@@ -1,7 +1,11 @@
 import type { CallDirection } from '@ringcentral-integration/commons/enums/callDirections';
 import type { NumberData } from '@ringcentral-integration/commons/integration-test/mock/telephonySessionBuilder';
 import { Webphone } from '@ringcentral-integration/micro-phone/src/app/services';
-import type { StepFunction } from '@ringcentral-integration/test-utils';
+import { whenStateOrTimerChange } from '@ringcentral-integration/next-core/test';
+import {
+  type StepFunction,
+  waitForRenderReady,
+} from '@ringcentral-integration/test-utils';
 
 export interface InitACallProps {
   phoneNumber?: string;
@@ -43,4 +47,8 @@ export const MakeInboundCall: StepFunction<InitACallProps> = async (
     startTime,
     ...props,
   });
+  await whenStateOrTimerChange(() => {
+    expect(app.container.got(Webphone)?.ringingCallOnView).toBeTruthy();
+  });
+  await waitForRenderReady();
 };

@@ -26,7 +26,7 @@ const fields = {
   [springuiDateWidgetName]: SpringUIDateWidget,
 };
 
-const _CallLogFormPage: FunctionComponent<CallLogFormViewPanelProps> = (
+const CallLogFormPageContent: FunctionComponent<CallLogFormViewPanelProps> = (
   props,
 ) => {
   const {
@@ -95,8 +95,16 @@ const _CallLogFormPage: FunctionComponent<CallLogFormViewPanelProps> = (
 
   const [innerFirstFields, setInnerFirstField] = useAsyncState(innerFirstState);
 
-  const handleChange = useEventCallback(({ formData }) => {
-    onUpdateCallLog(formData);
+  const handleChange = useEventCallback(({ formData }, id?: string) => {
+    // RJSF passes the id of the field that changed (e.g. `root_subject`).
+    // Strip the `root_` prefix to recover the task field key so we only mark
+    // the field the user actually edited as dirty, instead of diffing the
+    // whole formData (which races against async contact-match population).
+    const changedKey = id?.replace(/^root_/, '') || undefined;
+    onUpdateCallLog(formData, {
+      markDirty: Boolean(id),
+      changedKeys: changedKey ? [changedKey] : undefined,
+    });
     setInnerFirstField(pick(formData, innerFirstFieldKeys));
   });
 
@@ -111,7 +119,7 @@ const _CallLogFormPage: FunctionComponent<CallLogFormViewPanelProps> = (
     <>
       <div
         className={clsx(
-          'pb-2 px-4 flex-grow',
+          'pb-2 px-3 flex-grow',
           variant === 'expanded' && 'overflow-y-auto overflow-x-hidden',
         )}
         data-sign="call-log-panel"
@@ -131,6 +139,12 @@ const _CallLogFormPage: FunctionComponent<CallLogFormViewPanelProps> = (
       {children}
     </>
   );
+};
+
+const _CallLogFormPage: FunctionComponent<CallLogFormViewPanelProps> = (
+  props,
+) => {
+  return <CallLogFormPageContent key={props.formKey ?? 'default'} {...props} />;
 };
 
 _CallLogFormPage.displayName = 'CallLogFormPage';

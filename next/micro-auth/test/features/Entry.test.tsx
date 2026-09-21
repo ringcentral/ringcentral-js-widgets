@@ -1,3 +1,4 @@
+import { logger } from '@ringcentral-integration/next-core';
 import {
   And,
   autorun,
@@ -19,6 +20,10 @@ import { Entry } from '../steps/Entry';
 
 beforeEach(() => {
   mockAllLogs();
+
+  jest.spyOn(logger, 'log').mockImplementation((...args) => {
+    console.log(...args);
+  });
 });
 @autorun(test)
 @ut
@@ -90,9 +95,9 @@ class AppRender extends Step {
           ]}
         />
         <And
-          desc="Have 'Sign In' there on the view"
+          desc="Have 'Sign in' there on the view"
           action={() => {
-            expect(screen.queryByText('Sign In')).toBeInTheDocument();
+            expect(screen.queryByText('Sign in')).toBeInTheDocument();
           }}
         />
       </Scenario>

@@ -6,6 +6,7 @@ import CloseIcon from '../../assets/images/CloseIcon.svg';
 import styles from './styles.scss';
 
 type SlideoutBarProps = {
+  children?: React.ReactNode;
   closable?: boolean;
   className?: string;
   offset: number;

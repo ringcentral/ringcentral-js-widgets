@@ -1,5 +1,7 @@
-import { consoleIgnoreRule } from '@ringcentral-integration/core/lib/logger/loggerV2';
-import { takeUntilAppDestroy } from '@ringcentral-integration/next-core';
+import {
+  consoleIgnoreRule,
+  takeUntilAppDestroy,
+} from '@ringcentral-integration/next-core';
 import { fromEvent, filter, tap } from 'rxjs';
 
 // https://sentry.io/answers/react-resizeobserver-loop-completed-with-undelivered-notifications/

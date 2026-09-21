@@ -12,7 +12,10 @@
  */
 import { Conversations } from '@ringcentral-integration/micro-message/src/app/services';
 import { RouterPlugin } from '@ringcentral-integration/next-core';
-import { whenStateChange } from '@ringcentral-integration/next-core/test';
+import {
+  whenStateChange,
+  whenStateOrTimerChange,
+} from '@ringcentral-integration/next-core/test';
 import {
   autorun,
   common,
@@ -28,6 +31,7 @@ import {
   Then,
   title,
   userEvent,
+  waitForRenderReady,
   When,
 } from '@ringcentral-integration/test-utils';
 import dayjs from 'dayjs';
@@ -123,6 +127,15 @@ const mockRecords = createMockTextResponse(4, [
     conversationId: 1699508180183,
   },
 ]).records;
+
+const clickConversationByText = async (text: string) => {
+  const conversation = await whenStateOrTimerChange(
+    () => screen.getByText(text),
+    { timeout: 10000 },
+  );
+  await userEvent.click(conversation);
+  await waitForRenderReady();
+};
 
 @autorun(test)
 @it
@@ -244,12 +257,13 @@ export class RCI578Entry1Number1 extends Step {
 
               // input sms send number
               const element = screen.getByTestId('recipientsInput');
-              userEvent.type(element, '103');
+              await userEvent.type(element, '103');
               fireEvent.keyDown(element, {
                 key: 'Enter',
                 code: 13,
                 charCode: 13,
               });
+              await waitForRenderReady();
             }) as StepFunction,
             <SendSMS
               phoneNumber={mockData.noMatchNumber1.number}
@@ -265,7 +279,7 @@ export class RCI578Entry1Number1 extends Step {
               await whenStateChange(() => {
                 expect(router.currentPath).toBe('/messages');
               });
-              fireEvent.click(screen.getByText(phoneNumberInConversationsPage));
+              await clickConversationByText(phoneNumberInConversationsPage);
               const conversations = app.container.got(Conversations)!;
               await whenStateChange(() => {
                 expect(conversations.currentConversationId).not.toBeNull();
@@ -496,7 +510,7 @@ export class RCI578Entry2Number1 extends Step {
           desc="Go to entrypoint2 by clicking the conversation with: number1"
           action={
             (async (_, { app }) => {
-              fireEvent.click(screen.getByText(phoneNumberInConversationsPage));
+              await clickConversationByText(phoneNumberInConversationsPage);
               const conversations = app.container.got(Conversations)!;
               await whenStateChange(() => {
                 expect(conversations.currentConversationId).not.toBeNull();

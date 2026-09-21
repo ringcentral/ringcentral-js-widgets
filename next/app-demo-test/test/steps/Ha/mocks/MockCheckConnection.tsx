@@ -15,7 +15,7 @@ export const MockCheckConnection: StepFunction<
 
   /**
    * The original function is replaced in for test environment
-   * packages/ringcentral-widgets-test/test/steps/CreateInstance.ts
+   * integration-apps/ringcentral-js-widgets/ringcentral-widgets-test/test/steps/CreateInstance.ts
    * We bring it back and add custom handler to mock its request behaviors.
    **/
   connectivityMonitor._checkConnectionFunc = async () => {

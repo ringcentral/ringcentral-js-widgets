@@ -74,6 +74,12 @@ export const MyCallerIdDropdown: FunctionComponent<MyCallerIdDropdownProps> = ({
         'data-sign': 'callFrom',
       }}
       MenuProps={{
+        // The anchor sits at the top of the dialer pages, so opening downwards
+        // is the product expectation. Spring UI 1.13 defaults Dropdown placement
+        // to `bottom`; keep `bottom-end` explicit so the menu's right edge
+        // aligns with the trigger and the wider menu extends left on wide
+        // viewports, instead of relying on flip.
+        placement: 'bottom-end',
         PopperProps: {
           padding: 16,
         },
@@ -107,16 +113,21 @@ export const MyCallerIdDropdown: FunctionComponent<MyCallerIdDropdownProps> = ({
       }}
       data={options}
     >
-      {(_, option: UserPhoneNumberInfo) => {
+      {(_, option) => {
+        const callerIdOption = option as UserPhoneNumberInfo;
+
         return (
           <Option
+            // Dropdown now defaults to nowrap/truncate (UXSYS-4227). Caller ID
+            // options render two lines (label + number) at h-12, so keep wrap.
+            nowrap={false}
             classes={{
               container: '[&&]:h-12',
             }}
-            key={option.phoneNumber}
-            value={option.phoneNumber}
+            key={callerIdOption.phoneNumber}
+            value={callerIdOption.phoneNumber}
           >
-            <MenuItemText>{renderValue(option)}</MenuItemText>
+            <MenuItemText>{renderValue(callerIdOption)}</MenuItemText>
           </Option>
         );
       }}

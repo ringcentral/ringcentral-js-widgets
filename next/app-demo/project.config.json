@@ -13,6 +13,10 @@
       "main": "src/main.ts"
     },
     {
+      "index": "pages/log-viewer/log-viewer.html",
+      "main": "pages/log-viewer/logViewer.tsx"
+    },
+    {
       "index": "pages/proxy/proxy.html",
       "main": "pages/proxy/proxy.ts"
     },
@@ -41,7 +45,7 @@
     }
   },
   "appConfigPath": "config/index.ts",
-  "devServerPort": 8080,
+  "devServerPort": 8081,
   "themeSystem": "spring-ui",
   "includeUpgradePage": true,
   "includeHiddenDownloadPage": true

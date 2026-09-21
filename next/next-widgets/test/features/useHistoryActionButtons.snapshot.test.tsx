@@ -1,6 +1,6 @@
 import { useLocale } from '@ringcentral-integration/micro-core/src/app/hooks';
-import { renderHook } from '@testing-library/react-hooks';
-import { act } from 'react-dom/test-utils';
+import { renderHook } from '@testing-library/react';
+import { act } from 'react';
 
 import {
   HistoryAction,
@@ -253,6 +253,20 @@ describe('useHistoryActionButtons', () => {
     });
 
     expect(onEffect.mock.calls[0][0]).toBe('addEntity');
+  });
+
+  it('should return manage consent action button', () => {
+    const actions: HistoryAction[] = [{ type: 'manageConsent' }];
+    const { result } = renderHook(() =>
+      useHistoryActionButtons(actions, onEffect),
+    );
+
+    expect(result.current[0]).toEqual(
+      expect.objectContaining({
+        actionType: 'manageConsent',
+        label: 'manageConsent',
+      }),
+    );
   });
 
   it('should handle disabled and href properties', () => {

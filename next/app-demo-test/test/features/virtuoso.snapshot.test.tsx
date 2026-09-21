@@ -1,4 +1,5 @@
-import { render, screen, userEvent } from '@ringcentral-integration/test-utils';
+import { fireEvent, render, screen } from '@ringcentral-integration/test-utils';
+import { waitFor } from '@testing-library/react';
 import { Virtuoso } from '@ringcentral/juno';
 import React from 'react';
 
@@ -32,10 +33,12 @@ describe('Virtuoso mock test', () => {
 
     const button = screen.getByRole('button');
 
-    userEvent.click(button);
+    fireEvent.click(button);
 
-    expect(screen.getByText('Item 1')).toBeInTheDocument();
-    expect(screen.queryByText('Item 0')).not.toBeInTheDocument();
+    expect(await screen.findByText('Item 1')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.queryByText('Item 0')).not.toBeInTheDocument();
+    });
 
     expect(asFragment()).toMatchSnapshot();
   });

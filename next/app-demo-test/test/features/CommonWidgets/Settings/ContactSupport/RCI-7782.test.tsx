@@ -1,3 +1,4 @@
+import { whenStateChange } from '@ringcentral-integration/next-core/test';
 import {
   And,
   autorun,
@@ -12,6 +13,7 @@ import {
   Then,
   title,
   userEvent,
+  waitForRenderReady,
   When,
 } from '@ringcentral-integration/test-utils';
 
@@ -63,23 +65,26 @@ export class RCI7782 extends Step {
         />
         <When
           desc="Click 'Contact support'"
-          action={() => {
-            userEvent.click(screen.getByTestId('ContactSupport'));
-          }}
+          action={<ClickItemByDataSign dataSign="ContactSupport" />}
         />
         <Then
           desc="Large auto log appears"
-          action={() => {
-            expect(screen.getByText('applicationLogs.zip')).toBeInTheDocument();
+          action={async () => {
+            await whenStateChange(() => {
+              expect(
+                screen.getByText('applicationLogs.zip'),
+              ).toBeInTheDocument();
+            });
           }}
         />
         <When
           desc="User enters some text in the Description field"
-          action={() => {
+          action={async () => {
             const descInput = screen.getByPlaceholderText(
               'Tell us what the problem is...',
             ) as HTMLInputElement;
-            userEvent.type(descInput, 'Issue description');
+            await userEvent.type(descInput, 'Issue description');
+            await waitForRenderReady();
           }}
         />
         <And

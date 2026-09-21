@@ -264,7 +264,7 @@ export const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
                       setFilter(value);
                     }
                   }}
-                  onKeyDown={(event) => {
+                  onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
                     // Press enter to search contacts from server
                     if (event.key !== 'Enter' || !showFoundFromServer) return;
                     if (typeof contactSearch === 'function') {

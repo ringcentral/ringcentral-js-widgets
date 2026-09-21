@@ -7,7 +7,7 @@ import path from 'path';
  * inject tailwind style for better debugging
  */
 export const compileAndInjectTailwindStyles = async (
-  projectRootPath = process.env.EXEC_ROOT_DIR || process.cwd(),
+  projectRootPath = process.env.EXEC_TAILWIND_ROOT_DIR || process.env.EXEC_ROOT_DIR || process.cwd(),
   scssFilePath = process.env.EXEC_GLOBAL_SCSS || './src/main.global.scss',
 ) => {
   const finalUrl = './node_modules/jest-preview/cli/server/tailwind.css';
@@ -48,10 +48,21 @@ export const compileAndInjectTailwindStyles = async (
       top: 100px !important;
       left: 200px !important;
       width: fit-content !important;
+      position: fixed !important;
     }
     .sui-popper-paper {
       opacity: 1 !important;
       transform: scaleY(1) !important;
+    }
+      // for better debugging, and view the panel in the jest preview
+    .w-[300px] {
+      width: 100% !important;
+    }
+    .min-w-[300px] {
+      min-width: 100% !important;
+    }
+    .max-w-[300px] {
+      max-width: 100% !important;
     }
   `;
   document.head.appendChild(style);

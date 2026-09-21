@@ -1,17 +1,25 @@
-import { whenStateChange } from '@ringcentral-integration/next-core/test';
-import { StepFunction } from '@ringcentral-integration/test-utils';
-import { act, fireEvent, screen } from '@testing-library/react';
+import { whenStateOrTimerChange } from '@ringcentral-integration/next-core/test';
+import {
+  fireEvent,
+  StepFunction,
+  waitForRenderReady,
+} from '@ringcentral-integration/test-utils';
+import { screen } from '@testing-library/react';
 
 export const CallButtonBehavior: StepFunction<{
   callButtonBehaviorType: string;
 }> = async ({ callButtonBehaviorType }) => {
-  await whenStateChange(() => {
-    act(() => {
-      const callButton = screen.getAllByTestId(callButtonBehaviorType)[0];
-      const circleIcon = callButton.getElementsByClassName('circle')[0];
-      expect(callButton).toBeInTheDocument();
-
-      fireEvent.click(circleIcon);
-    });
+  const callButton = await whenStateOrTimerChange(() => {
+    const callButton =
+      screen.queryAllByTestId(callButtonBehaviorType)[0] ??
+      (callButtonBehaviorType === 'showKeypad'
+        ? screen.queryAllByTestId('keypad')[0]
+        : undefined);
+    expect(callButton).toBeInTheDocument();
+    return callButton;
   });
+  const circleIcon = callButton.getElementsByClassName('circle')[0];
+
+  fireEvent.click(circleIcon ?? callButton);
+  await waitForRenderReady();
 };

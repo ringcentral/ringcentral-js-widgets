@@ -9,10 +9,10 @@ import {
   SelectProps,
 } from '@ringcentral/spring-ui';
 import clsx from 'clsx';
-import type { FunctionComponent } from 'react';
+import type { ChangeEvent, FunctionComponent, PropsWithChildren } from 'react';
 import React from 'react';
 
-export const SelectLine: FunctionComponent<
+type SelectLineProps = PropsWithChildren<
   {
     disabled?: boolean;
     value: any;
@@ -29,7 +29,9 @@ export const SelectLine: FunctionComponent<
     border?: boolean;
   } & HTMLDataAttribute &
     Pick<BaseLineProps, 'classes'>
-> = ({
+>;
+
+export const SelectLine: FunctionComponent<SelectLineProps> = ({
   children,
   disabled,
   value,
@@ -70,12 +72,18 @@ export const SelectLine: FunctionComponent<
           value={value}
           renderValue={(value) => {
             const selected = options.find((option) => option.value === value);
-            return selected ? selected.label : value;
+            if (selected) return selected.label;
+
+            return typeof value === 'string' || typeof value === 'number'
+              ? value
+              : '';
           }}
           size="medium"
           // TODO: spring-ui should support none underline style
           {...nonBorderProps}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={(e: ChangeEvent<{ value: string }>) =>
+            onChange(e.target.value)
+          }
           {...rest}
         >
           {options.map(({ value, label }) => {

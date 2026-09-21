@@ -124,7 +124,7 @@ export class ContactSourceFilter extends Component<
         {!this.state.unfold ? null : (
           <RcMenuList
             className={styles.contactSourceList}
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e: React.MouseEvent) => e.stopPropagation()}
             data-sign="contactSourceList"
           >
             {contactSourceNames.map((sourceName) => (

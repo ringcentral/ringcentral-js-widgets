@@ -3,6 +3,14 @@ import {
   screen,
   userEvent,
 } from '@ringcentral-integration/test-utils';
+import {
+  mockWindowLocation,
+  restoreWindowLocation,
+} from '@ringcentral-integration/test-utils/mock/locationMock.js';
+
+afterEach(() => {
+  restoreWindowLocation();
+});
 
 describe('make sure the scriptsLoadFail script work correctly', () => {
   const enUsContent = 'Please confirm your network status and refresh app.';
@@ -15,20 +23,16 @@ describe('make sure the scriptsLoadFail script work correctly', () => {
     ${'es-es'} | ${'Confirme el estado de su red y actualice la aplicación'}                 | ${'Red no disponible'}
     ${'fr-ch'} | ${'Veuillez vérifier l’état de votre réseau et actualiser l’application.'}  | ${'Réseau indisponible'}
     ${'fr-ca'} | ${'Veuillez confirmer l’état de votre réseau et actualiser l’application.'} | ${'Réseau non disponible'}
-  `('language text should be correct $locale', ({ locale, content, title }) => {
+  `('language text should be correct $locale', async ({ locale, content, title }) => {
     const windowListenerSpy = createMockAction();
     jest.resetModules();
-    jest.clearAllMocks();
+    jest.restoreAllMocks();
+    const locationMock = mockWindowLocation();
 
     document.body.innerHTML = '';
     const root = document.createElement('div');
     root.id = 'app';
     document.body.appendChild(root);
-
-    Object.defineProperty(window, 'location', {
-      configurable: true,
-      value: { ...location, reload: jest.fn() },
-    });
 
     Object.defineProperty(global.navigator, 'languages', {
       value: [locale],
@@ -55,18 +59,22 @@ describe('make sure the scriptsLoadFail script work correctly', () => {
     ]);
     expect(windowListenerSpy.addListener).toHaveBeenCalledTimes(1);
 
-    checkRenderResult(content, title);
+    await checkRenderResult(content, title, locationMock);
 
     windowListenerSpy.destroy();
   });
 });
 
-function checkRenderResult(content: string, title: string) {
+async function checkRenderResult(
+  content: string,
+  title: string,
+  locationMock: ReturnType<typeof mockWindowLocation>,
+) {
   screen.getByText(content);
   screen.getByText(title);
 
   // click refresh button should reload page
-  userEvent.click(screen.getByRole('button'));
+  await userEvent.click(screen.getByRole('button'));
 
-  expect(global.location.reload).toHaveBeenCalled();
+  expect(locationMock.reload).toHaveBeenCalled();
 }

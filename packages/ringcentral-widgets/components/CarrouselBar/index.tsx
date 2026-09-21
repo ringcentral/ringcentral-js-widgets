@@ -4,6 +4,7 @@ import styles from './styles.scss';
 
 const DEFAULT_SCROLL_INTERVAL = 5000;
 type CarrouselBarProps = {
+  children?: React.ReactNode;
   scrollInterval?: number;
   hoverBar?: boolean;
 };

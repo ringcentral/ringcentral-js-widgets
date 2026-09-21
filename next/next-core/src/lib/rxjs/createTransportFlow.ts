@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { EmitOptions, Transport } from 'reactant-share';
+import { EmitOptions, Transport } from 'data-transport';
 import { defer, merge, NEVER, Observable, Subject, switchMap } from 'rxjs';
 
 /**

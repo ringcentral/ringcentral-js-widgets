@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  textTooLong: 'テキストが長すぎます(最大1000文字)',
+  textTooLong: '最大1,000文字まで入力できます。',
   attachmentCountLimitation:
     '1メッセージにつき、添付できるファイルの数は最大10個です',
   attachmentSizeLimitation:

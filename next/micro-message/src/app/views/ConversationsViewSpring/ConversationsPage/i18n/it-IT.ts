@@ -15,8 +15,15 @@ export default {
   NumberPool: 'Pool di numeri',
   BusinessMobileNumber: 'Cellulare aziendale',
   IntegrationNumber: 'Integrazione',
-  all: 'TUTTI',
+  all: 'Tutti',
   unread: 'Non letti',
+  draft: 'Bozze',
+  failed: 'Non riuscito',
+  done: 'Fatto',
+  cancel: 'Annulla',
+  byCallQueue: 'Per coda chiamate',
+  allCallQueues: 'Tutte le code chiamate',
+  searchCallQueues: 'Cerca code chiamate',
   noMessages: 'Nessun messaggio',
   noText: 'Ancora nessun SMS',
   noUnreadText: 'Ancora nessun SMS non letto',
@@ -28,6 +35,7 @@ export default {
   searchFax: 'Cerca fax',
   searchText: 'Cerca SMS',
   composeText: 'Invia nuovo SMS',
+  sendNewTextDisabled: 'Invio di nuovo SMS disattivato',
   composeFax: 'Componi fax',
 } as const;
 
@@ -48,6 +56,13 @@ export default {
 // @key: @#@"IntegrationNumber"@#@ @source: @#@"Integration"@#@
 // @key: @#@"all"@#@ @source: @#@"All"@#@
 // @key: @#@"unread"@#@ @source: @#@"Unread"@#@
+// @key: @#@"draft"@#@ @source: @#@"Draft"@#@
+// @key: @#@"failed"@#@ @source: @#@"Failed"@#@
+// @key: @#@"done"@#@ @source: @#@"Done"@#@
+// @key: @#@"cancel"@#@ @source: @#@"Cancel"@#@
+// @key: @#@"byCallQueue"@#@ @source: @#@"By call queue"@#@
+// @key: @#@"allCallQueues"@#@ @source: @#@"All call queues"@#@
+// @key: @#@"searchCallQueues"@#@ @source: @#@"Search call queues"@#@
 // @key: @#@"noMessages"@#@ @source: @#@"No Messages"@#@
 // @key: @#@"noText"@#@ @source: @#@"No text messages yet"@#@
 // @key: @#@"noUnreadText"@#@ @source: @#@"No unread text messages yet"@#@
@@ -59,4 +74,5 @@ export default {
 // @key: @#@"searchFax"@#@ @source: @#@"Search faxes"@#@
 // @key: @#@"searchText"@#@ @source: @#@"Search texts"@#@
 // @key: @#@"composeText"@#@ @source: @#@"Send new text"@#@
+// @key: @#@"sendNewTextDisabled"@#@ @source: @#@"Send new text disabled"@#@
 // @key: @#@"composeFax"@#@ @source: @#@"Compose fax"@#@

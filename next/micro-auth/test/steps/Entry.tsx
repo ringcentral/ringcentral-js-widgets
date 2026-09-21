@@ -1,7 +1,9 @@
 import {
+  screen,
   StepFunction,
   waitForRenderReady,
 } from '@ringcentral-integration/test-utils';
+import { waitUntilTo } from '@ringcentral-integration/utils';
 
 import type { AppConfig } from '../../config';
 import type { BrandCode } from '../lib/branding';
@@ -46,8 +48,16 @@ export const Entry: StepFunction<EntryProps> = async ({
           ...process.env,
           APP_CONFIG: JSON.parse(JSON.stringify(appConfig)),
         };
+        if (!document.getElementById('app')) {
+          const appContainer = document.createElement('div');
+          appContainer.id = 'app';
+          document.body.appendChild(appContainer);
+        }
         require('../../src/bootstrap');
         await waitForRenderReady();
+        await waitUntilTo(() => {
+          expect(screen.queryByText('Sign in')).toBeInTheDocument();
+        });
       }}
     </>
   );

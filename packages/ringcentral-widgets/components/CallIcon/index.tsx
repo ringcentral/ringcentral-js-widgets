@@ -22,12 +22,16 @@ const newCallIconMap = {
 };
 type CallIconProps = {
   direction: string;
+  active?: boolean;
+  missed?: boolean;
   ringing?: boolean;
   isOnConferenceCall?: boolean;
   inboundTitle?: string;
   outboundTitle?: string;
+  missedTitle?: string;
   showAvatar?: boolean;
   avatarUrl?: string;
+  extraNum?: number;
   newCallIcon?: boolean;
 };
 const CallIcon: React.FC<CallIconProps> = ({
@@ -38,7 +42,6 @@ const CallIcon: React.FC<CallIconProps> = ({
   isOnConferenceCall,
   showAvatar,
   avatarUrl,
-  // @ts-expect-error TS(2339): Property 'extraNum' does not exist on type 'PropsW... Remove this comment to see the full error message
   extraNum = 0,
   newCallIcon,
 }) => {

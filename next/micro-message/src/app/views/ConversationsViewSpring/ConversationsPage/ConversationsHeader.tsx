@@ -11,6 +11,7 @@ import i18n from './i18n';
 type ConversationsHeaderProps = {
   typeFilter: MessageTypes;
   showNewButton?: boolean;
+  newButtonDisabled?: boolean;
   disableLinks?: boolean;
   onNewClick?: (type: MessageTypes) => void;
 };
@@ -18,6 +19,7 @@ type ConversationsHeaderProps = {
 export const ConversationsHeader: React.FC<ConversationsHeaderProps> = ({
   typeFilter,
   showNewButton,
+  newButtonDisabled,
   disableLinks,
   onNewClick,
 }) => {
@@ -25,6 +27,7 @@ export const ConversationsHeader: React.FC<ConversationsHeaderProps> = ({
 
   const faxMode = typeFilter === messageTypes.fax;
   const voiceMailMode = typeFilter === messageTypes.voiceMail;
+  const showDisabledTextTooltip = newButtonDisabled && !faxMode;
 
   const title = useMemo(() => {
     return (
@@ -39,18 +42,25 @@ export const ConversationsHeader: React.FC<ConversationsHeaderProps> = ({
     <AppHeaderNav title={title}>
       {!voiceMailMode && showNewButton && onNewClick ? (
         <IconButton
+          // Remount Spring UI Tooltip when switching to the disabled trigger wrapper.
+          key={showDisabledTextTooltip ? 'disabled-text' : 'enabled'}
           variant="contained"
           color="secondary"
-          size="medium"
+          size="small"
           symbol={faxMode ? AddFaxMd : NewSmsmd}
           data-sign="edit"
           TooltipProps={{
-            title: faxMode ? t('composeFax') : t('composeText'),
+            triggerWhenDisabled: showDisabledTextTooltip,
+            title: showDisabledTextTooltip
+              ? t('sendNewTextDisabled')
+              : faxMode
+                ? t('composeFax')
+                : t('composeText'),
           }}
           onClick={() => {
             onNewClick(typeFilter);
           }}
-          disabled={disableLinks}
+          disabled={disableLinks || newButtonDisabled}
         />
       ) : null}
     </AppHeaderNav>

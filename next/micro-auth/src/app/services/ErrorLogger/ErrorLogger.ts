@@ -10,12 +10,13 @@ import { getMfeMeta } from '@ringcentral-integration/next-micro';
 import type { useSentry } from '@ringcentral/mfe-sentry';
 import * as Sentry from '@sentry/browser';
 import { BrowserTracing } from '@sentry/tracing';
-import type { SeverityLevel, User } from '@sentry/types';
+import type { Event, SeverityLevel, User } from '@sentry/types';
 
 import { AccountInfo } from '../AccountInfo';
 import { Auth } from '../Auth';
 
 import type { ErrorLoggerOptions } from './ErrorLogger.interface';
+import { sanitizeSentryEvent } from './sanitizeSentryEvent';
 
 const ignoreErrors = [
   '200 OK',
@@ -40,6 +41,10 @@ const ignoreErrors = [
 ];
 
 const DEFAULT_INTERCEPTED_BRANDS = ['3000.Brightspeed'];
+
+const isPromiseLike = <T>(value: unknown): value is PromiseLike<T> => {
+  return !!value && typeof (value as { then?: unknown }).then === 'function';
+};
 
 @injectable({
   name: 'ErrorLogger',
@@ -95,24 +100,38 @@ export class ErrorLogger extends RcModule {
 
   private _init(options: Sentry.BrowserOptions) {
     this._sentryInitialized = true;
+    const beforeSend: NonNullable<Sentry.BrowserOptions['beforeSend']> = (
+      event,
+      hint,
+    ) => {
+      if (this.intercepted) {
+        return null;
+      }
+
+      const beforeSendResult = options.beforeSend?.(event, hint);
+
+      if (beforeSendResult === null) {
+        return null;
+      }
+
+      if (isPromiseLike<Event | null>(beforeSendResult)) {
+        return beforeSendResult.then((result) =>
+          result ? sanitizeSentryEvent(result) : null,
+        );
+      }
+
+      return sanitizeSentryEvent((beforeSendResult ?? event) as Event);
+    };
     const initOptions = {
       ...options,
       ignoreErrors,
+      beforeSend,
     };
     if (this._errorLoggerOptions?.initMfeSentry) {
       this._mfeSentry = this._errorLoggerOptions.initMfeSentry(initOptions);
     }
     const hub =
-      (this._mfeSentry?.hub as Sentry.Hub | void) ??
-      Sentry.init({
-        ...initOptions,
-        beforeSend: (event) => {
-          if (this.intercepted) {
-            return null;
-          }
-          return event;
-        },
-      });
+      (this._mfeSentry?.hub as Sentry.Hub | void) ?? Sentry.init(initOptions);
     this._hub = hub ?? Sentry.getCurrentHub();
   }
 

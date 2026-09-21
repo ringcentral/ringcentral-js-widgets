@@ -22,6 +22,13 @@ export interface Token {
 export interface AuthOptions {
   usePKCE?: boolean;
   /**
+   * Controls the generic session-expired Toast emitted by Auth.
+   *
+   * Keep enabled unless the host application renders its own session-expired
+   * surface from shared auth state.
+   */
+  enableSessionExpiredToast?: boolean;
+  /**
    * Will using auth owner id as user storage key by default,
    *  set this to true if you want custom the user storage key in other module.
    *

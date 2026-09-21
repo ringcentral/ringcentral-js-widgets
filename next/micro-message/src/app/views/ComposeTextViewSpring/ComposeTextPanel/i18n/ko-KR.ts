@@ -7,6 +7,8 @@ export default {
   optOutSingleRecipient: '수신자가 수신을 거부 했습니다.',
   optOutMultipleRecipients: '일부 수신자가 수신을 거부 했습니다.',
   optOutRemove: '삭제',
+  incomingTextsOnly: '수신 텍스트만',
+  notSetUpForTexting: '텍스트를 보내도록 설정되지 않음',
 } as const;
 
 // @key: @#@"createNewText"@#@ @source: @#@"Create new text"@#@
@@ -15,3 +17,5 @@ export default {
 // @key: @#@"optOutSingleRecipient"@#@ @source: @#@"This recipient has opted out."@#@
 // @key: @#@"optOutMultipleRecipients"@#@ @source: @#@"Some recipients have opted out."@#@
 // @key: @#@"optOutRemove"@#@ @source: @#@"Remove"@#@
+// @key: @#@"incomingTextsOnly"@#@ @source: @#@"Incoming texts only"@#@
+// @key: @#@"notSetUpForTexting"@#@ @source: @#@"Not set up for texting"@#@

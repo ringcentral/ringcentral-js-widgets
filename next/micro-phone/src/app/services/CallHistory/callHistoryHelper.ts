@@ -2,13 +2,6 @@ import type { Call } from '@ringcentral-integration/commons/interfaces/Call.inte
 
 import type { HistoryCall } from './CallHistory.interface';
 
-const RC_EXTENSION_DELIMITER = '*';
-
-export type PhoneNumberPicker = (
-  phoneNumber: string,
-  extNumber?: string,
-) => string | undefined;
-
 export const addIfNotExist = (
   number: string,
   output: string[],
@@ -23,38 +16,14 @@ export const addIfNotExist = (
 // NOTE:
 // business logic for commons for now
 // return phone number only.
-const pickPhoneNumber: PhoneNumberPicker = (phoneNumber: string) => phoneNumber;
-
-export const pickPhoneOrExtensionNumber: PhoneNumberPicker = (
-  phoneNumber?: string,
-  extension?: string,
-) => phoneNumber || extension;
-
-const formatExt = (num: string) => `${RC_EXTENSION_DELIMITER}${num}`;
-
-export const pickFullPhoneNumber: PhoneNumberPicker = (
+const pickPhoneNumber = (
   phoneNumber: string,
-  extensionNumber?: string,
-) => {
-  let number = phoneNumber;
-  if (phoneNumber && extensionNumber) {
-    number = `${phoneNumber}${formatExt(extensionNumber)}`;
-  } else if (extensionNumber) {
-    number = extensionNumber;
-  }
-  return number;
-};
+  _extensionNumber: string | undefined,
+) => phoneNumber;
 
 export const addNumbersFromCall =
-  (
-    output: string[],
-    numberMap: Record<string, boolean>,
-    pickingFullNumber = false,
-  ) =>
-  (call: Call) => {
-    const pickNumber = pickingFullNumber
-      ? pickFullPhoneNumber
-      : pickPhoneNumber;
+  (output: string[], numberMap: Record<string, boolean>) => (call: Call) => {
+    const pickNumber = pickPhoneNumber;
     if (call.from && call.from.phoneNumber) {
       const number = pickNumber(
         call.from.phoneNumber,

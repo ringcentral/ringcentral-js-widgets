@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
-  App,
   createSharedApp,
   render,
   unmountComponentAtNode,
 } from '@ringcentral-integration/next-core';
 import type {
+  App,
   RendererType,
   SharedAppConfig,
   PartialKeys,
@@ -49,6 +49,9 @@ export const exposeMicroApp = <T, S extends any[], R extends RendererType<S>>({
       }) as Promise<App<T, S, R>>;
     },
     render: (element = options.renderRoot!(), props?: any, mfeId?: string) => {
+      if (!element) {
+        return () => {};
+      }
       if (props) {
         global.app.bootstrap(
           () => <BootstrapView {...props} mfeId={mfeId} />,
@@ -58,7 +61,7 @@ export const exposeMicroApp = <T, S extends any[], R extends RendererType<S>>({
         global.app.bootstrap(element);
       }
       return () => {
-        unmountComponentAtNode(element!);
+        unmountComponentAtNode(element);
       };
     },
   });

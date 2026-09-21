@@ -8,8 +8,7 @@ import {
   Then,
   Step,
 } from '@ringcentral-integration/test-utils';
-import { createElement } from 'react';
-import { act } from 'react-dom/test-utils';
+import { act, createElement } from 'react';
 
 import {
   injectable,
@@ -50,16 +49,19 @@ beforeEach(() => {
   document.body.appendChild(clientContainer);
 });
 
-afterEach(() => {
-  clientContainer
-    .querySelector('#home')
-    ?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
-  unmountComponentAtNode(serverContainer);
+afterEach(async () => {
+  await act(async () => {
+    clientContainer
+      .querySelector('#home')
+      ?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    await Promise.resolve();
+    unmountComponentAtNode(serverContainer);
+    serverApp?.destroy();
+    unmountComponentAtNode(clientContainer);
+    clientApp?.destroy();
+  });
   serverContainer.remove();
-  serverApp?.destroy();
-  unmountComponentAtNode(clientContainer);
   clientContainer.remove();
-  clientApp?.destroy();
   // @ts-ignore
   serverApp = undefined;
   // @ts-ignore
@@ -187,7 +189,9 @@ class BaseMultipleClientWithDelegateInBaseMode extends Step {
           desc="Trigger 'increment' action in server app, and create and bootstrap client app"
           action={async () => {
             expect(serverApp.instance.portManager.isMainTab).toBeTruthy();
-            await serverApp.bootstrap(serverContainer);
+            await act(async () => {
+              await serverApp.bootstrap(serverContainer);
+            });
             expect(serverContainer.querySelector('#content')?.textContent).toBe(
               'home',
             );
@@ -214,7 +218,9 @@ class BaseMultipleClientWithDelegateInBaseMode extends Step {
                 },
               },
             });
-            await clientApp.bootstrap(clientContainer);
+            await act(async () => {
+              await clientApp.bootstrap(clientContainer);
+            });
           }}
         />
         <Then
@@ -296,8 +302,9 @@ class BaseMultipleClientWithDelegateInBaseMode extends Step {
             ).toBe(
               serverApp.instance.portManager.portDetector.lastAction.sequence,
             );
-            const result =
-              await clientApp.instance.counterView.incrementAsync();
+            const result = await act(() =>
+              clientApp.instance.counterView.incrementAsync(),
+            );
             expect(result).toBe(2);
           }}
         />
@@ -349,8 +356,9 @@ class BaseMultipleClientWithDelegateInBaseMode extends Step {
             ).toBe(
               serverApp.instance.portManager.portDetector.lastAction.sequence,
             );
-            const result =
-              await serverApp.instance.counterView.incrementAsync();
+            const result = await act(() =>
+              serverApp.instance.counterView.incrementAsync(),
+            );
             expect(result).toBe(3);
           }}
         />
@@ -432,7 +440,9 @@ class BaseMultipleClientWithDelegateInSharedWorkerMode extends Step {
             });
             clientApp = await clientAppPromise;
             await mockLock(clientApp);
-            await clientApp.bootstrap(clientContainer);
+            await act(async () => {
+              await clientApp.bootstrap(clientContainer);
+            });
           }}
         />
         <When
@@ -524,8 +534,9 @@ class BaseMultipleClientWithDelegateInSharedWorkerMode extends Step {
             ).toBe(
               serverApp.instance.portManager.portDetector.lastAction.sequence,
             );
-            const result =
-              await clientApp.instance.counterView.incrementAsync();
+            const result = await act(() =>
+              clientApp.instance.counterView.incrementAsync(),
+            );
             expect(result).toBe(2);
           }}
         />
@@ -577,8 +588,9 @@ class BaseMultipleClientWithDelegateInSharedWorkerMode extends Step {
             ).toBe(
               serverApp.instance.portManager.portDetector.lastAction.sequence,
             );
-            const result =
-              await serverApp.instance.counterView.incrementAsync();
+            const result = await act(() =>
+              serverApp.instance.counterView.incrementAsync(),
+            );
             expect(result).toBe(3);
           }}
         />
@@ -633,7 +645,9 @@ class BaseSpaWithDelegateInBaseMode extends Step {
           desc="Trigger 'increment' action in base app"
           action={async () => {
             expect(serverApp.instance.portManager.isMainTab).toBeFalsy();
-            await serverApp.bootstrap(serverContainer);
+            await act(async () => {
+              await serverApp.bootstrap(serverContainer);
+            });
             expect(serverContainer.querySelector('#content')?.textContent).toBe(
               'home',
             );
@@ -682,8 +696,9 @@ class BaseSpaWithDelegateInBaseMode extends Step {
           desc="Trigger 'increaseAsync' with @delegate('mainClient') function in base app"
           action={async () => {
             expect(serverApp.instance.counterView.count).toBe(1);
-            const result =
-              await serverApp.instance.counterView.incrementAsync();
+            const result = await act(() =>
+              serverApp.instance.counterView.incrementAsync(),
+            );
             expect(result).toBe(2);
           }}
         />

@@ -1,4 +1,8 @@
-import format, { formatSameSiteExtension, formatTypes } from './index';
+import format, {
+  formatSameSiteExtension,
+  formatTypes,
+  formatWithParserResult,
+} from './index';
 
 describe('format', () => {
   test('should return a string', () => {
@@ -183,6 +187,21 @@ describe('format', () => {
         countryCode: 'GB',
       }),
     ).toBe('020 7930 9114');
+  });
+  test('should format US number with 835 area code', () => {
+    expect(
+      format({
+        phoneNumber: '835-555-1234',
+        countryCode: 'US',
+      }),
+    ).toBe('(835) 555-1234');
+    expect(
+      format({
+        phoneNumber: '835-555-1234',
+        countryCode: 'US',
+        type: formatTypes.e164,
+      }),
+    ).toBe('+18355551234');
   });
   test('should format to international format if options.international is set to true', () => {
     expect(
@@ -380,6 +399,29 @@ describe('format', () => {
         isMultipleSiteEnabled: true,
       }),
     ).toBe(longExtension);
+  });
+
+  test('should return parser result with formatted number', () => {
+    const result = formatWithParserResult({
+      phoneNumber: '16503618700*123',
+      countryCode: 'US',
+      removeExtension: true,
+      type: formatTypes.e164,
+    });
+
+    expect(result.number).toBe('+16503618700');
+    expect(result.parserResult.extension).toBe('123');
+    expect(result.parserResult.isExtension).toBe(false);
+  });
+
+  test('should keep format result same as formatWithParserResult number', () => {
+    const options = {
+      phoneNumber: '+1 650-361-8700 * 123',
+      countryCode: 'US' as const,
+      type: formatTypes.e164,
+    };
+
+    expect(format(options)).toBe(formatWithParserResult(options).number);
   });
 });
 

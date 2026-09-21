@@ -76,7 +76,7 @@ export class RCI2626 extends Step {
   run() {
     const { CreateMock, Login } = this;
     let availabilityMonitor: AvailabilityMonitor;
-    let retrySpy: jest.SpyInstance;
+    let retrySpy: jest.Spied;
     const checkConnectionFuncSpy = jest.fn();
     return (
       <Scenario desc="Verify the app enter offline mode when API return 503 in the Webphone is unavailable">

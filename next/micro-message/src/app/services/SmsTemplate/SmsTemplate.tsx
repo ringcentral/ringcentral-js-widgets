@@ -4,13 +4,13 @@ import {
   DataSource,
 } from '@ringcentral-integration/micro-auth/src/app/services';
 import {
-  Toast,
-  ToastManager,
-} from '@ringcentral-integration/micro-core/src/app/services';
-import {
   Auth,
   Client,
 } from '@ringcentral-integration/micro-auth/src/app/services';
+import {
+  Toast,
+  ToastManager,
+} from '@ringcentral-integration/micro-core/src/app/services';
 import {
   action,
   computed,
@@ -25,6 +25,7 @@ import {
 import type { ApiError } from '@ringcentral/sdk';
 import { tap } from 'rxjs';
 
+import { t } from './i18n';
 import type {
   CreateServerSmsTemplateRequest,
   CreateSmsTemplateParams,
@@ -36,7 +37,6 @@ import type {
   UpdateServerSmsTemplateRequest,
   UpdateSmsTemplateParams,
 } from './SmsTemplate.interface';
-import { t } from './i18n';
 
 const ONE_HOUR = 1000 * 60 * 60;
 

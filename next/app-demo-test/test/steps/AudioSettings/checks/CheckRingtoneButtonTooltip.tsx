@@ -1,4 +1,3 @@
-import { DEFAULT_RINGTONE_LIST } from '@ringcentral-integration/micro-phone/src/app/services';
 import { fireEvent, screen } from '@ringcentral-integration/test-utils';
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 
@@ -8,20 +7,18 @@ export const CheckRingtoneButtonTooltip: StepFunction<{
   checkCustom?: boolean;
   customCount?: number;
 }> = async ({ button, tooltip, checkCustom = false, customCount }) => {
-  // it take times to hover the play button and render tooltip, so we get a random index to check
-  const randomIndex = !checkCustom
-    ? Math.floor(Math.random() * DEFAULT_RINGTONE_LIST.length - 1)
-    : Math.ceil(Math.random() * customCount! - 1);
+  // Checking one representative button avoids rendering every tooltip.
+  const buttonIndex = checkCustom ? customCount! - 1 : 0;
 
-  const playButton = screen.getAllByTitle(button)[randomIndex];
-  expect(playButton).toBeInTheDocument();
+  const targetButton = screen.getAllByTitle(button)[buttonIndex];
+  expect(targetButton).toBeInTheDocument();
   jest.useFakeTimers();
-  fireEvent.mouseEnter(playButton);
+  fireEvent.mouseEnter(targetButton);
   jest.advanceTimersByTime(1000);
 
   expect(screen.getByRole('tooltip')).toHaveTextContent(tooltip);
 
-  fireEvent.mouseLeave(playButton);
+  fireEvent.mouseLeave(targetButton);
   jest.advanceTimersByTime(1000);
   jest.useRealTimers();
 };

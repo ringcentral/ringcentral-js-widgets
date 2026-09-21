@@ -1,4 +1,7 @@
-import { whenStateChange } from '@ringcentral-integration/next-core/test';
+import {
+  whenStateChange,
+  whenStateOrTimerChange,
+} from '@ringcentral-integration/next-core/test';
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import { screen } from '@testing-library/react';
 
@@ -21,11 +24,13 @@ export const CheckPastingAction: StepFunction<
   searchSuccessful,
   userNewSearchList,
 }) => {
-  const input = screen.getByTestId('recipientsInput');
-  expect(input).toBeInTheDocument();
-  showAtInputBox
-    ? expect(input).toHaveValue(showAtInputBox)
-    : expect(input).not.toHaveValue(pasteData);
+  await whenStateOrTimerChange(() => {
+    const input = screen.getByTestId('recipientsInput');
+    expect(input).toBeInTheDocument();
+    showAtInputBox
+      ? expect(input).toHaveValue(showAtInputBox)
+      : expect(input).not.toHaveValue(pasteData);
+  });
   await whenStateChange(() => {
     dataShowAsCard && dataShowAsCard.length
       ? dataShowAsCard.every((data) =>

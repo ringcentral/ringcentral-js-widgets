@@ -1,14 +1,12 @@
 import type {
+  UserpilotServiceOptions,
   OAuthOptions,
   AuthOptions,
-  PendoAnalyticsOptions,
 } from '@ringcentral-integration/micro-auth/src/app/services';
 import {
   type AnalyticsOptions,
   Auth,
-  PendoAnalytics,
-  PendoGuide,
-  type PendoGuideOptions,
+  UserpilotService,
 } from '@ringcentral-integration/micro-auth/src/app/services';
 import {
   AccountContacts,
@@ -31,15 +29,16 @@ import {
   ConversationMatcher,
   MessageThread,
   type MessageThreadOptions,
+  SmsConsent,
   SmsConversationsOptions,
   SmsOptOut,
 } from '@ringcentral-integration/micro-message/src/app/services';
 import {
-  MessageThreadsView,
-  SharedConversationView,
+  SmsConsentDialogView,
+  SmsConsentManagementView,
   SmsOptOutView,
+  TCRNumberModalView,
 } from '@ringcentral-integration/micro-message/src/app/views';
-import { getCommonAppConfig } from '@ringcentral-integration/micro-next-commons/src/app';
 import type { ContactRendererOptions } from '@ringcentral-integration/micro-phone/src/app/hooks';
 import {
   ActiveCallControlOptions,
@@ -50,7 +49,13 @@ import {
   type CallLogFormViewOptions,
 } from '@ringcentral-integration/micro-phone/src/app/views';
 import { IntegrationConfigOptions } from '@ringcentral-integration/micro-setting/src/app/services';
-import { SettingsViewOptions } from '@ringcentral-integration/micro-setting/src/app/views';
+import {
+  ExperienceFeedbackView,
+  FeedbackView,
+  type FeedbackViewOptions,
+  type SettingsViewOptions,
+} from '@ringcentral-integration/micro-setting/src/app/views';
+import { getCommonAppConfig } from '@ringcentral-integration/next-common-app/src/app';
 import {
   createSharedApp,
   type RootOptions,
@@ -72,7 +77,7 @@ export const createApp = async (
     loaderBaseUrl,
     enableIDB,
     analyticsKey,
-    pendoApiKey,
+    userpilotAppToken,
   } = config;
   const sdkConfig = config.sdkConfig!;
   const { appVersion } = version;
@@ -129,6 +134,12 @@ export const createApp = async (
         useValue: {
           component: CallLogExample,
         } satisfies CallLogFormViewOptions,
+      },
+      {
+        provide: 'SmsConversationsOptions',
+        useValue: {
+          supportCRMLogMessageTypes: [],
+        } satisfies SmsConversationsOptions,
       },
       {
         provide: 'ConversationLoggerOptions',
@@ -224,9 +235,11 @@ export const createApp = async (
       },
       SmsOptOut,
       SmsOptOutView,
+      SmsConsent,
+      SmsConsentDialogView,
+      SmsConsentManagementView,
+      TCRNumberModalView,
       MessageThread,
-      MessageThreadsView,
-      SharedConversationView,
       {
         provide: 'MessageThreadOptions',
         useValue: {
@@ -261,43 +274,52 @@ export const createApp = async (
         } satisfies HeaderNavViewSpringOptions,
       },
       //
-      ...(pendoApiKey
+      // Userpilot FeatureGuide integration
+      ...(userpilotAppToken
         ? [
-            PendoAnalytics,
-            PendoGuide,
+            UserpilotService,
+            FeedbackView,
+            ExperienceFeedbackView,
+            {
+              provide: 'UserpilotServiceOptions',
+              useValue: {
+                appToken: userpilotAppToken,
+              } satisfies UserpilotServiceOptions,
+            },
             {
               provide: 'SettingsViewOptions',
-              useFactory: (pendoGuide: PendoGuide) => {
+              useFactory: (
+                userpilotService: UserpilotService,
+                feedbackView: FeedbackView,
+              ) => {
                 return {
+                  showFeedback: brandConfig.code === 'rc',
                   onFeedBackSettingsLink: () => {
-                    pendoGuide.showSettingsRatingGuide();
+                    userpilotService.track('settings-rating-show');
+                    feedbackView?.openFeedback();
                   },
                 } satisfies SettingsViewOptions;
               },
-              deps: [PendoGuide],
+              deps: [UserpilotService, FeedbackView],
             },
             {
-              provide: 'PendoAnalyticsOptions',
+              provide: 'FeedbackViewOptions',
               useValue: {
-                pendoApiKey,
-                // https://app.pendo.io/s/6255039312297984/guides/kpVCV-Ofowx83ElPciPwVUmzFuE
-                // to reduce the noise and budget, we only track the events that we need.
-                // in pendo, we only need Log Call event to track the call log currently, for other events, we can add them later
-                trackEvents:
-                  process.env.NODE_ENV === 'test'
-                    ? new Set(['click', 'login', 'call'])
-                    : new Set(['Int_CRM_logCall']),
-              } satisfies PendoAnalyticsOptions,
-            },
-            {
-              provide: 'SmsConversationsOptions',
-              useValue: {
-                // disable sms log for demo app
-                supportCRMLogMessageTypes: [],
-              } satisfies SmsConversationsOptions,
+                reviewLink: 'https://www.google.com',
+              } satisfies FeedbackViewOptions,
             },
           ]
-        : []),
+        : [
+            {
+              provide: 'SettingsViewOptions',
+              useFactory: () => {
+                return {
+                  showFeedback: false,
+                } satisfies SettingsViewOptions;
+              },
+              deps: [],
+            },
+          ]),
       ...modules,
     ],
     share: options ?? {

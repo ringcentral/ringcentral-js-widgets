@@ -30,7 +30,7 @@ import {
   CheckRCMPageDisplay,
   CheckRCVPageDisplay,
 } from '../../../../steps/Meeting';
-import { CreateMock } from '../../../../steps/Mock';
+import { CreateMock, MockMessageSync } from '../../../../steps/Mock';
 import { NavigateToMeeting } from '../../../../steps/Navigate';
 
 @autorun(test)
@@ -58,6 +58,7 @@ export class RCI1370 extends Step {
           desc="Direct to entry point"
           action={async ({ provider }: any) => [
             <CreateMock useRcm={provider === 'rcm'} />,
+            <MockMessageSync isDefaultInit repeat={0} />,
             Login,
           ]}
         />

@@ -1,5 +1,3 @@
-import type JSZip from 'jszip';
-
 export type ClientAppType =
   | 'RCAppDesktop'
   | 'RCAppMobile'
@@ -27,12 +25,6 @@ export interface CPRClientOptions {
    * Used for MS Teams (with DP version).
    */
   clientInfoProvider?: CPRClientInfoProvider;
-
-  /**
-   * Additional log provider for collecting platform-specific logs
-   * e.g., Jupiter logs, GA logs
-   */
-  additionalLogProvider?: AdditionalLogProvider;
 }
 
 export type FileMeta = {
@@ -82,8 +74,4 @@ export interface CPRClientInfoProvider {
   getCprClientAppType(): ClientAppType;
   getCprClientDetails(dpVersion?: string): string;
   getDpVersion?(): Promise<string | undefined>;
-}
-
-export interface AdditionalLogProvider {
-  addAdditionalLogs(zip: JSZip): Promise<void>;
 }

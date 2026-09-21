@@ -55,13 +55,17 @@ import { Call } from '../Call';
 import { PreinsertCall } from '../PreinsertCall';
 import { Webphone } from '../Webphone';
 
+import { type CallEvent, callEvents } from './callEvents';
 import type {
   CallEventCallback,
   CallMonitorOptions,
   DeviceCallsMap,
   DeviceCallsMapInfo,
 } from './CallMonitor.interface';
-import { type CallEvent, callEvents } from './callEvents';
+import { RECENT_CALL_DIRECTIONS_LIMIT } from './const';
+import { checkIsCallAnswered } from './helpers';
+
+type CallDirection = NonNullable<ICall['direction']>;
 
 @injectable({
   name: 'CallMonitor',
@@ -69,8 +73,13 @@ import { type CallEvent, callEvents } from './callEvents';
 export class CallMonitor extends RcModule {
   private _eventEmitter = new EventEmitter();
 
-  private _enableContactMatchWhenNewCall: boolean =
-    this._callMonitorOptions?.enableContactMatchWhenNewCall ?? true;
+  private _answeredSessionIds = new Set<string>();
+
+  @state
+  protected _recentCallDirectionMap: Record<string, CallDirection> = {};
+
+  @state
+  protected _recentCallDirectionSessionIds: string[] = [];
 
   /**
    * use state to trigger event, so the event can trigger in every clients and server, alway use when you want to listen the event in component
@@ -101,12 +110,14 @@ export class CallMonitor extends RcModule {
     super();
     this._storage.enable(this);
 
-    if (this._enableContactMatchWhenNewCall) {
-      this._contactMatcher?.addQuerySource({
-        getQueriesFn: () => this.uniqueNumbers,
-        readyCheckFn: () => this._accountInfo.ready && this._presence.ready,
-      });
-    }
+    this.onNewCall((call) => {
+      this._storeRecentCallDirection(call);
+    });
+
+    this._contactMatcher?.addQuerySource({
+      getQueriesFn: () => this.uniqueNumbers,
+      readyCheckFn: () => this._accountInfo.ready && this._presence.ready,
+    });
 
     this._activityMatcher?.addQuerySource({
       getQueriesFn: () => this.sessionIds,
@@ -158,6 +169,52 @@ export class CallMonitor extends RcModule {
     return this;
   }
 
+  /** Subscribe to the first observed answered state of each call. */
+  onCallAnswered(callback: CallEventCallback) {
+    this._eventEmitter.on(callEvents.callAnswered, callback);
+    return this;
+  }
+
+  @action
+  protected _storeRecentCallDirection(call: ICall) {
+    const { sessionId, direction } = call;
+
+    if (!sessionId || !direction) {
+      return;
+    }
+
+    const sessionIds = this._recentCallDirectionSessionIds.filter(
+      (recentSessionId) => recentSessionId !== sessionId,
+    );
+    sessionIds.push(sessionId);
+
+    const expiredSessionIds = sessionIds.slice(
+      0,
+      sessionIds.length - RECENT_CALL_DIRECTIONS_LIMIT,
+    );
+    const nextDirectionMap = {
+      ...this._recentCallDirectionMap,
+      [sessionId]: direction,
+    };
+
+    expiredSessionIds.forEach((expiredSessionId) => {
+      delete nextDirectionMap[expiredSessionId];
+    });
+
+    this._recentCallDirectionSessionIds = sessionIds.slice(
+      -RECENT_CALL_DIRECTIONS_LIMIT,
+    );
+    this._recentCallDirectionMap = nextDirectionMap;
+  }
+
+  getRecentCallDirection(sessionId: string | null | undefined) {
+    if (!sessionId) {
+      return undefined;
+    }
+
+    return this._recentCallDirectionMap[sessionId];
+  }
+
   override onInitOnce() {
     watch(
       this,
@@ -169,11 +226,7 @@ export class CallMonitor extends RcModule {
           uniqueNumbers,
           lastProcessedNumbers || [],
         );
-        if (
-          this._contactMatcher &&
-          this._contactMatcher.ready &&
-          this._enableContactMatchWhenNewCall
-        ) {
+        if (this._contactMatcher && this._contactMatcher.ready) {
           this._contactMatcher.match({
             queries: newNumbers,
             ignoreQueue: true,
@@ -239,10 +292,10 @@ export class CallMonitor extends RcModule {
         (item) => item.sessionId === call.sessionId,
       );
       if (oldCallIndex === -1) {
-        this._eventEmitter.emit(callEvents.newCall, call);
+        this.emitEvent(callEvents.newCall, call);
         // loop to execute the onRinging handlers
         if (isRinging(call)) {
-          this._eventEmitter.emit(callEvents.callRinging, call);
+          this.emitEvent(callEvents.callRinging, call);
         }
       } else {
         const oldCall = oldCalls[oldCallIndex];
@@ -252,7 +305,7 @@ export class CallMonitor extends RcModule {
           (oldCall.from && oldCall.from.phoneNumber) !==
             (call.from && call.from.phoneNumber)
         ) {
-          this._eventEmitter.emit(callEvents.callUpdated, call);
+          this.emitEvent(callEvents.callUpdated, call);
           if (call.telephonyStatus === 'CallConnected') {
             if (isInbound(call)) {
               this.inboundCallConnectedTrack();
@@ -261,6 +314,14 @@ export class CallMonitor extends RcModule {
             }
           }
         }
+      }
+      if (
+        !this._answeredSessionIds.has(call.sessionId) &&
+        checkIsCallAnswered(call.telephonySession)
+      ) {
+        this._answeredSessionIds.add(call.sessionId);
+
+        this.emitEvent(callEvents.callAnswered, call);
       }
       entities.forEach((entity) => {
         const index = entities.indexOf(entity);
@@ -279,7 +340,8 @@ export class CallMonitor extends RcModule {
 
     if (oldCalls.length > 0) {
       oldCalls.forEach((call) => {
-        this._eventEmitter.emit(callEvents.callEnded, call);
+        this._answeredSessionIds.delete(call.sessionId);
+        this.emitEvent(callEvents.callEnded, call);
       });
 
       // in old project, never clean current warm transfer data, but should clean when some call be ended, but some bad logic base on that to test, due to we will deprecated the old project, so just use flag to control here, will be remove in the future
@@ -287,6 +349,11 @@ export class CallMonitor extends RcModule {
         this._activeCallControl.cleanCurrentWarmTransferData(oldCalls);
       }
     }
+  }
+
+  private emitEvent(event: string, call: ICall) {
+    this.logger.log(event, call);
+    this._eventEmitter.emit(event, call);
   }
 
   _removeMatched(index: number, entities: ToNumberMatched[]) {
@@ -417,20 +484,22 @@ export class CallMonitor extends RcModule {
           );
           id = presenceCall?.id!;
         }
-        // normalize number for ensure the number is matcher mapping with same key
         const fromNumber = this._numberFormatter.normalizeNumber(
           from?.phoneNumber,
         );
         const toNumber = this._numberFormatter.normalizeNumber(to?.phoneNumber);
+
+        const { fromMatches, toMatches } =
+          this._contactMatcher?.findMatchesFromCall(curr) || {
+            fromMatches: [],
+            toMatches: [],
+          };
         const toName = to?.name;
         const fromName = from?.name;
         const partyId = party?.id;
 
         const contactMapping = this._contactMatcher?.dataMapping ?? {};
         const activityMapping = this._activityMatcher?.dataMapping ?? {};
-
-        const fromMatches = (fromNumber && contactMapping[fromNumber]) || [];
-        const toMatches = (toNumber && contactMapping[toNumber]) || [];
 
         const toNumberEntity = this.callMatched[sessionId];
 

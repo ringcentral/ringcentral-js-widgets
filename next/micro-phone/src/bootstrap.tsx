@@ -40,6 +40,7 @@ import {
   ActiveCallControl,
   AudioSettings,
   Call,
+  CallerId,
   CallingSettings,
   CallLogger,
   type CallLoggerOptions,
@@ -78,6 +79,7 @@ export default exposeMicroApp({
     RateLimiter,
     DialerView,
     ExtensionInfo,
+    CallerId,
     CallingSettings, // TODO: check optional injections
     ModalView,
     SleepDetector,
@@ -108,7 +110,8 @@ export default exposeMicroApp({
       useValue: {
         clientId: process.env.CLIENT_ID,
         clientSecret: process.env.CLIENT_SECRET,
-        server: process.env.SERVER,
+        // server: 'https://api-rcapps.ringcentral.com',
+        server: 'https://api-xmrupxmn.intlabs_domain',
         cachePrefix: `sdk-${brandConfig.code}`,
       } as SDKConfig,
     },
@@ -124,7 +127,7 @@ export default exposeMicroApp({
           appName: brandConfig.appName as string,
           appVersion: '0.0.1',
           webphoneLogLevel: 3,
-        } satisfies WebphoneOptions),
+        }) satisfies WebphoneOptions,
       deps: ['BrandConfig', 'SdkConfig'],
     },
     {

@@ -5,6 +5,7 @@ import Line from '../Line';
 import styles from './styles.scss';
 
 type InputLineProps = {
+  children?: React.ReactNode;
   label?: React.ReactNode;
   input?: React.ReactNode;
   className?: string;

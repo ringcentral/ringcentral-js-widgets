@@ -4,6 +4,7 @@ import {
   CallMd,
   CheckBoldMd,
   ContactsMd,
+  ConsentMd,
   CopyMd,
   DispositionMd,
   DownloadMd,
@@ -35,6 +36,8 @@ export type HistoryActionType =
   | 'delete'
   | 'call'
   | 'text'
+  | 'manageConsent'
+  | 'viewConsent'
   | 'viewFax'
   | 'downloadFax'
   | 'downloadVoicemail'
@@ -138,6 +141,14 @@ export const useHistoryActionButtons = (
       text: () => ({
         label: t('text'),
         symbol: Smsmd,
+      }),
+      manageConsent: () => ({
+        label: t('manageConsent'),
+        symbol: ConsentMd,
+      }),
+      viewConsent: () => ({
+        label: t('viewConsent'),
+        symbol: ConsentMd,
       }),
       viewFax: () => ({
         label: t('viewFax'),

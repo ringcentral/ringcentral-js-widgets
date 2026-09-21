@@ -71,6 +71,7 @@ const getRelativeOffset = (el: any) => {
   return res;
 };
 type TooltipProps = {
+  children?: React.ReactNode;
   triggerElm?: object;
   fixed?: boolean;
   direction?: string;

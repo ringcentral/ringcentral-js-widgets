@@ -108,7 +108,7 @@ export class CallControlView extends RcViewModule {
     super();
   }
 
-  private useCallActions({
+  useCallActions({
     call,
     actionsDisabled,
   }: CallControlViewProps): ICallAction[] {

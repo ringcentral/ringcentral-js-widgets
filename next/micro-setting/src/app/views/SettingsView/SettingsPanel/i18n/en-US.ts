@@ -44,6 +44,8 @@ export default {
   selectToDialHint:
     'For your better experience, select phone number to dial with {brandName} in large quantity phone number page.',
   phone: 'Phone',
+  text: 'Text',
+  consentManagement: 'Consent management',
   log: 'Log',
   general: 'General',
   showMatches: 'Show matches for inbound calls',

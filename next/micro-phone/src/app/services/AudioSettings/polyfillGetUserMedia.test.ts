@@ -44,7 +44,9 @@ describe('polyfillGetUserMedia', () => {
     });
 
     it('should not modify mediaDevices when already defined', () => {
-      const existingMediaDevices = { getUserMedia: jest.fn() } as unknown as MediaDevices;
+      const existingMediaDevices = {
+        getUserMedia: jest.fn(),
+      } as unknown as MediaDevices;
       Object.defineProperty(navigator, 'mediaDevices', {
         value: existingMediaDevices,
         writable: true,
@@ -162,7 +164,10 @@ describe('polyfillGetUserMedia', () => {
 
   describe('polyfilled getUserMedia promise behavior', () => {
     let mockLegacyGetUserMedia: jest.Mock;
-    const mockConstraints: MediaStreamConstraints = { audio: true, video: false };
+    const mockConstraints: MediaStreamConstraints = {
+      audio: true,
+      video: false,
+    };
     const mockStream = { id: 'mock-stream' } as unknown as MediaStream;
 
     beforeEach(() => {
@@ -222,14 +227,12 @@ describe('polyfillGetUserMedia', () => {
     });
 
     it('should call legacy getUserMedia with navigator context', async () => {
-      mockLegacyGetUserMedia.mockImplementation(function (
-        this: Navigator,
-        constraints,
-        successCallback,
-      ) {
-        expect(this).toBe(navigator);
-        successCallback(mockStream);
-      });
+      mockLegacyGetUserMedia.mockImplementation(
+        function (this: Navigator, constraints, successCallback) {
+          expect(this).toBe(navigator);
+          successCallback(mockStream);
+        },
+      );
 
       await navigator.mediaDevices.getUserMedia(mockConstraints);
 
@@ -237,4 +240,3 @@ describe('polyfillGetUserMedia', () => {
     });
   });
 });
-

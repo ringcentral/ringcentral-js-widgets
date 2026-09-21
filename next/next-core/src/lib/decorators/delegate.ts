@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 /* eslint-disable func-names */
-import { EmitParameter, delegate as originalDelegate } from 'reactant-share';
+import type { EmitParameter } from 'data-transport';
+import { delegate as originalDelegate } from 'reactant-share';
 
 import { delegateMainClient } from './delegateMainClient';
 import { parallel } from './parallel';

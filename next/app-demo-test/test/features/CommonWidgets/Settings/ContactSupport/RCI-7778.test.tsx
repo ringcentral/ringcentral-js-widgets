@@ -5,6 +5,7 @@ import {
   ExtensionInfo,
 } from '@ringcentral-integration/micro-auth/src/app/services';
 import { Brand } from '@ringcentral-integration/micro-core/src/app/services';
+import { CPRClient } from '@ringcentral-integration/micro-setting/src/app/services';
 import { whenStateChange } from '@ringcentral-integration/next-core/test/lib/whenStateChange';
 import {
   AdvanceTimersByTime,
@@ -46,6 +47,8 @@ jest.spyOn(JSZip.prototype, 'loadAsync').mockImplementation(async (data) => {
   folderInfo.data = data;
 
   return {
+    forEach: jest.fn(),
+    file: jest.fn(),
     generateAsync: jest.fn(() => {
       return new Blob(['mock-content']);
     }),
@@ -88,6 +91,29 @@ export class RCI7778 extends Step {
 
   run() {
     const { Login, CreateMock } = this;
+    const mockCollectAndZipCPRLogs = jest
+      .spyOn(CPRClient.prototype, 'collectAndZipCPRLogs')
+      .mockImplementation(async ({ extraFiles = [] }) => {
+        folderInfo.data = 'mock-log-archive';
+        folderInfo['applicationLogs/attachments'] = {};
+        for (const file of extraFiles) {
+          const base64Data =
+            file.base64Url.split(',')[1] ??
+            file.base64Url.replace(/^data:[^;]+;base64,/, '');
+          folderInfo['applicationLogs/attachments'][file.name] = {
+            base64Data,
+            options: { base64: true },
+          };
+        }
+
+        return {
+          content: new Blob(['mock-zip-content'], {
+            type: 'application/zip',
+          }),
+          name: 'applicationLogs.zip',
+        };
+      });
+
     return (
       <Scenario desc="Submit feedback from Step 2">
         <Given
@@ -108,22 +134,32 @@ export class RCI7778 extends Step {
             }) as StepFunction,
           ]}
         />
-        <Given desc="login (creates the app instance)" action={[Login]} />
+        <Given
+          desc="login (creates the app instance)"
+          action={[
+            Login,
+            () => {
+              mockCollectAndZipCPRLogs.mockClear();
+            },
+          ]}
+        />
         <And
           desc="User open a contact support page"
           action={NavigateToSettings}
         />
         <And
           desc="User click on Contact Support"
-          action={() => {
-            userEvent.click(screen.getByTestId('ContactSupport'));
-          }}
+          action={<ClickItemByDataSign dataSign="ContactSupport" />}
         />
 
         <Then
           desc="App log is attached"
-          action={() => {
-            expect(screen.getByText('applicationLogs.zip')).toBeInTheDocument();
+          action={async () => {
+            await whenStateChange(() => {
+              expect(
+                screen.getByText('applicationLogs.zip'),
+              ).toBeInTheDocument();
+            });
           }}
         />
 
@@ -175,19 +211,21 @@ export class RCI7778 extends Step {
 
         <When
           desc="User enters some text in the Description field"
-          action={() => {
+          action={async () => {
             const descInput = screen.getByPlaceholderText(
               'Tell us what the problem is...',
             ) as HTMLInputElement;
-            userEvent.type(descInput, 'Issue description');
+            await userEvent.type(descInput, 'Issue description');
           }}
         />
 
         <Then
           desc="'Submit' button becomes enabled"
-          action={() => {
-            const submitBtn = screen.getByTestId('submitBtn');
-            expect(submitBtn).toBeEnabled();
+          action={async () => {
+            await whenStateChange(() => {
+              const submitBtn = screen.getByTestId('submitBtn');
+              expect(submitBtn).toBeEnabled();
+            });
           }}
         />
 
@@ -195,9 +233,12 @@ export class RCI7778 extends Step {
           desc="Click 'Submit' button and verify MixPanel tracking"
           action={[
             UseFakeTimers,
-            () => {
+            async () => {
               const submitBtn = screen.getByTestId('submitBtn');
-              userEvent.click(submitBtn);
+              const user = userEvent.setup({
+                advanceTimers: jest.advanceTimersByTime,
+              });
+              await user.click(submitBtn);
             },
             WaitForRenderReady,
             WaitForRenderReady,
@@ -211,12 +252,13 @@ export class RCI7778 extends Step {
               }}
             />,
             (async (_, { rcMock }) => {
+              jest.useRealTimers();
               await waitTickFor(() => {
                 expect(rcMock.fetchMock).toHaveFetchedTimes(
                   1,
                   (url) => url.indexOf('/cpr-api/v1/problem-reports') > -1,
                 );
-              }, 100);
+              }, 50);
             }) as StepFunction,
           ]}
         />

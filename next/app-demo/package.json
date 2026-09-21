@@ -8,6 +8,7 @@
     "url": "https://github.com/ringcentral/ringcentral-js-widget.git"
   },
   "scripts": {
+    "build:guides": "node ../../libs/guides-template/scripts/build-guides.js --guides settings-rating,experience-feedback --output-dir dist",
     "build": "yarn gulp build",
     "serve": "http-server build/rc --cors -S -p 8081",
     "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
@@ -26,7 +27,8 @@
     "@ringcentral-integration/micro-meeting": "*",
     "@ringcentral-integration/micro-message": "*",
     "@ringcentral-integration/micro-phone": "*",
-    "@ringcentral-integration/micro-setting": "*"
+    "@ringcentral-integration/micro-setting": "*",
+    "@ringcentral-integration/next-common-app": "*"
   },
   "nx": {
     "tags": [

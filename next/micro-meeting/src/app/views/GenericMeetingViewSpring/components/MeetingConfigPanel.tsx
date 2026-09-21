@@ -183,7 +183,7 @@ export const MeetingConfigPanel: React.FC<
         loading={scheduleButtonLoading}
         data-sign="videoScheduleButton"
       >
-        <div className="typography-subtitleMini text-neutral-high-contrast-b0">
+        <div className="typography-subtitleMini text-neutral-high-contrast-b0 truncate">
           {t('scheduleVideoMeeting')}
         </div>
       </Button>

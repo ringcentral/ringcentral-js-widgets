@@ -4,9 +4,9 @@
     "./**/*.ts",
     "./**/*.tsx",
     "./typings/**/*",
-    "../../ringcentral-js-widgets/ringcentral-integration/typings/**/*",
-    "../../ringcentral-js-widgets/ringcentral-widgets/typings/**/*",
-    "../../ringcentral-js-widgets/test-utils/lib/global.d.ts"
+    "../../packages/ringcentral-integration/typings/**/*",
+    "../../packages/ringcentral-widgets/typings/**/*",
+    "../../packages/test-utils/lib/global.d.ts"
   ],
   "compilerOptions": {
     "checkJs": false

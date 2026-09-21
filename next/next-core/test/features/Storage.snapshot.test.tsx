@@ -9,7 +9,7 @@ import {
   Step,
 } from '@ringcentral-integration/test-utils';
 import { sleep } from '@ringcentral-integration/utils';
-import { createElement } from 'react';
+import { act, createElement } from 'react';
 
 import {
   injectable,
@@ -56,16 +56,19 @@ beforeEach(() => {
   document.body.appendChild(clientContainer);
 });
 
-afterEach(() => {
-  clientContainer
-    .querySelector('#home')
-    ?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
-  unmountComponentAtNode(serverContainer);
+afterEach(async () => {
+  await act(async () => {
+    clientContainer
+      .querySelector('#home')
+      ?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    await Promise.resolve();
+    unmountComponentAtNode(serverContainer);
+    serverApp?.destroy();
+    unmountComponentAtNode(clientContainer);
+    clientApp?.destroy();
+  });
   serverContainer.remove();
-  serverApp?.destroy();
-  unmountComponentAtNode(clientContainer);
   clientContainer.remove();
-  clientApp?.destroy();
   // @ts-ignore
   serverApp = undefined;
   // @ts-ignore
@@ -301,6 +304,7 @@ class BaseSpaWithStorageInBaseMode extends Step {
   "PortManager": {
     "activeNonMainTabId": null,
     "activeTabId": null,
+    "roleSnapshots": [],
   },
   "Root": {
     "expanded": false,
@@ -377,7 +381,7 @@ class BaseSpaWithStorageInBaseMode extends Step {
             expect(serverApp.instance.storage.paused).toBeFalsy();
             expect(serverApp.instance.storage.rehydrated).toBeTruthy();
             expect(serverApp.instance.portManager.isMainTab).toBeFalsy();
-            await serverApp.bootstrap(serverContainer);
+            await act(() => serverApp.bootstrap(serverContainer));
             expect(serverContainer.querySelector('#content')?.textContent).toBe(
               'home',
             );
@@ -672,6 +676,44 @@ class BaseMultipleClientWithStorageInBaseMode extends Step {
   "PortManager": {
     "activeNonMainTabId": null,
     "activeTabId": null,
+    "roleSnapshots": [
+      {
+        "owners": [
+          {
+            "clientId": "__SERVER__",
+          },
+        ],
+        "phase": "owned",
+        "revision": 0,
+        "role": "server",
+      },
+      {
+        "owners": [],
+        "phase": "owned",
+        "revision": 0,
+        "role": "connectedClients",
+      },
+      {
+        "owners": [
+          {
+            "clientId": "__SERVER__",
+          },
+        ],
+        "phase": "owned",
+        "revision": 0,
+        "role": "all",
+      },
+      {
+        "owners": [
+          {
+            "clientId": "__SERVER__",
+          },
+        ],
+        "phase": "owned",
+        "revision": 1,
+        "role": "electedClient",
+      },
+    ],
   },
   "Root": {
     "expanded": false,
@@ -694,19 +736,65 @@ class BaseMultipleClientWithStorageInBaseMode extends Step {
       {
         "op": "replace",
         "path": [
-          "CounterView",
-          "status",
+          "PortManager",
+          "roleSnapshots",
         ],
-        "value": "READY",
+        "value": [
+          {
+            "owners": [
+              {
+                "clientId": "__SERVER__",
+              },
+            ],
+            "phase": "owned",
+            "revision": 0,
+            "role": "server",
+          },
+          {
+            "owners": [],
+            "phase": "owned",
+            "revision": 0,
+            "role": "connectedClients",
+          },
+          {
+            "owners": [
+              {
+                "clientId": "__SERVER__",
+              },
+            ],
+            "phase": "owned",
+            "revision": 0,
+            "role": "all",
+          },
+          {
+            "owners": [
+              {
+                "clientId": "__SERVER__",
+              },
+            ],
+            "phase": "owned",
+            "revision": 1,
+            "role": "electedClient",
+          },
+        ],
       },
     ],
     "_reactant": "REACTANT_ACTION",
-    "_sequence": 12,
-    "method": "_setStatus",
+    "_sequence": 17,
+    "method": "_setSharedRoleSnapshot",
     "params": [
-      "READY",
+      {
+        "owners": [
+          {
+            "clientId": "__SERVER__",
+          },
+        ],
+        "phase": "owned",
+        "revision": 1,
+        "role": "electedClient",
+      },
     ],
-    "type": "CounterView",
+    "type": "PortManager",
   },
   "router": {
     "action": "POP",
@@ -739,7 +827,7 @@ class BaseMultipleClientWithStorageInBaseMode extends Step {
             expect(serverApp.instance.storage.paused).toBeFalsy();
             expect(serverApp.instance.storage.rehydrated).toBeTruthy();
             expect(serverApp.instance.portManager.isMainTab).toBeTruthy();
-            await serverApp.bootstrap(serverContainer);
+            await act(() => serverApp.bootstrap(serverContainer));
             expect(serverContainer.querySelector('#content')?.textContent).toBe(
               'home',
             );
@@ -807,7 +895,7 @@ class BaseMultipleClientWithStorageInBaseMode extends Step {
             });
             expect(clientApp.instance.storage.paused).toBeFalsy();
             expect(clientApp.instance.storage.rehydrated).toBeFalsy();
-            await clientApp.bootstrap(clientContainer);
+            await act(() => clientApp.bootstrap(clientContainer));
             expect(clientApp.instance.storage.paused).toBeFalsy();
             expect(clientApp.instance.storage.rehydrated).toBeTruthy();
             await sleep(0);
@@ -1058,7 +1146,7 @@ class BaseMultipleClientWithStorageInSharedWorkerMode extends Step {
 
             clientApp = await clientAppPromise;
             await mockLock(clientApp);
-            await clientApp.bootstrap(clientContainer);
+            await act(() => clientApp.bootstrap(clientContainer));
 
             expect(serverStorage).toEqual({
               data: {

@@ -1,6 +1,6 @@
 {
   "name": "@ringcentral-integration/micro-contacts",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Contacts micro-frontend module for RingCentral Integration next-generation architecture.",
   "homepage": "https://github.com/ringcentral/ringcentral-js-widgets/tree/master/next/micro-contacts#readme",
   "bugs": {
@@ -25,7 +25,7 @@
     "tsc-check": "yarn tsc --project tsconfig.lint.json --noEmit"
   },
   "dependencies": {
-    "@ringcentral/mfe-react": "^0.4.18",
+    "@ringcentral/mfe-react": "^0.5.0",
     "@ringcentral-integration/commons": "*",
     "@ringcentral-integration/i18n": "*",
     "@ringcentral-integration/next-core": "*",
@@ -33,14 +33,14 @@
     "@ringcentral-integration/next-widgets": "*",
     "@ringcentral-integration/utils": "*",
     "@ringcentral-integration/widgets": "*",
-    "@ringcentral/juno": "^2.42.0",
-    "@ringcentral/juno-icon": "^1.80.0",
+    "@ringcentral/juno": "^3.0.0-alpha.19",
+    "@ringcentral/juno-icon": "^3.0.0-alpha.19",
     "ramda": "^0.28.0",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@ringcentral/mfe-builder": "^0.4.18",
+    "@ringcentral/mfe-builder": "^0.5.0",
     "@ringcentral-integration/babel-settings": "*",
     "@ringcentral-integration/mock": "*",
     "@ringcentral-integration/locale-loader": "*",

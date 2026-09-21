@@ -45,5 +45,9 @@ export async function createCPRRequest(
     method: 'POST',
   });
 
+  if (!response.ok) {
+    throw new Error(`CPR request failed with status ${response.status}`);
+  }
+
   return await response.json();
 }

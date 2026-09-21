@@ -12,9 +12,9 @@ export type SyncTabProps = PropsWithChildren<{
     BadgeProps?: any;
   }[];
   defaultValue?: string;
+  onActiveChange?: (value: string | number | null) => void;
   className?: string;
-  tabsContainerClassName?: string;
   tabClassName?: string;
-  tabRootClassName?: string;
+  tabLabelClassName?: string;
 }> &
   Omit<TabsProps, 'defaultValue' | 'value' | 'onChange' | 'children'>;

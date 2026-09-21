@@ -15,6 +15,7 @@ import { t } from './i18n';
 import styles from './styles.scss';
 
 type ForwardPanelProps = {
+  children?: React.ReactNode;
   onForward: (...args: any[]) => any;
   onBackClick: (...args: any[]) => any;
   telephonySessionId: string;

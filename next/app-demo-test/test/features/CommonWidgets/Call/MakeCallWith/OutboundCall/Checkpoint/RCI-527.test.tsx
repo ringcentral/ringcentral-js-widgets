@@ -127,7 +127,7 @@ export class CheckRcPhoneUS extends Step {
               const element = await within(
                 screen.getByTestId('callingSetting'),
               ).findByTestId('selectedItem');
-              userEvent.click(element);
+              await userEvent.click(element);
             },
             (async ({ callType }, { app }) => {
               // in ringcentral-js-widgets/ringcentral-widgets/components/CallingSettingsPanel/CallingSettingsPanel.tsx
@@ -152,7 +152,7 @@ export class CheckRcPhoneUS extends Step {
                 return element;
               });
 
-              userEvent.click(item);
+              await userEvent.click(item);
             },
             ClickSaveButton,
             async () => {
@@ -160,14 +160,14 @@ export class CheckRcPhoneUS extends Step {
               // {"action":"click","test_id":"backButton","expected_value":"","wait_type":"None"}
 
               const element = await screen.findByTestId('backButton');
-              userEvent.click(element);
+              await userEvent.click(element);
             },
             async () => {
               // Click 'Region' in the page
               // {"action":"click","test_id":"region","expected_value":""}
 
               const element = await screen.findByTestId('region');
-              userEvent.click(element);
+              await userEvent.click(element);
             },
             async () => {
               // !!Note: AI failed to find the element
@@ -175,14 +175,14 @@ export class CheckRcPhoneUS extends Step {
               // {"action":"click","test_id":"dropdownSelect","expected_value":"open dropdown list"}
 
               const element = await screen.findByTestId('selectedItem');
-              userEvent.click(element);
+              await userEvent.click(element);
             },
             async ({ regionName }: ExampleProps) => {
               // Click listitem (+1) United States in the dropdown list
               // {"action":"click","test_id":"selectedItem","expected_value":"+1 United States","index":"1"}
 
               const element = await screen.findByTestId(regionName);
-              userEvent.click(element);
+              await userEvent.click(element);
             },
             ClickSaveButton,
             async () => {
@@ -190,7 +190,7 @@ export class CheckRcPhoneUS extends Step {
               // {"action":"click","test_id":"backButton","expected_value":"","wait_type":"None"}
 
               const element = await screen.findByTestId('backButton');
-              userEvent.click(element);
+              await userEvent.click(element);
             },
             NavigateToDialer,
             async () => {
@@ -203,7 +203,7 @@ export class CheckRcPhoneUS extends Step {
               // {"action":"type","test_id":"recipientsInput","expected_value":"6501234567"}
 
               const element = screen.getByTestId('recipientsInput');
-              userEvent.type(element, phoneNumber);
+              await userEvent.type(element, phoneNumber);
             },
             async () => {
               const callBtn = await whenStateChange(() => {
@@ -213,7 +213,7 @@ export class CheckRcPhoneUS extends Step {
 
                 return callBtn;
               });
-              userEvent.click(callBtn);
+              await userEvent.click(callBtn);
             },
             (async (
               { callType, displayNumber, callingMode }: ExampleProps,
@@ -338,7 +338,7 @@ export class CheckWithAreaCode extends Step {
               const element = await within(
                 screen.getByTestId('callingSetting'),
               ).findByTestId('selectedItem');
-              userEvent.click(element);
+              await userEvent.click(element);
             },
             async ({ callType }: ExampleProps) => {
               // User should see 'RingOut' in the dropdown list
@@ -352,7 +352,7 @@ export class CheckWithAreaCode extends Step {
               // {"action":"click","test_id":"option_RingOut","expected_value":"","wait_type":"None"}
 
               const element = await screen.findByTestId(`option_${callType}`);
-              userEvent.click(element);
+              await userEvent.click(element);
             },
             ClickSaveButton,
             async () => {
@@ -360,46 +360,46 @@ export class CheckWithAreaCode extends Step {
               // {"action":"click","test_id":"backButton","expected_value":"","wait_type":"None"}
 
               const element = await screen.findByTestId('backButton');
-              userEvent.click(element);
+              await userEvent.click(element);
             },
             async () => {
               // Click Region item in the page
               // {"action":"click","test_id":"region","expected_value":""}
 
               const element = await screen.findByTestId('region');
-              userEvent.click(element);
+              await userEvent.click(element);
             },
             async () => {
               // Click selected item to open dropdown list
               // {"action":"click","test_id":"selectedItem","expected_value":""}
 
               const element = await screen.findByTestId('selectedItem');
-              userEvent.click(element);
+              await userEvent.click(element);
             },
             async ({ regionName }: ExampleProps) => {
               // Click listitem (+44) United Kingdom in the dropdown list
               // {"action":"click","test_id":"(+44) United Kingdom","expected_value":"(+44) United Kingdom"}
 
               const element = await screen.findByTestId(regionName);
-              userEvent.click(element);
+              await userEvent.click(element);
             },
             async ({ areaCode }: ExampleProps) => {
               const element = screen.getByTestId('areaCodeInputField');
-              userEvent.type(element, areaCode);
+              await userEvent.type(element, areaCode);
             },
             async () => {
               // Click save button
               // {"action":"click","test_id":"saveButton","expected_value":""}
 
               const element = await screen.findByTestId('saveButton');
-              userEvent.click(element);
+              await userEvent.click(element);
             },
             async () => {
               // Click back button
               // {"action":"click","test_id":"backButton","expected_value":""}
 
               const element = await screen.findByTestId('backButton');
-              userEvent.click(element);
+              await userEvent.click(element);
             },
             NavigateToDialer,
             async () => {
@@ -412,11 +412,11 @@ export class CheckWithAreaCode extends Step {
               // {"action":"type","test_id":"recipientsInput","expected_value":"+16504091529"}
 
               const element = screen.getByTestId('recipientsInput');
-              userEvent.type(element, phoneNumber);
+              await userEvent.type(element, phoneNumber);
             },
             async () => {
               if (screen.queryByTestId('callButton')) {
-                userEvent.click(screen.getByTestId('callButton'));
+                await userEvent.click(screen.getByTestId('callButton'));
               }
               // Press Enter in the 'To' field
               // {"custom_step":{"FireEventKeyDown":{"elementId":"recipientsInput","key":"Enter","code":"Enter"}},"action":"customStep","test_id":"recipientsInput","expected_value":""}
@@ -558,7 +558,7 @@ export class CheckWithUkAreaCode extends Step {
               const element = await within(
                 screen.getByTestId('callingSetting'),
               ).findByTestId('selectedItem');
-              userEvent.click(element);
+              await userEvent.click(element);
             },
             async ({ callType }: ExampleProps) => {
               // User should see 'RingOut' in the dropdown list
@@ -572,60 +572,60 @@ export class CheckWithUkAreaCode extends Step {
               // {"action":"click","test_id":"option_RingOut","expected_value":"","wait_type":"None"}
 
               const element = await screen.findByTestId(`option_${callType}`);
-              userEvent.click(element);
+              await userEvent.click(element);
             },
             async () => {
               // Click save button
               // {"action":"click","test_id":"saveButton","expected_value":""}
 
               const element = await screen.findByTestId('saveButton');
-              userEvent.click(element);
+              await userEvent.click(element);
             },
             async () => {
               // Click back button
               // {"action":"click","test_id":"backButton","expected_value":"","wait_type":"None"}
 
               const element = await screen.findByTestId('backButton');
-              userEvent.click(element);
+              await userEvent.click(element);
             },
             async () => {
               // Click Region item in the page
               // {"action":"click","test_id":"region","expected_value":""}
 
               const element = await screen.findByTestId('region');
-              userEvent.click(element);
+              await userEvent.click(element);
             },
             async () => {
               // Click selected item to open dropdown list
               // {"action":"click","test_id":"selectedItem","expected_value":""}
 
               const element = await screen.findByTestId('selectedItem');
-              userEvent.click(element);
+              await userEvent.click(element);
             },
             async ({ regionName }: ExampleProps) => {
               // Click listitem (+44) United Kingdom in the dropdown list
               // {"action":"click","test_id":"(+44) United Kingdom","expected_value":"(+44) United Kingdom"}
 
               const element = await screen.findByTestId(regionName);
-              userEvent.click(element);
+              await userEvent.click(element);
             },
             async ({ areaCode }: ExampleProps) => {
               const element = screen.getByTestId('areaCodeInputField');
-              userEvent.type(element, areaCode);
+              await userEvent.type(element, areaCode);
             },
             async () => {
               // Click save button
               // {"action":"click","test_id":"saveButton","expected_value":""}
 
               const element = await screen.findByTestId('saveButton');
-              userEvent.click(element);
+              await userEvent.click(element);
             },
             async () => {
               // Click back button
               // {"action":"click","test_id":"backButton","expected_value":""}
 
               const element = await screen.findByTestId('backButton');
-              userEvent.click(element);
+              await userEvent.click(element);
             },
             NavigateToDialer,
             async () => {
@@ -638,11 +638,11 @@ export class CheckWithUkAreaCode extends Step {
               // {"action":"type","test_id":"recipientsInput","expected_value":"+16504091529"}
 
               const element = screen.getByTestId('recipientsInput');
-              userEvent.type(element, phoneNumber);
+              await userEvent.type(element, phoneNumber);
             },
             async () => {
               if (screen.queryByTestId('callButton')) {
-                userEvent.click(screen.getByTestId('callButton'));
+                await userEvent.click(screen.getByTestId('callButton'));
               }
               // Press Enter in the 'To' field
               // {"custom_step":{"FireEventKeyDown":{"elementId":"recipientsInput","key":"Enter","code":"Enter"}},"action":"customStep","test_id":"recipientsInput","expected_value":""}
@@ -692,5 +692,6 @@ export const ClickSaveButton: StepFunction<ExampleProps> = async (
     expect(buttonDisabled).toBeFalsy();
   });
 
-  userEvent.click(element);
+  await userEvent.click(element);
+  await waitForRenderReady();
 };

@@ -19,6 +19,7 @@ import {
 import type { HistoryCall } from '../CallHistory';
 import { CallHistory } from '../CallHistory';
 
+import { callStatus } from './callStatus';
 import type {
   CleanUpCallsOptions,
   FetchCallLogListOptions,
@@ -32,7 +33,6 @@ import {
   flattenToRecords,
   sortByTime,
 } from './RecentCallsHelper';
-import { callStatus } from './callStatus';
 
 @injectable({
   name: 'RecentCalls',

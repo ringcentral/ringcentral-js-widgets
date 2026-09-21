@@ -11,7 +11,7 @@ export interface CallBadgePanelProps {
   defaultOffsetY: number;
   session: Partial<NormalizedSession>;
   currentLocale: string;
-  goToCallCtrl: () => void;
+  goToCallCtrl: (sessionId?: string) => void;
   toggleMinimized: (id: string) => Promise<void>;
 }
 
@@ -19,5 +19,5 @@ export interface CallBadgeViewProps {
   hidden: boolean;
   defaultOffsetX?: number;
   defaultOffsetY?: number;
-  goToCallCtrl: () => void;
+  goToCallCtrl: (sessionId?: string) => void;
 }

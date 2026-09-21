@@ -1,3 +1,4 @@
+import { trackEvent } from '@ringcentral-integration/micro-auth/src/app/services';
 import {
   AppFooterNav,
   AppHeaderNav,
@@ -8,7 +9,6 @@ import {
   type Theme,
 } from '@ringcentral-integration/micro-core/src/app/services';
 import { slideOutViewTransition } from '@ringcentral-integration/micro-core/src/app/views';
-import { track } from '@ringcentral-integration/micro-auth/src/app/services';
 import {
   delegate,
   dynamic,
@@ -29,7 +29,6 @@ import { ArrowRightUpMd } from '@ringcentral/spring-icon';
 import { Button, Divider, Icon, Link, Text } from '@ringcentral/spring-ui';
 import React from 'react';
 
-import { trackEvents } from '../../../enums/trackEvents';
 import { CPRClientView } from '../../views/CPRClientView';
 
 import type {
@@ -60,7 +59,6 @@ export class IssuesTrackingView extends RcViewModule {
     await this._router.push(route);
   }
 
-  @track(trackEvents.supportCaseCreated)
   private openSupportCase(supportLink: string) {
     window.open(supportLink, '_blank');
   }
@@ -102,7 +100,7 @@ export class IssuesTrackingView extends RcViewModule {
               <PageHeaderRemain />
             </OldPageHeader>
           ))}
-        <main className="flex flex-col gap-6 flex-auto overflow-y-auto overflow-x-hidden px-4 py-2">
+        <main className="flex flex-col gap-6 flex-auto min-h-0 overflow-y-auto overflow-x-hidden px-4 py-2">
           <div>
             <Text
               className="typography-subtitle font-bold mb-2 text-neutral-b0"
@@ -126,7 +124,10 @@ export class IssuesTrackingView extends RcViewModule {
                 color="primary"
                 size="large"
                 startIcon={<Icon symbol={ArrowRightUpMd}></Icon>}
-                onClick={() => this.openSupportCase(supportLink)}
+                onClick={() => {
+                  trackEvent('Support_Case_Created', {});
+                  this.openSupportCase(supportLink);
+                }}
               >
                 {t('supportTicketBtn')}
               </Button>

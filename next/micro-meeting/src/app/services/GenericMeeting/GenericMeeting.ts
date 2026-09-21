@@ -15,8 +15,15 @@ import {
 import { RcvMainParams } from '@ringcentral-integration/widgets/lib/MeetingCalendarHelper/index.interface';
 import { defer, firstValueFrom, share } from 'rxjs';
 
-import type { RcMMeetingModel, ScheduleMeetingResponse } from '../Meeting';
-import { Meeting } from '../Meeting';
+import type {
+  MeetingDeleteOptions,
+  MeetingLookupOptions,
+  MeetingOperationErrorResult,
+  MeetingOperationOptions,
+  RcMMeetingModel,
+  ScheduleMeetingResponse,
+} from '../Meeting';
+import { isMeetingOperationError, Meeting } from '../Meeting';
 import type { RcVideoResponse } from '../RcVideo';
 import { generateRandomPassword, RcVideo } from '../RcVideo';
 import { VideoConfiguration } from '../VideoConfiguration';
@@ -80,11 +87,13 @@ export class GenericMeeting extends RcModule {
   }
 
   @delegate('server')
-  async deleteMeeting(meetingId: string) {
+  async deleteMeeting<
+    TOptions extends MeetingDeleteOptions = MeetingDeleteOptions,
+  >(meetingId: string, config?: TOptions) {
     if (this.isRCV) {
       return;
     }
-    await (this._meetingModule as Meeting).deleteMeeting(meetingId);
+    return (this._meetingModule as Meeting).deleteMeeting(meetingId, config);
   }
 
   @delegate('server')
@@ -115,14 +124,14 @@ export class GenericMeeting extends RcModule {
   }
 
   @delegate('server')
-  async schedule(
-    meeting?: ScheduleModel,
-    config?: { isAlertSuccess?: boolean },
-  ) {
+  async schedule<
+    TOptions extends MeetingOperationOptions = MeetingOperationOptions,
+  >(meeting?: ScheduleModel, config?: TOptions) {
     let result:
       | ScheduleMeetingResponse
       | RcvMainParams
       | RcVideoResponse
+      | MeetingOperationErrorResult
       | null
       | undefined;
     if (this.isRCM) {
@@ -161,8 +170,20 @@ export class GenericMeeting extends RcModule {
   }
 
   @delegate('server')
-  async getMeeting(meetingId: string) {
-    return this._meetingModule.getMeeting(meetingId);
+  async getMeeting<
+    TOptions extends MeetingLookupOptions = MeetingLookupOptions,
+  >(meetingId: string, config?: TOptions) {
+    if (this.isRCM) {
+      return this._meeting.getMeeting(meetingId, config);
+    }
+
+    if (this.isRCV) {
+      return this._rcVideo.getMeeting(meetingId, undefined, undefined, config);
+    }
+
+    throw new Error(
+      'Unknown meeting provider, please check the module runtime',
+    );
   }
 
   @delegate('server')
@@ -176,10 +197,12 @@ export class GenericMeeting extends RcModule {
   }
 
   @delegate('server')
-  async updateMeeting(
+  async updateMeeting<
+    TOptions extends MeetingOperationOptions = MeetingOperationOptions,
+  >(
     meetingId: string,
     meeting: ScheduleModel,
-    config?: { isAlertSuccess?: boolean },
+    config?: TOptions,
     opener?: Window,
   ) {
     let result;
@@ -199,8 +222,14 @@ export class GenericMeeting extends RcModule {
       console.error('Unknown meeting provider, please check module runtime');
       return;
     }
+    if (isMeetingOperationError(result)) {
+      return result;
+    }
+
     if (result) {
-      result.scheduleOriginalInfo = meeting;
+      (
+        result as { scheduleOriginalInfo?: ScheduleModel }
+      ).scheduleOriginalInfo = meeting;
     } else if (opener && opener.close) {
       opener.close();
     }

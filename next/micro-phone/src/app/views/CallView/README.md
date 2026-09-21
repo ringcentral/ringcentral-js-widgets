@@ -4,35 +4,35 @@ The `CallView` is a core component in the RingCentral Phone application that man
 
 ## Features
 
--   Manages active calls display and interactions
--   Handles incoming calls and call notifications
--   Supports call controls (hold, transfer, forward, etc.)
--   Integrates with call logging and smart notes
--   Provides post-call view functionality
--   Supports multiple call views (active call, call list, add call)
+- Manages active calls display and interactions
+- Handles incoming calls and call notifications
+- Supports call controls (hold, transfer, forward, etc.)
+- Integrates with call logging and smart notes
+- Provides post-call view functionality
+- Supports multiple call views (active call, call list, add call)
 
 ## Dependencies
 
 The component relies on several services and modules:
 
--   `CallAction`: Manages call-related actions
--   `CallMonitor`: Monitors call states
--   `Webphone`: Handles web-based phone functionality
--   `ActiveCallControl`: Controls active call states
+- `CallAction`: Manages call-related actions
+- `CallMonitor`: Monitors call states
+- `Webphone`: Handles web-based phone functionality
+- `ActiveCallControl`: Controls active call states
 
 ## Component Structure
 
 The `CallView` is composed of several sub-components:
 
--   `ActiveCallsView`: Displays the list of active calls
--   `AddCallView`: Interface for adding new calls
--   `CallControlView`: Controls for active calls
--   `ForwardView`: Call forwarding interface
--   `IncomingCallView`: Displays incoming call notifications
--   `KeypadView`: Dial pad interface
--   `PostCallView`: Post-call summary and actions
--   `ReplyWithMessageView`: Interface for replying to calls with messages
--   `TransferView`: Call transfer interface
+- `ActiveCallsView`: Displays the list of active calls
+- `AddCallView`: Interface for adding new calls
+- `CallControlView`: Controls for active calls
+- `ForwardView`: Call forwarding interface
+- `IncomingCallView`: Displays incoming call notifications
+- `KeypadView`: Dial pad interface
+- `PostCallView`: Post-call summary and actions
+- `ReplyWithMessageView`: Interface for replying to calls with messages
+- `TransferView`: Call transfer interface
 
 ### Important methods and fields
 

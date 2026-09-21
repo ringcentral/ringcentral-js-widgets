@@ -30,9 +30,9 @@ import {
 } from '../ReferenceWidget.interface';
 
 import { FilterAndSearchHint } from './FilterAndSearchHint';
-import { ReferenceList } from './ReferenceList';
-import i18n, { I18nKey } from './i18n';
+import i18n from './i18n';
 import NoResult from './no_search_results.svg';
+import { ReferenceList } from './ReferenceList';
 
 interface ReferenceSearchPanelProps {
   initValue: string;
@@ -89,7 +89,7 @@ export const ReferenceSearchPanel: React.FC<ReferenceSearchPanelProps> = ({
   );
 
   const searchHandler = useCallback(
-    async (searchTerm) => {
+    async (searchTerm: string) => {
       setSearching(true);
       setSearchResult(void 0);
       try {
@@ -141,7 +141,7 @@ export const ReferenceSearchPanel: React.FC<ReferenceSearchPanelProps> = ({
 
   // Wrap onItemClick to close the panel after selection in menuList (single select) mode
   const handleItemClick = useCallback(
-    (item, selected) => {
+    (item: SimpleCrmObject, selected: boolean) => {
       onItemClick(item, selected);
       if (useMenuList) {
         closePageFn();
@@ -249,7 +249,7 @@ export const ReferenceSearchPanel: React.FC<ReferenceSearchPanelProps> = ({
                 handleMenuClose();
               }}
             >
-              <span className="mr-2">{option.icon}</span>
+              <div className="mr-2 flex">{option.icon}</div>
               <MenuItemText>{option.label}</MenuItemText>
             </MenuItem>
           ))}

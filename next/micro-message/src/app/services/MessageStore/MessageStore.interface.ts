@@ -17,6 +17,7 @@ export interface MessageStoreOptions extends DataSourceBaseProps {
   messageType?: MessageType[];
   messageStoreKey?: string;
   messagesFilter?: (...args: any) => any;
+  fSyncRequestParams?: Record<string, any>;
 }
 
 export type MessageHandler = (record: Message) => any;

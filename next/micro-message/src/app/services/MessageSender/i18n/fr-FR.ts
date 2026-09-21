@@ -3,8 +3,8 @@ export default {
   specialNumber:
     'L’envoi de SMS à des numéros d’urgence ou à des numéros pour services spéciaux n’est pas pris en charge.',
   textEmpty: 'Veuillez saisir le texte à envoyer.',
-  textTooLong: 'Le texte est trop long, 1 000 caractères maximum',
-  multipartTextTooLong: 'Le texte est trop long, 5 000 caractères maximum',
+  textTooLong: 'Vous pouvez saisir jusqu’à 1 000 caractères.',
+  multipartTextTooLong: 'Vous pouvez saisir jusqu’à 5\n000 caractères.',
   recipientsEmpty: 'Veuillez entrer un numéro de destinataire valide.',
   senderNumberInvalid:
     'Un numéro de téléphone valide est requis pour envoyer des SMS à des destinataires externes à votre entreprise. Veuillez contacter votre administrateur pour ajouter un numéro direct à votre compte.',

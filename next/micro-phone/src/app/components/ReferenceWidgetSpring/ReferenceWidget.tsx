@@ -11,6 +11,9 @@ import {
 } from '@ringcentral/spring-ui';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 
+import { useReferencePopper } from './components/ReferencePopper';
+import { ReferenceSearchPanel } from './components/ReferenceSearchPanel';
+import i18n from './i18n';
 import {
   ReferenceItemClickHandler,
   ReferenceWidgetAddEntityMenuProps,
@@ -18,9 +21,6 @@ import {
   SelectedIdMap,
   SimpleCrmObject,
 } from './ReferenceWidget.interface';
-import { useReferencePopper } from './components/ReferencePopper';
-import { ReferenceSearchPanel } from './components/ReferenceSearchPanel';
-import i18n from './i18n';
 
 export const ReferenceWidget = (filedProps: any) => {
   const {
@@ -126,10 +126,12 @@ export const ReferenceWidget = (filedProps: any) => {
     anchorEl,
   });
 
-  const renderTags: AutocompleteProps['renderTags'] = useCallback(
+  const renderTags = useCallback<NonNullable<AutocompleteProps['renderTags']>>(
     (values, getTagProps) => {
+      const selectedItems = values as SimpleCrmObject[];
+
       if (!showChips) {
-        if (!values || values.length === 0) {
+        if (!selectedItems || selectedItems.length === 0) {
           return null;
         }
         return (
@@ -137,13 +139,13 @@ export const ReferenceWidget = (filedProps: any) => {
             className="typography-mainText text-neutral-b1 truncate"
             style={{ maxWidth: '75%' }} // tailwind css not computing max-w-[75%]
           >
-            {values[0]?.name || ''}
+            {selectedItems[0]?.name || ''}
           </span>
         );
       }
-      return values.map((item: any, index: number) => {
+      return selectedItems.map((item, index) => {
         const tagProps = getTagProps(item, index);
-        const { id, name, type } = item as SimpleCrmObject;
+        const { id, name } = item;
 
         return (
           <Chip
@@ -283,8 +285,14 @@ export const ReferenceWidget = (filedProps: any) => {
                 handleMenuClose();
               }}
             >
-              <span className="mr-2">{option.icon}</span>
-              <MenuItemText>{option.label}</MenuItemText>
+              <div className="mr-2 flex">{option.icon}</div>
+              <MenuItemText
+                classes={{
+                  primaryText: 'truncate min-w-0',
+                }}
+              >
+                {option.label}
+              </MenuItemText>
             </MenuItem>
           ))}
         </Menu>

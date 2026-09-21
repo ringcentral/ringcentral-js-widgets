@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  textTooLong: 'Tekst is te lang, mag niet langer zijn dan 1000 tekens',
+  textTooLong: 'U kunt maximaal 1000 tekens invoeren.',
   attachmentCountLimitation:
     'Er kunnen niet meer dan 10 bijlagen per bericht zijn',
   attachmentSizeLimitation:

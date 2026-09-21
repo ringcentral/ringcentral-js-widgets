@@ -152,12 +152,10 @@ export const AlertRenderer = ({
     }
 
     if (CallLogAlert.handleMessage(message)) {
-      // @ts-expect-error TS(2786): 'CallLogAlert' cannot be used as a JSX component.
-      return (props: any) => <CallLogAlert {...props} />;
+      return CallLogAlert;
     }
     if (CallControlAlert.handleMessage(message)) {
-      // @ts-expect-error TS(2786): 'CallControlAlert' cannot be used as a JSX compone... Remove this comment to see the full error message
-      return (props: any) => <CallControlAlert {...props} />;
+      return CallControlAlert;
     }
 
     return () => null;

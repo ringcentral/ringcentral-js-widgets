@@ -1,6 +1,6 @@
 {
   "name": "@ringcentral-integration/next-widgets",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "UI components and widgets for RingCentral Integration next-generation architecture.",
   "homepage": "https://github.com/ringcentral/ringcentral-js-widgets/tree/master/next/next-widgets#readme",
   "bugs": {
@@ -26,20 +26,20 @@
     "@ringcentral-integration/next-core": "*",
     "@ringcentral-integration/i18n": "*",
     "@ringcentral-integration/next-integration": "*",
-    "linkify-html": "^4.3.2",
     "runes": "^0.4.3",
     "use-file-upload": "^1.0.11",
+    "emoji-mart": "^5.2.2",
     "@emoji-mart/react": "^1.0.1"
   },
   "common": true,
   "devDependencies": {
     "@ringcentral-integration/babel-settings": "*",
-    "@types/dompurify": "^3.2.0",
-    "@ringcentral-integration/test-utils": "*",
     "fs-extra": "^10.1.0",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
-    "gulp-sourcemaps": "^2.6.5"
+    "gulp-sourcemaps": "^2.6.5",
+    "@types/dompurify": "^3.2.0",
+    "@ringcentral-integration/test-utils": "*"
   },
   "ci": {
     "@ringcentral-integration/next-widgets": "**"

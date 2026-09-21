@@ -4,6 +4,7 @@ import React from 'react';
 import styles from './styles.scss';
 
 type PanelProps = {
+  children?: React.ReactNode;
   className?: string;
 };
 const Panel: React.FC<PanelProps> = (props) => {

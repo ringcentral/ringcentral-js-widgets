@@ -22,8 +22,9 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
-import { brandConfig } from '@ringcentral-integration/widgets-demo/dev-server/brandConfig';
 import { fireEvent, screen } from '@testing-library/react';
+
+const defaultAppName = 'RingCentral Widgets';
 
 import { MockSipProvision } from '../../../../steps/Call/Webphone';
 import {
@@ -55,7 +56,7 @@ export class CheckMicrophonePermission extends Step {
   run() {
     const {
       Login = CommonLogin,
-      appName = brandConfig.appName,
+      appName = defaultAppName,
       CheckCallBtnDisabled = CheckCallButtonDisabled,
     } = this;
     return (

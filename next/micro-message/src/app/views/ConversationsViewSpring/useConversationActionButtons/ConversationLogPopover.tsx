@@ -1,23 +1,27 @@
 import {
-  type SimpleCrmObject,
   type ReferenceItemClickHandler,
-  type SelectedIdMap,
   ReferenceMainContent,
+  referencePopperMiddlewares,
   ReferenceSearchPanel,
-} from '@ringcentral-integration/micro-phone/src/app/components/ReferenceWidgetSpring';
-import type { IntegrationConfig } from '@ringcentral-integration/micro-setting/src/app/services';
+  type SelectedIdMap,
+  type SimpleCrmObject,
+} from '@ringcentral-integration/micro-phone/src/app/components';
+import type {
+  CreateEntityOptions,
+  IntegrationConfig,
+} from '@ringcentral-integration/micro-setting/src/app/services';
 import { useContainer } from '@ringcentral-integration/next-core';
 import { useAsyncState } from '@ringcentral-integration/react-hooks';
 import { PlusMd } from '@ringcentral/spring-icon';
 import {
   Button,
-  Popover,
-  TextField,
   IconButton,
+  Popover,
   PopoverProps,
+  TextField,
 } from '@ringcentral/spring-ui';
 import type { FunctionComponent } from 'react';
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { usePromise } from 'react-use';
 
 import {
@@ -32,7 +36,7 @@ export interface ConversationLogPopoverProps {
   opened: boolean;
   onClose: () => void;
   conversation: FilteredConversation;
-  onCreateEntity?: () => void;
+  onCreateEntity?: (options?: CreateEntityOptions) => Promise<void> | void;
   createNewEntityTooltip?: string;
 }
 
@@ -70,7 +74,10 @@ export const ConversationLogPopover: FunctionComponent<
     useContainer<IntegrationConfig>('IntegrationConfig');
 
   const handleCreateEntity = () => {
-    (onCreateEntity || integrationConfig.onCreateEntity)?.();
+    const phoneNumber = conversation.correspondents.find(
+      (correspondent) => correspondent.phoneNumber,
+    )?.phoneNumber;
+    (onCreateEntity || integrationConfig.onCreateEntity)?.({ phoneNumber });
   };
 
   const { maxLogRecordsCount } = conversationLogPopoverOptions || {};
@@ -158,9 +165,21 @@ export const ConversationLogPopover: FunctionComponent<
           // TODO: spring-ui issue, click event will trigger the host item click event
           e.stopPropagation();
         }}
+        classes={{
+          popper: 'overflow-hidden',
+          paper: 'h-full',
+        }}
+        PopperPaperProps={{
+          classes: {
+            content: 'h-full overflow-hidden',
+          },
+        }}
+        PopperProps={{
+          middlewares: referencePopperMiddlewares,
+        }}
       >
-        <div>
-          <div className="flex items-center gap-2 p-2 pl-3">
+        <div className="flex flex-col h-full">
+          <div className="flex items-center gap-2 p-2 pl-3 flex-none">
             <TextField
               fullWidth
               value={inputValue}
@@ -196,13 +215,16 @@ export const ConversationLogPopover: FunctionComponent<
             searchFn={openSearchPage}
             errorHint={
               reachMaxSelectCount
-                ? t('logConversationMaxRecords', { count: maxLogRecordsCount })
+                ? t('logConversationMaxRecords', {
+                    count: maxLogRecordsCount,
+                  })
                 : ''
             }
             useMenuList={conversationLogPopoverOptions?.useMenuList}
             getIcon={conversationLogPopoverOptions?.getIcon}
           />
-          <div className="flex justify-between px-3 py-4">
+
+          <div className="flex justify-between px-3 py-4 flex-none">
             <div className="w-[135px]">
               <Button
                 variant="text"

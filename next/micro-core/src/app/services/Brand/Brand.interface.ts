@@ -24,6 +24,7 @@ export interface BrandThemeMap {
 export type SuiThemeInfo = {
   id: string;
   theme: SuiTheme;
+  name: string;
 };
 
 export interface SuiBrandThemeMap {

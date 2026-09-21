@@ -1,5 +1,6 @@
 import type { useContactRenderInfoFromConversation } from '@ringcentral-integration/micro-phone/src/app/hooks';
 import type { HistoryAction } from '@ringcentral-integration/next-widgets/components/ActionMenuList/useHistoryActionButtons';
+import type { PropsWithChildren } from 'react';
 
 import type { VoicemailAudioStatus } from '../../components';
 import type { FilteredConversation } from '../../services';
@@ -13,7 +14,7 @@ export interface VoicemailViewOptions {
 
 export interface VoicemailViewProps {}
 
-export type VoicemailPagePanelProps = {
+export type VoicemailPagePanelProps = PropsWithChildren<{
   currentVoicemail: FilteredConversation;
   className?: string;
   goBack: () => void;
@@ -26,4 +27,4 @@ export type VoicemailPagePanelProps = {
   onDownload: () => void;
   audioStatus?: VoicemailAudioStatus;
   updateAudioStatus: (status: VoicemailAudioStatus) => void;
-};
+}>;

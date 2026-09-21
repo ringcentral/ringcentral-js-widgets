@@ -1,7 +1,7 @@
 import { useResizeObserver } from '@ringcentral/spring-ui';
 import React, { FunctionComponent, useContext, useRef } from 'react';
 
-import { AppContext } from './AppContext';
+import { AppContext, AppRefsContext } from './AppContext';
 
 /**
  * ToastPositionAdjustor is a component that can adjust the toast position according to the footer height.
@@ -12,15 +12,22 @@ export const ToastPositionAdjustor: FunctionComponent<{
   additionalFooterHeight?: number;
   children: React.ReactElement;
 }> = ({ children, additionalFooterHeight }) => {
-  const { setFooterHeight, additionalFooterHeightRef } = useContext(AppContext);
+  const { setFooterHeight } = useContext(AppContext);
+  const { additionalFooterHeightRef } = useContext(AppRefsContext);
   const footerRef = useRef<HTMLDivElement>(null);
 
   const updateHeight = () => {
-    setFooterHeight(
-      (footerRef.current?.clientHeight || 0) +
-        additionalFooterHeightRef.current +
-        (additionalFooterHeight || 0),
-    );
+    const footer = footerRef.current;
+    if (!footer) {
+      // when footer element is not mounted, use the existing footer height from the context, skip set
+      return;
+    }
+    const height =
+      footer.clientHeight +
+      additionalFooterHeightRef.current +
+      (additionalFooterHeight || 0);
+
+    setFooterHeight(height);
   };
 
   useResizeObserver(footerRef, updateHeight);

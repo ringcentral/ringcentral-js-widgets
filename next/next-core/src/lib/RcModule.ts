@@ -1,11 +1,5 @@
-import { loggerV2 } from '@ringcentral-integration/core/lib/logger/loggerV2';
-import {
-  action,
-  getRef,
-  getRehydrated,
-  state,
-  subscribe,
-} from 'reactant-share';
+import { action, getRef, state, subscribe } from 'reactant';
+import { getRehydrated } from 'reactant-share';
 import { BehaviorSubject, filter, map, shareReplay } from 'rxjs';
 
 import {
@@ -25,6 +19,7 @@ import { Initiator } from '../modules/Initiator';
 
 import type { RcViewModule } from './RcViewModule';
 import { userStorageKey } from './decorators';
+import { logger } from './logger';
 import { fromWatchValue } from './rxjs';
 
 export interface IRcModule {
@@ -36,7 +31,7 @@ export interface IRcModule {
 }
 
 export class RcModule implements IRcModule {
-  protected logger = loggerV2.create(this);
+  protected logger = logger.create(this);
 
   status$ = fromWatchValue(this, () => this.status);
 

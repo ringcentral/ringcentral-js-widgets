@@ -21,23 +21,6 @@ import { IntegrationConfig } from '../../../services';
 import type { AutoCallLoggingSwitchViewProps } from './AutoCallLoggingSwitch.view.interface';
 import { AutoCallLoggingSwitchLineItem } from './AutoCallLoggingSwitch/AutoCallLoggingSwitchLineItem';
 
-export const getBrandedIntegrationConsoleEndpoint = (
-  integrationConsoleEndpoint: string,
-  brandConfig: BaseBrandConfig,
-) => {
-  if (brandConfig.code !== 'rc' && brandConfig.code !== 'att') {
-    const url = new URL(integrationConsoleEndpoint);
-    url.searchParams.set('brandId', brandConfig.id);
-    const href = url.toString();
-    // Remove the root trailing slash only when it sits right before the query string
-    // e.g. https://example.com/?a=b -> https://example.com?a=b
-    const normalized = href.replace('/?', '?');
-    return normalized;
-  }
-
-  return integrationConsoleEndpoint;
-};
-
 @injectable({
   name: 'AutoCallLoggingSwitchView',
 })
@@ -85,10 +68,7 @@ export class AutoCallLoggingSwitchView extends RcViewModule {
 
   @computed
   private get aalEndpointWithBrandId() {
-    return getBrandedIntegrationConsoleEndpoint(
-      this._aalOptions.endpoint,
-      this._brand.brandConfig,
-    );
+    return null;
   }
 
   getUIProps() {

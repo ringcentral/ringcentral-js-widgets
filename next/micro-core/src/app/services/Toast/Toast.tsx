@@ -82,6 +82,10 @@ export class Toast extends RcModule {
     const now = Date.now();
     const dismissIds = this._toasts.reduce<string[]>((acc, curr) => {
       const { ttl, timestamp, id } = curr;
+      // ttl <= 0 means never auto dismiss, do not treat as expired
+      if (!ttl || ttl <= 0) {
+        return acc;
+      }
       const expiredTimestamp = timestamp + ttl;
 
       const expired = now >= expiredTimestamp;

@@ -1,3 +1,4 @@
+import { whenStateOrTimerChange } from '@ringcentral-integration/next-core/test';
 import { StepFunction } from '@ringcentral-integration/test-utils';
 import { screen } from '@testing-library/react';
 
@@ -8,11 +9,13 @@ interface CheckLoginButtonExistsProps {
 export const CheckLoginButtonExists: StepFunction<
   CheckLoginButtonExistsProps
 > = async ({ exists = true }) => {
-  const loginButton = await screen.queryByTestId('loginButton');
-  if (exists) {
-    expect(loginButton).toBeTruthy();
-    expect(loginButton).toBeInTheDocument();
-  } else {
-    expect(loginButton).toBeFalsy();
-  }
+  await whenStateOrTimerChange(() => {
+    const loginButton = screen.queryByTestId('loginButton');
+    if (exists) {
+      expect(loginButton).toBeTruthy();
+      expect(loginButton).toBeInTheDocument();
+    } else {
+      expect(loginButton).toBeFalsy();
+    }
+  });
 };

@@ -16,7 +16,7 @@ import {
   RcIconButton,
 } from '@ringcentral/juno';
 import { ChevronLeft, Close, InfoBorder } from '@ringcentral/juno-icon';
-import type { FunctionComponent } from 'react';
+import type { ChangeEvent, FunctionComponent } from 'react';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import FormattedMessage from '../FormattedMessage';
@@ -223,7 +223,7 @@ export const SchedulerMeetingPanel: FunctionComponent<VideoPanelProps> = (
                   symbol={InfoBorder}
                   data-sign="scheduleForGuidanceIcon"
                   className={styles.allowCursor}
-                  onClick={(e) => {
+                  onClick={(e: React.MouseEvent) => {
                     e.stopPropagation();
                   }}
                 />
@@ -236,7 +236,7 @@ export const SchedulerMeetingPanel: FunctionComponent<VideoPanelProps> = (
               className={styles.boxSelect}
               data-sign="scheduleFor"
               disabled={meeting.usePersonalMeetingId || disabled}
-              onChange={(e) => {
+              onChange={(e: ChangeEvent<{ value: unknown }>) => {
                 updateScheduleFor(e.target.value as string);
                 trackSettingChanges?.(RCV_ITEM_NAME.scheduleFor);
               }}
@@ -361,7 +361,7 @@ export const SchedulerMeetingPanel: FunctionComponent<VideoPanelProps> = (
               data-sign="usePersonalMeetingId"
               disabled={isPersonalMeetingDisabled || disabled}
               checked={meeting.usePersonalMeetingId}
-              onChange={(ev, checked) => {
+              onChange={(ev: any, checked: boolean) => {
                 switchUsePersonalMeetingId(checked);
               }}
             />

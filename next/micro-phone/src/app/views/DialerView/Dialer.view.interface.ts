@@ -51,5 +51,6 @@ export interface OnCallButtonClickOptions {
 }
 
 export interface DialerViewProps {
-  //
+  withTabs?: boolean;
+  dialButtonsClassName?: string;
 }

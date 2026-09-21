@@ -2,26 +2,53 @@
 import type { App, SharedAppConfig } from '@ringcentral-integration/next-core';
 import type { RenderResult } from '@ringcentral-integration/test-utils';
 import { Logger } from '@ringcentral/mfe-logger';
+import fetchMock from 'fetch-mock-jest';
+
+Object.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true });
 
 // @ts-ignore
 process.env.ROARR_LOG = true;
 
-global.mockRender = (reactDOM: Element, element, renderNode) => {
-  const app: RenderResult = jest
-    .requireActual('@ringcentral-integration/test-utils')
-    .renderComponent(
-      () => reactDOM,
-      {},
-      {
-        disableAutoThemeProvider: true,
-        ...(renderNode ? { container: renderNode } : {}),
+const mockSampleAudioRoute = () => {
+  const originalOverwriteRoutes = fetchMock.config.overwriteRoutes;
+
+  try {
+    fetchMock.config.overwriteRoutes = true;
+    fetchMock.mock('test-file-stub', 200, {
+      method: 'GET',
+      response: {
+        blob: () => Promise.resolve(new Blob([])),
       },
-    );
-  global.instance.app.unmount = app.unmount;
+      repeat: 0,
+    });
+  } finally {
+    fetchMock.config.overwriteRoutes = originalOverwriteRoutes;
+  }
+};
+
+beforeEach(() => {
+  mockSampleAudioRoute();
+});
+
+const isRenderContainer = (node: unknown): node is HTMLElement =>
+  node instanceof HTMLElement;
+
+const getRenderContainer = (...nodes: unknown[]) =>
+  nodes.find(isRenderContainer);
+
+global.mockRender = (reactDOM: Element, element, renderNode) => {
+  const container = getRenderContainer(element, renderNode);
+  const { cleanup, render } = jest.requireActual('@testing-library/react');
+  const app: RenderResult = render(reactDOM as any, {
+    legacyRoot: true,
+    ...(container ? { container } : {}),
+  } as any);
+  global.instance.app.unmount = cleanup;
   return app;
 };
 
 global.afterRender = (app: App<any, any, any>) => {
+  global.app = app;
   global.instance = {
     ...global.instance,
     app,
@@ -143,9 +170,8 @@ jest.mock('@ringcentral-integration/next-core', () => {
     },
   };
 
-  if (global.log) {
-    instance.logger = {
-      ...core.logger,
+  const createLoggerWithTestOutput = () =>
+    Object.assign(Object.create(core.logger), {
       debug: (...args) => {
         global.log?.(`🐛`, ...args);
         core.logger.debug(...args);
@@ -166,7 +192,10 @@ jest.mock('@ringcentral-integration/next-core', () => {
         global.log?.(`🔥`, ...args);
         core.logger.error(...args);
       },
-    };
+    });
+
+  if (global.log) {
+    instance.logger = createLoggerWithTestOutput();
   }
 
   return instance;
@@ -237,7 +266,7 @@ global.mockAudio = {
   onplay: onPlayMock,
   pause: jest.fn().mockImplementation(onPauseMock),
   onpause: onPauseMock,
-  setSinkId: jest.fn(),
+  setSinkId: jest.fn().mockResolvedValue(undefined),
   currentTime: 0,
   volume: 1,
   src: '',

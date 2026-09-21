@@ -1,4 +1,5 @@
 export * from './meetingErrors';
+export * from './meetingOperationResult';
 export * from './meetingStatus';
 export * from './Meeting';
 export * from './Meeting.interface';

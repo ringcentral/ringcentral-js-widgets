@@ -64,7 +64,7 @@ export const ChangePasswordPopup: React.FC<ChangePasswordPopupProps> = ({
         inputProps={{
           maxLength: 255,
         }}
-        onChange={(e) => {
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
           setPassword(e.target.value);
         }}
       />

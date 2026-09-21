@@ -17,6 +17,10 @@ export interface PasswordEditDialogProps {
   currentPassword: string;
   onClose: () => void;
   onUpdate: (password: string) => void;
+  isCompact?: boolean;
+  passwordFormatErrorMessage?: string;
+  passwordRequiredMessage?: string;
+  passwordValidationHint?: string;
 }
 
 export const PasswordEditDialog: React.FC<PasswordEditDialogProps> = ({
@@ -24,6 +28,10 @@ export const PasswordEditDialog: React.FC<PasswordEditDialogProps> = ({
   currentPassword,
   onClose,
   onUpdate,
+  isCompact = false,
+  passwordFormatErrorMessage,
+  passwordRequiredMessage,
+  passwordValidationHint,
 }) => {
   const { t } = useLocale(i18n);
   const [password, setPassword] = useState(currentPassword);
@@ -38,10 +46,10 @@ export const PasswordEditDialog: React.FC<PasswordEditDialogProps> = ({
 
   const validatePassword = (value: string): string => {
     if (value.length === 0) {
-      return t('passwordRequired');
+      return passwordRequiredMessage ?? t('passwordRequired');
     }
     if (!RCV_PASSWORD_REGEX.test(value)) {
-      return t('passwordFormatError');
+      return passwordFormatErrorMessage ?? t('passwordFormatError');
     }
     return '';
   };
@@ -77,6 +85,7 @@ export const PasswordEditDialog: React.FC<PasswordEditDialogProps> = ({
       bodyProps={{
         style: { paddingTop: '12px', paddingBottom: '12px' },
       }}
+      classes={isCompact ? { body: 'w-[276px] max-w-none' } : {}}
       size="large"
     >
       <DialogTitle className="px-3">{t('updatePassword')}</DialogTitle>
@@ -92,7 +101,9 @@ export const PasswordEditDialog: React.FC<PasswordEditDialogProps> = ({
               value={password}
               onChange={(e) => handlePasswordChange(e.target.value)}
               error={!!error}
-              helperText={error || t('passwordValidationHint')}
+              helperText={
+                error || passwordValidationHint || t('passwordValidationHint')
+              }
               className="w-full"
               placeholder={t('passwordPlaceholder')}
             />

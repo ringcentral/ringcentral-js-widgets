@@ -7,11 +7,14 @@
   "author": "",
   "main": "index.js",
   "scripts": {
-    "test": "COMMON=true yarn run-test",
+    "test": "node scripts/run-react18-test.js",
+    "test:react18-segmented": "node scripts/run-react18-segmented-tests.js",
+    "test:exploratory": "PREVIEW=true TESTING_MCP=true MOCK_MCP=true RTL_SKIP_AUTO_CLEANUP=true yarn test test/features/Exploratory.test.tsx",
     "update-snapshot": "yarn test --testMatch='**/*.snapshot.*.(ts|tsx|js)' -u"
   },
   "devDependencies": {
     "@ringcentral-integration/babel-settings": "*",
+    "@ringcentral-integration/mock": "*",
     "@ringcentral-integration/micro-auth": "*",
     "@ringcentral-integration/micro-contacts": "*",
     "@ringcentral-integration/micro-core": "*",
@@ -25,13 +28,14 @@
     "@ringcentral-integration/next-widgets": "*",
     "@ringcentral-integration/test-utils": "*",
     "@ringcentral-integration/utils": "*",
-    "@testing-library/react": "^12.1.5",
+    "@testing-library/react": "^14.3.1",
     "jszip": "3.10.1"
   },
   "common": true,
   "ci": {
     "@ringcentral-integration/app-demo-test": "**"
   },
+  "testMaxWorkers": 1,
   "nx": {
     "tags": [
       "scope:ci-test"

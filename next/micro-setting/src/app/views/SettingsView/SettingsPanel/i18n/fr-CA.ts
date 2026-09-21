@@ -45,6 +45,8 @@ export default {
   selectToDialHint:
     'Pour une expérience optimale, sélectionnez le numéro de téléphone à composer avec {brandName} sur la page contenant une grande quantité de numéros de téléphone.',
   phone: 'Téléphone',
+  text: 'Messages texte',
+  consentManagement: 'Gestion des consentements',
   log: 'Journal',
   general: 'Général',
   showMatches: 'Afficher les correspondances pour les appels entrants',
@@ -98,6 +100,8 @@ export default {
 // @key: @#@"contactSupport"@#@ @source: @#@"Contact support"@#@
 // @key: @#@"selectToDialHint"@#@ @source: @#@"For your better experience, select phone number to dial with {brandName} in large quantity phone number page."@#@
 // @key: @#@"phone"@#@ @source: @#@"Phone"@#@
+// @key: @#@"text"@#@ @source: @#@"Text"@#@
+// @key: @#@"consentManagement"@#@ @source: @#@"Consent management"@#@
 // @key: @#@"log"@#@ @source: @#@"Log"@#@
 // @key: @#@"general"@#@ @source: @#@"General"@#@
 // @key: @#@"showMatches"@#@ @source: @#@"Show matches for inbound calls"@#@

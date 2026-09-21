@@ -50,5 +50,4 @@ export interface CallLogCallCtrlViewProps {
   isCurrentDeviceCall?: boolean;
   warmTransferActiveTelephonySessionId?: string;
   currentLocale?: string;
- 
 }

@@ -5,21 +5,32 @@ document.addEventListener('DOMContentLoaded', () => {
   const iframe = document.querySelector('iframe')!;
   let isHidden = false;
   let bottom = true;
+  let timeoutId: number | null = null;
 
   toggleButton.addEventListener('mousedown', (e) => {
     e.preventDefault();
   });
-  toggleButton.addEventListener('click', (e) => {
+  toggleButton.addEventListener('click', () => {
     if (isHidden) {
       // focus page to trigger iframe inner auto focus
       if (document.activeElement === document.body) {
         iframe.focus();
       }
 
-      iframe.style.transform = 'translateY(0)';
+      iframe.style.display = 'block';
+      requestAnimationFrame(() => {
+        iframe.style.transform = 'translateY(0)';
+      });
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+        timeoutId = null;
+      }
       isHidden = false;
     } else {
       iframe.style.transform = 'translateY(100%)';
+      timeoutId = window.setTimeout(() => {
+        iframe.style.display = 'none';
+      }, 100);
       isHidden = true;
     }
   });

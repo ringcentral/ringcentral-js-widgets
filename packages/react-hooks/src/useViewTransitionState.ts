@@ -1,6 +1,10 @@
 import { useOnReRender, useResultRef } from '@ringcentral/juno';
 import { useRef, useState } from 'react';
 
+type ViewTransitionDocument = Document & {
+  startViewTransition?: (callback: () => void) => void;
+};
+
 /**
  * when browser support view transition, this hook will temp input state and call `document.startViewTransition` before the state change.
  *
@@ -14,10 +18,12 @@ export const useViewTransitionState = <T = unknown>(
    */
   onStartViewTransition?: (currentState: T) => void,
 ) => {
+  const viewTransitionDocument =
+    globalThis.document as ViewTransitionDocument;
   const { current: hasViewTransition } = useResultRef(
     () =>
-      'startViewTransition' in global.document &&
-      typeof global.document.startViewTransition === 'function',
+      'startViewTransition' in viewTransitionDocument &&
+      typeof viewTransitionDocument.startViewTransition === 'function',
   );
 
   // because the view transition condition is never changed, so we can use useLayoutEffect in the if statement to avoid the not necessary effect binding.
@@ -36,7 +42,7 @@ export const useViewTransitionState = <T = unknown>(
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useOnReRender(() => {
-    global.document.startViewTransition(() => {
+    viewTransitionDocument.startViewTransition?.(() => {
       onStartViewTransitionRef.current?.(currentState);
 
       setState(currentState);

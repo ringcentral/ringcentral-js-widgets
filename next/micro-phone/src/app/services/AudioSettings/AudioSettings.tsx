@@ -13,6 +13,7 @@ import {
   action,
   computed,
   delegate,
+  dynamic,
   injectable,
   optional,
   portal,
@@ -36,6 +37,7 @@ import type {
   AudioSettingsOptions,
 } from './AudioSettings.interface';
 import i18n, { t } from './i18n';
+import type { NoiseReductionLike } from './NoiseReductionLike';
 
 const DEFAULT_DEVICE_ID = 'default';
 // windows only
@@ -94,6 +96,9 @@ export class AudioSettings extends RcModule {
   // in spring-ui, we always show the check media alert
   protected _showCheckMediaAlert: boolean =
     process.env.THEME_SYSTEM === 'spring-ui';
+
+  @dynamic('NoiseReduction')
+  protected _noiseReduction?: NoiseReductionLike;
 
   constructor(
     protected _auth: Auth,
@@ -668,17 +673,33 @@ export class AudioSettings extends RcModule {
         );
 
       return (
-        <FormattedMessage
-          message={t('checkMediaPermission')}
-          values={{ checkPermissionAction, brandName: this._brand.name }}
-        />
+        <div className="typography-descriptorMini">
+          <FormattedMessage
+            message={t('checkMediaPermission')}
+            values={{
+              checkPermissionAction:
+                process.env.THEME_SYSTEM === 'spring-ui'
+                  ? null // action on new line in spring ui - added separately
+                  : checkPermissionAction,
+              brandName: this._brand.name,
+            }}
+            tagName={'div'}
+          />
+          {/* TODO: Add support for action in props: () => {} later */}
+          {process.env.THEME_SYSTEM === 'spring-ui' && (
+            <div>{checkPermissionAction}</div>
+          )}
+        </div>
       );
     },
-    props: () => ({
-      level: 'warning',
-      ttl: 0,
-      group: this.identifier,
-    }),
+    props: () => {
+      return {
+        level: 'warning',
+        ttl: 0,
+        group: this.identifier,
+        startSlot: null,
+      };
+    },
   });
 
   @delegate('server')
@@ -942,6 +963,14 @@ export class AudioSettings extends RcModule {
 
   get isAGCEnabled() {
     return this.data.isAGCEnabled;
+  }
+
+  get isNoiseReductionEnabled(): boolean {
+    return this._noiseReduction?.enabled ?? false;
+  }
+
+  setNoiseReductionEnabled(enabled: boolean): void {
+    this._noiseReduction?.setEnabled(enabled);
   }
 
   get isSupportAGC() {

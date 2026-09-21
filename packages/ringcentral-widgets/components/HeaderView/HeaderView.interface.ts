@@ -1,6 +1,8 @@
 import type { Call } from '@ringcentral-integration/commons/interfaces/Call.interface';
+import type { ReactNode } from 'react';
 
 export interface HeaderViewProps {
+  children?: ReactNode;
   userStatus?: string;
   dndStatus?: string;
   standAlone?: boolean;

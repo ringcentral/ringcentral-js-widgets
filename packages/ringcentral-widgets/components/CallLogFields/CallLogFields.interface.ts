@@ -1,6 +1,5 @@
 import type { RcDatePickerProps } from '@ringcentral/juno';
-import type { ReactElementLike } from 'prop-types';
-import type { MutableRefObject, ReactNode } from 'react';
+import type { MutableRefObject, ReactElement, ReactNode } from 'react';
 
 import type { CallLog, Task } from '../CallLogPanel';
 
@@ -57,7 +56,7 @@ export interface FieldOption {
   associatedEntitiesGetter?: (currentLog: CallLog) => any;
   searchOptionFinder?: (option: any, text: string) => boolean;
   shouldShowAssociatedSection?: (currentLog: CallLog) => boolean;
-  rightIconRender?: (item: any) => ReactElementLike;
+  rightIconRender?: (item: any) => ReactElement | null;
   onBackClick?: () => void;
   backHeaderClassName?: string;
   shouldDisable?: (task?: Task, call?: CallLog['call']) => boolean;

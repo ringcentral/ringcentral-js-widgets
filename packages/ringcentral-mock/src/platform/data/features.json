@@ -1,6 +1,20 @@
 {
   "records": [
     {
+      "id": "MessageThreads",
+      "available": true,
+      "params": [
+        {
+          "name": "callQueueSupported",
+          "value": "true"
+        },
+        {
+          "name": "siteSupported",
+          "value": "false"
+        }
+      ]
+    },
+    {
       "id": "CallScreening",
       "available": true
     },
@@ -513,6 +527,10 @@
     },
     {
       "id": "SMSReceiving",
+      "available": true
+    },
+    {
+      "id": "SMSRegistration",
       "available": true
     },
     {

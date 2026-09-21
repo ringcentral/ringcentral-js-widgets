@@ -6,3 +6,4 @@ export * from './events';
 export * from './Webphone.interface';
 export * from './WebphoneBase';
 export * from './Webphone';
+export * from './webphoneLogSanitizer';

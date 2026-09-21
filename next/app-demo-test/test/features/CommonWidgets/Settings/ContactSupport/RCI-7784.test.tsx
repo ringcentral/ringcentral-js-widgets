@@ -14,6 +14,7 @@ import {
   Then,
   title,
   userEvent,
+  waitForRenderReady,
   When,
 } from '@ringcentral-integration/test-utils';
 import { firstValueFrom, Subject } from 'rxjs';
@@ -52,7 +53,7 @@ export class RCI7784 extends Step {
             ((_, { app }) => {
               const browserLogger = app.container.got(BrowserLogger)!;
               jest
-                .spyOn(browserLogger.storageTransport!, 'downloadLogs')
+                .spyOn(browserLogger as any, 'downloadSanitizedLogs')
                 .mockImplementation(() => {
                   return firstValueFrom(downloadCompleted$);
                 });
@@ -65,9 +66,7 @@ export class RCI7784 extends Step {
         />
         <And
           desc="User click on Contact Support"
-          action={() => {
-            userEvent.click(screen.getByTestId('ContactSupport'));
-          }}
+          action={<ClickItemByDataSign dataSign="ContactSupport" />}
         />
 
         <When
@@ -85,22 +84,25 @@ export class RCI7784 extends Step {
               });
             }) as StepFunction,
             <ClickItemByDataSign dataSign="attachFileBtn" />,
-            () => {
-              userEvent.type(
+            async () => {
+              await userEvent.type(
                 screen.getByPlaceholderText('Tell us what the problem is...'),
                 'Test description',
               );
+              await waitForRenderReady();
             },
           ]}
         />
 
         <When
           desc="Auto-attached log is available"
-          action={() => {
-            const autoLog = screen.getByText((content) =>
-              content.includes('applicationLogs.zip'),
-            );
-            expect(autoLog).toBeInTheDocument();
+          action={async () => {
+            await whenStateChange(() => {
+              const autoLog = screen.getByText((content) =>
+                content.includes('applicationLogs.zip'),
+              );
+              expect(autoLog).toBeInTheDocument();
+            });
           }}
         />
 

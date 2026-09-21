@@ -9,11 +9,13 @@ export const subscriptionFilters = ObjectMap.fromObject({
   accountExtension: '/restapi/v1.0/account/~/extension',
   companyContacts: '/restapi/v1.0/account/~/directory/contacts',
   messageStore: '/restapi/v1.0/account/~/extension/~/message-store',
+  sharedSms: '/restapi/v1.0/account/~/extension/~/shared-sms',
   instantMessage:
     '/restapi/v1.0/account/~/extension/~/message-store/instant?type=SMS',
   messageThreadsSync: '/restapi/v1.0/account/~/message-threads/sync',
   extensionGrants: '/restapi/v1.0/account/~/extension/~/grant',
   optOuts: '/restapi/v1.0/account/~/a2p-sms/opt-outs',
+  smsConsents: '/restapi/v2/accounts/~/sms/consents',
   messageThreadsEntriesSync:
     '/restapi/v1.0/account/~/message-threads/entries/sync',
   telephonySessions: '/restapi/v1.0/account/~/extension/~/telephony/sessions',

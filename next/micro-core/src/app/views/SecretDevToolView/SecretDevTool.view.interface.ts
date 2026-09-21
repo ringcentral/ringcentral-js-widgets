@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react';
+
 export interface SecretDevToolViewOptions {}
 
 export type SecretDevToolProps = {
@@ -8,7 +10,7 @@ export type SecretDevToolProps = {
 
 export type SecretDevToolRenderProps = {
   online?: boolean;
-  action?: JSX.Element;
-  header?: JSX.Element;
-  details?: unknown;
+  action?: ReactNode;
+  header?: ReactNode;
+  details?: ReactNode;
 };

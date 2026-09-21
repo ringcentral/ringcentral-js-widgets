@@ -102,6 +102,11 @@ export interface ContactSearchPanelProps extends ContactSearchViewProps {
   formatPhone: (phoneNumber: string) => string | null | undefined;
   getCompanyExtraInfoByIds: (ids: string[]) => Promise<any>;
   changeTabTrack: (v: string) => void;
+  /**
+   * @deprecated
+   *
+   * use only non-spring ui project use, spring-ui use with AccountContactsViewableManager usePresence instead
+   */
   getPresence: GetPresenceFn;
   ThirdPartyAvatar?: FunctionComponent<{
     type?: string;

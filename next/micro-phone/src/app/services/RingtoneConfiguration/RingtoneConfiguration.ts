@@ -16,11 +16,6 @@ import {
 
 import { Webphone } from '../Webphone';
 
-import type {
-  AudioInfo,
-  RingtoneConfigurationOptions,
-  RingtoneItem,
-} from './RingtoneConfiguration.interface';
 import {
   DEFAULT_RINGTONE_LIST,
   MAX_CUSTOM_RINGTONE_COUNT,
@@ -28,6 +23,11 @@ import {
 } from './const';
 import { getFileNameWithoutExt } from './helper';
 import { t, type I18nKey } from './i18n';
+import type {
+  AudioInfo,
+  RingtoneConfigurationOptions,
+  RingtoneItem,
+} from './RingtoneConfiguration.interface';
 
 @injectable({
   name: 'RingtoneConfiguration',
@@ -79,8 +79,8 @@ export class RingtoneConfiguration extends RcModule {
     );
   }
 
-  @track(trackEvents.uploadRingtone)
   @delegate('server')
+  @track(trackEvents.uploadRingtone)
   async uploadCustomRingtone(ringtone: RingtoneItem, showAlert?: boolean) {
     this._pushCustomRingtone(ringtone);
     if (showAlert) {
@@ -92,8 +92,8 @@ export class RingtoneConfiguration extends RcModule {
     }
   }
 
-  @track(trackEvents.deleteRingtone)
   @delegate('server')
+  @track(trackEvents.deleteRingtone)
   async removeCustomRingtone(id: string) {
     const hasCustomRingtone = this.customRingtoneList.find(
       (ringtone) => ringtone.id === id,

@@ -1,4 +1,4 @@
-import { subscribe, ThisService } from 'reactant-share';
+import { subscribe, ThisService } from 'reactant';
 import { finalize, Observable, share } from 'rxjs';
 
 /**

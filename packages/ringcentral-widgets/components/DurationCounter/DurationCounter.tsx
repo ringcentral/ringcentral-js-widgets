@@ -6,7 +6,7 @@ import {
   useResultRef,
 } from '@ringcentral/spring-ui';
 import clsx from 'clsx';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 type DurationCounterProps = {
   className?: string;
@@ -20,6 +20,12 @@ type DurationCounterProps = {
    * @default 0
    */
   offset?: number;
+  /**
+   * Whether to compensate for inaccurate system time when the calculated duration is less than 0.
+   *
+   * @default false
+   */
+  compensateSystemTime?: boolean;
 };
 
 /**
@@ -51,16 +57,30 @@ const InnerDurationCounter: React.FC<DurationCounterProps> = ({
   className,
   startTime,
   offset = 0,
+  compensateSystemTime = false,
 }) => {
+  const systemTimeOffsetRef = useRef<number>(0);
+
   const getFormattedDuration = useCallback(() => {
     if (startTime === undefined) return formatDuration(startTime);
 
     const adjustedStartTime = startTime + offset;
 
-    const duration = Math.round((Date.now() - adjustedStartTime) / 1000);
+    const rawDuration = Math.round((Date.now() - adjustedStartTime) / 1000);
+
+    let duration = rawDuration;
+
+    if (compensateSystemTime) {
+      duration = rawDuration - systemTimeOffsetRef.current;
+
+      if (duration < 0) {
+        systemTimeOffsetRef.current = rawDuration;
+        duration = 0;
+      }
+    }
 
     return formatDuration(duration);
-  }, [offset, startTime]);
+  }, [offset, startTime, compensateSystemTime]);
 
   // use result ref to avoid re-creating the function on every render
   const defaultValueRef = useResultRef(getFormattedDuration);

@@ -7,6 +7,8 @@ export default {
   optOutSingleRecipient: '此接收者已退订。',
   optOutMultipleRecipients: '部分接收者已退订。',
   optOutRemove: '移除',
+  incomingTextsOnly: '仅接收短信',
+  notSetUpForTexting: '未设置短信功能',
 } as const;
 
 // @key: @#@"createNewText"@#@ @source: @#@"Create new text"@#@
@@ -15,3 +17,5 @@ export default {
 // @key: @#@"optOutSingleRecipient"@#@ @source: @#@"This recipient has opted out."@#@
 // @key: @#@"optOutMultipleRecipients"@#@ @source: @#@"Some recipients have opted out."@#@
 // @key: @#@"optOutRemove"@#@ @source: @#@"Remove"@#@
+// @key: @#@"incomingTextsOnly"@#@ @source: @#@"Incoming texts only"@#@
+// @key: @#@"notSetUpForTexting"@#@ @source: @#@"Not set up for texting"@#@

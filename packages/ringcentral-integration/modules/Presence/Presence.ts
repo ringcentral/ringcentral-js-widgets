@@ -9,6 +9,7 @@ import {
   storage,
 } from '@ringcentral-integration/core';
 import type { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
+import type { ApiError } from '@ringcentral/sdk';
 import { filter, map } from 'ramda';
 import type { Unsubscribe } from 'redux';
 
@@ -55,6 +56,7 @@ const acceptCallQueueToggles = [
     'ExtensionFeatures',
     'Subscription',
     'Storage',
+    { dep: 'AvailabilityMonitor', optional: true },
     { dep: 'TabManager', optional: true },
     { dep: 'PresenceOptions', optional: true },
   ],
@@ -347,6 +349,16 @@ export class Presence extends DataFetcherV2Consumer<Deps, PresenceInfoModel> {
         });
       }
     } catch (e) {
+      // HA errors already switch the app into limited mode through the
+      // AvailabilityMonitor's global client requestError handler; here we
+      // only suppress the error log, same as Call/MessageSender/Meeting.
+      if (
+        this._deps.availabilityMonitor &&
+        (await this._deps.availabilityMonitor.checkIfHAError(e as ApiError))
+      ) {
+        return;
+      }
+
       console.error('put presence failed', e);
     }
   }

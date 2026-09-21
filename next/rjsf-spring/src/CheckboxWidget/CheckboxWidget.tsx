@@ -10,7 +10,7 @@ import {
   StrictRJSFSchema,
   WidgetProps,
 } from '@rjsf/utils';
-import React, { FocusEvent } from 'react';
+import React, { ChangeEvent, FocusEvent } from 'react';
 
 /** The `CheckBoxWidget` is a widget for rendering boolean properties.
  *  It is typically used to represent a boolean.
@@ -77,7 +77,9 @@ export default function CheckboxWidget<
           disabled={disabled || readonly}
           // eslint-disable-next-line jsx-a11y/no-autofocus
           autoFocus={autofocus}
-          onChange={(e) => onChange(e.target.checked)}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            onChange(e.target.checked)
+          }
           onBlur={_onBlur}
           onFocus={_onFocus}
           aria-describedby={ariaDescribedByIds<T>(id)}

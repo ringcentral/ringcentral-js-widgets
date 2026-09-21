@@ -42,7 +42,7 @@ import type {
 } from './ConversationLogger.interface';
 import {
   conversationLogIdentityFunction,
-  getLogId,
+  getConversationLogIdFromMessage,
 } from './conversationLoggerHelper';
 
 @injectable({
@@ -93,7 +93,6 @@ export class ConversationLogger extends LoggerBase {
     protected _router: RouterPlugin,
     @inject('ConversationLoggerOptions')
     protected _conversationLoggerOptions: ConversationLoggerOptions,
-    @optional('TabManager') protected _tabManager?: any,
   ) {
     super();
     this._storage.enable(this);
@@ -300,30 +299,28 @@ export class ConversationLogger extends LoggerBase {
       this._contactMatcher.triggerMatch();
       const oldMap = this._lastProcessedConversations || {};
       this._lastProcessedConversations = this.conversationLogMap;
-      if (!this._tabManager || this._tabManager.active) {
-        Object.keys(this._lastProcessedConversations).forEach(
-          (conversationId) => {
-            Object.keys(
-              this._lastProcessedConversations![conversationId],
-            ).forEach((date) => {
-              const conversation =
-                this._lastProcessedConversations![conversationId][date];
-              if (
-                !oldMap[conversationId] ||
-                !oldMap[conversationId][date] ||
-                conversation.messages[0].id !==
-                  oldMap[conversationId][date].messages[0].id
-              ) {
-                if (this.accordWithProcessLogRequirement(conversation)) {
-                  this._queueAutoLogConversation({
-                    conversation,
-                  });
-                }
+      Object.keys(this._lastProcessedConversations).forEach(
+        (conversationId) => {
+          Object.keys(
+            this._lastProcessedConversations![conversationId],
+          ).forEach((date) => {
+            const conversation =
+              this._lastProcessedConversations![conversationId][date];
+            if (
+              !oldMap[conversationId] ||
+              !oldMap[conversationId][date] ||
+              conversation.messages[0].id !==
+                oldMap[conversationId][date].messages[0].id
+            ) {
+              if (this.accordWithProcessLogRequirement(conversation)) {
+                this._queueAutoLogConversation({
+                  conversation,
+                });
               }
-            });
-          },
-        );
-      }
+            }
+          });
+        },
+      );
     }
   }
 
@@ -490,16 +487,7 @@ export class ConversationLogger extends LoggerBase {
     if (!message) {
       return;
     }
-    const conversationId = message.conversationId!;
-    const date = this._formatDateTime({
-      type: 'date',
-      utcTimestamp: message.creationTime,
-    })!;
-
-    return getLogId({
-      conversationId,
-      date,
-    });
+    return getConversationLogIdFromMessage(message, this._formatDateTime);
   }
 
   get dataMapping() {

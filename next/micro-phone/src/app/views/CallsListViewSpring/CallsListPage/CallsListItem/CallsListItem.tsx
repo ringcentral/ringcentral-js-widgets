@@ -77,7 +77,7 @@ const _CallsListItem: React.FC<CallsListItemProps> = ({
       />
       <div className="text-right min-h-11 max-w-[30%]">
         <span
-          className="typography-descriptor text-neutral-b2"
+          className="typography-descriptor text-neutral-b2 inline-block max-w-full truncate"
           data-sign="callStartTime"
         >
           {startTime}

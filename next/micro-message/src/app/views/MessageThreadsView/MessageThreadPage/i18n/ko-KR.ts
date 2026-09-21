@@ -10,6 +10,7 @@ export default {
   open: '열기',
   resolved: '해결됨',
   assignment: '할당',
+  selectAll: '모두 선택',
   done: '완료',
   cancel: '취소',
   clear: '지우기',
@@ -29,6 +30,7 @@ export default {
 // @key: @#@"open"@#@ @source: @#@"Open"@#@
 // @key: @#@"resolved"@#@ @source: @#@"Resolved"@#@
 // @key: @#@"assignment"@#@ @source: @#@"Assignment"@#@
+// @key: @#@"selectAll"@#@ @source: @#@"Select all"@#@
 // @key: @#@"done"@#@ @source: @#@"Done"@#@
 // @key: @#@"cancel"@#@ @source: @#@"Cancel"@#@
 // @key: @#@"clear"@#@ @source: @#@"Clear"@#@

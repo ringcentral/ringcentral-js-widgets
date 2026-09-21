@@ -8,6 +8,16 @@ export interface AudioSettingsViewOptions {
   showRingToneVolume?: boolean;
 }
 
+/**
+ * Optional noise reduction service. When provided with showNoiseReductionSetting,
+ * AudioSettingsView shows the noise reduction toggle. Apps that do not provide
+ * NoiseReduction will not show the toggle.
+ */
+export interface NoiseReductionLike {
+  readonly showNoiseReductionSetting: boolean;
+  readonly enabled: boolean;
+}
+
 export interface AudioSettingsViewProps {
   useV2?: boolean;
 }

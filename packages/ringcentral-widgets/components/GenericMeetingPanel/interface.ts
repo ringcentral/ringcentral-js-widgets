@@ -15,7 +15,7 @@ import type {
   RcDatePickerSize,
   RcTimePickerSize,
 } from '@ringcentral/juno';
-import type { FunctionComponent } from 'react';
+import type { FunctionComponent, ReactNode } from 'react';
 
 export interface ScheduleButtonProps {
   currentLocale: string;
@@ -33,6 +33,7 @@ export interface ScheduleButtonProps {
 }
 
 export interface CommonProps {
+  children?: ReactNode;
   scheduleButton?: FunctionComponent<ScheduleButtonProps>;
   invite?: (meeting: any, opener: any) => any;
   showScheduleOnBehalf?: boolean;

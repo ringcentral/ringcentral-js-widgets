@@ -18,7 +18,6 @@ import { GlobalStyle } from '../styles';
 import {
   AudioSettingsView,
   CallingSettingsView,
-  FeedbackView,
   IssuesTrackingView,
   RegionSettingsView,
   SettingsView,
@@ -35,7 +34,6 @@ export class SettingAppView extends RcMicroAppView {
     private _callingSettingsView: CallingSettingsView,
     private _regionSettingsView: RegionSettingsView,
     private _audioSettingsView: AudioSettingsView,
-    private _feedbackView: FeedbackView,
     private _issuesTrackingView: IssuesTrackingView,
     private _callQueueManagementView: CallQueueManagementView,
     private _mfeAppRootView: MFEAppRootView,
@@ -84,10 +82,6 @@ export class SettingAppView extends RcMicroAppView {
                   component={() => <this._audioSettingsView.component />}
                 />
               )}
-              <Route
-                path="/settings/feedback"
-                component={() => <this._feedbackView.component />}
-              />
               <Route
                 path="/settings/issuesTracking"
                 component={() => <this._issuesTrackingView.component />}

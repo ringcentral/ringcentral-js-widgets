@@ -13,7 +13,12 @@ export interface Tab {
   isActive: () => boolean;
 }
 
+export type TabContentViewChildren =
+  | React.ReactNode
+  | ((props: { showTabs?: boolean }) => React.ReactNode);
+
 export interface TabContentViewProps {
+  children?: TabContentViewChildren;
   goTo: (path: string) => void;
   showTabs: boolean;
   showSpinner: boolean;

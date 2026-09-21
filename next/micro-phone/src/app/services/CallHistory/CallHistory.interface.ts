@@ -7,11 +7,6 @@ export interface CallHistoryOptions {
    * enable cache, default true.
    */
   enableCache?: boolean;
-
-  /**
-   * set if enable the contact match with full phone numbers (phone number + extension), default is false
-   */
-  enableFullPhoneNumberMatch?: boolean;
   enableContactMatchInCallHistory?: boolean;
   contactMatchIgnoreCache?: boolean;
 }

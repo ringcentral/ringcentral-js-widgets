@@ -116,7 +116,7 @@ describe('checkIndexDB', () => {
   });
 
   describe('when indexedDB.databases() throws an error', () => {
-    let consoleSpy: jest.SpyInstance;
+    let consoleSpy: jest.Spied;
 
     beforeEach(() => {
       consoleSpy = jest.spyOn(console, 'error').mockImplementation();

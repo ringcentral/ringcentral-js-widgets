@@ -206,7 +206,7 @@ class VoicemailPlayer extends Component<
           data-sign="download"
           title={i18n.getString('download', currentLocale)}
           href={isFirefox ? '#' : downloadUri}
-          onClick={(e) => {
+          onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
             this._onDownloadClick(e, downloadUri);
           }}
         >

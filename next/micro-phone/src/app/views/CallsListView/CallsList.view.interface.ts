@@ -10,6 +10,21 @@ export interface CallsListViewOptions {
   component?: typeof CallsListPanel;
 }
 
+export interface CallsListViewProps {
+  showContactDisplayPlaceholder?: boolean;
+  enableContactFallback?: boolean;
+  composeTextRoute?: string;
+  callCtrlRoute?: string;
+  dialerRoute?: string;
+  onCreateContact?: (options: OnCreateContactOptions) => Promise<void>;
+  onLogCall?: (options: OnLogCallOptions) => Promise<void>;
+  isLoggedContact?: (...args: any) => boolean;
+  onViewContact?: (options: { contact: RouteParams }) => void;
+  dateTimeFormatter?: (
+    options: Partial<FormatDateTimeOptions>,
+  ) => string | null;
+}
+
 export interface UIPropsOptions {
   showContactDisplayPlaceholder?: boolean;
   enableContactFallback?: boolean;

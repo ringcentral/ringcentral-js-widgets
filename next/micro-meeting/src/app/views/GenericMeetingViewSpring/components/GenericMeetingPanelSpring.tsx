@@ -37,7 +37,7 @@ const MeetingConfigPanelSkeleton: React.FC = () => (
       root: 'overflow-visible',
     }}
   >
-    <div className="flex flex-col gap-4 w-full">
+    <div className="flex flex-col gap-2 w-full">
       {/* Meeting Title */}
       <div className="flex flex-col gap-1 w-full">
         <Skeleton variant="text" className="w-24 h-4" />
@@ -253,6 +253,7 @@ export const GenericMeetingPanelSpring: React.FC<
             <GeneralMeetingSettings
               {...generalMeetingSettingsProps}
               {...generalMeetingSettingsFunctions}
+              isCompact={true}
             />
             <PersonalMeetingSettingsSwitch
               {...personalMeetingSettingsSwitchProps}

@@ -16,6 +16,9 @@ import React, { useEffect, useState } from 'react';
 
 export type EnvironmentData = {
   server: string;
+  aiApiUrl?: string;
+  smartNotesIframe?: string;
+  smartNotesEnv?: string;
   recordingHost: string;
   enabled: boolean;
   allowDataTracking: boolean;
@@ -40,10 +43,18 @@ export const EnvironmentPanel: FC<EnvironmentPanelProps> = (props) => {
     enabled,
     allowDataTracking,
     server,
+    aiApiUrl = '',
+    smartNotesIframe = '',
+    smartNotesEnv = '',
     mfeDepsInfo = '',
   } = props;
 
   const [serverValueRef, setServerValue] = useRefState(server);
+  const [aiApiUrlValueRef, setAiApiUrlValue] = useRefState(aiApiUrl);
+  const [smartNotesIframeValueRef, setSmartNotesIframeValue] =
+    useRefState(smartNotesIframe);
+  const [smartNotesEnvValueRef, setSmartNotesEnvValue] =
+    useRefState(smartNotesEnv);
   const [mfeDepsInfoRef, setMfeDepsInfo] = useRefState(mfeDepsInfo);
   const [recordingHostValueRef, setRecordingHostValue] =
     useRefState(recordingHost);
@@ -57,6 +68,9 @@ export const EnvironmentPanel: FC<EnvironmentPanelProps> = (props) => {
       // when open panel, reset value again
       if (!hidden) {
         setServerValue(server, false);
+        setAiApiUrlValue(aiApiUrl, false);
+        setSmartNotesIframeValue(smartNotesIframe, false);
+        setSmartNotesEnvValue(smartNotesEnv, false);
         setMfeDepsInfo(mfeDepsInfo, false);
         setRecordingHostValue(recordingHost, false);
         setEnabledValue(enabled, false);
@@ -68,6 +82,20 @@ export const EnvironmentPanel: FC<EnvironmentPanelProps> = (props) => {
 
   const onServerChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     setServerValue(e.currentTarget.value);
+  };
+
+  const onAiApiUrlChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+    setAiApiUrlValue(e.currentTarget.value);
+  };
+
+  const onSmartNotesIframeChange: ChangeEventHandler<HTMLInputElement> = (
+    e,
+  ) => {
+    setSmartNotesIframeValue(e.currentTarget.value);
+  };
+
+  const onSmartNotesEnvChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+    setSmartNotesEnvValue(e.currentTarget.value);
   };
 
   const onMfeDepsInfoChange: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
@@ -93,6 +121,9 @@ export const EnvironmentPanel: FC<EnvironmentPanelProps> = (props) => {
   const onOk = () => {
     onSetData({
       server: serverValueRef.current,
+      aiApiUrl: aiApiUrlValueRef.current,
+      smartNotesIframe: smartNotesIframeValueRef.current,
+      smartNotesEnv: smartNotesEnvValueRef.current,
       mfeDepsInfo: mfeDepsInfoRef.current,
       recordingHost: recordingHostValueRef.current,
       enabled: enabledValueRef.current,
@@ -104,6 +135,9 @@ export const EnvironmentPanel: FC<EnvironmentPanelProps> = (props) => {
 
   const onCancel = () => {
     setServerValue(server);
+    setAiApiUrlValue(aiApiUrl);
+    setSmartNotesIframeValue(smartNotesIframe);
+    setSmartNotesEnvValue(smartNotesEnv);
     setMfeDepsInfo(mfeDepsInfo);
     setRecordingHostValue(recordingHost);
     setEnabledValue(enabled);
@@ -119,6 +153,9 @@ export const EnvironmentPanel: FC<EnvironmentPanelProps> = (props) => {
   }, []);
 
   const serverValue = serverValueRef.current;
+  const aiApiUrlValue = aiApiUrlValueRef.current;
+  const smartNotesIframeValue = smartNotesIframeValueRef.current;
+  const smartNotesEnvValue = smartNotesEnvValueRef.current;
   const mfeDepsInfoValue = mfeDepsInfoRef.current;
   const enabledValue = enabledValueRef.current;
   const enabledDataTrackingValue = enabledDataTrackingRef.current;
@@ -130,6 +167,9 @@ export const EnvironmentPanel: FC<EnvironmentPanelProps> = (props) => {
 
   const hasChanges = !(
     serverValue === server &&
+    aiApiUrlValue === aiApiUrl &&
+    smartNotesIframeValue === smartNotesIframe &&
+    smartNotesEnvValue === smartNotesEnv &&
     mfeDepsInfoValue === mfeDepsInfo &&
     enabledValue === enabled &&
     recordingHostValue === recordingHost &&
@@ -177,6 +217,45 @@ export const EnvironmentPanel: FC<EnvironmentPanelProps> = (props) => {
                 }}
                 value={recordingHostValue}
                 onChange={onRecordingHostChange}
+                fullWidth
+                variant="outlined"
+              />
+            </div>
+
+            <div className="flex flex-col">
+              <FormLabel>AI API URL</FormLabel>
+              <TextField
+                inputProps={{
+                  'data-sign': 'envAiApiUrl',
+                }}
+                value={aiApiUrlValue}
+                onChange={onAiApiUrlChange}
+                fullWidth
+                variant="outlined"
+              />
+            </div>
+
+            <div className="flex flex-col">
+              <FormLabel>Smart Notes Iframe URL</FormLabel>
+              <TextField
+                inputProps={{
+                  'data-sign': 'envSmartNotesIframe',
+                }}
+                value={smartNotesIframeValue}
+                onChange={onSmartNotesIframeChange}
+                fullWidth
+                variant="outlined"
+              />
+            </div>
+
+            <div className="flex flex-col">
+              <FormLabel>Smart Notes Env</FormLabel>
+              <TextField
+                inputProps={{
+                  'data-sign': 'envSmartNotesEnv',
+                }}
+                value={smartNotesEnvValue}
+                onChange={onSmartNotesEnvChange}
                 fullWidth
                 variant="outlined"
               />

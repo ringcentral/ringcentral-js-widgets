@@ -10,7 +10,6 @@ export default {
   companyTabTitle: 'Empresa',
   personalTabTitle: 'Personal',
   direct: 'Directo',
-  extension: 'Ext.',
   contact: 'Contacto',
   mobile: 'Móvil',
   company: 'Empresa',
@@ -27,7 +26,7 @@ export default {
   ContactNumber: 'Número de contacto',
   DirectNumber: 'Número directo',
   doNotCall: 'No llamar',
-  enterNameOrNumber: 'Introducir nombres o números de teléfono',
+  enterNameOrNumber: 'Nombre o teléfono...',
   enterANameOrNumber: 'Introducir el nombre o el número',
   to: 'A',
   dial: 'Marcación',
@@ -44,7 +43,6 @@ export default {
 // @key: @#@"companyTabTitle"@#@ @source: @#@"Company"@#@
 // @key: @#@"personalTabTitle"@#@ @source: @#@"Personal"@#@
 // @key: @#@"direct"@#@ @source: @#@"Direct"@#@
-// @key: @#@"extension"@#@ @source: @#@"Ext"@#@
 // @key: @#@"contact"@#@ @source: @#@"Contact"@#@
 // @key: @#@"mobile"@#@ @source: @#@"Mobile"@#@
 // @key: @#@"company"@#@ @source: @#@"Company"@#@

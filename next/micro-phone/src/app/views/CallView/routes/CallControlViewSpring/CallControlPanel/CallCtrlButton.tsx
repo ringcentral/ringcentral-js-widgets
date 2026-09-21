@@ -25,7 +25,7 @@ export const CallCtrlButton: React.FC<CallCtrlButtonProps> = ({
 
   return (
     <>
-      <div className="flex flex-col items-center justify-start gap-1 typography-descriptorMini">
+      <div className="flex flex-col items-center justify-start gap-1 typography-descriptorMini w-full min-w-0">
         <IconButton
           size="xxlarge"
           color="secondary"
@@ -40,7 +40,7 @@ export const CallCtrlButton: React.FC<CallCtrlButtonProps> = ({
           }
           className={clsx('[&_svg_path:first-child]:fill-inherit', className)}
         />
-        <span className="text-center">{label}</span>
+        <div className="text-center break-words w-full px-1">{label}</div>
       </div>
 
       {menuList && (

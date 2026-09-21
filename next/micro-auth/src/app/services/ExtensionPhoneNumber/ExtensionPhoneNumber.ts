@@ -1,4 +1,4 @@
-import type ExtensionInfoEvent from '@rc-ex/core/lib/definitions/ExtensionInfoEvent';
+import type ExtensionInfoEventBody from '@rc-ex/core/lib/definitions/ExtensionInfoEventBody';
 import type UserPhoneNumberInfo from '@rc-ex/core/lib/definitions/UserPhoneNumberInfo';
 import { subscriptionFilters } from '@ringcentral-integration/commons/enums/subscriptionFilters';
 import { subscriptionHints } from '@ringcentral-integration/commons/enums/subscriptionHints';
@@ -8,10 +8,10 @@ import {
   computed,
   injectable,
   optional,
-  watch,
+  takeUntilAppDestroy,
 } from '@ringcentral-integration/next-core';
-import { filter, find } from 'ramda';
-import type { Unsubscribe } from 'redux';
+import { find } from 'ramda';
+import { EMPTY, merge, switchMap, tap, filter } from 'rxjs';
 
 import { Client } from '../Client';
 import { DataFetcher, DataFetcherConsumer, DataSource } from '../DataFetcher';
@@ -26,14 +26,11 @@ import type { ExtensionPhoneNumberOptions } from './ExtensionPhoneNumber.interfa
 export class ExtensionPhoneNumber extends DataFetcherConsumer<
   UserPhoneNumberInfo[]
 > {
-  protected _stopWatching?: Unsubscribe | null;
-
   constructor(
     protected _client: Client,
     protected override _dataFetcher: DataFetcher,
     protected _extensionFeatures: ExtensionFeatures,
     @optional('Subscription') protected _subscription?: Subscription,
-    @optional('TabManager') protected _tabManager?: any,
     @optional('ExtensionPhoneNumberOptions')
     protected _extensionPhoneNumberOptions?: ExtensionPhoneNumberOptions,
   ) {
@@ -63,29 +60,37 @@ export class ExtensionPhoneNumber extends DataFetcherConsumer<
     });
   }
 
-  protected _handleSubscription(message?: ExtensionInfoEvent) {
-    if (
-      this.ready &&
-      (this._source.disableCache || (this._tabManager?.active ?? true)) &&
-      message?.body?.hints?.includes(subscriptionHints.companyNumbers)
-    ) {
-      this.fetchData();
-    }
-  }
+  override onInitOnce() {
+    super.onInitOnce();
 
-  override onInit() {
-    if (this._subscription) {
-      this._stopWatching = watch(
-        this,
-        () => this._subscription!.message as ExtensionInfoEvent | undefined,
-        (newMessage) => this._handleSubscription(newMessage),
-      );
-    }
-  }
+    const subscription = this._subscription;
+    if (!subscription) return;
 
-  override onReset() {
-    this._stopWatching?.();
-    this._stopWatching = null;
+    const watchChange$ = merge(
+      subscription
+        .fromMessage$<ExtensionInfoEventBody>(/.*\/extension\/\d+$/)
+        .pipe(
+          filter((body) =>
+            Boolean(body.hints?.includes(subscriptionHints.companyNumbers)),
+          ),
+        ),
+      // when grant changed, it may cause the change of phone numbers, so also watch the grant change message to trigger the refetch of phone numbers
+      subscription.fromMessage$(/\/extension\/.*.\/grant/),
+    ).pipe(
+      tap(async () => {
+        try {
+          await this.fetchData();
+        } catch (error) {
+          this.logger.error('extension phone number update error', error);
+        }
+      }),
+      takeUntilAppDestroy,
+    );
+
+    this.readyState$
+      .pipe(switchMap((ready) => (ready ? watchChange$ : EMPTY)))
+
+      .subscribe();
   }
 
   @computed
@@ -95,9 +100,8 @@ export class ExtensionPhoneNumber extends DataFetcherConsumer<
 
   @computed
   get companyNumbers() {
-    return filter(
+    return this.numbers.filter(
       (phoneNumber) => phoneNumber.usageType === usageTypes.CompanyNumber,
-      this.numbers,
     );
   }
 
@@ -111,17 +115,15 @@ export class ExtensionPhoneNumber extends DataFetcherConsumer<
 
   @computed
   get directNumbers() {
-    return filter(
+    return this.numbers.filter(
       (phoneNumber) => phoneNumber.usageType === usageTypes.DirectNumber,
-      this.numbers,
     );
   }
 
   @computed
   get callerIdNumbers() {
-    return filter(
+    return this.numbers.filter(
       (phoneNumber) => !!phoneNumber.features?.includes('CallerId'),
-      this.numbers,
     );
   }
 
@@ -132,17 +134,15 @@ export class ExtensionPhoneNumber extends DataFetcherConsumer<
 
   @computed
   get smsSenderNumbers() {
-    return filter(
+    return this.numbers.filter(
       (phoneNumber) => !!phoneNumber.features?.includes('SmsSender'),
-      this.numbers,
     );
   }
 
   @computed
   get faxSenderNumbers() {
-    return filter(
+    return this.numbers.filter(
       ({ type }) => !!type && ['FaxOnly', 'VoiceFax'].includes(type),
-      this.callerIdNumbers,
     );
   }
 }

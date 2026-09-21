@@ -18,9 +18,9 @@ import React, { useMemo, useState } from 'react';
 import { Client } from '../Client';
 import { Environment } from '../Environment';
 
-import type { RateLimiterOptions } from './RateLimiter.interface';
 import { errorMessages } from './errorMessages';
 import { t } from './i18n';
+import type { RateLimiterOptions } from './RateLimiter.interface';
 
 const DEFAULT_THROTTLE_DURATION = 61 * 1000;
 

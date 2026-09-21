@@ -2,7 +2,11 @@ import { Auth } from '@ringcentral-integration/micro-auth/src/app/services';
 import { Webphone } from '@ringcentral-integration/micro-phone/src/app/services';
 import { UserGuide } from '@ringcentral-integration/micro-setting/src/app/services';
 import { whenStateChange } from '@ringcentral-integration/next-core/test';
-import type { StepFunction } from '@ringcentral-integration/test-utils';
+import {
+  waitForRenderReady,
+  type StepFunction,
+} from '@ringcentral-integration/test-utils';
+import { connect } from 'mock-mcp';
 
 import { TriggerWebphoneEvent } from './Call';
 import { Logout } from './Logout';
@@ -24,14 +28,18 @@ export const Relogin: StepFunction<ReloginProps> = async (
         (async () => {
           const auth = app.container.got(Auth)!;
           const userGuide = app.container.got(UserGuide)!;
-          auth.login({
+          await auth.login({
             username,
             password,
           });
+          const mockMcpClient: Awaited<ReturnType<typeof connect>> =
+            global.mockMcpClient;
+          await mockMcpClient?.waitForPendingRequests();
           await whenStateChange(() => {
             expect(auth.loggedIn).toBeTruthy();
           });
           await userGuide?.dismiss();
+          await waitForRenderReady();
         }) as StepFunction
       }
       {

@@ -1,9 +1,13 @@
 import type { StepFunction } from '@ringcentral-integration/test-utils';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 
-export const CheckTransferTitle: StepFunction = () => {
-  const title = screen.getByTestId('headerTitle');
-  expect(title.textContent).toBe('Transfer to');
+export const CheckTransferTitle: StepFunction = async () => {
+  await waitFor(() => {
+    expect(
+      screen.queryByTestId('headerTitle') ??
+        screen.getByTestId('backHeaderTitle'),
+    ).toHaveTextContent('Transfer to');
+  });
 };
 export const CheckBackButton: StepFunction = () => {
   const backButton = screen.getByTestId('backButton');

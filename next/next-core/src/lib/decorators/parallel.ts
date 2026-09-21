@@ -2,12 +2,12 @@
 
 /* eslint-disable func-names */
 import {
-  getRef,
   fork,
   PortDetector,
   delegate,
   ProxyExecParams,
 } from 'reactant-share';
+import { getRef } from 'reactant';
 
 import { isSerializable } from './validateArgsToWorker';
 

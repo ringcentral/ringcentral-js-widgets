@@ -31,7 +31,7 @@ export const CallButtonContainer: FunctionComponent<EndAndHoldProps> = ({
         onMouseLeave={onMouseLeave as any}
         data-button-container
         className={twMerge(
-          'inline-flex items-center justify-start flex-col',
+          'inline-flex items-center justify-start flex-col flex-1 min-w-0',
           size === 'small' && 'gap-1',
           size === 'large' && 'gap-1',
           size === 'xlarge' && 'gap-2 w-20',
@@ -41,7 +41,9 @@ export const CallButtonContainer: FunctionComponent<EndAndHoldProps> = ({
         {children}
 
         {label && (
-          <div className="typography-descriptorMini text-center">{label}</div>
+          <div className="typography-descriptorMini text-center break-words w-full">
+            {label}
+          </div>
         )}
       </div>
     </Tooltip>

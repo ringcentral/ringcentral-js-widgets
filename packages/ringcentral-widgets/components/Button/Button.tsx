@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import styles from './styles.scss';
 
 export interface ButtonProps {
+  children?: React.ReactNode;
   className?: string;
   tooltip?: string;
   disabled?: boolean;

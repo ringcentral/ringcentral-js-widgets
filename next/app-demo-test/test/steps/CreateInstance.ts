@@ -1,6 +1,9 @@
 import { createApp } from '@ringcentral-integration/app-demo-old/src/createApp';
 import SimulateWindowObject from '@ringcentral-integration/commons/integration-test/utils/SimulateWindowObject';
-import type { StepFunction } from '@ringcentral-integration/test-utils';
+import {
+  type StepFunction,
+  waitForRenderReady,
+} from '@ringcentral-integration/test-utils';
 
 import { DEFAULT_DEVICES } from '../__mock__/mockAudioDevices';
 import { getAppConfig } from '../lib/branding';
@@ -21,6 +24,16 @@ export interface CreateInstanceProps {
    */
   brand?: string;
 }
+
+const ensureAppContainer = () => {
+  if (!global.document || document.getElementById('app')) {
+    return;
+  }
+
+  const appContainer = document.createElement('div');
+  appContainer.id = 'app';
+  document.body.appendChild(appContainer);
+};
 
 export const CreateInstance: StepFunction<CreateInstanceProps> = async (
   {
@@ -51,8 +64,18 @@ export const CreateInstance: StepFunction<CreateInstanceProps> = async (
     APP_CONFIG: JSON.parse(JSON.stringify(appConfig)),
   };
 
-  await createApp({
+  ensureAppContainer();
+  const app = await createApp({
     name: 'internal-widgets-demo',
     type: 'Base',
   });
+  const renderedApp = app ?? global.instance?.app ?? global.app;
+  if (renderedApp) {
+    global.app = renderedApp;
+    global.instance = {
+      ...global.instance,
+      app: renderedApp,
+    };
+  }
+  await waitForRenderReady();
 };

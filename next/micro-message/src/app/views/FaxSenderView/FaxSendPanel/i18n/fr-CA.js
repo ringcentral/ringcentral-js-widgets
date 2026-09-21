@@ -4,7 +4,7 @@ export default {
   coverNone: 'Aucun',
   createNewFax: 'Créer une nouvelle télécopie',
   from: 'Télécopie de',
-  toPlaceholder: 'Saisir un numéro de télécopieur ou de contact',
+  toPlaceholder: 'N° de télécopieur ou de contact',
   coverPage: 'Page couverture',
   coverPageNote: 'Notes [facultatif]',
   attachFileButtonTitle: 'Joindre des fichiers',

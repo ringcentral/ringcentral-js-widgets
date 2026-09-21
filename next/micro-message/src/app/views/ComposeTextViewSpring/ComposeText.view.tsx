@@ -1,3 +1,4 @@
+import type GetMessageInfoResponse from '@rc-ex/core/lib/definitions/GetMessageInfoResponse';
 import {
   AppFeatures,
   ConnectivityMonitor,
@@ -9,17 +10,28 @@ import {
   ContactSearch,
 } from '@ringcentral-integration/micro-contacts/src/app/services';
 import type { ContactSearchView } from '@ringcentral-integration/micro-contacts/src/app/views';
+import {
+  ConversationsSyncTabId,
+  SyncTabId,
+  SyncTabView,
+} from '@ringcentral-integration/micro-core/src/app/views';
+import {
+  CallQueues,
+  UserPhoneNumberInfo,
+} from '@ringcentral-integration/micro-phone/src/app/services';
 import type { UIFunctions, UIProps } from '@ringcentral-integration/next-core';
 import {
   computed,
+  delegate,
   dynamic,
   injectable,
   optional,
+  PortManager,
   RcViewModule,
   RouterPlugin,
   useConnector,
 } from '@ringcentral-integration/next-core';
-import React, { useMemo, useRef } from 'react';
+import React, { useMemo, useRef, useEffect } from 'react';
 
 import {
   COMPOSE_TEXT_CONVERSATION,
@@ -27,9 +39,14 @@ import {
   Conversations,
   type FilteredConversation,
   MessageSender,
+  messageSenderStatus,
   MessageStore,
+  type MessageThreadMessageResponse,
+  QueueMessageStore,
+  SmsConsent,
   type SmsConversationsOptions,
 } from '../../services';
+import { SmsConsentDialogView } from '../SmsConsentDialogView';
 import { SmsOptOutView } from '../SmsOptOutView';
 import { SmsTemplateView } from '../SmsTemplateView';
 
@@ -37,31 +54,41 @@ import type {
   ComposeTextPanelSpringProps,
   ComposeTextViewSpringOptions,
   ComposeTextViewSpringProps,
+  SenderNumberOption,
 } from './ComposeText.view.interface';
 import { ComposeTextPanel } from './ComposeTextPanel';
+import { t } from './ComposeTextPanel/i18n';
+
+export const COMPOSE_TEXT_BACK_PATH = 'composeTextBackPath';
 
 @injectable({
   name: 'ComposeTextViewSpring',
 })
 export class ComposeTextViewSpring extends RcViewModule {
   constructor(
+    private _syncTabView: SyncTabView,
     private _composeText: ComposeText,
     private _connectivityMonitor: ConnectivityMonitor,
     private _contactSearch: ContactSearch,
     private _conversations: Conversations,
     private _messageSender: MessageSender,
     private _messageStore: MessageStore,
+    private _queueMessageStore: QueueMessageStore,
     private _rateLimiter: RateLimiter,
     private _appFeatures: AppFeatures,
     private _router: RouterPlugin,
     private _numberFormatter: NumberFormatter,
     private _smsTemplateView: SmsTemplateView,
+    private _callQueues: CallQueues,
     @optional('ComposeTextViewSpringOptions')
     private _composeTextViewOptions?: ComposeTextViewSpringOptions,
     @optional('SmsConversationsOptions')
     private _smsConversationsOptions?: SmsConversationsOptions,
     @optional() private _smsOptOutView?: SmsOptOutView,
     @optional() private _contactMatcher?: ContactMatcher,
+    @optional() private _smsConsent?: SmsConsent,
+    @optional() private _smsConsentDialogView?: SmsConsentDialogView,
+    @optional() private _portManager?: PortManager,
   ) {
     super();
   }
@@ -85,7 +112,7 @@ export class ComposeTextViewSpring extends RcViewModule {
       this._composeText.messageText.length === 0 &&
       (!this._composeText.attachments ||
         this._composeText.attachments.length === 0);
-
+    const requiredOptInCount = this._composeText.requiredOptInToNumbers.length;
     return {
       sendButtonDisabled:
         !(this._composeText.ready && this._messageSender.idle) ||
@@ -93,6 +120,7 @@ export class ComposeTextViewSpring extends RcViewModule {
         this._composeText.hasInvalidToNumbers ||
         (this._composeText.toNumbers.length === 0 &&
           this._composeText.typingToNumber.length === 0) ||
+        !this._messageSender.hasSmsPermission ||
         !this._connectivityMonitor.connectivity ||
         this._rateLimiter.restricted,
       senderNumbers: this.senderNumbers,
@@ -101,6 +129,7 @@ export class ComposeTextViewSpring extends RcViewModule {
       toNumbers: this._composeText.toNumbers,
       messageText: this._composeText.messageText,
       showSpinner: this.showSpinner,
+      sending: this._messageSender.sendStatus === messageSenderStatus.sending,
       attachments: this._composeText.attachments,
       supportAttachment: this._appFeatures.hasSendMMSPermission,
       allowedCreateGroupText:
@@ -111,15 +140,65 @@ export class ComposeTextViewSpring extends RcViewModule {
       maxRecipients: this._composeText.maxRecipients,
       acceptFileTypes: this._conversations.acceptFileTypes,
       disabledGroupMessage: this._composeText.disabledGroupMessage,
+      requiredOptInCount,
+      canAddSmsConsent: this._smsConsent?.canAddConsent,
     };
   }
 
-  // TODO: we currently don't support send sms from department number, so we need to filter out department numbers to avoid user not able to see the messages from department number
   @computed
-  get senderNumbers() {
-    return this._messageSender.senderNumbersList.filter(
-      (number) => number.extension?.type !== 'Department',
-    );
+  get senderNumbers(): SenderNumberOption[] {
+    const senderNumbers = [
+      ...this._messageSender.senderNumbersList.map((number) => ({
+        ...number,
+        displayLabel: this._getCallQueueName(number),
+      })),
+      ...this._messageSender.receiveOnlyNumbers.map((number) => ({
+        ...number,
+        disabled: true,
+        displayLabel: this._getCallQueueName(number),
+        statusLabel: t('incomingTextsOnly'),
+      })),
+      ...this._messageSender.registerableNumbers.map((number) => ({
+        ...number,
+        disabled: true,
+        displayLabel: this._getCallQueueName(number),
+        statusLabel: t('notSetUpForTexting'),
+      })),
+    ];
+
+    return senderNumbers;
+  }
+
+  private _getCallQueue(number: UserPhoneNumberInfo) {
+    const extension = number.extension;
+    if (extension?.type !== 'Department' || !extension.id) {
+      return undefined;
+    }
+
+    return this._callQueues?.getQueue(String(extension.id));
+  }
+
+  private _getCallQueueName(number: UserPhoneNumberInfo) {
+    return this._getCallQueue(number)?.name;
+  }
+
+  @delegate('server')
+  async handleAddSmsConsentClick() {
+    const toNumber = this._composeText.requiredOptInToNumbers[0];
+    this.logger.info('Opening add consent dialog for number', toNumber);
+    const from = this._composeText.senderNumber;
+
+    if (!from || !toNumber?.phoneNumber) {
+      return;
+    }
+
+    this._smsConsentDialogView?.openAddConsentDialog({
+      numbers: {
+        from,
+        to: toNumber.phoneNumber,
+      },
+      consentEntry: 'Text input box',
+    });
   }
 
   getUIFunctions(
@@ -129,9 +208,19 @@ export class ComposeTextViewSpring extends RcViewModule {
       send: async (text, attachments) => {
         try {
           if (this._composeTextViewOptions?.onDncVerify) {
-            const send = await this._composeTextViewOptions?.onDncVerify(
-              this._composeText.toNumbers,
-            );
+            const toNumbers = this._composeText.toNumbers;
+            const typingToNumber = this._composeText.typingToNumber;
+            const trimmedTypingToNumber = typingToNumber?.trim?.();
+            const effectiveToNumbers = trimmedTypingToNumber
+              ? [
+                  ...toNumbers,
+                  { phoneNumber: trimmedTypingToNumber, freeSolo: true },
+                ]
+              : toNumbers;
+            const send =
+              await this._composeTextViewOptions?.onDncVerify(
+                effectiveToNumbers,
+              );
             if (!send) {
               return;
             }
@@ -140,28 +229,76 @@ export class ComposeTextViewSpring extends RcViewModule {
           if (!responses || responses.length === 0) {
             return;
           }
-          this._messageStore.pushMessages(responses as any);
-          if (responses.length === 1) {
-            const firstItem = responses[0] as any;
-            const conversationId = firstItem?.conversation?.id;
-            if (!conversationId) {
-              return;
+          const isSmsResponses = !!(
+            responses[0] &&
+            (responses[0] as GetMessageInfoResponse)?.conversation?.id
+          );
+
+          if (isSmsResponses) {
+            // when be queue message should push into queueMessageStore instead
+            const res = responses as GetMessageInfoResponse[];
+            const isPager = res[0].type === 'Pager';
+            const isQueue = this.preInsertNewMessage(res, isPager);
+
+            if (res.length === 1) {
+              const conversationId = res[0]?.conversation?.id!;
+
+              if (isQueue) {
+                this.logger.log(
+                  'Queue message sent, still not support check DNC status or auto-log',
+                );
+              } else {
+                this.logger.log(
+                  'Personal message sent, Checking DNC status and auto-log after send',
+                );
+                await this._smsConversationsOptions?.checkDncStatusOfConversation?.(
+                  conversationId,
+                );
+                // Log conversation in background so navigation is not blocked
+                const logTaskPromise =
+                  this._smsConversationsOptions?.autoLogTaskIfEnabled?.(
+                    conversationId,
+                  );
+                if (logTaskPromise) {
+                  void logTaskPromise.catch((error: unknown) => {
+                    this.logger?.error?.('Auto-log after send failed', error);
+                  });
+                }
+              }
+
+              this._syncTabView.setActive(
+                SyncTabId.CONVERSATIONS,
+                isQueue
+                  ? ConversationsSyncTabId.QUEUE
+                  : ConversationsSyncTabId.PERSONAL,
+                { currentPath: `/conversations/${conversationId}` },
+              );
+            } else {
+              this._router.push('/messages', {
+                [SyncTabId.CONVERSATIONS]: ConversationsSyncTabId.PERSONAL,
+              });
             }
-            await this._smsConversationsOptions?.checkDncStatusOfConversation?.(
-              conversationId!,
-            );
-            await this._smsConversationsOptions?.autoLogTaskIfEnabled?.(
-              conversationId!,
-            );
-            this._router.push(`/conversations/${conversationId}`);
+            this._conversations.relateCorrespondentEntity(res);
           } else {
-            this._router.push('/messages');
+            const res = responses as MessageThreadMessageResponse[];
+            const threadId = res[0]?.threadId;
+
+            if (res.length === 1 && threadId) {
+              this._syncTabView.setActive(
+                SyncTabId.CONVERSATIONS,
+                ConversationsSyncTabId.SHARED,
+                { currentPath: `/conversations/${threadId}` },
+              );
+            } else {
+              this._router.push('/messages', {
+                [SyncTabId.CONVERSATIONS]: ConversationsSyncTabId.SHARED,
+              });
+            }
           }
-          this._conversations.relateCorrespondentEntity(responses as any);
           this._composeText.clean();
           return;
         } catch (err) {
-          console.log(err);
+          this.logger.error('Send message failed', err);
         }
       },
       updateSenderNumber: (phoneNumber) =>
@@ -172,6 +309,7 @@ export class ComposeTextViewSpring extends RcViewModule {
       cleanTypingToNumber: () => this._composeText.cleanTypingToNumber(),
       addToNumbers: (toNumbers) => this._composeText.addToNumbers(toNumbers),
       removeToNumber: (toNumber) => this._composeText.removeToNumber(toNumber),
+      onAddSmsConsentClick: () => this.handleAddSmsConsentClick(),
       updateMessageText: (...args) =>
         this._composeText.updateMessageText(...args),
       addAttachments: (...args) => this._composeText.addAttachments(...args),
@@ -180,8 +318,34 @@ export class ComposeTextViewSpring extends RcViewModule {
       onCreateGroupTextOptionChanged: (checked) => {
         this._composeText.setCreateGroupChecked(checked);
       },
-      onBackClick: () => this._router.push('/messages'),
+      onBackClick: () => {
+        const locationState = this._router.router?.location.state as
+          | Record<string, unknown>
+          | undefined;
+        const backPath = locationState?.[COMPOSE_TEXT_BACK_PATH];
+
+        this._router.push(
+          typeof backPath === 'string' ? backPath : '/messages',
+        );
+      },
     };
+  }
+
+  private preInsertNewMessage(res: GetMessageInfoResponse[], isPager: boolean) {
+    if (this._queueMessageStore._hasPermission && !isPager) {
+      const sender = this.senderNumbers.find(
+        (n) => n.phoneNumber === this._composeText.senderNumber,
+      );
+
+      const queue = sender && this._getCallQueue(sender);
+
+      if (queue) {
+        this._queueMessageStore.pushMessages(res);
+        return Boolean(queue);
+      }
+    }
+
+    this._messageStore.pushMessages(res);
   }
 
   component(props: ComposeTextViewSpringProps) {
@@ -201,6 +365,18 @@ export class ComposeTextViewSpring extends RcViewModule {
       this._composeTextViewOptions?.component || ComposeTextPanel;
 
     const toNumbers = _props.toNumbers;
+    const senderNumber = _props.senderNumber;
+    const toNumbersKey = useMemo(
+      () => toNumbers.map(({ phoneNumber }) => phoneNumber).join('\n'),
+      [toNumbers],
+    );
+
+    useEffect(() => {
+      if (!this._portManager?.shared || this._portManager?.isMainTab) {
+        this._composeText.loadRecipientConsentData();
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [senderNumber, toNumbersKey]);
 
     const contactMapping = useConnector(
       () => this._contactMatcher?.dataMapping,

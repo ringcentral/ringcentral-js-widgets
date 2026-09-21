@@ -3,8 +3,8 @@ export default {
   specialNumber:
     'O envio de texto para números de emergência/serviços especiais não é suportado.',
   textEmpty: 'Introduza a mensagem de texto a enviar.',
-  textTooLong: 'O texto é demasiado longo; limite de 1000',
-  multipartTextTooLong: 'O texto é demasiado longo; limite de 5000',
+  textTooLong: 'Pode introduzir até 1.000 carateres.',
+  multipartTextTooLong: 'Pode introduzir até 5.000 carateres.',
   recipientsEmpty: 'Introduza um número de destinatário válido.',
   senderNumberInvalid:
     'É necessário um número de telefone válido para enviar a SMS para destinatários fora da empresa. Contacte o administrador para adicionar um número direto à sua conta.',

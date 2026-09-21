@@ -92,7 +92,7 @@ const ZoomAction = forwardRef<
       className="flex gap-2 h-10 items-center absolute bottom-6 left-1/2 transform -translate-x-1/2 bg-neutral-b5 rounded-full px-4 shadow-lg"
     >
       <RcIconButton
-        ref={zoomOutRef}
+        ref={zoomOutRef as React.Ref<HTMLButtonElement>}
         variant="plain"
         aria-label="Zoom out"
         symbol={ZoomOut}
@@ -105,7 +105,7 @@ const ZoomAction = forwardRef<
         aria-label="Zoom in"
         symbol={ZoomIn}
         disabled={rate === max}
-        ref={zoomInRef}
+        ref={zoomInRef as React.Ref<HTMLButtonElement>}
         {...zoomInEvents}
       />
       <RcIconButton

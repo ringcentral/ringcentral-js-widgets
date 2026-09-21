@@ -16,7 +16,6 @@ export default {
   assignToMeText: 'Assign to me',
   resolved: 'Conversation resolved.',
   autoResolved: 'Conversation auto-resolved.',
-  assignedToYouTooltip: 'Conversation assigned to you',
   assignedToOtherTooltip: 'Conversation assigned to {name}',
   conversationUnassigned: 'Conversation unassigned.',
   failedToAssignThread: 'Failed to assign conversation',
@@ -40,7 +39,6 @@ export default {
 // @key: @#@"assignToMeText"@#@ @source: @#@"Assign to me"@#@
 // @key: @#@"resolved"@#@ @source: @#@"Conversation resolved."@#@
 // @key: @#@"autoResolved"@#@ @source: @#@"Conversation auto-resolved."@#@
-// @key: @#@"assignedToYouTooltip"@#@ @source: @#@"Conversation assigned to You"@#@
 // @key: @#@"assignedToOtherTooltip"@#@ @source: @#@"Conversation assigned to {name}"@#@
 // @key: @#@"conversationUnassigned"@#@ @source: @#@"Conversation unassigned."@#@
 // @key: @#@"failedToAssignThread"@#@ @source: @#@"Failed to assign conversation"@#@

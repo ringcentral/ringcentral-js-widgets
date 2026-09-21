@@ -12,10 +12,6 @@ export * from './constant';
 
 export {
   computed,
-  createBrowserHistory,
-  createHashHistory,
-  createMemoryHistory,
-  createSharedApp as createBaseSharedApp,
   inject,
   type ClassProvider,
   type FactoryProvider,
@@ -27,44 +23,60 @@ export {
   ModuleRef,
   optional,
   PluginModule,
-  PortDetector,
   state,
   subscribe,
   watch,
-  useLock,
-  createTransport,
   testBed,
-  mockPairTransports,
-  merge,
-  SharedAppOptions,
   autobind,
-  type SendOptions,
   applyPatches,
+  getRef,
+  nameKey,
+} from 'reactant';
+
+export {
+  createBrowserHistory,
+  createHashHistory,
+  createMemoryHistory,
+  createSharedApp as createBaseSharedApp,
+  PortDetector,
+  useLock,
+  mockPairTransports,
+  SharedAppOptions,
   Coworker,
   CoworkerOptions,
   createCoworker,
-  getRef,
   fork,
   createBroadcastTransport,
-  nameKey,
 } from 'reactant-share';
 
 export type {
-  ServiceIdentifier,
   ISharedAppOptions,
   ClientTransport,
   ServerTransport,
-  Renderer as RendererType,
   SharedAppConfig,
-  PartialKeys,
-  ILastActionState,
   ICoworkerOptions,
-  ReactantModuleOptions,
-  Renderer as ReactantRenderer,
   SymmetricTransport,
 } from 'reactant-share';
 
-export type { App, Config, Store, Transport } from 'reactant-share';
+export {
+  createTransport,
+  merge,
+} from 'data-transport';
+
+export type { EmitOptions, SendOptions, Transport } from 'data-transport';
+
+export type { ILastActionState } from 'reactant-last-action';
+
+export type {
+  App,
+  Config,
+  PartialKeys,
+  ReactantModuleOptions,
+  Renderer as ReactantRenderer,
+  Renderer as RendererType,
+  ServiceIdentifier,
+  Store,
+} from 'reactant';
 
 export {
   BrowserRouter,
@@ -82,12 +94,15 @@ export {
   matchPath,
   withRouter,
   // react-dom
+  createRoot,
+  hydrateRoot,
   findDOMNode,
   unmountComponentAtNode,
   createPortal,
   version,
   render,
   hydrate,
+  flushSync,
   unstable_batchedUpdates,
   unstable_renderSubtreeIntoContainer,
 } from 'reactant-web';

@@ -33,7 +33,7 @@ export const LoadingOverlay = ({
   backgroundType,
   size,
   disableShrink,
-}: StyledLoadingPageProps) => (
+}: StyledLoadingPageProps = {}) => (
   <StyledLoading backgroundType={backgroundType}>
     <RcCircularProgress size={size} disableShrink={disableShrink} />
   </StyledLoading>

@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  textTooLong: 'Testo troppo lungo, limite di 1000',
+  textTooLong: 'Puoi inserire fino a 1.000 caratteri.',
   attachmentCountLimitation:
     'Non possono essere presenti più di 10 allegati per messaggio',
   attachmentSizeLimitation:

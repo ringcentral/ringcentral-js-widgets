@@ -2,7 +2,10 @@ import type SubscriptionInfo from '@rc-ex/core/lib/definitions/SubscriptionInfo'
 import type Subscription from '@rc-ex/ws/lib/subscription';
 import type { SubscriptionFilter } from '@ringcentral-integration/commons/enums/subscriptionFilters';
 import { promisedDebounce } from '@ringcentral-integration/commons/lib/debounce-throttle';
-import { type BrowserLogger } from '@ringcentral-integration/micro-core/src/app/services';
+import {
+  type BrowserLogger,
+  SleepDetector,
+} from '@ringcentral-integration/micro-core/src/app/services';
 import {
   action,
   delegate,
@@ -16,23 +19,24 @@ import {
   state,
   storage,
   StoragePlugin,
+  takeUntilAppDestroy,
   watch,
 } from '@ringcentral-integration/next-core';
-import { filter, map, share } from 'rxjs';
+import { filter, map, share, Subject, tap } from 'rxjs';
 
 import { Client } from '../Client';
 import { RingCentralExtensions } from '../RingCentralExtensions';
 import { webSocketReadyStates } from '../RingCentralExtensions/webSocketReadyStates';
 
+import {
+  isTheSameEventFilters,
+  isTheSameWebSocket,
+} from './normalizeEventFilter';
 import type {
   SubscriberInfo,
   SubscriptionMetadata,
   WebSocketSubscriptionOptions,
 } from './WebSocketSubscription.interface';
-import {
-  isTheSameEventFilters,
-  isTheSameWebSocket,
-} from './normalizeEventFilter';
 
 const DEFAULT_REFRESH_DELAY = process.env.NODE_ENV === 'test' ? 0 : 1000;
 const DEFAULT_RECOVERY_BUFFER_SIZE = 100;
@@ -55,6 +59,7 @@ export class WebSocketSubscription extends RcModule {
     protected _client: Client,
     protected _storage: StoragePlugin,
     protected _ringCentralExtensions: RingCentralExtensions,
+    @optional() protected _sleepDetector?: SleepDetector,
     @optional('WebSocketSubscriptionOptions')
     protected _webSocketSubscriptionOptions?: WebSocketSubscriptionOptions,
   ) {
@@ -85,6 +90,12 @@ export class WebSocketSubscription extends RcModule {
         }
         this._debouncedUpdateSubscription.cancel();
         if (wsState === webSocketReadyStates.ready) {
+          if (this._webSocketRecovered) {
+            // Recovery is handled by the webSocketRecovered$ handler below
+            // in one ordered flow; skip the regular update to avoid a
+            // concurrent create with the reused cached subscription.
+            return;
+          }
           await this._updateSubscription();
         } else if (wsState === webSocketReadyStates.closing) {
           // when websocket is going to close, revoke subscription beforehand
@@ -94,6 +105,68 @@ export class WebSocketSubscription extends RcModule {
         }
       },
     );
+
+    this._ringCentralExtensions.webSocketRecovered$
+      .pipe(takeUntilAppDestroy)
+      .subscribe(async () => {
+        if (!this.ready) {
+          return;
+        }
+        // Single ordered flow: mark recovery so the ready-state watcher
+        // skips its regular update, wait for any in-flight update to
+        // finish (so it cannot clobber the new subscription afterwards),
+        // then revoke the possibly-stale subscription and recreate it.
+        this._webSocketRecovered = true;
+        await this._updateSubscriptionPromise?.catch(() => {});
+        await this._revokeSubscription();
+        await this._updateSubscription();
+        this._webSocketRecovered = false;
+        this._recovered$.next();
+      });
+
+    this._sleepDetector?.detect$
+      .pipe(
+        tap(() => {
+          if (this.ready) {
+            this._handleSleepDetected();
+          }
+        }),
+        takeUntilAppDestroy,
+      )
+      .subscribe();
+  }
+
+  private _sleepDetected = false;
+
+  private _webSocketRecovered = false;
+
+  private _recovered$ = new Subject<void>();
+
+  /**
+   * Emits when the WebSocket connection has been closed and re-established,
+   * so consumers can re-sync data missed during the disconnected window.
+   */
+  get subscriptionRecovered$() {
+    return this._recovered$.asObservable();
+  }
+
+  /**
+   * After sleep (also fires when a tab/worker has been frozen ~75s), the
+   * cached subscription may be stale server-side even when the WebSocket
+   * itself stayed open. Always revoke and recreate it: when the socket
+   * dropped, the ready-state watcher recreates after revoke; when it stayed
+   * open, _updateSubscription() would bypass _obtainSubscription() because
+   * _wsSubscription still exists with unchanged filters.
+   */
+  private async _handleSleepDetected() {
+    this._sleepDetected = true;
+    if (
+      this._ringCentralExtensions.isWebSocketReady &&
+      this.getFilters().length
+    ) {
+      await this._revokeSubscription();
+      await this._updateSubscription();
+    }
   }
 
   @dynamic('BrowserLogger')
@@ -136,12 +209,20 @@ export class WebSocketSubscription extends RcModule {
   }
 
   private async _obtainSubscription(eventFilters: SubscriptionFilter[]) {
+    // A recovered subscription after sleep (also fires when a tab/worker has
+    // been frozen ~75s) can be stale on the server side: subscriptionReady
+    // only proves the same subscription id was reused, not that events are
+    // still delivered. Force a new subscription instead.
+    const isSleepDetected = this._sleepDetected;
+    this._sleepDetected = false;
+
     const isNewChannel =
       !this.subscriptionChannel ||
       !isTheSameWebSocket(
         this.subscriptionChannel,
         this._ringCentralExtensions.webSocketExtension.ws.url,
-      );
+      ) ||
+      isSleepDetected;
     if (process.env.NODE_ENV !== 'test') {
       logger.log(
         `[${this.identifier}] > _obtainSubscription > isNewChannel: ${isNewChannel}`,
@@ -242,8 +323,26 @@ export class WebSocketSubscription extends RcModule {
     this._setSubscriptionReady(false);
   }
 
+  private _updateSubscriptionPromise?: Promise<void>;
+
   @delegate('server')
   private async _updateSubscription() {
+    // serialize updates so a recovery revoke+recreate cannot interleave
+    // with a regular update already in flight (which would otherwise
+    // re-save the stale subscription after the new one is created)
+    if (this._updateSubscriptionPromise) {
+      await this._updateSubscriptionPromise;
+      return;
+    }
+    this._updateSubscriptionPromise = this._doUpdateSubscription();
+    try {
+      await this._updateSubscriptionPromise;
+    } finally {
+      this._updateSubscriptionPromise = undefined;
+    }
+  }
+
+  private async _doUpdateSubscription() {
     // only when websocket is ready for create/refresh/revoke subscription
     if (!this._ringCentralExtensions.isWebSocketReady) {
       return;

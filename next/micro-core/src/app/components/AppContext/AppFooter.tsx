@@ -5,7 +5,7 @@ import React, {
   useMemo,
 } from 'react';
 
-import { AppContext } from './AppContext';
+import { AppContext, AppRefsContext } from './AppContext';
 import { ToastPositionAdjustor } from './ToastPositionAdjustor';
 
 const empty = <></>;
@@ -25,7 +25,9 @@ export const AppFooterNav: FunctionComponent<{
   }
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { setFooter, additionalFooterHeightRef } = useContext(AppContext);
+  const { setFooter } = useContext(AppContext);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const { additionalFooterHeightRef } = useContext(AppRefsContext);
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useLayoutEffect(() => {

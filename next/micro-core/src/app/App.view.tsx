@@ -80,7 +80,7 @@ export class CoreAppView extends RcMicroAppView {
           <RcRadioGroup
             row
             value={themeType}
-            onChange={(e, theme) => {
+            onChange={(e: any, theme: string) => {
               this.setThemeType(theme);
             }}
           >
@@ -95,7 +95,7 @@ export class CoreAppView extends RcMicroAppView {
           <RcRadioGroup
             row
             value={currentLocale}
-            onChange={(e, locale) => {
+            onChange={(e: any, locale: string) => {
               this._locale.setLocale(locale);
             }}
           >

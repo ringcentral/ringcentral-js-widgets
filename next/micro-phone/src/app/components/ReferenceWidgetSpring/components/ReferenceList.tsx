@@ -59,8 +59,9 @@ export const ReferenceMenuList: FunctionComponent<
   const noItem = list.length === 0;
   const viewableCrmEntity = Boolean(integrationConfig?.viewExternalEntity);
 
+  //TODO: [SHRINK CTI] Provide compact menu here when available
   return (
-    <MenuList className="overflow-auto pb-2" data-sign={label}>
+    <MenuList className="overflow-auto" data-sign={label}>
       {showGroupLabel && (
         <MenuItem data-sign="referenceGroupLabel" disabled>
           <div className="flex items-center">
@@ -149,6 +150,7 @@ export const ReferenceMenuList: FunctionComponent<
                     >
                       <IconButton
                         symbol={ArrowRightUpMd}
+                        aria-label={t('viewRecord')}
                         TooltipProps={{
                           title: t('viewRecord'),
                         }}
@@ -232,6 +234,7 @@ const ReferenceListView: FunctionComponent<
               {clickable && (
                 <IconButton
                   symbol={ArrowRightUpMd}
+                  aria-label={t('viewRecord')}
                   TooltipProps={{
                     title: t('viewRecord'),
                   }}

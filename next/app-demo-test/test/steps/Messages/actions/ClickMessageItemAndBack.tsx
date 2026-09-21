@@ -1,10 +1,26 @@
-import type { StepFunction } from '@ringcentral-integration/test-utils';
+import { whenStateOrTimerChange } from '@ringcentral-integration/next-core/test';
+import {
+  type StepFunction,
+  userEvent,
+  waitForRenderReady,
+} from '@ringcentral-integration/test-utils';
 import { screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 
 export const ClickMessageItemAndBack: StepFunction = async () => {
-  const smsItem = screen.getAllByTestId('unread')[0];
-  userEvent.click(smsItem);
+  const smsItem = await whenStateOrTimerChange(() => {
+    const smsItem =
+      screen.queryAllByTestId('unread')[0] ??
+      screen.getAllByTestId('conversationItem')[0];
+    expect(smsItem).toBeInTheDocument();
+    return smsItem;
+  });
+  await userEvent.click(smsItem);
+  await waitForRenderReady();
 
-  userEvent.click(screen.getByTestId('backButton'));
+  const backButton = await whenStateOrTimerChange(
+    () => screen.getByTestId('backButton'),
+    { timeout: 10000 },
+  );
+  await userEvent.click(backButton);
+  await waitForRenderReady();
 };

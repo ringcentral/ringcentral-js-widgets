@@ -14,6 +14,7 @@ import React, { useRef } from 'react';
 
 import { ActiveCallControl, Webphone } from '../../services';
 
+import { t } from './i18n';
 import type {
   ReplyWithMessageViewContainerProps,
   ReplyWithMessageViewOptions,
@@ -21,7 +22,6 @@ import type {
   ReplyWithMessageViewParams,
 } from './ReplyWithMessage.view.interface';
 import { ReplyWithPattern } from './ReplyWithMessage.view.interface';
-import { t } from './i18n';
 
 @injectable({
   name: 'ReplyWithMessageView',

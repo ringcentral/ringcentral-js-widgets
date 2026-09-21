@@ -10,8 +10,8 @@ import {
 } from '@ringcentral/juno';
 import React, { type FunctionComponent, useEffect, useState } from 'react';
 
-import { MergeCallConfirmationProps } from './MergeCallConfirmation.interface';
 import i18n from './i18n';
+import { MergeCallConfirmationProps } from './MergeCallConfirmation.interface';
 
 const InnerContainer = styled.div`
   display: grid;
@@ -64,7 +64,7 @@ export const MergeCallConfirmation: FunctionComponent<
             labelPlacement: 'end',
           }}
           checked={doNotAsk}
-          onChange={(ev, checked) => {
+          onChange={(ev: any, checked: boolean) => {
             setDoNotAsk(checked);
           }}
         />

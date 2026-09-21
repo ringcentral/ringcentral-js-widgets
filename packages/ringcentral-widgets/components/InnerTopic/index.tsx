@@ -25,7 +25,7 @@ const InnerTopic = forwardRef<TopicRef, TopicProps>(
   ({ name, currentLocale, defaultTopic, updateMeetingTopic }, ref) => {
     const [topic, setTopic] = useState(name || defaultTopic);
     const [isTopicChange, setIsTopicChange] = useState(false);
-    const inputRef = useRef();
+    const inputRef = useRef<HTMLDivElement>(null);
 
     // DefaultTopic has translation, If user change browser language, defaultTopic need to be switch to corresponding language.
     // If user has input the topic custom. we don't need to update default topic anymore.
@@ -54,7 +54,7 @@ const InnerTopic = forwardRef<TopicRef, TopicProps>(
         inputProps={{
           maxLength: 255,
         }}
-        onChange={(e) => {
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
           setIsTopicChange(true);
           setTopic(e.target.value);
         }}

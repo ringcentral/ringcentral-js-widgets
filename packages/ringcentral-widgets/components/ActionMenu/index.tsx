@@ -91,7 +91,6 @@ class ActionMenu extends Component<ActionMenuProps, {}> {
     return (
       <div ref={reference}>
         <SlideMenu
-          // @ts-expect-error TS(2322): Type '{ children: Element; extended: boolean | und... Remove this comment to see the full error message
           extended={extended}
           onToggle={onToggle}
           className={className}

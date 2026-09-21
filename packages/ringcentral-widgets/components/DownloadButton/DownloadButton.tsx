@@ -26,7 +26,7 @@ export const DownloadButton: FC<DownloadButtonProps> = ({
       variant="plain"
       data-sign="download"
       symbol={Download}
-      onClick={(e) => {
+      onClick={(e: React.MouseEvent) => {
         if (onClick) return onClick(url);
 
         e.preventDefault();

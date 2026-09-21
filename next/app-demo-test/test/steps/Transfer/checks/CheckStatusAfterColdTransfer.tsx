@@ -15,7 +15,6 @@ const CheckStatusAfterColdTransfer: StepFunction<
   const activeCallControl = app.container.got(ActiveCallControl)!;
   const callLogSection = app.container.got(CallLogSection)!;
   const router = app.container.got(RouterPlugin)!;
-  const callStatus = activeCallControl.activeSession?.callStatus;
   const telephonySessionId = callLogSection.currentCall.telephonySessionId;
   if (notification) {
     await whenStateChange(() => {
@@ -27,13 +26,19 @@ const CheckStatusAfterColdTransfer: StepFunction<
       // transfer page should be closed
       expect(router.currentPath).not.toContain('/transfer');
       // The call should be disconnected
-      expect(callStatus).not.toEqual('CallConnected');
+      expect(activeCallControl.activeSession?.callStatus).not.toEqual(
+        'CallConnected',
+      );
     });
   } else {
-    // Still on the transfer page
-    expect(router.currentPath).toBe(`/transfer/${telephonySessionId}/active`);
-    // The call should be connected
-    expect(callStatus).toEqual('CallConnected');
+    await whenStateChange(() => {
+      // Still on the transfer page
+      expect(router.currentPath).toBe(`/transfer/${telephonySessionId}/active`);
+      // The call should be connected
+      expect(activeCallControl.activeSession?.callStatus).toEqual(
+        'CallConnected',
+      );
+    });
   }
 };
 

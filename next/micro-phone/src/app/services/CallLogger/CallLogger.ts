@@ -1,3 +1,4 @@
+import type { CallTypeLoggingPreference } from '@ringcentral-integration/admin-console/src/app/services';
 import { callDirection } from '@ringcentral-integration/commons/enums/callDirections';
 import type { CallLoggerTriggerType } from '@ringcentral-integration/commons/enums/callLoggerTriggerTypes';
 import { callLoggerTriggerTypes } from '@ringcentral-integration/commons/enums/callLoggerTriggerTypes';
@@ -271,15 +272,15 @@ export class CallLogger extends LoggerBase {
    */
   protected isCallTypeAllowedByAalConfig(
     call: Call,
-    allowedCallTypes?: readonly any[] | null,
+    allowedCallTypes?: readonly CallTypeLoggingPreference[] | null,
   ): boolean {
     if (!allowedCallTypes || allowedCallTypes.length === 0) return false;
 
     if (allowedCallTypes.includes('ALL')) return true;
 
-    const isInboundCall = (call as any).direction === callDirection.inbound;
-    const isOutboundCall = (call as any).direction === callDirection.outbound;
-    const result = (call as any).result as string | undefined;
+    const isInboundCall = call.direction === callDirection.inbound;
+    const isOutboundCall = call.direction === callDirection.outbound;
+    const result = call.result;
     const isAnsweredCall = result === 'Accepted' || result === 'Connected';
     const isMissedCallWithoutVoiceMail = result === 'Missed';
     const isMissedCallWithVoiceMail = result === 'Voicemail';

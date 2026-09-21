@@ -36,7 +36,7 @@ const defaultTimezone = {
 };
 
 const beijingTimezone = {
-  uri: 'https://api-xmrupxmn.intlabs_domain/restapi/v1.0/dictionary/timezone/26',
+  uri: 'https://api-xmrupxmn.rclab_domain/restapi/v1.0/dictionary/timezone/26',
   id: '26',
   name: 'Asia/Shanghai',
   description: 'Beijing, Chongqing, Hong Kong, Urumqi',
@@ -44,7 +44,7 @@ const beijingTimezone = {
 };
 
 const fijiTimezone = {
-  uri: 'https://api-xmrupxmn.intlabs_domain/restapi/v1.0/dictionary/timezone/42',
+  uri: 'https://platform.ringcentral.com/restapi/v1.0/dictionary/timezone/42',
   id: '42',
   name: 'Pacific/Fiji',
   description: 'Fiji, Marshall Is.',
@@ -52,7 +52,7 @@ const fijiTimezone = {
 };
 
 const noMatchTimezone = {
-  uri: 'https://api-xmrupxmn.intlabs_domain/restapi/v1.0/dictionary/timezone/42',
+  uri: 'https://platform.ringcentral.com/restapi/v1.0/dictionary/timezone/42',
   id: '123',
   name: 'Coordinated Universal',
   description: 'Coordinated Universal',

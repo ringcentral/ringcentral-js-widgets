@@ -27,6 +27,7 @@ import {
   action,
   computed,
   delegate,
+  dynamic,
   injectable,
   optional,
   RcModule,
@@ -35,18 +36,20 @@ import {
 import { base64ToFile, sleep } from '@ringcentral-integration/utils';
 import type { ApiError } from '@ringcentral/sdk';
 import { EventEmitter } from 'events';
-import { find } from 'ramda';
 import type CreatePagerMessageRequest from 'ringcentral-client/build/definitions/CreatePagerMessageRequest';
 import type GetMessageInfoResponse from 'ringcentral-client/build/definitions/GetMessageInfoResponse';
 import { v4 } from 'uuid';
 
+import type { MessageThread } from '../MessageThread';
+
+import { t } from './i18n';
 import type {
   Attachment,
   EventParameter,
   MessageSenderOptions,
   SendErrorResponse,
+  SmsPermissionReason,
 } from './MessageSender.interface';
-import { t } from './i18n';
 import { messageSenderEvents } from './messageSenderEvents';
 import { messageSenderStatus } from './messageSenderStatus';
 
@@ -56,6 +59,9 @@ export const MULTIPART_MESSAGE_MAX_LENGTH = MESSAGE_MAX_LENGTH * 5;
 const SENDING_THRESHOLD = 30;
 
 export const ATTACHMENT_SIZE_LIMITATION = 1.5 * 1024 * 1024;
+
+const SMS_SENDER_FEATURE = 'SmsSender';
+const SMS_RECEIVER_FEATURE = 'SmsReceiver';
 
 type SendSMSPayload = {
   fromNumber: string;
@@ -81,6 +87,9 @@ export type SendPayload = SendMMSPayload & {
   name: 'MessageSender',
 })
 export class MessageSender extends RcModule {
+  @dynamic('MessageThread')
+  private _messageThread?: MessageThread;
+
   private _eventEmitter = new EventEmitter();
   uniqueManager = this._toastManager.createUniqueManager();
 
@@ -115,7 +124,7 @@ export class MessageSender extends RcModule {
     trackEvents.smsAttempt,
     { isGroupMessage, isPager },
   ])
-  private _smsAttempt(isBulkMessage: boolean, isPage: boolean) {
+  private _smsAttempt(_isBulkMessage: boolean, _isPage: boolean) {
     this.setSendStatus(messageSenderStatus.sending);
   }
 
@@ -176,33 +185,6 @@ export class MessageSender extends RcModule {
     return false;
   }
 
-  _validateSenderNumber(senderNumber: string) {
-    let validateResult = true;
-    if (isBlank(senderNumber)) {
-      validateResult = false;
-    }
-    this.setSendStatus(messageSenderStatus.validating);
-    if (validateResult) {
-      const isMySenderNumber = find(
-        (number) => number.phoneNumber === senderNumber,
-        this.senderNumbersList,
-      );
-      if (!isMySenderNumber) {
-        validateResult = false;
-      }
-    }
-    if (!validateResult) {
-      this.setSendStatus(messageSenderStatus.idle);
-      this.uniqueManager.unique(() =>
-        this._toast.warning({
-          message: t('senderNumberInvalid'),
-          ttl: 0,
-        }),
-      );
-    }
-    return validateResult;
-  }
-
   @delegate('server')
   async _validateToNumbers(toNumbers: string[]) {
     const result: {
@@ -233,9 +215,8 @@ export class MessageSender extends RcModule {
       return result;
     }
     if (isEDPEnabled) {
-      const parsedNumbers = await this._numberValidate.parseNumbers(
-        recipientNumbers,
-      );
+      const parsedNumbers =
+        await this._numberValidate.parseNumbers(recipientNumbers);
       if (parsedNumbers) {
         result.result = true;
         parsedNumbers.forEach((item) => {
@@ -307,6 +288,7 @@ export class MessageSender extends RcModule {
       const extensionNumbers = validateToNumberResult.extNumbers;
       const recipientPhoneNumbers = validateToNumberResult.noExtNumbers;
       const hasAttachments = attachments.length > 0;
+      const shouldSendMessageThread = this._shouldSendMessageThread(fromNumber);
 
       if (extensionNumbers.length > 0 && hasAttachments) {
         this.uniqueManager.unique(() =>
@@ -319,10 +301,41 @@ export class MessageSender extends RcModule {
         return null;
       }
 
+      const _validateSenderNumber = (senderNumber: string) => {
+        let validateResult = true;
+        if (isBlank(senderNumber)) {
+          validateResult = false;
+        }
+        this.setSendStatus(messageSenderStatus.validating);
+        if (validateResult) {
+          const isMySenderNumber = this.senderNumbersList.find(
+            (number) => number.phoneNumber === senderNumber,
+          );
+          if (!isMySenderNumber) {
+            validateResult = false;
+          }
+        }
+
+        if (!validateResult) {
+          this.setSendStatus(messageSenderStatus.idle);
+
+          // non spring-ui only, non spring-ui not able to go into here, due to the sending button be disabled with the hasSmsPermission
+          if (process.env.THEME_SYSTEM !== 'spring-ui') {
+            this.uniqueManager.unique(() =>
+              this._toast.warning({
+                message: t('senderNumberInvalid'),
+                ttl: 0,
+              }),
+            );
+          }
+        }
+        return validateResult;
+      };
+
       // not validate sender number if recipient is only extension number
       if (
         recipientPhoneNumbers.length > 0 &&
-        !this._validateSenderNumber(fromNumber)
+        !_validateSenderNumber(fromNumber)
       ) {
         this.logger.error('Sender number is invalid', fromNumber);
         this.setSendStatus(messageSenderStatus.idle);
@@ -347,6 +360,12 @@ export class MessageSender extends RcModule {
         : [text];
       const total = (recipientPhoneNumbers.length + 1) * chunks.length;
       const shouldSleep = total > SENDING_THRESHOLD;
+
+      /**
+       * TODO: when support grouped in CRM or some projects should consider enable that and fix the logic.
+       *
+       * for pager we not support non group currently, this ignore the grouped option and send to all extension numbers at once
+       */
       if (extensionNumbers.length > 0) {
         for (const chunk of chunks) {
           if (shouldSleep) await sleep(2000);
@@ -375,7 +394,14 @@ export class MessageSender extends RcModule {
             };
             if (shouldSleep) await sleep(2000);
 
-            if (hasAttachments) {
+            if (this._messageThread && shouldSendMessageThread) {
+              smsResponse = await this._messageThread.sendNewThreadMessage({
+                fromNumber,
+                toNumbers,
+                text: chunk,
+                attachments,
+              });
+            } else if (hasAttachments) {
               smsResponse = await this._sendMMS(smsBody);
             } else {
               smsResponse = await this._sendSMS(smsBody);
@@ -407,6 +433,14 @@ export class MessageSender extends RcModule {
       await this._onSendError(error as any);
       throw error;
     }
+  }
+
+  private _shouldSendMessageThread(fromNumber: string) {
+    return !!(
+      this._messageThread &&
+      this._messageThread.hasPermission &&
+      this._messageThread.isSharedSmsSenderNumber(fromNumber)
+    );
   }
 
   @delegate('server')
@@ -454,6 +488,8 @@ export class MessageSender extends RcModule {
         files: {
           attachment,
         },
+        // mms api need ASCII file name, so check all files name not have ASCII characters before sending
+        checkAllFilesNameNotHaveASCII: true,
       },
     );
 
@@ -602,8 +638,71 @@ export class MessageSender extends RcModule {
     return this.sendStatus === messageSenderStatus.idle;
   }
 
+  private _hasPhoneNumberFeature(number: UserPhoneNumberInfo, feature: string) {
+    return !!(number.features as string[] | undefined)?.includes(feature);
+  }
+
+  get numbers() {
+    return this._extensionPhoneNumber.numbers;
+  }
+
+  // numbers can receive & send sms
   get senderNumbersList() {
     return this._extensionPhoneNumber.smsSenderNumbers;
+  }
+
+  // numbers can only receive sms
+  @computed
+  get receiveOnlyNumbers() {
+    return this.numbers.filter(
+      (number) =>
+        this._hasPhoneNumberFeature(number, SMS_RECEIVER_FEATURE) &&
+        !this._hasPhoneNumberFeature(number, SMS_SENDER_FEATURE),
+    );
+  }
+
+  // numbers can neither send nor receive sms
+  @computed
+  get registerableNumbers() {
+    return this.numbers.filter(
+      (number) =>
+        !this._hasPhoneNumberFeature(number, SMS_SENDER_FEATURE) &&
+        !this._hasPhoneNumberFeature(number, SMS_RECEIVER_FEATURE),
+    );
+  }
+
+  // sms permission limited reasons
+  @computed
+  get smsPermissionReason(): SmsPermissionReason | null {
+    // account level sms permission off
+    if (!this._appFeatures.hasComposeTextPermission) {
+      return 'noComposePermission';
+    }
+
+    if (
+      this.senderNumbersList.length === 0 &&
+      (this.receiveOnlyNumbers.length > 0 ||
+        this.registerableNumbers.length > 0)
+    ) {
+      if (this.receiveOnlyNumbers.length > 0) {
+        return 'receiveOnlyNumber';
+      }
+
+      return 'noNumberAvailable';
+    }
+
+    return null;
+  }
+
+  @computed
+  get hasSmsPermission() {
+    return (
+      this._appFeatures.hasComposeTextPermission &&
+      (process.env.THEME_SYSTEM === 'spring-ui'
+        ? this.senderNumbersList.length > 0
+        : // in non spring-ui always have sms permission, event not have any sender number, that use alert to prevent user not able to send invalid from numbers
+          true)
+    );
   }
 
   @computed

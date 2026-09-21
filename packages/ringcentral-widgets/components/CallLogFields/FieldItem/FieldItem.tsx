@@ -139,9 +139,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
     const disabledReference =
       currentDisabled || shouldDisable(task, currentLog?.call) || disabled;
     const title = metadata.title || label;
-    const rightIcon = rightIconRender
-      ? rightIconRender(phoneNumber)
-      : undefined;
+    const rightIcon = rightIconRender?.(phoneNumber) ?? undefined;
 
     const currentValue =
       (getSelectedOptionLabel &&
@@ -265,7 +263,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
         required={required}
         label={label}
         value={date}
-        onChange={async (value) => {
+        onChange={async (value: Date | null) => {
           const timeStamp = value ? setUTCTime(value) : value;
           await this.onInputSelectChange(fieldValue)(timeStamp);
           await onSave();

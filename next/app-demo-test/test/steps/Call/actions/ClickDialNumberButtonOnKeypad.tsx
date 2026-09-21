@@ -1,5 +1,5 @@
 import { fireEvent, screen } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
+import { act } from 'react';
 
 export const ClickDialNumberButtonOnKeypad = async (char: string) => {
   if (char === '+') {

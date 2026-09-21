@@ -119,7 +119,7 @@ export const MessageInput: FunctionComponent<MessageInputProps> = ({
   });
 
   return (
-    <div data-sign="message-editor" className={className} {...rest}>
+    <div data-sign="messageInput-container" className={className} {...rest}>
       {/* Action Bar */}
       <div className="h-10 flex items-center justify-between px-3">
         <div className="flex items-center">
@@ -186,7 +186,7 @@ export const MessageInput: FunctionComponent<MessageInputProps> = ({
           size="medium"
           placeholder={t('smsEditHint')}
           classes={{
-            formFieldContent: 'flex-col items-start',
+            formFieldContent: 'flex-col items-start max-h-36',
           }}
           variant="outlined"
           value={inputText}

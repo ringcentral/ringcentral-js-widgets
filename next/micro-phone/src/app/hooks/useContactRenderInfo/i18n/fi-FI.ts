@@ -89,7 +89,7 @@ export default {
   maybe: 'Ehkä: {contactName}',
   optedOut: 'Vastaanottaja on peruuttanut tilauksen.',
   optOutAlertTooltip:
-    'Vastaanottajan on tilattava viestit uudelleen, jotta hän voi vastaanottaa tekstiviestejä tästä numerosta.',
+    'Vastaanottajan on annettava suostumuksensa uudelleen voidakseen vastaanottaa tekstiviestejä tästä numerosta.',
 } as const;
 
 // @key: @#@"to"@#@ @source: @#@"To"@#@
@@ -177,5 +177,4 @@ export default {
 // @key: @#@"matches"@#@ @source: @#@"{numberOfMatches} matches"@#@
 // @key: @#@"maybe"@#@ @source: @#@"Maybe: {contactName}"@#@
 // @key: @#@"optedOut"@#@ @source: @#@"Recipient has opted out."@#@
-
 // @key: @#@"optOutAlertTooltip"@#@ @source: @#@"The recipient must opt back in to receive texts from this number."@#@

@@ -1,12 +1,15 @@
 import { useResizeObserver } from '@ringcentral/spring-ui';
 import React, { FunctionComponent, useContext, useState } from 'react';
+import type { PropsWithChildren } from 'react';
 
-import { AppContext } from './AppContext';
+import { AppRefsContext } from './AppContext';
 import { PortalWithCheckAgain } from './PortalWithCheckAgain';
 
-export const AppAnnouncementRender: FunctionComponent<{}> = ({ children }) => {
+export const AppAnnouncementRender: FunctionComponent<PropsWithChildren<{}>> = ({
+  children,
+}) => {
   const { announcementRef, announcementBottomAnchorRef } =
-    useContext(AppContext);
+    useContext(AppRefsContext);
 
   return (
     <>
@@ -19,8 +22,10 @@ export const AppAnnouncementRender: FunctionComponent<{}> = ({ children }) => {
 /**
  * render content at the announcement content area.
  */
-export const AppAnnouncement: FunctionComponent<{}> = ({ children }) => {
-  const { announcementRef } = useContext(AppContext);
+export const AppAnnouncement: FunctionComponent<PropsWithChildren<{}>> = ({
+  children,
+}) => {
+  const { announcementRef } = useContext(AppRefsContext);
 
   return (
     <PortalWithCheckAgain container={announcementRef}>
@@ -30,7 +35,7 @@ export const AppAnnouncement: FunctionComponent<{}> = ({ children }) => {
 };
 
 export const useAnnouncementHeight = () => {
-  const { announcementRef } = useContext(AppContext);
+  const { announcementRef } = useContext(AppRefsContext);
   const [height, setHeight] = useState(
     announcementRef.current?.clientHeight || 0,
   );

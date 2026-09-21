@@ -1,30 +1,29 @@
 import {
   action,
   computed,
-  PortManager,
   delegate,
+  fromWatchValue,
   globalStorage,
   injectable,
   optional,
+  PortManager,
   RcModule,
   state,
   StoragePlugin,
-  watch,
-  fromWatchValue,
   takeUntilAppDestroy,
-  logger,
+  watch,
 } from '@ringcentral-integration/next-core';
 import { createTheme, type RcTheme } from '@ringcentral/juno';
 import type { MotionConfigContext } from 'framer-motion';
 import {
   EMPTY,
   fromEvent,
+  map,
   merge,
   startWith,
   switchMap,
   tap,
   timer,
-  map,
 } from 'rxjs';
 
 import { Brand, BrandThemeMap } from '../Brand';
@@ -51,8 +50,32 @@ export class Theme extends RcModule {
   themeId: string | null = null;
 
   @action
-  setThemeId(val: string | null) {
+  private _setThemeId(val: string | null) {
     this.themeId = val;
+  }
+
+  @delegate('server')
+  async setThemeId(val: string | null) {
+    this._setThemeId(val);
+  }
+
+  @delegate('server')
+  async setThemeIdByName(
+    category: string,
+    themeName: string | null | undefined,
+  ) {
+    if (!themeName) {
+      this.setThemeId(null);
+      return;
+    }
+    const dataList = this._brand.suiThemeMap[category as keyof BrandThemeMap];
+    const theme = dataList?.find((theme) => theme.name === themeName);
+
+    if (!theme) {
+      this.setThemeId(null);
+      return;
+    }
+    this.setThemeId(theme.id);
   }
 
   @globalStorage
@@ -285,10 +308,7 @@ export class Theme extends RcModule {
           : EMPTY;
       }),
       tap((isDark) => {
-        logger.log(
-          `[${this.identifier}] system theme is`,
-          isDark ? 'dark' : 'light',
-        );
+        this.logger.log(`system theme is`, isDark ? 'dark' : 'light');
         const themeType = isDark ? 'dark' : 'light';
         this.setThemeType(themeType);
       }),

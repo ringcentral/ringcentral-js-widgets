@@ -1,16 +1,16 @@
 import {
   injectable,
-  optional,
   RcViewModule,
   useConnector,
   useParams,
 } from '@ringcentral-integration/next-core';
 import React from 'react';
 
-import { MessageThread } from '../../services';
+import { MessageThread, QueueConversations } from '../../services';
 
 import type { ConversationViewSpringProps } from './Conversation.view.interface';
 import { PersonalConversationViewSpring } from './PersonalConversation.view';
+import { QueueConversationView } from './QueueConversation.view';
 import { SharedConversationView } from './SharedConversation.view';
 
 @injectable({
@@ -19,9 +19,10 @@ import { SharedConversationView } from './SharedConversation.view';
 export class ConversationViewSpring extends RcViewModule {
   constructor(
     private _personalConversationView: PersonalConversationViewSpring,
-    @optional() private _messageThread?: MessageThread,
-    @optional()
-    private _sharedConversationView?: SharedConversationView,
+    private _queueConversationView: QueueConversationView,
+    private _queueConversations: QueueConversations,
+    private _messageThread: MessageThread,
+    private _sharedConversationView: SharedConversationView,
   ) {
     super();
   }
@@ -30,19 +31,30 @@ export class ConversationViewSpring extends RcViewModule {
     const { conversationId } = useParams<{ conversationId: string }>();
 
     const isThread = useConnector(() => {
-      if (!conversationId || !this._messageThread) {
-        return false;
-      }
+      if (!conversationId) return false;
+
       return this._messageThread.isThreadId(conversationId);
     });
 
-    if (this._sharedConversationView && isThread) {
+    const isQueueConversation = useConnector(() => {
+      if (!conversationId) return false;
+
+      return this._queueConversations.formattedConversationsMap.has(
+        conversationId,
+      );
+    });
+
+    if (isThread) {
       return (
         <this._sharedConversationView.component
           conversationId={conversationId}
           {...props}
         />
       );
+    }
+
+    if (isQueueConversation) {
+      return <this._queueConversationView.component {...props} />;
     }
 
     return <this._personalConversationView.component {...props} />;

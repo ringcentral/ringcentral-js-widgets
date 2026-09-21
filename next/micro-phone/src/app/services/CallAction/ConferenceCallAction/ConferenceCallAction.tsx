@@ -165,7 +165,7 @@ export class ConferenceCallAction extends RcModule {
         <div className="flex flex-col gap-2 mt-2">
           <Button
             fullWidth
-            size="xlarge"
+            size="medium"
             data-sign="confirmMerge"
             onClick={() => {
               action?.confirm({ doNotAskAgain: tmpDoNotAskAgain });
@@ -176,7 +176,7 @@ export class ConferenceCallAction extends RcModule {
           <Button
             fullWidth
             data-sign="cancelMerge"
-            size="xlarge"
+            size="medium"
             variant="outlined"
             onClick={() => {
               action?.cancel();
@@ -348,7 +348,7 @@ export class ConferenceCallAction extends RcModule {
       <div data-sign="participantsListModal">
         <h3
           data-sign="participantsHeader"
-          className="font-bold m-4 typography-title"
+          className="m-4 typography-subtitleBold"
         >
           {t('participants')} ({length})
         </h3>
@@ -375,8 +375,9 @@ export class ConferenceCallAction extends RcModule {
               return (
                 <ListItem
                   key={`${call.telephonySessionId}-${index}`}
-                  size="large"
+                  size="auto"
                   divider={false}
+                  className="h-[54px]"
                   data-sign={isHost ? `participantItemHost` : `participantItem`}
                 >
                   <Avatar />

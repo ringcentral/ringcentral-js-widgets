@@ -3,17 +3,14 @@ import I18n from '../../i18n';
 import { getLanguageFromLocale } from '../getLanguageFromLocale';
 import { toPseudoStringWithPadding } from '../toPseudoString';
 
-import { I18nFlag, I18nStrings, LocaleCode } from './type';
+import {
+  I18nFlag,
+  I18nStrings,
+  LocaleCode,
+  type ConvertI18nToString,
+} from './type';
 
-export type ConvertI18nToString<T> = T extends Array<infer D>
-  ? Array<ConvertI18nToString<D>>
-  : T extends object
-  ? {
-      [K in keyof T]: T[K] extends string | I18nStrings
-        ? string
-        : ConvertI18nToString<T[K]>;
-    }
-  : T;
+export type { ConvertI18nToString } from './type';
 
 /**
  * processI18n takes brandConfigs with I18nStrings objects and based on the locale, return brandConfig without the I18nStrings.

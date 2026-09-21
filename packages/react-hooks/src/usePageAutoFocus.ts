@@ -1,6 +1,8 @@
 import { useDebounce, useEventListener } from '@ringcentral/spring-ui';
 import { useEffect, useLayoutEffect } from 'react';
 
+import { getNodeEnv } from './getNodeEnv';
+
 /**
  * automatically focus on a specified target element when the page is focused.
  *
@@ -16,7 +18,7 @@ export const usePageAutoFocus = (
   useLayoutEffect(() => {
     const targetElm = targetRef.current;
     if (!targetElm) {
-      if (process.env.NODE_ENV !== 'production') {
+      if (getNodeEnv() !== 'production') {
         // eslint-disable-next-line no-console
         console.warn(
           '[usePageAutoFocus] target element is not found, please make sure the target element is rendered when you use this hook',

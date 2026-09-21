@@ -3,7 +3,7 @@ import {
   useAsyncState,
   usePageAutoFocus,
 } from '@ringcentral-integration/react-hooks';
-import { KeypadOffSp } from '@ringcentral/juno-icon';
+import { DialpadOffMd } from '@ringcentral/spring-icon';
 import {
   CallButton,
   Dialer,
@@ -17,8 +17,8 @@ import React, { useRef } from 'react';
 import { noop } from 'rxjs';
 
 import { useCallControlLayout } from '../../CallControlViewSpring/CallControlPanel';
-import type { KeypadViewPanelProps } from '../Keypad.view.interface';
 import i18n from '../i18n';
+import type { KeypadViewPanelProps } from '../Keypad.view.interface';
 
 export const KeypadPage: FunctionComponent<KeypadViewPanelProps> = (props) => {
   const {
@@ -40,37 +40,36 @@ export const KeypadPage: FunctionComponent<KeypadViewPanelProps> = (props) => {
   const { t } = useLocale(i18n);
 
   const render = useCallControlLayout(call, {
+    header: (
+      <div className="flex justify-center items-center">
+        <DialTextField
+          inputRef={inputRef}
+          variant="quiet"
+          keypadMode
+          fullWidth
+          value={toNumber}
+          onChange={setToNumber}
+          inputProps={{
+            'data-sign': 'dialpad-input',
+          }}
+          onEmit={(newValue) => {
+            onAction('sendDTMF', newValue);
+          }}
+          className="max-w-[250px]"
+        />
+      </div>
+    ),
     main: (
-      <Dialer>
-        <div className="flex justify-center items-center mb-6 -mt-6">
-          <DialTextField
-            inputRef={inputRef}
-            variant="quiet"
-            keypadMode
-            fullWidth
-            value={toNumber}
-            onChange={setToNumber}
-            inputProps={{
-              'data-sign': 'dialpad-input',
-            }}
-            onEmit={(newValue) => {
-              onAction('sendDTMF', newValue);
-            }}
-            className="max-w-[250px]"
-          />
-        </div>
-
-        <div>
-          <DialPad
-            data-sign="dialPad"
-            volume={callVolume}
-            sounds={DialerPadSoundsMPEG}
-            size="medium"
-            sinkId={outputDeviceId}
-            className="gap-y-2"
-          />
-        </div>
-      </Dialer>
+      <div className="-mt-6">
+        <DialPad
+          data-sign="dialPad"
+          volume={callVolume}
+          sounds={DialerPadSoundsMPEG}
+          size="medium"
+          sinkId={outputDeviceId}
+          className="gap-y-2"
+        />
+      </div>
     ),
     footer: (
       <>
@@ -91,8 +90,7 @@ export const KeypadPage: FunctionComponent<KeypadViewPanelProps> = (props) => {
           TooltipProps={{
             title: t('hideKeypad'),
           }}
-          // TODO: wait spring version icon
-          symbol={KeypadOffSp}
+          symbol={DialpadOffMd}
           onClick={() => onAction('activeCall')}
         />
       </>
@@ -107,5 +105,5 @@ export const KeypadPage: FunctionComponent<KeypadViewPanelProps> = (props) => {
     onExpand,
   });
 
-  return render;
+  return <Dialer>{render}</Dialer>;
 };

@@ -6,6 +6,7 @@ import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import styles from './styles.scss';
 
 type MeetingSectionProps = {
+  children?: React.ReactNode;
   title?: string;
   className?: string;
   withSwitch?: boolean;

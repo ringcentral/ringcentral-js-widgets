@@ -194,6 +194,7 @@ export interface onSwitchLineItemChange {
   onChange?(checked: boolean): any;
 }
 export interface SwitchLineItemProps extends onSwitchLineItemChange {
+  children?: ReactNode;
   name?: string;
   currentLocale?: string;
   tooltip?: string;
@@ -236,6 +237,7 @@ export interface SettingsPanelProps
 }
 
 export interface ButtonLineItemProps {
+  children?: ReactNode;
   btnText: string;
   show?: boolean;
   dataSign?: string;

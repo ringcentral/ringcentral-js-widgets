@@ -1,15 +1,16 @@
 import clsx from 'clsx';
+import type { PropsWithChildren } from 'react';
 import React from 'react';
 
 import styles from './styles.scss';
 
-type InputFieldProps = {
+type InputFieldProps = PropsWithChildren<{
   label?: React.ReactNode;
   labelHint?: React.ReactNode;
   className?: string;
   dataSign?: string;
   noBorder?: boolean;
-};
+}>;
 export const InputField: React.FC<InputFieldProps> = (props) => {
   return (
     <div

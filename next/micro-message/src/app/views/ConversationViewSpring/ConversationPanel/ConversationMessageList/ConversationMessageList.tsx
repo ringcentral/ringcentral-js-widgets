@@ -1,22 +1,25 @@
 import type { Message as MessageData } from '@ringcentral-integration/commons/interfaces/MessageStore.model';
 import { isBlank } from '@ringcentral-integration/commons/lib/isBlank';
+import { useLocale } from '@ringcentral-integration/micro-core/src/app/hooks';
 import { useFormattedDateFromNowFn } from '@ringcentral-integration/micro-phone/src/app/hooks';
-import { Block } from '@ringcentral/spring-ui';
+import { AlertMd } from '@ringcentral/spring-icon';
+import { Block, Icon } from '@ringcentral/spring-ui';
 import clsx from 'clsx';
 import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { FileAttachmentRender } from './FileAttachmentRender';
-import { ImageAttachmentRender } from './ImageAttachmentRender';
-import { SubjectRender } from './SubjectRender';
 import i18n from './i18n';
+import { ImageAttachmentRender } from './ImageAttachmentRender';
 import styles from './styles.scss';
+import { SubjectRender } from './SubjectRender';
 
 dayjs.extend(localizedFormat);
 
 interface MessageProps {
   subject?: string;
+  deliveryErrorCode?: string;
   time?: string;
   direction: 'Inbound' | 'Outbound';
   mmsAttachments: Array<{
@@ -28,11 +31,13 @@ interface MessageProps {
   onLinkClick?: (url: string) => void;
   handleImageLoad?: () => void;
   renderSenderName?: () => React.ReactNode;
+  renderLogIndicator?: () => React.ReactNode;
   title?: string;
 }
 
 const Message: React.FC<MessageProps> = ({
   subject,
+  deliveryErrorCode,
   time,
   direction,
   mmsAttachments,
@@ -41,8 +46,10 @@ const Message: React.FC<MessageProps> = ({
   onLinkClick,
   handleImageLoad,
   renderSenderName,
+  renderLogIndicator,
   title,
 }) => {
+  const { t } = useLocale(i18n);
   let subjectNode;
   if (subject && !isBlank(subject)) {
     subjectNode = (
@@ -82,6 +89,25 @@ const Message: React.FC<MessageProps> = ({
         </Block>
       );
     });
+  const hasSubject = !isBlank(subject);
+  const logIndicator = hasSubject ? renderLogIndicator?.() : undefined;
+  const messageBody = hasSubject ? (
+    <div
+      data-sign={`${direction}Text`}
+      className={clsx(
+        styles.messageBody,
+        subject && subject.length > 500 && styles.big,
+        !logIndicator &&
+          (direction === 'Outbound' ? 'float-right' : 'float-left'),
+        direction === 'Outbound'
+          ? 'bg-primary-b text-neutral-w0 rounded-br-none'
+          : 'bg-neutral-b4 text-neutral-b0 rounded-bl-none',
+      )}
+    >
+      {subjectNode}
+    </div>
+  ) : null;
+
   return (
     <div
       data-sign="message"
@@ -100,19 +126,23 @@ const Message: React.FC<MessageProps> = ({
         </div>
       ) : null}
       {renderSenderName?.()}
-      {!isBlank(subject) && (
+      {messageBody && logIndicator ? (
         <div
-          data-sign={`${direction}Text`}
           className={clsx(
-            styles.messageBody,
-            subject && subject.length > 500 && styles.big,
-            direction === 'Outbound'
-              ? 'bg-primary-b text-neutral-w0 float-right rounded-br-none'
-              : 'bg-neutral-b4 text-neutral-b0 float-left rounded-bl-none',
+            'clear-both flex items-center gap-2',
+            direction === 'Outbound' ? 'justify-end' : 'justify-start',
           )}
         >
-          {subjectNode}
+          {direction === 'Inbound' && (
+            <div className="flex-shrink-0">{logIndicator}</div>
+          )}
+          {messageBody}
+          {direction === 'Outbound' && (
+            <div className="flex-shrink-0">{logIndicator}</div>
+          )}
         </div>
+      ) : (
+        messageBody
       )}
       {imageAttachments.length > 0 && (
         <div
@@ -126,6 +156,18 @@ const Message: React.FC<MessageProps> = ({
         </div>
       )}
       {otherAttachments.length > 0 && <>{otherAttachments}</>}
+      {/* deliveryErrorCode */}
+      {deliveryErrorCode && (
+        <div
+          className={clsx(
+            'text-danger typography-detail flex items-center mt-2',
+            direction === 'Outbound' ? 'float-right' : 'float-left',
+          )}
+        >
+          {t('deliveryError')}
+          <Icon className="ml-2" size="small" symbol={AlertMd} />
+        </div>
+      )}
       <div className={styles.clear} />
     </div>
   );
@@ -141,6 +183,7 @@ export interface ConversationMessageListProps {
   onLinkClick?: (url: string) => void;
   loadPreviousMessages?: () => void;
   renderSenderName?: (message: MessageData) => React.ReactNode;
+  renderLogIndicator?: (message: MessageData) => React.ReactNode;
   timeKey?: 'creationTime' | 'lastModifiedTime';
 }
 
@@ -154,6 +197,7 @@ export const ConversationMessageList: React.FC<
   onAttachmentDownload,
   onLinkClick,
   renderSenderName,
+  renderLogIndicator,
   timeKey = 'creationTime',
 }) => {
   const listRef = useRef<HTMLDivElement>(null);
@@ -233,7 +277,7 @@ export const ConversationMessageList: React.FC<
           title={title}
         >
           <div>{message.subject}</div>
-          <div className="mt-1">
+          <div className="mt-1" data-sign="conversationInfoTime">
             {formattedDateFromNow(message.lastModifiedTime, 'withTime')}
           </div>
         </div>
@@ -247,6 +291,7 @@ export const ConversationMessageList: React.FC<
         time={time}
         direction={direction}
         subject={message.subject}
+        deliveryErrorCode={message.deliveryErrorCode}
         mmsAttachments={message.mmsAttachments || []}
         currentLocale={currentLocale}
         onAttachmentDownload={onAttachmentDownload}
@@ -260,6 +305,9 @@ export const ConversationMessageList: React.FC<
           renderSenderName && direction === 'Inbound'
             ? () => renderSenderName?.(message)
             : undefined
+        }
+        renderLogIndicator={
+          renderLogIndicator ? () => renderLogIndicator(message) : undefined
         }
       />
     );

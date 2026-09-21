@@ -3,6 +3,12 @@ import { PortalHostResolveData } from '@ringcentral-integration/next-core';
 
 import { Attachment, ToNumber } from '../../services';
 
+export type SenderNumberOption = UserPhoneNumberInfo & {
+  displayLabel?: string;
+  disabled?: boolean;
+  statusLabel?: React.ReactNode;
+};
+
 export interface ComposeTextViewSpringOptions {
   onDncVerify: (toNumbers: ToNumber[]) => Promise<PortalHostResolveData>;
   getNumbersToRemove: (toNumbers: ToNumber[]) => Promise<ToNumber[]>;
@@ -14,7 +20,8 @@ export interface ComposeTextPanelSpringProps {
   onBackClick: () => void;
   className?: string;
   send: (text: string, attachments: Attachment[]) => any;
-  senderNumbers: UserPhoneNumberInfo[];
+  senderNumbers: SenderNumberOption[];
+  showDisabledReason?: boolean;
   sendButtonDisabled: boolean;
   updateSenderNumber: (phoneNumber: string) => any;
   updateTypingToNumber: (phoneNumber: string) => any;
@@ -27,6 +34,7 @@ export interface ComposeTextPanelSpringProps {
   senderNumber: string;
   toNumbers: ToNumber[];
   showSpinner?: boolean;
+  sending?: boolean;
   attachments?: Attachment[];
   addAttachments: (files: Attachment[]) => any;
   removeAttachment: (file: Attachment) => any;
@@ -41,6 +49,9 @@ export interface ComposeTextPanelSpringProps {
   endAdornment?: React.ReactNode;
   inputRef?: React.RefObject<HTMLTextAreaElement>;
   disabledGroupMessage?: boolean;
+  requiredOptInCount?: number;
+  canAddSmsConsent?: boolean;
+  onAddSmsConsentClick?: () => void;
 }
 export interface SalesforceContact {
   id: string;

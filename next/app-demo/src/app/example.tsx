@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import { PendoAnalytics } from '@ringcentral-integration/micro-auth/src/app/services';
+import { UserpilotService } from '@ringcentral-integration/micro-auth/src/app/services';
 import type { CallLogFormViewProps } from '@ringcentral-integration/micro-phone/src/app/views/CallLogFormView';
 import { useContainer } from '@ringcentral-integration/next-core';
 import { Button, TextField } from '@ringcentral/spring-ui';
@@ -11,7 +11,7 @@ export const CallLogExample: FunctionComponent<CallLogFormViewProps> = ({
   variant,
   ...rest
 }) => {
-  const pendoAnalytics = useContainer<PendoAnalytics>('PendoAnalytics');
+  const userpilotService = useContainer<UserpilotService>('UserpilotService');
   return (
     <>
       <div
@@ -20,14 +20,17 @@ export const CallLogExample: FunctionComponent<CallLogFormViewProps> = ({
         data-value={JSON.stringify(info)}
       >
         <div className="mb-4">Example Call Log</div>
-        <Button
-          onClick={() => {
-            pendoAnalytics.track('Int_CRM_logCall');
-          }}
-        >
-          Try track pendo event, that will send `Int_CRM_logCall` event to pendo
-          server
-        </Button>
+        {userpilotService && (
+          <Button
+            onClick={() => {
+              userpilotService.track('Int_CRM_logCall');
+            }}
+            className="mb-2"
+          >
+            Try track userpilot event, that will send `Int_CRM_logCall` event to
+            userpilot server
+          </Button>
+        )}
         <TextField fullWidth label="label 1" />
         <div className="h-16" />
         <div className="h-16" />
