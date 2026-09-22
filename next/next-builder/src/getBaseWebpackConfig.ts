@@ -1,7 +1,3 @@
-import {
-  processDefaultDarkAndHighContactTheme,
-  processIDBAssets,
-} from '@ringcentral-integration/brand-config/lib/processIDBAssets';
 import { processI18n } from '@ringcentral-integration/i18n/lib/processI18n';
 import type { BaseAppConfig } from '@ringcentral-integration/next-integration/interfaces';
 import { getArgs } from '@ringcentral-integration/next-integration/lib/getArgs';
@@ -22,7 +18,6 @@ import {
 import { merge } from 'webpack-merge';
 
 import { getFilenameMap as getFileUrlMap } from './getFilenameMap';
-import { getIDBPlugins } from './getIDBPlugins';
 import { getPrimaryColor } from './getPrimaryColor';
 import type { ProjectConfig } from './getProjectConfig';
 import {
@@ -228,10 +223,6 @@ export const getBaseWebpackConfig = <T extends BaseAppConfig>({
         React: 'react',
       }),
       ...reactantPreservedModuleReplacementPlugins,
-      ...getIDBPlugins({
-        appConfig,
-        devServer,
-      }),
       ...(projectConfig.assetsEntries?.length
         ? [
             new CopyWebpackPlugin({
@@ -242,9 +233,7 @@ export const getBaseWebpackConfig = <T extends BaseAppConfig>({
       new DefinePlugin({
         'process.env.APP_CONFIG': JSON.stringify({
           ...appConfig,
-          brandConfig: processDefaultDarkAndHighContactTheme(
-            processIDBAssets(appConfig.brandConfig),
-          ),
+          brandConfig: appConfig.brandConfig,
         }),
         'process.env.THEME_SYSTEM': JSON.stringify(themeSystem),
         'process.env.BLOCK_PENDO_SOURCE_CODE':

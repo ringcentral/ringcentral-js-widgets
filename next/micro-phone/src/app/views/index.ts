@@ -26,5 +26,4 @@ export * from './QuickCallActionView';
 export * from './CallView';
 export * from './CallLogFormView';
 export * from './CallsListViewSpring';
-export * from './SmartNotesLogView';
 export * from './ConnectingView';

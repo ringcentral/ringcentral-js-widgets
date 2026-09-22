@@ -1,6 +1,6 @@
 import { useLocale } from '@ringcentral-integration/micro-core/src/app/hooks';
 import { useVirtuosoScrollPosition } from '@ringcentral-integration/react-hooks';
-import NoCalls from '@ringcentral/juno-branding/assets/illustration/spot/no_calls.svg';
+import NoCalls from '@ringcentral-integration/next-core/assets/no_calls.svg';
 import { VirtualizedList } from '@ringcentral/spring-ui';
 import React from 'react';
 

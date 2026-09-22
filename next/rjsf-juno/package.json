@@ -31,8 +31,8 @@
     "@rjsf/snapshot-tests": "^5.18.3"
   },
   "dependencies": {
-    "@ringcentral/juno": "^3.0.0-alpha.19",
-    "@ringcentral/juno-icon": "^3.0.0-alpha.19",
+    "@ringcentral/juno": "^3.0.0-alpha.13",
+    "@ringcentral/juno-icon": "^3.0.0-alpha.13",
     "dayjs": "^1.11.13",
     "@rjsf/core": "^5.18.3",
     "@rjsf/utils": "^5.18.3"

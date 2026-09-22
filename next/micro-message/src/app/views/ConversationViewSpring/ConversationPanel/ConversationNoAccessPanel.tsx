@@ -1,7 +1,7 @@
 import { AppHeaderNav } from '@ringcentral-integration/micro-core/src/app/components';
 import { useLocale } from '@ringcentral-integration/micro-core/src/app/hooks';
 import { PageHeader } from '@ringcentral-integration/next-widgets/components';
-import NoText from '@ringcentral/juno-branding/assets/illustration/spot/no_text.svg';
+import NoText from '@ringcentral-integration/next-core/assets/no_text.svg';
 import React, { FC } from 'react';
 
 import i18n from './i18n';

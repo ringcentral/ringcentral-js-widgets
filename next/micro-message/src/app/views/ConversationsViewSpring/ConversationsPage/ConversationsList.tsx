@@ -1,8 +1,8 @@
 import { useLocale } from '@ringcentral-integration/micro-core/src/app/hooks';
 import { useVirtuosoScrollPosition } from '@ringcentral-integration/react-hooks';
-import NoFax from '@ringcentral/juno-branding/assets/illustration/spot/no_fax.svg';
-import NoText from '@ringcentral/juno-branding/assets/illustration/spot/no_text.svg';
-import NoVoiceMail from '@ringcentral/juno-branding/assets/illustration/spot/no_voicemail.svg';
+import NoFax from '@ringcentral-integration/next-core/assets/no_fax.svg';
+import NoText from '@ringcentral-integration/next-core/assets/no_text.svg';
+import NoVoiceMail from '@ringcentral-integration/next-core/assets/no_voicemail.svg';
 import { VirtualizedList } from '@ringcentral/spring-ui';
 import React, { ComponentType } from 'react';
 

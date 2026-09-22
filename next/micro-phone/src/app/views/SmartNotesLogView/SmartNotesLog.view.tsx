@@ -1,7 +1,3 @@
-import {
-  LogNotesStatus,
-  SmartNotesLogTasks,
-} from '@ringcentral-integration/ai-notes/src/app/services';
 import { useLocale } from '@ringcentral-integration/micro-core/src/app/hooks';
 import {
   injectable,
@@ -19,6 +15,11 @@ import type {
   SmartNotesLogViewOptions,
 } from './SmartNotesLog.view.interface';
 
+export interface LogNotesStatus {
+  isSaving: boolean;
+  isSucceed: boolean;
+}
+
 export interface SmartNotesLogViewPanelProps {
   telephonySessionId: string;
   status: LogNotesStatus;
@@ -32,7 +33,8 @@ export interface SmartNotesLogViewPanelProps {
 })
 export class SmartNotesLogView extends RcViewModule {
   constructor(
-    protected _smartNotesLogTasks: SmartNotesLogTasks,
+    @optional('SmartNotesLogTasks')
+    protected _smartNotesLogTasks: any,
     @optional('SmartNotesLogViewOptions')
     protected _smartNotesLogViewOptions?: SmartNotesLogViewOptions,
   ) {

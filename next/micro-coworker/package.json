@@ -35,8 +35,8 @@
     "@ringcentral-integration/next-widgets": "*",
     "@ringcentral-integration/utils": "*",
     "@ringcentral-integration/widgets": "*",
-    "@ringcentral/juno": "^3.0.0-alpha.19",
-    "@ringcentral/juno-icon": "^3.0.0-alpha.19",
+    "@ringcentral/juno": "^3.0.0-alpha.13",
+    "@ringcentral/juno-icon": "^3.0.0-alpha.13",
     "ramda": "^0.28.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
