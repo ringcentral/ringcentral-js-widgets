@@ -20,10 +20,6 @@ export const mockActions: HistoryAction[] = [
   },
 ];
 
-// Each menu interaction spends 10-50s in jsdom style matching, so the default
-// 30s timeout is too tight.
-jest.setTimeout(120000);
-
 describe('ActionMenuList', () => {
   it('should render visible actions and menu button, when set 2 and the all length more that that should render first item and moreMenu', async () => {
     await renderComponent({

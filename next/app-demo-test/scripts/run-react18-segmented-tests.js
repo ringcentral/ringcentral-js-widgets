@@ -107,6 +107,8 @@ for (const { name, pattern } of selectedSegments) {
       '--silent',
       '--json',
       `--outputFile=${reportPath}`,
+      // extra Jest flags, e.g. --updateSnapshot in CI
+      ...process.argv.slice(2),
     ],
     {
       env,

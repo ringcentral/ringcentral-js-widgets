@@ -8,8 +8,8 @@ import {
   useConnector,
 } from '@ringcentral-integration/next-core';
 import {
+  suiDark,
   suiHighContrast,
-  suiJunoDark,
   suiJunoLight,
   ThemeProvider,
 } from '@ringcentral/spring-theme';
@@ -23,8 +23,9 @@ import type {
   SpringThemePluginProps,
 } from './SpringTheme.plugin.interface';
 
+// suiJunoDark only exists in the internal @ringcentral/spring-theme build.
 const sprintDefaultThemeMap = {
-  dark: suiJunoDark,
+  dark: suiDark,
   contrast: suiHighContrast,
 };
 

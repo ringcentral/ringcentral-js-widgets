@@ -103,7 +103,8 @@ jobs:
           node-version: 20.x
           cache: npm
       - run: npm ci
-      - run: npm run test:react18-segmented -w @ringcentral-integration/app-demo-test
+      # *.snap files are gitignored, so snapshots must be written fresh in CI.
+      - run: npm run test:react18-segmented -w @ringcentral-integration/app-demo-test -- --updateSnapshot
         env:
           REACT18_TEST_SEGMENTS: ${{ matrix.segment }}
 
