@@ -52,7 +52,7 @@ describe('CoworkerLogger', () => {
           provide: 'SdkConfig',
           useFactory: () =>
             ({
-              clientId: 'test-client-id'
+              clientId: 'test-client-id',
               cachePrefix: 'custom-prefix-',
               clientSecret: 'test-client-secret',
             } satisfies SDKConfig),
@@ -127,7 +127,7 @@ describe('CoworkerLogger', () => {
           provide: 'SdkConfig',
           useFactory: () =>
             ({
-              clientId: 'test-client-id'
+              clientId: 'test-client-id',
               cachePrefix: 'custom-prefix-',
               clientSecret: 'test-client-secret',
             } satisfies SDKConfig),
@@ -257,7 +257,7 @@ describe('CoworkerLogger', () => {
         {
           provide: 'SdkConfig',
           useValue: {
-              clientId: 'test-client-id'
+              clientId: 'test-client-id',
               cachePrefix: 'custom-prefix-',
               clientSecret: 'test-client-secret',
           } satisfies SDKConfig,

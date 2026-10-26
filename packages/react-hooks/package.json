@@ -1,6 +1,6 @@
 {
   "name": "@ringcentral-integration/react-hooks",
-  "version": "0.16.1",
+  "version": "1.0.0",
   "license": "MIT",
   "private": false,
   "description": "RingCentral integration react hooks library",
@@ -21,11 +21,11 @@
     "tsc-check": "yarn tsc --project tsconfig.lint.json --noEmit"
   },
   "peerDependencies": {
-    "@ringcentral/juno": "^3.0.0-alpha.19",
+    "@ringcentral/juno": "3.0.0-alpha.13",
     "react": "^17.0.2 || ^18.0.0"
   },
   "devDependencies": {
-    "@ringcentral/juno": "^3.0.0-alpha.19",
+    "@ringcentral/juno": "3.0.0-alpha.13",
     "@types/hammerjs": "^2.0.41",
     "react": "^18.3.1"
   },

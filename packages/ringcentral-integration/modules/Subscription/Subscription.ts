@@ -7,7 +7,7 @@ import {
 import type { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
 import type { ApiError } from '@ringcentral/sdk';
 import Subscriptions from '@ringcentral/subscriptions';
-import type { SubscriptionData } from '@ringcentral/subscriptions/src/subscription/Subscription';
+import type { SubscriptionData } from '@ringcentral/subscriptions/lib/subscription/Subscription';
 import { concat, equals, map, uniq } from 'ramda';
 
 import type { SubscriptionFilter } from '../../enums/subscriptionFilters';

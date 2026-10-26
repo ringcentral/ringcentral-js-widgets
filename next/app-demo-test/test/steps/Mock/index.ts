@@ -26,6 +26,7 @@ export * from './MockUnHoldCallFail';
 export * from './MockLimitedPutPresence';
 export * from './MockGetStatus';
 export * from './MockPostOauthToken';
+export * from './MockPostAuthentication';
 export * from './MockVideoConfiguration';
 export * from './MockCallerId';
 export * from './MockRcvRenderdocument';

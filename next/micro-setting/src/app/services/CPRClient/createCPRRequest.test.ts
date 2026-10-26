@@ -2,11 +2,6 @@ import type { ProblemReportResource } from './CPRClient.interface';
 import { createCPRRequest, CreateCPRRequestParams } from './createCPRRequest';
 import fetchMock = require('fetch-mock-jest');
 
-// Mock detect-browser
-jest.mock('detect-browser', () => ({
-  detect: jest.fn(),
-}));
-
 const mockFetch = fetchMock;
 const cprApiMatcher = /\/cpr-api\/v1\/problem-reports$/;
 
@@ -24,10 +19,6 @@ const mockCprApiResponse = (response: unknown) => {
 };
 
 describe('createCPRRequest', () => {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const mockDetectBrowser = require('detect-browser')
-    .detect as jest.MockedFunction<any>;
-
   beforeAll(() => {
     global.fetch = mockFetch as unknown as typeof fetch;
   });
@@ -66,12 +57,6 @@ describe('createCPRRequest', () => {
 
   describe('successful request', () => {
     beforeEach(() => {
-      mockDetectBrowser.mockReturnValue({
-        name: 'chrome',
-        version: '91.0.4472.124',
-        os: 'Mac OS',
-      });
-
       mockCprApiResponse({
         id: 'test-report-id',
         ...mockProblemReportData,
@@ -110,18 +95,6 @@ describe('createCPRRequest', () => {
       expect(formData.has('problemReportRequest')).toBe(true);
     });
 
-    it('should include browser detection in client details', async () => {
-      await createCPRRequest(mockUri, mockParams);
-
-      const formData = mockFetch.lastOptions()?.body as FormData;
-      const problemReportBlob = formData.get('problemReportRequest') as Blob;
-
-      // We can't easily test the blob content without additional setup,
-      // but we can verify the structure is correct
-      expect(problemReportBlob).toBeInstanceOf(Blob);
-      expect(problemReportBlob.type).toBe('application/json');
-    });
-
     it('should return the response from the API', async () => {
       const expectedResponse = {
         id: 'test-report-id',
@@ -138,60 +111,6 @@ describe('createCPRRequest', () => {
 
       // The function should set clientAppType to 'RCIntegrationAppWeb'
       // This is verified through the FormData structure
-      expect(mockFetch).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe('browser detection edge cases', () => {
-    it('should handle unknown browser version', async () => {
-      mockDetectBrowser.mockReturnValue({
-        name: 'chrome',
-        version: undefined,
-        os: 'Windows',
-      });
-
-      mockCprApiResponse({ id: 'test-id' });
-
-      await createCPRRequest(mockUri, mockParams);
-
-      expect(mockFetch).toHaveBeenCalledTimes(1);
-    });
-
-    it('should handle unknown browser name', async () => {
-      mockDetectBrowser.mockReturnValue({
-        name: undefined,
-        version: '1.0.0',
-        os: 'Linux',
-      });
-
-      mockCprApiResponse({ id: 'test-id' });
-
-      await createCPRRequest(mockUri, mockParams);
-
-      expect(mockFetch).toHaveBeenCalledTimes(1);
-    });
-
-    it('should handle null browser detection', async () => {
-      mockDetectBrowser.mockReturnValue(null);
-
-      mockCprApiResponse({ id: 'test-id' });
-
-      await createCPRRequest(mockUri, mockParams);
-
-      expect(mockFetch).toHaveBeenCalledTimes(1);
-    });
-
-    it('should handle browser with spaces in OS name', async () => {
-      mockDetectBrowser.mockReturnValue({
-        name: 'firefox',
-        version: '89.0.1',
-        os: 'Mac OS X',
-      });
-
-      mockCprApiResponse({ id: 'test-id' });
-
-      await createCPRRequest(mockUri, mockParams);
-
       expect(mockFetch).toHaveBeenCalledTimes(1);
     });
   });
@@ -251,12 +170,6 @@ describe('createCPRRequest', () => {
         attachments: [],
       };
 
-      mockDetectBrowser.mockReturnValue({
-        name: 'chrome',
-        version: '91.0.0',
-        os: 'Windows',
-      });
-
       mockCprApiResponse({ id: 'test-id' });
 
       await createCPRRequest(mockUri, paramsWithNoAttachments);
@@ -278,12 +191,6 @@ describe('createCPRRequest', () => {
         data: customData,
       };
 
-      mockDetectBrowser.mockReturnValue({
-        name: 'safari',
-        version: '14.1.1',
-        os: 'Mac OS',
-      });
-
       mockCprApiResponse({ id: 'test-id' });
 
       await createCPRRequest(mockUri, customParams);
@@ -295,12 +202,6 @@ describe('createCPRRequest', () => {
   describe('API endpoint construction', () => {
     it('should use the provided URI correctly', async () => {
       const customUri = 'https://custom-api.example.com';
-      mockDetectBrowser.mockReturnValue({
-        name: 'edge',
-        version: '91.0.864.59',
-        os: 'Windows',
-      });
-
       mockCprApiResponse({ id: 'test-id' });
 
       await createCPRRequest(customUri, mockParams);

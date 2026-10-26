@@ -6,7 +6,6 @@
  * Entry point(/s):
  * More > Settings
  */
-import { CheckEventTracking } from '@ringcentral-integration/app-demo-test-spring/test/steps/Tracking/CheckEventTracking';
 import { Brand } from '@ringcentral-integration/micro-core/src/app/services';
 import {
   autorun,
@@ -34,6 +33,7 @@ import {
 import { Entry } from '../../../../../../app-demo-test/test/steps/Entry';
 import { Login } from '../../../../steps/Login';
 import { NavigateToSettings } from '../../../../steps/Navigate';
+import { CheckEventTracking } from '../../../../steps/Tracking';
 
 @autorun(test)
 @it

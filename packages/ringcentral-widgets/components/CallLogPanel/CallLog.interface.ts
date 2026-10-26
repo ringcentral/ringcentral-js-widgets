@@ -1,9 +1,13 @@
 import type { Call as NormalizedCall } from '@ringcentral-integration/commons/interfaces/Call.interface';
 import type { NormalizedSession } from '@ringcentral-integration/commons/interfaces/Webphone.interface';
 import type { HistoryCall } from '@ringcentral-integration/commons/modules/CallHistory';
-import { ZendeskTicketStatus } from '@ringcentral-integration/micro-generic-widget/src/app/services/ZendeskUIFAPI/models/ticket-status';
 
 import type { FieldItemOption } from '../CallLogFields';
+
+export interface ZendeskTicketStatus {
+  id: number;
+  label: string;
+}
 
 // This interface will change folder in the future
 export interface CallLog {

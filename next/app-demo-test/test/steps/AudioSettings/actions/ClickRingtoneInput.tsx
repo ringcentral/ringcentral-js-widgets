@@ -1,6 +1,8 @@
-import { fireEvent, screen } from '@ringcentral-integration/test-utils';
-
-import type { StepFunction } from '../../../lib/step';
+import {
+  fireEvent,
+  screen,
+  type StepFunction,
+} from '@ringcentral-integration/test-utils';
 
 export const ClickRingtoneInput: StepFunction = async () => {
   const inputNode = screen

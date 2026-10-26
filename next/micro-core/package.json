@@ -1,6 +1,6 @@
 {
   "name": "@ringcentral-integration/micro-core",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "Core micro-frontend module for RingCentral Integration next-generation architecture.",
   "homepage": "https://github.com/ringcentral/ringcentral-js-widgets/tree/master/next/micro-core#readme",
   "bugs": {
@@ -35,8 +35,8 @@
     "@ringcentral-integration/next-micro": "*",
     "@ringcentral-integration/utils": "*",
     "@ringcentral-integration/widgets": "*",
-    "@ringcentral/juno": "^3.0.0-alpha.13",
-    "@ringcentral/juno-icon": "^3.0.0-alpha.13",
+    "@ringcentral/juno": "3.0.0-alpha.13",
+    "@ringcentral/juno-icon": "3.0.0-alpha.13",
     "@ringcentral/mfe-react": "^0.5.0",
     "ramda": "^0.28.0",
     "react": "^18.3.1",

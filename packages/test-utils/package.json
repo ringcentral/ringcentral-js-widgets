@@ -25,8 +25,8 @@
   "dependencies": {
     "@ringcentral-integration/babel-settings": "*",
     "@ringcentral-integration/crius": "*",
-    "@ringcentral/juno": "^3.0.0-alpha.19",
-    "@ringcentral/juno-icon": "^3.0.0-alpha.19",
+    "@ringcentral/juno": "3.0.0-alpha.13",
+    "@ringcentral/juno-icon": "3.0.0-alpha.13",
     "@testing-library/jest-dom": "^6.1.6",
     "@testing-library/react": "^14.3.1",
     "@testing-library/user-event": "^14.6.1",
@@ -44,6 +44,7 @@
     "jest-websocket-mock": "^2.5.0",
     "react": "^18.3.1",
     "reflect-metadata": "^0.1.13",
-    "testing-mcp": "^0.5.2"
+    "testing-mcp": "^0.5.2",
+    "mock-mcp": "^0.5.1"
   }
 }

@@ -27,7 +27,7 @@ function writeTscFailToReport({ name, currentDir, error }) {
     <h2 style="color: #1e84bc">Typescript check error</h2>
     <pre contenteditable>${error.stdout}</pre>
     <h3 style="color: #1e84bc">Run in local</h3>
-    <pre contenteditable>yarn nx run ${name}:test --ci</pre>
+    <pre contenteditable>npm test -w ${name} -- --ci</pre>
     <h4 style="color: #1e84bc">or use tsc-check to ensure be pass</h4>
     <pre contenteditable>yarn tsc-check</pre>
   </body>

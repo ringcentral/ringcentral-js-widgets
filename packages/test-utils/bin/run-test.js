@@ -97,8 +97,12 @@ const command = `yarn jest ${workerArgv} ${argv}`;
 // in ci use sync run for get error
 if (__CI__) {
   // in CI will also check tsc if there have tsc-check script
-  // also when --only-failures, not run tsc-check anymore
-  if (!onlyFailures && scripts?.['tsc-check']) {
+  // also when --only-failures or SKIP_TSC_CHECK=true, not run tsc-check anymore
+  if (
+    !onlyFailures &&
+    process.env.SKIP_TSC_CHECK !== 'true' &&
+    scripts?.['tsc-check']
+  ) {
     try {
       // eslint-disable-next-line no-console
       console.log('🧪 tsc-check starting...');
@@ -117,14 +121,6 @@ if (__CI__) {
       throw error;
     }
   }
-
-  // in ci, build idb for ensure brand-config is built
-  // eslint-disable-next-line no-console
-  console.log('🧪 build brand-config for test starting...');
-
-  execa.commandSync(
-    'yarn nx run @ringcentral-integration/internal-mock:buildIDB',
-  );
 
   execa.commandSync(command, {
     stdio: 'inherit',

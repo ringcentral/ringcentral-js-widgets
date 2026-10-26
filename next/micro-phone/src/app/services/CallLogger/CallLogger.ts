@@ -1,4 +1,3 @@
-import type { CallTypeLoggingPreference } from '@ringcentral-integration/admin-console/src/app/services';
 import { callDirection } from '@ringcentral-integration/commons/enums/callDirections';
 import type { CallLoggerTriggerType } from '@ringcentral-integration/commons/enums/callLoggerTriggerTypes';
 import { callLoggerTriggerTypes } from '@ringcentral-integration/commons/enums/callLoggerTriggerTypes';
@@ -36,6 +35,7 @@ import { CallMonitor } from '../CallMonitor';
 import type {
   AutoLogCallOptions,
   CallLoggerOptions,
+  CallTypeLoggingPreference,
   Hook,
   LogCallOptions,
   LogOptions,

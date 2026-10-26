@@ -1,6 +1,6 @@
 {
   "name": "@ringcentral-integration/rjsf-juno",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "React JSON Schema Form theme for RingCentral Juno design system.",
   "homepage": "https://github.com/ringcentral/ringcentral-js-widgets/tree/master/next/rjsf-juno#readme",
   "bugs": {
@@ -28,11 +28,12 @@
     "gulp-babel": "^8.0.0",
     "gulp-sourcemaps": "^2.6.5",
     "@ringcentral-integration/babel-settings": "*",
-    "@rjsf/snapshot-tests": "^5.18.3"
+    "@rjsf/snapshot-tests": "^5.18.3",
+    "react-test-renderer": "18.3.1"
   },
   "dependencies": {
-    "@ringcentral/juno": "^3.0.0-alpha.13",
-    "@ringcentral/juno-icon": "^3.0.0-alpha.13",
+    "@ringcentral/juno": "3.0.0-alpha.13",
+    "@ringcentral/juno-icon": "3.0.0-alpha.13",
     "dayjs": "^1.11.13",
     "@rjsf/core": "^5.18.3",
     "@rjsf/utils": "^5.18.3"

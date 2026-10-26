@@ -4,6 +4,19 @@ import path from 'path';
 
 import importLocaleFile from '.';
 
+// Run a compiled locale module and return its default export.
+function evalLocale(content, filename) {
+  const { code } = transformSync(content, { filename });
+  const module = { exports: {} };
+  // eslint-disable-next-line no-new-func
+  new Function('module', 'exports', 'require', code)(
+    module,
+    module.exports,
+    require,
+  );
+  return module.exports.default;
+}
+
 const sourceFolder = './testData/importLocaleFile';
 
 function encodeValue(str) {
@@ -59,7 +72,7 @@ describe('importLocaleFile', () => {
     const content = await fs.readFile(filePath, 'utf8');
     let json;
     expect(() => {
-      json = eval(transformSync(content, { filename: 'en-GB.ts' }).code);
+      json = evalLocale(content, 'en-GB.ts');
     }).not.toThrow();
 
     expect(json.modern).toBe('rogue');
@@ -114,7 +127,7 @@ describe('importLocaleFile', () => {
     );
     let json;
     expect(() => {
-      json = eval(transformSync(content, { filename: 'en-GB.ts' }).code);
+      json = evalLocale(content, 'en-GB.ts');
     }).not.toThrow();
 
     expect(json.modern).toBe(undefined);
@@ -142,7 +155,7 @@ describe('importLocaleFile', () => {
     let content = await fs.readFile(path.resolve(sourceFolder, 'en-GB.ts'), 'utf8');
     let json;
     expect(() => {
-      json = eval(transformSync(content, { filename: 'en-GB.ts' }).code);
+      json = evalLocale(content, 'en-GB.ts');
     }).not.toThrow();
 
     expect(json.whisky).toBe('');
@@ -158,7 +171,7 @@ describe('importLocaleFile', () => {
 
     content = await fs.readFile(path.resolve(sourceFolder, 'en-GB.ts'), 'utf8');
     expect(() => {
-      json = eval(transformSync(content, { filename: 'en-GB.ts' }).code);
+      json = evalLocale(content, 'en-GB.ts');
     }).not.toThrow();
 
     expect(json.whisky).toBe('');

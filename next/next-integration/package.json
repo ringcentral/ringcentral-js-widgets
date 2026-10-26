@@ -1,6 +1,6 @@
 {
   "name": "@ringcentral-integration/next-integration",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "Integration utilities for RingCentral Integration next-generation architecture.",
   "homepage": "https://github.com/ringcentral/ringcentral-js-widgets/tree/master/next/next-integration#readme",
   "bugs": {

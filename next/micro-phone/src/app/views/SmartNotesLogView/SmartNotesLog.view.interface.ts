@@ -1,4 +1,4 @@
-import type { LogNotesButtonProps } from '@ringcentral-integration/ai-notes/src/app/views/SmartNotesView/SmartNotes.view.interface';
+import type { LogNotesButtonProps } from '../../services/CallAction/SmartNotes.interface';
 
 export type SmartNotesLogViewProps = LogNotesButtonProps;
 

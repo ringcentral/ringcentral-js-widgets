@@ -1,3 +1,3 @@
-import { RcMock as BaseRcMock } from '@ringcentral-integration/internal-mock';
+import { RcMock as BaseRcMock } from '@ringcentral-integration/mock';
 
 export class RcMock extends BaseRcMock {}

@@ -1,5 +1,3 @@
-import type { SmartNotes } from '@ringcentral-integration/ai-notes/src/app/services';
-import type { SmartNotesView } from '@ringcentral-integration/ai-notes/src/app/views';
 import type { Call } from '@ringcentral-integration/commons/interfaces/Call.interface';
 import {
   isInbound,
@@ -83,6 +81,10 @@ import {
   useLatestExistCall,
   Webphone,
 } from '../../services';
+import type {
+  SmartNotes,
+  SmartNotesView,
+} from '../../services/CallAction/SmartNotes.interface';
 import type { CallLogFormViewProps } from '../CallLogFormView';
 import { CallLogFormView } from '../CallLogFormView';
 import { QuickCallActionView } from '../QuickCallActionView';

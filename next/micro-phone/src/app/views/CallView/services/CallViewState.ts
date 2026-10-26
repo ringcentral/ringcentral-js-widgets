@@ -1,4 +1,3 @@
-import type { SmartNotes } from '@ringcentral-integration/ai-notes/src/app/services';
 import type { Call as ICall } from '@ringcentral-integration/commons/interfaces/Call.interface';
 import {
   action,
@@ -17,6 +16,7 @@ import {
 import { tap } from 'rxjs';
 
 import type { Recipient } from '../../../services/Call';
+import type { SmartNotes } from '../../../services/CallAction/SmartNotes.interface';
 import { CallHistory, HistoryCall } from '../../../services/CallHistory';
 import { CallLogTasks } from '../../../services/CallLogTasks';
 import { CallMonitor } from '../../../services/CallMonitor';

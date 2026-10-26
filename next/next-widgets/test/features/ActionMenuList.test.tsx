@@ -1,6 +1,8 @@
-import { waitForRenderReady } from '@ringcentral-integration/test-utils';
+import {
+  userEvent,
+  waitForRenderReady,
+} from '@ringcentral-integration/test-utils';
 import { act, fireEvent, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 
 import { HistoryAction, SubmenuAction } from '../../components/ActionMenuList';
 
@@ -17,6 +19,10 @@ export const mockActions: HistoryAction[] = [
     type: 'call',
   },
 ];
+
+// Each menu interaction spends 10-50s in jsdom style matching, so the default
+// 30s timeout is too tight.
+jest.setTimeout(120000);
 
 describe('ActionMenuList', () => {
   it('should render visible actions and menu button, when set 2 and the all length more that that should render first item and moreMenu', async () => {

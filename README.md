@@ -56,13 +56,15 @@ $ cd ringcentral-js-widgets
 Install dependent libraries:
 
 ```bash
-$ yarn
+$ npm ci
 ```
+
+After adding or upgrading any `@ringcentral/*` dependency, run `npm run lockfile:fix`. Some of these packages have a different build under the same version on internal registries, so `package-lock.json` keeps both integrity hashes to stay installable from public npm. CI runs `npm run lockfile:check` to enforce this. If registry.npmjs.org is not reachable from your network, set `PUBLIC_REGISTRY` to a mirror of it.
 
 Test:
 
 ```bash
-$ yarn test # Run tests
+$ npm test -w @ringcentral-integration/next-core # Run one package's tests
 ```
 
 Commit:
@@ -73,6 +75,13 @@ $ yarn commit
 or
 $ yarn git-cz
 ```
+
+Release:
+
+Push a tag and GitHub Actions publishes to npm (see `scripts/publishPackages.mjs`):
+
+- `1.0.0`, `1.1.0-rc.0`: every package except the ones below, at that version. Prereleases go to the `next` dist-tag.
+- `i18n@2.4.0`, `locale-loader@2.3.4`, `phone-number@1.2.1`: one package on its own version line. Bump its `package.json` first, because the tag must match it.
 
 ### Play with Development Server
 

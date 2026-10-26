@@ -1,4 +1,4 @@
-import { createApp } from '@ringcentral-integration/app-demo-old/src/createApp';
+import { createApp } from '@ringcentral-integration/app-demo/src/createApp';
 import SimulateWindowObject from '@ringcentral-integration/commons/integration-test/utils/SimulateWindowObject';
 import {
   type StepFunction,

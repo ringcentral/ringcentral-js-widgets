@@ -10,7 +10,6 @@
  * Entry point(/s):
  * > Go to Settings
  */
-import { MockPostAuthentication } from '@ringcentral-integration/app-internal-demo-test/test/steps/Mock';
 import {
   And,
   autorun,
@@ -31,6 +30,7 @@ import {
   CreateMock,
   MockFeaturePermission,
   MockMessageSync,
+  MockPostAuthentication,
   MockPresence,
 } from '../../../../steps/Mock';
 import { Relogin } from '../../../../steps/Relogin';

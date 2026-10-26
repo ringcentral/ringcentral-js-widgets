@@ -1,8 +1,8 @@
-import { ZendeskTicketStatus } from '@ringcentral-integration/micro-generic-widget/src/app/services/ZendeskUIFAPI/models/ticket-status';
 import { RcAlert, RcDatePicker, RcTypography } from '@ringcentral/juno';
 import React, { Component } from 'react';
 
 import { getDateFromUTCDay, setUTCTime } from '../../../lib/timeFormatHelper';
+import type { ZendeskTicketStatus } from '../../CallLogPanel/CallLog.interface';
 import InputSelect from '../../InputSelect';
 import type {
   CallLogFieldsProps,

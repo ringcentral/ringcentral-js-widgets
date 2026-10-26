@@ -5,6 +5,19 @@ import path from 'path';
 
 import exportLocale from '../exportLocale';
 
+// Run a compiled locale module and return its default export.
+function evalLocale(content, filename) {
+  const { code } = transformSync(content, { filename });
+  const module = { exports: {} };
+  // eslint-disable-next-line no-new-func
+  new Function('module', 'exports', 'require', code)(
+    module,
+    module.exports,
+    require,
+  );
+  return module.exports.default;
+}
+
 const sourceFolder = './testData/importLocale';
 const localizationFolder = './localization/importLocale';
 
@@ -91,7 +104,7 @@ describe('importLocale', () => {
     const content = await fs.readFile(filePath, 'utf8');
     let json;
     expect(() => {
-      json = eval(transformSync(content, { filename: 'en-GB.js' }).code);
+      json = evalLocale(content, 'en-GB.js');
     }).not.toThrow();
     expect(json.modern).toBe('rogue');
     expect(json.whisky).toBe('Changed');
@@ -151,7 +164,7 @@ describe('importLocale', () => {
     const content = await fs.readFile(filePath, 'utf8');
     let json;
     expect(() => {
-      json = eval(transformSync(content, { filename: 'en-GB.js' }).code);
+      json = evalLocale(content, 'en-GB.js');
     }).not.toThrow();
     expect(json.modern).toBe('rogue');
     expect(json.whisky).toBe(undefined);
@@ -176,7 +189,7 @@ describe('importLocale', () => {
     const content = await fs.readFile(filePath, 'utf8');
     let json;
     expect(() => {
-      json = eval(transformSync(content, { filename: 'en-GB.js' }).code);
+      json = evalLocale(content, 'en-GB.js');
     }).not.toThrow();
     expect(json.modern).toBe('rogue');
     expect(json.whisky).toBe(undefined);
@@ -211,7 +224,7 @@ describe('importLocale', () => {
     const content = await fs.readFile(filePath, 'utf8');
     let json;
     expect(() => {
-      json = eval(transformSync(content, { filename: 'en-GB.js' }).code);
+      json = evalLocale(content, 'en-GB.js');
     }).not.toThrow();
 
     expect(json.whisky).toBe('Vault');
@@ -250,7 +263,7 @@ describe('importLocale', () => {
     const content = await fs.readFile(filePath, 'utf8');
     let json;
     expect(() => {
-      json = eval(transformSync(content, { filename: 'en-GB.js' }).code);
+      json = evalLocale(content, 'en-GB.js');
     }).not.toThrow();
     expect(json.modern).toBe(undefined);
     expect(json.newline).toBe(undefined);
@@ -281,7 +294,7 @@ describe('importLocale', () => {
     expect(await fs.exists(filePath)).toBe(true);
     const content = await fs.readFile(filePath, 'utf8');
     expect(() => {
-      eval(transformSync(content, { filename: 'en-GB.js' }).code);
+      evalLocale(content, 'en-GB.js');
     }).not.toThrow();
   });
 });

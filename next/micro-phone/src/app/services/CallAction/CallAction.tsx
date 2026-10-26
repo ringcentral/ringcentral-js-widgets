@@ -1,7 +1,3 @@
-import type {
-  SmartNoteClient,
-  SmartNotes,
-} from '@ringcentral-integration/ai-notes/src/app/services';
 import type { Call } from '@ringcentral-integration/commons/interfaces/Call.interface';
 import { isInbound as isInboundCall } from '@ringcentral-integration/commons/lib/callLogHelpers';
 import {
@@ -58,6 +54,7 @@ import type {
   CallActionTypeDataMap,
   CallMetaInfo,
 } from './CallAction.interface';
+import type { SmartNoteClient, SmartNotes } from './SmartNotes.interface';
 import { ConferenceCallAction } from './ConferenceCallAction';
 import { t } from './i18n';
 import { SwitchCallConfirm } from './SwitchCallConfirm';

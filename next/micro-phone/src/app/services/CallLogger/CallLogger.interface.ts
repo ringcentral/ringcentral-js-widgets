@@ -13,6 +13,16 @@ export interface CallLoggerOptions {
 
 export type Hook = (sessionId: string) => boolean;
 
+/**
+ * Call types the admin console can enable for auto-logging.
+ */
+export type CallTypeLoggingPreference =
+  | 'ALL'
+  | 'OUTGOING_CALLS'
+  | 'INCOMING_ANSWERED'
+  | 'MISSED_WITHOUT_VOICEMAIL'
+  | 'MISSED_WITH_VOICEMAIL';
+
 export type UpdatedCallLog = HistoryCall & {
   isTransferredCall: boolean;
   transferredMiddleNumber: string | null;

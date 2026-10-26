@@ -9,7 +9,7 @@ import {
   Step,
 } from '@ringcentral-integration/test-utils';
 
-import { loggerInstance } from '../../src/lib/logger';
+import { loggerInstance } from '../../src/lib/logger/logger';
 import {
   getBufferLogItems,
   overrideBufferLogger,

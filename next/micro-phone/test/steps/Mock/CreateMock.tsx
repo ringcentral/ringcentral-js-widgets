@@ -1,4 +1,4 @@
-import { WebSocketMock } from '@ringcentral-integration/internal-mock';
+import { WebSocketMock } from '@ringcentral-integration/mock';
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 
 import { RcMock } from './RcMock';

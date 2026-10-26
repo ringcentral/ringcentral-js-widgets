@@ -1,4 +1,3 @@
-import type { SmartNotes } from '@ringcentral-integration/ai-notes/src/app/services';
 import { callDirection } from '@ringcentral-integration/commons/enums/callDirections';
 import {
   AppFeatures,
@@ -43,6 +42,7 @@ import type { StateSnapshot } from 'react-virtuoso';
 
 import { useContactRenderInfoFromCallHistory } from '../../hooks';
 import { Call, CallHistory, CallLogTasks, HistoryCall } from '../../services';
+import type { SmartNotes } from '../../services/CallAction/SmartNotes.interface';
 import { CallViewState } from '../CallView/services/CallViewState';
 import { DialerView } from '../DialerView';
 
