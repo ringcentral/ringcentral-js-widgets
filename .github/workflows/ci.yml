@@ -52,8 +52,6 @@ jobs:
           - micro-setting
           - rjsf-juno
           - rjsf-spring
-        # TODO: add app-demo-test once it runs outside the internal pipeline
-        # (needs THEME_SYSTEM=spring-ui, the segmented runner and partner brands).
     steps:
       - uses: actions/checkout@v4
         with:
@@ -76,6 +74,38 @@ jobs:
           flag-name: ${{ matrix.package }}
           parallel: true
           fail-on-error: false
+
+  # The app-demo-test integration suite is too large for one job: each segment
+  # of next/app-demo-test/scripts/run-react18-segmented-tests.js runs in band
+  # in its own job, and fails if it executes no passing tests.
+  app-demo-test:
+    needs: lockfile
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      matrix:
+        segment:
+          - common-widgets-ha
+          - common-widgets-messages
+          - common-widgets-settings
+          - common-widgets-call
+          - common-widgets-small
+          - common-widgets-cross-module
+          - crm-common
+          - misc-top-level
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: npm
+      - run: npm ci
+      - run: npm run test:react18-segmented -w @ringcentral-integration/app-demo-test
+        env:
+          REACT18_TEST_SEGMENTS: ${{ matrix.segment }}
 
   typecheck:
     needs: lockfile

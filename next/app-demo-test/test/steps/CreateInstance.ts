@@ -1,4 +1,3 @@
-import { createApp } from '@ringcentral-integration/app-demo/src/createApp';
 import SimulateWindowObject from '@ringcentral-integration/commons/integration-test/utils/SimulateWindowObject';
 import {
   type StepFunction,
@@ -6,6 +5,7 @@ import {
 } from '@ringcentral-integration/test-utils';
 
 import { DEFAULT_DEVICES } from '../__mock__/mockAudioDevices';
+import { createApp } from '../app/createApp';
 import { getAppConfig } from '../lib/branding';
 
 import { MockDeviceProps } from './Mock/MockDevice';

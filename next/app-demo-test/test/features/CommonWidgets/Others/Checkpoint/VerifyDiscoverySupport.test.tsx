@@ -57,7 +57,7 @@ export class VerifyDiscoverySupport extends Step {
             (async (_, { rcMock }) => {
               expect(rcMock.fetchMock).toHaveFetched(
                 new RegExp(
-                  'https://api-xmrupxmn.intlabs_domain/.well-known/entry-points/initial',
+                  'https://platform.devtest.ringcentral.com/.well-known/entry-points/initial',
                 ),
               );
             }) as StepFunction

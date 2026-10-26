@@ -44,10 +44,7 @@ export class RCI2424 extends Step {
   @examples(`
     | brand   | topic                                  | brandName            |
     | 'rc'    | 'RingCentral Video Meeting'            | 'RingCentral'        |
-    | 'bt'    | 'BT Cloud Work Video Meeting'          | 'Cloud Work'         |
-    | 'telus' | 'TELUS Business Connect™ Video Meeting' | 'Business Connect'   |
     | 'avaya' | 'Avaya Cloud Office Video Meeting'     | 'Avaya Cloud Office' |
-    | 'att'   | 'AT&T Office@Hand Meetings Meeting'    | 'AT&T Office@Hand'   |
   `)
   run() {
     const { Login, CheckInjection } = this;

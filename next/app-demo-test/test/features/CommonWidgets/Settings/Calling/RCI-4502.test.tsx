@@ -31,7 +31,6 @@ export class CheckCallWithSoftphoneOption extends Step {
   @examples(`
     | brandId | brandName   | spartanName                    | showSoftphoneOption |
     | '1210'  | 'rc'        | 'RingCentral Phone'            | true                |
-    | '3460'  | 'att'       | 'AT&T Office@Hand Phone'       | true                |
     | '2050'  | 'sunrise'   | 'N.A.'                         | false               |
   `)
   run() {

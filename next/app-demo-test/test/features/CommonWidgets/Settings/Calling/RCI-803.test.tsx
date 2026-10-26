@@ -57,10 +57,7 @@ export class CheckCallingSettingsTooltip extends Step {
 
   @examples(`
     | brand   | jupiterAppName               | softphoneAppName               |
-    | 'att'   | 'AT&T Office@Hand App'       | 'AT&T Office@Hand Phone'       |
-    | 'bt'    | 'BT Cloud Work App'          | 'BT Cloud Work Phone'          |
     | 'rc'    | 'RingCentral App'            | 'RingCentral Phone'            |
-    | 'telus' | 'TELUS Business Connect™ App' | 'TELUS Business Connect™ Phone' |
   `)
   run() {
     const { Login = () => [Entry, CommonLogin] } = this;

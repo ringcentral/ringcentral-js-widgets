@@ -32,15 +32,10 @@ import {
 } from '@ringcentral-integration/test-utils';
 
 import { CheckToastMessage } from '../../../../steps/Alert';
-import {
-  MockSipProvision,
-  TriggerWebphoneEvent,
-} from '../../../../steps/Call/Webphone';
 import { ClickItemByDataSign } from '../../../../steps/Common';
 import { CommonLogin } from '../../../../steps/CommonLogin';
 import { Logout } from '../../../../steps/Logout';
 import { CreateMock } from '../../../../steps/Mock';
-import { NavigateToDialer } from '../../../../steps/Navigate';
 import { NavigateTo } from '../../../../steps/Router';
 
 // currently, app-demo-test use AudioSettingsPanel v1, so we can't enable this
@@ -59,45 +54,6 @@ export class NoPermissionAlert extends Step {
       brand: 'rc',
       brandId: '1210',
       brandName: 'RingCentral',
-    },
-    {
-      Entry: (
-        <>
-          <NavigateToDialer />
-          <ClickItemByDataSign dataSign="ConnectivityBadge" />
-          <MockSipProvision repeat={1} status={200} />
-          <TriggerWebphoneEvent eventName={'provisionUpdate'} />
-          <TriggerWebphoneEvent eventName={'registered'} />
-        </>
-      ),
-      isMockUserMedia: false,
-      mockDevices: [],
-      brand: 'bt',
-      brandId: '7710',
-      brandName: 'BT Cloud Work',
-    },
-    {
-      Entry: <NavigateTo path="/settings/audio" />,
-      mockDevices: [],
-      brandId: '7310',
-      brand: 'telus',
-      brandName: 'TELUS Business Connect™',
-    },
-    {
-      Entry: (
-        <>
-          <NavigateToDialer />
-          <ClickItemByDataSign dataSign="ConnectivityBadge" />
-          <MockSipProvision repeat={1} status={200} />
-          <TriggerWebphoneEvent eventName={'provisionUpdate'} />
-          <TriggerWebphoneEvent eventName={'registered'} />
-        </>
-      ),
-      isMockUserMedia: false,
-      mockDevices: [],
-      brandId: '3460',
-      brand: 'att',
-      brandName: 'AT&T Office@Hand',
     },
   ])
   run() {

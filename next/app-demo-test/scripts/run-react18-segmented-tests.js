@@ -100,7 +100,10 @@ for (const { name, pattern } of selectedSegments) {
     [
       'test',
       `--testPathPatterns=${pattern}`,
-      '--runInBand',
+      // Memory grows across suites; restart workers instead of running in band,
+      // which runs out of heap on the larger segments.
+      `--maxWorkers=${process.env.REACT18_TEST_MAX_WORKERS || 2}`,
+      '--workerIdleMemoryLimit=1GB',
       '--silent',
       '--json',
       `--outputFile=${reportPath}`,

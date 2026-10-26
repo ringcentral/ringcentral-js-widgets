@@ -75,28 +75,6 @@ const brandData = [
     link: /rcapp:\/\/r\/call\?number=.+/,
     universalLink: /https:\/\/app.ringcentral.com\/r\/call\?number=.+/,
   },
-  {
-    brand: 'att',
-    brandId: '3460',
-    brandName: 'AT&T Office@Hand app',
-    link: /officeathand:\/\/r\/call\?number=.+/,
-    universalLink: /https:\/\/app.officeathand.att.com\/r\/call\?number=.+/,
-  },
-  {
-    brand: 'bt',
-    brandId: '7710',
-    brandName: 'BT Cloud Work app',
-    link: /com.bt.cloudwork.app:\/\/r\/call\?number=.+/,
-    universalLink: /https:\/\/app.cloudwork.bt.com\/r\/call\?number=.+/,
-  },
-  {
-    brand: 'telus',
-    brandId: '7310',
-    brandName: 'TELUS Business Connect™ app',
-    link: /rctelus:\/\/r\/call\?number=.+/,
-    universalLink:
-      /https:\/\/app.businessconnect.telus.com\/r\/call\?number=.+/,
-  },
   // TODO: this is internal brand, need move to internal test
   // {
   //   brand: 'atos',

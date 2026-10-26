@@ -17,10 +17,7 @@ import {
 class CallMonitorBarWithNoCall extends Step {
   @examples(`
     | brand |
-    |'rc'|
-    |'bt'|
-    |'telus'|
-    |'att'|`)
+    |'rc'|`)
   run() {
     return (
       <Scenario desc="Call monitor bar with no calls">

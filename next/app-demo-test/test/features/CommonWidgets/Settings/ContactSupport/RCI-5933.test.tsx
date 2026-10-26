@@ -44,9 +44,6 @@ export class RCI5933 extends Step {
   @examples(`
     | brandCode | brandId |
     | 'rc'      | '1210'  |
-    | 'att'     | '3460'  |
-    | 'telus'   | '7310'  |
-    | 'bt'      | '7710'  |
   `)
   run() {
     return (

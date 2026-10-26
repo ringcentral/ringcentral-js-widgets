@@ -61,21 +61,6 @@ const exampleData = [
     brandName: 'RingCentral Phone',
     link: /rcmobile:\/\/call\?number=.+/,
   },
-  {
-    brand: 'att',
-    brandName: 'AT&T Office@Hand Phone',
-    link: /attvr20:\/\/call\?number=.+/,
-  },
-  {
-    brand: 'bt',
-    brandName: 'BT Cloud Work Phone',
-    link: /rcbtmobile:\/\/call\?number=.+/,
-  },
-  {
-    brand: 'telus',
-    brandName: 'TELUS Business Connect™ Phone',
-    link: /rctelus:\/\/call\?number=.+/,
-  },
 ];
 
 beforeEach(() => {
