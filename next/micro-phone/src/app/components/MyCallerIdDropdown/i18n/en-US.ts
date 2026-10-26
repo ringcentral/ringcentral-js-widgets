@@ -10,5 +10,6 @@ export default {
   ConferencingNumber: 'Conferencing',
   NumberPool: 'Number Pool',
   BusinessMobileNumber: 'Business Mobile',
+  PartnerBusinessMobileNumber: 'Business Mobile',
   IntegrationNumber: 'Integration',
 } as const;

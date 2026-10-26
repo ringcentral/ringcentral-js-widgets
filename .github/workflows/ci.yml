@@ -77,12 +77,9 @@ jobs:
           parallel: true
           fail-on-error: false
 
-  # Non-blocking until the existing type errors are fixed: failures are shown
-  # as warnings and in the job summary, but don't fail the workflow.
   typecheck:
     needs: lockfile
     runs-on: ubuntu-latest
-    continue-on-error: true
     strategy:
       fail-fast: false
       matrix:
@@ -120,7 +117,7 @@ jobs:
           errors=$(grep -c 'error TS' tsc.log)
           echo "### ${{ matrix.package }}: ${errors} type error(s)" >> "$GITHUB_STEP_SUMMARY"
           if [ "$code" -ne 0 ]; then
-            echo "::warning title=Type errors in ${{ matrix.package }}::${errors} type error(s), see the typecheck job log"
+            echo "::error title=Type errors in ${{ matrix.package }}::${errors} type error(s), see the typecheck job log"
           fi
           exit $code
 

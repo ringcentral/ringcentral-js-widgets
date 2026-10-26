@@ -8,7 +8,7 @@
     "../../packages/ringcentral-widgets/typings/**/*",
     "../../packages/test-utils/lib/global.d.ts"
   ],
-  "exclude": ["./test/**/*"],
+  "exclude": ["./test/**/*", "./**/*.test.ts", "./**/*.test.tsx"],
   "compilerOptions": {
     "checkJs": false
   }

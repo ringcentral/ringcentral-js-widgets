@@ -1,3 +1,4 @@
+import type TokenInfo from '@rc-ex/core/lib/definitions/TokenInfo';
 import {
   Brand,
   Locale,
@@ -22,7 +23,7 @@ const DEFAULT_UI_OPTIONS: string[] = [];
 
 type RefreshWithCallbackQueryParams = {
   access_token?: string;
-  token_type?: string;
+  token_type?: TokenInfo['token_type'];
   expires_in?: number;
   endpoint_id?: string;
   code?: string;

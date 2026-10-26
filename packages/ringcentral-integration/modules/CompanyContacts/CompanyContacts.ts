@@ -134,9 +134,14 @@ export class CompanyContacts extends DataFetcherV2Consumer<
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       forEach(({ eventType, oldEtag, newEtag, ...contact }) => {
         if (eventType === 'Create' || eventType === 'Update') {
-          data = [...reject((item) => item.id === contact.id, data), contact];
+          data = [
+            ...reject((item: ContactResource) => item.id === contact.id, data),
+            contact,
+          ];
         } else if (eventType === 'Delete') {
-          data = [...reject((item) => item.id === contact.id, data)];
+          data = [
+            ...reject((item: ContactResource) => item.id === contact.id, data),
+          ];
         }
       }, message.body.contacts);
       this._deps.dataFetcherV2.updateData(this._source, data, Date.now());

@@ -3,7 +3,7 @@ import {
   Switch,
   useRouteMatch,
 } from '@ringcentral-integration/next-core';
-import type { FunctionComponent } from 'react';
+import type { FunctionComponent, ReactNode } from 'react';
 import React from 'react';
 
 import { LoginPage } from './LoginPage';
@@ -17,6 +17,7 @@ export const AuthPage: FunctionComponent<{
   onSignUpButtonClick?: () => void;
   brandName: string;
   appName: string;
+  children?: ReactNode;
 }> = ({
   openOAuthPage,
   showSpinner,

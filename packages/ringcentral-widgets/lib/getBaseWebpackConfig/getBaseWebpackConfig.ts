@@ -411,7 +411,7 @@ export const getBaseWebpackConfig = ({
     test: /\.svg$/,
     resourceQuery: { not: [/url|raw/] },
     exclude: /fonts/,
-    use: ({ resource }: { resource: string }) => [
+    use: ({ resource = '' }: { resource?: string }) => [
       ...threadLoader,
       'babel-loader',
       {

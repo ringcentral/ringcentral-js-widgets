@@ -1,3 +1,4 @@
+import type TokenInfo from '@rc-ex/core/lib/definitions/TokenInfo';
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { proxify } from '@ringcentral-integration/commons/lib/proxy/proxify';
 import required from '@ringcentral-integration/commons/lib/required';
@@ -12,7 +13,7 @@ const DEFAULT_UI_OPTIONS: string[] = [];
 
 type RefreshWithCallbackQueryParams = {
   access_token?: string;
-  token_type?: string;
+  token_type?: TokenInfo['token_type'];
   expires_in?: number;
   endpoint_id?: string;
   code?: string;

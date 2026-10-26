@@ -181,10 +181,8 @@ export class Presence extends DataFetcherV2Consumer<Deps, PresenceInfoModel> {
     if (activeCalls.length < totalActiveCalls) {
       return this.activeCalls;
     }
-    // @ts-expect-error TS(2769): No overload matches this call.
     return map((activeCall) => {
       const existingCall = this.activeCalls.find(
-        // @ts-expect-error TS(2339): Property 'sessionId' does not exist on type 'never... Remove this comment to see the full error message
         (call) => call.sessionId === activeCall.sessionId,
       );
       if (!existingCall) {

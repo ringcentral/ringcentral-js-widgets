@@ -35,6 +35,10 @@ export type Message = Pick<
   faxAttachment?: any;
   isLogging?: boolean;
   /**
+   * SMS delivery failure code, not yet in the @rc-ex/core definitions
+   */
+  deliveryErrorCode?: string;
+  /**
    * type of the message
    *
    * message: image, text, etc.

@@ -118,9 +118,6 @@ export const MyCallerIdDropdown: FunctionComponent<MyCallerIdDropdownProps> = ({
 
         return (
           <Option
-            // Dropdown now defaults to nowrap/truncate (UXSYS-4227). Caller ID
-            // options render two lines (label + number) at h-12, so keep wrap.
-            nowrap={false}
             classes={{
               container: '[&&]:h-12',
             }}

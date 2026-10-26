@@ -5,7 +5,7 @@ export const useHammer = (
   target: RefOrElementOrCallback | EventTarget,
   callback: (manager: HammerManager) => void,
 ) => {
-  const hammerRef = useRef<HammerManager>(null);
+  const hammerRef = useRef<HammerManager | null>(null);
 
   useEffect(() => {
     const targetRefElm = getRefElement(target as HTMLElement)!;

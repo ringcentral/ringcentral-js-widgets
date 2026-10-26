@@ -1,7 +1,7 @@
 {
   "extends": "../../packages/tsconfig.json",
   "include": ["./**/*.ts", "./**/*.tsx"],
-  "exclude": ["./test/**/*", "./**/*.test.ts", "./**/*.test.tsx"],
+  "exclude": ["./test/**/*", "./**/*.test.ts", "./**/*.test.tsx", "./**/*.spec.ts"],
   "files": [
     "./typings/typings.d.ts",
     "../micro-core/typings/typings.d.ts",

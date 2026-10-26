@@ -1,0 +1,26 @@
+diff --git a/node_modules/@rc-ex/core/lib/RestException.ts b/node_modules/@rc-ex/core/lib/RestException.ts
+index e803e772e..e904e1b36 100644
+--- a/node_modules/@rc-ex/core/lib/RestException.ts
++++ b/node_modules/@rc-ex/core/lib/RestException.ts
+@@ -4,7 +4,7 @@ import Utils from "./Utils";
+ class RestException extends Error {
+   public response: RestResponse;
+ 
+-  public message: string;
++  public override message: string;
+ 
+   public constructor(r: RestResponse) {
+     const message = Utils.formatTraffic(r);
+diff --git a/node_modules/@rc-ex/core/src/RestException.ts b/node_modules/@rc-ex/core/src/RestException.ts
+index e803e772e..e904e1b36 100644
+--- a/node_modules/@rc-ex/core/src/RestException.ts
++++ b/node_modules/@rc-ex/core/src/RestException.ts
+@@ -4,7 +4,7 @@ import Utils from "./Utils";
+ class RestException extends Error {
+   public response: RestResponse;
+ 
+-  public message: string;
++  public override message: string;
+ 
+   public constructor(r: RestResponse) {
+     const message = Utils.formatTraffic(r);

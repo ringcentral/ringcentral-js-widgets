@@ -9,7 +9,7 @@ import {
   styled,
   typography,
 } from '@ringcentral/juno';
-import type { FunctionComponent } from 'react';
+import type { FunctionComponent, ReactNode } from 'react';
 import React from 'react';
 
 import i18n from './i18n';
@@ -24,6 +24,7 @@ export type LoginPageProps = {
   size?: RcButtonSize;
   showSpinner?: boolean;
   onSignUpButtonClick?: () => void;
+  children?: ReactNode;
 };
 
 const CustomButton = styled(RcButton)`

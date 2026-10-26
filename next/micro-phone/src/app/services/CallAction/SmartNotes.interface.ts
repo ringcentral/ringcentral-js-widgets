@@ -15,8 +15,8 @@ export interface SmartNotes {
 export interface SmartNoteClient {
   readonly isAiNotesLoading: boolean;
   readonly isAiNotesPauseable: boolean;
-  startOrResume(): Promise<void>;
-  stopNotes(): Promise<void>;
+  startOrResume(): Promise<boolean>;
+  stopNotes(): Promise<boolean>;
 }
 
 export interface SmartNotesViewProps {

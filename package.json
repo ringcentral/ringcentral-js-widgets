@@ -9,6 +9,7 @@
   ],
   "scripts": {
     "setup": "echo \"Error: no setup specified\" && exit 0",
+    "postinstall": "patch-package",
     "start": "yarn workspace @ringcentral-integration/widgets-demo start",
     "release": "yarn workspace @ringcentral-integration/widgets release && yarn workspace @ringcentral-integration/commons release",
     "commons:test": "yarn workspace @ringcentral-integration/commons test",
@@ -37,6 +38,7 @@
     "cz-conventional-changelog": "^2.1.0",
     "eslint-settings": "*",
     "observable-hooks": "^4.2.1",
+    "patch-package": "^8.0.1",
     "postcss": "^8.4.27",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -46,11 +48,11 @@
     "react-router-dom": "^5.3.1",
     "reactant-share": "^0.150.0",
     "reactant-web": "^0.150.0",
-    "typescript-plugin-css-modules": "^5.2.0",
+    "serialize-error": "^7.0.1",
     "tailwindcss": "^3.4.7",
     "ts-node": "^10.9.2",
     "typescript": "5.7.3",
-    "serialize-error": "^7.0.1"
+    "typescript-plugin-css-modules": "^5.2.0"
   },
   "config": {
     "commitizen": {

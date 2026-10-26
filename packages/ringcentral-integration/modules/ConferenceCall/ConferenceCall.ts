@@ -379,7 +379,7 @@ export class ConferenceCall extends RcModuleV2<Deps> {
   @proxify
   async mergeToConference(webphoneSessions: NormalizedSession[] = []) {
     webphoneSessions = filter(
-      (session) => !this.isConferenceSession(session.id),
+      (session: NormalizedSession) => !this.isConferenceSession(session.id),
       filter((session) => !!session, webphoneSessions),
     );
 
@@ -517,7 +517,6 @@ export class ConferenceCall extends RcModuleV2<Deps> {
 
   countOnlineParties(id: string) {
     const res = this.getOnlineParties(id);
-    // @ts-expect-error TS(2531): Object is possibly 'null'.
     return is(Array, res) ? res.length : null;
   }
 

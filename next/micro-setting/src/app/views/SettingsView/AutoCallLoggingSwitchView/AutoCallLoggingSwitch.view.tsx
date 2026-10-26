@@ -67,8 +67,8 @@ export class AutoCallLoggingSwitchView extends RcViewModule {
   }
 
   @computed
-  private get aalEndpointWithBrandId() {
-    return null;
+  private get aalEndpointWithBrandId(): string | undefined {
+    return undefined;
   }
 
   getUIProps() {

@@ -2,6 +2,7 @@ import * as path from 'path';
 import type { BrandConfig } from '@ringcentral-integration/commons/modules/Brand';
 import { supportedLocales } from '@ringcentral-integration/locale-settings';
 import rcBlue from '@ringcentral-integration/next-core/themes/juno/rcBlue';
+import type { RcThemeInput } from '@ringcentral/juno';
 
 const defaultLocale = 'en-US';
 
@@ -38,7 +39,9 @@ export const brandConfig: BrandConfig = {
   theme: {
     defaultTheme: 'light',
     themeMap: {
-      light: rcBlue,
+      // rcBlue is plain theme data (e.g. it has 26 shadows, MUI types allow 25),
+      // juno merges it at runtime
+      light: rcBlue as unknown as RcThemeInput,
     },
     variable: {
       c2dArrowColor: '#ff8800',

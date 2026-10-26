@@ -2,7 +2,7 @@ import { useLocale } from '@ringcentral-integration/micro-core/src/app/hooks';
 import type { RcButtonSize } from '@ringcentral/juno';
 import { Button } from '@ringcentral/spring-ui';
 import clsx from 'clsx';
-import type { FunctionComponent } from 'react';
+import type { FunctionComponent, ReactNode } from 'react';
 import React from 'react';
 
 import { SpringSpinnerOverlay } from '../../components';
@@ -22,6 +22,7 @@ export type LoginPageProps = {
   onSignUpButtonClick?: () => void;
   brandName: string;
   appName: string;
+  children?: ReactNode;
 };
 
 export const LoginPage: FunctionComponent<LoginPageProps> = ({
