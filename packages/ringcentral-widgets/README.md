@@ -1,7 +1,7 @@
 # ringcentral-js-widgets
 
-[![Build Status](https://travis-ci.org/ringcentral/ringcentral-js-widgets.svg?branch=master)](https://travis-ci.org/ringcentral/ringcentral-js-widgets)
-[![Coverage Status](https://coveralls.io/repos/github/ringcentral/ringcentral-js-widgets/badge.svg?branch=master)](https://coveralls.io/github/ringcentral/ringcentral-js-widgets?branch=master)
+[![CI Pipeline](https://github.com/ringcentral/ringcentral-js-widgets/actions/workflows/ci.yml/badge.svg?branch=next-packages)](https://github.com/ringcentral/ringcentral-js-widgets/actions/workflows/ci.yml?query=branch%3Anext-packages)
+[![Coverage Status](https://coveralls.io/repos/github/ringcentral/ringcentral-js-widgets/badge.svg?branch=next-packages)](https://coveralls.io/github/ringcentral/ringcentral-js-widgets?branch=next-packages)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/81c5e5334eff454b9404b05b5c29e09b)](https://www.codacy.com/app/RingCentral/ringcentral-js-widgets?utm_source=github.com&utm_medium=referral&utm_content=ringcentral/ringcentral-js-widgets&utm_campaign=badger)
 
 

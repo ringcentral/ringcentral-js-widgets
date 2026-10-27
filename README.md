@@ -1,8 +1,11 @@
 # ringcentral-js-widgets
 
-[![Build Status](https://github.com/ringcentral/ringcentral-js-widgets/workflows/CI%20Pipeline/badge.svg?branch=master)](https://github.com/ringcentral/ringcentral-js-widgets/actions)
-[![NPM Version](https://img.shields.io/npm/v/@ringcentral-integration/commons.svg?style=flat-square)](https://www.npmjs.com/package/@ringcentral-integration/commons)
-[![NPM Version](https://img.shields.io/npm/v/@ringcentral-integration/widgets.svg?style=flat-square)](https://www.npmjs.com/package/@ringcentral-integration/widgets)
+[![CI Pipeline](https://github.com/ringcentral/ringcentral-js-widgets/actions/workflows/ci.yml/badge.svg?branch=next-packages)](https://github.com/ringcentral/ringcentral-js-widgets/actions/workflows/ci.yml?query=branch%3Anext-packages)
+[![Coverage Status](https://coveralls.io/repos/github/ringcentral/ringcentral-js-widgets/badge.svg?branch=next-packages)](https://coveralls.io/github/ringcentral/ringcentral-js-widgets?branch=next-packages)
+[![@ringcentral-integration/*](https://img.shields.io/npm/v/@ringcentral-integration/next-core?label=%40ringcentral-integration%2F*)](https://www.npmjs.com/package/@ringcentral-integration/next-core)
+[![i18n](https://img.shields.io/npm/v/@ringcentral-integration/i18n?label=i18n)](https://www.npmjs.com/package/@ringcentral-integration/i18n)
+[![locale-loader](https://img.shields.io/npm/v/@ringcentral-integration/locale-loader?label=locale-loader)](https://www.npmjs.com/package/@ringcentral-integration/locale-loader)
+[![phone-number](https://img.shields.io/npm/v/@ringcentral-integration/phone-number?label=phone-number)](https://www.npmjs.com/package/@ringcentral-integration/phone-number)
 
 ## Introduction
 

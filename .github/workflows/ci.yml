@@ -67,10 +67,17 @@ jobs:
         env:
           # Type errors are reported by the typecheck job instead.
           SKIP_TSC_CHECK: 'true'
+      # Jest writes coverage into each package's own folder, e.g.
+      # packages/ringcentral-integration/coverage for commons.
+      - name: Locate coverage report
+        id: coverage
+        run: |
+          dir=$(node -p "const path = require('path'); path.relative(process.cwd(), path.dirname(require.resolve('@ringcentral-integration/${{ matrix.package }}/package.json')))")
+          echo "file=$dir/coverage/lcov.info" >> "$GITHUB_OUTPUT"
       - name: Coveralls
         uses: coverallsapp/github-action@v2
         with:
-          file: coverage/lcov.info
+          file: ${{ steps.coverage.outputs.file }}
           flag-name: ${{ matrix.package }}
           parallel: true
           fail-on-error: false
@@ -157,6 +164,10 @@ jobs:
     if: ${{ always() }}
     runs-on: ubuntu-latest
     steps:
+      # The reporter reads commit details from git.
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - uses: coverallsapp/github-action@v2
         with:
           parallel-finished: true
