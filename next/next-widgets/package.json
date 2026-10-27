@@ -22,7 +22,7 @@
     "tsc-check": "yarn tsc --project tsconfig.lint.json --noEmit"
   },
   "dependencies": {
-    "dompurify": "^3.3.1",
+    "dompurify": "^3.4.17",
     "@ringcentral-integration/next-core": "*",
     "@ringcentral-integration/i18n": "*",
     "@ringcentral-integration/next-integration": "*",
