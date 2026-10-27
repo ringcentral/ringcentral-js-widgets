@@ -1,0 +1,5 @@
+# Refuse to commit a package-lock.json that resolves packages from a registry
+# other than public npm, e.g. an internal mirror.
+if git diff --cached --name-only --diff-filter=ACMR | grep -qx 'package-lock.json'; then
+  node scripts/lockfile-integrity.mjs urls --staged
+fi

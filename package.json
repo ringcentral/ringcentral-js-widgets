@@ -10,6 +10,7 @@
   "scripts": {
     "setup": "echo \"Error: no setup specified\" && exit 0",
     "postinstall": "patch-package",
+    "prepare": "husky",
     "start": "npm start -w @ringcentral-integration/app-demo",
     "release": "yarn workspace @ringcentral-integration/widgets release && yarn workspace @ringcentral-integration/commons release",
     "commons:test": "yarn workspace @ringcentral-integration/commons test",
@@ -37,6 +38,7 @@
     "core-js": "^3.9.1",
     "cz-conventional-changelog": "^2.1.0",
     "eslint-settings": "*",
+    "husky": "^9.1.7",
     "observable-hooks": "^4.2.1",
     "patch-package": "^8.0.1",
     "postcss": "^8.4.27",

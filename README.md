@@ -43,7 +43,7 @@ Install dependent libraries:
 $ npm ci
 ```
 
-After adding or upgrading any `@ringcentral/*` dependency, run `npm run lockfile:fix`. Some of these packages have a different build under the same version on internal registries, so `package-lock.json` keeps both integrity hashes to stay installable from public npm. CI runs `npm run lockfile:check` to enforce this. If registry.npmjs.org is not reachable from your network, set `PUBLIC_REGISTRY` to a mirror of it.
+After adding or upgrading any `@ringcentral/*` dependency, run `npm run lockfile:fix`. Some of these packages have a different build under the same version on internal registries, so `package-lock.json` keeps both integrity hashes to stay installable from public npm. CI runs `npm run lockfile:check` to enforce this, and a [husky](https://typicode.github.io/husky/) pre-commit hook (in `.husky`, enabled by `npm ci`) refuses a `package-lock.json` that resolves packages from any registry other than public npm. If registry.npmjs.org is not reachable from your network, set `PUBLIC_REGISTRY` to a mirror of it.
 
 Test:
 

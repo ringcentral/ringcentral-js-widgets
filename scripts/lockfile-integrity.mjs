@@ -12,6 +12,9 @@
  * Usage:
  *   node scripts/lockfile-integrity.mjs fix    # rewrite URLs, add missing hashes
  *   node scripts/lockfile-integrity.mjs check  # fail if either is wrong
+ *   node scripts/lockfile-integrity.mjs urls [--staged]
+ *     # offline: fail if a `resolved` URL isn't public npm; --staged checks the
+ *     # version staged in git, as the husky pre-commit hook does
  *
  * Env:
  *   PUBLIC_REGISTRY  public npm registry (or a pure mirror of it), defaults to
@@ -68,10 +71,39 @@ function getEntries(lock) {
   return entries;
 }
 
+function readLockfile(staged) {
+  const text = staged
+    ? execSync('git show :package-lock.json', { maxBuffer: 1024 ** 3 }).toString()
+    : fs.readFileSync(LOCKFILE, 'utf8');
+  return JSON.parse(text);
+}
+
+function checkUrls(staged) {
+  const lock = readLockfile(staged);
+  const errors = [];
+  for (const [key, { resolved }] of Object.entries(lock.packages)) {
+    if (/^https?:/.test(resolved ?? '') && !resolved.startsWith(LOCKFILE_REGISTRY)) {
+      errors.push(`${key} resolves to ${new URL(resolved).host}, expected ${LOCKFILE_REGISTRY}`);
+    }
+  }
+  if (errors.length > 0) {
+    console.error(errors.join('\n'));
+    console.error(
+      `package-lock.json has ${errors.length} URL(s) outside public npm. ` +
+        'Run `npm run lockfile:fix`, then `git add package-lock.json`.',
+    );
+    process.exit(1);
+  }
+}
+
 async function main() {
   const mode = process.argv[2];
+  if (mode === 'urls') {
+    checkUrls(process.argv.includes('--staged'));
+    return;
+  }
   if (mode !== 'fix' && mode !== 'check') {
-    console.error('Usage: lockfile-integrity.mjs <fix|check>');
+    console.error('Usage: lockfile-integrity.mjs <fix|check|urls [--staged]>');
     process.exit(1);
   }
   const registries = [PUBLIC_REGISTRY];
