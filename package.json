@@ -10,7 +10,7 @@
   "scripts": {
     "setup": "echo \"Error: no setup specified\" && exit 0",
     "postinstall": "patch-package",
-    "start": "yarn workspace @ringcentral-integration/widgets-demo start",
+    "start": "npm start -w @ringcentral-integration/app-demo",
     "release": "yarn workspace @ringcentral-integration/widgets release && yarn workspace @ringcentral-integration/commons release",
     "commons:test": "yarn workspace @ringcentral-integration/commons test",
     "docs": "yarn workspace ringcentral-widgets-docs start",
@@ -28,7 +28,7 @@
     "@types/fs-extra": "^11.0.4",
     "@types/glob": "^8.1.0",
     "@types/inquirer": "^6.5.0",
-    "@types/node": "^20.11.0",
+    "@types/node": "^22.20.5",
     "@types/react": "^18.3.31",
     "@types/react-dom": "^18.3.7",
     "@types/through2": "^2.0.41",
@@ -60,7 +60,7 @@
     }
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "dependencies": {
     "execa": "^9.6.1",

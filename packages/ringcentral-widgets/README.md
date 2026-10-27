@@ -14,36 +14,19 @@ This project is built based on [RingCentral Integration Common Library](https://
 
 ## Get Started
 
-We use [RingCentral Widgets CLI](https://github.com/ringcentral/ringcentral-js-widgets/tree/master/packages/ringcentral-widgets-cli/README.md) to startup a RingCentral Widgets based app.
+> [!NOTE]
+> We no longer recommend `ringcentral-widgets-cli` for creating new apps. It isn't maintained alongside the 1.0 packages.
 
-```
-$ npm install -g ringcentral-widgets-cli
-$ rc-widgets -h
-```
-
-### Create a new project
-
-```
-rc-widgets new your_project_name
-cd your_project_name
-yarn install
+```bash
+npm install @ringcentral-integration/widgets
 ```
 
-[Update `.env` file in project root path](https://github.com/ringcentral/ringcentral-js-widgets/tree/master/packages/ringcentral-widgets-cli/README.md#start-developement-server).
-
-### Start development server
-
-```
-$ yarn start
-```
-Visit on [http://localhost:8080](http://localhost:8080) in browser.
-
-For production build and deploy, please get more information in [here](https://github.com/ringcentral/ringcentral-js-widgets/tree/master/packages/ringcentral-widgets-cli/README.md).
-
-### Tutorials
-
-This is a [demo](https://github.com/embbnux/ringcentral-widgets-demo) and [step-by-step tutorials](https://embbnux.github.io/ringcentral-widgets-demo/) show how to use this library.
+See the [repository README](https://github.com/ringcentral/ringcentral-js-widgets#get-started) for the reference demo app and how to run it locally.
 
 ## Tests
 
-This packages's tests are included in [RingCentral Widget Test](https://github.com/ringcentral/ringcentral-js-widgets/tree/master/packages/ringcentral-widgets-test/README.md)
+The tests live in this package. Run them from the repository root:
+
+```bash
+npm test -w @ringcentral-integration/widgets
+```

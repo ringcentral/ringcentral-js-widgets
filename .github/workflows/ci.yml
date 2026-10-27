@@ -18,7 +18,7 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-node@v4
         with:
-          node-version: 20.x
+          node-version: 22.x
       - run: npm run lockfile:check
 
   tests:
@@ -58,7 +58,7 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-node@v4
         with:
-          node-version: 20.x
+          node-version: 22.x
           cache: npm
       - run: npm ci
       # *.snap files are gitignored, so snapshots are written fresh on each run;
@@ -100,7 +100,7 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-node@v4
         with:
-          node-version: 20.x
+          node-version: 22.x
           cache: npm
       - run: npm ci
       # *.snap files are gitignored, so snapshots must be written fresh in CI.
@@ -136,7 +136,7 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-node@v4
         with:
-          node-version: 20.x
+          node-version: 22.x
           cache: npm
       - run: npm ci
       - name: tsc-check

@@ -3,15 +3,18 @@
  * Build and publish npm packages for a release tag.
  *
  *   1.0.0, 1.1.0-rc.0     -> every package in UNIFIED_PACKAGES at that version
- *   i18n@2.4.0            -> one package in INDEPENDENT_PACKAGES; the version
- *                            must equal its package.json version
+ *   i18n@2.4.0            -> one package in INDEPENDENT_PACKAGES at that version
+ *
+ * The tag is the source of truth for the published version; package.json
+ * versions in the repo are not updated or checked.
  *
  * Usage:
  *   node scripts/publishPackages.mjs [tag] [--dry-run] [--only=name,name]
  *
  * The tag defaults to GITHUB_REF_NAME. Prerelease versions are published under
  * the `next` dist-tag. Versions that already exist on npm are skipped, so a
- * failed run can be re-run.
+ * failed run can be re-run; any other version must be newer than every version
+ * already on npm for that package.
  *
  * Env:
  *   PUBLIC_REGISTRY  registry used to check what is already published and
@@ -53,9 +56,9 @@ const UNIFIED_PACKAGES = [
 ];
 
 const INDEPENDENT_PACKAGES = [
-  { name: 'i18n', dir: 'i18n', source: 'packages/i18n' },
-  { name: 'locale-loader', dir: 'locale-loader', source: 'packages/locale-loader' },
-  { name: 'phone-number', dir: 'phone-number', source: 'packages/phone-number' },
+  { name: 'i18n', dir: 'i18n' },
+  { name: 'locale-loader', dir: 'locale-loader' },
+  { name: 'phone-number', dir: 'phone-number' },
 ];
 
 const withSlash = (url) => (url.endsWith('/') ? url : `${url}/`);
@@ -82,13 +85,35 @@ function resolveRelease(tag) {
   const match = /^([a-z0-9-]+)@(\d+\.\d+\.\d+(-[0-9A-Za-z.-]+)?)$/.exec(tag);
   const pkg = match && INDEPENDENT_PACKAGES.find(({ name }) => name === match[1]);
   if (!pkg) throw new Error(`Unknown release tag: ${tag}`);
-  const sourceVersion = readJson(path.join(ROOT, pkg.source, 'package.json')).version;
-  if (sourceVersion !== match[2]) {
-    throw new Error(
-      `Tag ${tag} does not match ${pkg.source}/package.json version ${sourceVersion}`,
-    );
-  }
   return { version: match[2], packages: [pkg] };
+}
+
+// Semver precedence for x.y.z[-prerelease]: a release sorts after its
+// prereleases, and prerelease identifiers compare numerically when numeric.
+function compareVersions(a, b) {
+  const split = (version) => {
+    const v = version.replace(/\+.*$/, ''); // build metadata doesn't affect order
+    const i = v.indexOf('-');
+    const core = (i < 0 ? v : v.slice(0, i)).split('.').map(Number);
+    return [core, i < 0 ? [] : v.slice(i + 1).split('.')];
+  };
+  const [aCore, aPre] = split(a);
+  const [bCore, bPre] = split(b);
+  for (let i = 0; i < 3; i++) {
+    if (aCore[i] !== bCore[i]) return aCore[i] - bCore[i];
+  }
+  if (!aPre.length || !bPre.length) return bPre.length - aPre.length;
+  for (let i = 0; i < Math.max(aPre.length, bPre.length); i++) {
+    if (aPre[i] === undefined) return -1;
+    if (bPre[i] === undefined) return 1;
+    if (aPre[i] === bPre[i]) continue;
+    const aNum = /^\d+$/.test(aPre[i]);
+    const bNum = /^\d+$/.test(bPre[i]);
+    if (aNum && bNum) return Number(aPre[i]) - Number(bPre[i]);
+    if (aNum !== bNum) return aNum ? -1 : 1;
+    return aPre[i] < bPre[i] ? -1 : 1;
+  }
+  return 0;
 }
 
 function run(command, args, options = {}) {
@@ -96,11 +121,26 @@ function run(command, args, options = {}) {
   execFileSync(command, args, { stdio: 'inherit', cwd: ROOT, ...options });
 }
 
-async function isPublished(name, version) {
-  const res = await fetch(`${PUBLIC_REGISTRY}${name.replace('/', '%2f')}/${version}`);
-  if (res.status === 404) return false;
-  if (!res.ok) throw new Error(`Checking ${name}@${version} failed with ${res.status}`);
-  return true;
+const packuments = new Map();
+// Versions and dist-tags of a package on npm; empty for a package never published.
+async function getPackument(name) {
+  if (!packuments.has(name)) {
+    const res = await fetch(`${PUBLIC_REGISTRY}${name.replace('/', '%2f')}`, {
+      headers: { accept: 'application/vnd.npm.install-v1+json' },
+    });
+    if (res.status === 404) {
+      packuments.set(name, { versions: [], distTags: {} });
+    } else if (!res.ok) {
+      throw new Error(`Fetching ${name} from ${PUBLIC_REGISTRY} failed with ${res.status}`);
+    } else {
+      const data = await res.json();
+      packuments.set(name, {
+        versions: Object.keys(data.versions ?? {}),
+        distTags: data['dist-tags'] ?? {},
+      });
+    }
+  }
+  return packuments.get(name);
 }
 
 const resolvable = new Map();
@@ -124,15 +164,10 @@ function isResolvable(name, range) {
 // Unified packages are always released together, so point them at this
 // release (an explicit `^1.0.0` would also reject `1.0.0-rc.0`). Workspace
 // ranges ("*", "**") on independent packages resolve to whatever is newest on
-// npm, so pin them to the current version; their explicit ranges are kept.
-function pinWorkspaceRanges(packageInfo, version) {
+// npm, so pin them to their current `latest` there (`independent`); their
+// explicit ranges are kept.
+function pinWorkspaceRanges(packageInfo, version, independent) {
   const unified = new Set(UNIFIED_PACKAGES.map(({ name }) => SCOPE + name));
-  const independent = new Map(
-    INDEPENDENT_PACKAGES.map(({ name, source }) => [
-      SCOPE + name,
-      readJson(path.join(ROOT, source, 'package.json')).version,
-    ]),
-  );
   for (const field of ['dependencies', 'peerDependencies']) {
     const deps = packageInfo[field];
     if (!deps) continue;
@@ -175,12 +210,31 @@ async function main() {
     `Releasing ${packages.length} package(s) at ${version} (dist-tag ${distTag})${args.dryRun ? ' [dry run]' : ''}`,
   );
 
+  const independent = new Map();
+  for (const { name } of INDEPENDENT_PACKAGES) {
+    const latest = (await getPackument(SCOPE + name)).distTags.latest;
+    if (!latest) throw new Error(`${SCOPE + name} has no latest version on ${PUBLIC_REGISTRY}`);
+    independent.set(SCOPE + name, latest);
+  }
+
   const prepared = [];
   for (const pkg of packages) {
     const fullName = SCOPE + pkg.name;
-    if (await isPublished(fullName, version)) {
+    const { versions: published } = await getPackument(fullName);
+    if (published.includes(version)) {
       console.log(`${fullName}@${version} is already published, skipping`);
       continue;
+    }
+    // e.g. 2.3.1-rc.0 after 2.3.1, or a typo'd older version: it would never be
+    // picked up as newest, and a lower `latest` would roll consumers back.
+    const newest = published.reduce(
+      (max, v) => (max && compareVersions(max, v) >= 0 ? max : v),
+      null,
+    );
+    if (newest && compareVersions(version, newest) <= 0) {
+      throw new Error(
+        `${fullName}@${version} is not newer than ${newest}, the newest version on npm; tag a higher version`,
+      );
     }
     run('npm', ['run', 'release', '-w', fullName]);
     const manifestPath = path.join(ROOT, 'release', pkg.dir, 'package.json');
@@ -189,7 +243,7 @@ async function main() {
       throw new Error(`${manifestPath} is for ${packageInfo.name}, expected ${fullName}`);
     }
     packageInfo.version = version;
-    pinWorkspaceRanges(packageInfo, version);
+    pinWorkspaceRanges(packageInfo, version, independent);
     fs.writeFileSync(manifestPath, `${JSON.stringify(packageInfo, null, 2)}\n`);
     prepared.push({ ...pkg, fullName, packageInfo });
   }

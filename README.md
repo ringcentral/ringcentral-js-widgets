@@ -12,39 +12,20 @@ This project includes [RingCentral Integration Common Library](packages/ringcent
 
 ## Get Started
 
-We use [RingCentral Widgets CLI](packages/ringcentral-widgets-cli/README.md) to startup a RingCentral Widgets based app.
+> [!NOTE]
+> We no longer recommend `ringcentral-widgets-cli` for creating new apps. It isn't maintained alongside the 1.0 packages.
 
-```
-$ npm install -g ringcentral-widgets-cli
-$ rc-widgets -h
-```
+Install the packages your app needs from npm, for example:
 
-### Create a new project
-
-```
-rc-widgets new your_project_name
-cd your_project_name
-yarn install
+```bash
+npm install @ringcentral-integration/next-core @ringcentral-integration/micro-core
 ```
 
-[Update `.env` file in project root path](packages/ringcentral-widgets-cli/README.md#start-developement-server).
-
-### Start development server
-
-```
-$ yarn start
-```
-Visit on [http://localhost:8080](http://localhost:8080) in browser.
-
-For production build and deploy, please get more information in [here](packages/ringcentral-widgets-cli/README.md).
-
-### Tutorials
-
-This is a [demo](https://github.com/ringcentral-tutorials/ringcentral-widgets-demo) and [step-by-step tutorials](https://ringcentral-tutorials.github.io/ringcentral-widgets-demo/) show how to use this library.
+Use [`next/app-demo`](next/app-demo) as the reference app. [`next/app-demo/src/createApp.tsx`](next/app-demo/src/createApp.tsx) shows how the `next-*` and `micro-*` packages are wired together, and you can run it locally as described in [Play with Development Server](#play-with-development-server).
 
 ## Contribution and Development
 
-We use [Lerna.js](https://github.com/lerna/lerna) to manage packages source. And we require Node.js > 8.
+This is an npm workspaces monorepo (`packages/*`, `next/*`, `crius/packages/*`). It requires Node.js 22 or later (see `.nvmrc`).
 
 Clone the repo:
 
@@ -71,9 +52,7 @@ Commit:
 
 ```bash
 $ git add .
-$ yarn commit
-or
-$ yarn git-cz
+$ npm run commit
 ```
 
 Release:
@@ -81,33 +60,30 @@ Release:
 Push a tag and GitHub Actions publishes to npm (see `scripts/publishPackages.mjs`):
 
 - `1.0.0`, `1.1.0-rc.0`: every package except the ones below, at that version. Prereleases go to the `next` dist-tag.
-- `i18n@2.4.0`, `locale-loader@2.3.4`, `phone-number@1.2.1`: one package on its own version line. Bump its `package.json` first, because the tag must match it.
+- `i18n@2.4.0`, `i18n@2.4.0-rc.0`, `locale-loader@2.3.4`, `phone-number@1.2.1`: one package on its own version line.
+
+The tag sets the published version; you don't need to change `package.json` first, and the release doesn't update it. The version must be newer than every version of that package already on npm, so a typo'd older version or `2.3.1-rc.0` after `2.3.1` is refused. Pushing a tag that's already published skips it, so a failed release can be re-run.
 
 ### Play with Development Server
 
-A development server is delivered with source so that developers can use it to get familiar with the project or do further development. To get development server running：
+[`next/app-demo`](next/app-demo) is a demo app you can run locally to get familiar with the project or try changes.
 
-Create a file named `api-config.js` in following format in folder `packages/ringcentral-widgets-demo/dev-server` to specify app related info
-
-```javascript
-export default {
-  appKey: ${app key},
-  appSecret: ${app secret},
-  server: ${server url},
-};
-```
-
-Run following command to start development server
+Create a `.env` file in the repository root with your RingCentral app's credentials:
 
 ```bash
-$ yarn start
+RINGCENTRAL_CLIENT_ID=your_client_id
+RINGCENTRAL_SERVER_URL=https://platform.ringcentral.com
 ```
 
-The development server is listening on port `8080` by default.
-Open up your browser and access http://localhost:8080 to see how it works.
+Start the development server:
 
-Note that the development server is using OAuth for authorization process.
-Please make sure the app you specified in configuration above is setup with Redirect Uri `http://localhost:8080/redirect.html`.
+```bash
+$ npm start
+```
+
+Then open https://localhost:8081 in your browser. To see the app rendered inside an iframe, open https://localhost:8081/host.html.
+
+The demo signs in with OAuth, so add `https://localhost:8081/redirect.html` as a redirect URI on your RingCentral app.
 
 ## Projects which use this library
 
