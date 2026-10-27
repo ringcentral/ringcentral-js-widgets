@@ -12,8 +12,8 @@ The API `createAppWithCoworker` has built-in `AddressBook`, `CompanyContacts`,`C
 
 ## Usage
 
-```ts
-yarn add @ringcentral-integration/micro-coworker
+```bash
+npm install @ringcentral-integration/micro-coworker
 ```
 
 In main process:

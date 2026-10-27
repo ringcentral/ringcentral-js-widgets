@@ -7,7 +7,7 @@
 You can install `next-micro` via npm:
 
 ```bash
-npm install @ringcentral/next-micro
+npm install @ringcentral-integration/next-micro
 ```
 
 ## APIs
@@ -26,7 +26,7 @@ If your module is from a third-party team, we recommend using the third way. Thi
 It is a hook to load and render a micro app in a RcViewModule.
 
 ```tsx
-import { useMicroApp } from '@ringcentral/next-micro';
+import { useMicroApp } from '@ringcentral-integration/next-micro';
 
 class ExampleView extends RcMicroAppView {
     component() {

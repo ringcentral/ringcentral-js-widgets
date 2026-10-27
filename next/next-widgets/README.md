@@ -6,8 +6,6 @@ UI components and widgets for RingCentral Integration next-generation architectu
 
 ```bash
 npm install @ringcentral-integration/next-widgets
-# or
-yarn add @ringcentral-integration/next-widgets
 ```
 
 ## License

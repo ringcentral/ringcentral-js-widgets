@@ -43,7 +43,6 @@ It supports building shared web applications that support multiple windows.
         -   [Debugging](#debugging)
             -   [Redux DevTools](#redux-devtools)
         -   [Module Lifecycle Check](#module-lifecycle-check)
-        -   [Module Performance Track](#module-Performance-track)
         -   [Plugin Module](#plugin-module)
         -   [Dynamic Module](#dynamic-module)
         -   [Abstract class](#abstract-module)
@@ -52,7 +51,7 @@ It supports building shared web applications that support multiple windows.
 ## Usage
 
 ```bash
-yarn add @ringcentral-integration/next-core
+npm install @ringcentral-integration/next-core
 ```
 
 ```ts
@@ -66,7 +65,7 @@ app.bootstrap(document.getElementById('app'));
 
 The foundation package provides dependency injection, which supports TypeScript(also supports JavaScript), and we recommend the `experimentalDecorators` feature based on TypeScript, as well as `Reflect.metadata` to record the dependency injection metadata.
 
-> If using `babel`, make sure that you install `@babel/plugin-propose-decorators`, `babel-plugin-transform-typescript-metadata` and configure the babel settings correctly.
+> If using `babel`, make sure that you install `@babel/plugin-proposal-decorators` (with `legacy: true`) and `babel-plugin-transform-typescript-metadata`, and configure the babel settings correctly.
 
 To enable experimental support for decorators, you must enable the `experimentalDecorators` and `emitDecoratorMetadata` compiler option either on the command line or in your tsconfig.json:
 
@@ -785,7 +784,7 @@ class App extends RcModule {
 
 ### Debugging
 
-You can use `devOptions` for debugging, and you can use `devOptions` to enable the `Redux DevTools` and `Module Lifecycle Check`.
+You can use `devOptions` for debugging, for example to enable `Redux DevTools`, strict mode or state patches.
 
 ```ts
 const app = await createSharedApp({
@@ -834,11 +833,12 @@ interface DevOptions {
 
 ### Module Lifecycle Check
 
-You can use `checkModules()` to check the lifecycle of all the module, And you can use `checkModule(module)` to check the lifecycle of a specific module.
+In development builds (`NODE_ENV !== 'production'`), next-core adds a `checkModules()` helper to `globalThis`, so you can run it in the browser console when the app never becomes ready.
 
-### Module Performance Track
+-   `checkModules()` checks every module of the app that `createSharedApp()` stored in `globalThis.app`. It follows each module that isn't ready down to the dependencies it is waiting on, and warns about the ones blocking initialization, for example `Please check the Auth.onInit method.` It then returns an object with a function per module that isn't ready, so you can check them one by one.
+-   `checkModules(module)` checks a single module the same way.
 
-If you want to track the performance of the module initialization, you can use `trackModule()` to track the performance of all the module.
+If it finds nothing blocking, it logs `All modules pass check`.
 
 ### Plugin Module
 

@@ -22,7 +22,7 @@ This is the foundation package for RingCentral integration products, it is based
 ## Usage
 
 ```sh
-yarn add @ringcentral-integration/core
+npm install @ringcentral-integration/core
 ```
 
 ## APIs
